@@ -7,14 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2832CC8014D74EB000BE74C2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
+		2832CC8114D74EB000BE74C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A714D74DE400D494FD /* UIKit.framework */; };
+		2832CC8214D74EB000BE74C2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
+		2832CC8814D74EB000BE74C2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2832CC8614D74EB000BE74C2 /* InfoPlist.strings */; };
+		2832CC9414D74F3100BE74C2 /* MockTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9314D74F3100BE74C2 /* MockTestObject.m */; };
+		2832CC9514D74F3100BE74C2 /* MockTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9314D74F3100BE74C2 /* MockTestObject.m */; };
+		2832CC9814D74F4800BE74C2 /* RGClassMockObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9714D74F4800BE74C2 /* RGClassMockObjectTest.m */; };
+		2832CC9A14D74F5800BE74C2 /* RGMockingIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9914D74F5800BE74C2 /* RGMockingIntegrationTest.m */; };
+		2832CC9C14D74F6100BE74C2 /* RGMockObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9B14D74F6100BE74C2 /* RGMockObjectTest.m */; };
+		2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; };
+		2832CCA314D74FAB00BE74C2 /* RGMockSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCA114D74FAB00BE74C2 /* RGMockSyntax.h */; };
+		2832CCA414D74FAB00BE74C2 /* RGMockSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCA214D74FAB00BE74C2 /* RGMockSyntax.m */; };
+		2832CCA914D74FB500BE74C2 /* RGClassMockRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCA514D74FB500BE74C2 /* RGClassMockRecorder.h */; };
+		2832CCAA14D74FB500BE74C2 /* RGClassMockRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCA614D74FB500BE74C2 /* RGClassMockRecorder.m */; };
+		2832CCAB14D74FB500BE74C2 /* RGMockRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCA714D74FB500BE74C2 /* RGMockRecorder.h */; };
+		2832CCAC14D74FB500BE74C2 /* RGMockRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCA814D74FB500BE74C2 /* RGMockRecorder.m */; };
+		2832CCB014D7582B00BE74C2 /* RGMockVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCAE14D7582B00BE74C2 /* RGMockVerifier.h */; };
+		2832CCB114D7582B00BE74C2 /* RGMockVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCAF14D7582B00BE74C2 /* RGMockVerifier.m */; };
 		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
-		28D7B39E14D74DE400D494FD /* rgmock.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7B39D14D74DE400D494FD /* rgmock.m */; };
 		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28D7B3A814D74DE400D494FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A714D74DE400D494FD /* UIKit.framework */; };
 		28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
 		28D7B3AC14D74DE400D494FD /* librgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39414D74DE400D494FD /* librgmock.a */; };
 		28D7B3B214D74DE400D494FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28D7B3B014D74DE400D494FD /* InfoPlist.strings */; };
-		28D7B3B514D74DE400D494FD /* rgmockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7B3B414D74DE400D494FD /* rgmockTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,21 +44,45 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2832CC7F14D74EB000BE74C2 /* rgmock-integration-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rgmock-integration-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2832CC8514D74EB000BE74C2 /* rgmock-integration-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rgmock-integration-tests-Info.plist"; sourceTree = "<group>"; };
+		2832CC8714D74EB000BE74C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2832CC8C14D74EB000BE74C2 /* rgmock-integration-tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-integration-tests-Prefix.pch"; sourceTree = "<group>"; };
+		2832CC9214D74F3100BE74C2 /* MockTestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockTestObject.h; sourceTree = "<group>"; };
+		2832CC9314D74F3100BE74C2 /* MockTestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockTestObject.m; sourceTree = "<group>"; };
+		2832CC9714D74F4800BE74C2 /* RGClassMockObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassMockObjectTest.m; sourceTree = "<group>"; };
+		2832CC9914D74F5800BE74C2 /* RGMockingIntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockingIntegrationTest.m; sourceTree = "<group>"; };
+		2832CC9B14D74F6100BE74C2 /* RGMockObjectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockObjectTest.m; sourceTree = "<group>"; };
+		2832CC9D14D74F7C00BE74C2 /* RGMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMock.h; sourceTree = "<group>"; };
+		2832CCA114D74FAB00BE74C2 /* RGMockSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockSyntax.h; sourceTree = "<group>"; };
+		2832CCA214D74FAB00BE74C2 /* RGMockSyntax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSyntax.m; sourceTree = "<group>"; };
+		2832CCA514D74FB500BE74C2 /* RGClassMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGClassMockRecorder.h; sourceTree = "<group>"; };
+		2832CCA614D74FB500BE74C2 /* RGClassMockRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassMockRecorder.m; sourceTree = "<group>"; };
+		2832CCA714D74FB500BE74C2 /* RGMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockRecorder.h; sourceTree = "<group>"; };
+		2832CCA814D74FB500BE74C2 /* RGMockRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockRecorder.m; sourceTree = "<group>"; };
+		2832CCAE14D7582B00BE74C2 /* RGMockVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockVerifier.h; sourceTree = "<group>"; };
+		2832CCAF14D7582B00BE74C2 /* RGMockVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockVerifier.m; sourceTree = "<group>"; };
 		28D7B39414D74DE400D494FD /* librgmock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librgmock.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B39714D74DE400D494FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-Prefix.pch"; sourceTree = "<group>"; };
-		28D7B39C14D74DE400D494FD /* rgmock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rgmock.h; sourceTree = "<group>"; };
-		28D7B39D14D74DE400D494FD /* rgmock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rgmock.m; sourceTree = "<group>"; };
-		28D7B3A414D74DE400D494FD /* rgmockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rgmockTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D7B3A414D74DE400D494FD /* rgmock-unit-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rgmock-unit-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B3A514D74DE400D494FD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		28D7B3A714D74DE400D494FD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		28D7B3AF14D74DE400D494FD /* rgmockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rgmockTests-Info.plist"; sourceTree = "<group>"; };
+		28D7B3AF14D74DE400D494FD /* rgmock-unit-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rgmock-unit-tests-Info.plist"; sourceTree = "<group>"; };
 		28D7B3B114D74DE400D494FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		28D7B3B314D74DE400D494FD /* rgmockTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rgmockTests.h; sourceTree = "<group>"; };
-		28D7B3B414D74DE400D494FD /* rgmockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rgmockTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2832CC7B14D74EB000BE74C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2832CC8014D74EB000BE74C2 /* SenTestingKit.framework in Frameworks */,
+				2832CC8114D74EB000BE74C2 /* UIKit.framework in Frameworks */,
+				2832CC8214D74EB000BE74C2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28D7B39114D74DE400D494FD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,11 +105,89 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2832CC8314D74EB000BE74C2 /* rgmock-integration-tests */ = {
+			isa = PBXGroup;
+			children = (
+				2832CC9014D74ED500BE74C2 /* Test Cases */,
+				2832CC8414D74EB000BE74C2 /* Supporting Files */,
+			);
+			path = "rgmock-integration-tests";
+			sourceTree = "<group>";
+		};
+		2832CC8414D74EB000BE74C2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2832CC8514D74EB000BE74C2 /* rgmock-integration-tests-Info.plist */,
+				2832CC8614D74EB000BE74C2 /* InfoPlist.strings */,
+				2832CC8C14D74EB000BE74C2 /* rgmock-integration-tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2832CC9014D74ED500BE74C2 /* Test Cases */ = {
+			isa = PBXGroup;
+			children = (
+				2832CC9914D74F5800BE74C2 /* RGMockingIntegrationTest.m */,
+			);
+			name = "Test Cases";
+			sourceTree = "<group>";
+		};
+		2832CC9114D74F0E00BE74C2 /* rgmock-test-resources */ = {
+			isa = PBXGroup;
+			children = (
+				2832CC9214D74F3100BE74C2 /* MockTestObject.h */,
+				2832CC9314D74F3100BE74C2 /* MockTestObject.m */,
+			);
+			path = "rgmock-test-resources";
+			sourceTree = "<group>";
+		};
+		2832CC9614D74F3900BE74C2 /* Test Cases */ = {
+			isa = PBXGroup;
+			children = (
+				2832CC9B14D74F6100BE74C2 /* RGMockObjectTest.m */,
+				2832CC9714D74F4800BE74C2 /* RGClassMockObjectTest.m */,
+			);
+			name = "Test Cases";
+			sourceTree = "<group>";
+		};
+		2832CC9F14D74F8900BE74C2 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2832CCA114D74FAB00BE74C2 /* RGMockSyntax.h */,
+				2832CCA214D74FAB00BE74C2 /* RGMockSyntax.m */,
+				2832CCA014D74F9500BE74C2 /* Recorder Objects */,
+				2832CCAD14D757DB00BE74C2 /* Verification */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		2832CCA014D74F9500BE74C2 /* Recorder Objects */ = {
+			isa = PBXGroup;
+			children = (
+				2832CCA714D74FB500BE74C2 /* RGMockRecorder.h */,
+				2832CCA814D74FB500BE74C2 /* RGMockRecorder.m */,
+				2832CCA514D74FB500BE74C2 /* RGClassMockRecorder.h */,
+				2832CCA614D74FB500BE74C2 /* RGClassMockRecorder.m */,
+			);
+			name = "Recorder Objects";
+			sourceTree = "<group>";
+		};
+		2832CCAD14D757DB00BE74C2 /* Verification */ = {
+			isa = PBXGroup;
+			children = (
+				2832CCAE14D7582B00BE74C2 /* RGMockVerifier.h */,
+				2832CCAF14D7582B00BE74C2 /* RGMockVerifier.m */,
+			);
+			name = Verification;
+			sourceTree = "<group>";
+		};
 		28D7B38914D74DE400D494FD = {
 			isa = PBXGroup;
 			children = (
 				28D7B39914D74DE400D494FD /* rgmock */,
-				28D7B3AD14D74DE400D494FD /* rgmockTests */,
+				28D7B3AD14D74DE400D494FD /* rgmock-unit-tests */,
+				2832CC8314D74EB000BE74C2 /* rgmock-integration-tests */,
+				2832CC9114D74F0E00BE74C2 /* rgmock-test-resources */,
 				28D7B39614D74DE400D494FD /* Frameworks */,
 				28D7B39514D74DE400D494FD /* Products */,
 			);
@@ -79,7 +197,8 @@
 			isa = PBXGroup;
 			children = (
 				28D7B39414D74DE400D494FD /* librgmock.a */,
-				28D7B3A414D74DE400D494FD /* rgmockTests.octest */,
+				28D7B3A414D74DE400D494FD /* rgmock-unit-tests.octest */,
+				2832CC7F14D74EB000BE74C2 /* rgmock-integration-tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,8 +216,8 @@
 		28D7B39914D74DE400D494FD /* rgmock */ = {
 			isa = PBXGroup;
 			children = (
-				28D7B39C14D74DE400D494FD /* rgmock.h */,
-				28D7B39D14D74DE400D494FD /* rgmock.m */,
+				2832CC9D14D74F7C00BE74C2 /* RGMock.h */,
+				2832CC9F14D74F8900BE74C2 /* Sources */,
 				28D7B39A14D74DE400D494FD /* Supporting Files */,
 			);
 			path = rgmock;
@@ -112,20 +231,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		28D7B3AD14D74DE400D494FD /* rgmockTests */ = {
+		28D7B3AD14D74DE400D494FD /* rgmock-unit-tests */ = {
 			isa = PBXGroup;
 			children = (
-				28D7B3B314D74DE400D494FD /* rgmockTests.h */,
-				28D7B3B414D74DE400D494FD /* rgmockTests.m */,
+				2832CC9614D74F3900BE74C2 /* Test Cases */,
 				28D7B3AE14D74DE400D494FD /* Supporting Files */,
 			);
-			path = rgmockTests;
+			path = "rgmock-unit-tests";
 			sourceTree = "<group>";
 		};
 		28D7B3AE14D74DE400D494FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				28D7B3AF14D74DE400D494FD /* rgmockTests-Info.plist */,
+				28D7B3AF14D74DE400D494FD /* rgmock-unit-tests-Info.plist */,
 				28D7B3B014D74DE400D494FD /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -138,12 +256,35 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */,
+				2832CCA314D74FAB00BE74C2 /* RGMockSyntax.h in Headers */,
+				2832CCA914D74FB500BE74C2 /* RGClassMockRecorder.h in Headers */,
+				2832CCAB14D74FB500BE74C2 /* RGMockRecorder.h in Headers */,
+				2832CCB014D7582B00BE74C2 /* RGMockVerifier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		2832CC7E14D74EB000BE74C2 /* rgmock-integration-tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2832CC8D14D74EB000BE74C2 /* Build configuration list for PBXNativeTarget "rgmock-integration-tests" */;
+			buildPhases = (
+				2832CC7A14D74EB000BE74C2 /* Sources */,
+				2832CC7B14D74EB000BE74C2 /* Frameworks */,
+				2832CC7C14D74EB000BE74C2 /* Resources */,
+				2832CC7D14D74EB000BE74C2 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "rgmock-integration-tests";
+			productName = "rgmock-integration-tests";
+			productReference = 2832CC7F14D74EB000BE74C2 /* rgmock-integration-tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		28D7B39314D74DE400D494FD /* rgmock */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmock" */;
@@ -161,9 +302,9 @@
 			productReference = 28D7B39414D74DE400D494FD /* librgmock.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		28D7B3A314D74DE400D494FD /* rgmockTests */ = {
+		28D7B3A314D74DE400D494FD /* rgmock-unit-tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmockTests" */;
+			buildConfigurationList = 28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmock-unit-tests" */;
 			buildPhases = (
 				28D7B39F14D74DE400D494FD /* Sources */,
 				28D7B3A014D74DE400D494FD /* Frameworks */,
@@ -175,9 +316,9 @@
 			dependencies = (
 				28D7B3AB14D74DE400D494FD /* PBXTargetDependency */,
 			);
-			name = rgmockTests;
+			name = "rgmock-unit-tests";
 			productName = rgmockTests;
-			productReference = 28D7B3A414D74DE400D494FD /* rgmockTests.octest */;
+			productReference = 28D7B3A414D74DE400D494FD /* rgmock-unit-tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -202,12 +343,21 @@
 			projectRoot = "";
 			targets = (
 				28D7B39314D74DE400D494FD /* rgmock */,
-				28D7B3A314D74DE400D494FD /* rgmockTests */,
+				28D7B3A314D74DE400D494FD /* rgmock-unit-tests */,
+				2832CC7E14D74EB000BE74C2 /* rgmock-integration-tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2832CC7C14D74EB000BE74C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2832CC8814D74EB000BE74C2 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28D7B3A114D74DE400D494FD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,6 +369,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2832CC7D14D74EB000BE74C2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 		28D7B3A214D74DE400D494FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -235,11 +398,23 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2832CC7A14D74EB000BE74C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2832CC9514D74F3100BE74C2 /* MockTestObject.m in Sources */,
+				2832CC9A14D74F5800BE74C2 /* RGMockingIntegrationTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		28D7B39014D74DE400D494FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D7B39E14D74DE400D494FD /* rgmock.m in Sources */,
+				2832CCA414D74FAB00BE74C2 /* RGMockSyntax.m in Sources */,
+				2832CCAA14D74FB500BE74C2 /* RGClassMockRecorder.m in Sources */,
+				2832CCAC14D74FB500BE74C2 /* RGMockRecorder.m in Sources */,
+				2832CCB114D7582B00BE74C2 /* RGMockVerifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,7 +422,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D7B3B514D74DE400D494FD /* rgmockTests.m in Sources */,
+				2832CC9414D74F3100BE74C2 /* MockTestObject.m in Sources */,
+				2832CC9814D74F4800BE74C2 /* RGClassMockObjectTest.m in Sources */,
+				2832CC9C14D74F6100BE74C2 /* RGMockObjectTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +439,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		2832CC8614D74EB000BE74C2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2832CC8714D74EB000BE74C2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		28D7B3B014D74DE400D494FD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -273,6 +458,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2832CC8E14D74EB000BE74C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rgmock-integration-tests/rgmock-integration-tests-Prefix.pch";
+				INFOPLIST_FILE = "rgmock-integration-tests/rgmock-integration-tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		2832CC8F14D74EB000BE74C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "rgmock-integration-tests/rgmock-integration-tests-Prefix.pch";
+				INFOPLIST_FILE = "rgmock-integration-tests/rgmock-integration-tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		28D7B3B614D74DE400D494FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -348,7 +563,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "rgmockTests/rgmockTests-Info.plist";
+				INFOPLIST_FILE = "rgmock-unit-tests/rgmock-unit-tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -363,7 +578,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "rgmockTests/rgmockTests-Info.plist";
+				INFOPLIST_FILE = "rgmock-unit-tests/rgmock-unit-tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -372,6 +587,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2832CC8D14D74EB000BE74C2 /* Build configuration list for PBXNativeTarget "rgmock-integration-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2832CC8E14D74EB000BE74C2 /* Debug */,
+				2832CC8F14D74EB000BE74C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -388,14 +611,16 @@
 				28D7B3BA14D74DE400D494FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmockTests" */ = {
+		28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmock-unit-tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28D7B3BC14D74DE400D494FD /* Debug */,
 				28D7B3BD14D74DE400D494FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
