@@ -21,7 +21,7 @@
 
 - (void)testThatSimpleVerifySucceeds {
     // given
-    MockTestObject *mockTest = mock(MockTestObject.class);
+    MockTestObject *mockTest = classMock(MockTestObject.class);
     
     // when
     [mockTest simpleMethod];
@@ -32,7 +32,7 @@
 
 - (void)testThatSimpleVerifyNotifiesFailure {
     // given
-    MockTestObject *mockTest = mock(MockTestObject.class);
+    MockTestObject *mockTest = classMock(MockTestObject.class);
     
     // when
     // nothing happens

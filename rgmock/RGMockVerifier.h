@@ -6,8 +6,14 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@class RGMockRecorder;
+
 
 @interface RGMockVerifier : NSObject
+
+@property (nonatomic, readwrite, copy)   NSString   *fileName;
+@property (nonatomic, readwrite, assign) NSUInteger  lineNumber;
+
+- (id)initWithRecorder:(RGMockRecorder *)recorder;
 
 @end

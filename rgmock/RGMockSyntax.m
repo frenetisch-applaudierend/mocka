@@ -9,6 +9,7 @@
 #import "RGMockSyntax.h"
 #import "RGMockRecorder.h"
 #import "RGClassMockRecorder.h"
+#import "RGMockVerifier.h"
 
 
 id mock_classMock(Class cls) {
@@ -16,6 +17,8 @@ id mock_classMock(Class cls) {
 }
 
 id mock_verify_location(id mock, const char *fileName, int lineNumber) {
-    
-    return nil;
+    RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:mock];
+    verifier.fileName = [NSString stringWithCString:fileName encoding:NSUTF8StringEncoding];
+    verifier.lineNumber = lineNumber;
+    return verifier;
 }
