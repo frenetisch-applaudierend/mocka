@@ -7,126 +7,126 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		286DE38614D60D3D004A4712 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 286DE38414D60D3D004A4712 /* InfoPlist.strings */; };
-		286DE39014D60D3D004A4712 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286DE38F14D60D3D004A4712 /* SenTestingKit.framework */; };
-		286DE39214D60D3D004A4712 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286DE39114D60D3D004A4712 /* UIKit.framework */; };
-		286DE39414D60D3D004A4712 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286DE39314D60D3D004A4712 /* Foundation.framework */; };
-		286DE39714D60D3D004A4712 /* RGMock.framework in Resources */ = {isa = PBXBuildFile; fileRef = 286DE37F14D60D3D004A4712 /* RGMock.framework */; };
-		286DE39D14D60D3D004A4712 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 286DE39B14D60D3D004A4712 /* InfoPlist.strings */; };
-		286DE3A014D60D3D004A4712 /* rgmockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 286DE39F14D60D3D004A4712 /* rgmockTests.m */; };
-		286DE3AE14D60E6A004A4712 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 286DE3AD14D60E6A004A4712 /* RGMock.h */; };
+		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
+		28D7B39E14D74DE400D494FD /* rgmock.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7B39D14D74DE400D494FD /* rgmock.m */; };
+		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
+		28D7B3A814D74DE400D494FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A714D74DE400D494FD /* UIKit.framework */; };
+		28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
+		28D7B3AC14D74DE400D494FD /* librgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39414D74DE400D494FD /* librgmock.a */; };
+		28D7B3B214D74DE400D494FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28D7B3B014D74DE400D494FD /* InfoPlist.strings */; };
+		28D7B3B514D74DE400D494FD /* rgmockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7B3B414D74DE400D494FD /* rgmockTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		286DE39514D60D3D004A4712 /* PBXContainerItemProxy */ = {
+		28D7B3AA14D74DE400D494FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 286DE37314D60D3C004A4712 /* Project object */;
+			containerPortal = 28D7B38B14D74DE400D494FD /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 286DE37E14D60D3D004A4712;
+			remoteGlobalIDString = 28D7B39314D74DE400D494FD;
 			remoteInfo = rgmock;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		286DE37F14D60D3D004A4712 /* RGMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RGMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		286DE38314D60D3D004A4712 /* rgmock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rgmock-Info.plist"; sourceTree = "<group>"; };
-		286DE38514D60D3D004A4712 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		286DE38714D60D3D004A4712 /* rgmock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-Prefix.pch"; sourceTree = "<group>"; };
-		286DE38D14D60D3D004A4712 /* rgmock-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rgmock-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		286DE38F14D60D3D004A4712 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		286DE39114D60D3D004A4712 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		286DE39314D60D3D004A4712 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		286DE39A14D60D3D004A4712 /* rgmock-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rgmock-tests-Info.plist"; sourceTree = "<group>"; };
-		286DE39C14D60D3D004A4712 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		286DE39E14D60D3D004A4712 /* rgmockTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rgmockTests.h; sourceTree = "<group>"; };
-		286DE39F14D60D3D004A4712 /* rgmockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rgmockTests.m; sourceTree = "<group>"; };
-		286DE3AD14D60E6A004A4712 /* RGMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMock.h; sourceTree = "<group>"; };
+		28D7B39414D74DE400D494FD /* librgmock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librgmock.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D7B39714D74DE400D494FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-Prefix.pch"; sourceTree = "<group>"; };
+		28D7B39C14D74DE400D494FD /* rgmock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rgmock.h; sourceTree = "<group>"; };
+		28D7B39D14D74DE400D494FD /* rgmock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rgmock.m; sourceTree = "<group>"; };
+		28D7B3A414D74DE400D494FD /* rgmockTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rgmockTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D7B3A514D74DE400D494FD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		28D7B3A714D74DE400D494FD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		28D7B3AF14D74DE400D494FD /* rgmockTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "rgmockTests-Info.plist"; sourceTree = "<group>"; };
+		28D7B3B114D74DE400D494FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		28D7B3B314D74DE400D494FD /* rgmockTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rgmockTests.h; sourceTree = "<group>"; };
+		28D7B3B414D74DE400D494FD /* rgmockTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rgmockTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		286DE37A14D60D3D004A4712 /* Frameworks */ = {
+		28D7B39114D74DE400D494FD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		286DE38914D60D3D004A4712 /* Frameworks */ = {
+		28D7B3A014D74DE400D494FD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				286DE39014D60D3D004A4712 /* SenTestingKit.framework in Frameworks */,
-				286DE39214D60D3D004A4712 /* UIKit.framework in Frameworks */,
-				286DE39414D60D3D004A4712 /* Foundation.framework in Frameworks */,
+				28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */,
+				28D7B3A814D74DE400D494FD /* UIKit.framework in Frameworks */,
+				28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */,
+				28D7B3AC14D74DE400D494FD /* librgmock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		286DE37114D60D3C004A4712 = {
+		28D7B38914D74DE400D494FD = {
 			isa = PBXGroup;
 			children = (
-				286DE38114D60D3D004A4712 /* rgmock */,
-				286DE39814D60D3D004A4712 /* rgmock-tests */,
-				286DE38E14D60D3D004A4712 /* Frameworks */,
-				286DE38014D60D3D004A4712 /* Products */,
+				28D7B39914D74DE400D494FD /* rgmock */,
+				28D7B3AD14D74DE400D494FD /* rgmockTests */,
+				28D7B39614D74DE400D494FD /* Frameworks */,
+				28D7B39514D74DE400D494FD /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		286DE38014D60D3D004A4712 /* Products */ = {
+		28D7B39514D74DE400D494FD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				286DE37F14D60D3D004A4712 /* RGMock.framework */,
-				286DE38D14D60D3D004A4712 /* rgmock-tests.octest */,
+				28D7B39414D74DE400D494FD /* librgmock.a */,
+				28D7B3A414D74DE400D494FD /* rgmockTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		286DE38114D60D3D004A4712 /* rgmock */ = {
+		28D7B39614D74DE400D494FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				286DE3AD14D60E6A004A4712 /* RGMock.h */,
-				286DE38214D60D3D004A4712 /* Supporting Files */,
-			);
-			path = rgmock;
-			sourceTree = "<group>";
-		};
-		286DE38214D60D3D004A4712 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				286DE38314D60D3D004A4712 /* rgmock-Info.plist */,
-				286DE38414D60D3D004A4712 /* InfoPlist.strings */,
-				286DE38714D60D3D004A4712 /* rgmock-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		286DE38E14D60D3D004A4712 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				286DE38F14D60D3D004A4712 /* SenTestingKit.framework */,
-				286DE39114D60D3D004A4712 /* UIKit.framework */,
-				286DE39314D60D3D004A4712 /* Foundation.framework */,
+				28D7B39714D74DE400D494FD /* Foundation.framework */,
+				28D7B3A514D74DE400D494FD /* SenTestingKit.framework */,
+				28D7B3A714D74DE400D494FD /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		286DE39814D60D3D004A4712 /* rgmock-tests */ = {
+		28D7B39914D74DE400D494FD /* rgmock */ = {
 			isa = PBXGroup;
 			children = (
-				286DE39E14D60D3D004A4712 /* rgmockTests.h */,
-				286DE39F14D60D3D004A4712 /* rgmockTests.m */,
-				286DE39914D60D3D004A4712 /* Supporting Files */,
+				28D7B39C14D74DE400D494FD /* rgmock.h */,
+				28D7B39D14D74DE400D494FD /* rgmock.m */,
+				28D7B39A14D74DE400D494FD /* Supporting Files */,
 			);
-			path = "rgmock-tests";
+			path = rgmock;
 			sourceTree = "<group>";
 		};
-		286DE39914D60D3D004A4712 /* Supporting Files */ = {
+		28D7B39A14D74DE400D494FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				286DE39A14D60D3D004A4712 /* rgmock-tests-Info.plist */,
-				286DE39B14D60D3D004A4712 /* InfoPlist.strings */,
+				28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		28D7B3AD14D74DE400D494FD /* rgmockTests */ = {
+			isa = PBXGroup;
+			children = (
+				28D7B3B314D74DE400D494FD /* rgmockTests.h */,
+				28D7B3B414D74DE400D494FD /* rgmockTests.m */,
+				28D7B3AE14D74DE400D494FD /* Supporting Files */,
+			);
+			path = rgmockTests;
+			sourceTree = "<group>";
+		};
+		28D7B3AE14D74DE400D494FD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				28D7B3AF14D74DE400D494FD /* rgmockTests-Info.plist */,
+				28D7B3B014D74DE400D494FD /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -134,27 +134,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		286DE37B14D60D3D004A4712 /* Headers */ = {
+		28D7B39214D74DE400D494FD /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				286DE3AE14D60E6A004A4712 /* RGMock.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		286DE37E14D60D3D004A4712 /* rgmock */ = {
+		28D7B39314D74DE400D494FD /* rgmock */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 286DE3A314D60D3D004A4712 /* Build configuration list for PBXNativeTarget "rgmock" */;
+			buildConfigurationList = 28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmock" */;
 			buildPhases = (
-				286DE37814D60D3D004A4712 /* ShellScript */,
-				286DE37914D60D3D004A4712 /* Sources */,
-				286DE37A14D60D3D004A4712 /* Frameworks */,
-				286DE37B14D60D3D004A4712 /* Headers */,
-				286DE37C14D60D3D004A4712 /* Resources */,
-				286DE37D14D60D3D004A4712 /* ShellScript */,
+				28D7B39014D74DE400D494FD /* Sources */,
+				28D7B39114D74DE400D494FD /* Frameworks */,
+				28D7B39214D74DE400D494FD /* Headers */,
 			);
 			buildRules = (
 			);
@@ -162,103 +158,68 @@
 			);
 			name = rgmock;
 			productName = rgmock;
-			productReference = 286DE37F14D60D3D004A4712 /* RGMock.framework */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 28D7B39414D74DE400D494FD /* librgmock.a */;
+			productType = "com.apple.product-type.library.static";
 		};
-		286DE38C14D60D3D004A4712 /* rgmock-tests */ = {
+		28D7B3A314D74DE400D494FD /* rgmockTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 286DE3A614D60D3D004A4712 /* Build configuration list for PBXNativeTarget "rgmock-tests" */;
+			buildConfigurationList = 28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmockTests" */;
 			buildPhases = (
-				286DE38814D60D3D004A4712 /* Sources */,
-				286DE38914D60D3D004A4712 /* Frameworks */,
-				286DE38A14D60D3D004A4712 /* Resources */,
-				286DE38B14D60D3D004A4712 /* ShellScript */,
+				28D7B39F14D74DE400D494FD /* Sources */,
+				28D7B3A014D74DE400D494FD /* Frameworks */,
+				28D7B3A114D74DE400D494FD /* Resources */,
+				28D7B3A214D74DE400D494FD /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				286DE39614D60D3D004A4712 /* PBXTargetDependency */,
+				28D7B3AB14D74DE400D494FD /* PBXTargetDependency */,
 			);
-			name = "rgmock-tests";
+			name = rgmockTests;
 			productName = rgmockTests;
-			productReference = 286DE38D14D60D3D004A4712 /* rgmock-tests.octest */;
+			productReference = 28D7B3A414D74DE400D494FD /* rgmockTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		286DE37314D60D3C004A4712 /* Project object */ = {
+		28D7B38B14D74DE400D494FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "coresystems ag";
 			};
-			buildConfigurationList = 286DE37614D60D3C004A4712 /* Build configuration list for PBXProject "rgmock" */;
+			buildConfigurationList = 28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 286DE37114D60D3C004A4712;
-			productRefGroup = 286DE38014D60D3D004A4712 /* Products */;
+			mainGroup = 28D7B38914D74DE400D494FD;
+			productRefGroup = 28D7B39514D74DE400D494FD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				286DE37E14D60D3D004A4712 /* rgmock */,
-				286DE38C14D60D3D004A4712 /* rgmock-tests */,
+				28D7B39314D74DE400D494FD /* rgmock */,
+				28D7B3A314D74DE400D494FD /* rgmockTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		286DE37C14D60D3D004A4712 /* Resources */ = {
+		28D7B3A114D74DE400D494FD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				286DE38614D60D3D004A4712 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		286DE38A14D60D3D004A4712 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				286DE39714D60D3D004A4712 /* RGMock.framework in Resources */,
-				286DE39D14D60D3D004A4712 /* InfoPlist.strings in Resources */,
+				28D7B3B214D74DE400D494FD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		286DE37814D60D3D004A4712 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n\tUFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version  from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\n\n# Short-circuit if all binaries are up to date\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n   [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n   [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\n   [[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n   [[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n   [[ ! \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\nthen\n    exit 0\nfi\n\n\n# Clean other platform if needed\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]]\nthen\n\techo \"Platform \\\"$UFW_SDK_PLATFORM\\\" was cleaned recently. Cleaning \\\"$UFW_OTHER_PLATFORM\\\" as well\"\n\techo xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\n\txcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\nfi\n\n\n# Make sure we are building from fresh binaries\n\nrm -rf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nrm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\n";
-		};
-		286DE37D14D60D3D004A4712 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\nexport UFW_MASTER_SCRIPT_RUNNING=1\n\n\n# Functions\n\n## List files in the specified directory, storing to the specified array.\n#\n# @param $1 The path to list\n# @param $2 The name of the array to fill\n#\n##\nlist_files ()\n{\n    filelist=$(ls \"$1\")\n    while read line\n    do\n        eval \"$2[\\${#$2[*]}]=\\\"\\$line\\\"\"\n    done <<< \"$filelist\"\n}\n\n\n# Sanity check\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]]\nthen\n    echo \"Framework target \\\"${TARGET_NAME}\\\" had no source files to build from. Make sure your source files have the correct target membership\"\n    exit 1\nfi\n\n\n# Gather information\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n    UFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\n\n# Short-circuit if all binaries are up to date.\n# We already checked the other platform in the prerun script.\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\nthen\n    exit 0\nfi\n\n\n# Make sure the other platform gets built\n\necho \"Build other platform\"\n\necho xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n\n\n# Build the fat static library binary\n\necho \"Create universal static library\"\n\necho \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n\"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n\necho mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nmv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n\n\n# Build framework structure\n\necho \"Build symlinks\"\n\necho ln -sf A \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Versions/Current\"\nln -sf A \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Versions/Current\"\necho ln -sf Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Headers\"\nln -sf Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Headers\"\necho ln -sf Versions/Current/Resources \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Resources\"\nln -sf Versions/Current/Resources \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Resources\"\necho ln -sf \"Versions/Current/${EXECUTABLE_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${EXECUTABLE_NAME}\"\nln -sf \"Versions/Current/${EXECUTABLE_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${EXECUTABLE_NAME}\"\n\n\n# Link to binary for unit tests\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/.fake_fw_testing.framework\"\nln -sf \"../${WRAPPER_NAME}/${EXECUTABLE_NAME}\" \"${BUILT_PRODUCTS_DIR}/.fake_fw_testing.framework/.fake_fw_testing\"\n\n\n# Build embedded framework structure\n\necho \"Build Embedded Framework\"\n\necho rm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\necho mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\necho cp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\ncp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\n\ndeclare -a UFW_FILE_LIST\nlist_files \"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\" UFW_FILE_LIST\nfor filename in \"${UFW_FILE_LIST[@]}\"\ndo\n    if [[ \"${filename}\" != \"Info.plist\" ]] && [[ ! \"${filename}\" =~ .*\\.lproj$ ]]\n    then\n        echo ln -sf \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n        ln -sf \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n    fi\ndone\n\n\n# Replace other platform's framework with a copy of this one (so that both have the same universal binary)\n\necho \"Copy from $UFW_SDK_PLATFORM to $UFW_OTHER_PLATFORM\"\n\necho rm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\nrm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\necho cp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\ncp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n";
-		};
-		286DE38B14D60D3D004A4712 /* ShellScript */ = {
+		28D7B3A214D74DE400D494FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -274,44 +235,37 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		286DE37914D60D3D004A4712 /* Sources */ = {
+		28D7B39014D74DE400D494FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28D7B39E14D74DE400D494FD /* rgmock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		286DE38814D60D3D004A4712 /* Sources */ = {
+		28D7B39F14D74DE400D494FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				286DE3A014D60D3D004A4712 /* rgmockTests.m in Sources */,
+				28D7B3B514D74DE400D494FD /* rgmockTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		286DE39614D60D3D004A4712 /* PBXTargetDependency */ = {
+		28D7B3AB14D74DE400D494FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 286DE37E14D60D3D004A4712 /* rgmock */;
-			targetProxy = 286DE39514D60D3D004A4712 /* PBXContainerItemProxy */;
+			target = 28D7B39314D74DE400D494FD /* rgmock */;
+			targetProxy = 28D7B3AA14D74DE400D494FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		286DE38414D60D3D004A4712 /* InfoPlist.strings */ = {
+		28D7B3B014D74DE400D494FD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				286DE38514D60D3D004A4712 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		286DE39B14D60D3D004A4712 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				286DE39C14D60D3D004A4712 /* en */,
+				28D7B3B114D74DE400D494FD /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -319,7 +273,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		286DE3A114D60D3D004A4712 /* Debug */ = {
+		28D7B3B614D74DE400D494FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -343,7 +297,7 @@
 			};
 			name = Debug;
 		};
-		286DE3A214D60D3D004A4712 /* Release */ = {
+		28D7B3B714D74DE400D494FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -361,53 +315,31 @@
 			};
 			name = Release;
 		};
-		286DE3A414D60D3D004A4712 /* Debug */ = {
+		28D7B3B914D74DE400D494FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
+				DSTROOT = /tmp/rgmock.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "rgmock/rgmock-Info.plist";
-				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				LINK_WITH_STANDARD_LIBRARIES = NO;
-				MACH_O_TYPE = mh_object;
-				PRODUCT_NAME = RGMock;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
 		};
-		286DE3A514D60D3D004A4712 /* Release */ = {
+		28D7B3BA14D74DE400D494FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONTENTS_FOLDER_PATH = "$(WRAPPER_NAME)/Versions/$(FRAMEWORK_VERSION)";
-				DEAD_CODE_STRIPPING = NO;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
+				DSTROOT = /tmp/rgmock.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "rgmock/rgmock-Info.plist";
-				INFOPLIST_PATH = "$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/Info.plist";
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				LINK_WITH_STANDARD_LIBRARIES = NO;
-				MACH_O_TYPE = mh_object;
-				PRODUCT_NAME = RGMock;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				UNLOCALIZED_RESOURCES_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Resources";
-				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
 		};
-		286DE3A714D60D3D004A4712 /* Debug */ = {
+		28D7B3BC14D74DE400D494FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -416,19 +348,13 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "rgmock-tests/rgmock-tests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					.fake_fw_testing,
-				);
+				INFOPLIST_FILE = "rgmockTests/rgmockTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
-		286DE3A814D60D3D004A4712 /* Release */ = {
+		28D7B3BD14D74DE400D494FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -437,13 +363,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "rgmock-tests/rgmock-tests-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					.fake_fw_testing,
-				);
+				INFOPLIST_FILE = "rgmockTests/rgmockTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -452,34 +372,32 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		286DE37614D60D3C004A4712 /* Build configuration list for PBXProject "rgmock" */ = {
+		28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				286DE3A114D60D3D004A4712 /* Debug */,
-				286DE3A214D60D3D004A4712 /* Release */,
+				28D7B3B614D74DE400D494FD /* Debug */,
+				28D7B3B714D74DE400D494FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		286DE3A314D60D3D004A4712 /* Build configuration list for PBXNativeTarget "rgmock" */ = {
+		28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				286DE3A414D60D3D004A4712 /* Debug */,
-				286DE3A514D60D3D004A4712 /* Release */,
+				28D7B3B914D74DE400D494FD /* Debug */,
+				28D7B3BA14D74DE400D494FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
-		286DE3A614D60D3D004A4712 /* Build configuration list for PBXNativeTarget "rgmock-tests" */ = {
+		28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "rgmockTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				286DE3A714D60D3D004A4712 /* Debug */,
-				286DE3A814D60D3D004A4712 /* Release */,
+				28D7B3BC14D74DE400D494FD /* Debug */,
+				28D7B3BD14D74DE400D494FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 286DE37314D60D3C004A4712 /* Project object */;
+	rootObject = 28D7B38B14D74DE400D494FD /* Project object */;
 }
