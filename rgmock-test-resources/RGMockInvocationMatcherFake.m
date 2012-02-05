@@ -27,6 +27,8 @@
     return pair;
 }
 
+- (NSUInteger)hash { return 0; }
+
 - (BOOL)isEqual:(id)object {
     return ((invocation == [object invocation] && candidate == [object candidate])
             || (candidate == [object invocation] && invocation == [object candidate]));

@@ -63,37 +63,69 @@
 }
 
 
-//#pragma mark - Test Invocation Matching
-//
-//- (void)testThatMatchingInvocationsReturnsInvocationsThatMatch {
-//    // given
-//    MockTestObject *testObject = [[MockTestObject alloc] init];
-//    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
-//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-//    invocation.selector = @selector(simpleMethod);
-//    invocation.target = testObject;
-//    
-//    NSInvocation *matchingInvocation1 = [NSInvocation invocationWithMethodSignature:signature];
-//    matchingInvocation1.selector = @selector(simpleMethod);
-//    matchingInvocation1.target = testObject;
-//    
-//    NSInvocation *matchingInvocation2 = [NSInvocation invocationWithMethodSignature:signature];
-//    matchingInvocation2.selector = @selector(simpleMethod);
-//    matchingInvocation2.target = testObject;
-//    
-//    // when
-//    RGMockInvocationMatcherFake *matcher = [[RGMockInvocationMatcherFake alloc] init];
-//    [matcher fake_shouldMatchInvocation:invocation withInvocation:matchingInvocation1];
-//    [matcher fake_shouldMatchInvocation:invocation withInvocation:matchingInvocation2];
-//    
-//    RGMockRecorder *recorder = [[RGMockRecorder alloc] initWithInvocationMatcher:matcher];
-//    [recorder mock_recordInvocation:matchingInvocation1];
-//    [recorder mock_recordInvocation:matchingInvocation2];
-//    
-//    // then
-//    NSArray *matchingInvocations = [recorder mock_recordedInvocationsMatchingInvocation:invocation];
-//    STAssertEqualObjects(matchingInvocations, ([NSArray arrayWithObjects:matchingInvocation1, matchingInvocation2, nil]),
-//                         @"Wrong matching invocations");
-//}
+#pragma mark - Test Invocation Matching
+
+- (void)testThatMatchingInvocationsReturnsInvocationsThatMatch {
+    // given
+    MockTestObject *testObject = [[MockTestObject alloc] init];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+    invocation.selector = @selector(simpleMethod);
+    invocation.target = testObject;
+    
+    NSInvocation *matchingInvocation1 = [NSInvocation invocationWithMethodSignature:signature];
+    matchingInvocation1.selector = @selector(simpleMethod);
+    matchingInvocation1.target = testObject;
+    
+    NSInvocation *matchingInvocation2 = [NSInvocation invocationWithMethodSignature:signature];
+    matchingInvocation2.selector = @selector(simpleMethod);
+    matchingInvocation2.target = testObject;
+    
+    // when
+    RGMockInvocationMatcherFake *matcher = [[RGMockInvocationMatcherFake alloc] init];
+    [matcher fake_shouldMatchInvocation:invocation withInvocation:matchingInvocation1];
+    [matcher fake_shouldMatchInvocation:invocation withInvocation:matchingInvocation2];
+    
+    RGMockRecorder *recorder = [[RGMockRecorder alloc] initWithInvocationMatcher:matcher];
+    [recorder mock_recordInvocation:matchingInvocation1];
+    [recorder mock_recordInvocation:matchingInvocation2];
+    
+    // then
+    NSArray *matchingInvocations = [recorder mock_recordedInvocationsMatchingInvocation:invocation];
+    STAssertEqualObjects(matchingInvocations, ([NSArray arrayWithObjects:matchingInvocation1, matchingInvocation2, nil]),
+                         @"Wrong matching invocations");
+}
+
+- (void)testThatMatchingInvocationsDoesNotReturnInvocationsThatDontMatch {
+    // given
+    MockTestObject *testObject = [[MockTestObject alloc] init];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+    invocation.selector = @selector(simpleMethod);
+    invocation.target = testObject;
+    
+    NSInvocation *matchingInvocation = [NSInvocation invocationWithMethodSignature:signature];
+    matchingInvocation.selector = @selector(simpleMethod);
+    matchingInvocation.target = testObject;
+    
+    NSInvocation *nonMatchingInvocation = [NSInvocation invocationWithMethodSignature:signature];
+    nonMatchingInvocation.selector = @selector(simpleMethod);
+    nonMatchingInvocation.target = nil;
+    
+    // when
+    RGMockInvocationMatcherFake *matcher = [[RGMockInvocationMatcherFake alloc] init];
+    [matcher fake_shouldMatchInvocation:invocation withInvocation:matchingInvocation];
+    // nonMatchingInvocation should not match
+    
+    RGMockRecorder *recorder = [[RGMockRecorder alloc] initWithInvocationMatcher:matcher];
+    [recorder mock_recordInvocation:matchingInvocation];
+    [recorder mock_recordInvocation:nonMatchingInvocation];
+    
+    // then
+    NSArray *matchingInvocations = [recorder mock_recordedInvocationsMatchingInvocation:invocation];
+    STAssertEqualObjects(matchingInvocations, ([NSArray arrayWithObject:matchingInvocation]),
+                         @"Wrong matching invocations");
+}
+
 
 @end

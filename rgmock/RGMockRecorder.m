@@ -49,13 +49,9 @@
 #pragma mark - Invocation Matching
 
 - (NSArray *)mock_recordedInvocationsMatchingInvocation:(NSInvocation *)invocation {
-    NSMutableArray *matchingInvocations = [NSMutableArray array];
-    for (NSInvocation *candidate in _recordedInvocations) {
-        if ([_invocationMatcher invocation:invocation matchesInvocation:candidate]) {
-            [matchingInvocations addObject:candidate];
-        }
-    }
-    return matchingInvocations;
+    return [_recordedInvocations filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id recorded, NSDictionary *bindings) {
+        return [_invocationMatcher invocation:invocation matchesInvocation:recorded];
+    }]];
 }
 
 
