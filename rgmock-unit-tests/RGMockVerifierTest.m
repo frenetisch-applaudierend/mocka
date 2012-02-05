@@ -8,7 +8,8 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "RGMockVerifier.h"
-#import "RGClassMockRecorder.h"
+#import "RGMockRecorderFake.h"
+#import "RGMockClassRecorder.h"
 #import "MockTestObject.h"
 
 
@@ -20,26 +21,34 @@
 
 #pragma mark - Test Verification
 
-- (void)testThatVerifierSucceedsWhenReplayingRecordedSimpleMethodCall {
+- (void)testThatVerifierSucceedsForRecordedMethodCall {
     // given
-    RGMockRecorder *recorder = [[RGClassMockRecorder alloc] initWithClass:[MockTestObject class]];
+    RGMockRecorderFake *recorder = [RGMockRecorderFake fakeWithRealRecorder:[[RGMockClassRecorder alloc] initWithClass:MockTestObject.class]];
     NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     invocation.selector = @selector(simpleMethod);
     invocation.target = recorder;
     
     // when
-    [recorder mock_recordInvocation:invocation];
-    RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:recorder];
+    [recorder fake_shouldMatchInvocation:invocation];
     
     // then
+    RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:recorder];
     STAssertNoThrow([(id)verifier simpleMethod], @"Verifier should succeed for recorded invocation");
 }
 
-- (void)testThatVerifierFailsForNonRecordedSimpleMethodCall {
+- (void)testThatVerifierFailsForNonRecordedMethodCall {
     // given
-    RGMockRecorder *recorder = [[RGClassMockRecorder alloc] initWithClass:[MockTestObject class]];
+    RGMockRecorderFake *recorder = [RGMockRecorderFake fakeWithRealRecorder:[[RGMockClassRecorder alloc] initWithClass:MockTestObject.class]];
     RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:recorder];
+    
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+    invocation.selector = @selector(simpleMethod);
+    invocation.target = recorder;
+    
+    // when
+    [recorder fake_shouldNotMatchInvocation:invocation];
     
     // then
     STAssertThrowsSpecificNamed([(id)verifier simpleMethod],

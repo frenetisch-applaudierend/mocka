@@ -7,25 +7,25 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "RGClassMockRecorder.h"
+#import "RGMockClassRecorder.h"
 #import "MockTestObject.h"
 
 
-@interface RGClassMockObjectTest : SenTestCase
+@interface RGMockClassRecorderTest : SenTestCase
 @end
 
 
-@implementation RGClassMockObjectTest
+@implementation RGMockClassRecorderTest
 
 - (void)testThatClassMockRecordsMethodCalls {
     // given
-    MockTestObject *mock = [RGClassMockRecorder mockRecorderForClass:[MockTestObject class]];
+    MockTestObject *mock = [RGMockClassRecorder mockRecorderForClass:[MockTestObject class]];
     
     // when
     [mock simpleMethod];
     
     // then
-    NSArray *recordedInvocations = [(RGClassMockRecorder *)mock mock_recordedInvocations];
+    NSArray *recordedInvocations = [(RGMockClassRecorder *)mock mock_recordedInvocations];
     STAssertEquals([recordedInvocations count], (NSUInteger)1, @"Wrong recorded invocation count");
     
     NSInvocation *invocation = [recordedInvocations lastObject];

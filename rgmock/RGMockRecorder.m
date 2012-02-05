@@ -7,17 +7,14 @@
 //
 
 #import "RGMockRecorder.h"
+#import "RGMockInvocationMatcher.h"
 
 
 @interface RGMockRecorder () {
 @private
-    NSMutableArray *_recordedInvocations;
+    RGMockInvocationMatcher *_invocationMatcher;
+    NSMutableArray          *_recordedInvocations;
 }
-
-- (BOOL)mock_invocation:(NSInvocation *)invocation1 matchesInvocation:(NSInvocation *)invocation2;
-- (BOOL)mock_argumentAtIndex:(NSUInteger)index withType:(const char *)argType
-         isEqualInInvocation:(NSInvocation *)invocation1 andInvocation:(NSInvocation *)invocation2;
-
 @end
 
 
@@ -25,11 +22,16 @@
 
 #pragma mark - Initialization
 
-- (id)init {
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)matcher {
     if ((self = [super init])) {
+        _invocationMatcher = matcher;
         _recordedInvocations = [NSMutableArray array];
     }
     return self;
+}
+
+- (id)init {
+    return [self initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]];
 }
 
 
@@ -47,46 +49,13 @@
 #pragma mark - Invocation Matching
 
 - (NSArray *)mock_recordedInvocationsMatchingInvocation:(NSInvocation *)invocation {
-    return [_recordedInvocations filteredArrayUsingPredicate:
-            [NSPredicate predicateWithBlock:^BOOL(NSInvocation *candidate, NSDictionary *bindings) {
-        return [self mock_invocation:candidate matchesInvocation:invocation];
-    }]];
-}
-
-- (BOOL)mock_invocation:(NSInvocation *)invocation1 matchesInvocation:(NSInvocation *)invocation2 {
-    // First check for obvious mismatches
-    if (!(invocation1.selector == invocation2.selector && invocation1.target == invocation2.target)) {
-        return NO;
-    }
-    
-    // Check if parameter match
-    NSMethodSignature *signature = invocation1.methodSignature;
-    for (NSUInteger argIndex = 2; argIndex < [signature numberOfArguments]; argIndex++) {
-        if (![self mock_argumentAtIndex:argIndex withType:[signature getArgumentTypeAtIndex:argIndex]
-                    isEqualInInvocation:invocation1 andInvocation:invocation2])
-        {
-            return NO;
+    NSMutableArray *matchingInvocations = [NSMutableArray array];
+    for (NSInvocation *candidate in _recordedInvocations) {
+        if ([_invocationMatcher invocation:invocation matchesInvocation:candidate]) {
+            [matchingInvocations addObject:candidate];
         }
     }
-    
-    // All good, we have a match
-    return YES;
-}
-
-- (BOOL)mock_argumentAtIndex:(NSUInteger)index withType:(const char *)argType
-         isEqualInInvocation:(NSInvocation *)invocation1 andInvocation:(NSInvocation *)invocation2
-{
-#define isType(t) (*argType == *@encode(t))
-
-    if (isType(id)) {
-        id value1, value2;
-        [invocation1 getArgument:&value1 atIndex:index];
-        [invocation2 getArgument:&value2 atIndex:index];
-        return (value1 != nil ? [value1 isEqual:value2] : value2 == nil);
-    } else {
-        NSString *reason = [NSString stringWithFormat:@"Cannot match objects of type %s", argType];
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
-    }
+    return matchingInvocations;
 }
 
 

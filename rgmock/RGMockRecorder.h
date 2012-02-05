@@ -7,7 +7,13 @@
 //
 
 
+@class RGMockInvocationMatcher;
+
+
 @interface RGMockRecorder : NSObject
+
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)matcher; // designated initializer
+- (id)init;
 
 - (void)mock_recordInvocation:(NSInvocation *)invocation;
 - (NSArray *)mock_recordedInvocations;

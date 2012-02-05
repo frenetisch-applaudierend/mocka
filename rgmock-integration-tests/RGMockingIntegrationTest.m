@@ -50,8 +50,8 @@
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
     id object1 = @"<object1>";
-    id object2 = @"<object1>";
-    id object3 = @"<object1>";
+    id object2 = @"<object2>";
+    id object3 = @"<object3>";
     
     // when
     [mockTest methodCallWithObject1:object1 object2:object2 object3:object3];
@@ -64,8 +64,8 @@
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
     id object1 = @"<object1>";
-    id object2 = @"<object1>";
-    id object3 = @"<object1>";
+    id object2 = @"<object2>";
+    id object3 = @"<object3>";
     
     // when
     [mockTest methodCallWithObject1:object1 object2:object2 object3:object3];

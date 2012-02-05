@@ -8,12 +8,12 @@
 
 #import "RGMockSyntax.h"
 #import "RGMockRecorder.h"
-#import "RGClassMockRecorder.h"
+#import "RGMockClassRecorder.h"
 #import "RGMockVerifier.h"
 
 
 id mock_classMock(Class cls) {
-    return [[RGClassMockRecorder alloc] initWithClass:cls];
+    return [[RGMockClassRecorder alloc] initWithClass:cls];
 }
 
 id mock_verify_location(id mock, const char *fileName, int lineNumber) {

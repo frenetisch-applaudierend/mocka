@@ -6,16 +6,16 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "RGClassMockRecorder.h"
+#import "RGMockClassRecorder.h"
 
-@interface RGClassMockRecorder () {
+@interface RGMockClassRecorder () {
 @private
     Class _mockedClass;
 }
 @end
 
 
-@implementation RGClassMockRecorder
+@implementation RGMockClassRecorder
 
 #pragma mark - Initialization
 
