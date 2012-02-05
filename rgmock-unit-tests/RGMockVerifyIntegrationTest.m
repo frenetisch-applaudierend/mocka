@@ -11,11 +11,11 @@
 #import "MockTestObject.h"
 
 
-@interface RGMockingIntegrationTest : SenTestCase
+@interface RGMockVerifyIntegrationTest : SenTestCase
 @end
 
 
-@implementation RGMockingIntegrationTest
+@implementation RGMockVerifyIntegrationTest
 
 #pragma mark - Test Simple Verification
 
@@ -24,10 +24,10 @@
     MockTestObject *mockTest = classMock(MockTestObject.class);
     
     // when
-    [mockTest simpleMethod];
+    [mockTest simpleMethodCall];
     
     // then
-    STAssertNoThrow([verify(mockTest) simpleMethod], @"Verify failed");
+    STAssertNoThrow([verify(mockTest) simpleMethodCall], @"Verify failed");
 }
 
 - (void)testThatSimpleVerifyNotifiesFailure {
@@ -38,7 +38,7 @@
     // nothing happens
     
     // then
-    STAssertThrowsSpecificNamed([verify(mockTest) simpleMethod],
+    STAssertThrowsSpecificNamed([verify(mockTest) simpleMethodCall],
                                 NSException, SenTestFailureException,
                                 @"Verify should have failed as a test failure");
 }
@@ -80,6 +80,21 @@
     STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithObject1:object3 object2:object2 object3:object1],
                                 NSException, SenTestFailureException,
                                 @"Verify should have failed as a test failure");
+}
+
+
+#pragma mark - Test Verification with Primitive Types
+
+- (void)testThatVerifySucceedsIfAllBoolParametersAreEqual {
+    // given
+    MockTestObject *mockTest = classMock(MockTestObject.class);
+    BOOL bool1 = YES, bool2 = NO;
+    
+    // when
+    [mockTest methodCallWithBool1:bool1 bool2:bool2];
+    
+    // then
+    STAssertNoThrow([verify(mockTest) methodCallWithBool1:bool1 bool2:bool2], @"Verify failed");
 }
 
 @end

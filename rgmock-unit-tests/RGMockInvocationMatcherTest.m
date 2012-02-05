@@ -9,6 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "RGMockInvocationMatcher.h"
 #import "MockTestObject.h"
+#import "NSInvocation+TestSupport.h"
 
 
 @interface RGMockInvocationMatcherTest : SenTestCase {
@@ -33,15 +34,8 @@
 - (void)testThatMatcherMatchesEqualInvocationsWithoutArguments {
     // given
     MockTestObject *someTarget = [[MockTestObject alloc] init];
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
-    invocation.target = someTarget;
-    
-    NSInvocation *matching = [NSInvocation invocationWithMethodSignature:signature];
-    matching.selector = @selector(simpleMethod);
-    matching.target = someTarget;
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:@selector(simpleMethodCall)];
+    NSInvocation *matching = [NSInvocation invocationForTarget:someTarget selectorAndArguments:@selector(simpleMethodCall)];
     
     // then
     STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
@@ -51,15 +45,8 @@
     // given
     MockTestObject *someTarget = [[MockTestObject alloc] init];
     MockTestObject *anotherTarget = [[MockTestObject alloc] init];
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
-    invocation.target = someTarget;
-    
-    NSInvocation *nonMatching = [NSInvocation invocationWithMethodSignature:signature];
-    nonMatching.selector = @selector(simpleMethod);
-    nonMatching.target = anotherTarget;
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:@selector(simpleMethodCall)];
+    NSInvocation *nonMatching = [NSInvocation invocationForTarget:anotherTarget selectorAndArguments:@selector(simpleMethodCall)];
     
     // then
     STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching], @"Non matching invocations did match");
@@ -71,18 +58,9 @@
 - (void)testThatMatcherMatchesEqualInvocationWithObjectArguments {
     // given
     MockTestObject *someTarget = [[MockTestObject alloc] init];
-    id object1 = @"<object1>"; id object2 = @"<object2>"; id object3 = @"<object3>";
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(methodCallWithObject1:object2:object3:)];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(methodCallWithObject1:object2:object3:);
-    invocation.target = someTarget;
-    [invocation setArgument:&object1 atIndex:2]; [invocation setArgument:&object2 atIndex:3]; [invocation setArgument:&object3 atIndex:4];
-    
-    NSInvocation *matching = [NSInvocation invocationWithMethodSignature:signature];
-    matching.selector = @selector(methodCallWithObject1:object2:object3:);
-    matching.target = someTarget;
-    [matching setArgument:&object1 atIndex:2]; [matching setArgument:&object2 atIndex:3]; [matching setArgument:&object3 atIndex:4];
+    SEL selector = @selector(methodCallWithObject1:object2:object3:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, @"<obj1>", @"<obj2>", @"<obj3>"];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, @"<obj1>", @"<obj2>", @"<obj3>"];
     
     // then
     STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
@@ -91,19 +69,10 @@
 - (void)testThatMatcherMatchesEqualInvocationWithNilArguments {
     // given
     MockTestObject *someTarget = [[MockTestObject alloc] init];
-    id object1 = nil; id object2 = nil; id object3 = nil;
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(methodCallWithObject1:object2:object3:)];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(methodCallWithObject1:object2:object3:);
-    invocation.target = someTarget;
-    [invocation setArgument:&object1 atIndex:2]; [invocation setArgument:&object2 atIndex:3]; [invocation setArgument:&object3 atIndex:4];
-    
-    NSInvocation *matching = [NSInvocation invocationWithMethodSignature:signature];
-    matching.selector = @selector(methodCallWithObject1:object2:object3:);
-    matching.target = someTarget;
-    [matching setArgument:&object1 atIndex:2]; [matching setArgument:&object2 atIndex:3]; [matching setArgument:&object3 atIndex:4];
-    
+    SEL selector = @selector(methodCallWithObject1:object2:object3:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, nil, nil, nil];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, nil, nil, nil];
+
     // then
     STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
 }
@@ -111,21 +80,45 @@
 - (void)testThatMatcherDoesNotMatchInvocationWithDifferentArguments {
     // given
     MockTestObject *someTarget = [[MockTestObject alloc] init];
-    id object1 = @"<object1>"; id object2 = @"<object2>"; id object3 = @"<object3>";
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(methodCallWithObject1:object2:object3:)];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(methodCallWithObject1:object2:object3:);
-    invocation.target = someTarget;
-    [invocation setArgument:&object1 atIndex:2]; [invocation setArgument:&object2 atIndex:3]; [invocation setArgument:&object3 atIndex:4];
-    
-    NSInvocation *nonMatching = [NSInvocation invocationWithMethodSignature:signature];
-    nonMatching.selector = @selector(methodCallWithObject1:object2:object3:);
-    nonMatching.target = someTarget;
-    [nonMatching setArgument:&object3 atIndex:2]; [nonMatching setArgument:&object2 atIndex:3]; [nonMatching setArgument:&object1 atIndex:4];
+    SEL selector = @selector(methodCallWithObject1:object2:object3:);
+    NSInvocation *invocation   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, @"<obj1>", @"<obj2>", @"<obj3>"];
+    NSInvocation *nonMatching1 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, @"<obj3>", @"<obj2>", @"<obj1>"];
+    NSInvocation *nonMatching2 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,       nil, @"<obj2>", @"<obj3>"];
+    NSInvocation *nonMatching3 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,       nil,       nil,       nil];
     
     // then
-    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching1], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching2], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
+}
+
+
+#pragma mark - Test Matching of Bool Arguments
+
+- (void)testThatMatcherMatchesEqualObjectiveCBoolArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithBool1:bool2:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, NO, YES];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, NO, YES];
+    
+    // then
+    STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
+}
+
+- (void)testThatMatcherDoesNotMatchDifferentObjectiveCBoolArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithBool1:bool2:);
+    NSInvocation *invocation   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  NO, YES];
+    NSInvocation *nonMatching1 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  NO,  NO];
+    NSInvocation *nonMatching2 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, YES, YES];
+    NSInvocation *nonMatching3 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, YES,  NO];
+    
+    // then
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching1], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching2], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
 }
 
 @end

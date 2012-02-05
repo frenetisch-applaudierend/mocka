@@ -46,12 +46,17 @@
     isEqualInInvocation:(NSInvocation *)invocation1 andInvocation:(NSInvocation *)invocation2
 {
 #define argumentTypeIs(t) (*argType == *@encode(t))
-    
+#define returnValuesAreSame(t) { t value1, value2;\
+                                 [invocation1 getArgument:&value1 atIndex:index]; [invocation2 getArgument:&value2 atIndex:index];\
+                                 return (value1 == value2); }
+
     if (argumentTypeIs(id)) {
         id value1, value2;
         [invocation1 getArgument:&value1 atIndex:index];
         [invocation2 getArgument:&value2 atIndex:index];
         return (value1 != nil ? [value1 isEqual:value2] : value2 == nil);
+    } else if (argumentTypeIs(BOOL)) {
+        returnValuesAreSame(BOOL);
     } else {
         NSString *reason = [NSString stringWithFormat:@"Cannot match objects of type %s", argType];
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];

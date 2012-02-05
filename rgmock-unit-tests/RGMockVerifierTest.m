@@ -24,9 +24,9 @@
 - (void)testThatVerifierSucceedsForRecordedMethodCall {
     // given
     RGMockRecorderFake *recorder = [RGMockRecorderFake fakeWithRealRecorder:[[RGMockClassRecorder alloc] initWithClass:MockTestObject.class]];
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethodCall)];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
+    invocation.selector = @selector(simpleMethodCall);
     invocation.target = recorder;
     
     // when
@@ -34,7 +34,7 @@
     
     // then
     RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:recorder];
-    STAssertNoThrow([(id)verifier simpleMethod], @"Verifier should succeed for recorded invocation");
+    STAssertNoThrow([(id)verifier simpleMethodCall], @"Verifier should succeed for recorded invocation");
 }
 
 - (void)testThatVerifierFailsForNonRecordedMethodCall {
@@ -42,16 +42,16 @@
     RGMockRecorderFake *recorder = [RGMockRecorderFake fakeWithRealRecorder:[[RGMockClassRecorder alloc] initWithClass:MockTestObject.class]];
     RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:recorder];
     
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethodCall)];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
+    invocation.selector = @selector(simpleMethodCall);
     invocation.target = recorder;
     
     // when
     [recorder fake_shouldNotMatchInvocation:invocation];
     
     // then
-    STAssertThrowsSpecificNamed([(id)verifier simpleMethod],
+    STAssertThrowsSpecificNamed([(id)verifier simpleMethodCall],
                                 NSException, SenTestFailureException,
                                 @"Verifier should have failed as a test failure");
 }

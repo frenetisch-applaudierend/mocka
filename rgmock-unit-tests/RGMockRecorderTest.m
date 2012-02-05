@@ -50,9 +50,9 @@
 
 - (void)testThatForwardInvocationRecordsInvocation {
     // given
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethodCall)];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
+    invocation.selector = @selector(simpleMethodCall);
     invocation.target = mockObject;
     
     // when
@@ -68,17 +68,17 @@
 - (void)testThatMatchingInvocationsReturnsInvocationsThatMatch {
     // given
     MockTestObject *testObject = [[MockTestObject alloc] init];
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethodCall)];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
+    invocation.selector = @selector(simpleMethodCall);
     invocation.target = testObject;
     
     NSInvocation *matchingInvocation1 = [NSInvocation invocationWithMethodSignature:signature];
-    matchingInvocation1.selector = @selector(simpleMethod);
+    matchingInvocation1.selector = @selector(simpleMethodCall);
     matchingInvocation1.target = testObject;
     
     NSInvocation *matchingInvocation2 = [NSInvocation invocationWithMethodSignature:signature];
-    matchingInvocation2.selector = @selector(simpleMethod);
+    matchingInvocation2.selector = @selector(simpleMethodCall);
     matchingInvocation2.target = testObject;
     
     // when
@@ -99,17 +99,17 @@
 - (void)testThatMatchingInvocationsDoesNotReturnInvocationsThatDontMatch {
     // given
     MockTestObject *testObject = [[MockTestObject alloc] init];
-    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
+    NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethodCall)];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-    invocation.selector = @selector(simpleMethod);
+    invocation.selector = @selector(simpleMethodCall);
     invocation.target = testObject;
     
     NSInvocation *matchingInvocation = [NSInvocation invocationWithMethodSignature:signature];
-    matchingInvocation.selector = @selector(simpleMethod);
+    matchingInvocation.selector = @selector(simpleMethodCall);
     matchingInvocation.target = testObject;
     
     NSInvocation *nonMatchingInvocation = [NSInvocation invocationWithMethodSignature:signature];
-    nonMatchingInvocation.selector = @selector(simpleMethod);
+    nonMatchingInvocation.selector = @selector(simpleMethodCall);
     nonMatchingInvocation.target = nil;
     
     // when

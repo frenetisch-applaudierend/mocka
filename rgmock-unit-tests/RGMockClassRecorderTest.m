@@ -22,14 +22,14 @@
     MockTestObject *mock = [RGMockClassRecorder mockRecorderForClass:[MockTestObject class]];
     
     // when
-    [mock simpleMethod];
+    [mock simpleMethodCall];
     
     // then
     NSArray *recordedInvocations = [(RGMockClassRecorder *)mock mock_recordedInvocations];
     STAssertEquals([recordedInvocations count], (NSUInteger)1, @"Wrong recorded invocation count");
     
     NSInvocation *invocation = [recordedInvocations lastObject];
-    STAssertEquals([invocation selector], @selector(simpleMethod), @"Wrong invocation recorded");
+    STAssertEquals([invocation selector], @selector(simpleMethodCall), @"Wrong invocation recorded");
     STAssertEquals([invocation target], mock, @"Wrong invocation recorded");
 }
 
