@@ -18,7 +18,9 @@
 
 @implementation RGMockVerifierTest
 
-- (void)testThatVerifierAllowsReplayOfRecordedMethodCall {
+#pragma mark - Test Verification
+
+- (void)testThatVerifierSucceedsWhenReplayingRecordedSimpleMethodCall {
     // given
     RGMockRecorder *recorder = [[RGClassMockRecorder alloc] initWithClass:[MockTestObject class]];
     NSMethodSignature *signature = [MockTestObject instanceMethodSignatureForSelector:@selector(simpleMethod)];
@@ -34,13 +36,14 @@
     STAssertNoThrow([(id)verifier simpleMethod], @"Verifier should succeed for recorded invocation");
 }
 
-- (void)testThatVerifierFailsForNonRecordedMethodCall {
+- (void)testThatVerifierFailsForNonRecordedSimpleMethodCall {
     // given
     RGMockRecorder *recorder = [[RGClassMockRecorder alloc] initWithClass:[MockTestObject class]];
     RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:recorder];
     
     // then
-    STAssertThrowsSpecificNamed([(id)verifier simpleMethod], NSException, SenTestFailureException,
+    STAssertThrowsSpecificNamed([(id)verifier simpleMethod],
+                                NSException, SenTestFailureException,
                                 @"Verifier should have failed as a test failure");
 }
 

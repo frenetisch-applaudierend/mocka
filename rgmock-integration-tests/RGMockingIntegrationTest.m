@@ -17,7 +17,7 @@
 
 @implementation RGMockingIntegrationTest
 
-#pragma mark - Testing Verify
+#pragma mark - Test Simple Verification
 
 - (void)testThatSimpleVerifySucceeds {
     // given
@@ -27,7 +27,7 @@
     [mockTest simpleMethod];
     
     // then
-    [verify(mockTest) simpleMethod];
+    STAssertNoThrow([verify(mockTest) simpleMethod], @"Verify failed");
 }
 
 - (void)testThatSimpleVerifyNotifiesFailure {
@@ -38,7 +38,47 @@
     // nothing happens
     
     // then
-    STAssertThrowsSpecificNamed([verify(mockTest) simpleMethod], NSException, SenTestFailureException,
+    STAssertThrowsSpecificNamed([verify(mockTest) simpleMethod],
+                                NSException, SenTestFailureException,
+                                @"Verify should have failed as a test failure");
+}
+
+
+#pragma mark - Test Verification with Object Parameters
+
+- (void)testThatVerifySucceedsIfAllObjectParametersAreEqual {
+    // given
+    MockTestObject *mockTest = classMock(MockTestObject.class);
+    id object1 = @"<object1>";
+    id object2 = @"<object1>";
+    id object3 = @"<object1>";
+    
+    // when
+    [mockTest methodCallWithObject1:object1 object2:object2 object3:object3];
+    
+    // then
+    STAssertNoThrow([verify(mockTest) methodCallWithObject1:object1 object2:object2 object3:object3], @"Verify failed");
+}
+
+- (void)testThatVerifyFailsIfAllObjectParametersAreEqual {
+    // given
+    MockTestObject *mockTest = classMock(MockTestObject.class);
+    id object1 = @"<object1>";
+    id object2 = @"<object1>";
+    id object3 = @"<object1>";
+    
+    // when
+    [mockTest methodCallWithObject1:object1 object2:object2 object3:object3];
+    
+    // then
+    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithObject1:nil object2:object2 object3:object3],
+                                NSException, SenTestFailureException,
+                                @"Verify should have failed as a test failure");
+    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithObject1:object2 object2:object2 object3:object3],
+                                NSException, SenTestFailureException,
+                                @"Verify should have failed as a test failure");
+    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithObject1:object3 object2:object2 object3:object1],
+                                NSException, SenTestFailureException,
                                 @"Verify should have failed as a test failure");
 }
 

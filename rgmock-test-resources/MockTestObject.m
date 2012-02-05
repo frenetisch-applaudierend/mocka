@@ -13,4 +13,7 @@
 - (void)simpleMethod {
 }
 
+- (void)methodCallWithObject1:(id)object1 object2:(id)object2 object3:(id)object3 {
+}
+
 @end
