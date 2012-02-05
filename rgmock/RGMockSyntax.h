@@ -8,7 +8,7 @@
 
 
 id mock_classMock(Class cls);
-
+id mock_spy(id<NSObject> object);
 
 id mock_verify_location(id mock, const char *fileName, int lineNumber);
 #define mock_verify(_mock_) mock_verify_location(_mock_, __FILE__, __LINE__)
@@ -16,4 +16,6 @@ id mock_verify_location(id mock, const char *fileName, int lineNumber);
 
 // Nice syntax
 #define classMock(...) mock_classMock(__VA_ARGS__)
+#define spy(...) mock_spy(__VA_ARGS__)
+
 #define verify(...) mock_verify(__VA_ARGS__)

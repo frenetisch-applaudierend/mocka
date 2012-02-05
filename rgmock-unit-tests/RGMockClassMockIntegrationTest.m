@@ -11,11 +11,11 @@
 #import "MockTestObject.h"
 
 
-@interface RGMockVerifyIntegrationTest : SenTestCase
+@interface RGMockClassMockIntegrationTest : SenTestCase
 @end
 
 
-@implementation RGMockVerifyIntegrationTest
+@implementation RGMockClassMockIntegrationTest
 
 #pragma mark - Test Simple Verification
 

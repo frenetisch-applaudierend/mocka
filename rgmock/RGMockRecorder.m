@@ -22,16 +22,19 @@
 
 #pragma mark - Initialization
 
-- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)matcher {
+- (id)init {
     if ((self = [super init])) {
-        _invocationMatcher = matcher;
+        _invocationMatcher = [[RGMockInvocationMatcher alloc] init];
         _recordedInvocations = [NSMutableArray array];
     }
     return self;
 }
 
-- (id)init {
-    return [self initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]];
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)matcher {
+    if ((self = [self init])) {
+        _invocationMatcher = matcher;
+    }
+    return self;
 }
 
 

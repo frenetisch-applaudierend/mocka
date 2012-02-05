@@ -8,6 +8,7 @@
 
 #import "RGMockRecorder.h"
 
+
 @interface RGMockClassRecorder : RGMockRecorder
 
 + (id)mockRecorderForClass:(Class)cls;
