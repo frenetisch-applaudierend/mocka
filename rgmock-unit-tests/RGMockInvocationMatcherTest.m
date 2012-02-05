@@ -121,4 +121,30 @@
     STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
 }
 
+- (void)testThatMatcherMatchesEqualC99BoolArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithCBool1:CBool2:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, false, true];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, false, true];
+    
+    // then
+    STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
+}
+
+- (void)testThatMatcherDoesNotMatchDifferentC99BoolArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithCBool1:CBool2:);
+    NSInvocation *invocation   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, false,  true];
+    NSInvocation *nonMatching1 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, false, false];
+    NSInvocation *nonMatching2 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  true,  true];
+    NSInvocation *nonMatching3 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  true, false];
+    
+    // then
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching1], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching2], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
+}
+
 @end

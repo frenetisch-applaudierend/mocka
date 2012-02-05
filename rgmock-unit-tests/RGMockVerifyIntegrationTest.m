@@ -49,9 +49,7 @@
 - (void)testThatVerifySucceedsIfAllObjectParametersAreEqual {
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
-    id object1 = @"<object1>";
-    id object2 = @"<object2>";
-    id object3 = @"<object3>";
+    id object1 = @"<object1>", object2 = @"<object2>", object3 = @"<object3>";
     
     // when
     [mockTest methodCallWithObject1:object1 object2:object2 object3:object3];
@@ -63,9 +61,7 @@
 - (void)testThatVerifyFailsIfAllObjectParametersAreEqual {
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
-    id object1 = @"<object1>";
-    id object2 = @"<object2>";
-    id object3 = @"<object3>";
+    id object1 = @"<object1>", object2 = @"<object2>", object3 = @"<object3>";
     
     // when
     [mockTest methodCallWithObject1:object1 object2:object2 object3:object3];
@@ -88,13 +84,31 @@
 - (void)testThatVerifySucceedsIfAllBoolParametersAreEqual {
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
-    BOOL bool1 = YES, bool2 = NO;
     
     // when
-    [mockTest methodCallWithBool1:bool1 bool2:bool2];
+    [mockTest methodCallWithBool1:YES bool2:NO];
     
     // then
-    STAssertNoThrow([verify(mockTest) methodCallWithBool1:bool1 bool2:bool2], @"Verify failed");
+    STAssertNoThrow([verify(mockTest) methodCallWithBool1:YES bool2:NO], @"Verify failed");
+}
+
+- (void)testThatVerifyFailsIfNotAllBoolParametersAreEqual {
+    // given
+    MockTestObject *mockTest = classMock(MockTestObject.class);
+    
+    // when
+    [mockTest methodCallWithBool1:YES bool2:NO];
+    
+    // then
+    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithBool1:NO bool2:NO],
+                                NSException, SenTestFailureException,
+                                @"Verify should have failed as a test failure");
+    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithBool1:NO bool2:YES],
+                                NSException, SenTestFailureException,
+                                @"Verify should have failed as a test failure");
+    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithBool1:YES bool2:YES],
+                                NSException, SenTestFailureException,
+                                @"Verify should have failed as a test failure");
 }
 
 @end

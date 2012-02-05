@@ -15,6 +15,7 @@
 
 - (void)methodCallWithBool1:(BOOL)bool1 bool2:(BOOL)bool2;
 - (void)methodCallWithCBool1:(_Bool)bool1 CBool2:(_Bool)bool2;
-- (void)methodCallWithCppBool1:(bool)bool1 CppBool2:(bool)bool2;
+
+- (void)methodCallWithInt1:(int)int1 int2:(int)int2;
 
 @end
