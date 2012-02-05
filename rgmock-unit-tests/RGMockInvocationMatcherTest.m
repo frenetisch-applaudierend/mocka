@@ -147,4 +147,96 @@
     STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
 }
 
+
+#pragma mark - Test Matching of Int Arguments
+
+- (void)testThatMatcherMatchesEqualIntArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithInt1:int2:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, -10, -20];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, -10, -20];
+    
+    // then
+    STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
+}
+
+- (void)testThatMatcherDoesNotMatchDifferentIntArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithInt1:int2:);
+    NSInvocation *invocation   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  -0, -10];
+    NSInvocation *nonMatching1 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  -0,  -0];
+    NSInvocation *nonMatching2 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, -10, -10];
+    NSInvocation *nonMatching3 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, -10,  -0];
+    
+    // then
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching1], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching2], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
+}
+
+- (void)testThatMatcherMatchesEqualUintArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithUInt1:UInt2:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, 10, 20];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, 10, 20];
+    
+    // then
+    STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
+}
+
+- (void)testThatMatcherDoesNotMatchDifferentUIntArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithUInt1:UInt2:);
+    NSInvocation *invocation   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  0, 10];
+    NSInvocation *nonMatching1 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,  0,  0];
+    NSInvocation *nonMatching2 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, 10, 10];
+    NSInvocation *nonMatching3 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, 10,  0];
+    
+    // then
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching1], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching2], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
+}
+
+
+#pragma mark - Test Matching of C String Arguments
+
+- (void)testThatMatcherMatchesEqualCStringArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithCString1:CString2:);
+    char *string1 = malloc(12 * sizeof(char)); strncpy(string1, "Hello World", 12);
+    char *string2 = malloc(12 * sizeof(char)); strncpy(string2, "Hello World", 12);
+    
+    NSInvocation *invocation = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, string1, NULL];
+    NSInvocation *matching   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, string2, NULL];
+    
+    // then
+    STAssertTrue([matcher invocation:invocation matchesInvocation:matching], @"Matching invocations didn't match");
+    free(string1);
+    free(string2);
+}
+
+- (void)testThatMatcherDoesNotMatchDifferentCStringArguments {
+    // given
+    MockTestObject *someTarget = [[MockTestObject alloc] init];
+    SEL selector = @selector(methodCallWithCString1:CString2:);
+    char *string1 = malloc(12 * sizeof(char)); strncpy(string1, "Hello World", 12);
+    char *string2 = malloc(12 * sizeof(char)); strncpy(string2, "World Hello", 12);
+    
+    NSInvocation *invocation   = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, string1, string2];
+    NSInvocation *nonMatching1 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, string1, string1];
+    NSInvocation *nonMatching2 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector, string2, string2];
+    NSInvocation *nonMatching3 = [NSInvocation invocationForTarget:someTarget selectorAndArguments:selector,    NULL,    NULL];
+    
+    // then
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching1], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching2], @"Non matching invocations did match");
+    STAssertFalse([matcher invocation:invocation matchesInvocation:nonMatching3], @"Non matching invocations did match");
+}
+
 @end

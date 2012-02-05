@@ -81,34 +81,32 @@
 
 #pragma mark - Test Verification with Primitive Types
 
-- (void)testThatVerifySucceedsIfAllBoolParametersAreEqual {
+- (void)testThatVerifySucceedsIfAllPrimitiveParametersAreEqual {
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
     
     // when
     [mockTest methodCallWithBool1:YES bool2:NO];
+    [mockTest methodCallWithInt1:10 int2:20];
     
     // then
     STAssertNoThrow([verify(mockTest) methodCallWithBool1:YES bool2:NO], @"Verify failed");
+    STAssertNoThrow([verify(mockTest) methodCallWithInt1:10 int2:20], @"Verify failed");
 }
 
-- (void)testThatVerifyFailsIfNotAllBoolParametersAreEqual {
+- (void)testThatVerifyFailsIfNotAllPrimitiveParametersAreEqual {
     // given
     MockTestObject *mockTest = classMock(MockTestObject.class);
     
     // when
     [mockTest methodCallWithBool1:YES bool2:NO];
+    [mockTest methodCallWithInt1:10 int2:20];
     
     // then
     STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithBool1:NO bool2:NO],
-                                NSException, SenTestFailureException,
-                                @"Verify should have failed as a test failure");
-    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithBool1:NO bool2:YES],
-                                NSException, SenTestFailureException,
-                                @"Verify should have failed as a test failure");
-    STAssertThrowsSpecificNamed([verify(mockTest) methodCallWithBool1:YES bool2:YES],
-                                NSException, SenTestFailureException,
-                                @"Verify should have failed as a test failure");
+                                NSException, SenTestFailureException, @"Verify should have failed as a test failure");
+    STAssertThrowsSpecificNamed([verify(mockTest)methodCallWithInt1:0 int2:0],
+                                NSException, SenTestFailureException, @"Verify should have failed as a test failure");
 }
 
 @end

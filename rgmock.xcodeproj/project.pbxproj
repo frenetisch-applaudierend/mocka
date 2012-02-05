@@ -17,8 +17,8 @@
 		2832CC9414D74F3100BE74C2 /* MockTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9314D74F3100BE74C2 /* MockTestObject.m */; };
 		2832CC9814D74F4800BE74C2 /* RGMockClassRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9714D74F4800BE74C2 /* RGMockClassRecorderTest.m */; };
 		2832CC9C14D74F6100BE74C2 /* RGMockRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9B14D74F6100BE74C2 /* RGMockRecorderTest.m */; };
-		2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; };
-		2832CCA314D74FAB00BE74C2 /* RGMockSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCA114D74FAB00BE74C2 /* RGMockSyntax.h */; };
+		2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2832CCA314D74FAB00BE74C2 /* RGMockSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCA114D74FAB00BE74C2 /* RGMockSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2832CCA414D74FAB00BE74C2 /* RGMockSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCA214D74FAB00BE74C2 /* RGMockSyntax.m */; };
 		2832CCA914D74FB500BE74C2 /* RGMockClassRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CCA514D74FB500BE74C2 /* RGMockClassRecorder.h */; };
 		2832CCAA14D74FB500BE74C2 /* RGMockClassRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCA614D74FB500BE74C2 /* RGMockClassRecorder.m */; };
@@ -246,8 +246,8 @@
 			files = (
 				2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */,
 				2832CCA314D74FAB00BE74C2 /* RGMockSyntax.h in Headers */,
-				2832CCA914D74FB500BE74C2 /* RGMockClassRecorder.h in Headers */,
 				2832CCAB14D74FB500BE74C2 /* RGMockRecorder.h in Headers */,
+				2832CCA914D74FB500BE74C2 /* RGMockClassRecorder.h in Headers */,
 				2832CCB014D7582B00BE74C2 /* RGMockVerifier.h in Headers */,
 				2802EFE714DE0250004EA5D0 /* RGMockInvocationMatcher.h in Headers */,
 			);
@@ -454,7 +454,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = rgmock;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -470,7 +470,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "rgmock/rgmock-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = rgmock;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

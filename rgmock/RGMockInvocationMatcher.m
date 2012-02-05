@@ -62,25 +62,46 @@ static BOOL equalTypes(const char *t1, const char *t2) {
 - (BOOL)argumentAtIndex:(NSUInteger)index withType:(const char *)argType
     isEqualInInvocation:(NSInvocation *)invocation1 andInvocation:(NSInvocation *)invocation2
 {
-    if (equalTypes(argType, @encode(id))) {
-        id value1, value2;
-        [invocation1 getArgument:&value1 atIndex:index];
-        [invocation2 getArgument:&value2 atIndex:index];
-        return (value1 != nil ? [value1 isEqual:value2] : value2 == nil);
-    } else if (equalTypes(argType, @encode(BOOL))) {
-        BOOL value1, value2;
-        [invocation1 getArgument:&value1 atIndex:index];
-        [invocation2 getArgument:&value2 atIndex:index];
-        return (value1 == value2);
-    } else if (equalTypes(argType, @encode(_Bool))) {
-        _Bool value1, value2;
-        [invocation1 getArgument:&value1 atIndex:index];
-        [invocation2 getArgument:&value2 atIndex:index];
-        return (value1 == value2);
-    } else {
-        NSString *reason = [NSString stringWithFormat:@"Cannot match argument at index %d with type %s", (index - 2), argType];
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
-    }
+    #define runChecks(...) __VA_ARGS__
+    #define checkMatchesPrimitive(t)\
+        if (equalTypes(argType, @encode(t))) {\
+            t v1, v2; [invocation1 getArgument:&v1 atIndex:index]; [invocation2 getArgument:&v2 atIndex:index]; return (v1 == v2);\
+        }
+    
+    runChecks(
+              // Handle objects specially
+              if (equalTypes(argType, @encode(id))) {
+                  id value1, value2;
+                  [invocation1 getArgument:&value1 atIndex:index];
+                  [invocation2 getArgument:&value2 atIndex:index];
+                  return (value1 != nil ? [value1 isEqual:value2] : value2 == nil);
+              }
+              
+              // Handle strings
+              else if (equalTypes(argType, @encode(char*))) {
+                  char *value1, *value2;
+                  [invocation1 getArgument:&value1 atIndex:index];
+                  [invocation2 getArgument:&value2 atIndex:index];
+                  return (value1 == value2 || (value1 != NULL && value2 != NULL && strcmp(value1, value2) == 0));
+              }
+              
+              // Handle other special types
+              else checkMatchesPrimitive(Class)     else checkMatchesPrimitive(SEL)
+              
+              // Handle primitive types
+              else checkMatchesPrimitive(BOOL)      else checkMatchesPrimitive(_Bool)
+              else checkMatchesPrimitive(char)      else checkMatchesPrimitive(unsigned char)
+              else checkMatchesPrimitive(int)       else checkMatchesPrimitive(unsigned int)
+              else checkMatchesPrimitive(short)     else checkMatchesPrimitive(unsigned short)
+              else checkMatchesPrimitive(long)      else checkMatchesPrimitive(unsigned long)
+              else checkMatchesPrimitive(long long) else checkMatchesPrimitive(unsigned long long)
+              else checkMatchesPrimitive(float)     else checkMatchesPrimitive(double)
+              
+              else {
+                  NSString *reason = [NSString stringWithFormat:@"Cannot match argument at index %d with type %s", (index - 2), argType];
+                  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
+              }
+    );
 }
 
 @end
