@@ -41,17 +41,20 @@ static BOOL equalTypes(const char *t1, const char *t2) {
         #define matchArg(t) if (equalTypes(argType, @encode(t))) { t arg = va_arg(args, t); [invocation setArgument:&arg atIndex:argIndex]; } \
                             else if (equalTypes(argType, @encode(t*))) { t* arg = va_arg(args, t*); [invocation setArgument:&arg atIndex:argIndex]; } \
                             else if (equalTypes(argType, @encode(t[]))) { t* arg = va_arg(args, t*); [invocation setArgument:&arg atIndex:argIndex]; }
+        #define matchArg2(t, t2) if (equalTypes(argType, @encode(t))) { t arg = (t)va_arg(args, t2); [invocation setArgument:&arg atIndex:argIndex]; } \
+                            else if (equalTypes(argType, @encode(t*))) { t* arg = va_arg(args, t*); [invocation setArgument:&arg atIndex:argIndex]; } \
+                            else if (equalTypes(argType, @encode(t[]))) { t* arg = va_arg(args, t*); [invocation setArgument:&arg atIndex:argIndex]; }
         const char *argType = [signature getArgumentTypeAtIndex:argIndex];
         
         matchArgs(
                   matchArg(__unsafe_unretained id) else matchArg(__unsafe_unretained Class) else matchArg(SEL)
-                  else matchArg(char) else matchArg(unsigned char)
+                  else matchArg2(char, int) else matchArg2(unsigned char, unsigned int)
                   else matchArg(int) else matchArg(unsigned int)
-                  else matchArg(short) else matchArg(unsigned short)
+                  else matchArg2(short, int) else matchArg2(unsigned short, unsigned int)
                   else matchArg(long) else matchArg(unsigned long)
                   else matchArg(long long) else matchArg(unsigned long long)
-                  else matchArg(float) else matchArg(double)
-                  else matchArg(_Bool) else matchArg(bool)
+                  else matchArg2(float, double) else matchArg(double)
+                  else matchArg2(_Bool, int) else matchArg2(bool, int)
         )
     }
     va_end(args);

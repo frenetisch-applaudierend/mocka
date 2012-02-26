@@ -308,7 +308,7 @@
 		28D7B38B14D74DE400D494FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "coresystems ag";
 			};
 			buildConfigurationList = 28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */;
