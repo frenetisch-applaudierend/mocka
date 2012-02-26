@@ -6,16 +6,12 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
+#import "RGMockContext.h"
+
 
 id mock_classMock(Class cls);
 id mock_spy(id<NSObject> object);
 
-id mock_verify_location(id mock, const char *fileName, int lineNumber);
-#define mock_verify(_mock_) mock_verify_location(_mock_, __FILE__, __LINE__)
+id mock_verify(RGMockContext *context, id mock);
 
-
-// Nice syntax
-#define classMock(...) mock_classMock(__VA_ARGS__)
-#define spy(...) mock_spy(__VA_ARGS__)
-
-#define verify(...) mock_verify(__VA_ARGS__)
+#define mock_ctx() [RGMockContext contextWithFileName:__FILE__ lineNumber:__LINE__]

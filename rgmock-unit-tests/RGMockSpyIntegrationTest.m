@@ -22,29 +22,29 @@
 - (void)testThatSimpleVerifySucceeds {
     // given
     MockTestObject *testObject = [[MockTestObject alloc] init];
-    MockTestObject *mockTest = spy(testObject);
+    MockTestObject *mockTest = mock_spy(testObject);
     
     // when
     [testObject simpleMethodCall];
     
     // then
-    STAssertNoThrow([verify(mockTest) simpleMethodCall], @"Verify failed");
-    STAssertNoThrow([verify(testObject) simpleMethodCall], @"Verify failed");
+    STAssertNoThrow([mock_verify(mock_ctx(), mockTest) simpleMethodCall], @"Verify failed");
+    STAssertNoThrow([mock_verify(mock_ctx(), testObject) simpleMethodCall], @"Verify failed");
 }
 
 - (void)testThatSimpleVerifyNotifiesFailure {
     // given
     MockTestObject *testObject = [[MockTestObject alloc] init];
-    MockTestObject *mockTest = spy(testObject);
+    MockTestObject *mockTest = mock_spy(testObject);
     
     // when
     // nothing happens
     
     // then
-    STAssertThrowsSpecificNamed([verify(mockTest) simpleMethodCall],
+    STAssertThrowsSpecificNamed([mock_verify(mock_ctx(), mockTest) simpleMethodCall],
                                 NSException, SenTestFailureException,
                                 @"Verify should have failed as a test failure");
-    STAssertThrowsSpecificNamed([verify(testObject) simpleMethodCall],
+    STAssertThrowsSpecificNamed([mock_verify(mock_ctx(), testObject) simpleMethodCall],
                                 NSException, SenTestFailureException,
                                 @"Verify should have failed as a test failure");
 }

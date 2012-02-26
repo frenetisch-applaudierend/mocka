@@ -28,9 +28,9 @@ id mock_spy(id<NSObject> object) {
 
 #pragma mark - Verifying Behavior
 
-id mock_verify_location(id mock, const char *fileName, int lineNumber) {
+id mock_verify(RGMockContext *context, id mock) {
     RGMockVerifier *verifier = [[RGMockVerifier alloc] initWithRecorder:[mock self]];
-    verifier.fileName = [NSString stringWithCString:fileName encoding:NSUTF8StringEncoding];
-    verifier.lineNumber = lineNumber;
+    verifier.fileName = context.fileName;
+    verifier.lineNumber = context.lineNumber;
     return verifier;
 }

@@ -28,6 +28,8 @@
 		2832CCB114D7582B00BE74C2 /* RGMockVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCAF14D7582B00BE74C2 /* RGMockVerifier.m */; };
 		2832CCB314D7595700BE74C2 /* RGMockVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CCB214D7595700BE74C2 /* RGMockVerifierTest.m */; };
 		2832CCB414D75D3E00BE74C2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
+		289A4D6814FA502F002B085D /* RGMockContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 289A4D6614FA502F002B085D /* RGMockContext.h */; };
+		289A4D6914FA502F002B085D /* RGMockContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 289A4D6714FA502F002B085D /* RGMockContext.m */; };
 		28A3BF0914DEEB16007EC6EC /* RGMockSpyRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 28A3BF0714DEEB16007EC6EC /* RGMockSpyRecorder.h */; };
 		28A3BF0A14DEEB16007EC6EC /* RGMockSpyRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A3BF0814DEEB16007EC6EC /* RGMockSpyRecorder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		28A3BF0D14DEEC0B007EC6EC /* RGMockSpyIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28A3BF0C14DEEC0B007EC6EC /* RGMockSpyIntegrationTest.m */; };
@@ -73,6 +75,8 @@
 		2832CCAE14D7582B00BE74C2 /* RGMockVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockVerifier.h; sourceTree = "<group>"; };
 		2832CCAF14D7582B00BE74C2 /* RGMockVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockVerifier.m; sourceTree = "<group>"; };
 		2832CCB214D7595700BE74C2 /* RGMockVerifierTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockVerifierTest.m; sourceTree = "<group>"; };
+		289A4D6614FA502F002B085D /* RGMockContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockContext.h; sourceTree = "<group>"; };
+		289A4D6714FA502F002B085D /* RGMockContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockContext.m; sourceTree = "<group>"; };
 		28A3BF0714DEEB16007EC6EC /* RGMockSpyRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockSpyRecorder.h; sourceTree = "<group>"; };
 		28A3BF0814DEEB16007EC6EC /* RGMockSpyRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSpyRecorder.m; sourceTree = "<group>"; };
 		28A3BF0C14DEEC0B007EC6EC /* RGMockSpyIntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSpyIntegrationTest.m; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 			children = (
 				2832CCA114D74FAB00BE74C2 /* RGMockSyntax.h */,
 				2832CCA214D74FAB00BE74C2 /* RGMockSyntax.m */,
+				289A4D6614FA502F002B085D /* RGMockContext.h */,
+				289A4D6714FA502F002B085D /* RGMockContext.m */,
 				2832CCA014D74F9500BE74C2 /* Recorder Objects */,
 				2832CCAD14D757DB00BE74C2 /* Verification */,
 			);
@@ -260,6 +266,7 @@
 				2832CCB014D7582B00BE74C2 /* RGMockVerifier.h in Headers */,
 				2802EFE714DE0250004EA5D0 /* RGMockInvocationMatcher.h in Headers */,
 				28A3BF0914DEEB16007EC6EC /* RGMockSpyRecorder.h in Headers */,
+				289A4D6814FA502F002B085D /* RGMockContext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +374,7 @@
 				2832CCB114D7582B00BE74C2 /* RGMockVerifier.m in Sources */,
 				2802EFE814DE0250004EA5D0 /* RGMockInvocationMatcher.m in Sources */,
 				28A3BF0A14DEEB16007EC6EC /* RGMockSpyRecorder.m in Sources */,
+				289A4D6914FA502F002B085D /* RGMockContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
