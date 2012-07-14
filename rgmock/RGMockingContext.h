@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
+@protocol RGMockVerificationHandler;
+
+
+#define mock_current_context() [RGMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
 
 typedef enum {
     RGMockingContextModeRecording,
@@ -27,13 +31,10 @@ typedef enum {
 
 #pragma mark - Handling Invocations
 
-@property (nonatomic, assign)   RGMockingContextMode  mode;
+@property (nonatomic, assign)   RGMockingContextMode           mode;
+@property (nonatomic, strong)   id<RGMockVerificationHandler>  verificationHandler;
+@property (nonatomic, readonly) NSArray                       *recordedInvocations;
 
 - (void)handleInvocation:(NSInvocation *)invocation;
 
 @end
-
-
-// Mocking Syntax
-
-#define mock_current_context() [RGMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]

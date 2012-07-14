@@ -10,3 +10,5 @@
 
 #import "RGMockKeywords.h"
 #import "RGMockingContext.h"
+
+#import "RGMockVerificationHandler.h"

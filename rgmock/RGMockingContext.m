@@ -23,7 +23,7 @@ static const NSUInteger RGMockingContextKey;
 
 
 @implementation RGMockingContext {
-    NSMutableArray *_registeredInvocations;
+    NSMutableArray *_recordedInvocations;
 }
 
 
@@ -48,7 +48,7 @@ static const NSUInteger RGMockingContextKey;
 
 - (id)init {
     if ((self = [super init])) {
-        _registeredInvocations = [NSMutableArray array];
+        _recordedInvocations = [NSMutableArray array];
     }
     return self;
 }
@@ -56,17 +56,21 @@ static const NSUInteger RGMockingContextKey;
 
 #pragma mark - Handling Invocations
 
+- (NSArray *)recordedInvocations {
+    return [_recordedInvocations copy];
+}
+
 - (void)handleInvocation:(NSInvocation *)invocation {
     if (self.mode == RGMockingContextModeVerifying) {
         self.mode = RGMockingContextModeRecording;
-        NSUInteger match = [_registeredInvocations indexOfObjectPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
+        NSUInteger match = [_recordedInvocations indexOfObjectPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
             return (candidate.target == invocation.target && candidate.selector == invocation.selector);
         }];
         if (match == NSNotFound) {
             @throw [NSException failureInFile:self.fileName atLine:self.lineNumber withDescription:@"Verify failed"];
         }
     } else {
-        [_registeredInvocations addObject:invocation];
+        [_recordedInvocations addObject:invocation];
     }
 }
 
