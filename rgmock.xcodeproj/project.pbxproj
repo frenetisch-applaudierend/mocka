@@ -26,6 +26,7 @@
 		28575E2115B209F20077ACFC /* RGMockInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E1F15B209F20077ACFC /* RGMockInvocationMatcher.m */; };
 		28575E2315B20A3A0077ACFC /* RGMockInvocationMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E2215B20A3A0077ACFC /* RGMockInvocationMatcherTest.m */; };
 		2872D87915AE0FB50017EB00 /* RGMockSyntaxExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 2872D87815AE0FB50017EB00 /* RGMockSyntaxExamples.m */; };
+		287544EA15B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 287544E915B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m */; };
 		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
 		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
@@ -65,6 +66,7 @@
 		28575E1F15B209F20077ACFC /* RGMockInvocationMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockInvocationMatcher.m; sourceTree = "<group>"; };
 		28575E2215B20A3A0077ACFC /* RGMockInvocationMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockInvocationMatcherTest.m; sourceTree = "<group>"; };
 		2872D87815AE0FB50017EB00 /* RGMockSyntaxExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSyntaxExamples.m; sourceTree = "<group>"; };
+		287544E915B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockDefaultVerificationHandlerTest.m; sourceTree = "<group>"; };
 		28D7B39414D74DE400D494FD /* librgmock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librgmock.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B39714D74DE400D494FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-Prefix.pch"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			children = (
 				28575E1515B1F4CE0077ACFC /* RGMockingContextTest.m */,
 				28575E2215B20A3A0077ACFC /* RGMockInvocationMatcherTest.m */,
+				287544E915B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m */,
 			);
 			name = "Unit Test Cases";
 			sourceTree = "<group>";
@@ -299,7 +302,7 @@
 		28D7B38B14D74DE400D494FD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "coresystems ag";
 			};
 			buildConfigurationList = 28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */;
@@ -370,6 +373,7 @@
 				28575DE015B1D6480077ACFC /* RGMockFunctionalTestCaseBase.m in Sources */,
 				28575E1615B1F4CE0077ACFC /* RGMockingContextTest.m in Sources */,
 				28575E2315B20A3A0077ACFC /* RGMockInvocationMatcherTest.m in Sources */,
+				287544EA15B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

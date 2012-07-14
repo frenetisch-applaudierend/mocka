@@ -57,6 +57,7 @@ static BOOL noMoreInteractionsOn(id mock) {
 - (void)testVerifySyntax {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
+    mock(@protocol(NSCoding));
     
     // when
     [array addObject:@"Foo"];

@@ -7,6 +7,8 @@
 //
 
 #import "RGMockDefaultVerificationHandler.h"
+#import "RGMockInvocationMatcher.h"
+
 
 @implementation RGMockDefaultVerificationHandler
 
@@ -24,8 +26,11 @@
 
 #pragma mark - Matching Invocations
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)invocation inRecordedInvocations:(NSArray *)recordedInvocations {
-    return nil;
+- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype inRecordedInvocations:(NSArray *)recordedInvocations {
+    NSUInteger index = [recordedInvocations indexOfObjectPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
+        return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype];
+    }];
+    return (index == NSNotFound ? [NSIndexSet indexSet] : [NSIndexSet indexSetWithIndex:index]);
 }
 
 @end

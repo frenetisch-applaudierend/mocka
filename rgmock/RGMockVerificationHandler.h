@@ -11,7 +11,7 @@
 
 @protocol RGMockVerificationHandler <NSObject>
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)invocation inRecordedInvocations:(NSArray *)recordedInvocations;
+- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype inRecordedInvocations:(NSArray *)recordedInvocations;
 
 @end
 
