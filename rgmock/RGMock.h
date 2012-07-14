@@ -8,4 +8,5 @@
 
 #import <Foundation/Foundation.h>
 
-#import "RGMockVerify.h"
+#import "RGMockKeywords.h"
+#import "RGMockingContext.h"

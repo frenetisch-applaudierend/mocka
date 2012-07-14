@@ -11,14 +11,13 @@
 		2832CC9414D74F3100BE74C2 /* MockTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2832CC9314D74F3100BE74C2 /* MockTestObject.m */; };
 		2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2832CCB414D75D3E00BE74C2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
-		28575DD815B1D4380077ACFC /* RGClassMockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DD715B1D4380077ACFC /* RGClassMockTest.m */; };
+		28575DD815B1D4380077ACFC /* RGClassMockFunctionalTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DD715B1D4380077ACFC /* RGClassMockFunctionalTest.m */; };
 		28575DDC15B1D5850077ACFC /* RGClassMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575DDA15B1D5850077ACFC /* RGClassMock.h */; };
 		28575DDD15B1D5850077ACFC /* RGClassMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DDB15B1D5850077ACFC /* RGClassMock.m */; };
 		28575DE015B1D6480077ACFC /* RGMockFunctionalTestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DDF15B1D6480077ACFC /* RGMockFunctionalTestCaseBase.m */; };
-		28575DE315B1D8100077ACFC /* RGMockVerify.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575DE115B1D8100077ACFC /* RGMockVerify.h */; };
-		28575DE415B1D8100077ACFC /* RGMockVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DE215B1D8100077ACFC /* RGMockVerify.m */; };
 		28575DEA15B1DB180077ACFC /* RGMockingContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575DE815B1DB180077ACFC /* RGMockingContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28575DEB15B1DB180077ACFC /* RGMockingContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DE915B1DB180077ACFC /* RGMockingContext.m */; };
+		28575E1415B1F3190077ACFC /* RGMockKeywords.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575E1315B1F3190077ACFC /* RGMockKeywords.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2872D87915AE0FB50017EB00 /* RGMockSyntaxExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 2872D87815AE0FB50017EB00 /* RGMockSyntaxExamples.m */; };
 		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
 		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
@@ -43,15 +42,14 @@
 		2832CC9214D74F3100BE74C2 /* MockTestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MockTestObject.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2832CC9314D74F3100BE74C2 /* MockTestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MockTestObject.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2832CC9D14D74F7C00BE74C2 /* RGMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMock.h; sourceTree = "<group>"; };
-		28575DD715B1D4380077ACFC /* RGClassMockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassMockTest.m; sourceTree = "<group>"; };
+		28575DD715B1D4380077ACFC /* RGClassMockFunctionalTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassMockFunctionalTest.m; sourceTree = "<group>"; };
 		28575DDA15B1D5850077ACFC /* RGClassMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGClassMock.h; sourceTree = "<group>"; };
 		28575DDB15B1D5850077ACFC /* RGClassMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassMock.m; sourceTree = "<group>"; };
 		28575DDE15B1D6480077ACFC /* RGMockFunctionalTestCaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockFunctionalTestCaseBase.h; sourceTree = "<group>"; };
 		28575DDF15B1D6480077ACFC /* RGMockFunctionalTestCaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockFunctionalTestCaseBase.m; sourceTree = "<group>"; };
-		28575DE115B1D8100077ACFC /* RGMockVerify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockVerify.h; sourceTree = "<group>"; };
-		28575DE215B1D8100077ACFC /* RGMockVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockVerify.m; sourceTree = "<group>"; };
 		28575DE815B1DB180077ACFC /* RGMockingContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockingContext.h; sourceTree = "<group>"; };
 		28575DE915B1DB180077ACFC /* RGMockingContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockingContext.m; sourceTree = "<group>"; };
+		28575E1315B1F3190077ACFC /* RGMockKeywords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockKeywords.h; sourceTree = "<group>"; };
 		2872D87815AE0FB50017EB00 /* RGMockSyntaxExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSyntaxExamples.m; sourceTree = "<group>"; };
 		28D7B39414D74DE400D494FD /* librgmock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librgmock.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B39714D74DE400D494FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -108,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				28575DEC15B1DB200077ACFC /* Mocking Core */,
-				28575DE515B1D81B0077ACFC /* Mocking Keywords */,
 				28575DED15B1DBE60077ACFC /* Mock Classes */,
 			);
 			name = Sources;
@@ -119,23 +116,15 @@
 			children = (
 				28575DDE15B1D6480077ACFC /* RGMockFunctionalTestCaseBase.h */,
 				28575DDF15B1D6480077ACFC /* RGMockFunctionalTestCaseBase.m */,
-				28575DD715B1D4380077ACFC /* RGClassMockTest.m */,
+				28575DD715B1D4380077ACFC /* RGClassMockFunctionalTest.m */,
 			);
 			name = "Functional Tests";
-			sourceTree = "<group>";
-		};
-		28575DE515B1D81B0077ACFC /* Mocking Keywords */ = {
-			isa = PBXGroup;
-			children = (
-				28575DE115B1D8100077ACFC /* RGMockVerify.h */,
-				28575DE215B1D8100077ACFC /* RGMockVerify.m */,
-			);
-			name = "Mocking Keywords";
 			sourceTree = "<group>";
 		};
 		28575DEC15B1DB200077ACFC /* Mocking Core */ = {
 			isa = PBXGroup;
 			children = (
+				28575E1315B1F3190077ACFC /* RGMockKeywords.h */,
 				28575DE815B1DB180077ACFC /* RGMockingContext.h */,
 				28575DE915B1DB180077ACFC /* RGMockingContext.m */,
 			);
@@ -228,8 +217,8 @@
 			files = (
 				2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */,
 				28575DDC15B1D5850077ACFC /* RGClassMock.h in Headers */,
-				28575DE315B1D8100077ACFC /* RGMockVerify.h in Headers */,
 				28575DEA15B1DB180077ACFC /* RGMockingContext.h in Headers */,
+				28575E1415B1F3190077ACFC /* RGMockKeywords.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28575DDD15B1D5850077ACFC /* RGClassMock.m in Sources */,
-				28575DE415B1D8100077ACFC /* RGMockVerify.m in Sources */,
 				28575DEB15B1DB180077ACFC /* RGMockingContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,7 +332,7 @@
 				2832CC9414D74F3100BE74C2 /* MockTestObject.m in Sources */,
 				2808760614DEA869004B6BE7 /* NSInvocation+TestSupport.m in Sources */,
 				2872D87915AE0FB50017EB00 /* RGMockSyntaxExamples.m in Sources */,
-				28575DD815B1D4380077ACFC /* RGClassMockTest.m in Sources */,
+				28575DD815B1D4380077ACFC /* RGClassMockFunctionalTest.m in Sources */,
 				28575DE015B1D6480077ACFC /* RGMockFunctionalTestCaseBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

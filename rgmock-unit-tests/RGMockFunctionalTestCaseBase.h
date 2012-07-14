@@ -12,7 +12,6 @@
 #define AssertDoesNotFail(...) @try { __VA_ARGS__ ; } @catch(id exception) { STFail(@"Failed with exception: %@", exception); }
 #define AssertFails(...) @try { __VA_ARGS__ ; STFail(@"This should have failed"); } @catch(id ignored) {}
 
-
 @interface RGMockFunctionalTestCaseBase : SenTestCase
 
 - (MockTestObject *)createMockTestObject;

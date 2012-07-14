@@ -10,7 +10,7 @@
 
 // Mocking Syntax
 #define MOCK_SHORTHAND
-#import "RGMockVerify.h"
+#import "RGMockKeywords.h"
 
 
 @implementation RGMockFunctionalTestCaseBase
