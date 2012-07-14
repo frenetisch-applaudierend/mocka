@@ -9,6 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "NSInvocation+TestSupport.h"
 #import "RGMockingContext.h"
+#import "RGMockDefaultVerificationHandler.h"
 
 
 @interface RGMockingContextTest : SenTestCase
@@ -63,8 +64,16 @@
 
 #pragma mark - Test Invocation Verification
 
-- (void)testThatHandleInvocationInVerificationModeCallsVerificationHandler {
+- (void)testThatSettingVerificationModeSetsDefaultVerificationHandler {
+    // given
+    context.verificationHandler = nil;
+    STAssertNil(context.verificationHandler, @"verificationHandler was stil set after setting to nil");
     
+    // when
+    context.mode = RGMockingContextModeVerifying;
+    
+    // then
+    STAssertEqualObjects(context.verificationHandler, [RGMockDefaultVerificationHandler defaultHandler], @"Not the expected verificationHanlder set");
 }
 
 @end

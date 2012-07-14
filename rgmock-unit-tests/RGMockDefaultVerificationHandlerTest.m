@@ -41,9 +41,11 @@
                                                      selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation inRecordedInvocations:recordedInvocations];
+    BOOL satisfied = YES;
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
+    STAssertFalse(satisfied, @"Should not be satisfied");
     STAssertTrue([indexes count] == 0, @"Non-matching invocation should result in empty set");
 }
 
@@ -57,9 +59,11 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation inRecordedInvocations:recordedInvocations];
+    BOOL satisfied = NO;
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
+    STAssertTrue(satisfied, @"Should be satisifed");
     STAssertTrue([indexes count] == 1, @"Should have only one result");
     STAssertTrue([indexes containsIndex:1], @"Index set did not contain the correct index");
 }
@@ -77,9 +81,11 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation inRecordedInvocations:recordedInvocations];
+    BOOL satisfied = NO;
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
+    STAssertTrue(satisfied, @"Should be satisifed");
     STAssertTrue([indexes count] == 1, @"Should have only one result");
     STAssertTrue([indexes containsIndex:1], @"Index set did not contain the correct index");
 }

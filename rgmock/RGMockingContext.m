@@ -7,6 +7,9 @@
 //
 
 #import "RGMockingContext.h"
+#import "RGMockVerificationHandler.h"
+#import "RGMockDefaultVerificationHandler.h"
+
 #import <objc/runtime.h>
 #import <SenTestingKit/SenTestingKit.h>
 
@@ -25,6 +28,8 @@ static const NSUInteger RGMockingContextKey;
 @implementation RGMockingContext {
     NSMutableArray *_recordedInvocations;
 }
+
+@synthesize mode = _mode;
 
 
 #pragma mark - Getting a Context
@@ -55,6 +60,13 @@ static const NSUInteger RGMockingContextKey;
 
 
 #pragma mark - Handling Invocations
+
+- (void)setMode:(RGMockingContextMode)newMode {
+    _mode = newMode;
+    if (newMode == RGMockingContextModeVerifying) {
+        self.verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
+    }
+}
 
 - (NSArray *)recordedInvocations {
     return [_recordedInvocations copy];
