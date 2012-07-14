@@ -51,6 +51,14 @@
                BlueprintName = "rgmock-unit-tests"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RGMockFunctionalTestCaseBase">
+               </Test>
+               <Test
+                  Identifier = "RGMockSyntaxExamples">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

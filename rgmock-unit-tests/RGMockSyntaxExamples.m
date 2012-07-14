@@ -40,6 +40,11 @@ static BOOL noMoreInteractionsOn(id mock) {
 
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 
+@interface NSObject (RGMockSyntaxExamples)
+- (void)fooWithBar:(id)bar baz:(float)baz;
+@end
+
+
 @interface RGMockSyntaxExamples : SenTestCase
 @end
 
@@ -59,6 +64,7 @@ static BOOL noMoreInteractionsOn(id mock) {
     // then
     verify [array addObject:@"Foo"];
 }
+
 
 #pragma mark - How about some stubbing?
 
@@ -290,12 +296,6 @@ static BOOL noMoreInteractionsOn(id mock) {
     ThisWillFail({
         verify noMoreInteractionsOn(arrayTwo);
     });
-}
-
-
-#pragma mark - Utils
-
-- (void)fooWithBar:(id)bar baz:(float)baz {
 }
 
 @end
