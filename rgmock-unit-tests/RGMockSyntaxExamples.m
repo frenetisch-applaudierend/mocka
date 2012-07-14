@@ -14,7 +14,7 @@ static id mock(id something) { return nil; }
 static BOOL returnObject(id obj) { return YES; }
 static BOOL returnInt(int value) { return YES; }
 static BOOL throwException(id ex) { return YES; }
-static BOOL callSelectorOnTarget(id target, SEL selector) { return YES; }
+static BOOL callTargetWithSelector(id target, SEL selector, ...) { return YES; }
 
 static int anyIntArg() { return 0; }
 static NSString* anyStringArg() { return nil; }
@@ -24,16 +24,21 @@ static NSString* anyStringArg() { return nil; }
 #define andDo ; if (YES)
 
 #define verify if (YES)
-#define verifyInOrder if (YES)
-#define verifyInStrictOrder if (YES)
+#define inOrder if (YES)
+#define inStrictOrder if (YES)
 
-#define verifyNoInteractionsOn(...) ((void)[NSArray arrayWithObjects:__VA_ARGS__, nil])
-#define verifyNoMoreInteractionsOn(...) ((void)[NSArray arrayWithObjects:__VA_ARGS__, nil])
+static BOOL noInteractionsOn(id mock) {
+    return YES;
+}
+static BOOL noMoreInteractionsOn(id mock) {
+    return YES;
+}
 
-#define exactlyOnce() if (YES)
+#define once if (YES)
 #define exactly(num) if (YES)
-#define never() if (YES)
+#define never if (YES)
 
+#define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 
 @interface RGMockSyntaxExamples : SenTestCase
 @end
@@ -44,7 +49,7 @@ static NSString* anyStringArg() { return nil; }
 
 #pragma mark - Let's verify some behaviour!
 
-- (void)testVerifySyntaxSingleLine {
+- (void)testVerifySyntax {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
@@ -53,44 +58,6 @@ static NSString* anyStringArg() { return nil; }
     
     // then
     verify [array addObject:@"Foo"];
-}
-
-- (void)testVerifySyntaxCompound {
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // when
-    [array addObject:@"Foo"];
-    [array removeAllObjects];
-    
-    // then
-    verify {
-        [array addObject:@"Foo"];
-        [array removeAllObjects];
-    }
-}
-
-- (void)testVerifyNormalContextDoesNotHaveMeaning {
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // when
-    [array addObject:@"Foo"];
-    [array addObject:@"Bar"];
-    
-    [array addObject:@"Foo"];
-    [array addObject:@"Bar"];
-    
-    // then
-    verify {
-        [array addObject:@"Foo"];
-        [array addObject:@"Bar"];
-    }
-    
-    verify [array addObject:@"Foo"];
-    verify [array addObject:@"Bar"];
-    
-    // both verification styles above have the same effects
 }
 
 #pragma mark - How about some stubbing?
@@ -99,10 +66,10 @@ static NSString* anyStringArg() { return nil; }
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
-    stub [array count]
-    andDo callSelectorOnTarget(self, @selector(description)) && returnInt(10); // concatenate actions with &&
+    stub [array count];
+    andDo callTargetWithSelector(self, @selector(description)) && returnInt(10); // concatenate actions with &&
     
-    // also possible to do a complete one-liner
+    // also possible to do a complete one-liner, no ';' needed for the stub method
     stub [array objectAtIndex:1] andDo throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
@@ -118,7 +85,7 @@ static NSString* anyStringArg() { return nil; }
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
     } andDo {
-        callSelectorOnTarget(self, @selector(description));
+        callTargetWithSelector(self, @selector(fooWithBar:baz:), @"Something", 2.0f);
         throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     } // more than one call in a stub { ... } applies the andDo { ... } actions to all of the calls
 
@@ -151,11 +118,9 @@ static NSString* anyStringArg() { return nil; }
     [array replaceObjectAtIndex:1234 withObject:@"New Object"];
     
     // then
-    verify {
-        [array objectAtIndex:anyIntArg()];
-        [array removeObjectAtIndex:anyIntArg()];
-        [array replaceObjectAtIndex:anyIntArg() withObject:anyStringArg()];
-    }
+    verify [array objectAtIndex:anyIntArg()];
+    verify [array removeObjectAtIndex:anyIntArg()];
+    verify [array replaceObjectAtIndex:anyIntArg() withObject:anyStringArg()];
 }
 
 
@@ -177,22 +142,21 @@ static NSString* anyStringArg() { return nil; }
     [array addObject:@"exactly twice alternative"];
     
     // then
-    verify {
-        // Exactly once is the same as exactly(1)
-        exactlyOnce() [array addObject:@"exactly once"];
-        exactly(1) [array addObject:@"exactly once alternative"];
-        
-        // Multiple times
-        exactly(2) [array addObject:@"exactly twice"];
-        
-        // Same as above, see also -testVerifyDifferenceBetweenExactlyAndNormalVerify
-        [array addObject:@"exactly twice alternative"];
-        [array addObject:@"exactly twice alternative"];
-        never() [array addObject:@"exactly twice alternative"];
-        
-        // Never means exactly this... ensure a call was not made
-        never() [array addObject:@"No such call"];
-    }
+    
+    // Once is the same as exactly(1)
+    verify once [array addObject:@"exactly once"];
+    verify exactly(1) [array addObject:@"exactly once alternative"];
+    
+    // Multiple times
+    verify exactly(2) [array addObject:@"exactly twice"];
+    
+    // Same as above, see also -testVerifyDifferenceBetweenExactlyAndNormalVerify
+    verify [array addObject:@"exactly twice alternative"];
+    verify [array addObject:@"exactly twice alternative"];
+    verify never [array addObject:@"exactly twice alternative"];
+    
+    // Never means exactly this... ensure a call was not made
+    verify never [array addObject:@"No such call"];
 }
 
 - (void)testVerifyDifferenceBetweenExactlyAndNormalVerify {
@@ -207,17 +171,14 @@ static NSString* anyStringArg() { return nil; }
     [array addObject:@"exactly once"];
     
     // then
-    verify {
-        // normal verification does not care if there are more calls (it's in effect an atLeast(1))
-        STAssertNoThrow([array addObject:@"normal verify once"], @"Behavior of normal verify is flawed");
-        
-        @try {
-            // exactly does care if there are more calls and will fail if there are any
-            exactly(1) [array addObject:@"exactly once"];
-            STFail(@"Behavior of exactly() verify is flawed");
-        }
-        @catch (id anything) {}
-    }
+    
+    // normal verification does not care if there are more calls (it's in effect an atLeast(1))
+    verify [array addObject:@"normal verify once"]; // this won't fail
+    
+    // exactly() does care if there are more calls and will fail if there are any
+    ThisWillFail({
+        verify exactly(1) [array addObject:@"exactly once"];
+    });
 }
 
 - (void)testVerifyPopsInvocationsFromStack {
@@ -231,13 +192,16 @@ static NSString* anyStringArg() { return nil; }
     [array addObject:@"Foobar"];
     
     // then
-    verify {
-        // normal verification does not care if there are more calls (it's in effect an atLeast(1))
-        STAssertNoThrow([array addObject:@"Foobar"], @"Push/pop of invocations is flawed"); // as long as there are pushed invocations succeed
-        STAssertNoThrow([array addObject:@"Foobar"], @"Push/pop of invocations is flawed"); // each verification pops the first matching invocation
-        STAssertThrows([array addObject:@"Foobar"], @"Push/pop of invocations is flawed");  // verify will fail if no matching invocation is on the stack
-    }
+    
+    // normal verification does not care if there are more calls than verified (it's in effect an atLeast(1))
+    // it will fail if there are more verifys than calls though
+    verify [array addObject:@"Foobar"]; // as long as there are pushed invocations succeed
+    verify [array addObject:@"Foobar"]; // each verification pops the first matching invocation
+    ThisWillFail({
+        verify [array addObject:@"Foobar"]; // verify will fail if no matching invocation is on the stack
+    });
 }
+
 
 #pragma mark - Verification in order
 
@@ -253,12 +217,14 @@ static NSString* anyStringArg() { return nil; }
     [array addObject:@"Fourth"];
     
     // then
-    verifyInOrder {
-        [array addObject:@"First"];  // ok - in sequence
-        [array addObject:@"Second"]; // ok - in sequence
+    inOrder {
+        verify [array addObject:@"First"];  // ok - in sequence
+        verify [array addObject:@"Second"]; // ok - in sequence
         //[array addObject:@"Out of sequence but not tested"]; not verified
-        [array addObject:@"Fourth"]; // ok - in sequence relative to previous verified call
-        STAssertThrows([array addObject:@"Third"], @"verifyInOrder allows out of sequence calls"); // not ok - not in sequence relative to previous verified call
+        verify [array addObject:@"Fourth"]; // ok - in sequence relative to previous verified call
+        ThisWillFail({
+            verify [array addObject:@"Third"]; // not ok - not in sequence relative to previous verified call
+        });
     }
 }
 
@@ -274,12 +240,16 @@ static NSString* anyStringArg() { return nil; }
     [array addObject:@"Fourth"];
     
     // then
-    verifyInStrictOrder {
-        [array addObject:@"First"];  // ok - in sequence
-        [array addObject:@"Second"]; // ok - in sequence
+    inStrictOrder {
+        verify [array addObject:@"First"];  // ok - in sequence
+        verify [array addObject:@"Second"]; // ok - in sequence
         //[array addObject:@"Out of sequence but not tested"]; not verified
-        STAssertThrows([array addObject:@"Third"], @"verifyInStrictOrder allows out of sequence calls"); // not ok - not in sequence relative to all recorded calls
-        STAssertThrows([array addObject:@"Fourth"], @"verifyInStrictOrder allows out of sequence calls"); // not ok - not in sequence relative to all recorded calls
+        ThisWillFail({
+            verify [array addObject:@"Third"]; // not ok - not in sequence relative to all recorded calls
+        });
+        ThisWillFail({
+            verify [array addObject:@"Fourth"]; // not ok - not in sequence relative to all recorded calls
+        });
     }
 }
 
@@ -296,8 +266,11 @@ static NSString* anyStringArg() { return nil; }
     [arrayThree removeAllObjects];
     
     // then
-    verifyNoInteractionsOn(arrayOne, arrayTwo);
-    STAssertThrows(verifyNoInteractionsOn(arrayThree), @"verifyNoInteractionsOn() is flawed");
+    verify noInteractionsOn(arrayOne);
+    verify noInteractionsOn(arrayTwo);
+    ThisWillFail({
+        verify noInteractionsOn(arrayThree);
+    });
 }
 
 - (void)testVerifyNoMoreInteractionsOn {
@@ -311,12 +284,18 @@ static NSString* anyStringArg() { return nil; }
     [arrayTwo removeAllObjects];
     
     // then
-    verify {
-        [arrayOne addObject:@"Foo"];
-        [arrayTwo addObject:@"Foo"];
-    }
-    verifyNoMoreInteractionsOn(arrayOne);
-    STAssertThrows(verifyNoMoreInteractionsOn(arrayTwo), @"verifyNoMoreInteractionsOn() is flawed");
+    verify [arrayOne addObject:@"Foo"];
+    verify [arrayTwo addObject:@"Foo"];
+    verify noMoreInteractionsOn(arrayOne);
+    ThisWillFail({
+        verify noMoreInteractionsOn(arrayTwo);
+    });
+}
+
+
+#pragma mark - Utils
+
+- (void)fooWithBar:(id)bar baz:(float)baz {
 }
 
 @end
