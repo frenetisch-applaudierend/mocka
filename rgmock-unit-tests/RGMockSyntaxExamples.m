@@ -8,8 +8,9 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
+#define MOCK_SHORTHAND
+#import "RGMock.h"
 
-static id mock(id something) { return nil; }
 
 static BOOL returnObject(id obj) { return YES; }
 static BOOL returnInt(int value) { return YES; }
@@ -23,7 +24,6 @@ static NSString* anyStringArg() { return nil; }
 #define stub if (YES)
 #define andDo ; if (YES)
 
-#define verify if (YES)
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
 

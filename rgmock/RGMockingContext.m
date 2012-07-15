@@ -73,17 +73,28 @@ static const NSUInteger RGMockingContextKey;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    if (self.mode == RGMockingContextModeVerifying) {
-        self.mode = RGMockingContextModeRecording;
-        NSUInteger match = [_recordedInvocations indexOfObjectPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
-            return (candidate.target == invocation.target && candidate.selector == invocation.selector);
-        }];
-        if (match == NSNotFound) {
-            @throw [NSException failureInFile:self.fileName atLine:self.lineNumber withDescription:@"Verify failed"];
-        }
+    if (self.mode == RGMockingContextModeRecording) {
+        [self recordInvocation:invocation];
+    } else if (self.mode == RGMockingContextModeVerifying) {
+        [self verifyInvocation:invocation];
     } else {
-        [_recordedInvocations addObject:invocation];
+        NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }
+}
+
+- (void)recordInvocation:(NSInvocation *)invocation {
+    [_recordedInvocations addObject:invocation];
+}
+
+- (void)verifyInvocation:(NSInvocation *)invocation {
+    BOOL satisfied = NO;
+    NSIndexSet *matchingIndexes = [self.verificationHandler indexesMatchingInvocation:invocation
+                                                                inRecordedInvocations:self.recordedInvocations
+                                                                            satisfied:&satisfied];
+    if (!satisfied) {
+        @throw [NSException failureInFile:self.fileName atLine:self.lineNumber withDescription:@"Verify failed"];
+    }
+    [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
 }
 
 @end

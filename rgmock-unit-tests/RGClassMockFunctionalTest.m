@@ -9,7 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "RGMockFunctionalTestCaseBase.h"
 #import "RGMockingContext.h"
-#import "RGClassMock.h"
+#import "RGClassAndProtocolMock.h"
 
 
 @interface RGClassMockFunctionalTest : RGMockFunctionalTestCaseBase
@@ -18,7 +18,7 @@
 @implementation RGClassMockFunctionalTest
 
 - (MockTestObject *)createMockTestObject {
-    return mock_classMock([MockTestObject class]);
+    return mock_mock([MockTestObject class]);
 }
 
 @end

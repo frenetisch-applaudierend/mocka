@@ -7,6 +7,7 @@
 //
 
 #import "RGMockFunctionalTestCaseBase.h"
+#import "RGMockTestingUtils.h"
 
 // Mocking Syntax
 #define MOCK_SHORTHAND
@@ -44,6 +45,39 @@
     MockTestObject *object = [self createMockTestObject];
     
     // then
+    AssertFails({
+        verify [object voidMethodCallWithoutParameters];
+    });
+}
+
+- (void)testThatVerifySucceedsForTwoCallsAndTwoVerifies {
+    // given
+    MockTestObject *object = [self createMockTestObject];
+    
+    // when
+    [object voidMethodCallWithoutParameters];
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithoutParameters];
+    });
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithoutParameters];
+    });
+}
+
+- (void)testThatVerifyFailsIfAppliedTwiceToOneCall {
+    // given
+    MockTestObject *object = [self createMockTestObject];
+    
+    // when
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithoutParameters];
+    });
     AssertFails({
         verify [object voidMethodCallWithoutParameters];
     });
