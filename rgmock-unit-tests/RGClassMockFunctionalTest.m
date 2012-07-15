@@ -8,8 +8,8 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "RGMockFunctionalTestCaseBase.h"
-#import "RGMockingContext.h"
-#import "RGClassAndProtocolMock.h"
+#import "RGMockContext.h"
+#import "RGMockClassAndProtocolMock.h"
 
 
 @interface RGClassMockFunctionalTest : RGMockFunctionalTestCaseBase

@@ -9,7 +9,7 @@
 @protocol RGMockVerificationHandler;
 
 
-#define mock_current_context() [RGMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
+#define mock_current_context() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
 
 typedef enum {
     RGMockingContextModeRecording,
@@ -17,7 +17,7 @@ typedef enum {
 } RGMockingContextMode;
 
 
-@interface RGMockingContext : NSObject
+@interface RGMockContext : NSObject
 
 #pragma mark - Getting a Context
 

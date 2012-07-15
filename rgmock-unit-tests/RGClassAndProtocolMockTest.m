@@ -8,7 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "FakeMockingContext.h"
-#import "RGClassAndProtocolMock.h"
+#import "RGMockClassAndProtocolMock.h"
 
 
 @interface RGClassAndProtocolMockTest : SenTestCase
@@ -21,7 +21,7 @@
 - (void)testThatForwardInvocationCallsMockingContextsHandleInvocation {
     // given
     FakeMockingContext *fakeContext = [FakeMockingContext fakeContext];
-    RGClassAndProtocolMock *mock = [[RGClassAndProtocolMock alloc] initWithContext:(id)fakeContext classAndProtocols:nil];
+    RGMockClassAndProtocolMock *mock = [[RGMockClassAndProtocolMock alloc] initWithContext:(id)fakeContext classAndProtocols:nil];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
     
     // when

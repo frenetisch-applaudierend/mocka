@@ -6,22 +6,22 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "RGClassAndProtocolMock.h"
-#import "RGMockingContext.h"
+#import "RGMockClassAndProtocolMock.h"
+#import "RGMockContext.h"
 
 
-@implementation RGClassAndProtocolMock {
-    RGMockingContext *_mockingContext;
+@implementation RGMockClassAndProtocolMock {
+    RGMockContext *_mockingContext;
     Class             _mockedClass;
 }
 
 #pragma mark - Initialization
 
-+ (id)mockWithContext:(RGMockingContext *)context classAndProtocols:(NSArray *)sourceList {
++ (id)mockWithContext:(RGMockContext *)context classAndProtocols:(NSArray *)sourceList {
     return [[self alloc] initWithContext:context classAndProtocols:sourceList];
 }
 
-- (id)initWithContext:(RGMockingContext *)context classAndProtocols:(NSArray *)sourceList {
+- (id)initWithContext:(RGMockContext *)context classAndProtocols:(NSArray *)sourceList {
     if ((self = [super init])) {
         _mockingContext = context;
         _mockedClass = [sourceList lastObject];

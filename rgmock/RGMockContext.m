@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "RGMockingContext.h"
+#import "RGMockContext.h"
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
 
@@ -17,7 +17,7 @@
 static const NSUInteger RGMockingContextKey;
 
 
-@interface RGMockingContext ()
+@interface RGMockContext ()
 
 @property (nonatomic, readwrite, copy)   NSString *fileName;
 @property (nonatomic, readwrite, assign) int       lineNumber;
@@ -25,7 +25,7 @@ static const NSUInteger RGMockingContextKey;
 @end
 
 
-@implementation RGMockingContext {
+@implementation RGMockContext {
     NSMutableArray *_recordedInvocations;
 }
 
@@ -38,9 +38,9 @@ static const NSUInteger RGMockingContextKey;
     NSParameterAssert(testCase != nil);
     
     // Get the context or create a new one if necessary
-    RGMockingContext *context = objc_getAssociatedObject(testCase, &RGMockingContextKey);
+    RGMockContext *context = objc_getAssociatedObject(testCase, &RGMockingContextKey);
     if (context == nil) {
-        context = [[RGMockingContext alloc] init];
+        context = [[RGMockContext alloc] init];
         objc_setAssociatedObject(testCase, &RGMockingContextKey, context, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     

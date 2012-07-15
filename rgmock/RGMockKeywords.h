@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "RGMockingContext.h"
+#import "RGMockContext.h"
 
 
 #pragma mark - Verify
@@ -16,7 +16,7 @@
 #endif
 #define mock_verify if (mock_set_verify(mock_current_context()))
 
-static BOOL mock_set_verify(RGMockingContext *context) {
+static BOOL mock_set_verify(RGMockContext *context) {
     context.mode = RGMockingContextModeVerifying;
     return YES;
 }
