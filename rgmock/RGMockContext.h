@@ -23,10 +23,12 @@ typedef enum {
 
 + (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line;
 
-#pragma mark - File Information
+#pragma mark - File Information and Handling Failures
 
 @property (nonatomic, readonly, copy)   NSString *fileName;
 @property (nonatomic, readonly, assign) int       lineNumber;
+
+- (void)failWithReason:(NSString *)reason;
 
 
 #pragma mark - Handling Invocations

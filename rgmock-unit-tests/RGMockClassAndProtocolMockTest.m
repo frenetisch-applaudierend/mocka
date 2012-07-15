@@ -20,12 +20,13 @@
 #pragma mark - Test Initializer
 
 - (void)testThatInitializerFailsForEmptyClassOrProtocolList {
-    STAssertThrows([RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[]], @"Should fail for empty class and protocol list");
+    STAssertThrows([RGMockClassAndProtocolMock mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:@[]],
+                   @"Should fail for empty class and protocol list");
 }
 
 - (void)testThatInitializerFailsIfObjectIsPassedWhichIsNotClassOrProtocol {
     NSArray *invalidClassOrProtocolList = @[ [MockTestObject class], @protocol(NSCoding), @"Fail here" ];
-    STAssertThrows([RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:invalidClassOrProtocolList],
+    STAssertThrows([RGMockClassAndProtocolMock mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:invalidClassOrProtocolList],
                    @"Should fail for empty class and protocol list");
 }
 

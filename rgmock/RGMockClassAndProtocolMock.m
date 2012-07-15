@@ -29,13 +29,11 @@ static BOOL isClass(id obj);
 - (id)initWithContext:(RGMockContext *)context classAndProtocols:(NSArray *)sourceList {
     // Sanity check on the source list
     if ([sourceList count] == 0) {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Need at least one class or protocol for mocking" userInfo:nil];
+        [context failWithReason:@"Need at least one class or protocol for mocking"];
     }
     for (id object in sourceList) {
         if (!(isProtocol(object) || isClass(object))) {
-            @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"
-                                         userInfo:nil];
+            [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
         }
     }
     

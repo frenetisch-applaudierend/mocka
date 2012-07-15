@@ -59,6 +59,13 @@ static const NSUInteger RGMockingContextKey;
 }
 
 
+#pragma mark - Handling Failures
+
+- (void)failWithReason:(NSString *)reason {
+    @throw [NSException failureInFile:self.fileName atLine:self.lineNumber withDescription:@"%@", reason];
+}
+
+
 #pragma mark - Handling Invocations
 
 - (void)setMode:(RGMockingContextMode)newMode {
@@ -92,7 +99,7 @@ static const NSUInteger RGMockingContextKey;
                                                                 inRecordedInvocations:self.recordedInvocations
                                                                             satisfied:&satisfied];
     if (!satisfied) {
-        @throw [NSException failureInFile:self.fileName atLine:self.lineNumber withDescription:@"Verify failed"];
+        [self failWithReason:@"Verify failed"];
     }
     [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
 }

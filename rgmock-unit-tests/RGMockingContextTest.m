@@ -50,6 +50,23 @@
 }
 
 
+#pragma mark - Test Error Reporting
+
+- (void)testThatFailWithReasonCreatesSenTestException {
+    RGMockContext *ctx = [RGMockContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
+    @try {
+        [ctx failWithReason:@"Test reason"];
+        STFail(@"Should have thrown");
+    }
+    @catch (NSException *exception) {
+        STAssertEqualObjects(exception.name, SenTestFailureException, @"Wrong exception name");
+        STAssertEqualObjects(exception.reason, @"Test reason", @"Wrong exception reason");
+        STAssertEqualObjects([exception.userInfo objectForKey:SenTestFilenameKey], @"Foo", @"Wrong filename reported");
+        STAssertEqualObjects([exception.userInfo objectForKey:SenTestLineNumberKey], @10, @"Wrong line number reported");
+    }
+}
+
+
 #pragma mark - Test Invocation Recording
 
 - (void)testThatHandlingInvocationInRecordingModeAddsToRecordedInvocations {
