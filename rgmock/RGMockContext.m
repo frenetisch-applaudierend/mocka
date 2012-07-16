@@ -29,8 +29,6 @@ static const NSUInteger RGMockingContextKey;
     NSMutableArray *_recordedInvocations;
 }
 
-@synthesize mode = _mode;
-
 
 #pragma mark - Getting a Context
 
@@ -68,11 +66,12 @@ static const NSUInteger RGMockingContextKey;
 
 #pragma mark - Handling Invocations
 
-- (void)setMode:(RGMockingContextMode)newMode {
+- (BOOL)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
-    if (newMode == RGMockingContextModeVerifying) {
+    if (newMode == RGMockContextModeVerifying) {
         self.verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
     }
+    return YES;
 }
 
 - (NSArray *)recordedInvocations {
@@ -80,9 +79,9 @@ static const NSUInteger RGMockingContextKey;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    if (self.mode == RGMockingContextModeRecording) {
+    if (self.mode == RGMockContextModeRecording) {
         [self recordInvocation:invocation];
-    } else if (self.mode == RGMockingContextModeVerifying) {
+    } else if (self.mode == RGMockContextModeVerifying) {
         [self verifyInvocation:invocation];
     } else {
         NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);

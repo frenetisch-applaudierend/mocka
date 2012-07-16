@@ -15,7 +15,7 @@
 		28575DEA15B1DB180077ACFC /* RGMockContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575DE815B1DB180077ACFC /* RGMockContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28575DEB15B1DB180077ACFC /* RGMockContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DE915B1DB180077ACFC /* RGMockContext.m */; };
 		28575E1415B1F3190077ACFC /* RGMockKeywords.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575E1315B1F3190077ACFC /* RGMockKeywords.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		28575E1615B1F4CE0077ACFC /* RGMockingContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E1515B1F4CE0077ACFC /* RGMockingContextTest.m */; };
+		28575E1615B1F4CE0077ACFC /* RGMockContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E1515B1F4CE0077ACFC /* RGMockContextTest.m */; };
 		28575E1815B202440077ACFC /* RGMockVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575E1715B202440077ACFC /* RGMockVerificationHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28575E1C15B205720077ACFC /* RGMockDefaultVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575E1A15B205720077ACFC /* RGMockDefaultVerificationHandler.h */; };
 		28575E1D15B205720077ACFC /* RGMockDefaultVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E1B15B205720077ACFC /* RGMockDefaultVerificationHandler.m */; };
@@ -57,7 +57,7 @@
 		28575DE815B1DB180077ACFC /* RGMockContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockContext.h; sourceTree = "<group>"; };
 		28575DE915B1DB180077ACFC /* RGMockContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockContext.m; sourceTree = "<group>"; };
 		28575E1315B1F3190077ACFC /* RGMockKeywords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockKeywords.h; sourceTree = "<group>"; };
-		28575E1515B1F4CE0077ACFC /* RGMockingContextTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockingContextTest.m; sourceTree = "<group>"; };
+		28575E1515B1F4CE0077ACFC /* RGMockContextTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockContextTest.m; sourceTree = "<group>"; };
 		28575E1715B202440077ACFC /* RGMockVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockVerificationHandler.h; sourceTree = "<group>"; };
 		28575E1A15B205720077ACFC /* RGMockDefaultVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockDefaultVerificationHandler.h; sourceTree = "<group>"; };
 		28575E1B15B205720077ACFC /* RGMockDefaultVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockDefaultVerificationHandler.m; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		2832CC9614D74F3900BE74C2 /* Unit Test Cases */ = {
 			isa = PBXGroup;
 			children = (
-				28575E1515B1F4CE0077ACFC /* RGMockingContextTest.m */,
+				28575E1515B1F4CE0077ACFC /* RGMockContextTest.m */,
 				28575E2215B20A3A0077ACFC /* RGMockInvocationMatcherTest.m */,
 				287544E915B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m */,
 				2857B57715B328EA00D64D27 /* RGMockClassAndProtocolMockTest.m */,
@@ -398,7 +398,7 @@
 			files = (
 				2872D87915AE0FB50017EB00 /* RGMockSyntaxExamples.m in Sources */,
 				28575DD815B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest_ClassMock.m in Sources */,
-				28575E1615B1F4CE0077ACFC /* RGMockingContextTest.m in Sources */,
+				28575E1615B1F4CE0077ACFC /* RGMockContextTest.m in Sources */,
 				28575E2315B20A3A0077ACFC /* RGMockInvocationMatcherTest.m in Sources */,
 				287544EA15B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m in Sources */,
 				2857B57415B23FF100D64D27 /* FakeVerificationHandler.m in Sources */,

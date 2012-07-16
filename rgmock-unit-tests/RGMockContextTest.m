@@ -15,11 +15,11 @@
 #import "RGMockDefaultVerificationHandler.h"
 
 
-@interface RGMockingContextTest : SenTestCase
+@interface RGMockContextTest : SenTestCase
 @end
 
 
-@implementation RGMockingContextTest {
+@implementation RGMockContextTest {
     RGMockContext *context;
 }
 
@@ -71,7 +71,7 @@
 
 - (void)testThatHandlingInvocationInRecordingModeAddsToRecordedInvocations {
     // given
-    context.mode = RGMockingContextModeRecording;
+    [context updateContextMode:RGMockContextModeRecording];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -90,7 +90,7 @@
     STAssertNil(context.verificationHandler, @"verificationHandler was stil set after setting to nil");
     
     // when
-    context.mode = RGMockingContextModeVerifying;
+    [context updateContextMode:RGMockContextModeVerifying];
     
     // then
     STAssertEqualObjects(context.verificationHandler, [RGMockDefaultVerificationHandler defaultHandler], @"Not the expected verificationHanlder set");
@@ -98,7 +98,7 @@
 
 - (void)testThatHandlingInvocationInVerificationModeCallsVerificationHandler {
     // given
-    context.mode = RGMockingContextModeVerifying;
+    [context updateContextMode:RGMockContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
@@ -110,7 +110,7 @@
 
 - (void)testThatHandlingInvocationInVerificationModeThrowsIfHandlerIsNotSatisfied {
     // given
-    context.mode = RGMockingContextModeVerifying;
+    [context updateContextMode:RGMockContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
     
     // then
@@ -121,13 +121,13 @@
 
 - (void)testThatHandlingInvocationInVerificationModeRemovesMatchingInvocationsFromRecordedInvocations {
     // given
-    context.mode = RGMockingContextModeRecording;
+    [context updateContextMode:RGMockContextModeRecording];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]]; // record some calls
     STAssertEquals([context.recordedInvocations count], (NSUInteger)3, @"Calls were not recorded");
     
-    context.mode = RGMockingContextModeVerifying;
+    [context updateContextMode:RGMockContextModeVerifying];
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSetWithIndex:0]; [toRemove addIndex:2];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
     

@@ -12,9 +12,9 @@
 #define mock_current_context() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
 
 typedef enum {
-    RGMockingContextModeRecording,
-    RGMockingContextModeVerifying,
-} RGMockingContextMode;
+    RGMockContextModeRecording,
+    RGMockContextModeVerifying,
+} RGMockContextMode;
 
 
 @interface RGMockContext : NSObject
@@ -33,9 +33,11 @@ typedef enum {
 
 #pragma mark - Handling Invocations
 
-@property (nonatomic, assign)   RGMockingContextMode           mode;
+@property (nonatomic, readonly) RGMockContextMode              mode;
 @property (nonatomic, strong)   id<RGMockVerificationHandler>  verificationHandler;
 @property (nonatomic, readonly) NSArray                       *recordedInvocations;
+
+- (BOOL)updateContextMode:(RGMockContextMode)newMode;
 
 - (void)handleInvocation:(NSInvocation *)invocation;
 

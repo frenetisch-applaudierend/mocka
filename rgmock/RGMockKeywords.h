@@ -12,18 +12,12 @@
 #pragma mark - Verifying
 
 // Safe syntax
-#define mock_verify if (mock_set_verify(mock_current_context()))
+#define mock_verify if ([mock_current_context() updateContextMode:RGMockContextModeVerifying])
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
     #define verify mock_verify
 #endif
-
-// Helper Functions
-static BOOL mock_set_verify(RGMockContext *context) {
-    context.mode = RGMockingContextModeVerifying;
-    return YES;
-}
 
 
 #pragma mark - Stubbing
