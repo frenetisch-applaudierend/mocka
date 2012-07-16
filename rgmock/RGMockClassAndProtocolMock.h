@@ -21,6 +21,6 @@
 
 // Mocking Syntax
 #define mock_mock(cls, ...) [RGMockClassAndProtocolMock mockWithContext:mock_current_context() classAndProtocols:@[ cls, __VA_ARGS__ ]]
-#ifdef MOCK_SHORTHAND
+#ifndef MOCK_DISABLE_NICE_SYNTAX
 #define mock(cls, ...) mock_mock(cls, __VA_ARGS__)
 #endif

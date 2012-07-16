@@ -1,36 +1,39 @@
 //
-//  RGMockFunctionalTestCaseBase.m
+//  RGClassMockTest.m
 //  rgmock
 //
 //  Created by Markus Gasser on 14.07.12.
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "RGMockFunctionalTestCaseBase.h"
+#import <SenTestingKit/SenTestingKit.h>
 #import "RGMockTestingUtils.h"
+#import "MockTestObject.h"
 
-// Mocking Syntax
-#define MOCK_SHORTHAND
-#import "RGMockKeywords.h"
+#import "RGMock.h"
 
 
-@implementation RGMockFunctionalTestCaseBase
+#pragma mark - Functional Test for mocking a single Class
+
+@interface RGClassAndProtocolMockFunctionalTest_ClassMock : SenTestCase
+@end
+
+@implementation RGClassAndProtocolMockFunctionalTest_ClassMock {
+    MockTestObject *object;
+}
+
 
 #pragma mark - Setup
 
-- (MockTestObject *)createMockTestObject {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"This test class must not be executed, but overridden"
-                                 userInfo:nil];
+- (void)setUp {
+    [super setUp];
+    object = mock([MockTestObject class]);
 }
 
 
 #pragma mark - Test Simple Mock Call and Verify
 
 - (void)testThatVerifySucceedsForSimpleCall {
-    // given
-    MockTestObject *object = [self createMockTestObject];
-    
     // when
     [object voidMethodCallWithoutParameters];
     
@@ -41,9 +44,6 @@
 }
 
 - (void)testThatVerifyFailsForMissingMethodCall {
-    // given
-    MockTestObject *object = [self createMockTestObject];
-    
     // then
     AssertFails({
         verify [object voidMethodCallWithoutParameters];
@@ -51,9 +51,6 @@
 }
 
 - (void)testThatVerifySucceedsForTwoCallsAndTwoVerifies {
-    // given
-    MockTestObject *object = [self createMockTestObject];
-    
     // when
     [object voidMethodCallWithoutParameters];
     [object voidMethodCallWithoutParameters];
@@ -68,9 +65,6 @@
 }
 
 - (void)testThatVerifyFailsIfAppliedTwiceToOneCall {
-    // given
-    MockTestObject *object = [self createMockTestObject];
-    
     // when
     [object voidMethodCallWithoutParameters];
     
@@ -81,6 +75,13 @@
     AssertFails({
         verify [object voidMethodCallWithoutParameters];
     });
+}
+
+
+#pragma mark - Test Stubbing
+
+- (void)testThatStubbedReturnValueIsReturned {
+    stub [object intMethodCallWithoutParameters]; whichWill returnValue(@10);
 }
 
 @end

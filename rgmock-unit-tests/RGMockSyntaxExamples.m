@@ -7,22 +7,16 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-
-#define MOCK_SHORTHAND
 #import "RGMock.h"
 
 
-static BOOL returnObject(id obj) { return YES; }
-static BOOL returnInt(int value) { return YES; }
 static BOOL throwException(id ex) { return YES; }
 static BOOL callTargetWithSelector(id target, SEL selector, ...) { return YES; }
 
 static int anyIntArg() { return 0; }
 static NSString* anyStringArg() { return nil; }
 
-
-#define stub if (YES)
-#define andDo ; if (YES)
+#define call(...) throwException(^() { __VA_ARGS__ ; })
 
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
@@ -39,6 +33,7 @@ static BOOL noMoreInteractionsOn(id mock) {
 #define never if (YES)
 
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
+
 
 @interface NSObject (RGMockSyntaxExamples)
 - (void)fooWithBar:(id)bar baz:(float)baz;
@@ -74,10 +69,11 @@ static BOOL noMoreInteractionsOn(id mock) {
     NSMutableArray *array = mock([NSMutableArray class]);
     
     stub [array count];
-    andDo callTargetWithSelector(self, @selector(description)) && returnInt(10); // concatenate actions with &&
+    whichWill call([self description]);
+    andItWill returnValue(@10); // return values are always defined as objects, automatically unboxed for primitive types
     
-    // also possible to do a complete one-liner, no ';' needed for the stub method
-    stub [array objectAtIndex:1] andDo throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
+    // also possible to do a complete one-liner
+    stub [array objectAtIndex:1]; whichWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
@@ -88,14 +84,14 @@ static BOOL noMoreInteractionsOn(id mock) {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
+    // more than one call in a stub { ... } applies the actions to all of the stubbed calls
     stub {
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
-    } andDo {
-        callTargetWithSelector(self, @selector(fooWithBar:baz:), @"Something", 2.0f);
-        throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
-    } // more than one call in a stub { ... } applies the andDo { ... } actions to all of the calls
-
+    }
+    whichWill call([self fooWithBar:@"Something" baz:2.0f]);
+    andItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
+    
     // then
     STAssertThrowsSpecificNamed([array objectAtIndex:1], NSException, NSRangeException, @"[array objectAtIndex:1] stub does not work");
     STAssertThrowsSpecificNamed([array removeObjectAtIndex:1], NSException, NSRangeException, @"[array removeObjectAtIndex:1] stub does not work");
@@ -107,7 +103,7 @@ static BOOL noMoreInteractionsOn(id mock) {
 - (void)testArgumentMatchersForStubbing {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    stub [array objectAtIndex:anyIntArg()] andDo returnObject(@"Foo");
+    stub [array objectAtIndex:anyIntArg()]; whichWill returnValue(@"Foo");
     
     // then
     STAssertEqualObjects([array objectAtIndex:0], @"Foo", @"anyIntArg() did not stub index 0");
@@ -232,7 +228,7 @@ static BOOL noMoreInteractionsOn(id mock) {
         ThisWillFail({
             verify [array addObject:@"Third"]; // not ok - not in sequence relative to previous verified call
         });
-    }
+    };
 }
 
 - (void)testVerifyInStrictOrderWillFailForOutOfSequenceCallsOfAnyCalls {
@@ -257,7 +253,7 @@ static BOOL noMoreInteractionsOn(id mock) {
         ThisWillFail({
             verify [array addObject:@"Fourth"]; // not ok - not in sequence relative to all recorded calls
         });
-    }
+    };
 }
 
 
