@@ -98,6 +98,11 @@
     return (type[0] == ':' || type[0] == '*'); // * never gets reported strangely, c strings are reported as : as well
 }
 
+- (BOOL)isVoidType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
+    return type[0] == 'v';
+}
+
 - (const char *)typeBySkippingTypeModifiers:(const char *)type {
     while (type[0] == 'r' || type[0] == 'n' || type[0] == 'N' || type[0] == 'o' || type[0] == 'O' || type[0] == 'R' || type[0] == 'V') {
         type++;

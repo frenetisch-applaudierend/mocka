@@ -7,6 +7,8 @@
 //
 
 #import "RGMockReturnStubAction.h"
+#import "RGMockInvocationMatcher.h"
+
 
 @implementation RGMockReturnStubAction {
     id _value;
@@ -29,7 +31,18 @@
 #pragma mark - Performing the Action
 
 - (void)performWithInvocation:(NSInvocation *)invocation {
-    [invocation setReturnValue:&_value];
+    // Safeguard agains void returns
+    if ([[RGMockInvocationMatcher defaultMatcher] isVoidType:invocation.methodSignature.methodReturnType]) {
+        return;
+    }
+    
+    // Handle primitive and object types
+    char type = [[RGMockInvocationMatcher defaultMatcher] typeBySkippingTypeModifiers:invocation.methodSignature.methodReturnType][0];
+    switch (type) {
+        case 'c': { char c = [_value charValue]; [invocation setReturnValue:&c]; break; }
+        default:
+            [invocation setReturnValue:&_value];
+    }
 }
 
 @end

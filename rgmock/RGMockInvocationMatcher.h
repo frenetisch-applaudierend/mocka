@@ -13,4 +13,9 @@
 
 - (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype;
 
+- (BOOL)isPrimitiveType:(const char *)type;
+- (BOOL)isObjectType:(const char *)type;
+- (BOOL)isSelectorOrCStringType:(const char *)type;
+- (BOOL)isVoidType:(const char *)type;
+- (const char *)typeBySkippingTypeModifiers:(const char *)type;
 @end
