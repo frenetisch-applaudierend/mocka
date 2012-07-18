@@ -81,7 +81,14 @@
 #pragma mark - Test Stubbing
 
 - (void)testThatStubbedReturnValueIsReturned {
-    stub [object intMethodCallWithoutParameters]; soThatItWill returnValue(@10);
+    // given
+    stub [object objectMethodCallWithoutParameters]; soThatItWill returnValue(@"Hello World");
+    
+    // when
+    id result = [object objectMethodCallWithoutParameters];
+    
+    // then
+    STAssertEqualObjects(result, @"Hello World", @"Wrong object value returned");
 }
 
 @end

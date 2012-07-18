@@ -7,10 +7,10 @@
 //
 
 
+#define mock_record_stub_action(action) [mock_current_context() addStubAction:(action)]
+
 @protocol RGMockStubAction <NSObject>
 
-@end
+- (void)performWithInvocation:(NSInvocation *)invocation;
 
-static BOOL mock_record_stub_action(id<RGMockStubAction> action) {
-    return YES;
-}
+@end

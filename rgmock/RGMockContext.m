@@ -9,6 +9,7 @@
 #import "RGMockContext.h"
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
+#import "RGMockStubbing.h"
 
 #import <objc/runtime.h>
 #import <SenTestingKit/SenTestingKit.h>
@@ -27,6 +28,7 @@ static const NSUInteger RGMockingContextKey;
 
 @implementation RGMockContext {
     NSMutableArray *_recordedInvocations;
+    NSMutableArray *_recordedStubbings;
 }
 
 
@@ -52,6 +54,7 @@ static const NSUInteger RGMockingContextKey;
 - (id)init {
     if ((self = [super init])) {
         _recordedInvocations = [NSMutableArray array];
+        _recordedStubbings = [NSMutableArray array];
     }
     return self;
 }
@@ -74,23 +77,56 @@ static const NSUInteger RGMockingContextKey;
     return YES;
 }
 
+- (void)handleInvocation:(NSInvocation *)invocation {
+    switch (self.mode) {
+        case RGMockContextModeRecording: [self recordInvocation:invocation]; break;
+        case RGMockContextModeStubbing:  [self createStubbingForInvocation:invocation]; break;
+        case RGMockContextModeVerifying: [self verifyInvocation:invocation]; break;
+            
+        default:
+            NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
+    }
+}
+
+
+#pragma mark - Recording
+
 - (NSArray *)recordedInvocations {
     return [_recordedInvocations copy];
 }
 
-- (void)handleInvocation:(NSInvocation *)invocation {
-    if (self.mode == RGMockContextModeRecording) {
-        [self recordInvocation:invocation];
-    } else if (self.mode == RGMockContextModeVerifying) {
-        [self verifyInvocation:invocation];
-    } else {
-        NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
+- (void)recordInvocation:(NSInvocation *)invocation {
+    [_recordedInvocations addObject:invocation];
+    
+    RGMockStubbing *stubbing = [self stubbingForInvocation:invocation];
+    if (stubbing != nil) {
+        [stubbing applyToInvocation:invocation];
     }
 }
 
-- (void)recordInvocation:(NSInvocation *)invocation {
-    [_recordedInvocations addObject:invocation];
+
+#pragma mark - Stubbing
+
+- (void)createStubbingForInvocation:(NSInvocation *)invocation {
+    [_recordedStubbings addObject:[[RGMockStubbing alloc] initWithInvocation:invocation]];
 }
+
+- (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
+    for (RGMockStubbing *stubbing in _recordedStubbings) {
+        if ([stubbing matchesForInvocation:invocation]) {
+            return stubbing;
+        }
+    }
+    return nil;
+}
+
+- (void)addStubAction:(id<RGMockStubAction>)action {
+    [self updateContextMode:RGMockContextModeRecording];
+    [[_recordedStubbings lastObject] addAction:action];
+}
+
+
+#pragma mark - Verification
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;

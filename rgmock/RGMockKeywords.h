@@ -23,7 +23,7 @@
 #pragma mark - Stubbing
 
 // Safe syntax
-#define mock_stub if (YES)
+#define mock_stub if ([mock_current_context() updateContextMode:RGMockContextModeStubbing])
 #define mock_soThatItWill if (YES)
 #define mock_andItWill mock_soThatItWill
 

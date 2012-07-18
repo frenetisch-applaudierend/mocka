@@ -34,4 +34,11 @@
     return 0;
 }
 
+
+#pragma mark - Object Return Calls
+
+- (id)objectMethodCallWithoutParameters {
+    return nil;
+}
+
 @end

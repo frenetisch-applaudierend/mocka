@@ -20,7 +20,11 @@
 
 #pragma mark - Int Return Calls
 
-- (void)voidMethodCallWithoutParameters;
 - (int)intMethodCallWithoutParameters;
+
+
+#pragma mark - Object Return Calls
+
+- (id)objectMethodCallWithoutParameters;
 
 @end

@@ -7,21 +7,26 @@
 //
 
 @protocol RGMockVerificationHandler;
+@protocol RGMockStubAction;
+@class RGMockStubbing;
 
 
 #define mock_current_context() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
 
 typedef enum {
     RGMockContextModeRecording,
+    RGMockContextModeStubbing,
     RGMockContextModeVerifying,
 } RGMockContextMode;
 
 
 @interface RGMockContext : NSObject
 
+
 #pragma mark - Getting a Context
 
 + (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line;
+
 
 #pragma mark - File Information and Handling Failures
 
@@ -40,5 +45,11 @@ typedef enum {
 - (BOOL)updateContextMode:(RGMockContextMode)newMode;
 
 - (void)handleInvocation:(NSInvocation *)invocation;
+
+
+#pragma mark - Stubbing
+
+- (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation;
+- (void)addStubAction:(id<RGMockStubAction>)action;
 
 @end

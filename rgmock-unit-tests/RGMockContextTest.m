@@ -13,6 +13,7 @@
 
 #import "RGMockContext.h"
 #import "RGMockDefaultVerificationHandler.h"
+#import "RGMockReturnStubAction.h"
 
 
 @interface RGMockContextTest : SenTestCase
@@ -82,7 +83,83 @@
 }
 
 
+#pragma mark - Test Invocation Stubbing
+
+- (void)testThatHandlingInvocationInStubbingModeDoesNotAddToRecordedInvocations {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing];
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context handleInvocation:invocation];
+    
+    // then
+    STAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+}
+
+- (void)testThatHandlingInvocationInStubbingModeCreatesStubbingForCalledMethod {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing];
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context handleInvocation:invocation];
+    
+    // then
+    STAssertNotNil([context stubbingForInvocation:invocation], @"Invocation was not stubbed");
+}
+
+- (void)testThatNoStubbingIsReturnedForNonStubbedMethod {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing];
+    NSInvocation *stubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    NSInvocation *unstubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)];
+    
+    // when
+    [context handleInvocation:stubbedInvocation];
+    
+    // then
+    STAssertNil([context stubbingForInvocation:unstubbedInvocation], @"Invocation was stubbed");
+}
+
+- (void)testThatModeIsNotSwitchedAfterHandlingInvocation {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing];
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context handleInvocation:invocation];
+    
+    // then
+    STAssertEquals(context.mode, RGMockContextModeStubbing, @"Stubbing mode was not permanent");
+}
+
+- (void)testThatAddingStubActionSwitchesToRecordingMode {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing];
+    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    
+    // when
+    [context addStubAction:[[RGMockReturnStubAction alloc] init]];
+    
+    // then
+    STAssertEquals(context.mode, RGMockContextModeRecording, @"Adding an action did not switch to recording mode");
+}
+
+
 #pragma mark - Test Invocation Verification
+
+- (void)testThatHandlingInvocationInVerificationModeDoesNotAddToRecordedInvocations {
+    // given
+    [context updateContextMode:RGMockContextModeVerifying];
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    @try { [context handleInvocation:invocation]; } @catch (id ignored) {}
+    
+    // then
+    STAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+}
 
 - (void)testThatSettingVerificationModeSetsDefaultVerificationHandler {
     // given

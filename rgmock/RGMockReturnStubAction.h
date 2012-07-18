@@ -11,10 +11,13 @@
 
 @interface RGMockReturnStubAction : NSObject <RGMockStubAction>
 
++ (id)returnActionWithValue:(id)value;
+- (id)initWithValue:(id)value;
+
 @end
 
 
-#define mock_returnValue(val) mock_record_stub_action(nil)
+#define mock_returnValue(val) mock_record_stub_action([RGMockReturnStubAction returnActionWithValue:(val)])
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define returnValue(val) mock_returnValue(val)
