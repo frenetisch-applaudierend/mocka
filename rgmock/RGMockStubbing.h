@@ -16,6 +16,7 @@
 
 - (id)initWithInvocation:(NSInvocation *)invocation;
 
+- (void)addInvocation:(NSInvocation *)invocation;
 - (void)addAction:(id<RGMockStubAction>)action;
 
 

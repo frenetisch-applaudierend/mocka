@@ -29,6 +29,7 @@ static const NSUInteger RGMockingContextKey;
 @implementation RGMockContext {
     NSMutableArray *_recordedInvocations;
     NSMutableArray *_recordedStubbings;
+    RGMockStubbing *_currentStubbing;
 }
 
 
@@ -96,6 +97,7 @@ static const NSUInteger RGMockingContextKey;
 }
 
 - (void)recordInvocation:(NSInvocation *)invocation {
+    [invocation retainArguments];
     [_recordedInvocations addObject:invocation];
     
     RGMockStubbing *stubbing = [self stubbingForInvocation:invocation];
@@ -108,7 +110,12 @@ static const NSUInteger RGMockingContextKey;
 #pragma mark - Stubbing
 
 - (void)createStubbingForInvocation:(NSInvocation *)invocation {
-    [_recordedStubbings addObject:[[RGMockStubbing alloc] initWithInvocation:invocation]];
+    if (_currentStubbing == nil) {
+        _currentStubbing = [[RGMockStubbing alloc] initWithInvocation:invocation];
+        [_recordedStubbings addObject:_currentStubbing];
+    } else {
+        [_currentStubbing addInvocation:invocation];
+    }
 }
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
@@ -121,6 +128,7 @@ static const NSUInteger RGMockingContextKey;
 }
 
 - (void)addStubAction:(id<RGMockStubAction>)action {
+    _currentStubbing = nil; // end of multiple stubs mode
     [self updateContextMode:RGMockContextModeRecording];
     [[_recordedStubbings lastObject] addAction:action];
 }

@@ -12,7 +12,7 @@
 
 
 @implementation RGMockStubbing {
-    NSInvocation   *_invocation;
+    NSMutableArray *_invocations;
     NSMutableArray *_actions;
 }
 
@@ -21,10 +21,14 @@
 
 - (id)initWithInvocation:(NSInvocation *)invocation {
     if ((self = [super init])) {
-        _invocation = invocation;
+        _invocations = [NSMutableArray arrayWithObject:invocation];
         _actions = [NSMutableArray array];
     }
     return self;
+}
+
+- (void)addInvocation:(NSInvocation *)invocation {
+    [_invocations addObject:invocation];
 }
 
 - (void)addAction:(id<RGMockStubAction>)action {
@@ -35,7 +39,12 @@
 #pragma mark - Matching and Applying
 
 - (BOOL)matchesForInvocation:(NSInvocation *)invocation {
-    return [[RGMockInvocationMatcher defaultMatcher] invocation:invocation matchesPrototype:_invocation];
+    for (NSInvocation *prototype in _invocations) {
+        if ([[RGMockInvocationMatcher defaultMatcher] invocation:invocation matchesPrototype:prototype]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (void)applyToInvocation:(NSInvocation *)invocation {

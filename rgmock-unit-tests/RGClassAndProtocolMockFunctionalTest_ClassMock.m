@@ -110,6 +110,7 @@
     MockTestObject *object1 = mock([MockTestObject class]);
     MockTestObject *object2 = mock([MockTestObject class]);
     MockTestObject *object3 = mock([MockTestObject class]);
+    MockTestObject *object4 = mock([MockTestObject class]);
     __block NSString *marker = nil;
     
     // when
@@ -118,6 +119,9 @@
     stub [object3 objectMethodCallWithoutParameters]; soThatItWill performBlock(^(NSInvocation *inv) {
         marker = @"Third Object";
     });
+    
+    [object4 objectMethodCallWithoutParameters];
+    
     
     // then
     STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @"First Object", @"Wrong return value for object");
@@ -128,6 +132,8 @@
     
     STAssertNil([object3 objectMethodCallWithoutParameters], @"Wrong return value for object");
     STAssertEqualObjects(marker, @"Third Object", @"Marker was not set or wrongly set");
+    
+    STAssertNil([object4 objectMethodCallWithoutParameters], @"Non-stubbed call was suddenly stubbed");
 }
 
 - (void)testThatLaterStubbingsOverrideOlderStubbingsOfSameInvocation {
@@ -145,6 +151,23 @@
     // then
     STAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
     STAssertNil(marker, @"Marker was set");
+}
+
+- (void)testThatMultipleStubbingsCanBeCombined {
+    // given
+    MockTestObject *object1 = mock([MockTestObject class]);
+    MockTestObject *object2 = mock([MockTestObject class]);
+    
+    // when
+    stub {
+        [object1 objectMethodCallWithoutParameters];
+        [object2 objectMethodCallWithoutParameters];
+    };
+    soThatItWill returnValue(@10);
+    
+    // then
+    STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
+    STAssertEqualObjects([object2 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
 }
 
 @end
