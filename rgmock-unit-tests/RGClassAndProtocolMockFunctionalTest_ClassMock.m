@@ -81,7 +81,7 @@
 #pragma mark - Test Stubbing
 
 - (void)testThatStubbedReturnValueIsReturned {
-    stub [object intMethodCallWithoutParameters]; whichWill returnValue(@10);
+    stub [object intMethodCallWithoutParameters]; soThatItWill returnValue(@10);
 }
 
 @end

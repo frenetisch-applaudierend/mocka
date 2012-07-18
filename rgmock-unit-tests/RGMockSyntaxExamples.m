@@ -11,7 +11,7 @@
 
 
 static BOOL throwException(id ex) { return YES; }
-static BOOL callTargetWithSelector(id target, SEL selector, ...) { return YES; }
+static BOOL performBlock(dispatch_block_t block) { return YES; }
 
 static int anyIntArg() { return 0; }
 static NSString* anyStringArg() { return nil; }
@@ -52,7 +52,6 @@ static BOOL noMoreInteractionsOn(id mock) {
 - (void)testVerifySyntax {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    mock(@protocol(NSCoding));
     
     // when
     [array addObject:@"Foo"];
@@ -69,11 +68,11 @@ static BOOL noMoreInteractionsOn(id mock) {
     NSMutableArray *array = mock([NSMutableArray class]);
     
     stub [array count];
-    whichWill call([self description]);
+    soThatItWill call([self description]);
     andItWill returnValue(@10); // return values are always defined as objects, automatically unboxed for primitive types
     
     // also possible to do a complete one-liner
-    stub [array objectAtIndex:1]; whichWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
+    stub [array objectAtIndex:1]; soThatItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
@@ -89,7 +88,7 @@ static BOOL noMoreInteractionsOn(id mock) {
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
     }
-    whichWill call([self fooWithBar:@"Something" baz:2.0f]);
+    soThatItWill call([self fooWithBar:@"Something" baz:2.0f]);
     andItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
@@ -103,7 +102,7 @@ static BOOL noMoreInteractionsOn(id mock) {
 - (void)testArgumentMatchersForStubbing {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    stub [array objectAtIndex:anyIntArg()]; whichWill returnValue(@"Foo");
+    stub [array objectAtIndex:anyIntArg()]; soThatItWill returnValue(@"Foo");
     
     // then
     STAssertEqualObjects([array objectAtIndex:0], @"Foo", @"anyIntArg() did not stub index 0");
