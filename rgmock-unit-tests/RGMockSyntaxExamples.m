@@ -11,22 +11,15 @@
 
 
 static BOOL throwException(id ex) { return YES; }
-static BOOL performBlock(dispatch_block_t block) { return YES; }
 
 static int anyIntArg() { return 0; }
 static NSString* anyStringArg() { return nil; }
 
-#define call(...) throwException(^() { __VA_ARGS__ ; })
-
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
 
-static BOOL noInteractionsOn(id mock) {
-    return YES;
-}
-static BOOL noMoreInteractionsOn(id mock) {
-    return YES;
-}
+static void noInteractionsOn(id mock) {}
+static void noMoreInteractionsOn(id mock) {}
 
 #define once if (YES)
 #define exactly(num) if (YES)
@@ -68,7 +61,7 @@ static BOOL noMoreInteractionsOn(id mock) {
     NSMutableArray *array = mock([NSMutableArray class]);
     
     stub [array count];
-    soThatItWill call([self description]);
+    soThatItWill performBlock(^(NSInvocation *inv) { [self description]; });
     andItWill returnValue(@10); // return values are always defined as objects, automatically unboxed for primitive types
     
     // also possible to do a complete one-liner
@@ -88,7 +81,7 @@ static BOOL noMoreInteractionsOn(id mock) {
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
     }
-    soThatItWill call([self fooWithBar:@"Something" baz:2.0f]);
+    soThatItWill performBlock(^(NSInvocation *inv) { [self fooWithBar:@"Something" baz:2.0f]; });
     andItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then

@@ -112,7 +112,7 @@ static const NSUInteger RGMockingContextKey;
 }
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
-    for (RGMockStubbing *stubbing in _recordedStubbings) {
+    for (RGMockStubbing *stubbing in [_recordedStubbings reverseObjectEnumerator]) {
         if ([stubbing matchesForInvocation:invocation]) {
             return stubbing;
         }

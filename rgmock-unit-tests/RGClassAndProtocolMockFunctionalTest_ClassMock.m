@@ -91,4 +91,60 @@
     STAssertEqualObjects(result, @"Hello World", @"Wrong object value returned");
 }
 
+- (void)testMultipleStubActions {
+    // given
+    __block NSString *marker = nil;
+    stub [object objectMethodCallWithoutParameters];
+    soThatItWill performBlock(^(NSInvocation *inv) {
+        marker = @"called";
+    });
+    andItWill returnValue(@20);
+    
+    // then
+    STAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
+    STAssertEqualObjects(marker, @"called", @"Marker was not set or wrongly set");
+}
+
+- (void)testThatSubsequentStubbingsDontInterfere {
+    // given
+    MockTestObject *object1 = mock([MockTestObject class]);
+    MockTestObject *object2 = mock([MockTestObject class]);
+    MockTestObject *object3 = mock([MockTestObject class]);
+    __block NSString *marker = nil;
+    
+    // when
+    stub [object1 objectMethodCallWithoutParameters]; soThatItWill returnValue(@"First Object");
+    stub [object2 objectMethodCallWithoutParameters]; soThatItWill returnValue(@"Second Object");
+    stub [object3 objectMethodCallWithoutParameters]; soThatItWill performBlock(^(NSInvocation *inv) {
+        marker = @"Third Object";
+    });
+    
+    // then
+    STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @"First Object", @"Wrong return value for object");
+    STAssertNil(marker, @"Marker was set too early");
+    
+    STAssertEqualObjects([object2 objectMethodCallWithoutParameters], @"Second Object", @"Wrong return value for object");
+    STAssertNil(marker, @"Marker was set too early");
+    
+    STAssertNil([object3 objectMethodCallWithoutParameters], @"Wrong return value for object");
+    STAssertEqualObjects(marker, @"Third Object", @"Marker was not set or wrongly set");
+}
+
+- (void)testThatLaterStubbingsOverrideOlderStubbingsOfSameInvocation {
+    // given
+    __block NSString *marker = nil;
+    stub [object objectMethodCallWithoutParameters];
+    soThatItWill performBlock(^(NSInvocation *inv) {
+        marker = @"called";
+    });
+    andItWill returnValue(@20);
+    
+    // when
+    stub [object objectMethodCallWithoutParameters]; soThatItWill returnValue(@30);
+    
+    // then
+    STAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
+    STAssertNil(marker, @"Marker was set");
+}
+
 @end
