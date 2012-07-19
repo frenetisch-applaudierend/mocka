@@ -15,10 +15,10 @@
 
 #pragma mark - Functional Test for mocking a single Class
 
-@interface RGClassAndProtocolMockFunctionalTest_ClassMock : SenTestCase
+@interface RGClassAndProtocolMockFunctionalTest : SenTestCase
 @end
 
-@implementation RGClassAndProtocolMockFunctionalTest_ClassMock {
+@implementation RGClassAndProtocolMockFunctionalTest {
     MockTestObject *object;
 }
 
