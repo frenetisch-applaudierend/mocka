@@ -60,22 +60,166 @@
     STAssertEquals(returnValue, YES, @"Wrong return value set");
 }
 
-- (void)testOtherIntReturns {
-    STFail(@"TODO");
+- (void)testCharReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@-21];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"c@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    char returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (char)-21, @"Wrong return value set");
+}
+
+- (void)testShortReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@-30003];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"s@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    short returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (short)-30003, @"Wrong return value set");
+}
+
+- (void)testIntReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@-900009];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"i@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    int returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (int)-900009, @"Wrong return value set");
+}
+
+- (void)testLongReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@-900009];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"l@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    long returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (long)-900009, @"Wrong return value set");
+}
+
+- (void)testLongLongReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@-1000000000];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"q@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    long long returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (long long)-1000000000, @"Wrong return value set");
 }
 
 
 #pragma mark - Test Primitive Unsigned Integer Type Returns
 
-- (void)testUIntReturns {
-    STFail(@"TODO");
+- (void)testUnsignedCharReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@21];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"C@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    unsigned char returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (unsigned char)21, @"Wrong return value set");
+}
+
+- (void)testUnsignedShortReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@30003];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"S@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    unsigned short returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (unsigned short)30003, @"Wrong return value set");
+}
+
+- (void)testUnsignedIntReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@900009];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"I@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    unsigned int returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (unsigned int)900009, @"Wrong return value set");
+}
+
+- (void)testUnsignedLongReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@900009];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"L@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    unsigned long returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (unsigned long)900009, @"Wrong return value set");
+}
+
+- (void)testUnsignedLongLongReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@1000000000];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"Q@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    unsigned long long returnValue = 0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (unsigned long long)1000000000, @"Wrong return value set");
 }
 
 
 #pragma mark - Test Double And Float Returns
 
-- (void)testDoubleAndFloatReturns {
-    STFail(@"TODO");
+- (void)testFloatReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@123.45f];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"f@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    float returnValue = 0.0f; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (float)123.45f, @"Wrong return value set");
+}
+
+- (void)testDoubleReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = [RGMockReturnStubAction returnActionWithValue:@1234567.89];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"d@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    double returnValue = 0.0; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (double)1234567.89, @"Wrong return value set");
 }
 
 

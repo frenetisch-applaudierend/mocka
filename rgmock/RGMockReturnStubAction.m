@@ -37,9 +37,22 @@
     }
     
     // Handle primitive and object types
+    #define HandlePrimitive(code, type, sel) case code: { type value = [_value sel]; [invocation setReturnValue:&value]; break; }
     char type = [[RGMockInvocationMatcher defaultMatcher] typeBySkippingTypeModifiers:invocation.methodSignature.methodReturnType][0];
     switch (type) {
-        case 'c': { char c = [_value charValue]; [invocation setReturnValue:&c]; break; }
+            HandlePrimitive('c', char, charValue)
+            HandlePrimitive('s', short, shortValue)
+            HandlePrimitive('i', int, intValue)
+            HandlePrimitive('l', long, longValue)
+            HandlePrimitive('q', long long, unsignedLongLongValue)
+            HandlePrimitive('C', unsigned char, unsignedCharValue)
+            HandlePrimitive('S', unsigned short, unsignedShortValue)
+            HandlePrimitive('I', unsigned int, unsignedIntValue)
+            HandlePrimitive('L', unsigned long, unsignedLongValue)
+            HandlePrimitive('Q', unsigned long long, unsignedLongLongValue)
+            HandlePrimitive('f', float, floatValue)
+            HandlePrimitive('d', double, doubleValue)
+            
         default:
             [invocation setReturnValue:&_value];
     }
