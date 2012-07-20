@@ -30,6 +30,19 @@
     STAssertEqualObjects(returnValue, @"Hello World", @"Wrong return value set");
 }
 
+- (void)testThatClassReturnValueIsSet {
+    // given
+    RGMockReturnStubAction *action = mock_returnValueAction([NSString class]);
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"#@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    id returnValue = nil; [invocation getReturnValue:&returnValue];
+    STAssertEqualObjects(returnValue, [NSString class], @"Wrong return value set");
+}
+
 - (void)testThatNilValueIsSet {
     // given
     RGMockReturnStubAction *action = mock_returnValueAction(nil);
@@ -227,7 +240,8 @@
 
 - (void)testNSRangeReturnValueIsSet {
     // given
-    RGMockReturnStubAction *action = mock_returnValueAction(NSMakeRange(5, 26));
+    NSRange range = NSMakeRange(5, 26);
+    RGMockReturnStubAction *action = mock_returnStructAction(range);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"{_NSRange=II}@:"]];
     
     // when
@@ -242,7 +256,17 @@
 #pragma mark - Test Pointer Returns
 
 - (void)testPointerReturns {
-    STFail(@"TODO");
+    // given
+    int foo = 0;
+    RGMockReturnStubAction *action = mock_returnValueAction(&foo);
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"^i@:"]];
+    
+    // when
+    [action performWithInvocation:invocation];
+    
+    // then
+    int *returnValue = NULL; [invocation getReturnValue:&returnValue];
+    STAssertEquals(returnValue, (int *)&foo, @"Wrong return value set");
 }
 
 

@@ -7,6 +7,14 @@
 //
 
 #import "RGMockReturnStubAction.h"
+#import <objc/runtime.h>
+
+
+static const NSUInteger MemoryBlockKey;
+@interface RGMockMemoryBlock : NSObject
++ (id)memoryBlockOfSize:(size_t)size attachToObject:(id)object;
+- (void *)pointerValue;
+@end
 
 
 @implementation RGMockReturnStubAction {
@@ -47,15 +55,56 @@
             HandlePrimitive('f', float, floatValue)
             HandlePrimitive('d', double, doubleValue)
             
-            // Handle object type
+            // Handle object types
         case '@': { [invocation setReturnValue:&_value]; break; }
+        case '#': { [invocation setReturnValue:&_value]; break; }
+            
+            // Handle struct types
+        case '{': {
+            RGMockMemoryBlock *memoryBlock = [RGMockMemoryBlock memoryBlockOfSize:[invocation.methodSignature methodReturnLength]
+                                                                   attachToObject:invocation];
+            [(NSValue *)_value getValue:[memoryBlock pointerValue]];
+            [invocation setReturnValue:[memoryBlock pointerValue]];
+            break;
+        }
+            
+            // Handle pointer types
+        case '^': { void *value = [(NSValue *)_value pointerValue]; [invocation setReturnValue:&value]; break; }
     }
 }
 
 @end
 
 
-id mock_createCenericValue(const char *typeString, ...) {
+@implementation RGMockMemoryBlock {
+    void *_memoryBlock;
+}
+
++ (id)memoryBlockOfSize:(size_t)size attachToObject:(id)object {
+    id memoryBlock = [[self alloc] initWithSize:size];
+    objc_setAssociatedObject(object, &MemoryBlockKey, memoryBlock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    return memoryBlock;
+}
+
+- (id)initWithSize:(size_t)size {
+    if ((self = [super init])) {
+        _memoryBlock = malloc(size);
+    }
+    return self;
+}
+
+- (void)dealloc {
+    free(_memoryBlock);
+}
+
+- (void *)pointerValue {
+    return _memoryBlock;
+}
+
+@end
+
+
+id mock_createGenericValue(const char *typeString, ...) {
     va_list args;
     va_start(args, typeString);
     id returnValue = nil;
@@ -75,12 +124,13 @@ id mock_createCenericValue(const char *typeString, ...) {
         case 'Q': { unsigned long long value = va_arg(args, unsigned long long); returnValue = [NSNumber numberWithUnsignedLongLong:value]; break; }
         case 'f': { double value = va_arg(args, double); returnValue = [NSNumber numberWithFloat:(float)value]; break; }
         case 'd': { double value = va_arg(args, double); returnValue = [NSNumber numberWithDouble:value]; break; }
-            
+        
         // Object types
         case '@': { id value = va_arg(args, id); returnValue = value; break; }
-            
-        // Handle struct types
-//        case '{': { 
+        case '#': { Class value = va_arg(args, Class); returnValue = value; break; }
+        
+        // Pointer types
+        case '^': { void *value = va_arg(args, void*); returnValue = (value != NULL ? [NSValue valueWithPointer:value] : nil); break; }
     }
     
     va_end(args);

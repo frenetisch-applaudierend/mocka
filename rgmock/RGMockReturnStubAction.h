@@ -19,11 +19,14 @@
 
 
 #define mock_returnValue(val) mock_record_stub_action(mock_returnValueAction(val))
+#define mock_returnStruct(strt) mock_record_stub_action(mock_returnStructAction(strt))
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define returnValue(val) mock_returnValue(val)
+#define returnStruct(val) mock_returnStruct(val)
 #endif
 
-#define mock_returnValueAction(val) [RGMockReturnStubAction returnActionWithValue:mock_createCenericValue(@encode(typeof(val)), val)]
-id mock_createCenericValue(const char *type, ...);
+#define mock_returnValueAction(val) [RGMockReturnStubAction returnActionWithValue:mock_createGenericValue(@encode(typeof(val)), val)]
+#define mock_returnStructAction(strt) [RGMockReturnStubAction returnActionWithValue:[NSValue valueWithBytes:&strt objCType:@encode(typeof(strt))]]
+id mock_createGenericValue(const char *type, ...);
 
