@@ -32,6 +32,11 @@ static BOOL isPrimitiveType(const char *type) {
     }
 }
 
+static BOOL isStructType(const char *type) {
+    type = typeBySkippingTypeModifiers(type);
+    return (type[0] == '{');
+}
+
 static BOOL isObjectType(const char *type) {
     type = typeBySkippingTypeModifiers(type);
     return (type[0] == '@' || type[0] == '#');

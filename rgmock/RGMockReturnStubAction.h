@@ -9,19 +9,21 @@
 #import "RGMockStubAction.h"
 #import "RGMockTypeEncodings.h"
 
+
 @interface RGMockReturnStubAction : NSObject <RGMockStubAction>
 
-+ (id)returnActionWithValue:(NSValue *)value;
-- (id)initWithValue:(NSValue *)value;
++ (id)returnActionWithValue:(id)value;
+- (id)initWithValue:(id)value;
 
 @end
 
 
-#define mock_genericValue(val) (val == 0 || !isPrimitiveType(@encode(typeof(val))) ? nil : \
-    [[NSNumber alloc] initWithBytes:&(typeof(val)){(val)} objCType:@encode(typeof(val))])
-
-#define mock_returnValue(val) mock_record_stub_action([RGMockReturnStubAction returnActionWithValue:mock_genericValue(val)])
+#define mock_returnValue(val) mock_record_stub_action(mock_returnValueAction(val))
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define returnValue(val) mock_returnValue(val)
 #endif
+
+#define mock_returnValueAction(val) [RGMockReturnStubAction returnActionWithValue:mock_createCenericValue(@encode(typeof(val)), val)]
+id mock_createCenericValue(const char *type, ...);
+

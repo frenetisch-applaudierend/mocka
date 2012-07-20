@@ -7,20 +7,19 @@
 //
 
 #import "RGMockReturnStubAction.h"
-#import "RGMockTypeEncodings.h"
 
 
 @implementation RGMockReturnStubAction {
-    NSValue *_value;
+    id _value;
 }
 
 #pragma mark - Initialization
 
-+ (id)returnActionWithValue:(NSValue *)value {
++ (id)returnActionWithValue:(id)value {
     return [[self alloc] initWithValue:value];
 }
 
-- (id)initWithValue:(NSValue *)value {
+- (id)initWithValue:(id)value {
     if ((self = [super init])) {
         _value = value;
     }
@@ -31,15 +30,10 @@
 #pragma mark - Performing the Action
 
 - (void)performWithInvocation:(NSInvocation *)invocation {
-    // Safeguard agains void returns
-    if (isVoidType(invocation.methodSignature.methodReturnType)) {
-        return;
-    }
-    
-    // Handle primitive and object types
-    #define HandlePrimitive(code, type, sel) case code: { type value = [(NSNumber *)_value sel]; [invocation setReturnValue:&value]; break; }
+    #define HandlePrimitive(code, type, sel) case code: { type value = [_value sel]; [invocation setReturnValue:&value]; break; }
     char type = typeBySkippingTypeModifiers(invocation.methodSignature.methodReturnType)[0];
     switch (type) {
+            // Handle primitive types
             HandlePrimitive('c', char, charValue)
             HandlePrimitive('s', short, shortValue)
             HandlePrimitive('i', int, intValue)
@@ -53,9 +47,43 @@
             HandlePrimitive('f', float, floatValue)
             HandlePrimitive('d', double, doubleValue)
             
-//        default:
-//            [invocation setReturnValue:&_value];
+            // Handle object type
+        case '@': { [invocation setReturnValue:&_value]; break; }
     }
 }
 
 @end
+
+
+id mock_createCenericValue(const char *typeString, ...) {
+    va_list args;
+    va_start(args, typeString);
+    id returnValue = nil;
+    char type = typeBySkippingTypeModifiers(typeString)[0];
+    
+    switch (type) {
+        // Primitive types
+        case 'c': { int value = va_arg(args, int); returnValue = [NSNumber numberWithChar:(char)value]; break; }
+        case 'i': { int value = va_arg(args, int); returnValue = [NSNumber numberWithInt:value]; break; }
+        case 's': { int value = va_arg(args, int); returnValue = [NSNumber numberWithShort:(short)value]; break; }
+        case 'l': { long value = va_arg(args, long); returnValue = [NSNumber numberWithLong:value]; break; }
+        case 'q': { long long value = va_arg(args, long long); returnValue = [NSNumber numberWithLongLong:value]; break; }
+        case 'C': { unsigned int value = va_arg(args, unsigned int); returnValue = [NSNumber numberWithUnsignedChar:(unsigned char)value]; break; }
+        case 'I': { unsigned int value = va_arg(args, unsigned int); returnValue = [NSNumber numberWithUnsignedInt:value]; break; }
+        case 'S': { unsigned int value = va_arg(args, unsigned int); returnValue = [NSNumber numberWithUnsignedShort:(unsigned short)value]; break; }
+        case 'L': { unsigned long value = va_arg(args, unsigned long); returnValue = [NSNumber numberWithUnsignedLong:value]; break; }
+        case 'Q': { unsigned long long value = va_arg(args, unsigned long long); returnValue = [NSNumber numberWithUnsignedLongLong:value]; break; }
+        case 'f': { double value = va_arg(args, double); returnValue = [NSNumber numberWithFloat:(float)value]; break; }
+        case 'd': { double value = va_arg(args, double); returnValue = [NSNumber numberWithDouble:value]; break; }
+            
+        // Object types
+        case '@': { id value = va_arg(args, id); returnValue = value; break; }
+            
+        // Handle struct types
+//        case '{': { 
+    }
+    
+    va_end(args);
+    return returnValue;
+}
+
