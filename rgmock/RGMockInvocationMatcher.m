@@ -7,6 +7,8 @@
 //
 
 #import "RGMockInvocationMatcher.h"
+#import "RGMockTypeEncodings.h"
+
 
 @implementation RGMockInvocationMatcher
 
@@ -43,19 +45,19 @@
             return NO;
         }
         
-        if ([self isPrimitiveType:candidateArgumentType]) {
+        if (isPrimitiveType(candidateArgumentType)) {
             UInt64 candidateArgument = 0; [candidate getArgument:&candidateArgument atIndex:argIndex];
             UInt64 prototypeArgument = 0; [prototype getArgument:&prototypeArgument atIndex:argIndex];
             if (candidateArgument != prototypeArgument) {
                 return NO;
             }
-        } else if ([self isObjectType:candidateArgumentType]) {
+        } else if (isObjectType(candidateArgumentType)) {
             void *candidateArgument = nil; [candidate getArgument:&candidateArgument atIndex:argIndex];
             void *prototypeArgument = nil; [prototype getArgument:&prototypeArgument atIndex:argIndex];
             if (candidateArgument != prototypeArgument && ![(__bridge id)candidateArgument isEqual:(__bridge id)prototypeArgument]) {
                 return NO;
             }
-        } else if ([self isSelectorOrCStringType:candidateArgumentType]) {
+        } else if (isSelectorOrCStringType(candidateArgumentType)) {
             // Seems like C strings are reported as selectors, so treat both of them like C strings
             const char *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
             const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
@@ -67,47 +69,6 @@
         }
     }
     return YES;
-}
-
-
-#pragma mark - Helpers
-
-- (BOOL)isPrimitiveType:(const char *)type {
-    type = [self typeBySkippingTypeModifiers:type];
-    switch (type[0]) {
-        // Primitive type encodings
-        case 'c': case 'i': case 's': case 'l': case 'q':
-        case 'C': case 'I': case 'S': case 'L': case 'Q':
-        case 'f': case 'd':
-        case 'B':
-            return YES;
-            
-        default:
-            return NO;
-    }
-}
-
-- (BOOL)isObjectType:(const char *)type {
-    type = [self typeBySkippingTypeModifiers:type];
-    type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == '@' || type[0] == '#');
-}
-
-- (BOOL)isSelectorOrCStringType:(const char *)type {
-    type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == ':' || type[0] == '*'); // * never gets reported strangely, c strings are reported as : as well
-}
-
-- (BOOL)isVoidType:(const char *)type {
-    type = [self typeBySkippingTypeModifiers:type];
-    return type[0] == 'v';
-}
-
-- (const char *)typeBySkippingTypeModifiers:(const char *)type {
-    while (type[0] == 'r' || type[0] == 'n' || type[0] == 'N' || type[0] == 'o' || type[0] == 'O' || type[0] == 'R' || type[0] == 'V') {
-        type++;
-    }
-    return type;
 }
 
 @end

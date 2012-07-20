@@ -7,20 +7,20 @@
 //
 
 #import "RGMockReturnStubAction.h"
-#import "RGMockInvocationMatcher.h"
+#import "RGMockTypeEncodings.h"
 
 
 @implementation RGMockReturnStubAction {
-    id _value;
+    NSValue *_value;
 }
 
 #pragma mark - Initialization
 
-+ (id)returnActionWithValue:(id)value {
++ (id)returnActionWithValue:(NSValue *)value {
     return [[self alloc] initWithValue:value];
 }
 
-- (id)initWithValue:(id)value {
+- (id)initWithValue:(NSValue *)value {
     if ((self = [super init])) {
         _value = value;
     }
@@ -32,13 +32,13 @@
 
 - (void)performWithInvocation:(NSInvocation *)invocation {
     // Safeguard agains void returns
-    if ([[RGMockInvocationMatcher defaultMatcher] isVoidType:invocation.methodSignature.methodReturnType]) {
+    if (isVoidType(invocation.methodSignature.methodReturnType)) {
         return;
     }
     
     // Handle primitive and object types
-    #define HandlePrimitive(code, type, sel) case code: { type value = [_value sel]; [invocation setReturnValue:&value]; break; }
-    char type = [[RGMockInvocationMatcher defaultMatcher] typeBySkippingTypeModifiers:invocation.methodSignature.methodReturnType][0];
+    #define HandlePrimitive(code, type, sel) case code: { type value = [(NSNumber *)_value sel]; [invocation setReturnValue:&value]; break; }
+    char type = typeBySkippingTypeModifiers(invocation.methodSignature.methodReturnType)[0];
     switch (type) {
             HandlePrimitive('c', char, charValue)
             HandlePrimitive('s', short, shortValue)
@@ -53,8 +53,8 @@
             HandlePrimitive('f', float, floatValue)
             HandlePrimitive('d', double, doubleValue)
             
-        default:
-            [invocation setReturnValue:&_value];
+//        default:
+//            [invocation setReturnValue:&_value];
     }
 }
 

@@ -7,7 +7,7 @@
 //
 
 
-#define mock_record_stub_action(action) [mock_current_context() addStubAction:(action)]
+#define mock_record_stub_action(action) [mock_currentContext() addStubAction:(action)]
 
 @protocol RGMockStubAction <NSObject>
 

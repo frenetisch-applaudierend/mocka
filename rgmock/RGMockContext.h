@@ -11,7 +11,7 @@
 @class RGMockStubbing;
 
 
-#define mock_current_context() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
+#define mock_currentContext() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
 
 typedef enum {
     RGMockContextModeRecording,

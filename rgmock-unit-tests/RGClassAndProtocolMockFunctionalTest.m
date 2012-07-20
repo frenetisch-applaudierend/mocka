@@ -98,7 +98,7 @@
     soThatItWill performBlock(^(NSInvocation *inv) {
         marker = @"called";
     });
-    andItWill returnValue(@20);
+    andItWill returnValue(20);
     
     // then
     STAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");

@@ -20,7 +20,7 @@
 
 
 // Mocking Syntax
-#define mock_mock(cls, ...) [RGMockClassAndProtocolMock mockWithContext:mock_current_context() classAndProtocols:@[ cls, __VA_ARGS__ ]]
+#define mock_mock(cls, ...) [RGMockClassAndProtocolMock mockWithContext:mock_currentContext() classAndProtocols:@[ cls, __VA_ARGS__ ]]
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define mock(cls, ...) mock_mock(cls, __VA_ARGS__)
 #endif

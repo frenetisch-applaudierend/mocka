@@ -12,7 +12,7 @@
 #pragma mark - Verifying
 
 // Safe syntax
-#define mock_verify if ([mock_current_context() updateContextMode:RGMockContextModeVerifying])
+#define mock_verify if ([mock_currentContext() updateContextMode:RGMockContextModeVerifying])
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
@@ -23,7 +23,7 @@
 #pragma mark - Stubbing
 
 // Safe syntax
-#define mock_stub if ([mock_current_context() updateContextMode:RGMockContextModeStubbing])
+#define mock_stub if ([mock_currentContext() updateContextMode:RGMockContextModeStubbing])
 #define mock_soThatItWill if (YES)
 #define mock_andItWill mock_soThatItWill
 

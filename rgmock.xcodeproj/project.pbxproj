@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2803FEB315B9B06800108114 /* RGMockTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* RGMockTypeEncodings.h */; };
 		2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2832CCB414D75D3E00BE74C2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28575DD815B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DD715B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest.m */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2803FEB115B9B06500108114 /* RGMockTypeEncodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RGMockTypeEncodings.h; sourceTree = "<group>"; };
 		2832CC9D14D74F7C00BE74C2 /* RGMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMock.h; sourceTree = "<group>"; };
 		28575DD715B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassAndProtocolMockFunctionalTest.m; sourceTree = "<group>"; };
 		28575DDA15B1D5850077ACFC /* RGMockClassAndProtocolMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockClassAndProtocolMock.h; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				28575DE915B1DB180077ACFC /* RGMockContext.m */,
 				28575E1E15B209F20077ACFC /* RGMockInvocationMatcher.h */,
 				28575E1F15B209F20077ACFC /* RGMockInvocationMatcher.m */,
+				2803FEB115B9B06500108114 /* RGMockTypeEncodings.h */,
 			);
 			name = "Mocking Core";
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				2857B58515B4748F00D64D27 /* RGMockReturnStubAction.h in Headers */,
 				287020DC15B742EB00218C49 /* RGMockStubbing.h in Headers */,
 				287020E415B750C100218C49 /* RGMockPerformBlockStubAction.h in Headers */,
+				2803FEB315B9B06800108114 /* RGMockTypeEncodings.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
