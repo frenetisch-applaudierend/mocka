@@ -9,12 +9,14 @@
 #import "RGMockTypeEncodings.h"
 
 
+@implementation RGMockTypeEncodings
+
 #pragma mark - Get Information about @encode() types
 
-BOOL isPrimitiveType(const char *type) {
-    type = typeBySkippingTypeModifiers(type);
++ (BOOL)isPrimitiveType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
     switch (type[0]) {
-            // Primitive type encodings
+        // Primitive type encodings
         case 'c': case 'i': case 's': case 'l': case 'q':
         case 'C': case 'I': case 'S': case 'L': case 'Q':
         case 'f': case 'd':
@@ -26,32 +28,34 @@ BOOL isPrimitiveType(const char *type) {
     }
 }
 
-BOOL isObjectType(const char *type) {
-    type = typeBySkippingTypeModifiers(type);
++ (BOOL)isObjectType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
     return (type[0] == '@' || type[0] == '#');
 }
 
-BOOL isSelectorOrCStringType(const char *type) {
-    type = typeBySkippingTypeModifiers(type);
-    return (type[0] == ':' || type[0] == '*'); // * never gets reported strangely, c strings are reported as : as well
++ (BOOL)isSelectorOrCStringType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
+    return (type[0] == ':' || type[0] == '*'); // '*' never gets reported strangely, c strings are reported as ':' as well
 }
 
-BOOL isStructType(const char *type) {
-    type = typeBySkippingTypeModifiers(type);
++ (BOOL)isStructType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
     return (type[0] == '{');
 }
 
-BOOL isVoidType(const char *type) {
-    type = typeBySkippingTypeModifiers(type);
++ (BOOL)isVoidType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
     return type[0] == 'v';
 }
 
 
 #pragma mark - Prepare @encode() types
 
-const char* typeBySkippingTypeModifiers(const char *type) {
++ (const char *)typeBySkippingTypeModifiers:(const char *)type {
     while (type[0] == 'r' || type[0] == 'n' || type[0] == 'N' || type[0] == 'o' || type[0] == 'O' || type[0] == 'R' || type[0] == 'V') {
         type++;
     }
     return type;
 }
+
+@end

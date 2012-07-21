@@ -45,19 +45,19 @@
             return NO;
         }
         
-        if (isPrimitiveType(candidateArgumentType)) {
+        if ([RGMockTypeEncodings isPrimitiveType:candidateArgumentType]) {
             UInt64 candidateArgument = 0; [candidate getArgument:&candidateArgument atIndex:argIndex];
             UInt64 prototypeArgument = 0; [prototype getArgument:&prototypeArgument atIndex:argIndex];
             if (candidateArgument != prototypeArgument) {
                 return NO;
             }
-        } else if (isObjectType(candidateArgumentType)) {
+        } else if ([RGMockTypeEncodings isObjectType:candidateArgumentType]) {
             void *candidateArgument = nil; [candidate getArgument:&candidateArgument atIndex:argIndex];
             void *prototypeArgument = nil; [prototype getArgument:&prototypeArgument atIndex:argIndex];
             if (candidateArgument != prototypeArgument && ![(__bridge id)candidateArgument isEqual:(__bridge id)prototypeArgument]) {
                 return NO;
             }
-        } else if (isSelectorOrCStringType(candidateArgumentType)) {
+        } else if ([RGMockTypeEncodings isSelectorOrCStringType:candidateArgumentType]) {
             // Seems like C strings are reported as selectors, so treat both of them like C strings
             const char *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
             const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];

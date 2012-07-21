@@ -39,7 +39,7 @@ static const NSUInteger MemoryBlockKey;
 
 - (void)performWithInvocation:(NSInvocation *)invocation {
     #define HandlePrimitive(code, type, sel) case code: { type value = [_value sel]; [invocation setReturnValue:&value]; break; }
-    char type = typeBySkippingTypeModifiers(invocation.methodSignature.methodReturnType)[0];
+    char type = [RGMockTypeEncodings typeBySkippingTypeModifiers:invocation.methodSignature.methodReturnType][0];
     switch (type) {
             // Handle primitive types
             HandlePrimitive('c', char, charValue)
@@ -108,7 +108,7 @@ id mock_createGenericValue(const char *typeString, ...) {
     va_list args;
     va_start(args, typeString);
     id returnValue = nil;
-    char type = typeBySkippingTypeModifiers(typeString)[0];
+    char type = [RGMockTypeEncodings typeBySkippingTypeModifiers:typeString][0];
     
     switch (type) {
         // Primitive types
