@@ -88,6 +88,41 @@ static BOOL isClass(id obj);
     [_mockingContext handleInvocation:invocation];
 }
 
+
+#pragma mark - Posing as the mocked class / protocol
+
+- (BOOL)isKindOfClass:(Class)cls {
+    if ([super isKindOfClass:cls]) {
+        return YES;
+    }
+    
+    NSUInteger firstMatch = [_mockedEntities indexOfObjectPassingTest:^BOOL(id entity, NSUInteger idx, BOOL *stop) {
+        if (!isClass(entity)) { return NO; }
+        Class candidate = entity;
+        do {
+            if (candidate == cls) { return YES; }
+            candidate = class_getSuperclass(candidate);
+        } while(candidate != nil);
+        return NO;
+    }];
+    return (firstMatch != NSNotFound);
+}
+
+- (BOOL)conformsToProtocol:(Protocol *)prot {
+    if ([super conformsToProtocol:prot]) {
+        return YES;
+    }
+    
+    NSUInteger firstMatch = [_mockedEntities indexOfObjectPassingTest:^BOOL(id candidate, NSUInteger idx, BOOL *stop) {
+        if (candidate == prot) { return YES; }
+        if (isClass(candidate) && [candidate conformsToProtocol:prot]) { return YES; }
+        NSAssert(isProtocol(candidate), @"Candidate was not a class or protocol");
+        return protocol_conformsToProtocol((Protocol *)candidate, prot);
+        
+    }];
+    return (firstMatch != NSNotFound);
+}
+
 @end
 
 

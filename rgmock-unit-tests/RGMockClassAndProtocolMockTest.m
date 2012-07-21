@@ -12,6 +12,22 @@
 #import "RGMockClassAndProtocolMock.h"
 
 
+@protocol SampleProtocol1 <NSObject> @end
+@protocol SampleProtocol2 <SampleProtocol1> @end
+@protocol SampleProtocol3 <SampleProtocol2> @end
+
+@interface SampleClass1 : NSObject @end
+@implementation SampleClass1 @end
+@interface SampleClass2 : SampleClass1 @end
+@implementation SampleClass2 @end
+
+@interface SampleClass3 : NSObject <SampleProtocol2> @end
+@implementation SampleClass3 @end
+@interface SampleClass4 : SampleClass3 @end
+@implementation SampleClass4 @end
+
+
+
 @interface RGMockClassAndProtocolMockTest : SenTestCase
 @end
 
@@ -74,6 +90,63 @@
     // then
     STAssertTrue([mock respondsToSelector:@selector(voidMethodCallWithoutParameters)], @"Mock does not respond to instance method of class");
     STAssertTrue([mock respondsToSelector:@selector(encodeWithCoder:)], @"Mock does not respond to instance method of class");
+}
+
+
+#pragma mark - Test -isKindOfClass: and -conformsToProtocol:
+
+- (void)testThatMockIsKindOfMockedClass {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ [SampleClass1 class] ]];
+    
+    // then
+    STAssertTrue([mock isKindOfClass:[SampleClass1 class]], @"Mock is not a kind of the mocked class");
+}
+
+- (void)testThatMockIsKindOfMockedClassSuperclass {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ [SampleClass2 class] ]];
+    
+    // then
+    STAssertTrue([mock isKindOfClass:[SampleClass1 class]], @"Mock is not a kind of the inherited mocked class");
+}
+
+- (void)testThatMockConformsToMockedProtocols {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ @protocol(SampleProtocol1) ]];
+    
+    // then
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol1)], @"Mock does not conform to mocked protocol");
+}
+
+- (void)testThatMockConformsToMockedProtocolsInheritedProtocols {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ @protocol(SampleProtocol3) ]];
+    
+    // then
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol1)], @"Mock does not conform to inherited mocked protocol");
+    STAssertTrue([mock conformsToProtocol:@protocol(NSObject)], @"Mock does not conform to inherited mocked protocol");
+}
+
+- (void)testThatMockConformsToProtocolsOfMockedClass {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ [SampleClass3 class] ]];
+    
+    // then
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol1)], @"Mock does not conform to inherited mocked protocol");
+    STAssertTrue([mock conformsToProtocol:@protocol(NSObject)], @"Mock does not conform to inherited mocked protocol");
+}
+
+- (void)testThatMockConformsToProtocolsOfMockedClassSuperclass {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ [SampleClass4 class] ]];
+    
+    // then
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
+    STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol1)], @"Mock does not conform to inherited mocked protocol");
+    STAssertTrue([mock conformsToProtocol:@protocol(NSObject)], @"Mock does not conform to inherited mocked protocol");
 }
 
 @end
