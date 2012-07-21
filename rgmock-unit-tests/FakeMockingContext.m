@@ -13,6 +13,9 @@
     NSMutableArray *_handledInvocations;
 }
 
+@synthesize mode = _fakeMode;
+
+
 #pragma mark - Initialization
 
 + (id)fakeContext {

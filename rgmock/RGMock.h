@@ -12,6 +12,7 @@
 #import "RGMockContext.h"
 
 #import "RGMockClassAndProtocolMock.h"
+#import "RGMockSpy.h"
 
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"

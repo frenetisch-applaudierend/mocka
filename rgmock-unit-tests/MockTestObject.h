@@ -38,3 +38,6 @@
 - (NSRange)rangeMethodCallWithoutParameters;
 
 @end
+
+
+NSArray* MockTestObjectCalledSelectors(MockTestObject *object);
