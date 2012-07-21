@@ -46,12 +46,13 @@ id mock_createSpyForObject(id object, RGMockContext *context) {
 }
 
 static Class mock_createSpyClassForClass(Class cls, RGMockContext *context) {
+#define typeForInheritedMethod(mthd) method_getTypeEncoding(class_getInstanceMethod(cls, @selector(mthd)))
     const char *spyClassName = [[NSStringFromClass(cls) stringByAppendingString:RGMockSpyClassSuffix] UTF8String];
     Class spyClass = objc_getClass(spyClassName);
     if (spyClass == Nil) {
         spyClass = objc_allocateClassPair(cls, spyClassName, 0);
-        class_addMethod(spyClass, @selector(class), (IMP)&spy_class, "#@:");
-        class_addMethod(spyClass, @selector(forwardInvocation:), (IMP)&spy_forwardInvocation, "v@:@");
+        class_addMethod(spyClass, @selector(class), (IMP)&spy_class, typeForInheritedMethod(class));
+        class_addMethod(spyClass, @selector(forwardInvocation:), (IMP)&spy_forwardInvocation, typeForInheritedMethod(forwardInvocation:));
         mock_overrideMethodsForClass(cls, spyClass, context);
         objc_registerClassPair(spyClass);
     }
@@ -101,6 +102,7 @@ static void mock_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMu
 static SEL mock_backupSelectorForSelector(SEL selector) {
     return NSSelectorFromString([RGMockSpyBackupMethodPrefix stringByAppendingString:NSStringFromSelector(selector)]);
 }
+
 
 #pragma mark - Testing if an object is a Spy
 
