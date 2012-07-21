@@ -2,106 +2,73 @@
 //  RGMockInvocationMatcher.m
 //  rgmock
 //
-//  Created by Markus Gasser on 05.02.12.
+//  Created by Markus Gasser on 14.07.12.
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
 #import "RGMockInvocationMatcher.h"
-
-
-static BOOL isEncodedType(char typeChar) {
-    return (typeChar != 'r' && typeChar != 'R' &&
-            typeChar != 'n' && typeChar != 'N' &&
-            typeChar != 'o' && typeChar != 'O' &&
-            typeChar != 'V');
-    
-}
-
-static BOOL equalTypes(const char *t1, const char *t2) {
-    NSMutableString *type1 = [NSMutableString string];
-    NSMutableString *type2 = [NSMutableString string];
-    for (int i = 0; i < strlen(t1); i++) { if (isEncodedType(t1[i])) { [type1 appendFormat:@"%c", t1[i]]; } }
-    for (int i = 0; i < strlen(t2); i++) { if (isEncodedType(t2[i])) { [type2 appendFormat:@"%c", t2[i]]; } }
-    return ([type1 isEqualToString:type2]);
-}
-
-
-@interface RGMockInvocationMatcher ()
-
-- (BOOL)argumentAtIndex:(NSUInteger)index withType:(const char *)argType
-    isEqualInInvocation:(NSInvocation *)invocation1 andInvocation:(NSInvocation *)invocation2;
-
-@end
+#import "RGMockTypeEncodings.h"
 
 
 @implementation RGMockInvocationMatcher
 
-- (BOOL)invocation:(NSInvocation *)invocation matchesInvocation:(NSInvocation *)candidate {
-    // First check for obvious mismatches
-    if (!(invocation.selector == candidate.selector
-          && invocation.target == candidate.target
-          && [invocation.methodSignature isEqual:candidate.methodSignature]))
-    {
+#pragma mark - Initialization
+
++ (id)defaultMatcher {
+    static id defaultMatcher = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        defaultMatcher = [[RGMockInvocationMatcher alloc] init];
+    });
+    return defaultMatcher;
+}
+
+
+#pragma mark - Invocation Matching
+
+- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype {
+    // Check for the most obvious failures
+    if (candidate == nil || prototype == nil || candidate.target != prototype.target || candidate.selector != prototype.selector) {
         return NO;
     }
     
-    // Check if parameter match
-    NSMethodSignature *signature = invocation.methodSignature;
-    for (NSUInteger argIndex = 2; argIndex < [signature numberOfArguments]; argIndex++) {
-        if (![self argumentAtIndex:argIndex withType:[signature getArgumentTypeAtIndex:argIndex]
-               isEqualInInvocation:invocation andInvocation:candidate])
-        {
+    // Sanity check => if this fails, something is seriously broken
+    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments,
+             @"Same selector but different number of arguments");
+    
+    // Check arguments (first two can be skipped, it's self and _cmd)
+    for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
+        // Test for argument types
+        const char *candidateArgumentType = [candidate.methodSignature getArgumentTypeAtIndex:argIndex];
+        const char *prototypeArgumentType = [prototype.methodSignature getArgumentTypeAtIndex:argIndex];
+        if (strcmp(candidateArgumentType, prototypeArgumentType) != 0) {
             return NO;
         }
-    }
-    
-    // All good, we have a match
-    return YES;
-}
-
-- (BOOL)argumentAtIndex:(NSUInteger)index withType:(const char *)argType
-    isEqualInInvocation:(NSInvocation *)invocation1 andInvocation:(NSInvocation *)invocation2
-{
-    #define runChecks(...) __VA_ARGS__
-    #define checkMatchesPrimitive(t)\
-        if (equalTypes(argType, @encode(t))) {\
-            t v1, v2; [invocation1 getArgument:&v1 atIndex:index]; [invocation2 getArgument:&v2 atIndex:index]; return (v1 == v2);\
+        
+        if ([RGMockTypeEncodings isPrimitiveType:candidateArgumentType]) {
+            UInt64 candidateArgument = 0; [candidate getArgument:&candidateArgument atIndex:argIndex];
+            UInt64 prototypeArgument = 0; [prototype getArgument:&prototypeArgument atIndex:argIndex];
+            if (candidateArgument != prototypeArgument) {
+                return NO;
+            }
+        } else if ([RGMockTypeEncodings isObjectType:candidateArgumentType]) {
+            void *candidateArgument = nil; [candidate getArgument:&candidateArgument atIndex:argIndex];
+            void *prototypeArgument = nil; [prototype getArgument:&prototypeArgument atIndex:argIndex];
+            if (candidateArgument != prototypeArgument && ![(__bridge id)candidateArgument isEqual:(__bridge id)prototypeArgument]) {
+                return NO;
+            }
+        } else if ([RGMockTypeEncodings isSelectorOrCStringType:candidateArgumentType]) {
+            // Seems like C strings are reported as selectors, so treat both of them like C strings
+            const char *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
+            const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
+            if (candidateArgument != prototypeArgument && strcmp(candidateArgument, prototypeArgument) != 0) {
+                return NO;
+            }
+        } else {
+            NSLog(@"Invocation Matcher: ignoring unknown objc type %s", candidateArgumentType);
         }
-    
-    runChecks(
-              // Handle objects specially
-              if (equalTypes(argType, @encode(id))) {
-                  id value1, value2;
-                  [invocation1 getArgument:&value1 atIndex:index];
-                  [invocation2 getArgument:&value2 atIndex:index];
-                  return (value1 != nil ? [value1 isEqual:value2] : value2 == nil);
-              }
-              
-              // Handle strings
-              else if (equalTypes(argType, @encode(char*))) {
-                  char *value1, *value2;
-                  [invocation1 getArgument:&value1 atIndex:index];
-                  [invocation2 getArgument:&value2 atIndex:index];
-                  return (value1 == value2 || (value1 != NULL && value2 != NULL && strcmp(value1, value2) == 0));
-              }
-              
-              // Handle other special types
-              else checkMatchesPrimitive(Class)     else checkMatchesPrimitive(SEL)
-              
-              // Handle primitive types
-              else checkMatchesPrimitive(BOOL)      else checkMatchesPrimitive(_Bool)
-              else checkMatchesPrimitive(char)      else checkMatchesPrimitive(unsigned char)
-              else checkMatchesPrimitive(int)       else checkMatchesPrimitive(unsigned int)
-              else checkMatchesPrimitive(short)     else checkMatchesPrimitive(unsigned short)
-              else checkMatchesPrimitive(long)      else checkMatchesPrimitive(unsigned long)
-              else checkMatchesPrimitive(long long) else checkMatchesPrimitive(unsigned long long)
-              else checkMatchesPrimitive(float)     else checkMatchesPrimitive(double)
-              
-              else {
-                  NSString *reason = [NSString stringWithFormat:@"Cannot match argument at index %d with type %s", (index - 2), argType];
-                  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
-              }
-    );
+    }
+    return YES;
 }
 
 @end

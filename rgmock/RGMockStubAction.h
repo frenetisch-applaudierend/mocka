@@ -1,0 +1,16 @@
+//
+//  RGMockStubAction.h
+//  rgmock
+//
+//  Created by Markus Gasser on 16.07.12.
+//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//
+
+
+#define mock_record_stub_action(action) [mock_currentContext() addStubAction:(action)]
+
+@protocol RGMockStubAction <NSObject>
+
+- (void)performWithInvocation:(NSInvocation *)invocation;
+
+@end

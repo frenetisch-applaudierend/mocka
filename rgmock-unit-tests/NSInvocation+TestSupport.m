@@ -8,6 +8,7 @@
 
 #import "NSInvocation+TestSupport.h"
 
+
 static BOOL isEncodedType(char typeChar) {
     return (typeChar != 'r' && typeChar != 'R' &&
             typeChar != 'n' && typeChar != 'N' &&
@@ -59,6 +60,7 @@ static BOOL equalTypes(const char *t1, const char *t2) {
     }
     va_end(args);
     
+    [invocation retainArguments];
     return invocation;
 }
 
