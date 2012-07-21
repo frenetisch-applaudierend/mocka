@@ -41,4 +41,18 @@
     return nil;
 }
 
+
+#pragma mark - Pointer Return Calls
+
+- (int *)intPointerMethodCallWithoutParameters {
+    return NULL;
+}
+
+
+#pragma mark - Struct Return Calls
+
+- (NSRange)rangeMethodCallWithoutParameters {
+    return NSMakeRange(0, 0);
+}
+
 @end

@@ -13,9 +13,6 @@
     BOOL        _satisfied;
 }
 
-@synthesize numberOfCalls = _numberOfCalls;
-
-
 #pragma mark - Initialization
 
 + (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {

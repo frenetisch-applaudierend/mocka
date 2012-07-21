@@ -19,3 +19,4 @@
 #import "RGMockStubAction.h"
 #import "RGMockReturnStubAction.h"
 #import "RGMockPerformBlockStubAction.h"
+#import "RGMockThrowExceptionStubAction.h"

@@ -80,6 +80,13 @@
 
 #pragma mark - Test Stubbing
 
+- (void)testThatUnstubbedMethodsReturnDefaultValues {
+    STAssertNil([object objectMethodCallWithoutParameters], @"Should return nil for unstubbed object return");
+    STAssertEquals([object intMethodCallWithoutParameters], (int)0, @"Should return 0 for unstubbed int return");
+    STAssertEquals([object intPointerMethodCallWithoutParameters], (int*)NULL, @"Should return NULL for unstubbed pointer return");
+    STAssertTrue(NSEqualRanges(NSMakeRange(0, 0), [object rangeMethodCallWithoutParameters]), @"Should return uninitialized value for unstubbed range");
+}
+
 - (void)testThatStubbedReturnValueIsReturned {
     // given
     stub [object objectMethodCallWithoutParameters]; soThatItWill returnValue(@"Hello World");
@@ -98,7 +105,7 @@
     soThatItWill performBlock(^(NSInvocation *inv) {
         marker = @"called";
     });
-    andItWill returnValue(20);
+    andItWill returnValue(@20);
     
     // then
     STAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
@@ -168,6 +175,18 @@
     // then
     STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
     STAssertEqualObjects([object2 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
+}
+
+- (void)testStubbingArray {
+    // given
+    NSMutableArray *array = mock([NSMutableArray class]);
+    
+    stub [array count];
+    soThatItWill performBlock(^(NSInvocation *inv) { [self description]; });
+    andItWill returnValue(10);
+    
+    // then
+    STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
 }
 
 @end

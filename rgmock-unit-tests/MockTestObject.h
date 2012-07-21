@@ -27,4 +27,14 @@
 
 - (id)objectMethodCallWithoutParameters;
 
+
+#pragma mark - Pointer Return Calls
+
+- (int *)intPointerMethodCallWithoutParameters;
+
+
+#pragma mark - Struct Return Calls
+
+- (NSRange)rangeMethodCallWithoutParameters;
+
 @end

@@ -10,8 +10,6 @@
 #import "RGMock.h"
 
 
-static BOOL throwException(id ex) { return YES; }
-
 static int anyIntArg() { return 0; }
 static NSString* anyStringArg() { return nil; }
 
@@ -61,8 +59,8 @@ static void noMoreInteractionsOn(id mock) {}
     NSMutableArray *array = mock([NSMutableArray class]);
     
     stub [array count];
-    soThatItWill performBlock(^(NSInvocation *inv) { [self description]; });
-    andItWill returnValue(@10); // return values are always defined as objects, automatically unboxed for primitive types
+    soThatItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
+    andItWill returnValue(10); // returnValue() takes objects, primitives or pointer types, use returnStruct() for struct types
     
     // also possible to do a complete one-liner
     stub [array objectAtIndex:1]; soThatItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
@@ -81,7 +79,7 @@ static void noMoreInteractionsOn(id mock) {}
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
     }
-    soThatItWill performBlock(^(NSInvocation *inv) { [self fooWithBar:@"Something" baz:2.0f]; });
+    soThatItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
     andItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
