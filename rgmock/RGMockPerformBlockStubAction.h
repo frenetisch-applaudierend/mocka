@@ -18,6 +18,7 @@
 @end
 
 
+// Mocking Syntax
 #define mock_performBlock(blk) mock_record_stub_action([RGMockPerformBlockStubAction performBlockActionWithBlock:(blk)])
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX

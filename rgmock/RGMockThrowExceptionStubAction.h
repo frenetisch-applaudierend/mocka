@@ -18,6 +18,7 @@
 @end
 
 
+// Mocking Syntax
 #define mock_throwException(ex) mock_record_stub_action([RGMockThrowExceptionStubAction throwExceptionActionWithException:(ex)])
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX

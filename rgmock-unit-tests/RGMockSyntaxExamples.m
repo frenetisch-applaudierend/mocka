@@ -21,7 +21,6 @@ static void noMoreInteractionsOn(id mock) {}
 
 #define once if (YES)
 #define exactly(num) if (YES)
-#define never if (YES)
 
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 

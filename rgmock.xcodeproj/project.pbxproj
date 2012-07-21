@@ -52,6 +52,9 @@
 		28DF1CEB15BB0EDE003408ED /* RGMockSpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DF1CE915BB0EDE003408ED /* RGMockSpy.m */; };
 		28DF1CEE15BB10C4003408ED /* RGMockSpyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DF1CED15BB10C4003408ED /* RGMockSpyTest.m */; };
 		28ECE88015BB38C000F15F12 /* RGMockSpyFunctionalTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE87F15BB38C000F15F12 /* RGMockSpyFunctionalTest.m */; };
+		28ECE89715BB69B800F15F12 /* RGMockNeverVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE89515BB69B800F15F12 /* RGMockNeverVerificationHandler.h */; };
+		28ECE89815BB69B800F15F12 /* RGMockNeverVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE89615BB69B800F15F12 /* RGMockNeverVerificationHandler.m */; };
+		28ECE89B15BB6C1700F15F12 /* RGMockNeverVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE89A15BB6C1700F15F12 /* RGMockNeverVerificationHandlerTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +120,9 @@
 		28DF1CE915BB0EDE003408ED /* RGMockSpy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSpy.m; sourceTree = "<group>"; };
 		28DF1CED15BB10C4003408ED /* RGMockSpyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSpyTest.m; sourceTree = "<group>"; };
 		28ECE87F15BB38C000F15F12 /* RGMockSpyFunctionalTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSpyFunctionalTest.m; sourceTree = "<group>"; };
+		28ECE89515BB69B800F15F12 /* RGMockNeverVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockNeverVerificationHandler.h; sourceTree = "<group>"; };
+		28ECE89615BB69B800F15F12 /* RGMockNeverVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockNeverVerificationHandler.m; sourceTree = "<group>"; };
+		28ECE89A15BB6C1700F15F12 /* RGMockNeverVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockNeverVerificationHandlerTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +213,8 @@
 				28575E1715B202440077ACFC /* RGMockVerificationHandler.h */,
 				28575E1A15B205720077ACFC /* RGMockDefaultVerificationHandler.h */,
 				28575E1B15B205720077ACFC /* RGMockDefaultVerificationHandler.m */,
+				28ECE89515BB69B800F15F12 /* RGMockNeverVerificationHandler.h */,
+				28ECE89615BB69B800F15F12 /* RGMockNeverVerificationHandler.m */,
 			);
 			name = Verifying;
 			sourceTree = "<group>";
@@ -332,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				287544E915B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m */,
+				28ECE89A15BB6C1700F15F12 /* RGMockNeverVerificationHandlerTest.m */,
 			);
 			name = "Verification Handlers";
 			sourceTree = "<group>";
@@ -357,6 +366,7 @@
 				2803FEB315B9B06800108114 /* RGMockTypeEncodings.h in Headers */,
 				28DF1CBD15BAAE77003408ED /* RGMockThrowExceptionStubAction.h in Headers */,
 				28DF1CEA15BB0EDE003408ED /* RGMockSpy.h in Headers */,
+				28ECE89715BB69B800F15F12 /* RGMockNeverVerificationHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +478,7 @@
 				28DF1CAF15BAA682003408ED /* RGMockTypeEncodings.m in Sources */,
 				28DF1CBE15BAAE77003408ED /* RGMockThrowExceptionStubAction.m in Sources */,
 				28DF1CEB15BB0EDE003408ED /* RGMockSpy.m in Sources */,
+				28ECE89815BB69B800F15F12 /* RGMockNeverVerificationHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +501,7 @@
 				28DF1CC415BAAFE5003408ED /* RGMockThrowExceptionStubActionTest.m in Sources */,
 				28DF1CEE15BB10C4003408ED /* RGMockSpyTest.m in Sources */,
 				28ECE88015BB38C000F15F12 /* RGMockSpyFunctionalTest.m in Sources */,
+				28ECE89B15BB6C1700F15F12 /* RGMockNeverVerificationHandlerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

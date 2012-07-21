@@ -18,6 +18,7 @@
 @end
 
 
+// Mocking Syntax
 #define mock_returnValue(val) mock_record_stub_action(mock_returnValueAction(val))
 #define mock_returnStruct(strt) mock_record_stub_action(mock_returnStructAction(strt))
 

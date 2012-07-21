@@ -36,7 +36,7 @@
 }
 
 
-#pragma mark - Test Simple Mock Call and Verify
+#pragma mark - Test Simple Verify
 
 - (void)testThatVerifySucceedsForSimpleCall {
     // when
@@ -92,6 +92,30 @@
     
     AssertNumberOfInvocations(object, 1);
     AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
+}
+
+
+#pragma mark - Test Verify with handlers
+
+- (void)testThatVerifyNeverFailsWhenCallWasMade {
+    // when
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertFails({
+        verify never [object voidMethodCallWithoutParameters];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
+}
+
+- (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
+    AssertDoesNotFail({
+        verify never [object voidMethodCallWithoutParameters];
+    });
+    
+    AssertNumberOfInvocations(object, 0);
 }
 
 

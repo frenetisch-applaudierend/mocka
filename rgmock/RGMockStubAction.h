@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 
 #define mock_record_stub_action(action) [mock_currentContext() addStubAction:(action)]
 

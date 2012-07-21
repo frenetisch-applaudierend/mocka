@@ -16,6 +16,7 @@
 
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
+#import "RGMockNeverVerificationHandler.h"
 
 #import "RGMockStubAction.h"
 #import "RGMockReturnStubAction.h"
