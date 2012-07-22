@@ -16,9 +16,6 @@ static NSString* anyStringArg() { return nil; }
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
 
-static void noInteractionsOn(id mock) {}
-static void noMoreInteractionsOn(id mock) {}
-
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 
 @interface NSObject (RGMockSyntaxExamples)
