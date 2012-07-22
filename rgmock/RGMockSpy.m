@@ -72,15 +72,19 @@ static void mock_overrideMethodsForClass(Class cls, Class spyClass, RGMockContex
 
 static void mock_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMutableSet *overriddenMethods, RGMockContext *context) {
     // There are some potentially dangerous methods to override, we explicitely forbid those
-    NSArray *forbiddenMethods = @[ @"retain", @"release", @"autorelease", @"methodSignatureForSelector:", @"respondsToSelector:" ];
+    NSArray *forbiddenMethods = @[
+        @"retain", @"release", @"autorelease", @"retainCount",
+        @"methodSignatureForSelector:", @"respondsToSelector:", @"forwardInvocation:",
+        @"class"
+    ];
     IMP forwarder = class_getMethodImplementation(cls, @selector(mock_methodThatDoesNotExist));
     
     unsigned int numMethods = 0;
     Method *methods = class_copyMethodList(cls, &numMethods);
     for (unsigned int i = 0; i < numMethods; i++) {
+        NSString *methodName = NSStringFromSelector(method_getName(methods[i]));
         // Check if there is a reason not to override this method, e.g. it was already overridden or it belongs to the "evil" methods
-        if ([forbiddenMethods containsObject:NSStringFromSelector(method_getName(methods[i]))]
-            || [overriddenMethods containsObject:NSStringFromSelector(method_getName(methods[i]))]) {
+        if ([forbiddenMethods containsObject:methodName] || [overriddenMethods containsObject:methodName] || [methodName hasPrefix:@"_"]) {
             continue;
         }
         
