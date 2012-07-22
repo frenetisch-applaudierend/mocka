@@ -155,6 +155,62 @@
 }
 
 
+#pragma mark - Test Verify with Arguments
+
+- (void)testThatVerifySucceedsForMatchingObjectArguments {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithObjectParam1:objectParam2:), 0);
+}
+
+- (void)testThatVerifyFailsForNonMatchingObjectArguments {
+#error This fails with an endless loop (only for spies)
+    // when
+    [object voidMethodCallWithObjectParam1:@"World" objectParam2:@"Hello"];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithObjectParam1:objectParam2:), 0);
+}
+
+- (void)testThatVerifySucceedsForMatchingPrimitiveArguments {
+    // when
+    [object voidMethodCallWithIntParam1:2 intParam2:45];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithIntParam1:2 intParam2:45];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithIntParam1:intParam2:), 0);
+}
+
+- (void)testThatVerifyFailsForNonMatchingPrimitiveArguments {
+    // when
+    [object voidMethodCallWithIntParam1:2 intParam2:45];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithIntParam1:0 intParam2:45];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithIntParam1:intParam2:), 0);
+}
+
+
 #pragma mark - Test Stubbing
 
 - (void)testThatUnstubbedMethodsReturnOriginalValues {

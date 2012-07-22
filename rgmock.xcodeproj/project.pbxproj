@@ -60,6 +60,7 @@
 		28ECE8A115BB76B400F15F12 /* RGMockExactlyVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE8A015BB76B400F15F12 /* RGMockExactlyVerificationHandlerTest.m */; };
 		28ECE8A415BB7AAB00F15F12 /* RGMockVerifyNoInteractions.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A215BB7AAA00F15F12 /* RGMockVerifyNoInteractions.h */; };
 		28ECE8A515BB7AAB00F15F12 /* RGMockVerifyNoInteractions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE8A315BB7AAA00F15F12 /* RGMockVerifyNoInteractions.m */; };
+		28ECE8A815BBF2FD00F15F12 /* RGMockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,7 @@
 		28ECE8A015BB76B400F15F12 /* RGMockExactlyVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockExactlyVerificationHandlerTest.m; sourceTree = "<group>"; };
 		28ECE8A215BB7AAA00F15F12 /* RGMockVerifyNoInteractions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockVerifyNoInteractions.h; sourceTree = "<group>"; };
 		28ECE8A315BB7AAA00F15F12 /* RGMockVerifyNoInteractions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockVerifyNoInteractions.m; sourceTree = "<group>"; };
+		28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockArgumentMatcher.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,9 +177,10 @@
 			isa = PBXGroup;
 			children = (
 				28575DEC15B1DB200077ACFC /* Mocking Core */,
+				28575DED15B1DBE60077ACFC /* Mock Classes */,
 				2857B58015B4744300D64D27 /* Stubbing */,
 				28575E1915B205170077ACFC /* Verifying */,
-				28575DED15B1DBE60077ACFC /* Mock Classes */,
+				28ECE8A615BBF19500F15F12 /* Argument Matching */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -360,6 +363,14 @@
 			name = "Verification Handlers";
 			sourceTree = "<group>";
 		};
+		28ECE8A615BBF19500F15F12 /* Argument Matching */ = {
+			isa = PBXGroup;
+			children = (
+				28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */,
+			);
+			name = "Argument Matching";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -384,6 +395,7 @@
 				28ECE89715BB69B800F15F12 /* RGMockNeverVerificationHandler.h in Headers */,
 				28ECE89E15BB701400F15F12 /* RGMockExactlyVerificationHandler.h in Headers */,
 				28ECE8A415BB7AAB00F15F12 /* RGMockVerifyNoInteractions.h in Headers */,
+				28ECE8A815BBF2FD00F15F12 /* RGMockArgumentMatcher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

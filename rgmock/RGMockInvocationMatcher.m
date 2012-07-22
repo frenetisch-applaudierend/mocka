@@ -20,6 +20,7 @@
     dispatch_once(&onceToken, ^{
         defaultMatcher = [[RGMockInvocationMatcher alloc] init];
     });
+    
     return defaultMatcher;
 }
 

@@ -124,6 +124,72 @@
 }
 
 
+#pragma mark - Test Verify with Arguments
+
+- (void)testThatVerifySucceedsForMatchingObjectArguments {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    });
+}
+
+- (void)testThatVerifyFailsForNonMatchingObjectArguments {
+    // when
+    [object voidMethodCallWithObjectParam1:@"World" objectParam2:@"Hello"];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    });
+}
+
+- (void)testThatVerifySucceedsForMatchingPrimitiveArguments {
+    // when
+    [object voidMethodCallWithIntParam1:2 intParam2:45];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithIntParam1:2 intParam2:45];
+    });
+}
+
+- (void)testThatVerifyFailsForNonMatchingPrimitiveArguments {
+    // when
+    [object voidMethodCallWithIntParam1:2 intParam2:45];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithIntParam1:0 intParam2:45];
+    });
+}
+
+
+#pragma mark - Test Verifying with Argument Matchers
+
+- (void)testThatVerifySucceedsForMatchingObjectArgumentMatcherWithImpliedEqual {
+    // when
+    [object voidMethodCallWithObjectParam1:[@"Hello" mutableCopy] objectParam2:[@"World" mutableCopy]];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:argMatching(@"Hello") objectParam2:argMatching(@"World")];
+    });
+}
+
+- (void)testThatVerifyFailsForNonMatchingObjectArgumentMatcherWithImpliedEqual {
+    // when
+    [object voidMethodCallWithObjectParam1:[@"World" mutableCopy] objectParam2:[@"Hello" mutableCopy]];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithObjectParam1:argMatching(@"Hello") objectParam2:argMatching(@"World")];
+    });
+}
+
+
 #pragma mark - Test Stubbing
 
 - (void)testThatUnstubbedMethodsReturnDefaultValues {
