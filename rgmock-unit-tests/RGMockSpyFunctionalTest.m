@@ -118,6 +118,42 @@
     AssertNumberOfInvocations(object, 0);
 }
 
+- (void)testThatExactlyOneSucceedsWhenOneCallWasMade {
+    // when
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertDoesNotFail({
+        verify exactly(1) [object voidMethodCallWithoutParameters];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
+}
+
+- (void)testThatExactlyOneFailsWhenNoCallWasMade {
+    AssertFails({
+        verify exactly(1) [object voidMethodCallWithoutParameters];
+    });
+    
+    AssertNumberOfInvocations(object, 0);
+}
+
+- (void)testThatExactlyOneFailsWhenMultipleCallsWereMade {
+    // when
+    [object voidMethodCallWithoutParameters];
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertFails({
+        verify exactly(1) [object voidMethodCallWithoutParameters];
+    });
+    
+    AssertNumberOfInvocations(object, 2);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 1);
+}
+
 
 #pragma mark - Test Stubbing
 

@@ -19,11 +19,7 @@ static NSString* anyStringArg() { return nil; }
 static void noInteractionsOn(id mock) {}
 static void noMoreInteractionsOn(id mock) {}
 
-#define once if (YES)
-#define exactly(num) if (YES)
-
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
-
 
 @interface NSObject (RGMockSyntaxExamples)
 - (void)fooWithBar:(id)bar baz:(float)baz;

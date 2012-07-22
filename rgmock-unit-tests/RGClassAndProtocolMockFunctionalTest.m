@@ -96,6 +96,33 @@
     });
 }
 
+- (void)testThatExactlyOneSucceedsWhenOneCallWasMade {
+    // when
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertDoesNotFail({
+        verify exactly(1) [object voidMethodCallWithoutParameters];
+    });
+}
+
+- (void)testThatExactlyOneFailsWhenNoCallWasMade {
+    AssertFails({
+        verify exactly(1) [object voidMethodCallWithoutParameters];
+    });
+}
+
+- (void)testThatExactlyOneFailsWhenMultipleCallsWereMade {
+    // when
+    [object voidMethodCallWithoutParameters];
+    [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertFails({
+        verify exactly(1) [object voidMethodCallWithoutParameters];
+    });
+}
+
 
 #pragma mark - Test Stubbing
 
