@@ -36,6 +36,9 @@ id mock_createSpyForObject(id object, RGMockContext *context) {
     // Safeguards
     if (object == nil) { return nil; }
     if (mock_objectIsSpy(object)) { return object; }
+    if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
+        [context failWithReason:[NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)]];
+    }
     
     // Change the class to the spy class of this object
     object_setClass(object, mock_createSpyClassForClass(object_getClass(object), context));

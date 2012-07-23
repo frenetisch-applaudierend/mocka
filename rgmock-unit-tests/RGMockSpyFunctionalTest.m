@@ -171,7 +171,6 @@
 }
 
 - (void)testThatVerifyFailsForNonMatchingObjectArguments {
-#error This fails with an endless loop (only for spies)
     // when
     [object voidMethodCallWithObjectParam1:@"World" objectParam2:@"Hello"];
     
@@ -340,17 +339,6 @@
     
     // then
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
-}
-
-- (void)testStubbingConstantString {
-    // given
-    NSString *string = spy(@"Hello");
-    
-    stub [string length];
-    soThatItWill returnValue(99);
-    
-    // then
-    STAssertEquals((int)[string length], (int)99, @"[string length] stub does not work");
 }
 
 @end
