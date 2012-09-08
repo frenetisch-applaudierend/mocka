@@ -8,14 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-
-@protocol RGMockArgumentMatcher <NSObject>
-
-@end
-
-
-// Mocking Syntax
-#define mock_argMatching(m) m
+static const int AnyIntMagicNumber = 1010414321;
+#define mock_anyInt() AnyIntMagicNumber
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define argMatching(m) mock_argMatching((m))
+#define anyInt() mock_anyInt()
 #endif

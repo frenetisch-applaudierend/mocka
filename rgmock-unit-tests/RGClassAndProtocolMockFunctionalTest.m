@@ -167,25 +167,27 @@
 }
 
 
-#pragma mark - Test Verifying with Argument Matchers
+#pragma mark - Test Verify with Argument Matchers
 
-- (void)testThatVerifySucceedsForMatchingObjectArgumentMatcherWithImpliedEqual {
+- (void)testThatVerifySucceedsForAnyIntegerWithAnyIntMatcher {
     // when
-    [object voidMethodCallWithObjectParam1:[@"Hello" mutableCopy] objectParam2:[@"World" mutableCopy]];
+    [object voidMethodCallWithIntParam1:10 intParam2:20];
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:argMatching(@"Hello") objectParam2:argMatching(@"World")];
+        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
     });
 }
 
-- (void)testThatVerifyFailsForNonMatchingObjectArgumentMatcherWithImpliedEqual {
+- (void)testThatVerifySucceedsForEdgeCasesWithAnyIntMatcher {
     // when
-    [object voidMethodCallWithObjectParam1:[@"World" mutableCopy] objectParam2:[@"Hello" mutableCopy]];
+    [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
+    [object voidMethodCallWithIntParam1:NSIntegerMin intParam2:NSIntegerMax];
     
     // then
-    AssertFails({
-        verify [object voidMethodCallWithObjectParam1:argMatching(@"Hello") objectParam2:argMatching(@"World")];
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
     });
 }
 
@@ -299,6 +301,34 @@
     
     // then
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
+}
+
+
+#pragma mark - Test Stubbing with Argument Matchers
+
+- (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher {
+    // when
+    __block BOOL methodMatched = NO;
+    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soThatItWill performBlock(^(NSInvocation *inv) {
+        methodMatched = YES;
+    });
+    
+    // then
+    [object voidMethodCallWithIntParam1:10 intParam2:20];
+    STAssertTrue(methodMatched, @"Method was not matched");
+}
+
+- (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
+    // when
+    __block int invocationCount = 0;
+    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soThatItWill performBlock(^(NSInvocation *inv) {
+        invocationCount++;
+    });
+    
+    // then
+    [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
+    [object voidMethodCallWithIntParam1:NSIntegerMax intParam2:NSIntegerMin];
+    STAssertEquals(invocationCount, 2, @"Not all egde cases match");
 }
 
 @end

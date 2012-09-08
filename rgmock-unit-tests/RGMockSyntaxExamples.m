@@ -10,8 +10,7 @@
 #import "RGMock.h"
 
 
-static int anyIntArg() { return 0; }
-static NSString* anyStringArg() { return nil; }
+static id anyObject() { return nil; }
 
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
@@ -85,12 +84,12 @@ static NSString* anyStringArg() { return nil; }
 - (void)testArgumentMatchersForStubbing {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    stub [array objectAtIndex:anyIntArg()]; soThatItWill returnValue(@"Foo");
+    stub [array objectAtIndexedSubscript:anyInt()]; soThatItWill returnValue(@"Foo");
     
     // then
-    STAssertEqualObjects([array objectAtIndex:0], @"Foo", @"anyIntArg() did not stub index 0");
-    STAssertEqualObjects([array objectAtIndex:NSNotFound], @"Foo", @"anyIntArg() did not stub index NSNotFound");
-    STAssertEqualObjects([array objectAtIndex:1234], @"Foo", @"anyIntArg() did not stub index 1234");
+    STAssertEqualObjects(array[0], @"Foo", @"anyInt() did not stub index 0");
+    STAssertEqualObjects(array[NSNotFound], @"Foo", @"anyInt() did not stub index NSNotFound");
+    STAssertEqualObjects(array[1234], @"Foo", @"anyInt() did not stub index 1234");
 }
 
 - (void)testArgumentMatchersForVerifying {
@@ -100,12 +99,12 @@ static NSString* anyStringArg() { return nil; }
     // when
     [array objectAtIndex:10];
     [array removeObjectAtIndex:NSNotFound];
-    [array replaceObjectAtIndex:1234 withObject:@"New Object"];
+    array[1234] = @"New Object";
     
     // then
-    verify [array objectAtIndex:anyIntArg()];
-    verify [array removeObjectAtIndex:anyIntArg()];
-    verify [array replaceObjectAtIndex:anyIntArg() withObject:anyStringArg()];
+    verify [array objectAtIndex:anyInt()];
+    verify [array removeObjectAtIndex:anyInt()];
+    verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];
 }
 
 

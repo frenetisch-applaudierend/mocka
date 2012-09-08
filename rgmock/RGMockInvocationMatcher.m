@@ -8,6 +8,7 @@
 
 #import "RGMockInvocationMatcher.h"
 #import "RGMockTypeEncodings.h"
+#import "RGMockArgumentMatcher.h"
 
 
 @implementation RGMockInvocationMatcher
@@ -49,7 +50,7 @@
         if ([RGMockTypeEncodings isPrimitiveType:candidateArgumentType]) {
             UInt64 candidateArgument = 0; [candidate getArgument:&candidateArgument atIndex:argIndex];
             UInt64 prototypeArgument = 0; [prototype getArgument:&prototypeArgument atIndex:argIndex];
-            if (candidateArgument != prototypeArgument) {
+            if (prototypeArgument != AnyIntMagicNumber && candidateArgument != prototypeArgument) {
                 return NO;
             }
         } else if ([RGMockTypeEncodings isObjectType:candidateArgumentType]) {

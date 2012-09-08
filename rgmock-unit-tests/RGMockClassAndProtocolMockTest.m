@@ -60,7 +60,7 @@
     
     // then
     STAssertEquals([fakeContext.handledInvocations count], (NSUInteger)1, @"Wrong number of handled invocations");
-    STAssertEqualObjects([fakeContext.handledInvocations objectAtIndex:0], invocation, @"Wrong invocation handled");
+    STAssertEqualObjects(fakeContext.handledInvocations[0], invocation, @"Wrong invocation handled");
 }
 
 

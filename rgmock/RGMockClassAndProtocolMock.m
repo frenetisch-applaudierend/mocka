@@ -123,6 +123,13 @@ static BOOL isClass(id obj);
     return (firstMatch != NSNotFound);
 }
 
+
+#pragma mark - Debugging
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@[%@]: %p>", [self class], _mockedEntities, self];
+}
+
 @end
 
 
