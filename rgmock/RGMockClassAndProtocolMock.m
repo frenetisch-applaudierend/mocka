@@ -31,9 +31,18 @@ static BOOL isClass(id obj);
     if ([sourceList count] == 0) {
         [context failWithReason:@"Need at least one class or protocol for mocking"];
     }
+    
+    BOOL hasClass = NO;
     for (id object in sourceList) {
         if (!(isProtocol(object) || isClass(object))) {
             [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
+        }
+        
+        if (isClass(object)) {
+            if (hasClass) {
+                [context failWithReason:@"At most one class can be mocked."];
+            }
+            hasClass = YES;
         }
     }
     
