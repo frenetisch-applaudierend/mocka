@@ -93,6 +93,8 @@ static __weak id _CurrentContext = nil;
 
 - (BOOL)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
+    [_argumentMatchers removeAllObjects];
+    
     if (newMode == RGMockContextModeVerifying) {
         _verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
     }
@@ -112,9 +114,6 @@ static __weak id _CurrentContext = nil;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", _mode);
     }
-    
-    // After a handled invocation we need to reset the matchers so they don't interfere with the next invocation
-    [_argumentMatchers removeAllObjects];
 }
 
 
@@ -143,6 +142,7 @@ static __weak id _CurrentContext = nil;
         [_recordedStubbings addObject:_currentStubbing];
     }
     [_currentStubbing addInvocation:invocation withArgumentMatchers:_argumentMatchers];
+    [_argumentMatchers removeAllObjects];
 }
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
@@ -173,6 +173,7 @@ static __weak id _CurrentContext = nil;
         [self failWithReason:@"Verify failed"];
     }
     [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
+    [self updateContextMode:RGMockContextModeRecording];
 }
 
 

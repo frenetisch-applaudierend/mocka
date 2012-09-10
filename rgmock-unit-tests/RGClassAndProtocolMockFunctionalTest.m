@@ -136,6 +136,17 @@
     });
 }
 
+- (void)testThatAfterVerifyContextSwitchesToRecordingMode {
+    // given
+    [object voidMethodCallWithoutParameters];
+    verify [object voidMethodCallWithoutParameters];
+    
+    // then
+    AssertDoesNotFail({
+        [object voidMethodCallWithoutParameters];
+    });
+}
+
 
 #pragma mark - Test Verify with Arguments
 
