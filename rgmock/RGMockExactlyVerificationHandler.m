@@ -30,9 +30,13 @@
 
 #pragma mark - Matching Invocations
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype inRecordedInvocations:(NSArray *)recordedInvocations satisfied:(BOOL *)satisified {
+- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
+                     withArgumentMatchers:(NSArray *)argumentMatchers
+                    inRecordedInvocations:(NSArray *)recordedInvocations
+                                satisfied:(BOOL *)satisified
+{
     NSIndexSet *indexes = [recordedInvocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
-        return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype];
+        return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype withArgumentMatchers:argumentMatchers];
     }];
     if (satisified != NULL) {
         *satisified = ([indexes count] == _count);

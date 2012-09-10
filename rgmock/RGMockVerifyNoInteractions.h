@@ -12,7 +12,7 @@
 
 
 // Mocking Syntax
-#define mock_noMoreInteractionsOn(mock) mock_checkNoInteractions(mock_currentContext(), (mock))
+#define mock_noMoreInteractionsOn(mock) mock_checkNoInteractions(mock_updatedContext(), (mock))
 #define mock_noInteractionsOn(mock) mock_noMoreInteractionsOn((mock))
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX

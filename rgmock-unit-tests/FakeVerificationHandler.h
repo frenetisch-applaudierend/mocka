@@ -14,4 +14,8 @@
 
 @property (nonatomic, readonly) NSUInteger numberOfCalls;
 
+@property (nonatomic, readonly) NSInvocation *lastInvocationPrototype;
+@property (nonatomic, readonly) NSArray      *lastArgumentMatchers;
+@property (nonatomic, readonly) NSArray      *lastRecordedInvocations;
+
 @end

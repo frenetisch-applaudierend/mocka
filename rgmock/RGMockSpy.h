@@ -15,7 +15,7 @@ id mock_createSpyForObject(id object, RGMockContext *context);
 BOOL mock_objectIsSpy(id object);
 
 // Mocking Syntax
-#define mock_spy(obj) mock_createSpyForObject((obj), mock_currentContext())
+#define mock_spy(obj) mock_createSpyForObject((obj), mock_updatedContext())
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define spy(obj) mock_spy((obj))
 #endif

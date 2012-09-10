@@ -30,7 +30,15 @@
 
 #pragma mark - RGMockVerificationHandler
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype inRecordedInvocations:(NSArray *)recordedInvocations satisfied:(BOOL *)satisified {
+- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
+                     withArgumentMatchers:(NSArray *)argumentMatchers
+                    inRecordedInvocations:(NSArray *)recordedInvocations
+                                satisfied:(BOOL *)satisified
+{
+    _lastInvocationPrototype = prototype;
+    _lastArgumentMatchers = [argumentMatchers copy];
+    _lastRecordedInvocations = [recordedInvocations copy];
+    
     _numberOfCalls++;
     *satisified = _satisfied;
     return _result;

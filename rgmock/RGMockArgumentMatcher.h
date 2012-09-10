@@ -7,9 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RGMockContext.h"
 
 static const int AnyIntMagicNumber = 1010414321;
 #define mock_anyInt() AnyIntMagicNumber
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define anyInt() mock_anyInt()
 #endif
+
+@protocol RGMockArgumentMatcher <NSObject>
+
+- (BOOL)matchesCandidate:(id)candidate;
+
+@end
+
+
+// Registering Matchers
+
+static inline char mock_registerPrimitiveMatcher(id<RGMockArgumentMatcher> matcher) {
+    return [[RGMockContext currentContext] pushArgumentMatcher:matcher];
+}
+
+static inline id mock_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
+    return @([[RGMockContext currentContext] pushArgumentMatcher:matcher]);
+}

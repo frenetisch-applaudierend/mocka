@@ -9,8 +9,11 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "NSInvocation+TestSupport.h"
 #import "FakeVerificationHandler.h"
+#import "DummyArgumentMatcher.h"
+#import "MockTestObject.h"
 #import "RGMockTestingUtils.h"
 
+#import "RGMockClassAndProtocolMock.h"
 #import "RGMockContext.h"
 #import "RGMockDefaultVerificationHandler.h"
 #import "RGMockReturnStubAction.h"
@@ -48,6 +51,42 @@
     ctx = [RGMockContext contextForTestCase:self fileName:@"Bar" lineNumber:20];
     STAssertEqualObjects(ctx.fileName, @"Bar", @"File name not updated");
     STAssertEquals(ctx.lineNumber, 20, @"Line number not updated");
+}
+
+- (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
+    // given
+    RGMockContext *ctx = [RGMockContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
+    
+    // when
+    RGMockContext *existingContext = [RGMockContext currentContext];
+    
+    // then
+    STAssertEquals(ctx, existingContext, @"Not the same context returned");
+    STAssertEquals(existingContext.fileName, @"Foo", @"Filename was changed");
+    STAssertEquals(existingContext.lineNumber, 10, @"Linenumber was changed");
+}
+
+- (void)testThatGettingExistingContextAlwaysGetsLatestContext {
+    // given
+    RGMockContext *oldCtx = [[RGMockContext alloc] initWithTestCase:self];
+    RGMockContext *newCtx = [[RGMockContext alloc] initWithTestCase:self];
+    
+    // then
+    STAssertEquals([RGMockContext currentContext], newCtx, @"Context was not updated");
+    oldCtx = nil; // shut the compiler up
+}
+
+- (void)testThatGettingExistingContextFailsIfNoContextWasCreatedYet {
+    // given
+    id testCase = [[NSObject alloc] init];
+    RGMockContext *ctx = [[RGMockContext alloc] initWithTestCase:testCase];
+    
+    // when
+    ctx = nil;
+    testCase = nil; // at this point the context should be deallocated
+    
+    // then
+    STAssertThrows([RGMockContext currentContext], @"Getting a context before it's created should fail");
 }
 
 
@@ -214,6 +253,121 @@
     // then
     STAssertEquals([context.recordedInvocations count], (NSUInteger)1, @"Calls were not removed");
     STAssertEquals([[context.recordedInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
+}
+
+
+#pragma mark - Test Supporting Matchers
+
+- (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
+    // given
+    [context updateContextMode:RGMockContextModeRecording];
+    id matcher = [[DummyArgumentMatcher alloc] init];
+    
+    // then
+    AssertFails({
+        [context pushArgumentMatcher:matcher];
+    });
+}
+
+- (void)testThatMatcherCanBeAddedToContextInStubbingMode {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing];
+    id matcher = [[DummyArgumentMatcher alloc] init];
+    
+    // when
+    [context pushArgumentMatcher:matcher];
+    
+    // then
+    STAssertEquals([context.argumentMatchers count], (uint)1, @"Argument matcher was not recorded");
+    STAssertEquals([context.argumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+}
+
+- (void)testThatMatcherCanBeAddedToContextInVerificationMode {
+    // given
+    [context updateContextMode:RGMockContextModeVerifying];
+    id matcher = [[DummyArgumentMatcher alloc] init];
+    
+    // when
+    [context pushArgumentMatcher:matcher];
+    
+    // then
+    STAssertEquals([context.argumentMatchers count], (uint)1, @"Argument matcher was not recorded");
+    STAssertEquals([context.argumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+}
+
+- (void)testThatAddingMatcherReturnsMatcherIndex {
+    // given
+    [context updateContextMode:RGMockContextModeStubbing]; // Fulfill precondition
+    id matcher0 = [[DummyArgumentMatcher alloc] init];
+    id matcher1 = [[DummyArgumentMatcher alloc] init];
+    id matcher2 = [[DummyArgumentMatcher alloc] init];
+    
+    // then
+    STAssertEquals([context pushArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
+    STAssertEquals([context pushArgumentMatcher:matcher1], (uint8_t)1, @"Wrong index returned for matcher");
+    STAssertEquals([context pushArgumentMatcher:matcher2], (uint8_t)2, @"Wrong index returned for matcher");
+}
+
+- (void)testThatHandlingInvocationClearsPushedMatchers {
+    // given
+    MockTestObject *object = [[MockTestObject alloc] init];
+    [context updateContextMode:RGMockContextModeStubbing]; // Fulfill precondition
+    [context pushArgumentMatcher:[[DummyArgumentMatcher alloc] init]];
+    [context pushArgumentMatcher:[[DummyArgumentMatcher alloc] init]];
+    
+    // when
+    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
+    
+    // then
+    STAssertEquals([context.argumentMatchers count], (uint)0, @"Argument matchers were not cleared after -handleInvocation:");
+}
+
+- (void)testThatVerificationInvocationFailsForUnequalNumberOfMatchers {
+    // given
+    MockTestObject *object = mock([MockTestObject class]);
+    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
+    
+    [context updateContextMode:RGMockContextModeVerifying];
+    [context pushArgumentMatcher:[[DummyArgumentMatcher alloc] init]]; // Prepare a verify call
+    
+    // when
+    AssertFails({
+        [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
+    });
+}
+
+- (void)testThatStubbingInvocationFailsForUnequalNumberOfMatchers {
+    // given
+    MockTestObject *object = mock([MockTestObject class]);
+    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
+    
+    [context updateContextMode:RGMockContextModeStubbing];
+    [context pushArgumentMatcher:[[DummyArgumentMatcher alloc] init]]; // Prepare a verify call
+    
+    // when
+    AssertFails({
+        [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
+    });
+}
+
+- (void)testThatHandlingInvocationInVerificationModePassesMatchers {
+    // given
+    MockTestObject *object = [[MockTestObject alloc] init];
+    id matcher0 = [[DummyArgumentMatcher alloc] init];
+    id matcher1 = [[DummyArgumentMatcher alloc] init];
+    
+    [context updateContextMode:RGMockContextModeVerifying];
+    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    
+    // when
+    [context pushArgumentMatcher:matcher0];
+    [context pushArgumentMatcher:matcher1];
+    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
+    
+    // then
+    STAssertEquals([[(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers] count], (uint)2, @"Number of matchers is wrong");
+    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][0], matcher0, @"Wrong matcher");
+    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][1], matcher1, @"Wrong matcher");
 }
 
 @end

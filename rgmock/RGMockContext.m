@@ -15,9 +15,6 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 
-static const NSUInteger RGMockingContextKey;
-
-
 @interface RGMockContext ()
 
 @property (nonatomic, readwrite, copy)   NSString *fileName;
@@ -29,8 +26,11 @@ static const NSUInteger RGMockingContextKey;
 @implementation RGMockContext {
     NSMutableArray *_recordedInvocations;
     NSMutableArray *_recordedStubbings;
+    NSMutableArray *_argumentMatchers;
     RGMockStubbing *_currentStubbing;
 }
+
+static __weak id _CurrentContext = nil;
 
 
 #pragma mark - Getting a Context
@@ -39,9 +39,10 @@ static const NSUInteger RGMockingContextKey;
     NSParameterAssert(testCase != nil);
     
     // Get the context or create a new one if necessary
+    static const NSUInteger RGMockingContextKey;
     RGMockContext *context = objc_getAssociatedObject(testCase, &RGMockingContextKey);
     if (context == nil) {
-        context = [[RGMockContext alloc] init];
+        context = [[RGMockContext alloc] initWithTestCase:testCase];
         objc_setAssociatedObject(testCase, &RGMockingContextKey, context, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
@@ -52,19 +53,39 @@ static const NSUInteger RGMockingContextKey;
     return context;
 }
 
-- (id)init {
++ (id)currentContext {
+    if (_CurrentContext == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:@"This method cannot be used before a context was created using +contextForTestCase:fileName:lineNumber:"
+                                     userInfo:nil];
+    }
+    return _CurrentContext;
+}
+
+
+#pragma mark - Initialization
+
+- (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
+        _testCase = testCase;
         _recordedInvocations = [NSMutableArray array];
         _recordedStubbings = [NSMutableArray array];
+        _argumentMatchers = [NSMutableArray array];
+        
+        _CurrentContext = self;
     }
     return self;
+}
+
+- (id)init {
+    return [self initWithTestCase:nil];
 }
 
 
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason {
-    @throw [NSException failureInFile:self.fileName atLine:self.lineNumber withDescription:@"%@", reason];
+    @throw [NSException failureInFile:_fileName atLine:_lineNumber withDescription:@"%@", reason];
 }
 
 
@@ -73,20 +94,27 @@ static const NSUInteger RGMockingContextKey;
 - (BOOL)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
     if (newMode == RGMockContextModeVerifying) {
-        self.verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
+        _verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
     }
     return YES;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    switch (self.mode) {
+    if ([_argumentMatchers count] > 0 && [_argumentMatchers count] != (invocation.methodSignature.numberOfArguments - 2)) {
+        [self failWithReason:@"When using argument matchers, all arguments must be matchers"];
+    }
+    
+    switch (_mode) {
         case RGMockContextModeRecording: [self recordInvocation:invocation]; break;
         case RGMockContextModeStubbing:  [self createStubbingForInvocation:invocation]; break;
         case RGMockContextModeVerifying: [self verifyInvocation:invocation]; break;
             
         default:
-            NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
+            NSAssert(NO, @"Oops, this context mode is unknown: %d", _mode);
     }
+    
+    // After a handled invocation we need to reset the matchers so they don't interfere with the next invocation
+    [_argumentMatchers removeAllObjects];
 }
 
 
@@ -138,13 +166,26 @@ static const NSUInteger RGMockingContextKey;
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;
-    NSIndexSet *matchingIndexes = [self.verificationHandler indexesMatchingInvocation:invocation
-                                                                inRecordedInvocations:self.recordedInvocations
-                                                                            satisfied:&satisfied];
+    NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
+                                                             withArgumentMatchers:_argumentMatchers
+                                                            inRecordedInvocations:_recordedInvocations
+                                                                        satisfied:&satisfied];
     if (!satisfied) {
         [self failWithReason:@"Verify failed"];
     }
     [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
+}
+
+
+#pragma mark - Argument Matching
+
+- (UInt8)pushArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
+    if (_mode == RGMockContextModeRecording) {
+        [self failWithReason:@"Argument matchers can only be used with stub or verify"];
+    }
+    
+    [_argumentMatchers addObject:matcher];
+    return ([_argumentMatchers count] - 1);
 }
 
 @end

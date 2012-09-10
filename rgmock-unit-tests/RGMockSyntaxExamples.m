@@ -14,6 +14,7 @@ static id anyObject() { return nil; }
 
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
+#define matchObject(x) x
 
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 
@@ -105,6 +106,25 @@ static id anyObject() { return nil; }
     verify [array objectAtIndex:anyInt()];
     verify [array removeObjectAtIndex:anyInt()];
     verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];
+}
+
+- (void)testArgumentMatchersMustBeUsedForWholeInvocation {
+    // Due to technical limitations, arguments must either be ALL matchers or NO matchers
+    // you cannot mix matchers and non-matcher arguments
+    
+    // given
+    NSMutableArray *array = mock([NSMutableArray class]);
+    
+    // when
+    [array replaceObjectAtIndex:12 withObject:@"Foobar"];
+    
+    // then
+    verify [array replaceObjectAtIndex:12 withObject:@"Foobar"];           // OK, no matchers used
+    verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];   // OK, all arguments are matchers
+    ThisWillFail({
+        verify [array replaceObjectAtIndex:anyInt() withObject:@"Foobar"]; // ERROR, mix of arguments and matchers
+    });
+    verify [array replaceObjectAtIndex:anyInt() withObject:matchObject(@"Foobar")]; // Use match<Type>(x) to match exact arguments
 }
 
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-#define mock_record_stub_action(action) [mock_currentContext() addStubAction:(action)]
+#define mock_record_stub_action(action) [mock_updatedContext() addStubAction:(action)]
 
 @protocol RGMockStubAction <NSObject>
 

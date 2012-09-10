@@ -13,6 +13,6 @@
 
 + (id)defaultMatcher;
 
-- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype;
+- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withArgumentMatchers:(NSArray *)matchers;
 
 @end

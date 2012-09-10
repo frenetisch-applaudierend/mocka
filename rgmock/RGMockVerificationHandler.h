@@ -12,6 +12,7 @@
 @protocol RGMockVerificationHandler <NSObject>
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
+                     withArgumentMatchers:(NSArray *)argumentMatchers
                     inRecordedInvocations:(NSArray *)recordedInvocations
                                 satisfied:(BOOL *)satisified;
 
@@ -19,7 +20,7 @@
 
 
 // Setting a verification handler
-#define mock_set_verification_handler(handler) if (mock_set_verification_handler_on_context(mock_currentContext(), (handler)))
+#define mock_set_verification_handler(handler) if (mock_set_verification_handler_on_context(mock_updatedContext(), (handler)))
 static BOOL mock_set_verification_handler_on_context(RGMockContext *context, id<RGMockVerificationHandler> handler) {
     [context setVerificationHandler:handler];
     return YES;

@@ -40,7 +40,7 @@
 
 - (BOOL)matchesForInvocation:(NSInvocation *)invocation {
     for (NSInvocation *prototype in _invocations) {
-        if ([[RGMockInvocationMatcher defaultMatcher] invocation:invocation matchesPrototype:prototype]) {
+        if ([[RGMockInvocationMatcher defaultMatcher] invocation:invocation matchesPrototype:prototype withArgumentMatchers:nil]) {
             return YES;
         }
     }
