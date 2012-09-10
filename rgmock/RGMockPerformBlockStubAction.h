@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RGMockStubAction.h"
+#import "RGMockContext.h"
 
 
 @interface RGMockPerformBlockStubAction : NSObject <RGMockStubAction>
@@ -19,8 +20,12 @@
 
 
 // Mocking Syntax
-#define mock_performBlock(blk) mock_record_stub_action([RGMockPerformBlockStubAction performBlockActionWithBlock:(blk)])
+static void mock_performBlock(void(^block)(NSInvocation *inv)) {
+    [[RGMockContext currentContext] addStubAction:[RGMockPerformBlockStubAction performBlockActionWithBlock:block]];
+}
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define performBlock(blk) mock_performBlock(blk)
+static void performBlock(void(^block)(NSInvocation *inv)) {
+    mock_performBlock(block);
+}
 #endif

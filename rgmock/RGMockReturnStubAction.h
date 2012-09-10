@@ -19,8 +19,8 @@
 
 
 // Mocking Syntax
-#define mock_returnValue(val) mock_record_stub_action(mock_returnValueAction(val))
-#define mock_returnStruct(strt) mock_record_stub_action(mock_returnStructAction(strt))
+#define mock_returnValue(val) [[RGMockContext currentContext] addStubAction:mock_returnValueAction(val)]
+#define mock_returnStruct(strt) [[RGMockContext currentContext] addStubAction:mock_returnStructAction(strt)]
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define returnValue(val) mock_returnValue(val)
