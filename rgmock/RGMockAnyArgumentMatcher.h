@@ -13,3 +13,15 @@
 @interface RGMockAnyArgumentMatcher : NSObject <RGMockArgumentMatcher>
 
 @end
+
+
+// Mocking Syntax
+static char mock_anyInt(void) {
+    return mock_registerPrimitiveMatcher([[RGMockAnyArgumentMatcher alloc] init]);
+}
+
+#ifndef MOCK_DISABLE_NICE_SYNTAX
+static char anyInt(void) {
+    return mock_anyInt();
+}
+#endif

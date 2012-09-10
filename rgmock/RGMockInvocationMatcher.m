@@ -83,7 +83,7 @@
         id<RGMockArgumentMatcher> matcher = argumentMatchers[(char)prototypeArgument];
         return [matcher matchesCandidate:@(candidateArgument)];
     } else {
-        return (prototypeArgument == AnyIntMagicNumber || candidateArgument == prototypeArgument);
+        return (candidateArgument == prototypeArgument);
     }
 }
 

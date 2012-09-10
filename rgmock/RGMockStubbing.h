@@ -17,9 +17,7 @@
 
 #pragma mark - Initialization and Configuration
 
-- (id)initWithInvocation:(NSInvocation *)invocation;
-
-- (void)addInvocation:(NSInvocation *)invocation;
+- (void)addInvocation:(NSInvocation *)invocation withArgumentMatchers:(NSArray *)argumentMatchers;
 - (void)addAction:(id<RGMockStubAction>)action;
 
 

@@ -139,11 +139,10 @@ static __weak id _CurrentContext = nil;
 
 - (void)createStubbingForInvocation:(NSInvocation *)invocation {
     if (_currentStubbing == nil) {
-        _currentStubbing = [[RGMockStubbing alloc] initWithInvocation:invocation];
+        _currentStubbing = [[RGMockStubbing alloc] init];
         [_recordedStubbings addObject:_currentStubbing];
-    } else {
-        [_currentStubbing addInvocation:invocation];
     }
+    [_currentStubbing addInvocation:invocation withArgumentMatchers:_argumentMatchers];
 }
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
