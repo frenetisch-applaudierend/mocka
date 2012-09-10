@@ -123,6 +123,19 @@
     });
 }
 
+- (void)testThatVerifyNoMoreInteractionsSwitchesToRecordingMode {
+    // https://bitbucket.org/teamrg_gam/rgmock/issue/8/
+    // noMoreInteractions() leaves context in verification state
+    
+    // when
+    verify noMoreInteractionsOn(object);
+    
+    // then
+    AssertDoesNotFail({
+        [object voidMethodCallWithoutParameters];
+    });
+}
+
 
 #pragma mark - Test Verify with Arguments
 
