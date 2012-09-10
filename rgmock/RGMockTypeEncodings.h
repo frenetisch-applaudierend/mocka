@@ -16,9 +16,14 @@
 
 + (BOOL)isPrimitiveType:(const char *)type;
 + (BOOL)isObjectType:(const char *)type;
-+ (BOOL)isSelectorOrCStringType:(const char *)type;
++ (BOOL)isSelectorType:(const char *)type;
++ (BOOL)isCStringType:(const char *)type;
++ (BOOL)isPointerType:(const char *)type;
 + (BOOL)isStructType:(const char *)type;
 + (BOOL)isVoidType:(const char *)type;
++ (BOOL)isSelectorOrCStringType:(const char *)type;
+
++ (BOOL)isType:(const char *)type equalToType:(const char *)other;
 
 #pragma mark - Prepare @encode() types
 

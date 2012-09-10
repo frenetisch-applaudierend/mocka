@@ -56,10 +56,11 @@
                 return NO;
             }
         } else if ([RGMockTypeEncodings isSelectorOrCStringType:candidateArgumentType]) {
-            // Seems like C strings are reported as selectors, so treat both of them like C strings
-            const char *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
-            const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
-            if (candidateArgument != prototypeArgument && strcmp(candidateArgument, prototypeArgument) != 0) {
+            if (![self matchesCStringArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
+                return NO;
+            }
+        } else if ([RGMockTypeEncodings isPointerType:candidateArgumentType]) {
+            if (![self matchesPointerArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
                 return NO;
             }
         } else {
@@ -98,6 +99,38 @@
         return [matcher matchesCandidate:(__bridge id)candidateArgument];
     } else {
         return (candidateArgument == prototypeArgument || [(__bridge id)candidateArgument isEqual:(__bridge id)prototypeArgument]);
+    }
+}
+
+- (BOOL)matchesCStringArgumentAtIndex:(NSUInteger)argIndex
+                         forCandidate:(NSInvocation *)candidate
+                            prototype:(NSInvocation *)prototype
+                     argumentMatchers:(NSArray *)argumentMatchers
+{
+    const char *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
+    const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
+    
+    if ([argumentMatchers count] > 0) {
+        id<RGMockArgumentMatcher> matcher = argumentMatchers[(UInt8)(prototypeArgument)];
+        return [matcher matchesCandidate:[NSValue valueWithPointer:candidateArgument]];
+    } else {
+        return (candidateArgument == prototypeArgument || strcmp(candidateArgument, prototypeArgument) == 0);
+    }
+}
+
+- (BOOL)matchesPointerArgumentAtIndex:(NSUInteger)argIndex
+                         forCandidate:(NSInvocation *)candidate
+                            prototype:(NSInvocation *)prototype
+                     argumentMatchers:(NSArray *)argumentMatchers
+{
+    const void *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
+    const void *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
+    
+    if ([argumentMatchers count] > 0) {
+        id<RGMockArgumentMatcher> matcher = argumentMatchers[(UInt8)prototypeArgument];
+        return [matcher matchesCandidate:[NSValue valueWithPointer:candidateArgument]];
+    } else {
+        return (candidateArgument == prototypeArgument);
     }
 }
 

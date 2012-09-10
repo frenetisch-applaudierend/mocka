@@ -26,3 +26,15 @@ static inline char mock_registerPrimitiveMatcher(id<RGMockArgumentMatcher> match
 static inline id mock_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
     return @([[RGMockContext currentContext] pushArgumentMatcher:matcher]);
 }
+
+static inline char* mock_registerCStringMatcher(id<RGMockArgumentMatcher> matcher) {
+    return (char *)[[RGMockContext currentContext] pushArgumentMatcher:matcher];
+}
+
+static inline SEL mock_registerSelectorMatcher(id<RGMockArgumentMatcher> matcher) {
+    return (SEL)[[RGMockContext currentContext] pushArgumentMatcher:matcher];
+}
+
+static inline void* mock_registerPointerMatcher(id<RGMockArgumentMatcher> matcher) {
+    return (void *)[[RGMockContext currentContext] pushArgumentMatcher:matcher];
+}

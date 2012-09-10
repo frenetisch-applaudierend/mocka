@@ -127,6 +127,16 @@
     verify [array replaceObjectAtIndex:anyInt() withObject:matchObject(@"Foobar")]; // Use match<Type>(x) to match exact arguments
 }
 
+- (void)testArgumentMatchersForOutParameters {
+    // given
+    NSFileManager *fileManager = mock([NSFileManager class]);
+    
+    stub [fileManager createDirectoryAtPath:anyObject() withIntermediateDirectories:anyBool() attributes:anyObject() error:anyObjectPointer()];
+    soThatItWill returnValue(YES);
+    
+    // Use the stubbed file manager somewhere
+}
+
 
 #pragma mark - Verifying exact number of invocations / at least x / never
 
