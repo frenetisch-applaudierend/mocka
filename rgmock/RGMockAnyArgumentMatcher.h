@@ -16,12 +16,10 @@
 
 
 // Mocking Syntax
-static char mock_anyInt(void) {
-    return mock_registerPrimitiveMatcher([[RGMockAnyArgumentMatcher alloc] init]);
-}
+static char mock_anyInt(void) { return mock_registerPrimitiveMatcher([[RGMockAnyArgumentMatcher alloc] init]); }
+static id mock_anyObj(void) { return mock_registerObjectMatcher([[RGMockAnyArgumentMatcher alloc] init]); }
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-static char anyInt(void) {
-    return mock_anyInt();
-}
+static char anyInt(void) { return mock_anyInt(); }
+static id anyObj(void) { return mock_anyObj(); }
 #endif

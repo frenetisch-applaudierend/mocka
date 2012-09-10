@@ -52,9 +52,7 @@
                 return NO;
             }
         } else if ([RGMockTypeEncodings isObjectType:candidateArgumentType]) {
-            void *candidateArgument = nil; [candidate getArgument:&candidateArgument atIndex:argIndex];
-            void *prototypeArgument = nil; [prototype getArgument:&prototypeArgument atIndex:argIndex];
-            if (candidateArgument != prototypeArgument && ![(__bridge id)candidateArgument isEqual:(__bridge id)prototypeArgument]) {
+            if (![self matchesObjectArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
                 return NO;
             }
         } else if ([RGMockTypeEncodings isSelectorOrCStringType:candidateArgumentType]) {
@@ -84,6 +82,22 @@
         return [matcher matchesCandidate:@(candidateArgument)];
     } else {
         return (candidateArgument == prototypeArgument);
+    }
+}
+
+- (BOOL)matchesObjectArgumentAtIndex:(NSUInteger)argIndex
+                        forCandidate:(NSInvocation *)candidate
+                           prototype:(NSInvocation *)prototype
+                    argumentMatchers:(NSArray *)argumentMatchers
+{
+    void *candidateArgument = nil; [candidate getArgument:&candidateArgument atIndex:argIndex];
+    void *prototypeArgument = nil; [prototype getArgument:&prototypeArgument atIndex:argIndex];
+    
+    if ([argumentMatchers count] > 0) {
+        id<RGMockArgumentMatcher> matcher = argumentMatchers[[(__bridge NSNumber *)prototypeArgument charValue]];
+        return [matcher matchesCandidate:(__bridge id)candidateArgument];
+    } else {
+        return (candidateArgument == prototypeArgument || [(__bridge id)candidateArgument isEqual:(__bridge id)prototypeArgument]);
     }
 }
 

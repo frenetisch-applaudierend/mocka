@@ -191,6 +191,26 @@
     });
 }
 
+- (void)testThatVerifySucceedsForAnyObjectWithAnyObjMatcher {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Foo" objectParam2:@42];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:anyObj() objectParam2:anyObj()];
+    });
+}
+
+- (void)testThatVerifySucceedsForEdgeCasesWithAnyObjMatcher {
+    // when
+    [object voidMethodCallWithObjectParam1:nil objectParam2:[NSNull null]];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:anyObj() objectParam2:anyObj()];
+    });
+}
+
 
 #pragma mark - Test Stubbing
 

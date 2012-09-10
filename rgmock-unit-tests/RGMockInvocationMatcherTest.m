@@ -197,4 +197,23 @@
     STAssertTrue(called, @"Matcher was not called");
 }
 
+- (void)testThatInvocationMatcherUsesPassedMatchersForObjectArgumentsIfGiven {
+    // given
+    MockTestObject *target = [[MockTestObject alloc] init];
+    NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), @1, @0];
+    NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), @"Foo", @"Bar"];
+    NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
+    __block BOOL called = NO;
+    [argumentMatchers[0] setMatcherImplementation:^BOOL(id value) {
+        STAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
+        called = YES;
+    }];
+    
+    // when
+    [matcher invocation:candidate matchesPrototype:prototype withArgumentMatchers:argumentMatchers];
+    
+    // then
+    STAssertTrue(called, @"Matcher was not called");
+}
+
 @end
