@@ -210,7 +210,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:anyObj() objectParam2:anyObj()];
+        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
     });
 }
 
@@ -220,7 +220,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:anyObj() objectParam2:anyObj()];
+        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
     });
 }
 

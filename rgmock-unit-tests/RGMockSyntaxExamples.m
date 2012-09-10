@@ -10,8 +10,6 @@
 #import "RGMock.h"
 
 
-static id anyObject() { return nil; }
-
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
 #define matchObject(x) x
@@ -100,7 +98,7 @@ static id anyObject() { return nil; }
     // when
     [array objectAtIndex:10];
     [array removeObjectAtIndex:NSNotFound];
-    array[1234] = @"New Object";
+    [array replaceObjectAtIndex:1234 withObject:@"New Object"];
     
     // then
     verify [array objectAtIndex:anyInt()];
@@ -116,6 +114,8 @@ static id anyObject() { return nil; }
     NSMutableArray *array = mock([NSMutableArray class]);
     
     // when
+    [array replaceObjectAtIndex:12 withObject:@"Foobar"];
+    [array replaceObjectAtIndex:12 withObject:@"Foobar"];
     [array replaceObjectAtIndex:12 withObject:@"Foobar"];
     
     // then
