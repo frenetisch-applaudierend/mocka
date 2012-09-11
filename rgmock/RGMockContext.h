@@ -66,8 +66,8 @@ typedef enum {
 
 #pragma mark - Argument Matchers
 
-@property (nonatomic, readonly) NSArray *argumentMatchers;
+@property (nonatomic, readonly) NSArray *nonObjectArgumentMatchers;
 
-- (UInt8)pushArgumentMatcher:(id<RGMockArgumentMatcher>)matcher;
+- (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher;
 
 @end

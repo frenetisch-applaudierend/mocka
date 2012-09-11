@@ -78,7 +78,7 @@
 }
 
 
-#pragma mark - Test Verify with handlers
+#pragma mark - Test Verify with Handlers
 
 - (void)testThatVerifyNeverFailsWhenCallWasMade {
     // when
@@ -232,6 +232,26 @@
     // then
     AssertDoesNotFail({
         verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+    });
+}
+
+- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectParameters {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Foo" objectParam2:@"Bar"];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"];
+    });
+}
+
+- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectAndPrimitiveParameters {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Foo" intParam2:20];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()];
     });
 }
 

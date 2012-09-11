@@ -56,6 +56,10 @@ NSArray* MockTestObjectCalledSelectors(MockTestObject *object) {
     RegisterCall();
 }
 
+- (void)voidMethodCallWithObjectParam1:(id)o1 intParam2:(int)i2 {
+    RegisterCall();
+}
+
 
 #pragma mark - Int Return Calls
 

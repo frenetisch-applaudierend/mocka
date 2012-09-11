@@ -50,7 +50,7 @@
     return self;
 }
 
-- (void)addInvocation:(NSInvocation *)invocation withArgumentMatchers:(NSArray *)argumentMatchers {
+- (void)addInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)argumentMatchers {
     [_invocations addObject:[[RGMockStubbingInvocationPrototpye alloc] initWithInvocation:invocation argumentMatchers:argumentMatchers]];
 }
 
@@ -63,7 +63,7 @@
 
 - (BOOL)matchesForInvocation:(NSInvocation *)candidate {
     for (RGMockStubbingInvocationPrototpye *prototype in _invocations) {
-        if ([[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype.invocation withArgumentMatchers:prototype.argumentMatchers]) {
+        if ([[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype.invocation withNonObjectArgumentMatchers:prototype.argumentMatchers]) {
             return YES;
         }
     }

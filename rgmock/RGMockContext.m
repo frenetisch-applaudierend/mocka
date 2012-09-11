@@ -10,6 +10,7 @@
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
 #import "RGMockStubbing.h"
+#import "RGMockTypeEncodings.h"
 
 #import <objc/runtime.h>
 #import <SenTestingKit/SenTestingKit.h>
@@ -26,7 +27,7 @@
 @implementation RGMockContext {
     NSMutableArray *_recordedInvocations;
     NSMutableArray *_recordedStubbings;
-    NSMutableArray *_argumentMatchers;
+    NSMutableArray *_nonObjectArgumentMatchers;
     RGMockStubbing *_currentStubbing;
 }
 
@@ -70,7 +71,7 @@ static __weak id _CurrentContext = nil;
         _testCase = testCase;
         _recordedInvocations = [NSMutableArray array];
         _recordedStubbings = [NSMutableArray array];
-        _argumentMatchers = [NSMutableArray array];
+        _nonObjectArgumentMatchers = [NSMutableArray array];
         
         _CurrentContext = self;
     }
@@ -93,7 +94,7 @@ static __weak id _CurrentContext = nil;
 
 - (BOOL)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
-    [_argumentMatchers removeAllObjects];
+    [_nonObjectArgumentMatchers removeAllObjects];
     
     if (newMode == RGMockContextModeVerifying) {
         _verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
@@ -102,8 +103,8 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    if ([_argumentMatchers count] > 0 && [_argumentMatchers count] != (invocation.methodSignature.numberOfArguments - 2)) {
-        [self failWithReason:@"When using argument matchers, all arguments must be matchers"];
+    if (![self eitherAllOrNoPrimitiveArgumentsHaveMatchersForInvocation:invocation]) {
+        [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
     }
     
     switch (_mode) {
@@ -114,6 +115,18 @@ static __weak id _CurrentContext = nil;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", _mode);
     }
+}
+
+- (BOOL)eitherAllOrNoPrimitiveArgumentsHaveMatchersForInvocation:(NSInvocation *)invocation {
+    if ([_nonObjectArgumentMatchers count] == 0) return YES;
+    
+    NSUInteger matchersNeeded = 0;
+    for (NSUInteger argIndex = 2; argIndex < [invocation.methodSignature numberOfArguments]; argIndex++) {
+        if (![RGMockTypeEncodings isObjectType:[invocation.methodSignature getArgumentTypeAtIndex:argIndex]]) {
+            matchersNeeded++;
+        }
+    }
+    return ([_nonObjectArgumentMatchers count] == matchersNeeded);
 }
 
 
@@ -141,8 +154,8 @@ static __weak id _CurrentContext = nil;
         _currentStubbing = [[RGMockStubbing alloc] init];
         [_recordedStubbings addObject:_currentStubbing];
     }
-    [_currentStubbing addInvocation:invocation withArgumentMatchers:_argumentMatchers];
-    [_argumentMatchers removeAllObjects];
+    [_currentStubbing addInvocation:invocation withNonObjectArgumentMatchers:_nonObjectArgumentMatchers];
+    [_nonObjectArgumentMatchers removeAllObjects];
 }
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
@@ -166,7 +179,7 @@ static __weak id _CurrentContext = nil;
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                             withArgumentMatchers:_argumentMatchers
+                                                             withNonObjectArgumentMatchers:_nonObjectArgumentMatchers
                                                             inRecordedInvocations:_recordedInvocations
                                                                         satisfied:&satisfied];
     if (!satisfied) {
@@ -179,13 +192,13 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Argument Matching
 
-- (UInt8)pushArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
+- (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
     if (_mode == RGMockContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with stub or verify"];
     }
     
-    [_argumentMatchers addObject:matcher];
-    return ([_argumentMatchers count] - 1);
+    [_nonObjectArgumentMatchers addObject:matcher];
+    return ([_nonObjectArgumentMatchers count] - 1);
 }
 
 @end

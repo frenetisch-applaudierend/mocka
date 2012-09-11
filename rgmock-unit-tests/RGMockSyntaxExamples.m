@@ -12,7 +12,7 @@
 
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
-#define matchObject(x) x
+#define matchInt(x) anyInt()
 
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 
@@ -106,25 +106,25 @@
     verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];
 }
 
-- (void)testArgumentMatchersMustBeUsedForWholeInvocation {
-    // Due to technical limitations, arguments must either be ALL matchers or NO matchers
+- (void)testArgumentMatchersMustBeUsedForAllNonObjectsInCall {
+    // Due to technical limitations, non-object arguments must either be ALL matchers or NO matchers
     // you cannot mix matchers and non-matcher arguments
     
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
     // when
-    [array replaceObjectAtIndex:12 withObject:@"Foobar"];
-    [array replaceObjectAtIndex:12 withObject:@"Foobar"];
-    [array replaceObjectAtIndex:12 withObject:@"Foobar"];
+    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
+    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
+    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
     
     // then
-    verify [array replaceObjectAtIndex:12 withObject:@"Foobar"];           // OK, no matchers used
-    verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];   // OK, all arguments are matchers
+    verify [array exchangeObjectAtIndex:10 withObjectAtIndex:20];                 // OK, no matchers used
+    verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()];     // OK, all arguments are matchers
     ThisWillFail({
-        verify [array replaceObjectAtIndex:anyInt() withObject:@"Foobar"]; // ERROR, mix of arguments and matchers
+        verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:20];       // ERROR, mix of arguments and matchers
     });
-    verify [array replaceObjectAtIndex:anyInt() withObject:matchObject(@"Foobar")]; // Use match<Type>(x) to match exact arguments
+    verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:matchInt(20)]; // Use match<Type>(x) to match exact arguments
 }
 
 - (void)testArgumentMatchersForOutParameters {

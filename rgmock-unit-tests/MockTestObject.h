@@ -18,6 +18,8 @@
 - (void)voidMethodCallWithCStringParam1:(char *)s1 cStringParam2:(char *)s2;
 - (void)voidMethodCallWithPointerParam1:(void *)p1 pointerParam2:(void *)p2;
 
+- (void)voidMethodCallWithObjectParam1:(id)o1 intParam2:(int)i2;
+
 
 #pragma mark - Int Return Calls
 

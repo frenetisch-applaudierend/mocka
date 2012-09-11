@@ -31,7 +31,7 @@
 #pragma mark - RGMockVerificationHandler
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(NSArray *)argumentMatchers
+                     withNonObjectArgumentMatchers:(NSArray *)argumentMatchers
                     inRecordedInvocations:(NSArray *)recordedInvocations
                                 satisfied:(BOOL *)satisified
 {

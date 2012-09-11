@@ -32,7 +32,7 @@
                                                      selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -51,7 +51,7 @@
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertTrue(satisfied, @"Should be satisfied");
@@ -68,7 +68,7 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -86,7 +86,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisifed");
@@ -106,7 +106,7 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -127,7 +127,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisifed");
@@ -148,7 +148,7 @@
                                                      selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -167,7 +167,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisfied");
@@ -184,7 +184,7 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -202,7 +202,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisifed");
@@ -221,7 +221,7 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 2, @"Should result in empty set");
@@ -243,7 +243,7 @@
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertTrue(satisfied, @"Should be satisifed");
@@ -263,7 +263,7 @@
     NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -284,7 +284,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:candidateInvocation withArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil inRecordedInvocations:recordedInvocations satisfied:&satisfied];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisifed");

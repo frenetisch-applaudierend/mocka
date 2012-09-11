@@ -18,7 +18,7 @@
 
 
 // Mocking Syntax
-#define mock_never mock_set_verification_handler([RGMockNeverVerificationHandler neverHandler])
+#define mock_never mock_setVerificationHandler([RGMockNeverVerificationHandler neverHandler])
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define never mock_never
