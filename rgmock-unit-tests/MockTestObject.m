@@ -48,7 +48,15 @@ NSArray* MockTestObjectCalledSelectors(MockTestObject *object) {
     RegisterCall();
 }
 
-- (void)voidMethodCallWithCStringParam1:(SEL)s1 cStringParam2:(SEL)s2 {
+- (void)voidMethodCallWithCStringParam1:(char *)s1 cStringParam2:(char *)s2 {
+    RegisterCall();
+}
+
+- (void)voidMethodCallWithPointerParam1:(void *)p1 pointerParam2:(void *)p2 {
+    RegisterCall();
+}
+
+- (void)voidMethodCallWithObjectParam1:(id)o1 intParam2:(int)i2 {
     RegisterCall();
 }
 

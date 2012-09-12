@@ -10,13 +10,6 @@
 #import <objc/runtime.h>
 
 
-static const NSUInteger MemoryBlockKey;
-@interface RGMockMemoryBlock : NSObject
-+ (id)memoryBlockOfSize:(size_t)size attachToObject:(id)object;
-- (void *)pointerValue;
-@end
-
-
 @implementation RGMockReturnStubAction {
     id _value;
 }
@@ -61,44 +54,16 @@ static const NSUInteger MemoryBlockKey;
             
             // Handle struct types
         case '{': {
-            RGMockMemoryBlock *memoryBlock = [RGMockMemoryBlock memoryBlockOfSize:[invocation.methodSignature methodReturnLength]
-                                                                   attachToObject:invocation];
-            [(NSValue *)_value getValue:[memoryBlock pointerValue]];
-            [invocation setReturnValue:[memoryBlock pointerValue]];
+            void *structValue = malloc([invocation.methodSignature methodReturnLength]);
+            [(NSValue *)_value getValue:structValue];
+            [invocation setReturnValue:structValue];
+            free(structValue);
             break;
         }
             
             // Handle pointer types
         case '^': { void *value = [(NSValue *)_value pointerValue]; [invocation setReturnValue:&value]; break; }
     }
-}
-
-@end
-
-
-@implementation RGMockMemoryBlock {
-    void *_memoryBlock;
-}
-
-+ (id)memoryBlockOfSize:(size_t)size attachToObject:(id)object {
-    id memoryBlock = [[self alloc] initWithSize:size];
-    objc_setAssociatedObject(object, &MemoryBlockKey, memoryBlock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    return memoryBlock;
-}
-
-- (id)initWithSize:(size_t)size {
-    if ((self = [super init])) {
-        _memoryBlock = malloc(size);
-    }
-    return self;
-}
-
-- (void)dealloc {
-    free(_memoryBlock);
-}
-
-- (void *)pointerValue {
-    return _memoryBlock;
 }
 
 @end
@@ -136,4 +101,3 @@ id mock_createGenericValue(const char *typeString, ...) {
     va_end(args);
     return returnValue;
 }
-

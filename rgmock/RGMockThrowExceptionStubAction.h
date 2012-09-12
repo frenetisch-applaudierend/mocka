@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RGMockStubAction.h"
+#import "RGMockContext.h"
 
 
 @interface RGMockThrowExceptionStubAction : NSObject <RGMockStubAction>
@@ -19,8 +20,12 @@
 
 
 // Mocking Syntax
-#define mock_throwException(ex) mock_record_stub_action([RGMockThrowExceptionStubAction throwExceptionActionWithException:(ex)])
+static void mock_throwException(NSException *exception) {
+    [[RGMockContext currentContext] addStubAction:[RGMockThrowExceptionStubAction throwExceptionActionWithException:exception]];
+}
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define throwException(ex) mock_throwException(ex)
+static void throwException(NSException *exception) {
+    mock_throwException(exception);
+}
 #endif

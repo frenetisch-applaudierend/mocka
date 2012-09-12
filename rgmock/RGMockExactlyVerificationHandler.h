@@ -19,7 +19,7 @@
 
 
 // Mocking Syntax
-#define mock_exactly(count) mock_set_verification_handler([RGMockExactlyVerificationHandler exactlyHandlerWithCount:(count)])
+#define mock_exactly(count) mock_setVerificationHandler([RGMockExactlyVerificationHandler exactlyHandlerWithCount:(count)])
 #define mock_once mock_exactly(1)
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX

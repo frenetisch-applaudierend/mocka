@@ -10,11 +10,9 @@
 #import "RGMock.h"
 
 
-static int anyIntArg() { return 0; }
-static NSString* anyStringArg() { return nil; }
-
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
+#define matchInt(x) anyInt()
 
 #define ThisWillFail(...) @try { do { __VA_ARGS__ ; } while(0); STFail(@"Should have thrown"); } @catch (id ignore) {}
 
@@ -85,12 +83,12 @@ static NSString* anyStringArg() { return nil; }
 - (void)testArgumentMatchersForStubbing {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    stub [array objectAtIndex:anyIntArg()]; soThatItWill returnValue(@"Foo");
+    stub [array objectAtIndexedSubscript:anyInt()]; soThatItWill returnValue(@"Foo");
     
     // then
-    STAssertEqualObjects([array objectAtIndex:0], @"Foo", @"anyIntArg() did not stub index 0");
-    STAssertEqualObjects([array objectAtIndex:NSNotFound], @"Foo", @"anyIntArg() did not stub index NSNotFound");
-    STAssertEqualObjects([array objectAtIndex:1234], @"Foo", @"anyIntArg() did not stub index 1234");
+    STAssertEqualObjects(array[0], @"Foo", @"anyInt() did not stub index 0");
+    STAssertEqualObjects(array[NSNotFound], @"Foo", @"anyInt() did not stub index NSNotFound");
+    STAssertEqualObjects(array[1234], @"Foo", @"anyInt() did not stub index 1234");
 }
 
 - (void)testArgumentMatchersForVerifying {
@@ -103,9 +101,40 @@ static NSString* anyStringArg() { return nil; }
     [array replaceObjectAtIndex:1234 withObject:@"New Object"];
     
     // then
-    verify [array objectAtIndex:anyIntArg()];
-    verify [array removeObjectAtIndex:anyIntArg()];
-    verify [array replaceObjectAtIndex:anyIntArg() withObject:anyStringArg()];
+    verify [array objectAtIndex:anyInt()];
+    verify [array removeObjectAtIndex:anyInt()];
+    verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];
+}
+
+- (void)testArgumentMatchersMustBeUsedForAllNonObjectsInCall {
+    // Due to technical limitations, non-object arguments must either be ALL matchers or NO matchers
+    // you cannot mix matchers and non-matcher arguments
+    
+    // given
+    NSMutableArray *array = mock([NSMutableArray class]);
+    
+    // when
+    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
+    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
+    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
+    
+    // then
+    verify [array exchangeObjectAtIndex:10 withObjectAtIndex:20];                 // OK, no matchers used
+    verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()];     // OK, all arguments are matchers
+    ThisWillFail({
+        verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:20];       // ERROR, mix of arguments and matchers
+    });
+    verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:matchInt(20)]; // Use match<Type>(x) to match exact arguments
+}
+
+- (void)testArgumentMatchersForOutParameters {
+    // given
+    NSFileManager *fileManager = mock([NSFileManager class]);
+    
+    stub [fileManager createDirectoryAtPath:anyObject() withIntermediateDirectories:anyBool() attributes:anyObject() error:anyObjectPointer()];
+    soThatItWill returnValue(YES);
+    
+    // Use the stubbed file manager somewhere
 }
 
 

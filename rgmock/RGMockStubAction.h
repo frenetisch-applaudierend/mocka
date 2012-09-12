@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-#define mock_record_stub_action(action) [mock_currentContext() addStubAction:(action)]
-
 @protocol RGMockStubAction <NSObject>
 
 - (void)performWithInvocation:(NSInvocation *)invocation;

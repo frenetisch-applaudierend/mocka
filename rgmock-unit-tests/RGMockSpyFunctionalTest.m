@@ -155,6 +155,86 @@
 }
 
 
+#pragma mark - Test Verify with Arguments
+
+- (void)testThatVerifySucceedsForMatchingObjectArguments {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithObjectParam1:objectParam2:), 0);
+}
+
+- (void)testThatVerifyFailsForNonMatchingObjectArguments {
+    // when
+    [object voidMethodCallWithObjectParam1:@"World" objectParam2:@"Hello"];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithObjectParam1:objectParam2:), 0);
+}
+
+- (void)testThatVerifySucceedsForMatchingPrimitiveArguments {
+    // when
+    [object voidMethodCallWithIntParam1:2 intParam2:45];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithIntParam1:2 intParam2:45];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithIntParam1:intParam2:), 0);
+}
+
+- (void)testThatVerifyFailsForNonMatchingPrimitiveArguments {
+    // when
+    [object voidMethodCallWithIntParam1:2 intParam2:45];
+    
+    // then
+    AssertFails({
+        verify [object voidMethodCallWithIntParam1:0 intParam2:45];
+    });
+    
+    AssertNumberOfInvocations(object, 1);
+    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithIntParam1:intParam2:), 0);
+}
+
+
+#pragma mark - Test Verify with Argument Matchers
+
+- (void)testThatVerifySucceedsForAnyIntegerWithAnyIntMatcher {
+    // when
+    [object voidMethodCallWithIntParam1:10 intParam2:20];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+    });
+}
+
+- (void)testThatVerifySucceedsForEdgeCasesWithAnyIntMatcher {
+    // when
+    [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
+    [object voidMethodCallWithIntParam1:NSIntegerMin intParam2:NSIntegerMax];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+    });
+}
+
+
 #pragma mark - Test Stubbing
 
 - (void)testThatUnstubbedMethodsReturnOriginalValues {
@@ -286,15 +366,32 @@
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
 }
 
-- (void)testStubbingConstantString {
-    // given
-    NSString *string = spy(@"Hello");
-    
-    stub [string length];
-    soThatItWill returnValue(99);
+
+#pragma mark - Test Stubbing with Argument Matchers
+
+- (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher {
+    // when
+    __block BOOL methodMatched = NO;
+    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soThatItWill performBlock(^(NSInvocation *inv) {
+        methodMatched = YES;
+    });
     
     // then
-    STAssertEquals((int)[string length], (int)99, @"[string length] stub does not work");
+    [object voidMethodCallWithIntParam1:10 intParam2:20];
+    STAssertTrue(methodMatched, @"Method was not matched");
+}
+
+- (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
+    // when
+    __block int invocationCount = 0;
+    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soThatItWill performBlock(^(NSInvocation *inv) {
+        invocationCount++;
+    });
+    
+    // then
+    [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
+    [object voidMethodCallWithIntParam1:NSIntegerMax intParam2:NSIntegerMin];
+    STAssertEquals(invocationCount, 2, @"Not all egde cases match");
 }
 
 @end

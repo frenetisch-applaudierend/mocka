@@ -43,7 +43,13 @@
 - (void)testThatInitializerFailsIfObjectIsPassedWhichIsNotClassOrProtocol {
     NSArray *invalidClassOrProtocolList = @[ [MockTestObject class], @protocol(NSCoding), @"Fail here" ];
     STAssertThrows([RGMockClassAndProtocolMock mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:invalidClassOrProtocolList],
-                   @"Should fail for empty class and protocol list");
+                   @"Should fail for object which is not class or protocol");
+}
+
+- (void)testThatInitializerFailsIfMultipleClassesArePassed {
+    NSArray *invalidClassOrProtocolList = @[ [MockTestObject class], [NSObject class] ];
+    STAssertThrows([RGMockClassAndProtocolMock mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:invalidClassOrProtocolList],
+                   @"Should fail for multiple classes in list");
 }
 
 
@@ -60,7 +66,7 @@
     
     // then
     STAssertEquals([fakeContext.handledInvocations count], (NSUInteger)1, @"Wrong number of handled invocations");
-    STAssertEqualObjects([fakeContext.handledInvocations objectAtIndex:0], invocation, @"Wrong invocation handled");
+    STAssertEqualObjects(fakeContext.handledInvocations[0], invocation, @"Wrong invocation handled");
 }
 
 
@@ -147,6 +153,16 @@
     STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
     STAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol1)], @"Mock does not conform to inherited mocked protocol");
     STAssertTrue([mock conformsToProtocol:@protocol(NSObject)], @"Mock does not conform to inherited mocked protocol");
+}
+
+- (void)testThatMockConformsToAllMockedProtocols {
+    // given
+    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ @protocol(NSObject), @protocol(NSCoding), @protocol(NSCopying) ]];
+    
+    // then
+    STAssertTrue([mock conformsToProtocol:@protocol(NSObject)],  @"Mock does not conform to all passed protocols");
+    STAssertTrue([mock conformsToProtocol:@protocol(NSCoding)],  @"Mock does not conform to all passed protocols");
+    STAssertTrue([mock conformsToProtocol:@protocol(NSCopying)], @"Mock does not conform to all passed protocols");
 }
 
 @end

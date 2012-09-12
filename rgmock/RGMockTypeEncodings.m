@@ -33,9 +33,24 @@
     return (type[0] == '@' || type[0] == '#');
 }
 
++ (BOOL)isSelectorType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
+    return (type[0] == ':');
+}
+
++ (BOOL)isCStringType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
+    return (type[0] == '*');
+}
+
 + (BOOL)isSelectorOrCStringType:(const char *)type {
     type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == ':' || type[0] == '*'); // '*' never gets reported strangely, c strings are reported as ':' as well
+    return (type[0] == ':' || type[0] == '*');
+}
+
++ (BOOL)isPointerType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
+    return (type[0] == '^');
 }
 
 + (BOOL)isStructType:(const char *)type {
@@ -46,6 +61,12 @@
 + (BOOL)isVoidType:(const char *)type {
     type = [self typeBySkippingTypeModifiers:type];
     return type[0] == 'v';
+}
+
++ (BOOL)isType:(const char *)type equalToType:(const char *)other {
+    type = [self typeBySkippingTypeModifiers:type];
+    other = [self typeBySkippingTypeModifiers:other];
+    return (strcmp(type, other) == 0);
 }
 
 

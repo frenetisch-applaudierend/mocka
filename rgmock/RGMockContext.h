@@ -10,10 +10,12 @@
 
 @protocol RGMockVerificationHandler;
 @protocol RGMockStubAction;
+@protocol RGMockArgumentMatcher;
 @class RGMockStubbing;
 
 
-#define mock_currentContext() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
+#define mock_updatedContext() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
+
 
 typedef enum {
     RGMockContextModeRecording,
@@ -28,10 +30,17 @@ typedef enum {
 #pragma mark - Getting a Context
 
 + (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line;
++ (id)currentContext;
+
+
+#pragma mark - Initialization
+
+- (id)initWithTestCase:(id)testCase;
 
 
 #pragma mark - File Information and Handling Failures
 
+@property (nonatomic, readonly, weak)   id        testCase;
 @property (nonatomic, readonly, copy)   NSString *fileName;
 @property (nonatomic, readonly, assign) int       lineNumber;
 
@@ -53,5 +62,12 @@ typedef enum {
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation;
 - (void)addStubAction:(id<RGMockStubAction>)action;
+
+
+#pragma mark - Argument Matchers
+
+@property (nonatomic, readonly) NSArray *nonObjectArgumentMatchers;
+
+- (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher;
 
 @end

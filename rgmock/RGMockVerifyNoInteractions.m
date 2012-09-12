@@ -16,4 +16,5 @@ void mock_checkNoInteractions(RGMockContext *context, id mockObject) {
             [context failWithReason:@"Expected no more invocations on mock, but still had"];
         }
     }
+    [context updateContextMode:RGMockContextModeRecording];
 }
