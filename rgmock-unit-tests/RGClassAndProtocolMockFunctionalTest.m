@@ -7,15 +7,15 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "RGMockTestingUtils.h"
-#import "MockTestObject.h"
+#import "RGMockTestCase.h"
 
+#import "MockTestObject.h"
 #import "RGMock.h"
 
 
 #pragma mark - Functional Test for mocking a single Class
 
-@interface RGClassAndProtocolMockFunctionalTest : SenTestCase
+@interface RGClassAndProtocolMockFunctionalTest : RGMockTestCase
 @end
 
 @implementation RGClassAndProtocolMockFunctionalTest {

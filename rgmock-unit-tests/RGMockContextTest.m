@@ -7,11 +7,12 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import "RGMockTestCase.h"
+
 #import "NSInvocation+TestSupport.h"
 #import "FakeVerificationHandler.h"
 #import "DummyArgumentMatcher.h"
 #import "MockTestObject.h"
-#import "RGMockTestingUtils.h"
 
 #import "RGMockClassAndProtocolMock.h"
 #import "RGMockContext.h"
@@ -19,9 +20,8 @@
 #import "RGMockReturnStubAction.h"
 
 
-@interface RGMockContextTest : SenTestCase
+@interface RGMockContextTest : RGMockTestCase
 @end
-
 
 @implementation RGMockContextTest {
     RGMockContext *context;
@@ -95,8 +95,9 @@
 - (void)testThatFailWithReasonCreatesSenTestException {
     RGMockContext *ctx = [RGMockContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
     @try {
-        [ctx failWithReason:@"Test reason"];
-        STFail(@"Should have thrown");
+        AssertFails({
+            [ctx failWithReason:@"Test reason"];
+        });
     }
     @catch (NSException *exception) {
         STAssertEqualObjects(exception.name, SenTestFailureException, @"Wrong exception name");

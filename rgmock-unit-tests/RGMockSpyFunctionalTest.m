@@ -7,7 +7,7 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "RGMockTestingUtils.h"
+#import "RGMockTestCase.h"
 #import "MockTestObject.h"
 
 #import "RGMock.h"
@@ -20,7 +20,7 @@
     @"Selector was called")
 
 
-@interface RGMockSpyFunctionalTest : SenTestCase
+@interface RGMockSpyFunctionalTest : RGMockTestCase
 @end
 
 @implementation RGMockSpyFunctionalTest {

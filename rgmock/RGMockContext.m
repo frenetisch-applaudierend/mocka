@@ -86,7 +86,11 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason {
-    @throw [NSException failureInFile:_fileName atLine:_lineNumber withDescription:@"%@", reason];
+    if ([_testCase respondsToSelector:@selector(failWithException:)]) {
+        [_testCase failWithException:[NSException failureInFile:_fileName atLine:_lineNumber withDescription:@"%@", reason]];
+    } else {
+        @throw [NSException failureInFile:_fileName atLine:_lineNumber withDescription:@"%@", reason];
+    }
 }
 
 
