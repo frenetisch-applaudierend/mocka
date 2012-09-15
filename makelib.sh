@@ -1,9 +1,20 @@
 # Build the libraries
-xcodebuild -target rgmock -configuration Release -arch i386 x86_64 -sdk iphonesimulator5.0 clean build
-xcodebuild -target rgmock -configuration Release -arch armv7 -sdk iphoneos5.0 clean build
+xcodebuild -target RGMock -configuration Release -arch i386 -sdk iphonesimulator clean build
+xcodebuild -target RGMock -configuration Release -arch armv7 -sdk iphoneos clean build
 
-# Make a fat binary and copy the headers
+# Copy Resources
 rm -rf distribution
-mkdir -p distribution/Headers
-lipo -output distribution/librgmock-universal.a -create -arch armv7 build/Release-iphoneos/librgmock.a -arch i386 build/Release-iphonesimulator/librgmock.a
-cp -R build/Release-iphoneos/usr/local/include/* distribution/Headers/
+mkdir distribution
+cp -R build/Release-iphoneos/include/RGMock distribution/
+cp Readme.md distribution/Readme.md
+
+# Build fat library
+lipo -output distribution/librgmock.a -create \
+  -arch armv7 build/Release-iphoneos/librgmock.a \
+  -arch i386 build/Release-iphonesimulator/librgmock.a
+
+
+# Make a ZIP distribution
+cd distribution
+zip -r RGMock.zip RGMock librgmock.a Readme.md
+cd ..
