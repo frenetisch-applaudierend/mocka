@@ -13,7 +13,7 @@
     NSException *_failure;
 }
 
-- (void)mock_interceptFailuresInFile:(NSString *)file line:(int)line block:(void(^)())block shouldFail:(BOOL)shouldFail {
+- (void)mock_interceptFailuresInFile:(NSString *)file line:(int)line block:(void(^)())block mode:(RGMockFailureHandlingMode)mode {
     if (block == nil) {
         @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Need a code block" userInfo:nil];
     }
@@ -26,11 +26,11 @@
         }
         _interceptFailures = NO;
         
-        if (!shouldFail && _failure != nil) {
+        if (mode == RGMockFailureProhibited && _failure != nil) {
             [self failWithException:[NSException failureInFile:file atLine:line withDescription:@"Failed with exception: %@", _failure]];
-        } else if (shouldFail && _failure == nil) {
+        } else if (mode == RGMockFailureRequired && _failure == nil) {
             [self failWithException:[NSException failureInFile:file atLine:line withDescription:@"This should have failed"]];
-        }
+        } // otherwise ignore the failure
     } @finally {
         _interceptFailures = NO;
     }

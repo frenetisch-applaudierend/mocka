@@ -31,7 +31,7 @@
 
 - (void)setUp {
     [super setUp];
-    context = [[RGMockContext alloc] init];
+    context = [[RGMockContext alloc] initWithTestCase:self];
 }
 
 
@@ -195,7 +195,9 @@
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
-    @try { [context handleInvocation:invocation]; } @catch (id ignored) {}
+    IgnoreFailures({
+        [context handleInvocation:invocation];
+    });
     
     // then
     STAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
@@ -329,20 +331,6 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
     [context updateContextMode:RGMockContextModeVerifying];
-    [context pushNonObjectArgumentMatcher:[[DummyArgumentMatcher alloc] init]]; // Prepare a verify call
-    
-    // when
-    AssertFails({
-        [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
-    });
-}
-
-- (void)testThatStubbingInvocationFailsForUnequalNumberOfMatchers {
-    // given
-    MockTestObject *object = mock([MockTestObject class]);
-    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
-    
-    [context updateContextMode:RGMockContextModeStubbing];
     [context pushNonObjectArgumentMatcher:[[DummyArgumentMatcher alloc] init]]; // Prepare a verify call
     
     // when

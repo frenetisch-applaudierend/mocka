@@ -109,6 +109,7 @@ static __weak id _CurrentContext = nil;
 - (void)handleInvocation:(NSInvocation *)invocation {
     if (![self eitherAllOrNoPrimitiveArgumentsHaveMatchersForInvocation:invocation]) {
         [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
+        return;
     }
     
     switch (_mode) {
