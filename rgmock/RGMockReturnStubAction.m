@@ -7,6 +7,7 @@
 //
 
 #import "RGMockReturnStubAction.h"
+#import "RGMockTypeEncodings.h"
 #import <objc/runtime.h>
 
 

@@ -7,7 +7,6 @@
 //
 
 #import "RGMockStubAction.h"
-#import "RGMockTypeEncodings.h"
 
 
 @interface RGMockReturnStubAction : NSObject <RGMockStubAction>
