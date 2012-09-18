@@ -34,6 +34,7 @@
             withNonObjectArgumentMatchers:(NSArray *)argumentMatchers
                     inRecordedInvocations:(NSArray *)recordedInvocations
                                 satisfied:(BOOL *)satisified
+                           failureMessage:(NSString **)failureMessage
 {
     NSIndexSet *indexes = [recordedInvocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
         return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype withNonObjectArgumentMatchers:argumentMatchers];

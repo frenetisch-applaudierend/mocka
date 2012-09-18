@@ -10,6 +10,7 @@
 
 @interface FakeVerificationHandler : NSObject <RGMockVerificationHandler>
 
++ (id)handlerWhichFailsWithMessage:(NSString *)message;
 + (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
 
 @property (nonatomic, readonly) NSUInteger numberOfCalls;

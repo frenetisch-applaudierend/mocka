@@ -183,12 +183,14 @@ static __weak id _CurrentContext = nil;
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;
+    NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
                                                              withNonObjectArgumentMatchers:_nonObjectArgumentMatchers
                                                             inRecordedInvocations:_recordedInvocations
-                                                                        satisfied:&satisfied];
+                                                                        satisfied:&satisfied
+                                                                   failureMessage:&reason];
     if (!satisfied) {
-        [self failWithReason:@"Verify failed"];
+        [self failWithReason:[NSString stringWithFormat:@"verify: %@", reason]];
     }
     [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
     [self updateContextMode:RGMockContextModeRecording];

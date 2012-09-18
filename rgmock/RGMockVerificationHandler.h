@@ -14,7 +14,8 @@
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
             withNonObjectArgumentMatchers:(NSArray *)argumentMatchers
                     inRecordedInvocations:(NSArray *)recordedInvocations
-                                satisfied:(BOOL *)satisified;
+                                satisfied:(BOOL *)satisified
+                           failureMessage:(NSString **)failureMessage;
 
 @end
 
