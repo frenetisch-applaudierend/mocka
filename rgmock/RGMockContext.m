@@ -190,7 +190,7 @@ static __weak id _CurrentContext = nil;
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
     if (!satisfied) {
-        [self failWithReason:[NSString stringWithFormat:@"verify: %@", reason]];
+        [self failWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
     }
     [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
     [self updateContextMode:RGMockContextModeRecording];

@@ -363,4 +363,15 @@
     });
 }
 
+- (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
+    // given
+    [context updateContextMode:RGMockContextModeVerifying];
+    context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
+    
+    // then
+    AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {
+        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    });
+}
+
 @end
