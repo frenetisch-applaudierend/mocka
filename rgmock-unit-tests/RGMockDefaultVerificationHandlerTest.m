@@ -147,4 +147,25 @@
 }
 
 
+#pragma mark - Test Error Reporting
+
+- (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {
+    // given
+    MockTestObject *target = [[MockTestObject alloc] init];
+    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    
+    // when
+    BOOL satisfied = YES;
+    NSString *reason = nil;
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
+                 inRecordedInvocations:@[] satisfied:&satisfied failureMessage:&reason];
+    
+    // then
+    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    
+    NSString *expectedReason =
+    [NSString stringWithFormat:@"Expected a call to -[<%@ %p> voidMethodCallWithoutParameters] but no such call was made", [target class], target];
+    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+}
+
 @end

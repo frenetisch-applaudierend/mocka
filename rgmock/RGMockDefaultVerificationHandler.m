@@ -38,6 +38,11 @@
     if (satisified != NULL) {
         *satisified = (index != NSNotFound);
     }
+    if (index == NSNotFound && failureMessage != NULL) {
+        *failureMessage = [NSString stringWithFormat:@"Expected a call to -[<%@ %p> %@] but no such call was made",
+                           [prototype.target class], prototype.target, NSStringFromSelector(prototype.selector)];
+    }
+    
     return ((index != NSNotFound) ? [NSIndexSet indexSetWithIndex:index] : [NSIndexSet indexSet]);
 }
 

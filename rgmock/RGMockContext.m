@@ -189,6 +189,7 @@ static __weak id _CurrentContext = nil;
                                                             inRecordedInvocations:_recordedInvocations
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
+
     if (!satisfied) {
         [self failWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
     }
