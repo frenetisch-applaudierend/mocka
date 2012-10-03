@@ -21,8 +21,8 @@
 
 
 // Setting a verification handler
-#define mock_setVerificationHandler(handler) if (mock_setVerificationHandlerOnContext(mock_updatedContext(), (handler)))
-static BOOL mock_setVerificationHandlerOnContext(RGMockContext *context, id<RGMockVerificationHandler> handler) {
+#define mck_setVerificationHandler(handler) if (mck_setVerificationHandlerOnContext(mck_updatedContext(), (handler)))
+static BOOL mck_setVerificationHandlerOnContext(RGMockContext *context, id<RGMockVerificationHandler> handler) {
     [context setVerificationHandler:handler];
     return YES;
 }

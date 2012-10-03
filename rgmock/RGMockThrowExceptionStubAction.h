@@ -20,12 +20,12 @@
 
 
 // Mocking Syntax
-static void mock_throwException(NSException *exception) {
+static void mck_throwException(NSException *exception) {
     [[RGMockContext currentContext] addStubAction:[RGMockThrowExceptionStubAction throwExceptionActionWithException:exception]];
 }
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 static void throwException(NSException *exception) {
-    mock_throwException(exception);
+    mck_throwException(exception);
 }
 #endif

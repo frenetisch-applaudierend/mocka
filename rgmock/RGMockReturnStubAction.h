@@ -18,15 +18,15 @@
 
 
 // Mocking Syntax
-#define mock_returnValue(val) [[RGMockContext currentContext] addStubAction:mock_returnValueAction(val)]
-#define mock_returnStruct(strt) [[RGMockContext currentContext] addStubAction:mock_returnStructAction(strt)]
+#define mck_returnValue(val) [[RGMockContext currentContext] addStubAction:mck_returnValueAction(val)]
+#define mck_returnStruct(strt) [[RGMockContext currentContext] addStubAction:mck_returnStructAction(strt)]
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define returnValue(val) mock_returnValue(val)
-#define returnStruct(val) mock_returnStruct(val)
+#define returnValue(val) mck_returnValue(val)
+#define returnStruct(val) mck_returnStruct(val)
 #endif
 
-#define mock_returnValueAction(val) [RGMockReturnStubAction returnActionWithValue:mock_createGenericValue(@encode(typeof(val)), val)]
-#define mock_returnStructAction(strt) [RGMockReturnStubAction returnActionWithValue:[NSValue valueWithBytes:&strt objCType:@encode(typeof(strt))]]
-id mock_createGenericValue(const char *type, ...);
+#define mck_returnValueAction(val) [RGMockReturnStubAction returnActionWithValue:mck_createGenericValue(@encode(typeof(val)), val)]
+#define mck_returnStructAction(strt) [RGMockReturnStubAction returnActionWithValue:[NSValue valueWithBytes:&strt objCType:@encode(typeof(strt))]]
+id mck_createGenericValue(const char *type, ...);
 

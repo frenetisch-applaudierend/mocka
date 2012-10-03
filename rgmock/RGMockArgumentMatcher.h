@@ -19,22 +19,22 @@
 
 // Registering Matchers
 
-static inline char mock_registerPrimitiveMatcher(id<RGMockArgumentMatcher> matcher) {
+static inline char mck_registerPrimitiveMatcher(id<RGMockArgumentMatcher> matcher) {
     return [[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher];
 }
 
-static inline id mock_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
+static inline id mck_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
     return matcher;
 }
 
-static inline char* mock_registerCStringMatcher(id<RGMockArgumentMatcher> matcher) {
+static inline char* mck_registerCStringMatcher(id<RGMockArgumentMatcher> matcher) {
     return (char *)[[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher];
 }
 
-static inline SEL mock_registerSelectorMatcher(id<RGMockArgumentMatcher> matcher) {
+static inline SEL mck_registerSelectorMatcher(id<RGMockArgumentMatcher> matcher) {
     return (SEL)[[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher];
 }
 
-static inline void* mock_registerPointerMatcher(id<RGMockArgumentMatcher> matcher) {
+static inline void* mck_registerPointerMatcher(id<RGMockArgumentMatcher> matcher) {
     return (void *)[[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher];
 }

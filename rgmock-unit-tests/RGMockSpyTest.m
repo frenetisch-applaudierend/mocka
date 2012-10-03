@@ -41,7 +41,7 @@
 - (void)setUp {
     [super setUp];
     context = [FakeMockingContext fakeContext];
-    spy = mock_createSpyForObject([[MockTestObject alloc] init], context);
+    spy = mck_createSpyForObject([[MockTestObject alloc] init], context);
 }
 
 
@@ -52,10 +52,10 @@
     MockTestObject *object = [[MockTestObject alloc] init];
     
     // when
-    mock_createSpyForObject(object, nil);
+    mck_createSpyForObject(object, nil);
     
     // then
-    STAssertTrue(mock_objectIsSpy(object), @"Object is not turned into spy");
+    STAssertTrue(mck_objectIsSpy(object), @"Object is not turned into spy");
 }
 
 - (void)testThatCreateSpyReturnsPassedObject {
@@ -63,7 +63,7 @@
     MockTestObject *object = [[MockTestObject alloc] init];
     
     // when
-    id objectSpy = mock_createSpyForObject(object, nil);
+    id objectSpy = mck_createSpyForObject(object, nil);
     
     // then
     STAssertTrue(object == objectSpy, @"A different object than the passed object was returned");
@@ -74,7 +74,7 @@
     MockTestObject *object = [[MockTestObject alloc] init];
     
     // when
-    mock_createSpyForObject(object, nil);
+    mck_createSpyForObject(object, nil);
     
     // then
     STAssertEqualObjects([object class], [MockTestObject class], @"Original class was not retained");
@@ -167,7 +167,7 @@
 - (void)testThatSpyCallsImplementationOfMostRecentOverride {
     // given
     MockTestObjectSubclass *refObject = [[MockTestObjectSubclass alloc] init];
-    MockTestObjectSubclass *subclassSpy = mock_createSpyForObject([[MockTestObjectSubclass alloc] init], context);
+    MockTestObjectSubclass *subclassSpy = mck_createSpyForObject([[MockTestObjectSubclass alloc] init], context);
     context.mode = RGMockContextModeRecording;
     
     // when

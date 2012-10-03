@@ -20,12 +20,12 @@
 
 
 // Mocking Syntax
-static void mock_performBlock(void(^block)(NSInvocation *inv)) {
+static void mck_performBlock(void(^block)(NSInvocation *inv)) {
     [[RGMockContext currentContext] addStubAction:[RGMockPerformBlockStubAction performBlockActionWithBlock:block]];
 }
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 static void performBlock(void(^block)(NSInvocation *inv)) {
-    mock_performBlock(block);
+    mck_performBlock(block);
 }
 #endif

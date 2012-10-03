@@ -70,7 +70,7 @@
 @end
 
 
-id mock_createGenericValue(const char *typeString, ...) {
+id mck_createGenericValue(const char *typeString, ...) {
     va_list args;
     va_start(args, typeString);
     id returnValue = nil;

@@ -13,7 +13,7 @@
     NSException *_failure;
 }
 
-- (void)mock_interceptFailuresInFile:(NSString *)file line:(int)line block:(void(^)())block mode:(RGMockFailureHandlingMode)mode
+- (void)mck_interceptFailuresInFile:(NSString *)file line:(int)line block:(void(^)())block mode:(RGMockFailureHandlingMode)mode
                      expectedMessage:(NSString *)expectedMessage expectedFile:(NSString *)expectedFile expectedLine:(NSUInteger)expectedLine
 {
     if (block == nil) {

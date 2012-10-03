@@ -12,43 +12,43 @@
 
 
 static NSString * const RGMockSpyClassSuffix = @"{RGMockSpy}";
-static NSString * const RGMockSpyBackupMethodPrefix = @"_mock_backup_";
+static NSString * const RGMockSpyBackupMethodPrefix = @"_mck_backup_";
 
 static const NSUInteger RGMockContextKey;
 
-static Class mock_createSpyClassForClass(Class cls, RGMockContext *context);
-static void mock_overrideMethodsForClass(Class cls, Class spyClass, RGMockContext *context);
-static void mock_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMutableSet *overriddenMethods, RGMockContext *context);
-static SEL mock_backupSelectorForSelector(SEL selector);
+static Class mck_createSpyClassForClass(Class cls, RGMockContext *context);
+static void mck_overrideMethodsForClass(Class cls, Class spyClass, RGMockContext *context);
+static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMutableSet *overriddenMethods, RGMockContext *context);
+static SEL mck_backupSelectorForSelector(SEL selector);
 
 static Class spy_class(id self, SEL _cmd);
 static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation);
 
 
 @interface NSObject (RGMockUnhandledMethod)
-- (void)mock_methodThatDoesNotExist;
+- (void)mck_methodThatDoesNotExist;
 @end
 
 
 #pragma mark - Creating a Spy
 
-id mock_createSpyForObject(id object, RGMockContext *context) {
+id mck_createSpyForObject(id object, RGMockContext *context) {
     // Safeguards
     if (object == nil) { return nil; }
-    if (mock_objectIsSpy(object)) { return object; }
+    if (mck_objectIsSpy(object)) { return object; }
     if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
         [context failWithReason:[NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)]];
     }
     
     // Change the class to the spy class of this object
-    object_setClass(object, mock_createSpyClassForClass(object_getClass(object), context));
+    object_setClass(object, mck_createSpyClassForClass(object_getClass(object), context));
     
     // Save the context for later use
     objc_setAssociatedObject(object, &RGMockContextKey, context, OBJC_ASSOCIATION_ASSIGN); // weak
     return object;
 }
 
-static Class mock_createSpyClassForClass(Class cls, RGMockContext *context) {
+static Class mck_createSpyClassForClass(Class cls, RGMockContext *context) {
 #define typeForInheritedMethod(mthd) method_getTypeEncoding(class_getInstanceMethod(cls, @selector(mthd)))
     const char *spyClassName = [[NSStringFromClass(cls) stringByAppendingString:RGMockSpyClassSuffix] UTF8String];
     Class spyClass = objc_getClass(spyClassName);
@@ -56,31 +56,31 @@ static Class mock_createSpyClassForClass(Class cls, RGMockContext *context) {
         spyClass = objc_allocateClassPair(cls, spyClassName, 0);
         class_addMethod(spyClass, @selector(class), (IMP)&spy_class, typeForInheritedMethod(class));
         class_addMethod(spyClass, @selector(forwardInvocation:), (IMP)&spy_forwardInvocation, typeForInheritedMethod(forwardInvocation:));
-        mock_overrideMethodsForClass(cls, spyClass, context);
+        mck_overrideMethodsForClass(cls, spyClass, context);
         objc_registerClassPair(spyClass);
     }
     return spyClass;
 }
 
-static void mock_overrideMethodsForClass(Class cls, Class spyClass, RGMockContext *context) {
+static void mck_overrideMethodsForClass(Class cls, Class spyClass, RGMockContext *context) {
     Class nsobjectClass = objc_getClass("NSObject");
     Class nsproxyClass = objc_getClass("NSProxy");
     Class currentClass = cls;
     NSMutableSet *overriddenMethods = [NSMutableSet set];
     while (currentClass != Nil && currentClass != nsobjectClass && currentClass != nsproxyClass) {
-        mock_overrideMethodsForConcreteClass(currentClass, spyClass, overriddenMethods, context);
+        mck_overrideMethodsForConcreteClass(currentClass, spyClass, overriddenMethods, context);
         currentClass = class_getSuperclass(currentClass);
     }
 }
 
-static void mock_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMutableSet *overriddenMethods, RGMockContext *context) {
+static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMutableSet *overriddenMethods, RGMockContext *context) {
     // There are some potentially dangerous methods to override, we explicitely forbid those
     NSArray *forbiddenMethods = @[
         @"retain", @"release", @"autorelease", @"retainCount",
         @"methodSignatureForSelector:", @"respondsToSelector:", @"forwardInvocation:",
         @"class"
     ];
-    IMP forwarder = class_getMethodImplementation(cls, @selector(mock_methodThatDoesNotExist));
+    IMP forwarder = class_getMethodImplementation(cls, @selector(mck_methodThatDoesNotExist));
     
     unsigned int numMethods = 0;
     Method *methods = class_copyMethodList(cls, &numMethods);
@@ -93,7 +93,7 @@ static void mock_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMu
         
         // Backup the original method for later access and override it
         IMP backup = method_getImplementation(methods[i]);
-        SEL backupSelector = mock_backupSelectorForSelector(method_getName(methods[i]));
+        SEL backupSelector = mck_backupSelectorForSelector(method_getName(methods[i]));
         BOOL success = class_addMethod(spyClass, backupSelector, backup, method_getTypeEncoding(methods[i]));
         success &= class_addMethod(spyClass, method_getName(methods[i]), forwarder, method_getTypeEncoding(methods[i]));
         if (!success) {
@@ -106,14 +106,14 @@ static void mock_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMu
     
 }
 
-static SEL mock_backupSelectorForSelector(SEL selector) {
+static SEL mck_backupSelectorForSelector(SEL selector) {
     return NSSelectorFromString([RGMockSpyBackupMethodPrefix stringByAppendingString:NSStringFromSelector(selector)]);
 }
 
 
 #pragma mark - Testing if an object is a Spy
 
-BOOL mock_objectIsSpy(id object) {
+BOOL mck_objectIsSpy(id object) {
     return (object != nil && [NSStringFromClass(object_getClass(object)) hasSuffix:RGMockSpyClassSuffix]);
 }
 
@@ -133,7 +133,7 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
         // Why not just change the selector on the invocation? Because we want to retain
         // the original selector, in case the original method relies on this.
         Method overridden = class_getInstanceMethod(object_getClass(self), invocation.selector);
-        Method backup = class_getInstanceMethod(object_getClass(self), mock_backupSelectorForSelector(invocation.selector));
+        Method backup = class_getInstanceMethod(object_getClass(self), mck_backupSelectorForSelector(invocation.selector));
         method_exchangeImplementations(overridden, backup);
         [invocation invoke]; // will now invoke the backup method
         method_exchangeImplementations(backup, overridden);
