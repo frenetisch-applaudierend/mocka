@@ -16,6 +16,7 @@
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
+#undef verify // under Mac OS X it's defined already
 #define verify mck_verify
 #endif
 

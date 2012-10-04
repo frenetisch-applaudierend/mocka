@@ -30,17 +30,20 @@ static BOOL isClass(id obj);
     // Sanity check on the source list
     if ([sourceList count] == 0) {
         [context failWithReason:@"Need at least one class or protocol for mocking"];
+        return nil;
     }
     
     BOOL hasClass = NO;
     for (id object in sourceList) {
         if (!(isProtocol(object) || isClass(object))) {
             [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
+            return nil;
         }
         
         if (isClass(object)) {
             if (hasClass) {
                 [context failWithReason:@"At most one class can be mocked."];
+                return nil;
             }
             hasClass = YES;
         }
@@ -127,7 +130,6 @@ static BOOL isClass(id obj);
         if (isClass(candidate) && [candidate conformsToProtocol:prot]) { return YES; }
         NSAssert(isProtocol(candidate), @"Candidate was not a class or protocol");
         return protocol_conformsToProtocol((Protocol *)candidate, prot);
-        
     }];
     return (firstMatch != NSNotFound);
 }

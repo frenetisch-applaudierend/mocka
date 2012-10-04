@@ -8,6 +8,7 @@ build() {
 	local sdk=$2
 	
 	echo -n "  Building for architecture $arch ($sdk)... "
+    mkdir -p "build/Release-$sdk/"
 	xcodebuild -target RGMock -configuration Release -arch "$arch" -sdk "$sdk" build PRODUCT_NAME="rgmock-$arch" > "build/Release-$sdk/rgmock-$arch.buildlog"
 	echo "Done"
 }
@@ -18,6 +19,7 @@ xcodebuild clean > /dev/null
 build armv7  iphoneos
 build armv7s iphoneos
 build i386   iphonesimulator
+build x86_64 macosx
 echo "Done"
 echo
 
@@ -36,6 +38,7 @@ lipo \
   build/Release-iphoneos/librgmock-armv7.a \
   build/Release-iphoneos/librgmock-armv7s.a \
   build/Release-iphonesimulator/librgmock-i386.a \
+  build/Release/librgmock-x86_64.a \
   -create -output distribution/RGMock/librgmock.a
 echo "Done"
 echo
