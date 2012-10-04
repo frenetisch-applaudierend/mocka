@@ -45,8 +45,8 @@
     }
     
     if ([indexes count] != _count && failureMessage != NULL) {
-        *failureMessage = [NSString stringWithFormat:@"Expected exactly %d calls to -[<%@ %p> %@] but got %d",
-                           _count, [prototype.target class], prototype.target, NSStringFromSelector(prototype.selector), [indexes count]];
+        *failureMessage = [NSString stringWithFormat:@"Expected exactly %d calls to -[%@ %@] but got %d",
+                           _count, prototype.target, NSStringFromSelector(prototype.selector), [indexes count]];
     }
     
     return (([indexes count] == _count) ? indexes : [NSIndexSet indexSet]);

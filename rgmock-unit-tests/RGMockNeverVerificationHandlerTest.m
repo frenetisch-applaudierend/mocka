@@ -162,7 +162,7 @@
     STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
     
     NSString *expectedReason =
-    [NSString stringWithFormat:@"Expected no calls to -[<%@ %p> voidMethodCallWithoutParameters] but got 1", [target class], target];
+    [NSString stringWithFormat:@"Expected no calls to -[%@ voidMethodCallWithoutParameters] but got 1", target];
     STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 
@@ -186,7 +186,7 @@
     STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
     
     NSString *expectedReason =
-    [NSString stringWithFormat:@"Expected no calls to -[<%@ %p> voidMethodCallWithoutParameters] but got 3", [target class], target];
+    [NSString stringWithFormat:@"Expected no calls to -[%@ voidMethodCallWithoutParameters] but got 3", target];
     STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 

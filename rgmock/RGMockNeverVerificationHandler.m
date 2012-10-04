@@ -36,8 +36,8 @@
     }
     
     if ([indexes count] > 0 && failureMessage != NULL) {
-        *failureMessage = [NSString stringWithFormat:@"Expected no calls to -[<%@ %p> %@] but got %d",
-                           [prototype.target class], prototype.target, NSStringFromSelector(prototype.selector), [indexes count]];
+        *failureMessage = [NSString stringWithFormat:@"Expected no calls to -[%@ %@] but got %d",
+                           prototype.target, NSStringFromSelector(prototype.selector), [indexes count]];
     }
     
     return [NSIndexSet indexSet];

@@ -23,7 +23,7 @@ static SEL mck_backupSelectorForSelector(SEL selector);
 
 static Class spy_class(id self, SEL _cmd);
 static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation);
-
+static NSString* spy_description(id self, SEL _cmd);
 
 @interface NSObject (RGMockUnhandledMethod)
 - (void)mck_methodThatDoesNotExist;
@@ -56,6 +56,7 @@ static Class mck_createSpyClassForClass(Class cls, RGMockContext *context) {
         spyClass = objc_allocateClassPair(cls, spyClassName, 0);
         class_addMethod(spyClass, @selector(class), (IMP)&spy_class, typeForInheritedMethod(class));
         class_addMethod(spyClass, @selector(forwardInvocation:), (IMP)&spy_forwardInvocation, typeForInheritedMethod(forwardInvocation:));
+        class_addMethod(spyClass, @selector(description), (IMP)&spy_description, typeForInheritedMethod(description));
         mck_overrideMethodsForClass(cls, spyClass, context);
         objc_registerClassPair(spyClass);
     }
@@ -78,7 +79,7 @@ static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMut
     NSArray *forbiddenMethods = @[
         @"retain", @"release", @"autorelease", @"retainCount",
         @"methodSignatureForSelector:", @"respondsToSelector:", @"forwardInvocation:",
-        @"class"
+        @"class", @"description"
     ];
     IMP forwarder = class_getMethodImplementation(cls, @selector(mck_methodThatDoesNotExist));
     
@@ -141,4 +142,8 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
     
     // Now pass the invocation to the context for stubbing, recording, verifying...
     [context handleInvocation:invocation];
+}
+
+static NSString* spy_description(id self, SEL _cmd) {
+    return [NSString stringWithFormat:@"<%@: %p>", object_getClass(self), self];
 }

@@ -164,7 +164,7 @@
     STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
     
     NSString *expectedReason =
-    [NSString stringWithFormat:@"Expected a call to -[<%@ %p> voidMethodCallWithoutParameters] but no such call was made", [target class], target];
+    [NSString stringWithFormat:@"Expected a call to -[%@ voidMethodCallWithoutParameters] but no such call was made", target];
     STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 
