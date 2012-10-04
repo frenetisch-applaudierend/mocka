@@ -24,6 +24,7 @@
 
 // Mocking Syntax
 #define mck_mock(cls, ...) [RGMockClassAndProtocolMock mockWithContext:mck_updatedContext() classAndProtocols:@[ cls, __VA_ARGS__ ]]
+
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define mock(cls, ...) mck_mock(cls, __VA_ARGS__)
 #endif

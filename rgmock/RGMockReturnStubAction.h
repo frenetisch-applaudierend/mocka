@@ -18,8 +18,8 @@
 
 
 // Mocking Syntax
-#define mck_returnValue(val) [[RGMockContext currentContext] addStubAction:mck_returnValueAction(val)]
-#define mck_returnStruct(strt) [[RGMockContext currentContext] addStubAction:mck_returnStructAction(strt)]
+#define mck_returnValue(val) [mck_currentContext() addStubAction:mck_returnValueAction(val)]
+#define mck_returnStruct(strt) [mck_currentContext() addStubAction:mck_returnStructAction(strt)]
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define returnValue(val) mck_returnValue(val)

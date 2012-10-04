@@ -15,6 +15,7 @@
 
 
 #define mck_updatedContext() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
+#define mck_currentContext() [RGMockContext currentContext]
 
 
 typedef enum {

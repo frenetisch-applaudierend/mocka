@@ -49,11 +49,11 @@
     NSMutableArray *array = mock([NSMutableArray class]);
     
     stub [array count];
-    soThatItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
+    soItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
     andItWill returnValue(10); // returnValue() takes objects, primitives or pointer types, use returnStruct() for struct types
     
     // also possible to do a complete one-liner
-    stub [array objectAtIndex:1]; soThatItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
+    stub [array objectAtIndex:1]; soItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
@@ -69,7 +69,7 @@
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
     }
-    soThatItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
+    soItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
     andItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
@@ -83,7 +83,7 @@
 - (void)testArgumentMatchersForStubbing {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    stub [array objectAtIndexedSubscript:anyInt()]; soThatItWill returnValue(@"Foo");
+    stub [array objectAtIndexedSubscript:anyInt()]; soItWill returnValue(@"Foo");
     
     // then
     STAssertEqualObjects(array[0], @"Foo", @"anyInt() did not stub index 0");
@@ -132,7 +132,7 @@
     NSFileManager *fileManager = mock([NSFileManager class]);
     
     stub [fileManager createDirectoryAtPath:anyObject() withIntermediateDirectories:anyBool() attributes:anyObject() error:anyObjectPointer()];
-    soThatItWill returnValue(YES);
+    soItWill returnValue(YES);
     
     // Use the stubbed file manager somewhere
 }

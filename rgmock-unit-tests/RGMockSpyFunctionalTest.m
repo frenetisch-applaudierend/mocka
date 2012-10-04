@@ -248,7 +248,7 @@
 
 - (void)testThatStubbedReturnValueIsReturned {
     // given
-    stub [object objectMethodCallWithoutParameters]; soThatItWill returnValue(@"Hello World");
+    stub [object objectMethodCallWithoutParameters]; soItWill returnValue(@"Hello World");
     
     // when
     id result = [object objectMethodCallWithoutParameters];
@@ -263,7 +263,7 @@
     // given
     __block NSString *marker = nil;
     stub [object objectMethodCallWithoutParameters];
-    soThatItWill performBlock(^(NSInvocation *inv) {
+    soItWill performBlock(^(NSInvocation *inv) {
         marker = @"called";
     });
     andItWill returnValue(@20);
@@ -285,9 +285,9 @@
     __block NSString *marker = nil;
     
     // when
-    stub [object1 objectMethodCallWithoutParameters]; soThatItWill returnValue(@"First Object");
-    stub [object2 objectMethodCallWithoutParameters]; soThatItWill returnValue(@"Second Object");
-    stub [object3 objectMethodCallWithoutParameters]; soThatItWill performBlock(^(NSInvocation *inv) {
+    stub [object1 objectMethodCallWithoutParameters]; soItWill returnValue(@"First Object");
+    stub [object2 objectMethodCallWithoutParameters]; soItWill returnValue(@"Second Object");
+    stub [object3 objectMethodCallWithoutParameters]; soItWill performBlock(^(NSInvocation *inv) {
         marker = @"Third Object";
     });
     
@@ -319,13 +319,13 @@
     // given
     __block NSString *marker = nil;
     stub [object objectMethodCallWithoutParameters];
-    soThatItWill performBlock(^(NSInvocation *inv) {
+    soItWill performBlock(^(NSInvocation *inv) {
         marker = @"called";
     });
     andItWill returnValue(@20);
     
     // when
-    stub [object objectMethodCallWithoutParameters]; soThatItWill returnValue(@30);
+    stub [object objectMethodCallWithoutParameters]; soItWill returnValue(@30);
     
     // then
     STAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
@@ -344,7 +344,7 @@
         [object1 objectMethodCallWithoutParameters];
         [object2 objectMethodCallWithoutParameters];
     };
-    soThatItWill returnValue(@10);
+    soItWill returnValue(@10);
     
     // then
     STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
@@ -359,7 +359,7 @@
     NSMutableArray *array = spy([NSMutableArray array]);
     
     stub [array count];
-    soThatItWill performBlock(^(NSInvocation *inv) { [self description]; });
+    soItWill performBlock(^(NSInvocation *inv) { [self description]; });
     andItWill returnValue(10);
     
     // then
@@ -372,7 +372,7 @@
 - (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher {
     // when
     __block BOOL methodMatched = NO;
-    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soThatItWill performBlock(^(NSInvocation *inv) {
+    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soItWill performBlock(^(NSInvocation *inv) {
         methodMatched = YES;
     });
     
@@ -384,7 +384,7 @@
 - (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
     // when
     __block int invocationCount = 0;
-    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soThatItWill performBlock(^(NSInvocation *inv) {
+    stub [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; soItWill performBlock(^(NSInvocation *inv) {
         invocationCount++;
     });
     
