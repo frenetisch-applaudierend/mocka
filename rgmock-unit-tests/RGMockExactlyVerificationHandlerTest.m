@@ -22,7 +22,7 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyZero {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -41,7 +41,7 @@
 
 - (void)testThatHandlerIsSatisfiedIfNoMatchIsFoundForExactlyZero {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -61,7 +61,7 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyZero {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -79,7 +79,7 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyZero {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -98,7 +98,7 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFoundForExactlyZero {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -119,7 +119,7 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFoundForExactlyZero {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:0];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -144,7 +144,7 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -163,7 +163,7 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfNoMatchIsFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -183,7 +183,7 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -201,7 +201,7 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -220,7 +220,7 @@
 
 - (void)testThatHandlerReturnsFilledIndexSetIfTwoMatchesAreFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -242,7 +242,7 @@
 
 - (void)testThatHandlerIsSatisfiedIfMoreMatchesAreFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -263,7 +263,7 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfMoreMatchesAreFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -284,7 +284,7 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfMoreMatchesAreFoundForExactlyTwo {
     // given
-    RGMockExactlyVerificationHandler *handler = handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
     MockTestObject *target = [[MockTestObject alloc] init];
     NSArray *recordedInvocations = @[
     [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
@@ -302,6 +302,55 @@
     
     // then
     STAssertFalse(satisfied, @"Should not be satisifed");
+}
+
+
+#pragma mark - Test Error Reporting
+
+- (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {
+    // given
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:2];
+    MockTestObject *target = [[MockTestObject alloc] init];
+    NSArray *recordedInvocations = @[ [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)] ];
+    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    
+    // when
+    BOOL satisfied = YES;
+    NSString *reason = nil;
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
+                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:&reason];
+    
+    // then
+    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    
+    NSString *expectedReason =
+    [NSString stringWithFormat:@"Expected exactly 2 calls to -[<%@ %p> voidMethodCallWithoutParameters] but got 1", [target class], target];
+    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+}
+
+- (void)testThatHandlerIncludesNumberOfCallsInErrorReasonIfNotSatisifiedForPlainMethod {
+    // given
+    RGMockExactlyVerificationHandler *handler = [[RGMockExactlyVerificationHandler alloc] initWithCount:5];
+    MockTestObject *target = [[MockTestObject alloc] init];
+    NSArray *recordedInvocations = @[
+    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
+    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
+    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)]
+    ];
+    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    
+    // when
+    BOOL satisfied = YES;
+    NSString *reason = nil;
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
+                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:&reason];
+    
+    // then
+    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    
+    NSString *expectedReason =
+    [NSString stringWithFormat:@"Expected exactly 5 calls to -[<%@ %p> voidMethodCallWithoutParameters] but got 3", [target class], target];
+    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 
 @end
