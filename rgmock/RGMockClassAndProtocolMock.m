@@ -136,7 +136,26 @@ static BOOL isClass(id obj);
 #pragma mark - Debugging
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@[%@]: %p>", [self class], _mockedEntities, self];
+    return [NSString stringWithFormat:@"<mock{%@%@}: %p>", [self mck_mockedClassName], [self mck_mockedProtocolList], self];
+}
+
+- (NSString *)mck_mockedClassName {
+    for (id mockedEntity in _mockedEntities) {
+        if (isClass(mockedEntity)) {
+            return NSStringFromClass(mockedEntity);
+        }
+    }
+    return @"id";
+}
+
+- (NSString *)mck_mockedProtocolList {
+    NSMutableArray *protocols = [NSMutableArray array];
+    for (id mockedEntity in _mockedEntities) {
+        if (isProtocol(mockedEntity)) {
+            [protocols addObject:NSStringFromProtocol(mockedEntity)];
+        }
+    }
+    return ([protocols count] == 0 ? @"" : [NSString stringWithFormat:@"<%@>", [protocols componentsJoinedByString:@", "]]);
 }
 
 @end

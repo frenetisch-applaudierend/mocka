@@ -145,5 +145,5 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
 }
 
 static NSString* spy_description(id self, SEL _cmd) {
-    return [NSString stringWithFormat:@"<%@: %p>", object_getClass(self), self];
+    return [NSString stringWithFormat:@"<spy{%@}: %p>", class_getSuperclass(object_getClass(self)), self];
 }
