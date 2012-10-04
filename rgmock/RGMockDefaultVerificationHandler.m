@@ -35,9 +35,11 @@
     NSUInteger index = [recordedInvocations indexOfObjectPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
         return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype withNonObjectArgumentMatchers:argumentMatchers];
     }];
+    
     if (satisified != NULL) {
         *satisified = (index != NSNotFound);
     }
+    
     if (index == NSNotFound && failureMessage != NULL) {
         *failureMessage = [NSString stringWithFormat:@"Expected a call to -[<%@ %p> %@] but no such call was made",
                            [prototype.target class], prototype.target, NSStringFromSelector(prototype.selector)];

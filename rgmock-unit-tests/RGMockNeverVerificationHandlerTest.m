@@ -143,4 +143,51 @@
     STAssertFalse(satisfied, @"Should not be satisifed");
 }
 
+
+#pragma mark - Test Error Reporting
+
+- (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {
+    // given
+    MockTestObject *target = [[MockTestObject alloc] init];
+    NSArray *recordedInvocations = @[ [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)] ];
+    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    
+    // when
+    BOOL satisfied = YES;
+    NSString *reason = nil;
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
+                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:&reason];
+    
+    // then
+    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    
+    NSString *expectedReason =
+    [NSString stringWithFormat:@"Expected no calls to -[<%@ %p> voidMethodCallWithoutParameters] but got 1", [target class], target];
+    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+}
+
+- (void)testThatHandlerIncludesNumberOfCallsInErrorReasonIfNotSatisifiedForPlainMethod {
+    // given
+    MockTestObject *target = [[MockTestObject alloc] init];
+    NSArray *recordedInvocations = @[
+        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
+        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
+        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)]
+    ];
+    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    
+    // when
+    BOOL satisfied = YES;
+    NSString *reason = nil;
+    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
+                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:&reason];
+    
+    // then
+    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    
+    NSString *expectedReason =
+    [NSString stringWithFormat:@"Expected no calls to -[<%@ %p> voidMethodCallWithoutParameters] but got 3", [target class], target];
+    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+}
+
 @end
