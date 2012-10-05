@@ -169,10 +169,11 @@ static __weak id _CurrentContext = nil;
     return nil;
 }
 
-- (void)addStubAction:(id<RGMockStubAction>)action {
+- (BOOL)addStubAction:(id<RGMockStubAction>)action {
     _currentStubbing = nil; // end of multiple stubs mode
     [self updateContextMode:RGMockContextModeRecording];
     [[_recordedStubbings lastObject] addAction:action];
+    return YES;
 }
 
 

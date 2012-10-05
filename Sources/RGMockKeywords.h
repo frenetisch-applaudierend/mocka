@@ -16,7 +16,7 @@
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#undef verify // under Mac OS X it's defined already
+#undef verify // under Mac OS X this macro defined already (in /usr/include/AssertMacros.h)
 #define verify mck_verify
 #endif
 
@@ -24,13 +24,15 @@
 #pragma mark - Stubbing
 
 // Safe syntax
-#define mck_stub      if ([mck_updatedContext() updateContextMode:RGMockContextModeStubbing])
-#define mck_soItWill  if (YES)
-#define mck_andItWill mck_soItWill
+#define mck_whenCalling   if ([mck_updatedContext() updateContextMode:RGMockContextModeStubbing])
+#define mck_orWhenCalling ; mck_whenCalling
+#define mck_thenItWill    ; if (YES)
+#define mck_andItWill     mck_thenItWill
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define stub      mck_stub
-#define soItWill  mck_soItWill
-#define andItWill mck_andItWill
+#define whenCalling   mck_whenCalling
+#define orWhenCalling mck_orWhenCalling
+#define thenItWill    mck_thenItWill
+#define andItWill     mck_andItWill
 #endif

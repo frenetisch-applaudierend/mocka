@@ -65,7 +65,7 @@ typedef enum {
 #pragma mark - Stubbing
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation;
-- (void)addStubAction:(id<RGMockStubAction>)action;
+- (BOOL)addStubAction:(id<RGMockStubAction>)action;
 
 
 #pragma mark - Argument Matchers

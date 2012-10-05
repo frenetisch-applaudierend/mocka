@@ -53,12 +53,14 @@
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
-    stub [array count];
-    soItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
-    andItWill returnValue(10); // returnValue() takes objects, primitives or pointer types, use returnStruct() for struct types
+    // returnValue() takes objects, primitives or pointer types, use returnStruct() for struct types
+    // performBlock() allows you to execute arbitrary code. 
+    whenCalling [array count]; thenItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); }); andItWill returnValue(10);
     
-    // also possible to do a complete one-liner
-    stub [array objectAtIndex:1]; soItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
+    
+    // note that the semicolons (;) between the calls/actions are not necessary
+    // but they will help with syntax completion in Xcode
+    whenCalling [array objectAtIndex:1] thenItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
     STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
@@ -69,12 +71,15 @@
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
-    // more than one call in a stub { ... } applies the actions to all of the stubbed calls
-    stub {
+    // you can take multiple calls together when stubbing like this
+    whenCalling [array objectAtIndex:0]; orWhenCalling [array objectAtIndex:2]; thenItWill returnValue(@"Foobar");
+    
+    // alternatively, placing more than one call in a whenCalling { ... } applies the actions also to all of those calls
+    whenCalling {
         [array objectAtIndex:1];
         [array removeObjectAtIndex:1];
     }
-    soItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
+    thenItWill performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
     andItWill throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
     
     // then
@@ -88,7 +93,7 @@
 - (void)testArgumentMatchersForStubbing {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
-    stub [array objectAtIndexedSubscript:anyInt()]; soItWill returnValue(@"Foo");
+    whenCalling [array objectAtIndexedSubscript:anyInt()] thenItWill returnValue(@"Foo");
     
     // then
     STAssertEqualObjects(array[0], @"Foo", @"anyInt() did not stub index 0");
@@ -136,8 +141,8 @@
     // given
     NSFileManager *fileManager = mock([NSFileManager class]);
     
-    stub [fileManager createDirectoryAtPath:anyObject() withIntermediateDirectories:anyBool() attributes:anyObject() error:anyObjectPointer()];
-    soItWill returnValue(YES);
+    whenCalling [fileManager createDirectoryAtPath:anyObject() withIntermediateDirectories:anyBool() attributes:anyObject() error:anyObjectPointer()]
+    thenItWill returnValue(YES);
     
     // Use the stubbed file manager somewhere
 }
