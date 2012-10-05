@@ -7,12 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "RGMockTestCase.h"
-
+#import "RGMockTestExceptionUtils.h"
 #import "NSInvocation+TestSupport.h"
 #import "BlockArgumentMatcher.h"
 #import "MockTestObject.h"
-
 #import "RGMockClassAndProtocolMock.h"
 #import "RGMockContext.h"
 #import "RGMockDefaultVerificationHandler.h"
@@ -79,7 +77,7 @@
 @end
 
 
-@interface RGMockContextTest : RGMockTestCase
+@interface RGMockContextTest : SenTestCase
 @end
 
 @implementation RGMockContextTest {
@@ -91,6 +89,7 @@
 - (void)setUp {
     [super setUp];
     context = [[RGMockContext alloc] initWithTestCase:self];
+    context.failureHandler = [[RGMockExceptionFailureHandler alloc] init];
 }
 
 
@@ -405,6 +404,7 @@
 
 - (void)testThatFailWithReasonCreatesSenTestException {
     RGMockContext *ctx = [RGMockContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
+    ctx.failureHandler = [[RGMockExceptionFailureHandler alloc] init];
     
     AssertFailsWith(@"Test reason", @"Foo", 10, {
         [ctx failWithReason:@"Test reason"];

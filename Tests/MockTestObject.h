@@ -6,6 +6,17 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
+@class MockTestObject;
+
+#define AssertNumberOfInvocations(obj, num) \
+    STAssertEquals([MockTestObjectCalledSelectors((obj)) count], (NSUInteger)(num), @"Expected different call count")
+#define AssertSelectorCalledAtIndex(obj, sel, idx) \
+    STAssertEqualObjects(MockTestObjectCalledSelectors((obj))[(idx)], NSStringFromSelector((sel)), @"Selector not called at this index")
+#define AssertSelectorNotCalled(obj, sel) \
+    STAssertFalse([MockTestObjectCalledSelectors((obj)) containsObject:NSStringFromSelector((sel))], @"Selector was called")
+
+NSArray* MockTestObjectCalledSelectors(MockTestObject *object);
+
 
 @interface MockTestObject : NSObject
 
@@ -41,6 +52,3 @@
 - (NSRange)rangeMethodCallWithoutParameters;
 
 @end
-
-
-NSArray* MockTestObjectCalledSelectors(MockTestObject *object);

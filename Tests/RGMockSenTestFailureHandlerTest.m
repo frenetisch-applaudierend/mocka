@@ -9,6 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "RGMockSenTestFailureHandler.h"
 
+
 @interface FakeTestCase : NSObject
 @property (nonatomic, readonly) NSException *lastReportedFailure;
 - (void)failWithException:(NSException *)exception;

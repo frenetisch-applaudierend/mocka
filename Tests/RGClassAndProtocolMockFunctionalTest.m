@@ -7,15 +7,14 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "RGMockTestCase.h"
-
+#import "RGMockTestExceptionUtils.h"
 #import "MockTestObject.h"
 #import "RGMock.h"
 
 
 #pragma mark - Functional Test for mocking a single Class
 
-@interface RGClassAndProtocolMockFunctionalTest : RGMockTestCase
+@interface RGClassAndProtocolMockFunctionalTest : SenTestCase
 @end
 
 @implementation RGClassAndProtocolMockFunctionalTest {
@@ -28,6 +27,7 @@
 - (void)setUp {
     [super setUp];
     object = mock([MockTestObject class]);
+    [[RGMockContext currentContext] setFailureHandler:[[RGMockExceptionFailureHandler alloc] init]];
 }
 
 

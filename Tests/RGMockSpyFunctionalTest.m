@@ -7,20 +7,12 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "RGMockTestCase.h"
+#import "RGMockTestExceptionUtils.h"
 #import "MockTestObject.h"
-
 #import "RGMock.h"
 
-#define AssertNumberOfInvocations(obj, num) STAssertEquals([MockTestObjectCalledSelectors((obj)) count], (NSUInteger)(num),\
-    @"Expected different call count")
-#define AssertSelectorCalledAtIndex(obj, sel, idx) STAssertEqualObjects(MockTestObjectCalledSelectors((obj))[(idx)], NSStringFromSelector((sel)),\
-    @"Selector not called at this index")
-#define AssertSelectorNotCalled(obj, sel) STAssertFalse([MockTestObjectCalledSelectors((obj)) containsObject:NSStringFromSelector((sel))],\
-    @"Selector was called")
 
-
-@interface RGMockSpyFunctionalTest : RGMockTestCase
+@interface RGMockSpyFunctionalTest : SenTestCase
 @end
 
 @implementation RGMockSpyFunctionalTest {
@@ -33,6 +25,7 @@
 - (void)setUp {
     [super setUp];
     object = spy([[MockTestObject alloc] init]);
+    [[RGMockContext currentContext] setFailureHandler:[[RGMockExceptionFailureHandler alloc] init]];
 }
 
 
