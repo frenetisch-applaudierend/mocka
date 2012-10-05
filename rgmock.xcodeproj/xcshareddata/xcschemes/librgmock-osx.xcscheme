@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28D7B39314D74DE400D494FD"
-               BuildableName = "librgmock.a"
-               BlueprintName = "RGMock"
+               BlueprintIdentifier = "36A07DEC161EC9B3006153C7"
+               BuildableName = "liblibrgmock-osx.a"
+               BlueprintName = "librgmock-osx"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28D7B3A314D74DE400D494FD"
-               BuildableName = "rgmock-unit-tests.octest"
-               BlueprintName = "rgmock-unit-tests"
+               BlueprintIdentifier = "36A07DFE161EC9B3006153C7"
+               BuildableName = "librgmock-osx-tests.octest"
+               BlueprintName = "librgmock-osx-tests"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -39,27 +39,20 @@
    <TestAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "NO"
+      shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "28D7B3A314D74DE400D494FD"
-               BuildableName = "rgmock-unit-tests.octest"
-               BlueprintName = "rgmock-unit-tests"
+               BlueprintIdentifier = "36A07DFE161EC9B3006153C7"
+               BuildableName = "librgmock-osx-tests.octest"
+               BlueprintName = "librgmock-osx-tests"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "NSZombieEnabled"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -81,7 +74,7 @@
       debugDocumentVersioning = "YES">
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Release">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"

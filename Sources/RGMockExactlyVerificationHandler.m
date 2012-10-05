@@ -46,7 +46,7 @@
     
     if ([indexes count] != _count && failureMessage != NULL) {
         *failureMessage = [NSString stringWithFormat:@"Expected exactly %ld calls to -[%@ %@] but got %ld",
-                           (unsigned long)_count, prototype.target, NSStringFromSelector(prototype.selector), (unsigned long)[indexes count]];
+                           _count, prototype.target, NSStringFromSelector(prototype.selector), [indexes count]];
     }
     
     return (([indexes count] == _count) ? indexes : [NSIndexSet indexSet]);
