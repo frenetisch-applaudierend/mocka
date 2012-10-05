@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol RGMockFailureHandler;
 @protocol RGMockVerificationHandler;
 @protocol RGMockStubAction;
 @protocol RGMockArgumentMatcher;
@@ -44,6 +45,8 @@ typedef enum {
 @property (nonatomic, readonly, weak)   id        testCase;
 @property (nonatomic, readonly, copy)   NSString *fileName;
 @property (nonatomic, readonly, assign) int       lineNumber;
+
+@property (nonatomic, readwrite, strong) id<RGMockFailureHandler> failureHandler;
 
 - (void)failWithReason:(NSString *)reason;
 

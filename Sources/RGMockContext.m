@@ -11,9 +11,9 @@
 #import "RGMockDefaultVerificationHandler.h"
 #import "RGMockStubbing.h"
 #import "RGMockTypeEncodings.h"
+#import "RGMockSenTestFailureHandler.h"
 
 #import <objc/runtime.h>
-#import <SenTestingKit/SenTestingKit.h>
 
 
 @interface RGMockContext ()
@@ -72,6 +72,7 @@ static __weak id _CurrentContext = nil;
         _recordedInvocations = [NSMutableArray array];
         _recordedStubbings = [NSMutableArray array];
         _nonObjectArgumentMatchers = [NSMutableArray array];
+        _failureHandler = [[RGMockSenTestFailureHandler alloc] initWithTestCase:testCase];
         
         _CurrentContext = self;
     }
@@ -86,11 +87,7 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason {
-    if ([_testCase respondsToSelector:@selector(failWithException:)]) {
-        [_testCase failWithException:[NSException failureInFile:_fileName atLine:_lineNumber withDescription:@"%@", reason]];
-    } else {
-        @throw [NSException failureInFile:_fileName atLine:_lineNumber withDescription:@"%@", reason];
-    }
+    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:reason];
 }
 
 

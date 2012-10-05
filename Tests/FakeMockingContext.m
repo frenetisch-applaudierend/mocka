@@ -30,6 +30,12 @@
 }
 
 
+#pragma mark - Handling Failures
+
+- (void)failWithReason:(NSString *)reason {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
+}
+
 #pragma mark - Handling Invocations
 
 - (NSArray *)handledInvocations {
