@@ -10,7 +10,7 @@
 #import "RGMockTestCase.h"
 
 #import "NSInvocation+TestSupport.h"
-#import "DummyArgumentMatcher.h"
+#import "BlockArgumentMatcher.h"
 #import "MockTestObject.h"
 
 #import "RGMockClassAndProtocolMock.h"
@@ -305,7 +305,7 @@
 - (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
     // given
     [context updateContextMode:RGMockContextModeRecording];
-    id matcher = [[DummyArgumentMatcher alloc] init];
+    id matcher = [[BlockArgumentMatcher alloc] init];
     
     // then
     AssertFails({
@@ -316,7 +316,7 @@
 - (void)testThatMatcherCanBeAddedToContextInStubbingMode {
     // given
     [context updateContextMode:RGMockContextModeStubbing];
-    id matcher = [[DummyArgumentMatcher alloc] init];
+    id matcher = [[BlockArgumentMatcher alloc] init];
     
     // when
     [context pushNonObjectArgumentMatcher:matcher];
@@ -329,7 +329,7 @@
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
     // given
     [context updateContextMode:RGMockContextModeVerifying];
-    id matcher = [[DummyArgumentMatcher alloc] init];
+    id matcher = [[BlockArgumentMatcher alloc] init];
     
     // when
     [context pushNonObjectArgumentMatcher:matcher];
@@ -342,9 +342,9 @@
 - (void)testThatAddingMatcherReturnsMatcherIndex {
     // given
     [context updateContextMode:RGMockContextModeStubbing]; // Fulfill precondition
-    id matcher0 = [[DummyArgumentMatcher alloc] init];
-    id matcher1 = [[DummyArgumentMatcher alloc] init];
-    id matcher2 = [[DummyArgumentMatcher alloc] init];
+    id matcher0 = [[BlockArgumentMatcher alloc] init];
+    id matcher1 = [[BlockArgumentMatcher alloc] init];
+    id matcher2 = [[BlockArgumentMatcher alloc] init];
     
     // then
     STAssertEquals([context pushNonObjectArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
@@ -356,8 +356,8 @@
     // given
     MockTestObject *object = [[MockTestObject alloc] init];
     [context updateContextMode:RGMockContextModeStubbing]; // Fulfill precondition
-    [context pushNonObjectArgumentMatcher:[[DummyArgumentMatcher alloc] init]];
-    [context pushNonObjectArgumentMatcher:[[DummyArgumentMatcher alloc] init]];
+    [context pushNonObjectArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
+    [context pushNonObjectArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
     
     // when
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
@@ -372,7 +372,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
     [context updateContextMode:RGMockContextModeVerifying];
-    [context pushNonObjectArgumentMatcher:[[DummyArgumentMatcher alloc] init]]; // Prepare a verify call
+    [context pushNonObjectArgumentMatcher:[[BlockArgumentMatcher alloc] init]]; // Prepare a verify call
     
     // when
     AssertFails({
@@ -383,8 +383,8 @@
 - (void)testThatHandlingInvocationInVerificationModePassesMatchers {
     // given
     MockTestObject *object = [[MockTestObject alloc] init];
-    id matcher0 = [[DummyArgumentMatcher alloc] init];
-    id matcher1 = [[DummyArgumentMatcher alloc] init];
+    id matcher0 = [[BlockArgumentMatcher alloc] init];
+    id matcher1 = [[BlockArgumentMatcher alloc] init];
     
     [context updateContextMode:RGMockContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];

@@ -10,7 +10,7 @@
 #import "NSInvocation+TestSupport.h"
 #import "MockTestObject.h"
 #import "RGMockInvocationMatcher.h"
-#import "DummyArgumentMatcher.h"
+#import "BlockArgumentMatcher.h"
 
 
 #define stringMatcher(idx) (char[]){ (idx), 0 }
@@ -214,7 +214,7 @@
     MockTestObject *target = [[MockTestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 1, 0];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20];
-    NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherImplementation:^BOOL(id value) {
         STAssertEqualObjects(value, @20, @"Wrong argument value passed");
@@ -231,7 +231,7 @@
 - (void)testThatInvocationMatcherUsesPassedMatchersForObjectArgumentsIfGiven {
     // given
     MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), argumentMatchers[1], argumentMatchers[0]];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
@@ -258,7 +258,7 @@
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), foo, bar];
-    NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
         STAssertTrue((strcmp((const char *)[value pointerValue], (const char *)bar) == 0), @"Wrong argument value passed");
@@ -280,7 +280,7 @@
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), @selector(class), @selector(self)];
-    NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
         STAssertEquals((SEL)[value pointerValue], @selector(self), @"Wrong argument value passed");
@@ -302,7 +302,7 @@
                                            selectorAndArguments:@selector(voidMethodCallWithPointerParam1:pointerParam2:), (UInt8*)1, (UInt8*)0];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithPointerParam1:pointerParam2:), foo, bar];
-    NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
         STAssertEquals([value pointerValue], (void *)bar, @"Wrong argument value passed");

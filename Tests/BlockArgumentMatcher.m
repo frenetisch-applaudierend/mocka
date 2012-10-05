@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "DummyArgumentMatcher.h"
+#import "BlockArgumentMatcher.h"
 
-@implementation DummyArgumentMatcher
+@implementation BlockArgumentMatcher
 
 - (BOOL)matchesCandidate:(id)candidate {
     if (_matcherImplementation != nil) {

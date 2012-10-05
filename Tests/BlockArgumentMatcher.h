@@ -10,7 +10,7 @@
 #import "RGMockArgumentMatcher.h"
 
 
-@interface DummyArgumentMatcher : NSObject <RGMockArgumentMatcher>
+@interface BlockArgumentMatcher : NSObject <RGMockArgumentMatcher>
 
 @property (nonatomic, copy) BOOL(^matcherImplementation)(id candidate);
 

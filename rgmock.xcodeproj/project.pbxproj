@@ -27,7 +27,7 @@
 		2857B58215B4747900D64D27 /* RGMockStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 2857B58115B4747900D64D27 /* RGMockStubAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2857B58515B4748F00D64D27 /* RGMockReturnStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 2857B58315B4748F00D64D27 /* RGMockReturnStubAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2857B58615B4748F00D64D27 /* RGMockReturnStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B58415B4748F00D64D27 /* RGMockReturnStubAction.m */; };
-		28685FD315FDEE8300B59545 /* DummyArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FD215FDEE8300B59545 /* DummyArgumentMatcher.m */; };
+		28685FD315FDEE8300B59545 /* BlockArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FD215FDEE8300B59545 /* BlockArgumentMatcher.m */; };
 		28685FDC15FE289700B59545 /* RGMockAnyArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28685FDA15FE289700B59545 /* RGMockAnyArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28685FDD15FE289700B59545 /* RGMockAnyArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FDB15FE289700B59545 /* RGMockAnyArgumentMatcher.m */; };
 		28685FE115FE290F00B59545 /* RGMockAnyArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FE015FE290F00B59545 /* RGMockAnyArgumentMatcherTest.m */; };
@@ -115,7 +115,7 @@
 		36A07E42161ED194006153C7 /* RGMockAnyArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FE015FE290F00B59545 /* RGMockAnyArgumentMatcherTest.m */; };
 		36A07E43161ED1A5006153C7 /* RGMockTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 364701E81604DFC500B74E8B /* RGMockTestCase.m */; };
 		36A07E45161ED1A5006153C7 /* FakeMockingContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B57A15B3296100D64D27 /* FakeMockingContext.m */; };
-		36A07E46161ED1A5006153C7 /* DummyArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FD215FDEE8300B59545 /* DummyArgumentMatcher.m */; };
+		36A07E46161ED1A5006153C7 /* BlockArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28685FD215FDEE8300B59545 /* BlockArgumentMatcher.m */; };
 		36A07E47161ED1A5006153C7 /* MockTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B57115B23FF100D64D27 /* MockTestObject.m */; };
 		36A07E48161ED1A5006153C7 /* NSInvocation+TestSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B57315B23FF100D64D27 /* NSInvocation+TestSupport.m */; };
 		36A07E4D161EF487006153C7 /* RGMockFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E4C161EF487006153C7 /* RGMockFailureHandler.h */; };
@@ -171,8 +171,8 @@
 		2857B58115B4747900D64D27 /* RGMockStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockStubAction.h; sourceTree = "<group>"; };
 		2857B58315B4748F00D64D27 /* RGMockReturnStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockReturnStubAction.h; sourceTree = "<group>"; };
 		2857B58415B4748F00D64D27 /* RGMockReturnStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockReturnStubAction.m; sourceTree = "<group>"; };
-		28685FD115FDEE8300B59545 /* DummyArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyArgumentMatcher.h; sourceTree = "<group>"; };
-		28685FD215FDEE8300B59545 /* DummyArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyArgumentMatcher.m; sourceTree = "<group>"; };
+		28685FD115FDEE8300B59545 /* BlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockArgumentMatcher.h; sourceTree = "<group>"; };
+		28685FD215FDEE8300B59545 /* BlockArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockArgumentMatcher.m; sourceTree = "<group>"; };
 		28685FDA15FE289700B59545 /* RGMockAnyArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockAnyArgumentMatcher.h; sourceTree = "<group>"; };
 		28685FDB15FE289700B59545 /* RGMockAnyArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockAnyArgumentMatcher.m; sourceTree = "<group>"; };
 		28685FE015FE290F00B59545 /* RGMockAnyArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockAnyArgumentMatcherTest.m; sourceTree = "<group>"; };
@@ -335,8 +335,8 @@
 				364701E81604DFC500B74E8B /* RGMockTestCase.m */,
 				2857B57915B3296100D64D27 /* FakeMockingContext.h */,
 				2857B57A15B3296100D64D27 /* FakeMockingContext.m */,
-				28685FD115FDEE8300B59545 /* DummyArgumentMatcher.h */,
-				28685FD215FDEE8300B59545 /* DummyArgumentMatcher.m */,
+				28685FD115FDEE8300B59545 /* BlockArgumentMatcher.h */,
+				28685FD215FDEE8300B59545 /* BlockArgumentMatcher.m */,
 				2857B57015B23FF100D64D27 /* MockTestObject.h */,
 				2857B57115B23FF100D64D27 /* MockTestObject.m */,
 				2857B57215B23FF100D64D27 /* NSInvocation+TestSupport.h */,
@@ -733,7 +733,7 @@
 				28ECE88015BB38C000F15F12 /* RGMockSpyFunctionalTest.m in Sources */,
 				28ECE89B15BB6C1700F15F12 /* RGMockNeverVerificationHandlerTest.m in Sources */,
 				28ECE8A115BB76B400F15F12 /* RGMockExactlyVerificationHandlerTest.m in Sources */,
-				28685FD315FDEE8300B59545 /* DummyArgumentMatcher.m in Sources */,
+				28685FD315FDEE8300B59545 /* BlockArgumentMatcher.m in Sources */,
 				28685FE115FE290F00B59545 /* RGMockAnyArgumentMatcherTest.m in Sources */,
 				364701E91604DFC500B74E8B /* RGMockTestCase.m in Sources */,
 				36A07E57161EF6AD006153C7 /* RGMockSenTestFailureHandlerTest.m in Sources */,
@@ -782,7 +782,7 @@
 				36A07E42161ED194006153C7 /* RGMockAnyArgumentMatcherTest.m in Sources */,
 				36A07E43161ED1A5006153C7 /* RGMockTestCase.m in Sources */,
 				36A07E45161ED1A5006153C7 /* FakeMockingContext.m in Sources */,
-				36A07E46161ED1A5006153C7 /* DummyArgumentMatcher.m in Sources */,
+				36A07E46161ED1A5006153C7 /* BlockArgumentMatcher.m in Sources */,
 				36A07E47161ED1A5006153C7 /* MockTestObject.m in Sources */,
 				36A07E48161ED1A5006153C7 /* NSInvocation+TestSupport.m in Sources */,
 				36A07E58161EF6AD006153C7 /* RGMockSenTestFailureHandlerTest.m in Sources */,
