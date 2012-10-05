@@ -4,22 +4,23 @@ echo "-----------------------------------"
 echo
 
 build() {
-	local arch=$1
-	local sdk=$2
+  local target=$1
+  local arch=$2
+  local sdk=$3
 	
-	echo -n "  Building for architecture $arch ($sdk)... "
-    mkdir -p "build/Release-$sdk/"
-	xcodebuild -target RGMock -configuration Release -arch "$arch" -sdk "$sdk" build PRODUCT_NAME="rgmock-$arch" > "build/Release-$sdk/rgmock-$arch.buildlog"
-	echo "Done"
+  echo -n "  Building for architecture $arch ($sdk)... "
+  xcodebuild -target $1 -configuration Release -arch "$arch" -sdk "$sdk" build PRODUCT_NAME="rgmock-$arch" > "build/rgmock-$arch.buildlog"
+  echo "Done"
 }
 
 # Build the libraries
 echo "Building subtype libraries..."
 xcodebuild clean > /dev/null
-build armv7  iphoneos
-build armv7s iphoneos
-build i386   iphonesimulator
-build x86_64 macosx
+mkdir -p "build/"
+build librgmock-ios armv7  iphoneos
+build librgmock-ios armv7s iphoneos
+build librgmock-ios i386   iphonesimulator
+build librgmock-osx x86_64 macosx
 echo "Done"
 echo
 

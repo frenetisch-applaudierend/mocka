@@ -4,8 +4,8 @@ RGMock is an Objective-C mocking library designed after [mockito](http://code.go
 ## Why another mocking library?
 There are other mocking libraries around, so why write another one? RGMock has some features which (together) are not found in the others.
 
-* **Use-then-verify style** – As opposed to the *record-use-verify* style found for example in OCMock and LRMocky. You create a mock, you use it, and when you’re done you verify that all was as expected. This keeps your tests clean and simple.
-*  **Easy to refactor** – RGMock tries to make Xcode’s life as easy as possible when it comes to refactoring; particularly renaming methods. This means no calls are passed as arguments to macros and all mocks are objects of the mocked types, not a generic id object.
+* **Use-then-verify style** – As opposed to the *record-use-verify* style found for example in OCMock and LRMocky. You create a mock, you use it, and when you’re done you verify that all was as expected. This keeps your tests clean and simple.
+* **Easy to refactor** – RGMock tries to make Xcode’s life as easy as possible when it comes to refactoring; particularly renaming methods. This means no calls are passed as arguments to macros and all mocks are objects of the mocked types, not a generic id object.
 * **Readable syntax** – RGMock is focused on making the syntax understandable, even if you never used it before. This means keywords that make sense, as well as the *use-then-verify* style.
 * **Support for spies** – Spies allow you to verify methods on already existing objects (OCMock calls them *partial mocks*). While it’s generally not a good idea to rely too strongly on this feature, it’s nonetheless useful to have it in your mocking toolbox.
 
