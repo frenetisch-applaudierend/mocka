@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28D7B39314D74DE400D494FD"
-               BuildableName = "librgmock.a"
+               BuildableName = "librgmock-ios.a"
                BlueprintName = "librgmock-ios"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28D7B3A314D74DE400D494FD"
-               BuildableName = "rgmock-unit-tests.octest"
+               BuildableName = "librgmock-ios-tests.octest"
                BlueprintName = "librgmock-ios-tests"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
@@ -47,10 +47,15 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28D7B3A314D74DE400D494FD"
-               BuildableName = "rgmock-unit-tests.octest"
+               BuildableName = "librgmock-ios-tests.octest"
                BlueprintName = "librgmock-ios-tests"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RGMockSyntaxExamples">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <EnvironmentVariables>

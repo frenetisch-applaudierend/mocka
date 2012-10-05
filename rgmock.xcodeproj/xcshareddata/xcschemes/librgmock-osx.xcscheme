@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "36A07DEC161EC9B3006153C7"
-               BuildableName = "liblibrgmock-osx.a"
+               BuildableName = "librgmock-osx.a"
                BlueprintName = "librgmock-osx"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
