@@ -30,24 +30,26 @@
 #pragma mark - Performing the Action
 
 - (void)performWithInvocation:(NSInvocation *)invocation {
-    #define HandlePrimitive(code, type, sel) case code: { type value = [_returnValue sel]; [invocation setReturnValue:&value]; break; }
+    #define HandlePrimitive(type, sel) { type value = [_returnValue sel]; [invocation setReturnValue:&value]; break; }
     char type = [RGMockTypeEncodings typeBySkippingTypeModifiers:invocation.methodSignature.methodReturnType][0];
     switch (type) {
-            // Handle primitive types
-            HandlePrimitive('c', char, charValue)
-            HandlePrimitive('s', short, shortValue)
-            HandlePrimitive('i', int, intValue)
-            HandlePrimitive('l', long, longValue)
-            HandlePrimitive('q', long long, unsignedLongLongValue)
-            HandlePrimitive('C', unsigned char, unsignedCharValue)
-            HandlePrimitive('S', unsigned short, unsignedShortValue)
-            HandlePrimitive('I', unsigned int, unsignedIntValue)
-            HandlePrimitive('L', unsigned long, unsignedLongValue)
-            HandlePrimitive('Q', unsigned long long, unsignedLongLongValue)
-            HandlePrimitive('f', float, floatValue)
-            HandlePrimitive('d', double, doubleValue)
+        // Handle primitive types
+        case 'c': HandlePrimitive(char, charValue);
+        case 's': HandlePrimitive(short, shortValue);
+        case 'i': HandlePrimitive(int, intValue);
+        case 'l': HandlePrimitive(long, longValue);
             
-            // Handle object types
+        case 'q': HandlePrimitive(long long, unsignedLongLongValue);
+        case 'C': HandlePrimitive(unsigned char, unsignedCharValue);
+        case 'S': HandlePrimitive(unsigned short, unsignedShortValue);
+        case 'I': HandlePrimitive(unsigned int, unsignedIntValue);
+        case 'L': HandlePrimitive(unsigned long, unsignedLongValue);
+            
+        case 'Q': HandlePrimitive(unsigned long long, unsignedLongLongValue);
+        case 'f': HandlePrimitive(float, floatValue);
+        case 'd': HandlePrimitive(double, doubleValue);
+            
+        // Handle object types
         case '@': { [invocation setReturnValue:&_returnValue]; break; }
         case '#': { [invocation setReturnValue:&_returnValue]; break; }
             

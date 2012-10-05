@@ -48,7 +48,7 @@
         NSString *targetDescription = [prototype.target description];
         NSString *selectorDescription = NSStringFromSelector(prototype.selector);
         *failureMessage = [NSString stringWithFormat:@"Expected exactly %ld calls to -[%@ %@] but got %ld",
-                           _count, targetDescription, selectorDescription, [indexes count]];
+                           (unsigned long)_count, targetDescription, selectorDescription, (unsigned long)[indexes count]];
     }
     
     return (([indexes count] == _count) ? indexes : [NSIndexSet indexSet]);

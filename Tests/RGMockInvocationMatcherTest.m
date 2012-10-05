@@ -261,8 +261,9 @@
     NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
-        STAssertEquals([value pointerValue], (void *)(bar), @"Wrong argument value passed");
+        STAssertTrue((strcmp((const char *)[value pointerValue], (const char *)bar) == 0), @"Wrong argument value passed");
         called = YES;
+        return YES;
     }];
     
     // when
@@ -276,7 +277,7 @@
     // given
     MockTestObject *target = [[MockTestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
-                                           selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), (UInt8*)1, (UInt8*)0];
+                                           selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), @selector(class), @selector(self)];
     NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];

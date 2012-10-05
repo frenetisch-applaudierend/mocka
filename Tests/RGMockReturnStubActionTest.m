@@ -9,6 +9,12 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "RGMockReturnStubAction.h"
 
+#define signatureWithReturnType(retValType) _makeSignature(@encode(retValType))
+static const char* _makeSignature(const char *returnType) {
+    static char buffer[80];
+    snprintf(buffer, 80, "%s@:", returnType);
+    return buffer;
+}
 
 @interface RGMockReturnStubActionTest : SenTestCase
 @end
@@ -20,7 +26,7 @@
 - (void)testThatObjectReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(@"Hello World");
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"@@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(id)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -33,7 +39,7 @@
 - (void)testThatClassReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction([NSString class]);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"#@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(Class)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -46,7 +52,7 @@
 - (void)testThatNilValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(nil);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"@@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(id)]];
     [invocation setReturnValue:&(NSString *){ @"Existing Return" }];
     
     // when
@@ -63,7 +69,7 @@
 - (void)testBoolReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(YES);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"c@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(BOOL)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -76,7 +82,7 @@
 - (void)testCharReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(-21);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"c@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(char)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -89,7 +95,7 @@
 - (void)testShortReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(-23003);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"s@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(short)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -102,7 +108,7 @@
 - (void)testIntReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(-900009);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"i@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(int)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -115,7 +121,7 @@
 - (void)testLongReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(-900009);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"l@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(long)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -128,7 +134,7 @@
 - (void)testLongLongReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(-1000000000);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"q@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(long long)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -144,7 +150,7 @@
 - (void)testUnsignedCharReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(21);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"C@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned char)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -157,7 +163,7 @@
 - (void)testUnsignedShortReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(23003);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"S@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned short)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -170,7 +176,7 @@
 - (void)testUnsignedIntReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(900009);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"I@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned int)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -183,7 +189,7 @@
 - (void)testUnsignedLongReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(900009);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"L@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned long)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -196,7 +202,7 @@
 - (void)testUnsignedLongLongReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(1000000000);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"Q@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned long long)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -212,7 +218,7 @@
 - (void)testFloatReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(123.45f);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"f@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(float)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -225,7 +231,7 @@
 - (void)testDoubleReturnValueIsSet {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(1234567.89);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"d@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(double)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -242,7 +248,7 @@
     // given
     NSRange range = NSMakeRange(5, 26);
     RGMockReturnStubAction *action = mck_returnStructAction(range);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"{_NSRange=II}@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(NSRange)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -259,7 +265,7 @@
     // given
     int foo = 0;
     RGMockReturnStubAction *action = mck_returnValueAction(&foo);
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"^i@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(int*)]];
     
     // when
     [action performWithInvocation:invocation];
@@ -275,7 +281,7 @@
 - (void)testThatVoidReturnIsIgnored {
     // given
     RGMockReturnStubAction *action = mck_returnValueAction(@"Hello World");
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(void)]];
     
     // when
     [action performWithInvocation:invocation]; // if this crashes hard, then the test failed :)

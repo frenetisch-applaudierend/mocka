@@ -32,7 +32,7 @@ static inline char* mck_registerCStringMatcher(id<RGMockArgumentMatcher> matcher
 }
 
 static inline SEL mck_registerSelectorMatcher(id<RGMockArgumentMatcher> matcher) {
-    return (SEL)[[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher];
+    return (SEL)((char[]) { [[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher], '\0' });
 }
 
 static inline void* mck_registerPointerMatcher(id<RGMockArgumentMatcher> matcher) {

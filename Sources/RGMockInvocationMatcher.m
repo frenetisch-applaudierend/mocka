@@ -111,7 +111,7 @@
     const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
     
     if ([argumentMatchers count] > 0) {
-        id<RGMockArgumentMatcher> matcher = argumentMatchers[(UInt8)(prototypeArgument)];
+        id<RGMockArgumentMatcher> matcher = argumentMatchers[(NSUInteger)(prototypeArgument[0])];
         return [matcher matchesCandidate:[NSValue valueWithPointer:candidateArgument]];
     } else {
         return (candidateArgument == prototypeArgument || strcmp(candidateArgument, prototypeArgument) == 0);

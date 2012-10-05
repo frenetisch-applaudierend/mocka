@@ -51,11 +51,6 @@
                BlueprintName = "librgmock-ios-tests"
                ReferencedContainer = "container:rgmock.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "RGMockSyntaxExamples">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <EnvironmentVariables>
