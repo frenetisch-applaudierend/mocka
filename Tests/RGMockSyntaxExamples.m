@@ -16,7 +16,7 @@
 #define matchInt(x) anyInt()
 
 #define ThisWillFail(...) AssertFails(__VA_ARGS__)
-
+static inline void IgnoreUnused(id var, ...) { }
 
 @interface NSObject (RGMockSyntaxExamples)
 - (void)fooWithBar:(id)bar baz:(float)baz;
@@ -31,6 +31,34 @@
 
 - (void)setUp {
     [mck_updatedContext() setFailureHandler:[[RGMockExceptionFailureHandler alloc] init]]; // Enable the ThisShouldFail() macro (you can ignore this)
+}
+
+
+#pragma mark - Creating mocks
+
+- (void)testCreatingMocks {
+    
+    // you can create a mock for a class
+    NSOperationQueue *mockForOperationQueue = mock([NSOperationQueue class]);
+    
+    // ...or for a protocol
+    id<NSCoding> mockForNSCoding = mock(@protocol(NSCoding));
+    
+    // or a combination of both
+    NSOperationQueue<NSCoding> *combinedMock = mock([NSOperationQueue class], @protocol(NSCoding));
+    
+    // any number of protocols is allowed, at most one class
+    id manyProtocols = mock(@protocol(NSObject), @protocol(NSCoding), @protocol(NSDecimalNumberBehaviors)); // ok
+    ThisWillFail({
+        id manyClasses = mock([NSObject class], [NSString class]); // not ok
+        manyClasses = nil;
+    });
+    
+    // for single class / protocol there are shorthands
+    id mockForJustOneClass = mockClass(NSString);
+    id mockForJustOneProtocol = mockProtocol(NSCoding);
+    
+    IgnoreUnused(mockForOperationQueue, mockForNSCoding, combinedMock, manyProtocols, mockForJustOneClass, mockForJustOneProtocol);
 }
 
 #pragma mark - Let's verify some behaviour!
