@@ -157,7 +157,8 @@
 
 - (void)testThatMockConformsToAllMockedProtocols {
     // given
-    RGMockClassAndProtocolMock *mock = [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ @protocol(NSObject), @protocol(NSCoding), @protocol(NSCopying) ]];
+    RGMockClassAndProtocolMock *mock =
+    [RGMockClassAndProtocolMock mockWithContext:nil classAndProtocols:@[ @protocol(NSObject), @protocol(NSCoding), @protocol(NSCopying) ]];
     
     // then
     STAssertTrue([mock conformsToProtocol:@protocol(NSObject)],  @"Mock does not conform to all passed protocols");
