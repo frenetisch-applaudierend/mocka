@@ -11,9 +11,7 @@
 #import <objc/runtime.h>
 
 
-@implementation RGMockReturnStubAction {
-    id _value;
-}
+@implementation RGMockReturnStubAction
 
 #pragma mark - Initialization
 
@@ -23,7 +21,7 @@
 
 - (id)initWithValue:(id)value {
     if ((self = [super init])) {
-        _value = value;
+        _returnValue = value;
     }
     return self;
 }
@@ -32,7 +30,7 @@
 #pragma mark - Performing the Action
 
 - (void)performWithInvocation:(NSInvocation *)invocation {
-    #define HandlePrimitive(code, type, sel) case code: { type value = [_value sel]; [invocation setReturnValue:&value]; break; }
+    #define HandlePrimitive(code, type, sel) case code: { type value = [_returnValue sel]; [invocation setReturnValue:&value]; break; }
     char type = [RGMockTypeEncodings typeBySkippingTypeModifiers:invocation.methodSignature.methodReturnType][0];
     switch (type) {
             // Handle primitive types
@@ -50,21 +48,28 @@
             HandlePrimitive('d', double, doubleValue)
             
             // Handle object types
-        case '@': { [invocation setReturnValue:&_value]; break; }
-        case '#': { [invocation setReturnValue:&_value]; break; }
+        case '@': { [invocation setReturnValue:&_returnValue]; break; }
+        case '#': { [invocation setReturnValue:&_returnValue]; break; }
             
             // Handle struct types
         case '{': {
             void *structValue = malloc([invocation.methodSignature methodReturnLength]);
-            [(NSValue *)_value getValue:structValue];
+            [(NSValue *)_returnValue getValue:structValue];
             [invocation setReturnValue:structValue];
             free(structValue);
             break;
         }
             
             // Handle pointer types
-        case '^': { void *value = [(NSValue *)_value pointerValue]; [invocation setReturnValue:&value]; break; }
+        case '^': { void *value = [(NSValue *)_returnValue pointerValue]; [invocation setReturnValue:&value]; break; }
     }
+}
+
+
+#pragma mark - Debugging
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p returnValue=%@>", [self class], self, _returnValue];
 }
 
 @end

@@ -14,6 +14,8 @@
 + (id)returnActionWithValue:(id)value;
 - (id)initWithValue:(id)value;
 
+@property (nonatomic, readonly) id returnValue;
+
 @end
 
 

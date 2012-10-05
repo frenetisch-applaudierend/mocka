@@ -28,7 +28,7 @@ static inline id mck_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
 }
 
 static inline char* mck_registerCStringMatcher(id<RGMockArgumentMatcher> matcher) {
-    return (char *)[[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher];
+    return (char[]) { [[RGMockContext currentContext] pushNonObjectArgumentMatcher:matcher], '\0' };
 }
 
 static inline SEL mck_registerSelectorMatcher(id<RGMockArgumentMatcher> matcher) {

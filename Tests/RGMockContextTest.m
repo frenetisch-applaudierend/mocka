@@ -263,7 +263,7 @@
     [context pushNonObjectArgumentMatcher:matcher];
     
     // then
-    STAssertEquals([context.nonObjectArgumentMatchers count], (uint)1, @"Argument matcher was not recorded");
+    STAssertEquals([context.nonObjectArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
     STAssertEquals([context.nonObjectArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
 }
 
@@ -276,7 +276,7 @@
     [context pushNonObjectArgumentMatcher:matcher];
     
     // then
-    STAssertEquals([context.nonObjectArgumentMatchers count], (uint)1, @"Argument matcher was not recorded");
+    STAssertEquals([context.nonObjectArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
     STAssertEquals([context.nonObjectArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
 }
 
@@ -304,7 +304,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then
-    STAssertEquals([context.nonObjectArgumentMatchers count], (uint)0, @"Argument matchers were not cleared after -handleInvocation:");
+    STAssertEquals([context.nonObjectArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
 }
 
 - (void)testThatVerificationInvocationFailsForUnequalNumberOfNonObjectMatchers {
@@ -336,7 +336,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then
-    STAssertEquals([[(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers] count], (uint)2, @"Number of matchers is wrong");
+    STAssertEquals([[(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers] count], (NSUInteger)2, @"Number of matchers is wrong");
     STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][0], matcher0, @"Wrong matcher");
     STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][1], matcher1, @"Wrong matcher");
 }

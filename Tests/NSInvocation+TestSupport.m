@@ -24,6 +24,7 @@
     [invocation readArgumentFromVarargs:args];
     va_end(args);
     
+    [invocation retainArguments];
     return invocation;
 }
 

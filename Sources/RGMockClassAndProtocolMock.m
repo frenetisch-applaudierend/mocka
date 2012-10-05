@@ -137,7 +137,7 @@ static BOOL isClass(id obj);
 
 #pragma mark - Debugging
 
-- (NSString *)description {
+- (NSString *)descriptionWithLocale:(NSLocale *)locale {
     return [NSString stringWithFormat:@"<mock{%@%@}: %p>", [self mck_mockedClassName], [self mck_mockedProtocolList], self];
 }
 

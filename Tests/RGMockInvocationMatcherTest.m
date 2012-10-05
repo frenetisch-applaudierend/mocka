@@ -13,6 +13,8 @@
 #import "DummyArgumentMatcher.h"
 
 
+#define stringMatcher(idx) (char[]){ (idx), 0 }
+
 @interface RGMockInvocationMatcherTest : SenTestCase
 @end
 
@@ -253,7 +255,7 @@
     char *foo = "Foo", *bar = "Bar";
     MockTestObject *target = [[MockTestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
-                                           selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), (UInt8*)1, (UInt8*)0];
+                                           selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), foo, bar];
     NSArray *argumentMatchers = @[[[DummyArgumentMatcher alloc] init], [[DummyArgumentMatcher alloc] init]];

@@ -23,7 +23,7 @@ static SEL mck_backupSelectorForSelector(SEL selector);
 
 static Class spy_class(id self, SEL _cmd);
 static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation);
-static NSString* spy_description(id self, SEL _cmd);
+static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale);
 
 @interface NSObject (RGMockUnhandledMethod)
 - (void)mck_methodThatDoesNotExist;
@@ -49,14 +49,14 @@ id mck_createSpyForObject(id object, RGMockContext *context) {
 }
 
 static Class mck_createSpyClassForClass(Class cls, RGMockContext *context) {
-#define typeForInheritedMethod(mthd) method_getTypeEncoding(class_getInstanceMethod(cls, @selector(mthd)))
+#define overrideMethod(cls, sel, imp) class_addMethod((cls), (sel), (IMP)&(imp), method_getTypeEncoding(class_getInstanceMethod(cls, (sel))))
     const char *spyClassName = [[NSStringFromClass(cls) stringByAppendingString:RGMockSpyClassSuffix] UTF8String];
     Class spyClass = objc_getClass(spyClassName);
     if (spyClass == Nil) {
         spyClass = objc_allocateClassPair(cls, spyClassName, 0);
-        class_addMethod(spyClass, @selector(class), (IMP)&spy_class, typeForInheritedMethod(class));
-        class_addMethod(spyClass, @selector(forwardInvocation:), (IMP)&spy_forwardInvocation, typeForInheritedMethod(forwardInvocation:));
-        class_addMethod(spyClass, @selector(description), (IMP)&spy_description, typeForInheritedMethod(description));
+        overrideMethod(spyClass, @selector(class),                  spy_class);
+        overrideMethod(spyClass, @selector(forwardInvocation:),     spy_forwardInvocation);
+        overrideMethod(spyClass, @selector(descriptionWithLocale:), spy_descriptionWithLocale);
         mck_overrideMethodsForClass(cls, spyClass, context);
         objc_registerClassPair(spyClass);
     }
@@ -79,7 +79,7 @@ static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMut
     NSArray *forbiddenMethods = @[
         @"retain", @"release", @"autorelease", @"retainCount",
         @"methodSignatureForSelector:", @"respondsToSelector:", @"forwardInvocation:",
-        @"class", @"description"
+        @"class", @"descriptionWithLocale:", @"description"
     ];
     IMP forwarder = class_getMethodImplementation(cls, @selector(mck_methodThatDoesNotExist));
     
@@ -144,6 +144,6 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
     [context handleInvocation:invocation];
 }
 
-static NSString* spy_description(id self, SEL _cmd) {
+static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale) {
     return [NSString stringWithFormat:@"<spy{%@}: %p>", class_getSuperclass(object_getClass(self)), self];
 }
