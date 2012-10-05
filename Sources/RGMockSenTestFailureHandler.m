@@ -27,7 +27,7 @@
 #pragma mark - Handling Failures
 
 - (void)handleFailureInFile:(NSString *)file atLine:(NSUInteger)line withReason:(NSString *)reason {
-    [_testCase failWithException:[NSException failureInFile:file atLine:line withDescription:(reason != nil ? @"%@" : nil), reason]];
+    [_testCase failWithException:[NSException failureInFile:file atLine:(int)line withDescription:(reason != nil ? @"%@" : nil), reason]];
 }
 
 @end

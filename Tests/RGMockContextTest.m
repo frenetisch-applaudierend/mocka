@@ -10,7 +10,6 @@
 #import "RGMockTestCase.h"
 
 #import "NSInvocation+TestSupport.h"
-#import "FakeVerificationHandler.h"
 #import "DummyArgumentMatcher.h"
 #import "MockTestObject.h"
 
@@ -18,6 +17,66 @@
 #import "RGMockContext.h"
 #import "RGMockDefaultVerificationHandler.h"
 #import "RGMockReturnStubAction.h"
+
+
+@interface FakeVerificationHandler : NSObject <RGMockVerificationHandler>
+
++ (id)handlerWhichFailsWithMessage:(NSString *)message;
++ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
+
+@property (nonatomic, readonly) NSUInteger numberOfCalls;
+
+@property (nonatomic, readonly) NSInvocation *lastInvocationPrototype;
+@property (nonatomic, readonly) NSArray      *lastArgumentMatchers;
+@property (nonatomic, readonly) NSArray      *lastRecordedInvocations;
+
+@end
+
+@implementation FakeVerificationHandler {
+    NSIndexSet *_result;
+    BOOL        _satisfied;
+    NSString   *_failureMessage;
+}
+
+#pragma mark - Initialization
+
++ (id)handlerWhichFailsWithMessage:(NSString *)message {
+    return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message];
+}
+
++ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
+    return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil];
+}
+
+- (id)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message {
+    if ((self = [super init])) {
+        _result = [result copy];
+        _satisfied = satisfied;
+        _failureMessage = [message copy];
+    }
+    return self;
+}
+
+
+#pragma mark - RGMockVerificationHandler
+
+- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
+            withNonObjectArgumentMatchers:(NSArray *)argumentMatchers
+                    inRecordedInvocations:(NSArray *)recordedInvocations
+                                satisfied:(BOOL *)satisified
+                           failureMessage:(NSString **)failureMessage
+{
+    _lastInvocationPrototype = prototype;
+    _lastArgumentMatchers = [argumentMatchers copy];
+    _lastRecordedInvocations = [recordedInvocations copy];
+    _numberOfCalls++;
+    
+    if (satisified != NULL) *satisified = _satisfied;
+    if (failureMessage != NULL) *failureMessage = [_failureMessage copy];
+    return _result;
+}
+
+@end
 
 
 @interface RGMockContextTest : RGMockTestCase
