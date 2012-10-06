@@ -10,7 +10,7 @@
 @interface NSInvocation (TestSupport)
 
 + (id)invocationForTarget:(id)target selectorAndArguments:(SEL)selector, ...;
-
++ (id)voidMethodInvocationForTarget:(id)target;
 
 #pragma mark - Convenience Getters
 

@@ -7,6 +7,8 @@
 //
 
 #import "RGMockContext.h"
+#import "RGMockInvocationRecorder.h"
+#import "RGMockInvocationMatcher.h"
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
 #import "RGMockStubbing.h"
@@ -25,7 +27,7 @@
 
 
 @implementation RGMockContext {
-    NSMutableArray *_recordedInvocations;
+    RGMockInvocationRecorder *_invocationRecorder;
     NSMutableArray *_recordedStubbings;
     NSMutableArray *_nonObjectArgumentMatchers;
     RGMockStubbing *_currentStubbing;
@@ -69,7 +71,7 @@ static __weak id _CurrentContext = nil;
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
-        _recordedInvocations = [NSMutableArray array];
+        _invocationRecorder = [[RGMockInvocationRecorder alloc] initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]];
         _recordedStubbings = [NSMutableArray array];
         _nonObjectArgumentMatchers = [NSMutableArray array];
         _failureHandler = [[RGMockSenTestFailureHandler alloc] initWithTestCase:testCase];
@@ -135,12 +137,11 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Recording
 
 - (NSArray *)recordedInvocations {
-    return [_recordedInvocations copy];
+    return _invocationRecorder.recordedInvocations;
 }
 
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [invocation retainArguments];
-    [_recordedInvocations addObject:invocation];
+    [_invocationRecorder recordInvocation:invocation];
     
     RGMockStubbing *stubbing = [self stubbingForInvocation:invocation];
     if (stubbing != nil) {
@@ -183,15 +184,15 @@ static __weak id _CurrentContext = nil;
     BOOL satisfied = NO;
     NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                             withNonObjectArgumentMatchers:_nonObjectArgumentMatchers
-                                                            inRecordedInvocations:_recordedInvocations
+                                                    withNonObjectArgumentMatchers:_nonObjectArgumentMatchers
+                                                            inRecordedInvocations:_invocationRecorder.recordedInvocations
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
-
+    
     if (!satisfied) {
         [self failWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
     }
-    [_recordedInvocations removeObjectsAtIndexes:matchingIndexes];
+    [_invocationRecorder removeInvocationsAtIndexes:matchingIndexes];
     [self updateContextMode:RGMockContextModeRecording];
 }
 

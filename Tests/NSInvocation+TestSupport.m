@@ -28,6 +28,12 @@
     return invocation;
 }
 
++ (id)voidMethodInvocationForTarget:(id)target {
+    NSInvocation *invocation = [self invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
+    invocation.target = target;
+    return invocation;
+}
+
 - (void)readArgumentFromVarargs:(va_list)args {
     for (NSUInteger argIndex = 2; argIndex < [self.methodSignature numberOfArguments]; argIndex++) {
         const char *argType = [self.methodSignature getArgumentTypeAtIndex:argIndex];
