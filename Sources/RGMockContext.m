@@ -201,6 +201,7 @@ static __weak id _CurrentContext = nil;
 - (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
     if (_mode == RGMockContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with stub or verify"];
+        return 0;
     }
     
     [_nonObjectArgumentMatchers addObject:matcher];
