@@ -16,6 +16,8 @@
 		2822C337162039490031D92C /* RGMockInvocationRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C335162039490031D92C /* RGMockInvocationRecorderTest.m */; };
 		2822C33A16203DB90031D92C /* BlockInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33916203DB90031D92C /* BlockInvocationMatcher.m */; };
 		2822C33B16203DB90031D92C /* BlockInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33916203DB90031D92C /* BlockInvocationMatcher.m */; };
+		2822C33E16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */; };
+		2822C33F16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */; };
 		2832CC9E14D74F7C00BE74C2 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2832CCB414D75D3E00BE74C2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28575DD815B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DD715B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest.m */; };
@@ -164,6 +166,8 @@
 		2822C335162039490031D92C /* RGMockInvocationRecorderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockInvocationRecorderTest.m; sourceTree = "<group>"; };
 		2822C33816203DB90031D92C /* BlockInvocationMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockInvocationMatcher.h; sourceTree = "<group>"; };
 		2822C33916203DB90031D92C /* BlockInvocationMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockInvocationMatcher.m; sourceTree = "<group>"; };
+		2822C33C16206B4A0031D92C /* CannedInvocationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannedInvocationRecorder.h; sourceTree = "<group>"; };
+		2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedInvocationRecorder.m; sourceTree = "<group>"; };
 		2832CC9D14D74F7C00BE74C2 /* RGMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMock.h; sourceTree = "<group>"; };
 		28575DD715B1D4380077ACFC /* RGClassAndProtocolMockFunctionalTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGClassAndProtocolMockFunctionalTest.m; sourceTree = "<group>"; };
 		28575DDA15B1D5850077ACFC /* RGMockClassAndProtocolMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockClassAndProtocolMock.h; sourceTree = "<group>"; };
@@ -419,6 +423,8 @@
 				2857B57115B23FF100D64D27 /* MockTestObject.m */,
 				2857B57915B3296100D64D27 /* FakeMockingContext.h */,
 				2857B57A15B3296100D64D27 /* FakeMockingContext.m */,
+				2822C33C16206B4A0031D92C /* CannedInvocationRecorder.h */,
+				2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */,
 				28685FD115FDEE8300B59545 /* BlockArgumentMatcher.h */,
 				28685FD215FDEE8300B59545 /* BlockArgumentMatcher.m */,
 				2822C33816203DB90031D92C /* BlockInvocationMatcher.h */,
@@ -827,6 +833,7 @@
 				36A07E6B161F5BED006153C7 /* RGMockExceptionFailureHandlerTest.m in Sources */,
 				2822C336162039490031D92C /* RGMockInvocationRecorderTest.m in Sources */,
 				2822C33A16203DB90031D92C /* BlockInvocationMatcher.m in Sources */,
+				2822C33E16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,6 +887,7 @@
 				36A07E6C161F5BEE006153C7 /* RGMockExceptionFailureHandlerTest.m in Sources */,
 				2822C337162039490031D92C /* RGMockInvocationRecorderTest.m in Sources */,
 				2822C33B16203DB90031D92C /* BlockInvocationMatcher.m in Sources */,
+				2822C33F16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

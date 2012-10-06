@@ -25,6 +25,10 @@
     return self;
 }
 
+- (id)init {
+    return [self initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]];
+}
+
 
 #pragma mark - Recording invocations
 

@@ -60,13 +60,13 @@
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
             withNonObjectArgumentMatchers:(NSArray *)argumentMatchers
-                    inRecordedInvocations:(NSArray *)recordedInvocations
+                     inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
     _lastInvocationPrototype = prototype;
     _lastArgumentMatchers = [argumentMatchers copy];
-    _lastRecordedInvocations = [recordedInvocations copy];
+    _lastRecordedInvocations = [recorder.recordedInvocations copy];
     _numberOfCalls++;
     
     if (satisified != NULL) *satisified = _satisfied;

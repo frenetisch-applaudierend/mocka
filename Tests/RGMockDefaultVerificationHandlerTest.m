@@ -7,10 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import "RGMockDefaultVerificationHandler.h"
 #import "NSInvocation+TestSupport.h"
 #import "MockTestObject.h"
-
-#import "RGMockDefaultVerificationHandler.h"
+#import "CannedInvocationRecorder.h"
 
 
 @interface RGMockDefaultVerificationHandlerTest : SenTestCase
@@ -33,17 +33,12 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFound {
     // given
-    MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *recordedInvocations = @[
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)]
-    ];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target
-                                                     selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSet]];
+    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                                       inRecordedInvocations:recordedInvocations satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                                        inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
     STAssertTrue([indexes count] == 0, @"Non-matching invocation should result in empty set");
@@ -51,18 +46,13 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfNoMatchIsFound {
     // given
-    MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *recordedInvocations = @[
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)]
-    ];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target
-                                                     selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSet]];
+    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:NULL];
+    [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                  inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisfied");
@@ -70,16 +60,12 @@
 
 - (void)testThatHandlerReturnsSingleIndexSetIfOneMatchIsFound {
     // given
-    MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *recordedInvocations = @[
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)]
-    ];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
+    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                                       inRecordedInvocations:recordedInvocations satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                                        inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
     STAssertTrue([indexes count] == 1, @"Should have only one result");
@@ -88,17 +74,13 @@
 
 - (void)testThatHandlerIsSatisfiedIfOneMatchIsFound {
     // given
-    MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *recordedInvocations = @[
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)]
-    ];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
+    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:NULL];
+    [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                  inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
     STAssertTrue(satisfied, @"Should be satisifed");
@@ -106,41 +88,27 @@
 
 - (void)testThatHandlerReturnsFirstIndexIfMultipleMatchesAreFound {
     // given
-    MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *recordedInvocations = @[
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
-        [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20]
-    ];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
+    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                                       inRecordedInvocations:recordedInvocations satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                                        inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
     STAssertTrue([indexes count] == 1, @"Should have only one result");
-    STAssertTrue([indexes containsIndex:1], @"Index set did not contain the correct index");
+    STAssertTrue([indexes containsIndex:2], @"Index set did not contain the correct index");
 }
 
 - (void)testThatHandlerIsSatisfiedIfMultipleMatchesAreFound {
     // given
-    MockTestObject *target = [[MockTestObject alloc] init];
-    NSArray *recordedInvocations = @[
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20],
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
-    [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20]
-    ];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
+    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                 inRecordedInvocations:recordedInvocations satisfied:&satisfied failureMessage:NULL];
+    [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                  inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
     STAssertTrue(satisfied, @"Should be satisifed");
@@ -152,13 +120,14 @@
 - (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {
     // given
     MockTestObject *target = [[MockTestObject alloc] init];
-    NSInvocation *candidateInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    CannedInvocationRecorder *recorder = [[CannedInvocationRecorder alloc] initWithCannedResult:[NSIndexSet indexSet]];
+    NSInvocation *prototypeInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // when
     BOOL satisfied = YES;
     NSString *reason = nil;
-    [handler indexesMatchingInvocation:candidateInvocation withNonObjectArgumentMatchers:nil
-                 inRecordedInvocations:@[] satisfied:&satisfied failureMessage:&reason];
+    [handler indexesMatchingInvocation:prototypeInvocation withNonObjectArgumentMatchers:nil
+                  inInvocationRecorder:recorder satisfied:&satisfied failureMessage:&reason];
     
     // then
     STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed

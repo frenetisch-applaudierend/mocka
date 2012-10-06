@@ -7,13 +7,14 @@
 //
 
 #import "RGMockContext.h"
+#import "RGMockInvocationRecorder.h"
 
 
 @protocol RGMockVerificationHandler <NSObject>
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
             withNonObjectArgumentMatchers:(NSArray *)matchers
-                    inRecordedInvocations:(NSArray *)recordedInvocations
+                     inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage;
 

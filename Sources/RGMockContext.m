@@ -71,7 +71,7 @@ static __weak id _CurrentContext = nil;
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
-        _invocationRecorder = [[RGMockInvocationRecorder alloc] initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]];
+        _invocationRecorder = [[RGMockInvocationRecorder alloc] init];
         _recordedStubbings = [NSMutableArray array];
         _nonObjectArgumentMatchers = [NSMutableArray array];
         _failureHandler = [[RGMockSenTestFailureHandler alloc] initWithTestCase:testCase];
@@ -185,7 +185,7 @@ static __weak id _CurrentContext = nil;
     NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
                                                     withNonObjectArgumentMatchers:_nonObjectArgumentMatchers
-                                                            inRecordedInvocations:_invocationRecorder.recordedInvocations
+                                                             inInvocationRecorder:_invocationRecorder
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
     

@@ -28,24 +28,21 @@
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
             withNonObjectArgumentMatchers:(NSArray *)matchers
-                    inRecordedInvocations:(NSArray *)recordedInvocations
+                     inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
-    NSUInteger index = [recordedInvocations indexOfObjectPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
-        return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype withNonObjectArgumentMatchers:matchers];
-    }];
-    
+    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withNonObjectArgumentMatchers:matchers];
     if (satisified != NULL) {
-        *satisified = (index != NSNotFound);
+        *satisified = ([indexes count] > 0);
     }
     
-    if (index == NSNotFound && failureMessage != NULL) {
+    if ([indexes count] == 0 && failureMessage != NULL) {
         *failureMessage = [NSString stringWithFormat:@"Expected a call to -[%@ %@] but no such call was made",
                            prototype.target, NSStringFromSelector(prototype.selector)];
     }
     
-    return ((index != NSNotFound) ? [NSIndexSet indexSetWithIndex:index] : [NSIndexSet indexSet]);
+    return (([indexes count] > 0) ? [NSIndexSet indexSetWithIndex:[indexes firstIndex]] : [NSIndexSet indexSet]);
 }
 
 @end

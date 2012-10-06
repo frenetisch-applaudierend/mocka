@@ -32,13 +32,11 @@
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
             withNonObjectArgumentMatchers:(NSArray *)matchers
-                    inRecordedInvocations:(NSArray *)recordedInvocations
+                     inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recordedInvocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
-        return [[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype withNonObjectArgumentMatchers:matchers];
-    }];
+    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withNonObjectArgumentMatchers:matchers];
     
     if (satisified != NULL) {
         *satisified = ([indexes count] == _count);
