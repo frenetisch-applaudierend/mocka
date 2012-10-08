@@ -162,6 +162,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
+    // TODO: can be reworked to -hasStubbingsForInvocation:
     for (RGMockStubbing *stubbing in [_recordedStubbings reverseObjectEnumerator]) {
         if ([stubbing matchesForInvocation:invocation]) {
             return stubbing;

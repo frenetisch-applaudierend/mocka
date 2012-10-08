@@ -12,6 +12,7 @@
 
 @implementation RGMockInvocationStubber {
     NSMutableArray *_stubbings;
+    RGMockStubbing *_currentStubbing;
 }
 
 #pragma mark - Initialization
@@ -27,12 +28,15 @@
 #pragma mark - Creating and Updating Stubbings
 
 - (void)createStubbingForInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)matchers {
-    RGMockStubbing *stubbing = [[RGMockStubbing alloc] init];
-    [stubbing addInvocation:invocation withNonObjectArgumentMatchers:matchers];
-    [_stubbings addObject:stubbing];
+    if (_currentStubbing == nil) {
+        _currentStubbing = [[RGMockStubbing alloc] init];
+        [_stubbings addObject:_currentStubbing];
+    }
+    [_currentStubbing addInvocation:invocation withNonObjectArgumentMatchers:matchers];
 }
 
 - (void)addActionToCurrentStubbing:(id<RGMockStubAction>)action {
+    _currentStubbing = nil; // Once the user adds an action, mark the end of multiple invocations per stubbing
 }
 
 
