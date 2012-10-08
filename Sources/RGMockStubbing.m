@@ -11,59 +11,49 @@
 #import "RGMockInvocationMatcher.h"
 
 
-@interface RGMockStubbingInvocationPrototpye : NSObject
-
-@property (nonatomic, readonly) NSInvocation *invocation;
-@property (nonatomic, readonly) NSArray      *argumentMatchers;
-
-- (id)initWithInvocation:(NSInvocation *)invocation argumentMatchers:(NSArray *)argumentMatchers;
-
-@end
-
-@implementation RGMockStubbingInvocationPrototpye
-
-- (id)initWithInvocation:(NSInvocation *)invocation argumentMatchers:(NSArray *)argumentMatchers {
-    if ((self = [super init])) {
-        _invocation = invocation;
-        _argumentMatchers = [argumentMatchers copy];
-    }
-    return self;
-}
-
-@end
-
-
-#pragma mark -
 @implementation RGMockStubbing {
-    NSMutableArray *_invocations;
-    NSMutableArray *_actions;
+    NSMutableArray          *_invocationPrototypes;
+    NSMutableArray          *_actions;
+    RGMockInvocationMatcher *_invocationMatcher;
 }
 
 
-#pragma mark - Initialization and Configuration
+#pragma mark - Initialization
 
 - (id)init {
     if ((self = [super init])) {
-        _invocations = [NSMutableArray array];
+        _invocationPrototypes = [NSMutableArray array];
         _actions = [NSMutableArray array];
+        _invocationMatcher = [[RGMockInvocationMatcher alloc] init];
     }
     return self;
 }
 
+
+#pragma mark - Configuration
+
 - (void)addInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)argumentMatchers {
-    [_invocations addObject:[[RGMockStubbingInvocationPrototpye alloc] initWithInvocation:invocation argumentMatchers:argumentMatchers]];
+    [_invocationPrototypes addObject:[[RGMockStubbingInvocationPrototpye alloc] initWithInvocation:invocation nonObjectArgumentMatchers:argumentMatchers]];
 }
 
 - (void)addAction:(id<RGMockStubAction>)action {
     [_actions addObject:action];
 }
 
+- (NSArray *)invocationPrototypes {
+    return [_invocationPrototypes copy];
+}
+
+- (NSArray *)actions {
+    return [_actions copy];
+}
+
 
 #pragma mark - Matching and Applying
 
 - (BOOL)matchesForInvocation:(NSInvocation *)candidate {
-    for (RGMockStubbingInvocationPrototpye *prototype in _invocations) {
-        if ([[RGMockInvocationMatcher defaultMatcher] invocation:candidate matchesPrototype:prototype.invocation withNonObjectArgumentMatchers:prototype.argumentMatchers]) {
+    for (RGMockStubbingInvocationPrototpye *prototype in _invocationPrototypes) {
+        if ([_invocationMatcher invocation:candidate matchesPrototype:prototype.invocation withNonObjectArgumentMatchers:prototype.nonObjectArgumentMatchers]) {
             return YES;
         }
     }
@@ -74,6 +64,19 @@
     for (id<RGMockStubAction> action in _actions) {
         [action performWithInvocation:invocation];
     }
+}
+
+@end
+
+
+@implementation RGMockStubbingInvocationPrototpye
+
+- (id)initWithInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)argumentMatchers {
+    if ((self = [super init])) {
+        _invocation = invocation;
+        _nonObjectArgumentMatchers = [argumentMatchers copy];
+    }
+    return self;
 }
 
 @end

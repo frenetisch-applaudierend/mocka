@@ -15,7 +15,10 @@
 @interface RGMockStubbing : NSObject
 
 
-#pragma mark - Initialization and Configuration
+#pragma mark - Configuration
+
+@property (nonatomic, readonly, copy) NSArray *invocationPrototypes;
+@property (nonatomic, readonly, copy) NSArray *actions;
 
 - (void)addInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)argumentMatchers;
 - (void)addAction:(id<RGMockStubAction>)action;
@@ -26,5 +29,15 @@
 - (BOOL)matchesForInvocation:(NSInvocation *)invocation;
 
 - (void)applyToInvocation:(NSInvocation *)invocation;
+
+@end
+
+
+@interface RGMockStubbingInvocationPrototpye : NSObject
+
+@property (nonatomic, readonly) NSInvocation *invocation;
+@property (nonatomic, readonly) NSArray      *nonObjectArgumentMatchers;
+
+- (id)initWithInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)argumentMatchers;
 
 @end
