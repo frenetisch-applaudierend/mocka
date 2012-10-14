@@ -6,6 +6,22 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		28557251162B2AD100384DF9 /* Mocka Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 28557254162B2AD100384DF9 /* Build configuration list for PBXAggregateTarget "Mocka Framework" */;
+			buildPhases = (
+				2855725A162B2B3F00384DF9 /* Build Universal Library */,
+				2855725B162B377100384DF9 /* Build Framework */,
+				2855725D162B3CE300384DF9 /* Copy Framework to Distribution */,
+			);
+			dependencies = (
+			);
+			name = "Mocka Framework";
+			productName = "Mocka Framework";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2803FEB315B9B06800108114 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; };
 		2822C32A162036BD0031D92C /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationRecorder.h */; };
@@ -247,7 +263,6 @@
 		28ECE8A315BB7AAA00F15F12 /* MCKVerifyNoInteractions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerifyNoInteractions.m; sourceTree = "<group>"; };
 		28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcher.h; sourceTree = "<group>"; };
 		364701631604CFA400B74E8B /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
-		364701641604CFF700B74E8B /* makelib.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = makelib.sh; sourceTree = "<group>"; };
 		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mocka-osx-tests-Info.plist"; sourceTree = "<group>"; };
@@ -471,7 +486,7 @@
 			children = (
 				28D7B39914D74DE400D494FD /* Sources */,
 				28D7B3AD14D74DE400D494FD /* Tests */,
-				364701601604CEA000B74E8B /* Distribution */,
+				364701601604CEA000B74E8B /* Documentation */,
 				28D7B39614D74DE400D494FD /* Frameworks */,
 				28D7B39514D74DE400D494FD /* Products */,
 			);
@@ -548,13 +563,12 @@
 			name = "Invocation and Argument Matching";
 			sourceTree = "<group>";
 		};
-		364701601604CEA000B74E8B /* Distribution */ = {
+		364701601604CEA000B74E8B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
 				364701631604CFA400B74E8B /* Readme.md */,
-				364701641604CFF700B74E8B /* makelib.sh */,
 			);
-			name = Distribution;
+			name = Documentation;
 			sourceTree = "<group>";
 		};
 		36A07E67161F5AF8006153C7 /* Failure Handling */ = {
@@ -737,6 +751,7 @@
 				36A07DEC161EC9B3006153C7 /* libmocka-osx */,
 				28D7B3A314D74DE400D494FD /* mocka-ios-tests */,
 				36A07DFE161EC9B3006153C7 /* mocka-osx-tests */,
+				28557251162B2AD100384DF9 /* Mocka Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -759,6 +774,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2855725A162B2B3F00384DF9 /* Build Universal Library */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Universal Library";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\"\n\nbuild() {\n    echo \"Building library for $2 (sdk $3)\"\n    mkdir -p \"${BUILD_ROOT}/${CONFIGURATION}-$3/\"\n    xcodebuild -target \"$1\" -configuration \"${CONFIGURATION}\" -arch \"$2\" -sdk \"$3\" build \\\n      PRODUCT_NAME=\"mocka-$2\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" \\\n      > \"${BUILD_ROOT}/${CONFIGURATION}-$3/mocka-$2-build.log\"\n}\n\nbuild \"libmocka-ios\" \"armv7\"  \"iphoneos\"\nbuild \"libmocka-ios\" \"armv7s\" \"iphoneos\"\nbuild \"libmocka-ios\" \"i386\"   \"iphonesimulator\"\nbuild \"libmocka-osx\" \"x86_64\" \"macosx\"\n\necho \"Creating universal library in ${UNIVERSAL_LIBRARY_PATH}\"\nlipo \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/libmocka-armv7.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/libmocka-armv7s.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/libmocka-i386.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-x86_64.a\" \\\n  -create -output \"${UNIVERSAL_LIBRARY_PATH}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2855725B162B377100384DF9 /* Build Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nFRAMEWORK_LOCATION=\"${BUILD_ROOT}/${CONFIGURATION}/${PRODUCT_NAME}.framework\"\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\"\n\nmkdir -p \"${FRAMEWORK_LOCATION}/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\nln -sfh A \"${FRAMEWORK_LOCATION}/Versions/Current\"\nln -sfh Versions/Current/Headers \"${FRAMEWORK_LOCATION}/Headers\"\nln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${FRAMEWORK_LOCATION}/${PRODUCT_NAME}\"\n\n# Copy headers and the executable\ncp -R \"${BUILD_ROOT}/${CONFIGURATION}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${FRAMEWORK_LOCATION}/Versions/A/Headers\"\ncp \"${UNIVERSAL_LIBRARY_PATH}\" \"${FRAMEWORK_LOCATION}/Versions/A/${PRODUCT_NAME}\"\n\necho \"Framework built in ${FRAMEWORK_LOCATION}\"";
+			showEnvVarsInLog = 0;
+		};
+		2855725D162B3CE300384DF9 /* Copy Framework to Distribution */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Framework to Distribution";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nFRAMEWORK_LOCATION=\"${BUILD_ROOT}/${CONFIGURATION}/${PRODUCT_NAME}.framework\"\nDIST_DIR=\"${PROJECT_DIR}/Distribution/${CONFIGURATION}\"\n\n# Prepare the distribution directory\nrm -rf \"${DIST_DIR}\"\nmkdir -p \"${DIST_DIR}\"\n\n# Copy the framework and make a ZIP distro\ncd \"${DIST_DIR}\"\ncp -R \"${FRAMEWORK_LOCATION}\" \"${DIST_DIR}\"\nzip -ry \"${PRODUCT_NAME}-${CURRENT_PROJECT_VERSION}.zip\" \"${PRODUCT_NAME}.framework\"\ncd -\nopen \"${DIST_DIR}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		28D7B3A214D74DE400D494FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -920,6 +980,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		28557252162B2AD100384DF9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Mocka;
+			};
+			name = Debug;
+		};
+		28557253162B2AD100384DF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = Mocka;
+			};
+			name = Release;
+		};
 		28D7B3B614D74DE400D494FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -927,6 +1001,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -954,6 +1029,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 0.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1129,6 +1205,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		28557254162B2AD100384DF9 /* Build configuration list for PBXAggregateTarget "Mocka Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28557252162B2AD100384DF9 /* Debug */,
+				28557253162B2AD100384DF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "mocka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
