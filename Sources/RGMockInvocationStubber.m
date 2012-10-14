@@ -60,14 +60,22 @@
 }
 
 - (BOOL)hasStubsRecordedForInvocation:(NSInvocation *)invocation {
+    NSParameterAssert(invocation != nil);
+    
     NSUInteger index = [_recordedStubs indexOfObjectPassingTest:^BOOL(RGMockStub *stub, NSUInteger idx, BOOL *stop) {
         return [stub matchesForInvocation:invocation];
     }];
     return (index != NSNotFound);
 }
 
-- (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation {
+- (void)applyStubsForInvocation:(NSInvocation *)invocation {
     NSParameterAssert(invocation != nil);
+    
+    for (RGMockStub *stub in _recordedStubs) {
+        if ([stub matchesForInvocation:invocation]) {
+            [stub applyToInvocation:invocation];
+        }
+    }
 }
 
 
@@ -89,6 +97,5 @@
 - (RGMockStub *)activeStub {
     return [_recordedStubs lastObject];
 }
-
 
 @end

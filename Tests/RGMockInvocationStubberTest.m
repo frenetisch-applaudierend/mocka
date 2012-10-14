@@ -143,8 +143,7 @@
 
 - (void)testThatHasStubsReturnsNoIfNoStubsAreRecordedForInvocation {
     // given
-    MockTestObject *testObject = [[MockTestObject alloc] init];
-    [stubber recordStubInvocation:[NSInvocation voidMethodInvocationForTarget:testObject] withNonObjectArgumentMatchers:nil];
+    [stubber recordStubInvocation:[NSInvocation voidMethodInvocationForTarget:nil] withNonObjectArgumentMatchers:nil];
     
     [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
         return NO;
@@ -158,8 +157,7 @@
 
 - (void)testThatHasStubsReturnsYesIfOneStubIsRecordedForInvocation {
     // given
-    MockTestObject *testObject = [[MockTestObject alloc] init];
-    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:testObject];
+    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
     
     [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
@@ -172,8 +170,7 @@
 
 - (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInOneGroupForInvocation {
     // given
-    MockTestObject *testObject = [[MockTestObject alloc] init];
-    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:testObject];
+    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
     [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
     [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
@@ -188,8 +185,7 @@
 
 - (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInManyGroupsForInvocation {
     // given
-    MockTestObject *testObject = [[MockTestObject alloc] init];
-    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:testObject];
+    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
     [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:nil]];
     [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
@@ -219,6 +215,69 @@
     NSArray *actions = [[stubber.recordedStubs lastObject] actions];
     STAssertEquals([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
     STAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
+}
+
+- (void)testThatApplyingStubsToInvocationAppliesStubActionToAllMatchingInvocationsInOrder {
+    // given
+    NSInvocation *matchingInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    NSMutableArray *performedActions = [NSMutableArray array];
+    
+    [stubber recordStubInvocation:matchingInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
+        [performedActions addObject:@"stub1"];
+    }]];
+    
+    [stubber recordStubInvocation:matchingInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
+        [performedActions addObject:@"stub2"];
+    }]];
+    
+    [stubber recordStubInvocation:matchingInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
+        [performedActions addObject:@"stub3"];
+    }]];
+    
+    [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
+        return (candidate == prototype);
+    }];
+    
+    // when
+    [stubber applyStubsForInvocation:matchingInvocation];
+    
+    // then
+    STAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2", @"stub3" ]), @"Performed actions were not recorded in correct order");
+}
+
+- (void)testThatApplyingStubsToInvocationDoesNotApplyStubActionToNonMatchingInvocation {
+    // given
+    NSInvocation *matchingInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    NSInvocation *nonMatchingInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    NSMutableArray *performedActions = [NSMutableArray array];
+    
+    [stubber recordStubInvocation:matchingInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
+        [performedActions addObject:@"stub1"];
+    }]];
+    
+    [stubber recordStubInvocation:matchingInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
+        [performedActions addObject:@"stub2"];
+    }]];
+    
+    [stubber recordStubInvocation:nonMatchingInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
+        [performedActions addObject:@"NON MATCHING INVOCATION"];
+    }]];
+    
+    [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
+        return (candidate == prototype);
+    }];
+    
+    // when
+    [stubber applyStubsForInvocation:matchingInvocation];
+    
+    // then
+    STAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2" ]), @"Performed actions were not recorded in correct order");
 }
 
 @end

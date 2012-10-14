@@ -143,12 +143,7 @@ static __weak id _CurrentContext = nil;
 
 - (void)recordInvocation:(NSInvocation *)invocation {
     [_invocationRecorder recordInvocation:invocation];
-    
-    for (RGMockStub *stubbing in _invocationStubber.recordedStubs) {
-        if ([stubbing matchesForInvocation:invocation]) {
-            [stubbing applyToInvocation:invocation];
-        }
-    }
+    [_invocationStubber applyStubsForInvocation:invocation];
 }
 
 
