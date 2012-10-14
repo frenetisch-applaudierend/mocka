@@ -174,18 +174,18 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Argument Matching
 
-- (NSArray *)nonObjectArgumentMatchers {
+- (NSArray *)primitiveArgumentMatchers {
     return [_argumentMatcherCollection.primitiveArgumentMatchers copy];
 }
 
-- (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
+- (UInt8)pushPrimitiveArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
     if (_mode == RGMockContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
         return 0;
     }
     
     [_argumentMatcherCollection addPrimitiveArgumentMatcher:matcher];
-    return ([_argumentMatcherCollection.primitiveArgumentMatchers count] - 1);
+    return [_argumentMatcherCollection lastPrimitiveArgumentMatcherIndex];
 }
 
 @end

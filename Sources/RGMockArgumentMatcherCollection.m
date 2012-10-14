@@ -31,12 +31,21 @@
 }
 
 - (void)addPrimitiveArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
+    if ([_primitiveArgumentMatchers count] > UINT8_MAX) {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Only UINT8_MAX primitive matchers supported" userInfo:nil];
+    }
     [_primitiveArgumentMatchers addObject:matcher];
+}
+
+- (UInt8)lastPrimitiveArgumentMatcherIndex {
+    NSAssert([_primitiveArgumentMatchers count] > 0, @"Cannot return last argument index when no arguments were added");
+    return ([_primitiveArgumentMatchers count] - 1);
 }
 
 - (void)resetAllMatchers {
     [_primitiveArgumentMatchers removeAllObjects];
 }
+
 
 #pragma mark - Validating the Collection
 

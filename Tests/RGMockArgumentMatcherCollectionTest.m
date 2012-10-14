@@ -38,6 +38,27 @@
     STAssertEqualObjects(collection.primitiveArgumentMatchers, (@[ matcher ]), @"Primitive matcher was not recoreded");
 }
 
+- (void)testThatAddPrimitiveMatcherThrowsIfMoreMatchersAddedThanCanBeIndexedByUInt8 {
+    // given
+    for (int i = 0; i < (UINT8_MAX + 1); i++) { // UINT8_MAX + 1 => because 0 is an index as well
+        [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    }
+
+    // then
+    STAssertThrows([collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]], @"Should throw after %d matchers", (UINT8_MAX + 1));
+}
+
+- (void)testThatLastPrimitiveMatcherIndexReturnsIndexForLastAddedMatcher {
+    [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    STAssertEquals([collection lastPrimitiveArgumentMatcherIndex], (UInt8)0, @"Wrong index returned");
+    
+    [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    STAssertEquals([collection lastPrimitiveArgumentMatcherIndex], (UInt8)1, @"Wrong index returned");
+    
+    [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    STAssertEquals([collection lastPrimitiveArgumentMatcherIndex], (UInt8)2, @"Wrong index returned");
+}
+
 - (void)testThatResetArgumentMatchersRemovesAllMatchers {
     // given
     [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];

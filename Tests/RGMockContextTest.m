@@ -308,7 +308,7 @@
     
     // then
     AssertFails({
-        [context pushNonObjectArgumentMatcher:matcher];
+        [context pushPrimitiveArgumentMatcher:matcher];
     });
 }
 
@@ -318,11 +318,11 @@
     id matcher = [[BlockArgumentMatcher alloc] init];
     
     // when
-    [context pushNonObjectArgumentMatcher:matcher];
+    [context pushPrimitiveArgumentMatcher:matcher];
     
     // then
-    STAssertEquals([context.nonObjectArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
-    STAssertEquals([context.nonObjectArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+    STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
+    STAssertEquals([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
 }
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
@@ -331,11 +331,11 @@
     id matcher = [[BlockArgumentMatcher alloc] init];
     
     // when
-    [context pushNonObjectArgumentMatcher:matcher];
+    [context pushPrimitiveArgumentMatcher:matcher];
     
     // then
-    STAssertEquals([context.nonObjectArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
-    STAssertEquals([context.nonObjectArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+    STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
+    STAssertEquals([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
 }
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
@@ -346,23 +346,23 @@
     id matcher2 = [[BlockArgumentMatcher alloc] init];
     
     // then
-    STAssertEquals([context pushNonObjectArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
-    STAssertEquals([context pushNonObjectArgumentMatcher:matcher1], (uint8_t)1, @"Wrong index returned for matcher");
-    STAssertEquals([context pushNonObjectArgumentMatcher:matcher2], (uint8_t)2, @"Wrong index returned for matcher");
+    STAssertEquals([context pushPrimitiveArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
+    STAssertEquals([context pushPrimitiveArgumentMatcher:matcher1], (uint8_t)1, @"Wrong index returned for matcher");
+    STAssertEquals([context pushPrimitiveArgumentMatcher:matcher2], (uint8_t)2, @"Wrong index returned for matcher");
 }
 
 - (void)testThatHandlingInvocationClearsPushedMatchers {
     // given
     MockTestObject *object = [[MockTestObject alloc] init];
     [context updateContextMode:RGMockContextModeStubbing]; // Fulfill precondition
-    [context pushNonObjectArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
-    [context pushNonObjectArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
+    [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
+    [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
     
     // when
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then
-    STAssertEquals([context.nonObjectArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
+    STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
 }
 
 - (void)testThatVerificationInvocationFailsForUnequalNumberOfNonObjectMatchers {
@@ -371,7 +371,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
     [context updateContextMode:RGMockContextModeVerifying];
-    [context pushNonObjectArgumentMatcher:[[BlockArgumentMatcher alloc] init]]; // Prepare a verify call
+    [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]]; // Prepare a verify call
     
     // when
     AssertFails({
@@ -389,8 +389,8 @@
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
-    [context pushNonObjectArgumentMatcher:matcher0];
-    [context pushNonObjectArgumentMatcher:matcher1];
+    [context pushPrimitiveArgumentMatcher:matcher0];
+    [context pushPrimitiveArgumentMatcher:matcher1];
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then

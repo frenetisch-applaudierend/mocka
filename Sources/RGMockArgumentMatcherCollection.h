@@ -20,6 +20,7 @@
 @property (nonatomic, readonly, copy) NSArray *primitiveArgumentMatchers;
 
 - (void)addPrimitiveArgumentMatcher:(id<RGMockArgumentMatcher>)matcher;
+- (UInt8)lastPrimitiveArgumentMatcherIndex;
 - (void)resetAllMatchers;
 
 
