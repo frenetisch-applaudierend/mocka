@@ -144,7 +144,7 @@ static inline void IgnoreUnused(id var, ...) { }
     verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];
 }
 
-- (void)testArgumentMatchersMustBeUsedForAllNonObjectsInCall {
+- (void)testArgumentMatchersMustBeUsedForAllPrimitivesInCall {
     // Due to technical limitations, non-object arguments must either be ALL matchers or NO matchers
     // you cannot mix matchers and non-matcher arguments
     

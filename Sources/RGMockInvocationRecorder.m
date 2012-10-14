@@ -44,9 +44,9 @@
     return [_recordedInvocations copy];
 }
 
-- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)argMatchers {
+- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers {
     NSIndexSet *matchingIndexes = [_recordedInvocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
-        return [_invocationMatcher invocation:candidate matchesPrototype:prototype withNonObjectArgumentMatchers:argMatchers];
+        return [_invocationMatcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argMatchers];
     }];
     return matchingIndexes;
 }

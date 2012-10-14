@@ -11,6 +11,6 @@
 
 @interface RGMockInvocationMatcher : NSObject
 
-- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)matchers;
+- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)matchers;
 
 @end

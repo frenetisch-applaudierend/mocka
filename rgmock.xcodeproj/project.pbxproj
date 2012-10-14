@@ -55,8 +55,8 @@
 		2899C366162AD75900550CFB /* RGMockArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* RGMockArgumentMatcherCollection.h */; };
 		2899C367162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */; };
 		2899C368162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */; };
-		2899C36B162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */; };
-		2899C36C162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */; };
+		2899C383162AE30700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */; };
+		2899C384162AE30700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */; };
 		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
 		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
@@ -810,7 +810,6 @@
 				2822C32C162036BD0031D92C /* RGMockInvocationRecorder.m in Sources */,
 				2822C344162076BF0031D92C /* RGMockInvocationStubber.m in Sources */,
 				2899C367162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */,
-				2899C36B162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -842,6 +841,7 @@
 				2822C33A16203DB90031D92C /* BlockInvocationMatcher.m in Sources */,
 				2822C33E16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
 				2822C349162089860031D92C /* RGMockInvocationStubberTest.m in Sources */,
+				2899C383162AE30700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,7 +868,6 @@
 				2822C32D162036BD0031D92C /* RGMockInvocationRecorder.m in Sources */,
 				2822C345162076BF0031D92C /* RGMockInvocationStubber.m in Sources */,
 				2899C368162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */,
-				2899C36C162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,6 +899,7 @@
 				2822C33B16203DB90031D92C /* BlockInvocationMatcher.m in Sources */,
 				2822C33F16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
 				2822C34A162089860031D92C /* RGMockInvocationStubberTest.m in Sources */,
+				2899C384162AE30700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

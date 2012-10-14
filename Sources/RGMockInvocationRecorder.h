@@ -28,7 +28,7 @@
 
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
-- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)argMatchers;
+- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers;
 
 
 #pragma mark - Removing recorded invocations

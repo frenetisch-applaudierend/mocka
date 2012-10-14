@@ -22,7 +22,7 @@
 
 #pragma mark - Creating and Updating Stubs
 
-- (void)recordStubInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)matchers;
+- (void)recordStubInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)matchers;
 - (void)addActionToLastStub:(id<RGMockStubAction>)action;
 
 

@@ -72,7 +72,7 @@
     }];
     
     // when
-    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withNonObjectArgumentMatchers:nil];
+    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withPrimitiveArgumentMatchers:nil];
     
     // then
     STAssertEqualObjects(testedInvocations, (@[ invocation0, invocation1, invocation2, invocation3 ]), @"Invocations not all tested or not in correct order");
@@ -85,7 +85,7 @@
     [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     
-    NSArray *nonObjectArgMatchers = @[ [[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init] ];
+    NSArray *primitiveArgMatchers = @[ [[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init] ];
     NSMutableArray *passedMatchers = [NSMutableArray array];
     [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
         [passedMatchers addObject:argMatchers];
@@ -93,11 +93,11 @@
     }];
     
     // when
-    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withNonObjectArgumentMatchers:nonObjectArgMatchers];
+    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withPrimitiveArgumentMatchers:primitiveArgMatchers];
     
     // then
     for (NSArray *matchers in passedMatchers) {
-        STAssertEqualObjects(matchers, nonObjectArgMatchers, @"Wrong matchers passed");
+        STAssertEqualObjects(matchers, primitiveArgMatchers, @"Wrong matchers passed");
     }
 }
 
@@ -113,7 +113,7 @@
     }];
     
     // when
-    NSIndexSet *matchingIndexes = [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withNonObjectArgumentMatchers:nil];
+    NSIndexSet *matchingIndexes = [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withPrimitiveArgumentMatchers:nil];
     
     // then
     NSMutableIndexSet *expectedIndexes = [NSMutableIndexSet indexSet];

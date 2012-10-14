@@ -22,12 +22,12 @@
 #pragma mark - Matching Invocations
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withNonObjectArgumentMatchers:(NSArray *)matchers
+            withPrimitiveArgumentMatchers:(NSArray *)matchers
                      inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withNonObjectArgumentMatchers:matchers];
+    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:matchers];
     
     if (satisified != NULL) {
         *satisified = ([indexes count] == 0);

@@ -13,7 +13,7 @@
 @protocol RGMockVerificationHandler <NSObject>
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withNonObjectArgumentMatchers:(NSArray *)matchers
+            withPrimitiveArgumentMatchers:(NSArray *)matchers
                      inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage;
