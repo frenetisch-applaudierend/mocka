@@ -1,5 +1,5 @@
 echo "-----------------------------------"
-echo "RGMock library distribution builder"
+echo "Mocka library distribution builder"
 echo "-----------------------------------"
 echo
 
@@ -9,7 +9,7 @@ build() {
   local sdk=$3
 	
   echo -n "  Building for architecture $arch ($sdk)... "
-  xcodebuild -target $1 -configuration Release -arch "$arch" -sdk "$sdk" build PRODUCT_NAME="rgmock-$arch" > "build/rgmock-$arch.buildlog"
+  xcodebuild -target $1 -configuration Release -arch "$arch" -sdk "$sdk" build PRODUCT_NAME="mocka-$arch" > "build/mocka-$arch.buildlog"
   echo "Done"
 }
 
@@ -17,30 +17,30 @@ build() {
 echo "Building subtype libraries..."
 xcodebuild clean > /dev/null
 mkdir -p "build/"
-build librgmock-ios armv7  iphoneos
-build librgmock-ios armv7s iphoneos
-build librgmock-ios i386   iphonesimulator
-build librgmock-osx x86_64 macosx
+build libmocka-ios armv7  iphoneos
+build libmocka-ios armv7s iphoneos
+build libmocka-ios i386   iphonesimulator
+build libmocka-osx x86_64 macosx
 echo "Done"
 echo
 
 # Copy Resources
 echo -n "Copying resources to the distribution directory..."
 rm -rf distribution
-mkdir -p distribution/RGMock
-cp -R build/Release-iphoneos/include/RGMock/ distribution/RGMock/RGMock/
-cp Readme.md distribution/RGMock/Readme.md
+mkdir -p distribution/Mocka
+cp -R build/Release-iphoneos/include/Mocka/ distribution/Mocka/Mocka/
+cp Readme.md distribution/Mocka/Readme.md
 echo "Done"
 echo
 
 # Build fat library
 echo -n "Creating universal library... "
 lipo \
-  build/Release-iphoneos/librgmock-armv7.a \
-  build/Release-iphoneos/librgmock-armv7s.a \
-  build/Release-iphonesimulator/librgmock-i386.a \
-  build/Release/librgmock-x86_64.a \
-  -create -output distribution/RGMock/librgmock.a
+  build/Release-iphoneos/libmocka-armv7.a \
+  build/Release-iphoneos/libmocka-armv7s.a \
+  build/Release-iphonesimulator/libmocka-i386.a \
+  build/Release/libmocka-x86_64.a \
+  -create -output distribution/Mocka/libmocka.a
 echo "Done"
 echo
 
@@ -48,7 +48,7 @@ echo
 # Make a ZIP distribution
 echo "Creating ZIP..."
 cd distribution
-zip -r RGMock.zip RGMock
+zip -r Mocka.zip Mocka
 cd ..
 echo "Done"
 echo

@@ -60,7 +60,7 @@
 		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
 		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
-		28D7B3AC14D74DE400D494FD /* librgmock-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39414D74DE400D494FD /* librgmock-ios.a */; };
+		28D7B3AC14D74DE400D494FD /* libmocka-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39414D74DE400D494FD /* libmocka-ios.a */; };
 		28DF1CAF15BAA682003408ED /* RGMockTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DF1CAE15BAA682003408ED /* RGMockTypeEncodings.m */; };
 		28DF1CB515BAAD4E003408ED /* RGMockSyntaxExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 2872D87815AE0FB50017EB00 /* RGMockSyntaxExamples.m */; };
 		28DF1CB615BAAE46003408ED /* RGMockContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E1515B1F4CE0077ACFC /* RGMockContextTest.m */; };
@@ -86,7 +86,7 @@
 		28ECE8A515BB7AAB00F15F12 /* RGMockVerifyNoInteractions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE8A315BB7AAA00F15F12 /* RGMockVerifyNoInteractions.m */; };
 		28ECE8A815BBF2FD00F15F12 /* RGMockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
-		36A07E04161EC9B3006153C7 /* librgmock-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* librgmock-osx.a */; };
+		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* RGMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* RGMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E15161ED0CA006153C7 /* RGMockKeywords.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575E1315B1F3190077ACFC /* RGMockKeywords.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E16161ED0D7006153C7 /* RGMockContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DE915B1DB180077ACFC /* RGMockContext.m */; };
@@ -222,12 +222,12 @@
 		2899C363162AD75900550CFB /* RGMockArgumentMatcherCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockArgumentMatcherCollection.h; sourceTree = "<group>"; };
 		2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockArgumentMatcherCollection.m; sourceTree = "<group>"; };
 		2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockArgumentMatcherCollectionTest.m; sourceTree = "<group>"; };
-		28D7B39414D74DE400D494FD /* librgmock-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "librgmock-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D7B39414D74DE400D494FD /* libmocka-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B39714D74DE400D494FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-Prefix.pch"; sourceTree = "<group>"; };
-		28D7B3A414D74DE400D494FD /* librgmock-ios-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "librgmock-ios-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D7B39B14D74DE400D494FD /* mocka-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mocka-Prefix.pch"; sourceTree = "<group>"; };
+		28D7B3A414D74DE400D494FD /* mocka-ios-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-ios-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B3A514D74DE400D494FD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		28D7B3AF14D74DE400D494FD /* librgmock-ios-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "librgmock-ios-tests-Info.plist"; sourceTree = "<group>"; };
+		28D7B3AF14D74DE400D494FD /* mocka-ios-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mocka-ios-tests-Info.plist"; sourceTree = "<group>"; };
 		28DF1CAE15BAA682003408ED /* RGMockTypeEncodings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockTypeEncodings.m; sourceTree = "<group>"; };
 		28DF1CBB15BAAE77003408ED /* RGMockThrowExceptionStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockThrowExceptionStubAction.h; sourceTree = "<group>"; };
 		28DF1CBC15BAAE77003408ED /* RGMockThrowExceptionStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockThrowExceptionStubAction.m; sourceTree = "<group>"; };
@@ -248,9 +248,9 @@
 		28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockArgumentMatcher.h; sourceTree = "<group>"; };
 		364701631604CFA400B74E8B /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
 		364701641604CFF700B74E8B /* makelib.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = makelib.sh; sourceTree = "<group>"; };
-		36A07DED161EC9B3006153C7 /* librgmock-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "librgmock-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		36A07DFF161EC9B3006153C7 /* librgmock-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "librgmock-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		36A07E07161EC9B3006153C7 /* librgmock-osx-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "librgmock-osx-tests-Info.plist"; sourceTree = "<group>"; };
+		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mocka-osx-tests-Info.plist"; sourceTree = "<group>"; };
 		36A07E4C161EF487006153C7 /* RGMockFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockFailureHandler.h; sourceTree = "<group>"; };
 		36A07E50161EF503006153C7 /* RGMockSenTestFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockSenTestFailureHandler.h; sourceTree = "<group>"; };
 		36A07E51161EF503006153C7 /* RGMockSenTestFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSenTestFailureHandler.m; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D7B3AC14D74DE400D494FD /* librgmock-ios.a in Frameworks */,
+				28D7B3AC14D74DE400D494FD /* libmocka-ios.a in Frameworks */,
 				28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */,
 				28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */,
 			);
@@ -293,7 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */,
-				36A07E04161EC9B3006153C7 /* librgmock-osx.a in Frameworks */,
+				36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,10 +480,10 @@
 		28D7B39514D74DE400D494FD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				28D7B39414D74DE400D494FD /* librgmock-ios.a */,
-				28D7B3A414D74DE400D494FD /* librgmock-ios-tests.octest */,
-				36A07DED161EC9B3006153C7 /* librgmock-osx.a */,
-				36A07DFF161EC9B3006153C7 /* librgmock-osx-tests.octest */,
+				28D7B39414D74DE400D494FD /* libmocka-ios.a */,
+				28D7B3A414D74DE400D494FD /* mocka-ios-tests.octest */,
+				36A07DED161EC9B3006153C7 /* libmocka-osx.a */,
+				36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -500,7 +500,7 @@
 		28D7B39914D74DE400D494FD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */,
+				28D7B39B14D74DE400D494FD /* mocka-Prefix.pch */,
 				2832CC9D14D74F7C00BE74C2 /* RGMock.h */,
 				28575E1315B1F3190077ACFC /* RGMockKeywords.h */,
 				2822C333162038FD0031D92C /* Mock Context */,
@@ -527,8 +527,8 @@
 		28D7B3AE14D74DE400D494FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				28D7B3AF14D74DE400D494FD /* librgmock-ios-tests-Info.plist */,
-				36A07E07161EC9B3006153C7 /* librgmock-osx-tests-Info.plist */,
+				28D7B3AF14D74DE400D494FD /* mocka-ios-tests-Info.plist */,
+				36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -639,9 +639,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		28D7B39314D74DE400D494FD /* librgmock-ios */ = {
+		28D7B39314D74DE400D494FD /* libmocka-ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "librgmock-ios" */;
+			buildConfigurationList = 28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "libmocka-ios" */;
 			buildPhases = (
 				28D7B39014D74DE400D494FD /* Sources */,
 				28D7B39114D74DE400D494FD /* Frameworks */,
@@ -651,14 +651,14 @@
 			);
 			dependencies = (
 			);
-			name = "librgmock-ios";
+			name = "libmocka-ios";
 			productName = rgmock;
-			productReference = 28D7B39414D74DE400D494FD /* librgmock-ios.a */;
+			productReference = 28D7B39414D74DE400D494FD /* libmocka-ios.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		28D7B3A314D74DE400D494FD /* librgmock-ios-tests */ = {
+		28D7B3A314D74DE400D494FD /* mocka-ios-tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "librgmock-ios-tests" */;
+			buildConfigurationList = 28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "mocka-ios-tests" */;
 			buildPhases = (
 				28D7B39F14D74DE400D494FD /* Sources */,
 				28D7B3A014D74DE400D494FD /* Frameworks */,
@@ -670,14 +670,14 @@
 			dependencies = (
 				28D7B3AB14D74DE400D494FD /* PBXTargetDependency */,
 			);
-			name = "librgmock-ios-tests";
+			name = "mocka-ios-tests";
 			productName = rgmockTests;
-			productReference = 28D7B3A414D74DE400D494FD /* librgmock-ios-tests.octest */;
+			productReference = 28D7B3A414D74DE400D494FD /* mocka-ios-tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
-		36A07DEC161EC9B3006153C7 /* librgmock-osx */ = {
+		36A07DEC161EC9B3006153C7 /* libmocka-osx */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 36A07E0E161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "librgmock-osx" */;
+			buildConfigurationList = 36A07E0E161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "libmocka-osx" */;
 			buildPhases = (
 				36A07DE9161EC9B3006153C7 /* Sources */,
 				36A07DEA161EC9B3006153C7 /* Frameworks */,
@@ -687,14 +687,14 @@
 			);
 			dependencies = (
 			);
-			name = "librgmock-osx";
+			name = "libmocka-osx";
 			productName = "rgmock-osx";
-			productReference = 36A07DED161EC9B3006153C7 /* librgmock-osx.a */;
+			productReference = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		36A07DFE161EC9B3006153C7 /* librgmock-osx-tests */ = {
+		36A07DFE161EC9B3006153C7 /* mocka-osx-tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 36A07E11161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "librgmock-osx-tests" */;
+			buildConfigurationList = 36A07E11161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "mocka-osx-tests" */;
 			buildPhases = (
 				36A07DFA161EC9B3006153C7 /* Sources */,
 				36A07DFB161EC9B3006153C7 /* Frameworks */,
@@ -706,9 +706,9 @@
 			dependencies = (
 				36A07E03161EC9B3006153C7 /* PBXTargetDependency */,
 			);
-			name = "librgmock-osx-tests";
+			name = "mocka-osx-tests";
 			productName = "rgmock-osxTests";
-			productReference = 36A07DFF161EC9B3006153C7 /* librgmock-osx-tests.octest */;
+			productReference = 36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -720,7 +720,7 @@
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "coresystems ag";
 			};
-			buildConfigurationList = 28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */;
+			buildConfigurationList = 28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "mocka" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -732,10 +732,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				28D7B39314D74DE400D494FD /* librgmock-ios */,
-				36A07DEC161EC9B3006153C7 /* librgmock-osx */,
-				28D7B3A314D74DE400D494FD /* librgmock-ios-tests */,
-				36A07DFE161EC9B3006153C7 /* librgmock-osx-tests */,
+				28D7B39314D74DE400D494FD /* libmocka-ios */,
+				36A07DEC161EC9B3006153C7 /* libmocka-osx */,
+				28D7B3A314D74DE400D494FD /* mocka-ios-tests */,
+				36A07DFE161EC9B3006153C7 /* mocka-osx-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -908,12 +908,12 @@
 /* Begin PBXTargetDependency section */
 		28D7B3AB14D74DE400D494FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 28D7B39314D74DE400D494FD /* librgmock-ios */;
+			target = 28D7B39314D74DE400D494FD /* libmocka-ios */;
 			targetProxy = 28D7B3AA14D74DE400D494FD /* PBXContainerItemProxy */;
 		};
 		36A07E03161EC9B3006153C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 36A07DEC161EC9B3006153C7 /* librgmock-osx */;
+			target = 36A07DEC161EC9B3006153C7 /* libmocka-osx */;
 			targetProxy = 36A07E02161EC9B3006153C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -941,6 +941,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mocka;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -960,6 +961,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PUBLIC_HEADERS_FOLDER_PATH = include/Mocka;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -968,16 +970,15 @@
 		28D7B3B914D74DE400D494FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/rgmock.dst;
+				DSTROOT = /tmp/mocka.dst;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "rgmock-ios";
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+				PRODUCT_NAME = "mocka-ios";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -985,16 +986,15 @@
 		28D7B3BA14D74DE400D494FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/rgmock.dst;
+				DSTROOT = /tmp/mocka.dst;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "rgmock-ios";
-				PUBLIC_HEADERS_FOLDER_PATH = "include/$(TARGET_NAME)";
+				PRODUCT_NAME = "mocka-ios";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1007,8 +1007,8 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "Tests/librgmock-ios-tests-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
+				INFOPLIST_FILE = "Tests/mocka-ios-tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1022,8 +1022,8 @@
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
-				INFOPLIST_FILE = "Tests/librgmock-ios-tests-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
+				INFOPLIST_FILE = "Tests/mocka-ios-tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1043,12 +1043,12 @@
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "rgmock-osx";
+				PRODUCT_NAME = "mocka-osx";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -1068,11 +1068,11 @@
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				PRODUCT_NAME = "rgmock-osx";
+				PRODUCT_NAME = "mocka-osx";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -1089,10 +1089,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Tests/librgmock-osx-tests-Info.plist";
+				INFOPLIST_FILE = "Tests/mocka-osx-tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1114,10 +1114,10 @@
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sources/rgmock-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Tests/librgmock-osx-tests-Info.plist";
+				INFOPLIST_FILE = "Tests/mocka-osx-tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1128,7 +1128,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "rgmock" */ = {
+		28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "mocka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28D7B3B614D74DE400D494FD /* Debug */,
@@ -1137,7 +1137,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "librgmock-ios" */ = {
+		28D7B3B814D74DE400D494FD /* Build configuration list for PBXNativeTarget "libmocka-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28D7B3B914D74DE400D494FD /* Debug */,
@@ -1146,7 +1146,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "librgmock-ios-tests" */ = {
+		28D7B3BB14D74DE400D494FD /* Build configuration list for PBXNativeTarget "mocka-ios-tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				28D7B3BC14D74DE400D494FD /* Debug */,
@@ -1155,7 +1155,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		36A07E0E161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "librgmock-osx" */ = {
+		36A07E0E161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "libmocka-osx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				36A07E0F161EC9B3006153C7 /* Debug */,
@@ -1164,7 +1164,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		36A07E11161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "librgmock-osx-tests" */ = {
+		36A07E11161EC9B3006153C7 /* Build configuration list for PBXNativeTarget "mocka-osx-tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				36A07E12161EC9B3006153C7 /* Debug */,

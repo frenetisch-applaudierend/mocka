@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "36A07DEC161EC9B3006153C7"
-               BuildableName = "librgmock-osx.a"
-               BlueprintName = "librgmock-osx"
-               ReferencedContainer = "container:rgmock.xcodeproj">
+               BlueprintIdentifier = "28D7B39314D74DE400D494FD"
+               BuildableName = "libmocka-ios.a"
+               BlueprintName = "libmocka-ios"
+               ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "36A07DFE161EC9B3006153C7"
-               BuildableName = "librgmock-osx-tests.octest"
-               BlueprintName = "librgmock-osx-tests"
-               ReferencedContainer = "container:rgmock.xcodeproj">
+               BlueprintIdentifier = "28D7B3A314D74DE400D494FD"
+               BuildableName = "mocka-ios-tests.octest"
+               BlueprintName = "mocka-ios-tests"
+               ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -39,20 +39,27 @@
    <TestAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldUseLaunchSchemeArgsEnv = "NO"
       buildConfiguration = "Debug">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "36A07DFE161EC9B3006153C7"
-               BuildableName = "librgmock-osx-tests.octest"
-               BlueprintName = "librgmock-osx-tests"
-               ReferencedContainer = "container:rgmock.xcodeproj">
+               BlueprintIdentifier = "28D7B3A314D74DE400D494FD"
+               BuildableName = "mocka-ios-tests.octest"
+               BlueprintName = "mocka-ios-tests"
+               ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -74,7 +81,7 @@
       debugDocumentVersioning = "YES">
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
