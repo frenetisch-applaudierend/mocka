@@ -19,12 +19,13 @@
 
 // Registering Matchers
 
-static inline char mck_registerPrimitiveMatcher(id<RGMockArgumentMatcher> matcher) {
-    return [[RGMockContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+static inline id mck_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
+    // no need to push the matcher to the context, since it can be passed directly via argument
+    return matcher;
 }
 
-static inline id mck_registerObjectMatcher(id<RGMockArgumentMatcher> matcher) {
-    return matcher;
+static inline char mck_registerPrimitiveMatcher(id<RGMockArgumentMatcher> matcher) {
+    return [[RGMockContext currentContext] pushPrimitiveArgumentMatcher:matcher];
 }
 
 static inline char* mck_registerCStringMatcher(id<RGMockArgumentMatcher> matcher) {
