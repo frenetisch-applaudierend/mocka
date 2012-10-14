@@ -9,8 +9,21 @@
 #import <Foundation/Foundation.h>
 
 
+@protocol RGMockArgumentMatcher;
+
+
 @interface RGMockArgumentMatcherCollection : NSObject
 
+
+#pragma mark - Managing Matchers
+
 @property (nonatomic, readonly) NSMutableArray *nonObjectArgumentMatchers;
+
+- (void)addPrimitiveArgumentMatcher:(id<RGMockArgumentMatcher>)matcher;
+
+
+#pragma mark - Validating the Collection
+
+- (BOOL)isValidForMethodSignature:(NSMethodSignature *)signature;
 
 @end
