@@ -11,7 +11,7 @@
 #import "RGMockInvocationMatcher.h"
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
-#import "RGMockStubbing.h"
+#import "RGMockStub.h"
 #import "RGMockTypeEncodings.h"
 #import "RGMockSenTestFailureHandler.h"
 
@@ -30,7 +30,7 @@
     RGMockInvocationRecorder *_invocationRecorder;
     NSMutableArray *_recordedStubbings;
     NSMutableArray *_nonObjectArgumentMatchers;
-    RGMockStubbing *_currentStubbing;
+    RGMockStub *_currentStubbing;
 }
 
 static __weak id _CurrentContext = nil;
@@ -143,7 +143,7 @@ static __weak id _CurrentContext = nil;
 - (void)recordInvocation:(NSInvocation *)invocation {
     [_invocationRecorder recordInvocation:invocation];
     
-    RGMockStubbing *stubbing = [self stubbingForInvocation:invocation];
+    RGMockStub *stubbing = [self stubbingForInvocation:invocation];
     if (stubbing != nil) {
         [stubbing applyToInvocation:invocation];
     }
@@ -154,16 +154,16 @@ static __weak id _CurrentContext = nil;
 
 - (void)createStubbingForInvocation:(NSInvocation *)invocation {
     if (_currentStubbing == nil) {
-        _currentStubbing = [[RGMockStubbing alloc] init];
+        _currentStubbing = [[RGMockStub alloc] init];
         [_recordedStubbings addObject:_currentStubbing];
     }
     [_currentStubbing addInvocation:invocation withNonObjectArgumentMatchers:_nonObjectArgumentMatchers];
     [_nonObjectArgumentMatchers removeAllObjects];
 }
 
-- (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation {
+- (RGMockStub *)stubbingForInvocation:(NSInvocation *)invocation {
     // TODO: can be reworked to -hasStubbingsForInvocation:
-    for (RGMockStubbing *stubbing in [_recordedStubbings reverseObjectEnumerator]) {
+    for (RGMockStub *stubbing in [_recordedStubbings reverseObjectEnumerator]) {
         if ([stubbing matchesForInvocation:invocation]) {
             return stubbing;
         }

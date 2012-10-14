@@ -12,7 +12,7 @@
 @protocol RGMockVerificationHandler;
 @protocol RGMockStubAction;
 @protocol RGMockArgumentMatcher;
-@class RGMockStubbing;
+@class RGMockStub;
 
 
 #define mck_updatedContext() [RGMockContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
@@ -64,7 +64,7 @@ typedef enum {
 
 #pragma mark - Stubbing
 
-- (RGMockStubbing *)stubbingForInvocation:(NSInvocation *)invocation;
+- (RGMockStub *)stubbingForInvocation:(NSInvocation *)invocation;
 - (BOOL)addStubAction:(id<RGMockStubAction>)action;
 
 

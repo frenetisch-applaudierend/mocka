@@ -12,7 +12,7 @@
 @protocol RGMockStubAction;
 
 
-@interface RGMockStubbing : NSObject
+@interface RGMockStub : NSObject
 
 
 #pragma mark - Configuration
@@ -33,7 +33,7 @@
 @end
 
 
-@interface RGMockStubbingInvocationPrototpye : NSObject
+@interface RGMockStubInvocationPrototpye : NSObject
 
 @property (nonatomic, readonly) NSInvocation *invocation;
 @property (nonatomic, readonly) NSArray      *nonObjectArgumentMatchers;

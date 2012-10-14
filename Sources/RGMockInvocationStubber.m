@@ -7,19 +7,19 @@
 //
 
 #import "RGMockInvocationStubber.h"
-#import "RGMockStubbing.h"
+#import "RGMockStub.h"
 
 
 @implementation RGMockInvocationStubber {
-    NSMutableArray *_stubbings;
-    RGMockStubbing *_currentStubbing;
+    NSMutableArray *_stubs;
+    BOOL            _groupRecording;
 }
 
 #pragma mark - Initialization
 
 - (id)init {
     if ((self = [super init])) {
-        _stubbings = [NSMutableArray array];
+        _stubs = [NSMutableArray array];
     }
     return self;
 }
@@ -27,16 +27,16 @@
 
 #pragma mark - Creating and Updating Stubbings
 
-- (void)createStubbingForInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)matchers {
-    if (_currentStubbing == nil) {
-        _currentStubbing = [[RGMockStubbing alloc] init];
-        [_stubbings addObject:_currentStubbing];
+- (void)recordStubInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)matchers {
+    if (![self isRecordingInvocationGroup]) {
+        [self startRecordingInvocationGroup];
+        [self pushNewActiveStub];
     }
-    [_currentStubbing addInvocation:invocation withNonObjectArgumentMatchers:matchers];
+    [[self activeStub] addInvocation:invocation withNonObjectArgumentMatchers:matchers];
 }
 
-- (void)addActionToCurrentStubbing:(id<RGMockStubAction>)action {
-    _currentStubbing = nil; // Once the user adds an action, mark the end of multiple invocations per stubbing
+- (void)addActionToLastStub:(id<RGMockStubAction>)action {
+    [self endRecordingInvocationGroup];
 }
 
 
@@ -48,5 +48,29 @@
 
 - (void)applyStubbingToInvocation:(NSInvocation *)invocation {
 }
+
+
+#pragma mark - Managing Invocation Group Recording
+
+- (BOOL)isRecordingInvocationGroup {
+    return _groupRecording;
+}
+
+- (void)startRecordingInvocationGroup {
+    _groupRecording = YES;
+}
+
+- (void)endRecordingInvocationGroup {
+    _groupRecording = NO;
+}
+
+- (void)pushNewActiveStub {
+    [_stubs addObject:[[RGMockStub alloc] init]];
+}
+
+- (RGMockStub *)activeStub {
+    return [_stubs lastObject];
+}
+
 
 @end

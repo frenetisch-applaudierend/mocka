@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 coresystems ag. All rights reserved.
 //
 
-#import "RGMockStubbing.h"
+#import "RGMockStub.h"
 #import "RGMockStubAction.h"
 #import "RGMockInvocationMatcher.h"
 
 
-@implementation RGMockStubbing {
+@implementation RGMockStub {
     NSMutableArray          *_invocationPrototypes;
     NSMutableArray          *_actions;
     RGMockInvocationMatcher *_invocationMatcher;
@@ -33,7 +33,7 @@
 #pragma mark - Configuration
 
 - (void)addInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)argumentMatchers {
-    [_invocationPrototypes addObject:[[RGMockStubbingInvocationPrototpye alloc] initWithInvocation:invocation nonObjectArgumentMatchers:argumentMatchers]];
+    [_invocationPrototypes addObject:[[RGMockStubInvocationPrototpye alloc] initWithInvocation:invocation nonObjectArgumentMatchers:argumentMatchers]];
 }
 
 - (void)addAction:(id<RGMockStubAction>)action {
@@ -52,7 +52,7 @@
 #pragma mark - Matching and Applying
 
 - (BOOL)matchesForInvocation:(NSInvocation *)candidate {
-    for (RGMockStubbingInvocationPrototpye *prototype in _invocationPrototypes) {
+    for (RGMockStubInvocationPrototpye *prototype in _invocationPrototypes) {
         if ([_invocationMatcher invocation:candidate matchesPrototype:prototype.invocation withNonObjectArgumentMatchers:prototype.nonObjectArgumentMatchers]) {
             return YES;
         }
@@ -69,7 +69,7 @@
 @end
 
 
-@implementation RGMockStubbingInvocationPrototpye
+@implementation RGMockStubInvocationPrototpye
 
 - (id)initWithInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)argumentMatchers {
     if ((self = [super init])) {

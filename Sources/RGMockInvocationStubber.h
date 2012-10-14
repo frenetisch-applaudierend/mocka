@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class RGMockStubbing;
+@class RGMockStub;
 @protocol RGMockStubAction;
 
 
@@ -16,16 +16,15 @@
 
 #pragma mark - Creating and Updating Stubbings
 
-- (void)createStubbingForInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)matchers;
-- (void)addActionToCurrentStubbing:(id<RGMockStubAction>)action;
+- (void)recordStubInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)matchers;
+- (void)addActionToLastStub:(id<RGMockStubAction>)action;
 
 
 #pragma mark - Querying and Applying Stubbings
 
-@property (nonatomic, readonly) NSArray *stubbings;
+@property (nonatomic, readonly) NSArray *stubs;
 
 - (NSArray *)stubbingsMatchingInvocation:(NSInvocation *)invocation;
 - (void)applyStubbingToInvocation:(NSInvocation *)invocation;
-
 
 @end
