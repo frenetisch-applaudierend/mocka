@@ -8,6 +8,7 @@
 
 #import "RGMockContext.h"
 #import "RGMockInvocationRecorder.h"
+#import "RGMockInvocationStubber.h"
 #import "RGMockInvocationMatcher.h"
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
@@ -28,9 +29,8 @@
 
 @implementation RGMockContext {
     RGMockInvocationRecorder *_invocationRecorder;
-    NSMutableArray *_recordedStubbings;
+    RGMockInvocationStubber *_invocationStubber;
     NSMutableArray *_nonObjectArgumentMatchers;
-    RGMockStub *_currentStubbing;
 }
 
 static __weak id _CurrentContext = nil;
@@ -72,7 +72,7 @@ static __weak id _CurrentContext = nil;
     if ((self = [super init])) {
         _testCase = testCase;
         _invocationRecorder = [[RGMockInvocationRecorder alloc] init];
-        _recordedStubbings = [NSMutableArray array];
+        _invocationStubber = [[RGMockInvocationStubber alloc] init];
         _nonObjectArgumentMatchers = [NSMutableArray array];
         _failureHandler = [[RGMockSenTestFailureHandler alloc] initWithTestCase:testCase];
         
@@ -153,17 +153,13 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)createStubbingForInvocation:(NSInvocation *)invocation {
-    if (_currentStubbing == nil) {
-        _currentStubbing = [[RGMockStub alloc] init];
-        [_recordedStubbings addObject:_currentStubbing];
-    }
-    [_currentStubbing addInvocation:invocation withNonObjectArgumentMatchers:_nonObjectArgumentMatchers];
+    [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_nonObjectArgumentMatchers];
     [_nonObjectArgumentMatchers removeAllObjects];
 }
 
 - (RGMockStub *)stubbingForInvocation:(NSInvocation *)invocation {
     // TODO: can be reworked to -hasStubbingsForInvocation:
-    for (RGMockStub *stubbing in [_recordedStubbings reverseObjectEnumerator]) {
+    for (RGMockStub *stubbing in [_invocationStubber.recordedStubs reverseObjectEnumerator]) {
         if ([stubbing matchesForInvocation:invocation]) {
             return stubbing;
         }
@@ -172,9 +168,8 @@ static __weak id _CurrentContext = nil;
 }
 
 - (BOOL)addStubAction:(id<RGMockStubAction>)action {
-    _currentStubbing = nil; // end of multiple stubs mode
+    [_invocationStubber addActionToLastStub:action];
     [self updateContextMode:RGMockContextModeRecording];
-    [[_recordedStubbings lastObject] addAction:action];
     return YES;
 }
 

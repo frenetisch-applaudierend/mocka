@@ -11,7 +11,7 @@
 
 
 @implementation RGMockInvocationStubber {
-    NSMutableArray *_stubs;
+    NSMutableArray *_recordedStubs;
     BOOL            _groupRecording;
 }
 
@@ -19,7 +19,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        _stubs = [NSMutableArray array];
+        _recordedStubs = [NSMutableArray array];
     }
     return self;
 }
@@ -48,15 +48,12 @@
 
 #pragma mark - Querying and Applying Stubbings
 
-- (NSArray *)stubbingsMatchingInvocation:(NSInvocation *)invocation {
-    NSParameterAssert(invocation != nil);
-    
-    return nil;
+- (NSArray *)recordedStubs {
+    return [_recordedStubs copy];
 }
 
-- (void)applyStubbingToInvocation:(NSInvocation *)invocation {
+- (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation {
     NSParameterAssert(invocation != nil);
-    
 }
 
 
@@ -68,7 +65,7 @@
 
 - (void)pushNewStubForRecordingInvocationGroup {
     _groupRecording = YES;
-    [_stubs addObject:[[RGMockStub alloc] init]];
+    [_recordedStubs addObject:[[RGMockStub alloc] init]];
 }
 
 - (void)endRecordingInvocationGroup {
@@ -76,7 +73,7 @@
 }
 
 - (RGMockStub *)activeStub {
-    return [_stubs lastObject];
+    return [_recordedStubs lastObject];
 }
 
 

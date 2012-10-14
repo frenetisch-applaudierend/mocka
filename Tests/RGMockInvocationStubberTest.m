@@ -41,7 +41,7 @@
     [stubber recordStubInvocation:invocation withNonObjectArgumentMatchers:nil];
     
     // then
-    STAssertEquals([stubber.stubs count], (NSUInteger)1, @"Stubbing was not created");
+    STAssertEquals([stubber.recordedStubs count], (NSUInteger)1, @"Stubbing was not created");
 }
 
 - (void)testThatCreatedStubForInvocationContainsInvocation {
@@ -52,7 +52,7 @@
     [stubber recordStubInvocation:invocation withNonObjectArgumentMatchers:nil];
     
     // then
-    RGMockStub *stub = [stubber.stubs lastObject];
+    RGMockStub *stub = [stubber.recordedStubs lastObject];
     STAssertEqualObjects([[stub.invocationPrototypes lastObject] invocation], invocation, @"Invocation was not added to stub");
 }
 
@@ -65,7 +65,7 @@
     [stubber recordStubInvocation:invocation withNonObjectArgumentMatchers:argumentMatchers];
     
     // then
-    RGMockStub *stub = [stubber.stubs lastObject];
+    RGMockStub *stub = [stubber.recordedStubs lastObject];
     STAssertEqualObjects([[stub.invocationPrototypes lastObject] nonObjectArgumentMatchers], argumentMatchers, @"Matchers were not added to stub");
 }
 
@@ -83,7 +83,7 @@
     [stubber recordStubInvocation:invocation1 withNonObjectArgumentMatchers:nil];
     
     // then
-    STAssertEquals([stubber.stubs count], (NSUInteger)1, @"Only one stub should have been created");
+    STAssertEquals([stubber.recordedStubs count], (NSUInteger)1, @"Only one stub should have been created");
 }
 
 - (void)testThatCreatedStubForMultipleInvocationsContainsAllInvocations {
@@ -97,7 +97,7 @@
     [stubber recordStubInvocation:invocation1 withNonObjectArgumentMatchers:nil];
     
     // then
-    RGMockStub *stub = [stubber.stubs lastObject];
+    RGMockStub *stub = [stubber.recordedStubs lastObject];
     STAssertEquals([stub.invocationPrototypes count], (NSUInteger)2, @"Not all invocations were added");
     STAssertEqualObjects([stub.invocationPrototypes[0] invocation], invocation0, @"Invocation was not added to stub");
     STAssertEqualObjects([stub.invocationPrototypes[1] invocation], invocation1, @"Invocation was not added to stub");
@@ -116,7 +116,7 @@
     [stubber recordStubInvocation:invocation1 withNonObjectArgumentMatchers:argumentMatchers1];
     
     // then
-    RGMockStub *stub = [stubber.stubs lastObject];
+    RGMockStub *stub = [stubber.recordedStubs lastObject];
     STAssertEquals([stub.invocationPrototypes count], (NSUInteger)2, @"Not all invocations were added");
     STAssertEqualObjects([stub.invocationPrototypes[0] nonObjectArgumentMatchers], argumentMatchers0, @"Matchers were not added to stub");
     STAssertEqualObjects([stub.invocationPrototypes[1] nonObjectArgumentMatchers], argumentMatchers1, @"Matchers were not added to stub");
@@ -134,7 +134,7 @@
     [stubber recordStubInvocation:invocation1 withNonObjectArgumentMatchers:nil];
     
     // then
-    STAssertEquals([stubber.stubs count], (NSUInteger)2, @"Two stub should have been created");
+    STAssertEquals([stubber.recordedStubs count], (NSUInteger)2, @"Two stub should have been created");
 }
 
 
@@ -149,7 +149,7 @@
     [stubber addActionToLastStub:action];
     
     // then
-    NSArray *actions = [[stubber.stubs lastObject] actions];
+    NSArray *actions = [[stubber.recordedStubs lastObject] actions];
     STAssertEquals([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
     STAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
 }

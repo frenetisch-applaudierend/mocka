@@ -14,17 +14,16 @@
 
 @interface RGMockInvocationStubber : NSObject
 
-#pragma mark - Creating and Updating Stubbings
+#pragma mark - Creating and Updating Stubs
 
 - (void)recordStubInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)matchers;
 - (void)addActionToLastStub:(id<RGMockStubAction>)action;
 
 
-#pragma mark - Querying and Applying Stubbings
+#pragma mark - Applying Stub Actions
 
-@property (nonatomic, readonly) NSArray *stubs;
+@property (nonatomic, readonly) NSArray *recordedStubs;
 
-- (NSArray *)stubbingsMatchingInvocation:(NSInvocation *)invocation;
-- (void)applyStubbingToInvocation:(NSInvocation *)invocation;
+- (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation;
 
 @end
