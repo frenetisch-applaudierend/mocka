@@ -17,9 +17,10 @@
 
 #pragma mark - Managing Matchers
 
-@property (nonatomic, readonly) NSMutableArray *nonObjectArgumentMatchers;
+@property (nonatomic, readonly, copy) NSArray *primitiveArgumentMatchers;
 
 - (void)addPrimitiveArgumentMatcher:(id<RGMockArgumentMatcher>)matcher;
+- (void)resetAllMatchers;
 
 
 #pragma mark - Validating the Collection

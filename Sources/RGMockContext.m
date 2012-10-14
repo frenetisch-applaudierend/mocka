@@ -100,7 +100,7 @@ static __weak id _CurrentContext = nil;
 
 - (void)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
-    [_argumentMatcherCollection.nonObjectArgumentMatchers removeAllObjects];
+    [_argumentMatcherCollection resetAllMatchers];
     
     if (newMode == RGMockContextModeVerifying) {
         _verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
@@ -108,7 +108,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    if (![self eitherAllOrNoPrimitiveArgumentsHaveMatchersForInvocation:invocation]) {
+    if (![_argumentMatcherCollection isValidForMethodSignature:invocation.methodSignature]) {
         [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
         return;
     }
@@ -121,18 +121,6 @@ static __weak id _CurrentContext = nil;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", _mode);
     }
-}
-
-- (BOOL)eitherAllOrNoPrimitiveArgumentsHaveMatchersForInvocation:(NSInvocation *)invocation {
-    if ([_argumentMatcherCollection.nonObjectArgumentMatchers count] == 0) return YES;
-    
-    NSUInteger matchersNeeded = 0;
-    for (NSUInteger argIndex = 2; argIndex < [invocation.methodSignature numberOfArguments]; argIndex++) {
-        if (![RGMockTypeEncodings isObjectType:[invocation.methodSignature getArgumentTypeAtIndex:argIndex]]) {
-            matchersNeeded++;
-        }
-    }
-    return ([_argumentMatcherCollection.nonObjectArgumentMatchers count] == matchersNeeded);
 }
 
 
@@ -151,8 +139,8 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_argumentMatcherCollection.nonObjectArgumentMatchers];
-    [_argumentMatcherCollection.nonObjectArgumentMatchers removeAllObjects];
+    [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers];
+    [_argumentMatcherCollection resetAllMatchers];
 }
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
@@ -171,7 +159,7 @@ static __weak id _CurrentContext = nil;
     BOOL satisfied = NO;
     NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                    withNonObjectArgumentMatchers:_argumentMatcherCollection.nonObjectArgumentMatchers
+                                                    withNonObjectArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers
                                                              inInvocationRecorder:_invocationRecorder
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
@@ -187,7 +175,7 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Argument Matching
 
 - (NSArray *)nonObjectArgumentMatchers {
-    return [_argumentMatcherCollection.nonObjectArgumentMatchers copy];
+    return [_argumentMatcherCollection.primitiveArgumentMatchers copy];
 }
 
 - (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
@@ -196,8 +184,8 @@ static __weak id _CurrentContext = nil;
         return 0;
     }
     
-    [_argumentMatcherCollection.nonObjectArgumentMatchers addObject:matcher];
-    return ([_argumentMatcherCollection.nonObjectArgumentMatchers count] - 1);
+    [_argumentMatcherCollection addPrimitiveArgumentMatcher:matcher];
+    return ([_argumentMatcherCollection.primitiveArgumentMatchers count] - 1);
 }
 
 @end

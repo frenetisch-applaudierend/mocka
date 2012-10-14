@@ -26,14 +26,17 @@
 
 #pragma mark - Adding Matchers
 
-- (NSArray *)nonObjectArgumentMatchers {
-    return _primitiveArgumentMatchers;
+- (NSArray *)primitiveArgumentMatchers {
+    return [_primitiveArgumentMatchers copy];
 }
 
 - (void)addPrimitiveArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
     [_primitiveArgumentMatchers addObject:matcher];
 }
 
+- (void)resetAllMatchers {
+    [_primitiveArgumentMatchers removeAllObjects];
+}
 
 #pragma mark - Validating the Collection
 

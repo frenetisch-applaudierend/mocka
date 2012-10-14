@@ -25,7 +25,7 @@
 }
 
 
-#pragma mark - Adding new Matchers
+#pragma mark - Test Managing Matchers
 
 - (void)testThatAddPrimitiveMatcherAddsToEndOfMatchers {
     // given
@@ -35,9 +35,21 @@
     [collection addPrimitiveArgumentMatcher:matcher];
     
     // then
-    STAssertEqualObjects(collection.nonObjectArgumentMatchers, (@[ matcher ]), @"Primitive matcher was not recoreded");
+    STAssertEqualObjects(collection.primitiveArgumentMatchers, (@[ matcher ]), @"Primitive matcher was not recoreded");
 }
 
+- (void)testThatResetArgumentMatchersRemovesAllMatchers {
+    // given
+    [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    [collection addPrimitiveArgumentMatcher:[[RGMockAnyArgumentMatcher alloc] init]];
+    
+    // when
+    [collection resetAllMatchers];
+    
+    // then
+    STAssertEquals([collection.primitiveArgumentMatchers count], (NSUInteger)0, @"Primitive matchers were not reset");
+}
 
 
 #pragma mark - Test Validation
