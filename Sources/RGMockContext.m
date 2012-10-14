@@ -9,10 +9,11 @@
 #import "RGMockContext.h"
 #import "RGMockInvocationRecorder.h"
 #import "RGMockInvocationStubber.h"
-#import "RGMockInvocationMatcher.h"
 #import "RGMockVerificationHandler.h"
 #import "RGMockDefaultVerificationHandler.h"
 #import "RGMockStub.h"
+#import "RGMockInvocationMatcher.h"
+#import "RGMockArgumentMatcherCollection.h"
 #import "RGMockTypeEncodings.h"
 #import "RGMockSenTestFailureHandler.h"
 
@@ -30,7 +31,7 @@
 @implementation RGMockContext {
     RGMockInvocationRecorder *_invocationRecorder;
     RGMockInvocationStubber *_invocationStubber;
-    NSMutableArray *_nonObjectArgumentMatchers;
+    RGMockArgumentMatcherCollection *_argumentMatcherCollection;
 }
 
 static __weak id _CurrentContext = nil;
@@ -76,7 +77,7 @@ static __weak id _CurrentContext = nil;
         RGMockInvocationMatcher *invocationMatcher = [[RGMockInvocationMatcher alloc] init];
         _invocationRecorder = [[RGMockInvocationRecorder alloc] initWithInvocationMatcher:invocationMatcher];
         _invocationStubber = [[RGMockInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
-        _nonObjectArgumentMatchers = [NSMutableArray array];
+        _argumentMatcherCollection = [[RGMockArgumentMatcherCollection alloc] init];
         
         _CurrentContext = self;
     }
@@ -99,7 +100,7 @@ static __weak id _CurrentContext = nil;
 
 - (void)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
-    [_nonObjectArgumentMatchers removeAllObjects];
+    [_argumentMatcherCollection.nonObjectArgumentMatchers removeAllObjects];
     
     if (newMode == RGMockContextModeVerifying) {
         _verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
@@ -123,7 +124,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (BOOL)eitherAllOrNoPrimitiveArgumentsHaveMatchersForInvocation:(NSInvocation *)invocation {
-    if ([_nonObjectArgumentMatchers count] == 0) return YES;
+    if ([_argumentMatcherCollection.nonObjectArgumentMatchers count] == 0) return YES;
     
     NSUInteger matchersNeeded = 0;
     for (NSUInteger argIndex = 2; argIndex < [invocation.methodSignature numberOfArguments]; argIndex++) {
@@ -131,7 +132,7 @@ static __weak id _CurrentContext = nil;
             matchersNeeded++;
         }
     }
-    return ([_nonObjectArgumentMatchers count] == matchersNeeded);
+    return ([_argumentMatcherCollection.nonObjectArgumentMatchers count] == matchersNeeded);
 }
 
 
@@ -150,8 +151,8 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_nonObjectArgumentMatchers];
-    [_nonObjectArgumentMatchers removeAllObjects];
+    [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_argumentMatcherCollection.nonObjectArgumentMatchers];
+    [_argumentMatcherCollection.nonObjectArgumentMatchers removeAllObjects];
 }
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
@@ -170,7 +171,7 @@ static __weak id _CurrentContext = nil;
     BOOL satisfied = NO;
     NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                    withNonObjectArgumentMatchers:_nonObjectArgumentMatchers
+                                                    withNonObjectArgumentMatchers:_argumentMatcherCollection.nonObjectArgumentMatchers
                                                              inInvocationRecorder:_invocationRecorder
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
@@ -185,14 +186,18 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Argument Matching
 
+- (NSArray *)nonObjectArgumentMatchers {
+    return [_argumentMatcherCollection.nonObjectArgumentMatchers copy];
+}
+
 - (UInt8)pushNonObjectArgumentMatcher:(id<RGMockArgumentMatcher>)matcher {
     if (_mode == RGMockContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
         return 0;
     }
     
-    [_nonObjectArgumentMatchers addObject:matcher];
-    return ([_nonObjectArgumentMatchers count] - 1);
+    [_argumentMatcherCollection.nonObjectArgumentMatchers addObject:matcher];
+    return ([_argumentMatcherCollection.nonObjectArgumentMatchers count] - 1);
 }
 
 @end

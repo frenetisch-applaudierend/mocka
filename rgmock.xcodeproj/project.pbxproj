@@ -51,6 +51,12 @@
 		287020DD15B742EB00218C49 /* RGMockStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 287020DB15B742EB00218C49 /* RGMockStub.m */; };
 		287020E415B750C100218C49 /* RGMockPerformBlockStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 287020E215B750C100218C49 /* RGMockPerformBlockStubAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		287020E515B750C100218C49 /* RGMockPerformBlockStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 287020E315B750C100218C49 /* RGMockPerformBlockStubAction.m */; };
+		2899C365162AD75900550CFB /* RGMockArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* RGMockArgumentMatcherCollection.h */; };
+		2899C366162AD75900550CFB /* RGMockArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* RGMockArgumentMatcherCollection.h */; };
+		2899C367162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */; };
+		2899C368162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */; };
+		2899C36B162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */; };
+		2899C36C162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */; };
 		28D7B39814D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
 		28D7B3A614D74DE400D494FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28D7B3A914D74DE400D494FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B39714D74DE400D494FD /* Foundation.framework */; };
@@ -213,6 +219,9 @@
 		287020E615B75F7400218C49 /* RGMockReturnStubActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockReturnStubActionTest.m; sourceTree = "<group>"; };
 		2872D87815AE0FB50017EB00 /* RGMockSyntaxExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockSyntaxExamples.m; sourceTree = "<group>"; };
 		287544E915B230E0009539F1 /* RGMockDefaultVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockDefaultVerificationHandlerTest.m; sourceTree = "<group>"; };
+		2899C363162AD75900550CFB /* RGMockArgumentMatcherCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGMockArgumentMatcherCollection.h; sourceTree = "<group>"; };
+		2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockArgumentMatcherCollection.m; sourceTree = "<group>"; };
+		2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGMockArgumentMatcherCollectionTest.m; sourceTree = "<group>"; };
 		28D7B39414D74DE400D494FD /* librgmock-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "librgmock-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D7B39714D74DE400D494FD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		28D7B39B14D74DE400D494FD /* rgmock-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "rgmock-Prefix.pch"; sourceTree = "<group>"; };
@@ -294,7 +303,6 @@
 		2822C326162036720031D92C /* Built-In Argument Matchers */ = {
 			isa = PBXGroup;
 			children = (
-				28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */,
 				28685FDA15FE289700B59545 /* RGMockAnyArgumentMatcher.h */,
 				28685FDB15FE289700B59545 /* RGMockAnyArgumentMatcher.m */,
 			);
@@ -335,6 +343,7 @@
 			children = (
 				28575E2215B20A3A0077ACFC /* RGMockInvocationMatcherTest.m */,
 				28685FE015FE290F00B59545 /* RGMockAnyArgumentMatcherTest.m */,
+				2899C36A162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m */,
 			);
 			name = "Invocation and Argument Matching";
 			sourceTree = "<group>";
@@ -531,6 +540,9 @@
 				28DF1CAE15BAA682003408ED /* RGMockTypeEncodings.m */,
 				28575E1E15B209F20077ACFC /* RGMockInvocationMatcher.h */,
 				28575E1F15B209F20077ACFC /* RGMockInvocationMatcher.m */,
+				2899C363162AD75900550CFB /* RGMockArgumentMatcherCollection.h */,
+				2899C364162AD75900550CFB /* RGMockArgumentMatcherCollection.m */,
+				28ECE8A715BBF2FD00F15F12 /* RGMockArgumentMatcher.h */,
 				2822C326162036720031D92C /* Built-In Argument Matchers */,
 			);
 			name = "Invocation and Argument Matching";
@@ -588,6 +600,7 @@
 				36A07E63161F5AF3006153C7 /* RGMockExceptionFailureHandler.h in Headers */,
 				2822C32A162036BD0031D92C /* RGMockInvocationRecorder.h in Headers */,
 				2822C342162076BF0031D92C /* RGMockInvocationStubber.h in Headers */,
+				2899C365162AD75900550CFB /* RGMockArgumentMatcherCollection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +632,7 @@
 				36A07E64161F5AF3006153C7 /* RGMockExceptionFailureHandler.h in Headers */,
 				2822C32B162036BD0031D92C /* RGMockInvocationRecorder.h in Headers */,
 				2822C343162076BF0031D92C /* RGMockInvocationStubber.h in Headers */,
+				2899C366162AD75900550CFB /* RGMockArgumentMatcherCollection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,6 +809,8 @@
 				36A07E65161F5AF3006153C7 /* RGMockExceptionFailureHandler.m in Sources */,
 				2822C32C162036BD0031D92C /* RGMockInvocationRecorder.m in Sources */,
 				2822C344162076BF0031D92C /* RGMockInvocationStubber.m in Sources */,
+				2899C367162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */,
+				2899C36B162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,6 +867,8 @@
 				36A07E66161F5AF3006153C7 /* RGMockExceptionFailureHandler.m in Sources */,
 				2822C32D162036BD0031D92C /* RGMockInvocationRecorder.m in Sources */,
 				2822C345162076BF0031D92C /* RGMockInvocationStubber.m in Sources */,
+				2899C368162AD75900550CFB /* RGMockArgumentMatcherCollection.m in Sources */,
+				2899C36C162AD82700550CFB /* RGMockArgumentMatcherCollectionTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
