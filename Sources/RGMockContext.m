@@ -71,10 +71,12 @@ static __weak id _CurrentContext = nil;
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
-        _invocationRecorder = [[RGMockInvocationRecorder alloc] init];
-        _invocationStubber = [[RGMockInvocationStubber alloc] init];
-        _nonObjectArgumentMatchers = [NSMutableArray array];
         _failureHandler = [[RGMockSenTestFailureHandler alloc] initWithTestCase:testCase];
+        
+        RGMockInvocationMatcher *invocationMatcher = [[RGMockInvocationMatcher alloc] init];
+        _invocationRecorder = [[RGMockInvocationRecorder alloc] initWithInvocationMatcher:invocationMatcher];
+        _invocationStubber = [[RGMockInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
+        _nonObjectArgumentMatchers = [NSMutableArray array];
         
         _CurrentContext = self;
     }
@@ -142,9 +144,10 @@ static __weak id _CurrentContext = nil;
 - (void)recordInvocation:(NSInvocation *)invocation {
     [_invocationRecorder recordInvocation:invocation];
     
-    RGMockStub *stubbing = [self stubbingForInvocation:invocation];
-    if (stubbing != nil) {
-        [stubbing applyToInvocation:invocation];
+    for (RGMockStub *stubbing in _invocationStubber.recordedStubs) {
+        if ([stubbing matchesForInvocation:invocation]) {
+            [stubbing applyToInvocation:invocation];
+        }
     }
 }
 
@@ -157,17 +160,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
-    return ([self stubbingForInvocation:invocation] != nil);
-}
-
-- (RGMockStub *)stubbingForInvocation:(NSInvocation *)invocation {
-    // TODO: can be reworked to -hasStubbingsForInvocation:
-    for (RGMockStub *stubbing in [_invocationStubber.recordedStubs reverseObjectEnumerator]) {
-        if ([stubbing matchesForInvocation:invocation]) {
-            return stubbing;
-        }
-    }
-    return nil;
+    return [_invocationStubber hasStubsRecordedForInvocation:invocation];
 }
 
 - (void)addStubAction:(id<RGMockStubAction>)action {

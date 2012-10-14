@@ -308,7 +308,7 @@
     AssertSelectorCalledAtIndex(object4, @selector(objectMethodCallWithoutParameters), 1);
 }
 
-- (void)testThatLaterStubbingsOverrideOlderStubbingsOfSameInvocation {
+- (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
     // given
     __block NSString *marker = nil;
     whenCalling [object objectMethodCallWithoutParameters];
@@ -322,7 +322,7 @@
     
     // then
     STAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
-    STAssertNil(marker, @"Marker was set");
+    STAssertEqualObjects(marker, @"called", @"Marker was not set");
     
     AssertNumberOfInvocations(object, 0);
 }

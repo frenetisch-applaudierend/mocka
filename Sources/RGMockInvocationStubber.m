@@ -8,20 +8,27 @@
 
 #import "RGMockInvocationStubber.h"
 #import "RGMockStub.h"
+#import "RGMockInvocationMatcher.h"
 
 
 @implementation RGMockInvocationStubber {
     NSMutableArray *_recordedStubs;
-    BOOL            _groupRecording;
+    BOOL _groupRecording;
+    RGMockInvocationMatcher *_invocationMatcher;
 }
 
 #pragma mark - Initialization
 
-- (id)init {
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)invocationMatcher {
     if ((self = [super init])) {
         _recordedStubs = [NSMutableArray array];
+        _invocationMatcher = invocationMatcher;
     }
     return self;
+}
+
+- (id)init {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
 }
 
 
@@ -52,8 +59,11 @@
     return [_recordedStubs copy];
 }
 
-- (BOOL)hasStubsForInvocation:(NSInvocation *)invocation {
-    return NO;
+- (BOOL)hasStubsRecordedForInvocation:(NSInvocation *)invocation {
+    NSUInteger index = [_recordedStubs indexOfObjectPassingTest:^BOOL(RGMockStub *stub, NSUInteger idx, BOOL *stop) {
+        return [stub matchesForInvocation:invocation];
+    }];
+    return (index != NSNotFound);
 }
 
 - (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation {
@@ -69,7 +79,7 @@
 
 - (void)pushNewStubForRecordingInvocationGroup {
     _groupRecording = YES;
-    [_recordedStubs addObject:[[RGMockStub alloc] init]];
+    [_recordedStubs addObject:[[RGMockStub alloc] initWithInvocationMatcher:_invocationMatcher]];
 }
 
 - (void)endRecordingInvocationGroup {

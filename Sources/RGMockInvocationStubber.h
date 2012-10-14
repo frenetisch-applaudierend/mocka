@@ -9,10 +9,16 @@
 #import <Foundation/Foundation.h>
 
 @class RGMockStub;
+@class RGMockInvocationMatcher;
 @protocol RGMockStubAction;
 
 
 @interface RGMockInvocationStubber : NSObject
+
+#pragma mark - Initialization
+
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)invocationMatcher;
+
 
 #pragma mark - Creating and Updating Stubs
 
@@ -24,7 +30,7 @@
 
 @property (nonatomic, readonly) NSArray *recordedStubs;
 
-- (BOOL)hasStubsForInvocation:(NSInvocation *)invocation;
+- (BOOL)hasStubsRecordedForInvocation:(NSInvocation *)invocation;
 - (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation;
 
 @end

@@ -26,7 +26,7 @@
 }
 
 - (id)init {
-    return [self initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]];
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
 }
 
 

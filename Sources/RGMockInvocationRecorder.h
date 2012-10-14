@@ -17,7 +17,6 @@
 #pragma mark - Initialization
 
 - (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)matcher;
-- (id)init;
 
 
 #pragma mark - Recording invocations

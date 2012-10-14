@@ -21,13 +21,14 @@
 
 @implementation RGMockInvocationStubberTest {
     RGMockInvocationStubber *stubber;
-    BlockInvocationMatcher  *invocationMatcher;
+    BlockInvocationMatcher *invocationMatcher;
 }
 
 #pragma mark - Setup
 
 - (void)setUp {
-    stubber = [[RGMockInvocationStubber alloc] init];
+    invocationMatcher = [[BlockInvocationMatcher alloc] init];
+    stubber = [[RGMockInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
 }
 
 
@@ -135,6 +136,72 @@
     
     // then
     STAssertEquals([stubber.recordedStubs count], (NSUInteger)2, @"Two stub should have been created");
+}
+
+
+#pragma mark - Test Querying for Stubs
+
+- (void)testThatHasStubsReturnsNoIfNoStubsAreRecordedForInvocation {
+    // given
+    MockTestObject *testObject = [[MockTestObject alloc] init];
+    [stubber recordStubInvocation:[NSInvocation voidMethodInvocationForTarget:testObject] withNonObjectArgumentMatchers:nil];
+    
+    [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
+        return NO;
+    }];
+    
+    // then
+    MockTestObject *otherObject = [[MockTestObject alloc] init];
+    NSInvocation *unrecordedInvocation = [NSInvocation voidMethodInvocationForTarget:otherObject];
+    STAssertFalse([stubber hasStubsRecordedForInvocation:unrecordedInvocation], @"Should not have stubs for unrecorded invocation");
+}
+
+- (void)testThatHasStubsReturnsYesIfOneStubIsRecordedForInvocation {
+    // given
+    MockTestObject *testObject = [[MockTestObject alloc] init];
+    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:testObject];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    
+    [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
+        return (candidate == prototype);
+    }];
+    
+    // then
+    STAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
+}
+
+- (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInOneGroupForInvocation {
+    // given
+    MockTestObject *testObject = [[MockTestObject alloc] init];
+    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:testObject];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    
+    [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
+        return (candidate == prototype);
+    }];
+    
+    // then
+    STAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
+}
+
+- (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInManyGroupsForInvocation {
+    // given
+    MockTestObject *testObject = [[MockTestObject alloc] init];
+    NSInvocation *recordedInvocation = [NSInvocation voidMethodInvocationForTarget:testObject];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:nil]];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    [stubber addActionToLastStub:[RGMockPerformBlockStubAction performBlockActionWithBlock:nil]];
+    [stubber recordStubInvocation:recordedInvocation withNonObjectArgumentMatchers:nil];
+    
+    [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
+        return (candidate == prototype);
+    }];
+    
+    // then
+    STAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
 }
 
 

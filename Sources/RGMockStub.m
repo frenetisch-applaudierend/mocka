@@ -20,13 +20,17 @@
 
 #pragma mark - Initialization
 
-- (id)init {
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)invocationMatcher {
     if ((self = [super init])) {
         _invocationPrototypes = [NSMutableArray array];
         _actions = [NSMutableArray array];
-        _invocationMatcher = [[RGMockInvocationMatcher alloc] init];
+        _invocationMatcher = invocationMatcher;
     }
     return self;
+}
+
+- (id)init {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
 }
 
 

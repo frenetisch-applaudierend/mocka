@@ -13,19 +13,6 @@
 
 @implementation RGMockInvocationMatcher
 
-#pragma mark - Initialization
-
-+ (id)defaultMatcher {
-    static id defaultMatcher = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        defaultMatcher = [[RGMockInvocationMatcher alloc] init];
-    });
-    
-    return defaultMatcher;
-}
-
-
 #pragma mark - Invocation Matching
 
 - (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)argumentMatchers {

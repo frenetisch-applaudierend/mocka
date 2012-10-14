@@ -321,7 +321,7 @@
     STAssertNil([object4 objectMethodCallWithoutParameters], @"Non-stubbed call was suddenly stubbed");
 }
 
-- (void)testThatLaterStubbingsOverrideOlderStubbingsOfSameInvocation {
+- (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
     // given
     __block NSString *marker = nil;
     whenCalling [object objectMethodCallWithoutParameters];
@@ -335,7 +335,7 @@
     
     // then
     STAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
-    STAssertNil(marker, @"Marker was set");
+    STAssertEqualObjects(marker, @"called", @"Marker was not set");
 }
 
 - (void)testThatMultipleStubbingsCanBeCombined {

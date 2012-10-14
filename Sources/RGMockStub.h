@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 
 
+@class RGMockInvocationMatcher;
 @protocol RGMockStubAction;
 
 
 @interface RGMockStub : NSObject
+
+#pragma mark - Initialization
+
+- (id)initWithInvocationMatcher:(RGMockInvocationMatcher *)invocationMatcher;
 
 
 #pragma mark - Configuration

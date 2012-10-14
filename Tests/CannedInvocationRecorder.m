@@ -7,11 +7,13 @@
 //
 
 #import "CannedInvocationRecorder.h"
+#import "RGMockInvocationMatcher.h"
+
 
 @implementation CannedInvocationRecorder
 
 - (id)initWithCannedResult:(NSIndexSet *)indexSet {
-    if ((self = [super init])) {
+    if ((self = [super initWithInvocationMatcher:[[RGMockInvocationMatcher alloc] init]])) {
         _cannedResult = [indexSet copy];
     }
     return self;
