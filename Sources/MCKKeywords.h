@@ -24,15 +24,15 @@
 #pragma mark - Stubbing
 
 // Safe syntax
-#define mck_whenCalling   [mck_updatedContext() updateContextMode:MockaContextModeStubbing];
-#define mck_orWhenCalling ; mck_whenCalling
-#define mck_thenItWill    ;
-#define mck_andItWill     mck_thenItWill
+#define mck_whenCalling [mck_updatedContext() updateContextMode:MockaContextModeStubbing];
+#define mck_orCalling   ; mck_whenCalling
+#define mck_thenDo ;
+#define mck_andDo  mck_thenDo
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define whenCalling   mck_whenCalling
-#define orWhenCalling mck_orWhenCalling
-#define thenItWill    mck_thenItWill
-#define andItWill     mck_andItWill
+#define whenCalling mck_whenCalling
+#define orCalling   mck_orCalling
+#define thenDo mck_thenDo
+#define andDo  mck_andDo
 #endif

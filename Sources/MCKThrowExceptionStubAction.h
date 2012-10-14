@@ -24,8 +24,18 @@ static void mck_throwException(NSException *exception) {
     [[MCKMockingContext currentContext] addStubAction:[MCKThrowExceptionStubAction throwExceptionActionWithException:exception]];
 }
 
+static void mck_throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo) {
+    mck_throwException([NSException exceptionWithName:name reason:reason userInfo:userInfo]);
+}
+
 #ifndef MOCK_DISABLE_NICE_SYNTAX
+
 static void throwException(NSException *exception) {
     mck_throwException(exception);
 }
+
+static void throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo) {
+    mck_throwNewException(name, reason, userInfo);
+}
+
 #endif
