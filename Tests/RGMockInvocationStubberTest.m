@@ -122,7 +122,7 @@
     STAssertEqualObjects([stub.invocationPrototypes[1] nonObjectArgumentMatchers], argumentMatchers1, @"Matchers were not added to stub");
 }
 
-- (void)testThatGroupInvocationRecordingEndsWhenAddingAction {
+- (void)testThatAfterAddingActionNewInvocationGroupStarts {
     // given
     MockTestObject *object = [[MockTestObject alloc] init];
     NSInvocation *invocation0 = [NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20];
@@ -135,6 +135,23 @@
     
     // then
     STAssertEquals([stubber.stubs count], (NSUInteger)2, @"Two stub should have been created");
+}
+
+
+#pragma mark - Test Adding Actions
+
+- (void)testThatAddingActionToStubAddsAction {
+    // given
+    [stubber recordStubInvocation:[NSInvocation voidMethodInvocationForTarget:nil] withNonObjectArgumentMatchers:nil];
+    id<RGMockStubAction> action = [RGMockPerformBlockStubAction performBlockActionWithBlock:nil];
+    
+    // when
+    [stubber addActionToLastStub:action];
+    
+    // then
+    NSArray *actions = [[stubber.stubs lastObject] actions];
+    STAssertEquals([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
+    STAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
 }
 
 @end

@@ -28,25 +28,35 @@
 #pragma mark - Creating and Updating Stubbings
 
 - (void)recordStubInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)matchers {
+    NSParameterAssert(invocation != nil);
+    
     if (![self isRecordingInvocationGroup]) {
-        [self startRecordingInvocationGroup];
-        [self pushNewActiveStub];
+        [self pushNewStubForRecordingInvocationGroup];
     }
     [[self activeStub] addInvocation:invocation withNonObjectArgumentMatchers:matchers];
 }
 
 - (void)addActionToLastStub:(id<RGMockStubAction>)action {
-    [self endRecordingInvocationGroup];
+    NSParameterAssert(action != nil);
+    
+    if ([self isRecordingInvocationGroup]) {
+        [self endRecordingInvocationGroup];
+    }
+    [[self activeStub] addAction:action];
 }
 
 
 #pragma mark - Querying and Applying Stubbings
 
 - (NSArray *)stubbingsMatchingInvocation:(NSInvocation *)invocation {
+    NSParameterAssert(invocation != nil);
+    
     return nil;
 }
 
 - (void)applyStubbingToInvocation:(NSInvocation *)invocation {
+    NSParameterAssert(invocation != nil);
+    
 }
 
 
@@ -56,16 +66,13 @@
     return _groupRecording;
 }
 
-- (void)startRecordingInvocationGroup {
+- (void)pushNewStubForRecordingInvocationGroup {
     _groupRecording = YES;
+    [_stubs addObject:[[RGMockStub alloc] init]];
 }
 
 - (void)endRecordingInvocationGroup {
     _groupRecording = NO;
-}
-
-- (void)pushNewActiveStub {
-    [_stubs addObject:[[RGMockStub alloc] init]];
 }
 
 - (RGMockStub *)activeStub {
