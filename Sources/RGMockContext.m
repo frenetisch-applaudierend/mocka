@@ -113,7 +113,7 @@ static __weak id _CurrentContext = nil;
     
     switch (_mode) {
         case RGMockContextModeRecording: [self recordInvocation:invocation]; break;
-        case RGMockContextModeStubbing:  [self createStubbingForInvocation:invocation]; break;
+        case RGMockContextModeStubbing:  [self stubInvocation:invocation]; break;
         case RGMockContextModeVerifying: [self verifyInvocation:invocation]; break;
             
         default:
@@ -152,9 +152,13 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Stubbing
 
-- (void)createStubbingForInvocation:(NSInvocation *)invocation {
+- (void)stubInvocation:(NSInvocation *)invocation {
     [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_nonObjectArgumentMatchers];
     [_nonObjectArgumentMatchers removeAllObjects];
+}
+
+- (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
+    return ([self stubbingForInvocation:invocation] != nil);
 }
 
 - (RGMockStub *)stubbingForInvocation:(NSInvocation *)invocation {

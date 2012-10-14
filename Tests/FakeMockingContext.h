@@ -32,6 +32,6 @@
 
 @interface RGMockContext (PrivateMethods)
 
-- (void)createStubbingForInvocation:(NSInvocation *)invocation;
+- (void)stubInvocation:(NSInvocation *)invocation;
 
 @end

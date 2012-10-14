@@ -155,7 +155,7 @@
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
     invocation.selector = @selector(voidMethodCallWithoutParameters);
     invocation.target = spy;
-    [context createStubbingForInvocation:invocation];
+    [context stubInvocation:invocation];
     
     // when
     [spy voidMethodCallWithoutParameters];

@@ -177,7 +177,7 @@
     STAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
-- (void)testThatHandlingInvocationInStubbingModeCreatesStubbingForCalledMethod {
+- (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
     // given
     [context updateContextMode:RGMockContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
@@ -186,10 +186,10 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertNotNil([context stubbingForInvocation:invocation], @"Invocation was not stubbed");
+    STAssertTrue([context isInvocationStubbed:invocation], @"Invocation was not stubbed");
 }
 
-- (void)testThatNoStubbingIsReturnedForNonStubbedMethod {
+- (void)testThatUnhandledMethodIsNotStubbed {
     // given
     [context updateContextMode:RGMockContextModeStubbing];
     NSInvocation *stubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
@@ -199,7 +199,7 @@
     [context handleInvocation:stubbedInvocation];
     
     // then
-    STAssertNil([context stubbingForInvocation:unstubbedInvocation], @"Invocation was stubbed");
+    STAssertFalse([context isInvocationStubbed:unstubbedInvocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatModeIsNotSwitchedAfterHandlingInvocation {

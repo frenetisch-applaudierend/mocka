@@ -24,6 +24,7 @@
 
 @property (nonatomic, readonly) NSArray *recordedStubs;
 
+- (BOOL)hasStubsForInvocation:(NSInvocation *)invocation;
 - (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation;
 
 @end

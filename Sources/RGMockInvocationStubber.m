@@ -52,6 +52,10 @@
     return [_recordedStubs copy];
 }
 
+- (BOOL)hasStubsForInvocation:(NSInvocation *)invocation {
+    return NO;
+}
+
 - (void)applyActionsToStubsForInvocation:(NSInvocation *)invocation {
     NSParameterAssert(invocation != nil);
 }
