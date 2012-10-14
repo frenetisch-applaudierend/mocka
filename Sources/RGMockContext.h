@@ -57,7 +57,7 @@ typedef enum {
 @property (nonatomic, strong)   id<RGMockVerificationHandler>  verificationHandler;
 @property (nonatomic, readonly) NSArray                       *recordedInvocations;
 
-- (BOOL)updateContextMode:(RGMockContextMode)newMode;
+- (void)updateContextMode:(RGMockContextMode)newMode;
 
 - (void)handleInvocation:(NSInvocation *)invocation;
 
@@ -65,7 +65,7 @@ typedef enum {
 #pragma mark - Stubbing
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-- (BOOL)addStubAction:(id<RGMockStubAction>)action;
+- (void)addStubAction:(id<RGMockStubAction>)action;
 
 
 #pragma mark - Argument Matchers

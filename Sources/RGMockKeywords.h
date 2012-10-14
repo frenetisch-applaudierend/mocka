@@ -12,7 +12,7 @@
 #pragma mark - Verifying
 
 // Safe syntax
-#define mck_verify if ([mck_updatedContext() updateContextMode:RGMockContextModeVerifying])
+#define mck_verify [mck_updatedContext() updateContextMode:RGMockContextModeVerifying];
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
@@ -24,9 +24,9 @@
 #pragma mark - Stubbing
 
 // Safe syntax
-#define mck_whenCalling   if ([mck_updatedContext() updateContextMode:RGMockContextModeStubbing])
+#define mck_whenCalling   [mck_updatedContext() updateContextMode:RGMockContextModeStubbing];
 #define mck_orWhenCalling ; mck_whenCalling
-#define mck_thenItWill    ; if (YES)
+#define mck_thenItWill    ;
 #define mck_andItWill     mck_thenItWill
 
 // Nice syntax

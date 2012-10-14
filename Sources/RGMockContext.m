@@ -95,14 +95,13 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Handling Invocations
 
-- (BOOL)updateContextMode:(RGMockContextMode)newMode {
+- (void)updateContextMode:(RGMockContextMode)newMode {
     _mode = newMode;
     [_nonObjectArgumentMatchers removeAllObjects];
     
     if (newMode == RGMockContextModeVerifying) {
         _verificationHandler = [RGMockDefaultVerificationHandler defaultHandler];
     }
-    return YES;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
@@ -171,10 +170,9 @@ static __weak id _CurrentContext = nil;
     return nil;
 }
 
-- (BOOL)addStubAction:(id<RGMockStubAction>)action {
+- (void)addStubAction:(id<RGMockStubAction>)action {
     [_invocationStubber addActionToLastStub:action];
     [self updateContextMode:RGMockContextModeRecording];
-    return YES;
 }
 
 
