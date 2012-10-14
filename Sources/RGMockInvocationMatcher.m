@@ -15,7 +15,7 @@
 
 #pragma mark - Invocation Matching
 
-- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)argumentMatchers {
+- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers {
     // Check for the most obvious failures
     if (candidate == nil || prototype == nil || candidate.target != prototype.target || candidate.selector != prototype.selector) {
         return NO;

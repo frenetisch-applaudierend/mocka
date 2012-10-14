@@ -25,7 +25,7 @@
 @property (nonatomic, readonly, copy) NSArray *invocationPrototypes;
 @property (nonatomic, readonly, copy) NSArray *actions;
 
-- (void)addInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)argumentMatchers;
+- (void)addInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers;
 - (void)addAction:(id<RGMockStubAction>)action;
 
 
@@ -41,8 +41,8 @@
 @interface RGMockStubInvocationPrototpye : NSObject
 
 @property (nonatomic, readonly) NSInvocation *invocation;
-@property (nonatomic, readonly) NSArray      *nonObjectArgumentMatchers;
+@property (nonatomic, readonly) NSArray      *primitiveArgumentMatchers;
 
-- (id)initWithInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)argumentMatchers;
+- (id)initWithInvocation:(NSInvocation *)invocation primitiveArgumentMatchers:(NSArray *)argumentMatchers;
 
 @end

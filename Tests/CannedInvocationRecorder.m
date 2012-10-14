@@ -19,11 +19,11 @@
     return self;
 }
 
-- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)argMatchers {
+- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers {
     if (self.cannedResult != nil) {
         return self.cannedResult;
     } else {
-        return [super invocationsMatchingPrototype:prototype withNonObjectArgumentMatchers:argMatchers];
+        return [super invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:argMatchers];
     }
 }
 

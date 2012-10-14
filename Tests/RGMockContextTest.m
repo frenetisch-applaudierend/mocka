@@ -59,7 +59,7 @@
 #pragma mark - RGMockVerificationHandler
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withNonObjectArgumentMatchers:(NSArray *)argumentMatchers
+            withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers
                      inInvocationRecorder:(RGMockInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
@@ -365,7 +365,7 @@
     STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
 }
 
-- (void)testThatVerificationInvocationFailsForUnequalNumberOfNonObjectMatchers {
+- (void)testThatVerificationInvocationFailsForUnequalNumberOfPrimitiveMatchers {
     // given
     MockTestObject *object = mock([MockTestObject class]);
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation

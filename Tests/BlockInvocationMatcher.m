@@ -10,7 +10,7 @@
 
 @implementation BlockInvocationMatcher
 
-- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)matchers {
+- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)matchers {
     if (_matcherImplementation != nil) {
         return _matcherImplementation(candidate, prototype, matchers);
     } else {

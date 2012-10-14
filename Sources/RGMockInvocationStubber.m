@@ -34,13 +34,13 @@
 
 #pragma mark - Creating and Updating Stubbings
 
-- (void)recordStubInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)matchers {
+- (void)recordStubInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)matchers {
     NSParameterAssert(invocation != nil);
     
     if (![self isRecordingInvocationGroup]) {
         [self pushNewStubForRecordingInvocationGroup];
     }
-    [[self activeStub] addInvocation:invocation withNonObjectArgumentMatchers:matchers];
+    [[self activeStub] addInvocation:invocation withPrimitiveArgumentMatchers:matchers];
 }
 
 - (void)addActionToLastStub:(id<RGMockStubAction>)action {

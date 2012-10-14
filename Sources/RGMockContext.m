@@ -139,7 +139,7 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    [_invocationStubber recordStubInvocation:invocation withNonObjectArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers];
+    [_invocationStubber recordStubInvocation:invocation withPrimitiveArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers];
     [_argumentMatcherCollection resetAllMatchers];
 }
 
@@ -159,7 +159,7 @@ static __weak id _CurrentContext = nil;
     BOOL satisfied = NO;
     NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                    withNonObjectArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers
+                                                    withPrimitiveArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers
                                                              inInvocationRecorder:_invocationRecorder
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];

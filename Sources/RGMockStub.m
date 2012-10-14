@@ -36,8 +36,8 @@
 
 #pragma mark - Configuration
 
-- (void)addInvocation:(NSInvocation *)invocation withNonObjectArgumentMatchers:(NSArray *)argumentMatchers {
-    [_invocationPrototypes addObject:[[RGMockStubInvocationPrototpye alloc] initWithInvocation:invocation nonObjectArgumentMatchers:argumentMatchers]];
+- (void)addInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers {
+    [_invocationPrototypes addObject:[[RGMockStubInvocationPrototpye alloc] initWithInvocation:invocation primitiveArgumentMatchers:argumentMatchers]];
 }
 
 - (void)addAction:(id<RGMockStubAction>)action {
@@ -57,7 +57,7 @@
 
 - (BOOL)matchesForInvocation:(NSInvocation *)candidate {
     for (RGMockStubInvocationPrototpye *prototype in _invocationPrototypes) {
-        if ([_invocationMatcher invocation:candidate matchesPrototype:prototype.invocation withNonObjectArgumentMatchers:prototype.nonObjectArgumentMatchers]) {
+        if ([_invocationMatcher invocation:candidate matchesPrototype:prototype.invocation withPrimitiveArgumentMatchers:prototype.primitiveArgumentMatchers]) {
             return YES;
         }
     }
@@ -75,10 +75,10 @@
 
 @implementation RGMockStubInvocationPrototpye
 
-- (id)initWithInvocation:(NSInvocation *)invocation nonObjectArgumentMatchers:(NSArray *)argumentMatchers {
+- (id)initWithInvocation:(NSInvocation *)invocation primitiveArgumentMatchers:(NSArray *)argumentMatchers {
     if ((self = [super init])) {
         _invocation = invocation;
-        _nonObjectArgumentMatchers = [argumentMatchers copy];
+        _primitiveArgumentMatchers = [argumentMatchers copy];
     }
     return self;
 }
