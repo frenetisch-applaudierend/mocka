@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'rgmock' target in the 'rgmock' project
+// Prefix header for all source files of the 'mocka' project
 //
 
 #ifdef __OBJC__

@@ -1,14 +1,14 @@
 //
 //  EditableInvocationRecorder.h
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 06.10.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import "RGMockInvocationRecorder.h"
+#import "MCKInvocationRecorder.h"
 
-@interface CannedInvocationRecorder : RGMockInvocationRecorder
+@interface CannedInvocationRecorder : MCKInvocationRecorder
 
 @property (nonatomic, copy) NSIndexSet *cannedResult;
 
