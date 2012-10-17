@@ -16,43 +16,61 @@ static BOOL isClass(id obj);
 
 
 @implementation MCKMockObject {
+    NSArray *_mockedEntities;
     MCKMockingContext *_mockingContext;
-    NSArray       *_mockedEntities;
 }
 
 #pragma mark - Initialization
 
 + (id)mockWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList {
-    return [[self alloc] initWithContext:context classAndProtocols:sourceList];
-}
-
-- (id)initWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList {
-    // Sanity check on the source list
-    if ([sourceList count] == 0) {
-        [context failWithReason:@"Need at least one class or protocol for mocking"];
+    if (![self sourceListIsSane:sourceList context:context]) {
         return nil;
     }
-    
-    BOOL hasClass = NO;
+    return [[self alloc] initWithContext:context mockedEntities:sourceList];
+}
+
++ (BOOL)sourceListIsSane:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    return ([self hasAtLeastOneEntityInSourceList:sourceList context:context]
+            && [self hasOnlyClassAndProtocolObjectsInSourceList:sourceList context:context]
+            && [self mockedClassIsAbsentOrAtFirstPositionInSourceList:sourceList context:context]);
+}
+
++ (BOOL)hasAtLeastOneEntityInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    if ([sourceList count] == 0) {
+        [context failWithReason:@"Need at least one class or protocol for mocking"];
+        return NO;
+    }
+    return YES;
+}
+
++ (BOOL)hasOnlyClassAndProtocolObjectsInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
     for (id object in sourceList) {
         if (!(isProtocol(object) || isClass(object))) {
             [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
-            return nil;
-        }
-        
-        if (isClass(object)) {
-            if (hasClass) {
-                [context failWithReason:@"At most one class can be mocked."];
-                return nil;
-            }
-            hasClass = YES;
+            return NO;
         }
     }
+    return YES;
+}
+
++ (BOOL)mockedClassIsAbsentOrAtFirstPositionInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    NSEnumerator *entityEnumerator = [sourceList objectEnumerator];
+    [entityEnumerator nextObject]; // skip the first object since it's irrelevant if it's a protocol or a class
     
-    // Full initialization
+    // Other entities must not be classes
+    for (id object in entityEnumerator) {
+        if (isClass(object)) {
+            [context failWithReason:@"If you mock a class it must be at the first position"];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (id)initWithContext:(MCKMockingContext *)context mockedEntities:(NSArray *)mockedEntities {
     if ((self = [super init])) {
         _mockingContext = context;
-        _mockedEntities = [sourceList copy];
+        _mockedEntities = [mockedEntities copy];
     }
     return self;
 }
@@ -136,6 +154,10 @@ static BOOL isClass(id obj);
 
 
 #pragma mark - Debugging
+
+- (NSArray *)mck_mockedEntites {
+    return [_mockedEntities copy];
+}
 
 - (NSString *)descriptionWithLocale:(NSLocale *)locale {
     return [NSString stringWithFormat:@"<mock{%@%@}: %p>", [self mck_mockedClassName], [self mck_mockedProtocolList], self];

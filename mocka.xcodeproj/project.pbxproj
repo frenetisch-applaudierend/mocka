@@ -101,6 +101,8 @@
 		28ECE8A415BB7AAB00F15F12 /* MCKVerifyNoInteractions.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A215BB7AAA00F15F12 /* MCKVerifyNoInteractions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28ECE8A515BB7AAB00F15F12 /* MCKVerifyNoInteractions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE8A315BB7AAA00F15F12 /* MCKVerifyNoInteractions.m */; };
 		28ECE8A815BBF2FD00F15F12 /* MCKArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		365B0464162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */; };
+		365B0465162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -263,6 +265,8 @@
 		28ECE8A315BB7AAA00F15F12 /* MCKVerifyNoInteractions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerifyNoInteractions.m; sourceTree = "<group>"; };
 		28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcher.h; sourceTree = "<group>"; };
 		364701631604CFA400B74E8B /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
+		365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
+		365B0466162EBEDF00AF6185 /* ExamplesCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mocka-osx-tests-Info.plist"; sourceTree = "<group>"; };
@@ -531,6 +535,7 @@
 		28D7B3AD14D74DE400D494FD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				365B0460162EBE2E00AF6185 /* Examples */,
 				28575DD915B1D4C30077ACFC /* Functional and Integration Tests */,
 				2832CC9614D74F3900BE74C2 /* Unit Tests */,
 				2857B56D15B23FCE00D64D27 /* Testing Utilities */,
@@ -569,6 +574,15 @@
 				364701631604CFA400B74E8B /* Readme.md */,
 			);
 			name = Documentation;
+			sourceTree = "<group>";
+		};
+		365B0460162EBE2E00AF6185 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				365B0466162EBEDF00AF6185 /* ExamplesCommon.h */,
+				365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */,
+			);
+			name = Examples;
 			sourceTree = "<group>";
 		};
 		36A07E67161F5AF8006153C7 /* Failure Handling */ = {
@@ -903,6 +917,7 @@
 				2822C33E16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
 				2822C349162089860031D92C /* MCKInvocationStubberTest.m in Sources */,
 				2899C383162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
+				365B0464162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,6 +976,7 @@
 				2822C33F16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
 				2822C34A162089860031D92C /* MCKInvocationStubberTest.m in Sources */,
 				2899C384162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
+				365B0465162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1212,6 +1228,7 @@
 				28557253162B2AD100384DF9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "mocka" */ = {
 			isa = XCConfigurationList;

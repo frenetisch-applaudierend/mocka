@@ -7,17 +7,13 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "Mocka.h"
-
-#import "TestExceptionUtils.h"
+#import "ExamplesCommon.h"
 
 
 #define inOrder if (YES)
 #define inStrictOrder if (YES)
 #define matchInt(x) anyInt()
 
-#define ThisWillFail(...) AssertFails(__VA_ARGS__)
-static inline void IgnoreUnused(id var, ...) { }
 
 @interface NSObject (MCKSyntaxExamples)
 - (void)fooWithBar:(id)bar baz:(float)baz;
@@ -30,8 +26,10 @@ static inline void IgnoreUnused(id var, ...) { }
 
 @implementation MockaSyntaxExamples
 
+#pragma mark - Setup
+
 - (void)setUp {
-    [mck_updatedContext() setFailureHandler:[[MCKExceptionFailureHandler alloc] init]]; // Enable the ThisShouldFail() macro (you can ignore this)
+    SetupExampleErrorHandler();
 }
 
 
@@ -56,8 +54,8 @@ static inline void IgnoreUnused(id var, ...) { }
     });
     
     // for single class / protocol there are shorthands
-    id mockForJustOneClass = mockClass(NSString);
-    id mockForJustOneProtocol = mockProtocol(NSCoding);
+    id mockForJustOneClass = mockForClass(NSString);
+    id mockForJustOneProtocol = mockForProtocol(NSCoding);
     
     IgnoreUnused(mockForOperationQueue, mockForNSCoding, combinedMock, manyProtocols, mockForJustOneClass, mockForJustOneProtocol);
 }
