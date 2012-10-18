@@ -70,6 +70,8 @@ To spy on an existing object you use `spy(...)`. You pass it an existing object 
 
 Now you can use the mock (or the original object) in any way you could use any other mock, including stubbing and verifying. Note that you cannot spy on core foundation bridging classes (all classes that start with `__NSCF`).
 
+To see some examples for creating mocks see `Examples/ExamplesCreatingMocks.m`.
+
 ## Verifying
 To verify that a certain call was made use the `verify` keyword.
 
@@ -88,6 +90,8 @@ By default `verify` will succeed if one or more matching calls were made, but yo
 
 	// only succeed if there were exactly 3 calls to -addObject:
 	verify exactly(3) [arrayMock addObject:@"Foo"]
+
+More examples can be found in `Examples/ExamplesVerify.m`.
 
 ## Stubbing
 By default when a method is called on a mock it will do nothing and simply return the default value (`nil` for objects, `0` for integers, etc). Stubbing allows you to specify actions that should be executed when a certain method on a mock is called. To stub a method use the `whenCalling ... thenDo` keywords.
@@ -111,6 +115,9 @@ You can group multiple calls to have the same actions…
 
 …or both of course.
 
+Tip: Add a snippet to the Xcode snippet library for `whenCalling ... thenDo ...`
+
+Examples about stubbing are in `Examples/ExamplesStub.m`.
 
 # Alternatives to Mocka
 If you don’t like my implementation or you’re just looking for alternatives, here are a few other mocking libraries I’ve used before. Maybe one of those suits your needs:
