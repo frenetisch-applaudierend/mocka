@@ -27,7 +27,7 @@
 }
 
 
-#pragma mark - Basic verification
+#pragma mark - Basic Verification
 
 - (void)testVerifySimpleMethodCall {
     // you first use the mock  then verify that the desired method was called
@@ -76,6 +76,27 @@
     
     ThisWillFail({
         verify [mockArray removeAllObjects]; // multiple verify calls will also expect multiple invocations
+    });
+}
+
+
+#pragma mark - Verification with Arguments
+
+- (void)testVerifyWillMatchOnEqualArguments {
+    // when you verify a method that has arguments verify will match equal arguments (isEqual: is used to compare)
+    
+    [mockArray addObject:@"Hello World"];
+    
+    verify [mockArray addObject:@"Hello World"];
+}
+
+- (void)testVerifyWillFailForUnequalArguments {
+    // in contrast to above, if the arguments are not equal verify will not consider it a match
+    
+    [mockArray addObject:@"Hello World"];
+    
+    ThisWillFail({
+        verify [mockArray addObject:@"Goodbye"];
     });
 }
 
