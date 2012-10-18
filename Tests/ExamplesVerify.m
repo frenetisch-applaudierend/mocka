@@ -100,4 +100,20 @@
     });
 }
 
+- (void)testYouCanUseArgumentMatchersInVerify {
+    // instead of specifiying an exact value in verify you can also use argument matchers
+    
+    [mockArray addObject:@"Hello World"];
+    
+    verify [mockArray addObject:anyObject()];
+}
+
+- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArguments {
+    // matchers are also available for primitive arguments
+    
+    [mockArray objectAtIndex:10];
+    
+    verify [mockArray objectAtIndex:anyInt()];
+}
+
 @end
