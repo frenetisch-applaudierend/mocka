@@ -103,6 +103,8 @@
 		28ECE8A815BBF2FD00F15F12 /* MCKArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		365B0464162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */; };
 		365B0465162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */; };
+		368F24F1162FD244005B0D6E /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 368F24F0162FD244005B0D6E /* ExamplesVerify.m */; };
+		368F24F2162FD244005B0D6E /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 368F24F0162FD244005B0D6E /* ExamplesVerify.m */; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -267,6 +269,7 @@
 		364701631604CFA400B74E8B /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
 		365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		365B0466162EBEDF00AF6185 /* ExamplesCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
+		368F24F0162FD244005B0D6E /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
 		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mocka-osx-tests-Info.plist"; sourceTree = "<group>"; };
@@ -408,7 +411,6 @@
 		28575DD915B1D4C30077ACFC /* Functional and Integration Tests */ = {
 			isa = PBXGroup;
 			children = (
-				2872D87815AE0FB50017EB00 /* MockaSyntaxExamples.m */,
 				28575DD715B1D4380077ACFC /* MCKMockObjectIntegrationTest.m */,
 				28ECE87F15BB38C000F15F12 /* MCKSpyIntegrationTest.m */,
 			);
@@ -581,6 +583,8 @@
 			children = (
 				365B0466162EBEDF00AF6185 /* ExamplesCommon.h */,
 				365B0463162EBE5700AF6185 /* ExamplesCreatingMocks.m */,
+				368F24F0162FD244005B0D6E /* ExamplesVerify.m */,
+				2872D87815AE0FB50017EB00 /* MockaSyntaxExamples.m */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -918,6 +922,7 @@
 				2822C349162089860031D92C /* MCKInvocationStubberTest.m in Sources */,
 				2899C383162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
 				365B0464162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */,
+				368F24F1162FD244005B0D6E /* ExamplesVerify.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -977,6 +982,7 @@
 				2822C34A162089860031D92C /* MCKInvocationStubberTest.m in Sources */,
 				2899C384162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
 				365B0465162EBE5700AF6185 /* ExamplesCreatingMocks.m in Sources */,
+				368F24F2162FD244005B0D6E /* ExamplesVerify.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
