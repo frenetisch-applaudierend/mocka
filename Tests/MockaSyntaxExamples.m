@@ -85,21 +85,6 @@
     STAssertEqualObjects(array[1234], @"Foo", @"anyInt() did not stub index 1234");
 }
 
-- (void)testArgumentMatchersForVerifying {
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // when
-    [array objectAtIndex:10];
-    [array removeObjectAtIndex:NSNotFound];
-    [array replaceObjectAtIndex:1234 withObject:@"New Object"];
-    
-    // then
-    verify [array objectAtIndex:anyInt()];
-    verify [array removeObjectAtIndex:anyInt()];
-    verify [array replaceObjectAtIndex:anyInt() withObject:anyObject()];
-}
-
 - (void)testArgumentMatchersMustBeUsedForAllPrimitivesInCall {
     // Due to technical limitations, non-object arguments must either be ALL matchers or NO matchers
     // you cannot mix matchers and non-matcher arguments
