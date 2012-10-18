@@ -23,7 +23,7 @@
 }
 
 
-#pragma mark - Creating Mocks for a Class
+#pragma mark - Creating Mocks For Classes
 
 - (void)testCreatingMockForClass {
     // to create a mock for a given class, pass the Class to the mock(...) function
@@ -41,7 +41,7 @@
 }
 
 
-#pragma mark - Creating Mocks for Protocols
+#pragma mark - Creating Mocks For Protocols
 
 - (void)testCreatingMockForSingleProtocol {
     // to create a mock for a given protocol, pass the @protocol(...) to the mock(...) function
@@ -66,7 +66,7 @@
 }
 
 
-#pragma mark - Creating Mocks for Class and Protocol
+#pragma mark - Creating Mocks For Class And Protocol
 
 - (void)testCreatingMockForClassAndProtocol {
     // it's possible to create mocks which mock a class and a number of protocols
@@ -97,7 +97,7 @@
 }
 
 
-#pragma mark - Things that won't work
+#pragma mark - Things That Won't Work
 
 - (void)testCreatingAnEmptyMockIsNotPossible {
     // it's not legal to create an empty mock and in fact

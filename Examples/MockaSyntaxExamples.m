@@ -174,27 +174,6 @@
     });
 }
 
-- (void)testVerifyPopsInvocationsFromStack {
-    // Invocations are pushed on a stack while executing, and popped from the stack during verfiy
-    
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // when
-    [array addObject:@"Foobar"];
-    [array addObject:@"Foobar"];
-    
-    // then
-    
-    // normal verification does not care if there are more calls than verified (it's in effect an atLeast(1))
-    // it will fail if there are more verifys than calls though
-    verify [array addObject:@"Foobar"]; // as long as there are pushed invocations succeed
-    verify [array addObject:@"Foobar"]; // each verification pops the first matching invocation
-    ThisWillFail({
-        verify [array addObject:@"Foobar"]; // verify will fail if no matching invocation is on the stack
-    });
-}
-
 
 #pragma mark - Verification in order
 
@@ -244,45 +223,6 @@
             verify [array addObject:@"Fourth"]; // not ok - not in sequence relative to all recorded calls
         });
     };
-}
-
-
-#pragma mark - Making sure interaction(s) never happened on mock
-
-- (void)testVerifyNoInteractionsOn {
-    // given
-    NSMutableArray *arrayOne = mock([NSMutableArray class]);
-    NSMutableArray *arrayTwo = mock([NSMutableArray class]);
-    NSMutableArray *arrayThree = mock([NSMutableArray class]);
-    
-    // when
-    [arrayThree removeAllObjects];
-    
-    // then
-    verify noInteractionsOn(arrayOne);
-    verify noInteractionsOn(arrayTwo);
-    ThisWillFail({
-        verify noInteractionsOn(arrayThree);
-    });
-}
-
-- (void)testVerifyNoMoreInteractionsOn {
-    // given
-    NSMutableArray *arrayOne = mock([NSMutableArray class]);
-    NSMutableArray *arrayTwo = mock([NSMutableArray class]);
-    
-    // when
-    [arrayOne addObject:@"Foo"];
-    [arrayTwo addObject:@"Foo"];
-    [arrayTwo removeAllObjects];
-    
-    // then
-    verify [arrayOne addObject:@"Foo"];
-    verify [arrayTwo addObject:@"Foo"];
-    verify noMoreInteractionsOn(arrayOne);
-    ThisWillFail({
-        verify noMoreInteractionsOn(arrayTwo);
-    });
 }
 
 @end

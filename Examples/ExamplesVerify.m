@@ -80,7 +80,7 @@
 }
 
 
-#pragma mark - Verification with Arguments
+#pragma mark - Verification With Arguments
 
 - (void)testVerifyWillMatchOnEqualArguments {
     // when you verify a method that has arguments verify will match equal arguments (isEqual: is used to compare)
@@ -136,6 +136,32 @@
     ThisWillFail({
         verify [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
     });
+}
+
+
+#pragma mark - Verify That No Actions Were Executed
+
+- (void)testVerifyingNoInteractionsFailsIfAnyUnverifiedCallsWereMade {
+    // using verify noInteractionsOn() or verify noMoreInteractionsOn() you can
+    // check if no unverified invocations were done on the specified mock
+    
+    verify noInteractionsOn(mockArray); // no interactions made, all is fine
+    
+    [mockArray count];
+    ThisWillFail({
+        verify noInteractionsOn(mockArray); // [mockArray count] is an unverified interaction
+    });
+}
+
+- (void)testVerifyingNoInteractionsDoesNotFailForVerifiedInteractions {
+    // verified interactions are not checked with noInteractionsOn() / noMoreInteractionsOn()
+    // note: the two variants are synonyms, but noMoreInteractionsOn() reads better when
+    //       previous verify calls were made
+    
+    [mockArray count];
+    
+    verify [mockArray count];
+    verify noMoreInteractionsOn(mockArray); // [mockArray count] was verified
 }
 
 @end
