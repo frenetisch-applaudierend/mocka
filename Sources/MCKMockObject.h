@@ -17,6 +17,8 @@
 #pragma mark - Initialization
 
 + (id)mockWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList;
+- (id)initWithContext:(MCKMockingContext *)context mockedClass:(Class)mockedClass mockedProtocols:(NSArray *)mockedProtocols;
+
 
 #pragma mark - Getting information about the mock
 
