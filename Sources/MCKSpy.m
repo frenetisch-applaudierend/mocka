@@ -24,6 +24,7 @@ static SEL mck_backupSelectorForSelector(SEL selector);
 static Class spy_class(id self, SEL _cmd);
 static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation);
 static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale);
+static NSString* spy_description(id self, SEL _cmd);
 
 @interface NSObject (MCKUnhandledMethod)
 - (void)mck_methodThatDoesNotExist;
@@ -62,7 +63,13 @@ static void mck_convertObjectToSpy(id object, MCKMockingContext *context) {
         spyClass = objc_allocateClassPair(originalClass, spyClassName, 0);
         overrideMethod(spyClass, @selector(class),                  spy_class);
         overrideMethod(spyClass, @selector(forwardInvocation:),     spy_forwardInvocation);
-        overrideMethod(spyClass, @selector(descriptionWithLocale:), spy_descriptionWithLocale);
+        
+        if ([object respondsToSelector:@selector(descriptionWithLocale:)]) {
+            overrideMethod(spyClass, @selector(descriptionWithLocale:), spy_descriptionWithLocale);
+        } else {
+            overrideMethod(spyClass, @selector(description), spy_description);
+        }
+        
         mck_overrideMethodsForClass(originalClass, spyClass, context);
         objc_registerClassPair(spyClass);
     }
@@ -151,5 +158,9 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
 }
 
 static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale) {
+    return spy_description(self, _cmd);
+}
+
+static NSString* spy_description(id self, SEL _cmd) {
     return [NSString stringWithFormat:@"<spy{%@}: %p>", class_getSuperclass(object_getClass(self)), self];
 }
