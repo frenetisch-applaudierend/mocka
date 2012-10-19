@@ -64,4 +64,44 @@
     STAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20)), @"Wrong return value");
 }
 
+
+#pragma mark - Stubbing Exceptions
+
+- (void)testThrowingPreconfiguredExceptionFromMockedMethod {
+    // you can throw a preconfigured exception in a stubbed method
+    
+    NSException *preconfiguredException = [NSException exceptionWithName:NSRangeException reason:@"Index 1 out of bounds" userInfo:nil];
+    whenCalling [mockArray objectAtIndex:1] thenDo throwException(preconfiguredException);
+    
+    @try {
+        [mockArray objectAtIndex:1];
+        STFail(@"Should have thrown");
+    } @catch (id exception) {
+        STAssertEqualObjects(exception, preconfiguredException, @"Wrong exception was thrown");
+    }
+}
+
+- (void)testThrowingCreatedExceptionFromMockedMethod {
+    // you can throw also a new exception in a stubbed method
+    
+    whenCalling [mockArray objectAtIndex:1] thenDo throwNewException(NSRangeException, @"Index 1 out of bounds", nil);
+    
+    STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+}
+
+
+#pragma mark - Calling Arbitrary Code From Stubs
+
+- (void)testCallingBlockFromStubbedMethod {
+    // you can provide a block which gets the NSInvocation passed which you can manipulate at will
+    
+    whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
+        NSNumber *returnValue = @([inv unsignedIntegerArgumentAtEffectiveIndex:0]);
+        [inv setReturnValue:&returnValue];
+    });
+    
+    STAssertEqualObjects([mockArray objectAtIndex:0], @0, @"Wrong return value generated");
+    STAssertEqualObjects([mockArray objectAtIndex:11], @11, @"Wrong return value generated");
+}
+
 @end

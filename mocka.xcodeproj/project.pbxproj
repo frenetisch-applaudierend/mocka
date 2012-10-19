@@ -174,6 +174,10 @@
 		36A07E66161F5AF3006153C7 /* MCKExceptionFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A07E62161F5AF3006153C7 /* MCKExceptionFailureHandler.m */; };
 		36A07E6B161F5BED006153C7 /* MCKExceptionFailureHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A07E68161F5BE9006153C7 /* MCKExceptionFailureHandlerTest.m */; };
 		36A07E6C161F5BEE006153C7 /* MCKExceptionFailureHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A07E68161F5BE9006153C7 /* MCKExceptionFailureHandlerTest.m */; };
+		36D69C9D1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 36D69C9B1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		36D69C9E1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 36D69C9B1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		36D69C9F1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D69C9C1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m */; };
+		36D69CA01631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 36D69C9C1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -284,6 +288,8 @@
 		36A07E62161F5AF3006153C7 /* MCKExceptionFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExceptionFailureHandler.m; sourceTree = "<group>"; };
 		36A07E68161F5BE9006153C7 /* MCKExceptionFailureHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExceptionFailureHandlerTest.m; sourceTree = "<group>"; };
 		36A07E71161F637A006153C7 /* TestExceptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestExceptionUtils.h; sourceTree = "<group>"; };
+		36D69C9B1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+MCKArgumentHandling.h"; sourceTree = "<group>"; };
+		36D69C9C1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+MCKArgumentHandling.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -546,6 +552,7 @@
 				28575E1915B205170077ACFC /* Verification Handlers */,
 				28ECE8A615BBF19500F15F12 /* Invocation and Argument Matching */,
 				36A07E67161F5AF8006153C7 /* Failure Handling */,
+				36D69C99163123610004C6C1 /* Utilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -605,6 +612,15 @@
 			name = "Failure Handling";
 			sourceTree = "<group>";
 		};
+		36D69C99163123610004C6C1 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				36D69C9B1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h */,
+				36D69C9C1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -637,6 +653,7 @@
 				2822C32A162036BD0031D92C /* MCKInvocationRecorder.h in Headers */,
 				2822C342162076BF0031D92C /* MCKInvocationStubber.h in Headers */,
 				2899C365162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */,
+				36D69C9D1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +686,7 @@
 				2822C32B162036BD0031D92C /* MCKInvocationRecorder.h in Headers */,
 				2822C343162076BF0031D92C /* MCKInvocationStubber.h in Headers */,
 				2899C366162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */,
+				36D69C9E1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +911,7 @@
 				2822C32C162036BD0031D92C /* MCKInvocationRecorder.m in Sources */,
 				2822C344162076BF0031D92C /* MCKInvocationStubber.m in Sources */,
 				2899C367162AD75900550CFB /* MCKArgumentMatcherCollection.m in Sources */,
+				36D69C9F1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -954,6 +973,7 @@
 				2822C32D162036BD0031D92C /* MCKInvocationRecorder.m in Sources */,
 				2822C345162076BF0031D92C /* MCKInvocationStubber.m in Sources */,
 				2899C368162AD75900550CFB /* MCKArgumentMatcherCollection.m in Sources */,
+				36D69CA01631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1114,6 +1134,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				INFOPLIST_FILE = "Tests/mocka-ios-tests-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1129,6 +1150,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sources/mocka-Prefix.pch";
 				INFOPLIST_FILE = "Tests/mocka-ios-tests-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1200,6 +1222,7 @@
 				INFOPLIST_FILE = "Tests/mocka-osx-tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = octest;
@@ -1224,6 +1247,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "Tests/mocka-osx-tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = octest;
