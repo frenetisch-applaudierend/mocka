@@ -95,13 +95,37 @@
 - (void)testCallingBlockFromStubbedMethod {
     // you can provide a block which gets the NSInvocation passed which you can manipulate at will
     
-    whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
+    whenCalling [mockArray objectAtIndex:11] thenDo performBlock(^(NSInvocation *inv) {
         NSNumber *returnValue = @([inv unsignedIntegerArgumentAtEffectiveIndex:0]);
         [inv setReturnValue:&returnValue];
     });
     
-    STAssertEqualObjects([mockArray objectAtIndex:0], @0, @"Wrong return value generated");
     STAssertEqualObjects([mockArray objectAtIndex:11], @11, @"Wrong return value generated");
+}
+
+
+#pragma mark - Effective Stubbing
+
+- (void)testStubbingMultipleCallsWithTheSameActionsBracketVariant {
+    // you can have multiple calls stub the same action by putting them in brackets after when calling
+    
+    whenCalling {
+        [mockArray objectAtIndex:1];
+        [mockArray removeObjectAtIndex:1];
+    } thenDo throwNewException(NSRangeException, @"Index out of bounds", nil);
+    
+    STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    STAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+}
+
+- (void)testStubbingMultipleCallsWithTheSameActionsOrCallingVariant {
+    // you can have multiple calls stub the same action by combining them using orCalling
+    
+    whenCalling [mockArray objectAtIndex:1] orCalling [mockArray removeObjectAtIndex:1]
+    thenDo throwNewException(NSRangeException, @"Index out of bounds", nil);
+    
+    STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    STAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
 }
 
 @end

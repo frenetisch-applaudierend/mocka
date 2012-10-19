@@ -33,45 +33,6 @@
 }
 
 
-#pragma mark - How about some stubbing?
-
-- (void)testStubbingSyntaxSingleLine {
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // returnValue() takes objects, primitives or pointer types, use returnStruct() for struct types performBlock() allows you to execute arbitrary code. 
-    whenCalling [array count]; thenDo performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); }); andDo returnValue(10);
-    
-    // note that the semicolons (;) between the calls/actions are not necessary but they will help with syntax completion in Xcode
-    whenCalling [array objectAtIndex:1] thenDo throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
-    whenCalling [array objectAtIndex:1] thenDo throwNewException(NSRangeException, @"Index out of bounds", nil); // both lines are equivalent
-    
-    // then
-    STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
-    STAssertThrowsSpecificNamed([array objectAtIndex:1], NSException, NSRangeException, @"[array objectAtIndex:1] stub does not work");
-}
-
-- (void)testStubbingSyntaxCompound {
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // you can take multiple calls together when stubbing like this
-    whenCalling [array objectAtIndex:0]; orCalling [array objectAtIndex:2]; thenDo returnValue(@"Foobar");
-    
-    // alternatively, placing more than one call in a whenCalling { ... } applies the actions also to all of those calls
-    whenCalling {
-        [array objectAtIndex:1];
-        [array removeObjectAtIndex:1];
-    }
-    thenDo performBlock(^(NSInvocation *inv) { NSLog(@"%@", [self description]); });
-    andDo throwException([NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil]);
-    
-    // then
-    STAssertThrowsSpecificNamed([array objectAtIndex:1], NSException, NSRangeException, @"[array objectAtIndex:1] stub does not work");
-    STAssertThrowsSpecificNamed([array removeObjectAtIndex:1], NSException, NSRangeException, @"[array removeObjectAtIndex:1] stub does not work");
-}
-
-
 #pragma mark - Argument matchers
 
 - (void)testArgumentMatchersForStubbing {
