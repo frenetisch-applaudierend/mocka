@@ -236,4 +236,16 @@
     });
 }
 
+
+#pragma mark - Given When Then Style Stubbing
+
+- (void)testCanAlsoUseGivenCallToAsKeyword {
+    // if you prefer stubbing using a given... syntax you can use givenCallTo instead of whenCalling
+    // for multiple stubbings you can use orCallTo instead of orCalling
+    
+    givenCallTo [mockArray count] thenDo returnValue(10);
+    
+    STAssertEquals([mockArray count], (NSUInteger)10, @"Wrong return value");
+}
+
 @end
