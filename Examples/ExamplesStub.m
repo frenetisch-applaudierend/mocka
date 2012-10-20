@@ -104,7 +104,7 @@
 }
 
 
-#pragma mark - Effective Stubbing
+#pragma mark - Stubbing Multiple Calls And Actions
 
 - (void)testStubbingMultipleCallsWithTheSameActionsBracketVariant {
     // you can have multiple calls stub the same action by putting them in brackets after when calling
@@ -126,6 +126,114 @@
     
     STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
     STAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+}
+
+- (void)testStubbingMultipleActionsForTheSameCallBracketVariant {
+    // you can also have multiple actions on the same call by putting them in brackets after thenDo
+    
+    __block BOOL executed = NO;
+    whenCalling [mockArray count] thenDo {
+        performBlock(^(NSInvocation *inv) {
+            // do something useful here
+            executed = YES;
+        });
+        returnValue(10);
+    }
+    
+    NSUInteger result = [mockArray count];
+    STAssertEquals(result, (NSUInteger)10, @"Wrong result returned");
+    STAssertTrue(executed, @"Block was not executed");
+}
+
+- (void)testStubbingMultipleActionsForTheSameCallAndDoVariant {
+    // you can also have multiple actions on the same call by separating them using andDo
+    
+    __block BOOL executed = NO;
+    whenCalling [mockArray count] thenDo returnValue(10) andDo performBlock(^(NSInvocation *inv) {
+        // do something useful here
+        executed = YES;
+    });
+    
+    NSUInteger result = [mockArray count];
+    STAssertEquals(result, (NSUInteger)10, @"Wrong result returned");
+    STAssertTrue(executed, @"Block was not executed");
+}
+
+- (void)testThatCombinationIsAlsoPossible {
+    // of course multiple actions can be applied to multiple stubs
+    
+    __block NSUInteger executionCount = 0;
+    whenCalling {
+        [mockArray objectAtIndex:0];
+        [mockArray objectAtIndexedSubscript:0];
+    } thenDo {
+        performBlock(^(NSInvocation *inv) {
+            executionCount++;
+        });
+        returnValue(@"Hello World");
+    }
+    
+    id value1 = [mockArray objectAtIndex:0];
+    STAssertEqualObjects(value1, @"Hello World", @"Wrong return value");
+    STAssertEquals(executionCount, (NSUInteger)1, @"Wrong execution count");
+    
+    id value2 = [mockArray objectAtIndexedSubscript:0];
+    STAssertEqualObjects(value2, @"Hello World", @"Wrong return value");
+    STAssertEquals(executionCount, (NSUInteger)2, @"Wrong execution count");
+}
+
+
+#pragma mark - Using Argument Matchers When Stubbing
+
+- (void)testYouCanUseArgumentMatchersWhenStubbing {
+    // instead of specifiying an exact value in whenCalling you can also use argument matchers
+    
+    
+    __block id addedObject = nil;
+    whenCalling [mockArray addObject:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
+        addedObject = [inv objectArgumentAtEffectiveIndex:0];
+    });
+    
+    [mockArray addObject:@"Hello World"];
+    
+    STAssertEqualObjects(addedObject, @"Hello World", @"Wrong object added");
+}
+
+- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArguments {
+    // matchers are also available for primitive arguments
+    
+    whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
+        NSUInteger index = [inv integerArgumentAtEffectiveIndex:0];
+        [inv setObjectReturnValue:@(index)];
+    });
+    
+    STAssertEqualObjects([mockArray objectAtIndex:10], @10, @"Wrong return value");
+}
+
+- (void)testYouCanMixArgumentsAndMatchersForObjects {
+    // for object arguments you can just mix normal arguments and matchers
+    
+    __block NSArray *insertedObjects = nil;
+    __block NSIndexSet *insertedIndexes = nil;
+    whenCalling [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
+        insertedObjects = [inv objectArgumentAtEffectiveIndex:0];
+        insertedIndexes = [inv objectArgumentAtEffectiveIndex:1];
+    });
+    
+    [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
+    
+    STAssertEqualObjects(insertedObjects, (@[ @"foo" ]), @"Wrong inserted objects");
+    STAssertEqualObjects(insertedIndexes, [NSIndexSet indexSetWithIndex:3], @"Wrong inserted indexes");
+}
+
+- (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
+    // for primitive arguments you must either use argument matchers only or no matchers at all
+    
+    whenCalling [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20] thenDo performBlock(nil);             // ok
+    whenCalling [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()] thenDo performBlock(nil); // ok
+    ThisWillFail({
+        whenCalling [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()] thenDo performBlock(nil);   // not ok
+    });
 }
 
 @end

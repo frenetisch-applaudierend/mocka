@@ -35,38 +35,6 @@
 
 #pragma mark - Argument matchers
 
-- (void)testArgumentMatchersForStubbing {
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    whenCalling [array objectAtIndexedSubscript:anyInt()] thenDo returnValue(@"Foo");
-    
-    // then
-    STAssertEqualObjects(array[0], @"Foo", @"anyInt() did not stub index 0");
-    STAssertEqualObjects(array[NSNotFound], @"Foo", @"anyInt() did not stub index NSNotFound");
-    STAssertEqualObjects(array[1234], @"Foo", @"anyInt() did not stub index 1234");
-}
-
-- (void)testArgumentMatchersMustBeUsedForAllPrimitivesInCall {
-    // Due to technical limitations, non-object arguments must either be ALL matchers or NO matchers
-    // you cannot mix matchers and non-matcher arguments
-    
-    // given
-    NSMutableArray *array = mock([NSMutableArray class]);
-    
-    // when
-    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
-    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
-    [array exchangeObjectAtIndex:10 withObjectAtIndex:20];
-    
-    // then
-    verify [array exchangeObjectAtIndex:10 withObjectAtIndex:20];                 // OK, no matchers used
-    verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()];     // OK, all arguments are matchers
-    ThisWillFail({
-        verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:20];       // ERROR, mix of arguments and matchers
-    });
-    verify [array exchangeObjectAtIndex:anyInt() withObjectAtIndex:matchInt(20)]; // Use match<Type>(x) to match exact arguments
-}
-
 - (void)testArgumentMatchersForOutParameters {
     // given
     NSFileManager *fileManager = mock([NSFileManager class]);

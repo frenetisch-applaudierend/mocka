@@ -19,6 +19,10 @@
 
 #pragma mark - Retrieving Arguments
 
+- (id)mck_objectArgumentAtEffectiveIndex:(NSUInteger)index {
+    ReturnArgumentAtEffectiveIndex(id, index);
+}
+
 - (NSInteger)mck_integerArgumentAtEffectiveIndex:(NSUInteger)index {
     ReturnArgumentAtEffectiveIndex(NSInteger, index);
 }
@@ -28,18 +32,22 @@
 }
 
 
+#pragma mark - Setting Return Value
+
+- (void)mck_setObjectReturnValue:(id)value {
+    [self setReturnValue:&value];
+}
+
+
 #pragma mark - Nice Syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 
+- (id)objectArgumentAtEffectiveIndex:(NSUInteger)index { return [self mck_objectArgumentAtEffectiveIndex:index]; }
 - (NSInteger)integerArgumentAtEffectiveIndex:(NSUInteger)index { return [self mck_integerArgumentAtEffectiveIndex:index]; }
 - (NSUInteger)unsignedIntegerArgumentAtEffectiveIndex:(NSUInteger)index { return [self mck_unsignedIntegerArgumentAtEffectiveIndex:index]; }
 
+- (void)setObjectReturnValue:(id)value { [self mck_setObjectReturnValue:value]; }
+
 #endif
 
-@end
-
-
-@interface NSInvocation_MCKArgumentHandling_LinkerBug : NSObject
-@end
-@implementation NSInvocation_MCKArgumentHandling_LinkerBug
 @end
