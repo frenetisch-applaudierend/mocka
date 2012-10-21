@@ -93,4 +93,11 @@ NSArray* TestObjectCalledSelectors(TestObject *object) {
     return NSMakeRange(10, 99);
 }
 
+#pragma mark - Methods With Out Parameters
+
+- (BOOL)boolMethodCallWithError:(NSError **)error {
+    RegisterCall();
+    return YES;
+}
+
 @end

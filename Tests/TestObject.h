@@ -54,4 +54,9 @@ NSArray* TestObjectCalledSelectors(TestObject *object);
 
 - (NSRange)rangeMethodCallWithoutParameters;
 
+
+#pragma mark - Methods With Out Parameters
+
+- (BOOL)boolMethodCallWithError:(NSError **)error;
+
 @end
