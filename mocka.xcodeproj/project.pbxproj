@@ -28,8 +28,6 @@
 		281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760B163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
 		281F760C163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
-		281F760D163076C300A10434 /* MockaSyntaxExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7608163076C300A10434 /* MockaSyntaxExamples.m */; };
-		281F760E163076C300A10434 /* MockaSyntaxExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7608163076C300A10434 /* MockaSyntaxExamples.m */; };
 		281F76101630924400A10434 /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F760F1630924400A10434 /* ExamplesStub.m */; };
 		281F76111630924400A10434 /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F760F1630924400A10434 /* ExamplesStub.m */; };
 		2822C32A162036BD0031D92C /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationRecorder.h */; };
@@ -208,7 +206,6 @@
 		281F7605163076C300A10434 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		281F7606163076C300A10434 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		281F7607163076C300A10434 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
-		281F7608163076C300A10434 /* MockaSyntaxExamples.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockaSyntaxExamples.m; sourceTree = "<group>"; };
 		281F760F1630924400A10434 /* ExamplesStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesStub.m; sourceTree = "<group>"; };
 		2822C328162036BD0031D92C /* MCKInvocationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationRecorder.h; sourceTree = "<group>"; };
 		2822C329162036BD0031D92C /* MCKInvocationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationRecorder.m; sourceTree = "<group>"; };
@@ -346,7 +343,6 @@
 				281F7606163076C300A10434 /* ExamplesCreatingMocks.m */,
 				281F7607163076C300A10434 /* ExamplesVerify.m */,
 				281F760F1630924400A10434 /* ExamplesStub.m */,
-				281F7608163076C300A10434 /* MockaSyntaxExamples.m */,
 				281F7605163076C300A10434 /* ExamplesCommon.h */,
 			);
 			path = Examples;
@@ -952,7 +948,6 @@
 				2899C383162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
 				281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */,
 				281F760B163076C300A10434 /* ExamplesVerify.m in Sources */,
-				281F760D163076C300A10434 /* MockaSyntaxExamples.m in Sources */,
 				281F76101630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 			);
@@ -1016,7 +1011,6 @@
 				2899C384162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
 				281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */,
 				281F760C163076C300A10434 /* ExamplesVerify.m in Sources */,
-				281F760E163076C300A10434 /* MockaSyntaxExamples.m in Sources */,
 				281F76111630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 			);

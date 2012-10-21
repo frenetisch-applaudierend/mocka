@@ -139,6 +139,49 @@
 }
 
 
+#pragma mark - Verify An Exact Number Of Invocations
+
+- (void)testUseOnceToSpecifyExactlyOneInvocation {
+    // by default verify will succeed if one *or more* calls which match are made
+    // verify once will only succeed if there was *exactly* one call whitch matches
+    // same as verify exactly(1)
+    
+    [mockArray count];
+    [mockArray objectAtIndex:0];
+    [mockArray objectAtIndex:1];
+    
+    verify once [mockArray count];
+    ThisWillFail({
+        verify once [mockArray objectAtIndex:anyInt()];
+    });
+}
+
+- (void)testUseExactlyToSpecifyAnExactNumberOfInvocations {
+    // using verify exactly(X) you can test that exactly X matching calls were made
+    
+    [mockArray objectAtIndex:0];
+    [mockArray objectAtIndex:1];
+    [mockArray count];
+    
+    verify exactly(2) [mockArray objectAtIndex:anyInt()];
+    ThisWillFail({
+        verify exactly(2) [mockArray count];
+    });
+}
+
+- (void)testUseNeverToSpecifyNoMatchingCallsWereMade {
+    // using verify never you can test that no matching call was made
+    // same as verify exactly(0)
+    
+    [mockArray objectAtIndex:0];
+    
+    verify never [mockArray count];
+    ThisWillFail({
+        verify never [mockArray objectAtIndex:anyInt()];
+    });
+}
+
+
 #pragma mark - Verify That No Actions Were Executed
 
 - (void)testVerifyingNoInteractionsFailsIfAnyUnverifiedCallsWereMade {
