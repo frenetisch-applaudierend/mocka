@@ -11,6 +11,7 @@
 
 #import "TestExceptionUtils.h"
 #import "TestObject.h"
+#import "CategoriesTestClasses.h"
 
 
 @interface MCKSpyIntegrationTest : SenTestCase
@@ -386,6 +387,39 @@
     [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
     [object voidMethodCallWithIntParam1:NSIntegerMax intParam2:NSIntegerMin];
     STAssertEquals(invocationCount, 2, @"Not all egde cases match");
+}
+
+
+#pragma mark - Test Stubbing and Verifying of Category Methods
+
+- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClass {
+    // given
+    CategoriesTestMockedClass *spy = spy([[CategoriesTestMockedClass alloc] init]);
+    
+    __block BOOL called = NO;
+    whenCalling [spy categoryMethodInMockedClass] thenDo performBlock(^(NSInvocation *inv) {
+        called = YES;
+    });
+    
+    [spy categoryMethodInMockedClass];
+    
+    verify [spy categoryMethodInMockedClass];
+    STAssertTrue(called, @"Should have been called");
+}
+
+- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
+    // given
+    CategoriesTestMockedClass *spy = spy([[CategoriesTestMockedClass alloc] init]);
+    
+    __block BOOL called = NO;
+    whenCalling [spy categoryMethodInMockedClassSuperclass] thenDo performBlock(^(NSInvocation *inv) {
+        called = YES;
+    });
+    
+    [spy categoryMethodInMockedClassSuperclass];
+    
+    verify [spy categoryMethodInMockedClassSuperclass];
+    STAssertTrue(called, @"Should have been called");
 }
 
 @end

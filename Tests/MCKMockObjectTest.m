@@ -11,6 +11,7 @@
 
 #import "FakeMockingContext.h"
 #import "TestObject.h"
+#import "CategoriesTestClasses.h"
 
 
 @protocol SampleProtocol1 <NSObject> @end
@@ -187,6 +188,19 @@
     
     STAssertNotNil(holder.delegate, @"Delegate should still be available");
     STAssertNotNil(mock, @"Ok something got out of hand..."); // second test is manly to still use the mock, so the strong ref is not deemed unused
+}
+
+
+#pragma mark - Test Category Methods
+
+- (void)testThatMockRespondsToSelectorsOfCategories {
+    // given
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [CategoriesTestMockedClass class] ]];
+    
+    // then
+    STAssertTrue([mock respondsToSelector:@selector(categoryMethodInMockedClass)], @"Mock does not respond to selector of category");
+    STAssertTrue([mock respondsToSelector:@selector(categoryMethodInMockedClassSuperclass)], @"Mock does not respond to selector of category");
+    STAssertTrue([mock respondsToSelector:@selector(categoryMethodInNSObject)], @"Mock does not respond to selector of category");
 }
 
 @end

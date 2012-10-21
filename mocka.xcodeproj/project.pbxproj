@@ -112,6 +112,8 @@
 		28FFE1011633E565000BDF5B /* MCKSetOutParameterStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE0FD1633E565000BDF5B /* MCKSetOutParameterStubAction.m */; };
 		28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE1021633E676000BDF5B /* MCKSetOutParameterStubActionTest.m */; };
 		28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE1021633E676000BDF5B /* MCKSetOutParameterStubActionTest.m */; };
+		28FFE11816343C68000BDF5B /* CategoriesTestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */; };
+		28FFE11916343C68000BDF5B /* CategoriesTestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -283,6 +285,8 @@
 		28FFE0FD1633E565000BDF5B /* MCKSetOutParameterStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSetOutParameterStubAction.m; sourceTree = "<group>"; };
 		28FFE1021633E676000BDF5B /* MCKSetOutParameterStubActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSetOutParameterStubActionTest.m; sourceTree = "<group>"; };
 		28FFE1051633EC6C000BDF5B /* TestExceptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestExceptionUtils.h; sourceTree = "<group>"; };
+		28FFE11616343C68000BDF5B /* CategoriesTestClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesTestClasses.h; sourceTree = "<group>"; };
+		28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesTestClasses.m; sourceTree = "<group>"; };
 		364701631604CFA400B74E8B /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
 		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -474,6 +478,8 @@
 				28FFE1051633EC6C000BDF5B /* TestExceptionUtils.h */,
 				2857B57015B23FF100D64D27 /* TestObject.h */,
 				2857B57115B23FF100D64D27 /* TestObject.m */,
+				28FFE11616343C68000BDF5B /* CategoriesTestClasses.h */,
+				28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */,
 				2857B57915B3296100D64D27 /* FakeMockingContext.h */,
 				2857B57A15B3296100D64D27 /* FakeMockingContext.m */,
 				2822C33C16206B4A0031D92C /* CannedInvocationRecorder.h */,
@@ -950,6 +956,7 @@
 				281F760B163076C300A10434 /* ExamplesVerify.m in Sources */,
 				281F76101630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
+				28FFE11816343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1013,6 +1020,7 @@
 				281F760C163076C300A10434 /* ExamplesVerify.m in Sources */,
 				281F76111630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
+				28FFE11916343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@
 
 #import "TestExceptionUtils.h"
 #import "TestObject.h"
-
+#import "CategoriesTestClasses.h"
 
 
 #pragma mark - Functional Test for mocking a single Class
@@ -403,6 +403,39 @@
     
     // if it crashes hard here then the test has failed (a EXC_BAD_ACCESS is more likely than an exception)
     STAssertNoThrow([object boolMethodCallWithError:NULL], @"Should not crash");
+}
+
+
+#pragma mark - Test Stubbing and Verifying of Category Methods
+
+- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClass {
+    // given
+    CategoriesTestMockedClass *mock = mockForClass(CategoriesTestMockedClass);
+    
+    __block BOOL called = NO;
+    whenCalling [mock categoryMethodInMockedClass] thenDo performBlock(^(NSInvocation *inv) {
+        called = YES;
+    });
+    
+    [mock categoryMethodInMockedClass];
+    
+    verify [mock categoryMethodInMockedClass];
+    STAssertTrue(called, @"Should have been called");
+}
+
+- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
+    // given
+    CategoriesTestMockedClass *mock = mockForClass(CategoriesTestMockedClass);
+    
+    __block BOOL called = NO;
+    whenCalling [mock categoryMethodInMockedClassSuperclass] thenDo performBlock(^(NSInvocation *inv) {
+        called = YES;
+    });
+    
+    [mock categoryMethodInMockedClassSuperclass];
+    
+    verify [mock categoryMethodInMockedClassSuperclass];
+    STAssertTrue(called, @"Should have been called");
 }
 
 @end
