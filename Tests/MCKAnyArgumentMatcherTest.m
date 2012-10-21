@@ -24,7 +24,7 @@
 }
 
 
-#pragma mark - Test Cases
+#pragma mark - Test Object Matching
 
 - (void)testThatNilCandidateMatches {
     STAssertTrue([matcher matchesCandidate:nil], @"Nil was not matched");

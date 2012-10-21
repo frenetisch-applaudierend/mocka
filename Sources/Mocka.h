@@ -24,6 +24,7 @@
 #import "MCKReturnStubAction.h"
 #import "MCKPerformBlockStubAction.h"
 #import "MCKThrowExceptionStubAction.h"
+#import "MCKSetOutParameterStubAction.h"
 
 #import "MCKArgumentMatcher.h"
 #import "MCKAnyArgumentMatcher.h"

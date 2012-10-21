@@ -24,7 +24,7 @@ static inline id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher) {
     return matcher;
 }
 
-static inline char mck_registerPrimitiveMatcher(id<MCKArgumentMatcher> matcher) {
+static inline char mck_registerPrimitiveNumberMatcher(id<MCKArgumentMatcher> matcher) {
     return [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
 }
 

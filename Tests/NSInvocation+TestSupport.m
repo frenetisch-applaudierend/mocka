@@ -13,6 +13,9 @@
 @implementation NSInvocation (TestSupport)
 
 + (id)invocationForTarget:(id)target selectorAndArguments:(SEL)selector, ... {
+    NSParameterAssert(target != nil);
+    NSParameterAssert(selector != NULL);
+    
     NSMethodSignature *signature = [target methodSignatureForSelector:selector];
     NSInvocation *invocation = [self invocationWithMethodSignature:signature];
     invocation.selector = selector;
