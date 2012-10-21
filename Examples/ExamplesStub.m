@@ -237,6 +237,35 @@
 }
 
 
+#pragma mark - Setting Out Parameters
+
+- (void)testYouCanSetAnOutParameterInStubbing {
+    // you can set out-parameters using setOutParameterAtIndex(idx, value);
+    
+    NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
+    whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
+        setOutParameterAtIndex(3, testError);
+        returnValue(NO);
+    }
+    
+    NSError *reportedError = nil;
+    [mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:&reportedError];
+    STAssertEqualObjects(reportedError, testError, @"Error was not set");
+}
+
+- (void)testPassingNULLForOutParameterHasNoEffect {
+    // passing NULL as the out parameter will not cause any trouble
+    
+    NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
+    whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
+        setOutParameterAtIndex(3, testError);
+        returnValue(NO);
+    }
+    
+    STAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL], @"Should not have failed");
+}
+
+
 #pragma mark - Given When Then Style Stubbing
 
 - (void)testCanAlsoUseGivenCallToAsKeyword {

@@ -12,13 +12,7 @@
 
 @protocol MCKArgumentMatcher <NSObject>
 
-@optional
-
 - (BOOL)matchesCandidate:(id)candidate;
-
-- (BOOL)matchesObjectArgument:(id)object;
-- (BOOL)matchesPrimitiveNumberArgument:(NSNumber *)number;
-
 
 @end
 
