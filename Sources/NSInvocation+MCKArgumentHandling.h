@@ -11,9 +11,19 @@
 
 @interface NSInvocation (MCKArgumentHandling)
 
-- (id)mck_objectArgumentAtEffectiveIndex:(NSUInteger)index;
-- (NSInteger)mck_integerArgumentAtEffectiveIndex:(NSUInteger)index;
-- (NSUInteger)mck_unsignedIntegerArgumentAtEffectiveIndex:(NSUInteger)index;
+#pragma mark - Getting Parameters
+
+// Getting typed parameters (shorthand around -getArgument:atIndex:)
+// Note: self and _cmd are not counted as "parameter" and therefore
+//       index 0 is the first parameter, not self, so you don't need
+//       to add 2 to get to the right parameter
+
+- (id)mck_objectParameterAtIndex:(NSUInteger)index;
+- (NSInteger)mck_integerParameterAtIndex:(NSUInteger)index;
+- (NSUInteger)mck_unsignedIntegerParameterAtIndex:(NSUInteger)index;
+
+
+#pragma mark - Setting the Return Value
 
 - (void)mck_setObjectReturnValue:(id)value;
 
@@ -23,9 +33,9 @@
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 @interface NSInvocation (MCKArgumentHandling_NiceSyntax)
 
-- (id)objectArgumentAtEffectiveIndex:(NSUInteger)index;
-- (NSInteger)integerArgumentAtEffectiveIndex:(NSUInteger)index;
-- (NSUInteger)unsignedIntegerArgumentAtEffectiveIndex:(NSUInteger)index;
+- (id)objectParameterAtIndex:(NSUInteger)index;
+- (NSInteger)integerParameterAtIndex:(NSUInteger)index;
+- (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index;
 
 - (void)setObjectReturnValue:(id)value;
 

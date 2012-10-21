@@ -19,15 +19,15 @@
 
 #pragma mark - Retrieving Arguments
 
-- (id)mck_objectArgumentAtEffectiveIndex:(NSUInteger)index {
+- (id)mck_objectParameterAtIndex:(NSUInteger)index {
     ReturnArgumentAtEffectiveIndex(id, index);
 }
 
-- (NSInteger)mck_integerArgumentAtEffectiveIndex:(NSUInteger)index {
+- (NSInteger)mck_integerParameterAtIndex:(NSUInteger)index {
     ReturnArgumentAtEffectiveIndex(NSInteger, index);
 }
 
-- (NSUInteger)mck_unsignedIntegerArgumentAtEffectiveIndex:(NSUInteger)index {
+- (NSUInteger)mck_unsignedIntegerParameterAtIndex:(NSUInteger)index {
     ReturnArgumentAtEffectiveIndex(NSUInteger, index);
 }
 
@@ -42,9 +42,9 @@
 #pragma mark - Nice Syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 
-- (id)objectArgumentAtEffectiveIndex:(NSUInteger)index { return [self mck_objectArgumentAtEffectiveIndex:index]; }
-- (NSInteger)integerArgumentAtEffectiveIndex:(NSUInteger)index { return [self mck_integerArgumentAtEffectiveIndex:index]; }
-- (NSUInteger)unsignedIntegerArgumentAtEffectiveIndex:(NSUInteger)index { return [self mck_unsignedIntegerArgumentAtEffectiveIndex:index]; }
+- (id)objectParameterAtIndex:(NSUInteger)index { return [self mck_objectParameterAtIndex:index]; }
+- (NSInteger)integerParameterAtIndex:(NSUInteger)index { return [self mck_integerParameterAtIndex:index]; }
+- (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index { return [self mck_unsignedIntegerParameterAtIndex:index]; }
 
 - (void)setObjectReturnValue:(id)value { [self mck_setObjectReturnValue:value]; }
 

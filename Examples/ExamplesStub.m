@@ -96,7 +96,7 @@
     // you can provide a block which gets the NSInvocation passed which you can manipulate at will
     
     whenCalling [mockArray objectAtIndex:11] thenDo performBlock(^(NSInvocation *inv) {
-        NSNumber *returnValue = @([inv unsignedIntegerArgumentAtEffectiveIndex:0]);
+        NSNumber *returnValue = @([inv unsignedIntegerParameterAtIndex:0]);
         [inv setReturnValue:&returnValue];
     });
     
@@ -191,7 +191,7 @@
     
     __block id addedObject = nil;
     whenCalling [mockArray addObject:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
-        addedObject = [inv objectArgumentAtEffectiveIndex:0];
+        addedObject = [inv objectParameterAtIndex:0];
     });
     
     [mockArray addObject:@"Hello World"];
@@ -203,7 +203,7 @@
     // matchers are also available for primitive arguments
     
     whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
-        NSUInteger index = [inv integerArgumentAtEffectiveIndex:0];
+        NSUInteger index = [inv unsignedIntegerParameterAtIndex:0];
         [inv setObjectReturnValue:@(index)];
     });
     
@@ -216,8 +216,8 @@
     __block NSArray *insertedObjects = nil;
     __block NSIndexSet *insertedIndexes = nil;
     whenCalling [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
-        insertedObjects = [inv objectArgumentAtEffectiveIndex:0];
-        insertedIndexes = [inv objectArgumentAtEffectiveIndex:1];
+        insertedObjects = [inv objectParameterAtIndex:0];
+        insertedIndexes = [inv objectParameterAtIndex:1];
     });
     
     [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
