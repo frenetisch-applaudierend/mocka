@@ -32,6 +32,7 @@ typedef enum {
 #pragma mark - Getting a Context
 
 + (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line;
++ (id)contextForTestCase:(id)testCase;
 + (id)currentContext;
 
 

@@ -17,18 +17,23 @@
 #pragma mark - Initialization
 
 + (id)mockWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList;
-- (id)initWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList;
+- (id)initWithContext:(MCKMockingContext *)context mockedClass:(Class)mockedClass mockedProtocols:(NSArray *)mockedProtocols;
+
+
+#pragma mark - Getting information about the mock
+
+@property (nonatomic, readonly) NSArray *mck_mockedEntites;
 
 @end
 
 
 // Mocking Syntax
 #define mck_mock(cls, ...) [MCKMockObject mockWithContext:mck_updatedContext() classAndProtocols:@[ cls, __VA_ARGS__ ]]
-#define mck_mockClass(cls) mck_mock([cls class])
-#define mck_mockProtocol(prt) mck_mock(@protocol(prt))
+#define mck_mockForClass(cls) mck_mock([cls class])
+#define mck_mockForProtocol(prt) mck_mock(@protocol(prt))
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define mock(cls, ...) mck_mock(cls, __VA_ARGS__)
-#define mockClass(cls) mck_mockClass(cls)
-#define mockProtocol(prt) mck_mockProtocol(prt)
+#define mockForClass(cls) mck_mockForClass(cls)
+#define mockForProtocol(prt) mck_mockForProtocol(prt)
 #endif

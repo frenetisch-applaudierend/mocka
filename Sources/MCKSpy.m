@@ -16,7 +16,7 @@ static NSString * const MCKSpyBackupMethodPrefix = @"_mck_backup_";
 
 static const NSUInteger MCKContextKey;
 
-static Class mck_createSpyClassForClass(Class cls, MCKMockingContext *context);
+static void mck_convertObjectToSpy(id object, MCKMockingContext *context);
 static void mck_overrideMethodsForClass(Class cls, Class spyClass, MCKMockingContext *context);
 static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMutableSet *overriddenMethods, MCKMockingContext *context);
 static SEL mck_backupSelectorForSelector(SEL selector);
@@ -24,6 +24,7 @@ static SEL mck_backupSelectorForSelector(SEL selector);
 static Class spy_class(id self, SEL _cmd);
 static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation);
 static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale);
+static NSString* spy_description(id self, SEL _cmd);
 
 @interface NSObject (MCKUnhandledMethod)
 - (void)mck_methodThatDoesNotExist;
@@ -33,34 +34,46 @@ static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale);
 #pragma mark - Creating a Spy
 
 id mck_createSpyForObject(id object, MCKMockingContext *context) {
-    // Safeguards
-    if (object == nil) { return nil; }
-    if (mck_objectIsSpy(object)) { return object; }
-    if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
-        [context failWithReason:[NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)]];
+    // don't spy a spy
+    if (mck_objectIsSpy(object)) {
+        return object;
     }
     
-    // Change the class to the spy class of this object
-    object_setClass(object, mck_createSpyClassForClass(object_getClass(object), context));
+    // safeguards
+    if (object == nil) {
+        [context failWithReason:@"You cannot spy nil"];
+        return nil;
+    } else if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
+        [context failWithReason:[NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)]];
+        return nil;
+    }
     
-    // Save the context for later use
+    mck_convertObjectToSpy(object, context);
     objc_setAssociatedObject(object, &MCKContextKey, context, OBJC_ASSOCIATION_ASSIGN); // weak
     return object;
 }
 
-static Class mck_createSpyClassForClass(Class cls, MCKMockingContext *context) {
+static void mck_convertObjectToSpy(id object, MCKMockingContext *context) {
 #define overrideMethod(cls, sel, imp) class_addMethod((cls), (sel), (IMP)&(imp), method_getTypeEncoding(class_getInstanceMethod(cls, (sel))))
-    const char *spyClassName = [[NSStringFromClass(cls) stringByAppendingString:MCKSpyClassSuffix] UTF8String];
+    
+    Class originalClass = object_getClass(object);
+    const char *spyClassName = [[NSStringFromClass(originalClass) stringByAppendingString:MCKSpyClassSuffix] UTF8String];
     Class spyClass = objc_getClass(spyClassName);
     if (spyClass == Nil) {
-        spyClass = objc_allocateClassPair(cls, spyClassName, 0);
+        spyClass = objc_allocateClassPair(originalClass, spyClassName, 0);
         overrideMethod(spyClass, @selector(class),                  spy_class);
         overrideMethod(spyClass, @selector(forwardInvocation:),     spy_forwardInvocation);
-        overrideMethod(spyClass, @selector(descriptionWithLocale:), spy_descriptionWithLocale);
-        mck_overrideMethodsForClass(cls, spyClass, context);
+        
+        if ([object respondsToSelector:@selector(descriptionWithLocale:)]) {
+            overrideMethod(spyClass, @selector(descriptionWithLocale:), spy_descriptionWithLocale);
+        } else {
+            overrideMethod(spyClass, @selector(description), spy_description);
+        }
+        
+        mck_overrideMethodsForClass(originalClass, spyClass, context);
         objc_registerClassPair(spyClass);
     }
-    return spyClass;
+    object_setClass(object, spyClass);
 }
 
 static void mck_overrideMethodsForClass(Class cls, Class spyClass, MCKMockingContext *context) {
@@ -145,5 +158,9 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
 }
 
 static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale) {
+    return spy_description(self, _cmd);
+}
+
+static NSString* spy_description(id self, SEL _cmd) {
     return [NSString stringWithFormat:@"<spy{%@}: %p>", class_getSuperclass(object_getClass(self)), self];
 }

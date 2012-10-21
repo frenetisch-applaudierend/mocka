@@ -27,6 +27,11 @@
 @interface SampleClass4 : SampleClass3 @end
 @implementation SampleClass4 @end
 
+@interface DelegateHolder : NSObject
+@property (nonatomic, weak) id delegate;
+@end
+@implementation DelegateHolder
+@end
 
 
 @interface MCKMockObjectTest : SenTestCase
@@ -165,6 +170,23 @@
     STAssertTrue([mock conformsToProtocol:@protocol(NSObject)],  @"Mock does not conform to all passed protocols");
     STAssertTrue([mock conformsToProtocol:@protocol(NSCoding)],  @"Mock does not conform to all passed protocols");
     STAssertTrue([mock conformsToProtocol:@protocol(NSCopying)], @"Mock does not conform to all passed protocols");
+}
+
+
+#pragma mark - Test Weak Retaining
+
+- (void)testThatWeakReferencesToMocksAreNotAutomaticallyClearedIfThereAreStrongRefs {
+    // this is a problem in OCMock and it seems to be on iOS only
+    // a weak delegate for example will immediately be nil when a mock is assigned
+    // even though a strong reference is still there
+    
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ @protocol(NSObject) ]];
+    DelegateHolder *holder = [[DelegateHolder alloc] init];
+    
+    holder.delegate = mock;
+    
+    STAssertNotNil(holder.delegate, @"Delegate should still be available");
+    STAssertNotNil(mock, @"Ok something got out of hand..."); // second test is manly to still use the mock, so the strong ref is not deemed unused
 }
 
 @end

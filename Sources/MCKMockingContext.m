@@ -57,6 +57,10 @@ static __weak id _CurrentContext = nil;
     return context;
 }
 
++ (id)contextForTestCase:(id)testCase {
+    return [self contextForTestCase:testCase fileName:nil lineNumber:0];
+}
+
 + (id)currentContext {
     if (_CurrentContext == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException

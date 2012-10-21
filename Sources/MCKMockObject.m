@@ -11,48 +11,108 @@
 
 #import <objc/runtime.h>
 
-static BOOL isProtocol(id obj);
-static BOOL isClass(id obj);
-
 
 @implementation MCKMockObject {
     MCKMockingContext *_mockingContext;
-    NSArray       *_mockedEntities;
+    Class _mockedClass;
+    NSArray *_mockedProtocols;
 }
+
+#pragma mark - Building a Mock
+
++ (id)mockWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList {
+    if (![self sourceListIsSane:sourceList context:context]) {
+        return nil;
+    }
+    return [[self alloc] initWithContext:context
+                             mockedClass:[self mockedClassInSourceList:sourceList]
+                         mockedProtocols:[self mockedProtocolsInSourceList:sourceList]];
+}
+
++ (BOOL)sourceListIsSane:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    return ([self hasAtLeastOneEntityInSourceList:sourceList context:context]
+            && [self hasOnlyMockableEntitiesInSourceList:sourceList context:context]
+            && [self hasAtMostOneClassInSourceList:sourceList context:context]
+            && [self mockedClassIsAbsentOrAtFirstPositionInSourceList:sourceList context:context]);
+}
+
++ (BOOL)hasAtLeastOneEntityInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    if ([sourceList count] == 0) {
+        [context failWithReason:@"Need at least one class or protocol for mocking"];
+        return NO;
+    }
+    return YES;
+}
+
++ (BOOL)hasOnlyMockableEntitiesInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    for (id object in sourceList) {
+        if (![self objectIsMockableEntity:object]) {
+            [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
+            return NO;
+        }
+    }
+    return YES;
+}
+
++ (BOOL)hasAtMostOneClassInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    NSUInteger numClasses = 0;
+    for (id object in sourceList) {
+        if ([self objectIsClass:object]) {
+            numClasses++;
+        }
+    }
+    
+    if (numClasses > 1) {
+        [context failWithReason:@"At most one class can be mocked."];
+        return NO;
+    }
+    
+    return YES;
+}
+
++ (BOOL)mockedClassIsAbsentOrAtFirstPositionInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
+    NSArray *entitiesWhichMustBeProtocols = [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)];
+    for (id object in entitiesWhichMustBeProtocols) {
+        if ([self objectIsClass:object]) {
+            [context failWithReason:@"If you mock a class it must be at the first position"];
+            return NO;
+        }
+    }
+    return YES;
+}
+
++ (Class)mockedClassInSourceList:(NSArray *)sourceList {
+    NSParameterAssert([sourceList count] > 0);
+    
+    return ([self objectIsClass:[sourceList objectAtIndex:0]] ? [sourceList objectAtIndex:0] : nil);
+}
+
++ (NSArray *)mockedProtocolsInSourceList:(NSArray *)sourceList {
+    NSParameterAssert([sourceList count] > 0);
+    
+    return ([self objectIsClass:[sourceList objectAtIndex:0]] ? [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)] : sourceList);
+}
+
++ (BOOL)objectIsMockableEntity:(id)object {
+    return ([self objectIsProtocol:object] || [self objectIsClass:object]);
+}
+
++ (BOOL)objectIsProtocol:(id)object {
+    return (object_getClass(object) == object_getClass(@protocol(NSObject)));
+}
+
++ (BOOL)objectIsClass:(id)object {
+    return class_isMetaClass(object_getClass(object));
+}
+
 
 #pragma mark - Initialization
 
-+ (id)mockWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList {
-    return [[self alloc] initWithContext:context classAndProtocols:sourceList];
-}
-
-- (id)initWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList {
-    // Sanity check on the source list
-    if ([sourceList count] == 0) {
-        [context failWithReason:@"Need at least one class or protocol for mocking"];
-        return nil;
-    }
-    
-    BOOL hasClass = NO;
-    for (id object in sourceList) {
-        if (!(isProtocol(object) || isClass(object))) {
-            [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
-            return nil;
-        }
-        
-        if (isClass(object)) {
-            if (hasClass) {
-                [context failWithReason:@"At most one class can be mocked."];
-                return nil;
-            }
-            hasClass = YES;
-        }
-    }
-    
-    // Full initialization
+- (id)initWithContext:(MCKMockingContext *)context mockedClass:(Class)mockedClass mockedProtocols:(NSArray *)mockedProtocols {
     if ((self = [super init])) {
         _mockingContext = context;
-        _mockedEntities = [sourceList copy];
+        _mockedClass = mockedClass;
+        _mockedProtocols = [mockedProtocols copy];
     }
     return self;
 }
@@ -68,27 +128,33 @@ static BOOL isClass(id obj);
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
-    NSMethodSignature *signature = [super methodSignatureForSelector:selector];
+    NSMethodSignature *signature;
+    
+    signature = [super methodSignatureForSelector:selector];
     if (signature != nil) {
         return signature;
     }
     
-    for (id entity in _mockedEntities) {
-        NSMethodSignature *signature = (isClass(entity)
-                                        ? [self methodSignatureForSelector:selector ofClass:entity]
-                                        : [self methodSignatureForSelector:selector ofProtocol:entity]);
+    signature = [self mck_methodSignatureForSelector:selector ofClass:_mockedClass];
+    if (signature != nil) {
+        return signature;
+    }
+    
+    for (Protocol *protocol in _mockedProtocols) {
+        signature = [self mck_methodSignatureForSelector:selector ofProtocol:protocol];
         if (signature != nil) {
             return signature;
         }
     }
+    
     return nil;
 }
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector ofClass:(Class)cls {
+- (NSMethodSignature *)mck_methodSignatureForSelector:(SEL)selector ofClass:(Class)cls {
     return [cls instanceMethodSignatureForSelector:selector];
 }
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector ofProtocol:(Protocol *)protocol {
+- (NSMethodSignature *)mck_methodSignatureForSelector:(SEL)selector ofProtocol:(Protocol *)protocol {
     struct objc_method_description method = protocol_getMethodDescription(protocol, selector, YES, YES);
     if (method.name == NULL) {
         method = protocol_getMethodDescription(protocol, selector, NO, YES);
@@ -104,71 +170,45 @@ static BOOL isClass(id obj);
 #pragma mark - Posing as the mocked class / protocol
 
 - (BOOL)isKindOfClass:(Class)cls {
-    if ([super isKindOfClass:cls]) {
-        return YES;
-    }
-    
-    NSUInteger firstMatch = [_mockedEntities indexOfObjectPassingTest:^BOOL(id entity, NSUInteger idx, BOOL *stop) {
-        if (!isClass(entity)) { return NO; }
-        Class candidate = entity;
-        do {
-            if (candidate == cls) { return YES; }
-            candidate = class_getSuperclass(candidate);
-        } while(candidate != nil);
-        return NO;
-    }];
-    return (firstMatch != NSNotFound);
+    return ([super isKindOfClass:cls] || [_mockedClass isSubclassOfClass:cls]);
 }
 
-- (BOOL)conformsToProtocol:(Protocol *)prot {
-    if ([super conformsToProtocol:prot]) {
+- (BOOL)conformsToProtocol:(Protocol *)protocol {
+    if ([super conformsToProtocol:protocol] || [_mockedClass conformsToProtocol:protocol]) {
         return YES;
     }
     
-    NSUInteger firstMatch = [_mockedEntities indexOfObjectPassingTest:^BOOL(id candidate, NSUInteger idx, BOOL *stop) {
-        if (candidate == prot) { return YES; }
-        if (isClass(candidate) && [candidate conformsToProtocol:prot]) { return YES; }
-        NSAssert(isProtocol(candidate), @"Candidate was not a class or protocol");
-        return protocol_conformsToProtocol((Protocol *)candidate, prot);
-    }];
-    return (firstMatch != NSNotFound);
+    for (Protocol *candidate in _mockedProtocols) {
+        if (protocol_conformsToProtocol(candidate, protocol)) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 
 #pragma mark - Debugging
+
+- (NSArray *)mck_mockedEntites {
+    NSMutableArray *mockedEntities = [NSMutableArray array];
+    if (_mockedClass != nil) {
+        [mockedEntities addObject:_mockedClass];
+    }
+    [mockedEntities addObjectsFromArray:_mockedProtocols];
+    return [mockedEntities copy];
+}
 
 - (NSString *)descriptionWithLocale:(NSLocale *)locale {
     return [NSString stringWithFormat:@"<mock{%@%@}: %p>", [self mck_mockedClassName], [self mck_mockedProtocolList], self];
 }
 
 - (NSString *)mck_mockedClassName {
-    for (id mockedEntity in _mockedEntities) {
-        if (isClass(mockedEntity)) {
-            return NSStringFromClass(mockedEntity);
-        }
-    }
-    return @"id";
+    return (_mockedClass != nil ? NSStringFromClass(_mockedClass) : @"id");
 }
 
 - (NSString *)mck_mockedProtocolList {
-    NSMutableArray *protocols = [NSMutableArray array];
-    for (id mockedEntity in _mockedEntities) {
-        if (isProtocol(mockedEntity)) {
-            [protocols addObject:NSStringFromProtocol(mockedEntity)];
-        }
-    }
-    return ([protocols count] == 0 ? @"" : [NSString stringWithFormat:@"<%@>", [protocols componentsJoinedByString:@", "]]);
+    return ([_mockedProtocols count] == 0 ? @"" : [NSString stringWithFormat:@"<%@>", [_mockedProtocols componentsJoinedByString:@", "]]);
 }
 
 @end
-
-
-#pragma mark - Helper Functions
-
-static BOOL isProtocol(id obj) {
-    return (object_getClass(obj) == object_getClass(@protocol(NSObject)));
-}
-
-static BOOL isClass(id obj) {
-    return class_isMetaClass(object_getClass(obj));
-}

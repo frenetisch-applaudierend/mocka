@@ -29,7 +29,10 @@
 #define returnStruct(val) mck_returnStruct(val)
 #endif
 
-#define mck_returnValueAction(val) [MCKReturnStubAction returnActionWithValue:mck_createGenericValue(@encode(typeof(val)), val)]
-#define mck_returnStructAction(strt) [MCKReturnStubAction returnActionWithValue:[NSValue valueWithBytes:&strt objCType:@encode(typeof(strt))]]
+#define mck_returnValueAction(val) \
+    [MCKReturnStubAction returnActionWithValue:mck_createGenericValue(@encode(typeof(val)), val)]
+#define mck_returnStructAction(strt) \
+    [MCKReturnStubAction returnActionWithValue:[NSValue valueWithBytes:(typeof(strt)[]){ strt } objCType:@encode(typeof(strt))]]
+
 id mck_createGenericValue(const char *type, ...);
 
