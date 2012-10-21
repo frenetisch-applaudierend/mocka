@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "MCKMockingContext.h"
-#import "MCKInvocationRecorder.h"
+
+@class MCKInvocationRecorder;
 
 
 @protocol MCKVerificationHandler <NSObject>

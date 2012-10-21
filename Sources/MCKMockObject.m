@@ -208,7 +208,15 @@
 }
 
 - (NSString *)mck_mockedProtocolList {
-    return ([_mockedProtocols count] == 0 ? @"" : [NSString stringWithFormat:@"<%@>", [_mockedProtocols componentsJoinedByString:@", "]]);
+    if ([_mockedProtocols count] == 0) {
+        return @"";
+    }
+    
+    NSMutableArray *protocolNames = [NSMutableArray arrayWithCapacity:[_mockedProtocols count]];
+    for (Protocol *protocol in _mockedProtocols) {
+        [protocolNames addObject:[NSString stringWithUTF8String:protocol_getName(protocol)]];
+    }
+    return [NSString stringWithFormat:@"<%@>", [protocolNames componentsJoinedByString:@", "]];
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "MCKMockObject.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
+#import "MCKInvocationRecorder.h"
 
 #import "TestExceptionUtils.h"
 #import "NSInvocation+TestSupport.h"

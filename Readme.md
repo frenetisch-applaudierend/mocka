@@ -22,8 +22,8 @@ This will open the `Distribution/` directory in finder and give you both a .zip 
 To use Mocka in your project do the following steps.
 
 1. Drag the `Mocka.framework` directory into your project and add it to your unit testing target
-2. Make Mocka available in your unit tests with `#import <Mocka/Mocka.h>`
-3. Use Mocka :)
+2. Add "-ObjC" to "Other Linker Flags" in your project's build settings
+3. Make Mocka available in your unit tests with `#import <Mocka/Mocka.h>`
 
 This is an example of a simple test using Mocka.
 

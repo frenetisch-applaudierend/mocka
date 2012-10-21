@@ -106,8 +106,8 @@
 		28ECE8A415BB7AAB00F15F12 /* MCKVerifyNoInteractions.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A215BB7AAA00F15F12 /* MCKVerifyNoInteractions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28ECE8A515BB7AAB00F15F12 /* MCKVerifyNoInteractions.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ECE8A315BB7AAA00F15F12 /* MCKVerifyNoInteractions.m */; };
 		28ECE8A815BBF2FD00F15F12 /* MCKArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		28FFE0FE1633E565000BDF5B /* MCKSetOutParameterStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FFE0FC1633E565000BDF5B /* MCKSetOutParameterStubAction.h */; };
-		28FFE0FF1633E565000BDF5B /* MCKSetOutParameterStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FFE0FC1633E565000BDF5B /* MCKSetOutParameterStubAction.h */; };
+		28FFE0FE1633E565000BDF5B /* MCKSetOutParameterStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FFE0FC1633E565000BDF5B /* MCKSetOutParameterStubAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		28FFE0FF1633E565000BDF5B /* MCKSetOutParameterStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 28FFE0FC1633E565000BDF5B /* MCKSetOutParameterStubAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28FFE1001633E565000BDF5B /* MCKSetOutParameterStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE0FD1633E565000BDF5B /* MCKSetOutParameterStubAction.m */; };
 		28FFE1011633E565000BDF5B /* MCKSetOutParameterStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE0FD1633E565000BDF5B /* MCKSetOutParameterStubAction.m */; };
 		28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE1021633E676000BDF5B /* MCKSetOutParameterStubActionTest.m */; };

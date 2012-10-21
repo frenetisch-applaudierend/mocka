@@ -8,6 +8,7 @@
 
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationMatcher.h"
+#import "MCKInvocationRecorder.h"
 
 
 @implementation MCKDefaultVerificationHandler
