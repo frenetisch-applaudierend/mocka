@@ -207,4 +207,41 @@
     verify noMoreInteractionsOn(mockArray); // [mockArray count] was verified
 }
 
+
+#pragma mark - Ordered Verify
+
+#define inOrder if(YES)
+
+- (void)testThatVerifyingInOrderFailsIfCallIsMadeOutOfOrder {
+    // by verifying in order you can check that a certain flow of methods is called one after another
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Three"];
+    
+    ThisWillFail({
+        verify inOrder {
+            [mockArray addObject:@"One"];
+            [mockArray addObject:@"Three"]; // <-- EVIL, out of order!
+            [mockArray addObject:@"Two"];
+        };
+    });
+}
+
+- (void)testThatVerifyingInOrderIgnoresUnverifiedCalls {
+    // if you simply verify in order then 
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Unverified"];      // this is ignored
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Also unverified"]; // also this
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        [mockArray addObject:@"One"];
+        [mockArray addObject:@"Two"];
+        [mockArray addObject:@"Three"];
+    };
+}
+
 @end

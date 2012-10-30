@@ -171,7 +171,7 @@
             executionCount++;
         });
         returnValue(@"Hello World");
-    }
+    };
     
     id value1 = [mockArray objectAtIndex:0];
     STAssertEqualObjects(value1, @"Hello World", @"Wrong return value");
@@ -246,7 +246,7 @@
     whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
-    }
+    };
     
     NSError *reportedError = nil;
     [mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:&reportedError];
@@ -260,7 +260,7 @@
     whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
-    }
+    };
     
     STAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL], @"Should not have failed");
 }
