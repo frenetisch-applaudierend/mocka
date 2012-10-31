@@ -28,7 +28,7 @@
     NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -43,7 +43,7 @@
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -57,7 +57,7 @@
     NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -72,7 +72,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -86,7 +86,7 @@
     NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -101,7 +101,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -118,7 +118,7 @@
     NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -133,7 +133,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -147,7 +147,7 @@
     NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -162,7 +162,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -176,7 +176,7 @@
     NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -193,7 +193,7 @@
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -208,7 +208,7 @@
     
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                                         inInvocationRecorder:recorder satisfied:NULL failureMessage:NULL];
     
     // then
@@ -223,7 +223,7 @@
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
@@ -243,7 +243,7 @@
     // when
     BOOL satisfied = YES;
     NSString *reason = nil;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:&reason];
     
     // then
@@ -264,7 +264,7 @@
     // when
     BOOL satisfied = YES;
     NSString *reason = nil;
-    [handler indexesMatchingInvocation:prototypeInvocation withPrimitiveArgumentMatchers:nil
+    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
                   inInvocationRecorder:recorder satisfied:&satisfied failureMessage:&reason];
     
     // then

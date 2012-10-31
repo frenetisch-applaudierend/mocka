@@ -17,5 +17,5 @@ void mck_checkNoInteractions(MCKMockingContext *context, id mockObject) {
             break;
         }
     }
-    [context updateContextMode:MockaContextModeRecording];
+    [context updateContextMode:MCKContextModeRecording];
 }

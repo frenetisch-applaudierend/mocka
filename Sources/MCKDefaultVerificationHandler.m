@@ -9,6 +9,7 @@
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationMatcher.h"
 #import "MCKInvocationRecorder.h"
+#import "MCKArgumentMatcherCollection.h"
 
 
 @implementation MCKDefaultVerificationHandler
@@ -28,12 +29,12 @@
 #pragma mark - Matching Invocations
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withPrimitiveArgumentMatchers:(NSArray *)matchers
+                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
                      inInvocationRecorder:(MCKInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:matchers];
+    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:matchers.primitiveArgumentMatchers];
     if (satisified != NULL) {
         *satisified = ([indexes count] > 0);
     }

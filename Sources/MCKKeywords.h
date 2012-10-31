@@ -12,7 +12,7 @@
 #pragma mark - Verifying
 
 // Safe syntax
-#define mck_verify [mck_updatedContext() updateContextMode:MockaContextModeVerifying];
+#define mck_verify [mck_updatedContext() updateContextMode:MCKContextModeVerifying];
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
@@ -24,7 +24,7 @@
 #pragma mark - Stubbing
 
 // Safe syntax
-#define mck_whenCalling [mck_updatedContext() updateContextMode:MockaContextModeStubbing];
+#define mck_whenCalling [mck_updatedContext() updateContextMode:MCKContextModeStubbing];
 #define mck_orCalling   ; mck_whenCalling
 #define mck_givenCallTo mck_whenCalling
 #define mck_orCallTo    mck_orCalling

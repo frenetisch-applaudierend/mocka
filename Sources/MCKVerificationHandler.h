@@ -10,12 +10,13 @@
 #import "MCKMockingContext.h"
 
 @class MCKInvocationRecorder;
+@class MCKArgumentMatcherCollection;
 
 
 @protocol MCKVerificationHandler <NSObject>
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withPrimitiveArgumentMatchers:(NSArray *)matchers
+                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
                      inInvocationRecorder:(MCKInvocationRecorder *)recorder
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage;

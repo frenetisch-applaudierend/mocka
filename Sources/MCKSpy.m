@@ -142,7 +142,7 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
     MCKMockingContext *context = objc_getAssociatedObject(self, &MCKContextKey);
     
     // In recording mode we want the original method to be called; unless it's stubbed in which case the stub takes over
-    if (context.mode == MockaContextModeRecording && ![context isInvocationStubbed:invocation]) {
+    if (context.mode == MCKContextModeRecording && ![context isInvocationStubbed:invocation]) {
         // Exchange our overridden method with the backup one to call through the original
         // Why not just change the selector on the invocation? Because we want to retain
         // the original selector, in case the original method relies on this.

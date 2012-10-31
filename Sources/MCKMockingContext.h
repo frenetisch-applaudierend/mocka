@@ -20,10 +20,10 @@
 
 
 typedef enum {
-    MockaContextModeRecording,
-    MockaContextModeStubbing,
-    MockaContextModeVerifying,
-} MockaContextMode;
+    MCKContextModeRecording,
+    MCKContextModeStubbing,
+    MCKContextModeVerifying,
+} MCKContextMode;
 
 
 @interface MCKMockingContext : NSObject
@@ -54,11 +54,11 @@ typedef enum {
 
 #pragma mark - Handling Invocations
 
-@property (nonatomic, readonly) MockaContextMode mode;
+@property (nonatomic, readonly) MCKContextMode mode;
 @property (nonatomic, strong)   id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
-- (void)updateContextMode:(MockaContextMode)newMode;
+- (void)updateContextMode:(MCKContextMode)newMode;
 
 - (void)handleInvocation:(NSInvocation *)invocation;
 
