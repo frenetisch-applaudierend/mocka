@@ -86,10 +86,6 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Handling Failures
 
-- (void)failWithReason:(NSString *)reason {
-    [_failureHandler handleFailureWithReason:reason];
-}
-
 - (void)setFailureHandler:(id<MCKFailureHandler>)failureHandler {
     if (_failureHandler == failureHandler) {
         return;
@@ -115,7 +111,7 @@ static __weak id _CurrentContext = nil;
 
 - (void)handleInvocation:(NSInvocation *)invocation {
     if (![_argumentMatcherCollection isValidForMethodSignature:invocation.methodSignature]) {
-        [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
+        [_failureHandler handleFailureWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
         return;
     }
     
@@ -171,7 +167,7 @@ static __weak id _CurrentContext = nil;
                                                                    failureMessage:&reason];
     
     if (!satisfied) {
-        [self failWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
+        [_failureHandler handleFailureWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
     }
     [_invocationRecorder removeInvocationsAtIndexes:matchingIndexes];
     [self updateContextMode:MCKContextModeRecording];
@@ -186,7 +182,7 @@ static __weak id _CurrentContext = nil;
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
     if (_mode == MCKContextModeRecording) {
-        [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
+        [_failureHandler handleFailureWithReason:@"Argument matchers can only be used with whenCalling or verify"];
         return 0;
     }
     

@@ -7,6 +7,7 @@
 //
 
 #import "FakeMockingContext.h"
+#import "MCKExceptionFailureHandler.h"
 
 
 @implementation FakeMockingContext {
@@ -25,16 +26,11 @@
 - (id)init {
     if ((self = [super init])) {
         _handledInvocations = [NSMutableArray array];
+        self.failureHandler = [[MCKExceptionFailureHandler alloc] init];
     }
     return self;
 }
 
-
-#pragma mark - Handling Failures
-
-- (void)failWithReason:(NSString *)reason {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
-}
 
 #pragma mark - Handling Invocations
 

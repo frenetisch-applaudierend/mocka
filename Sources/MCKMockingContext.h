@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MCKFailureHandler.h"
 
-@protocol MCKFailureHandler;
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
@@ -44,8 +44,6 @@ typedef enum {
 #pragma mark - Failure Handling
 
 @property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
-
-- (void)failWithReason:(NSString *)reason;
 
 
 #pragma mark - Handling Invocations
