@@ -18,66 +18,7 @@
 #import "NSInvocation+TestSupport.h"
 #import "BlockArgumentMatcher.h"
 #import "TestObject.h"
-
-
-@interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
-
-+ (id)handlerWhichFailsWithMessage:(NSString *)message;
-+ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
-
-@property (nonatomic, readonly) NSUInteger numberOfCalls;
-
-@property (nonatomic, readonly) NSInvocation *lastInvocationPrototype;
-@property (nonatomic, readonly) NSArray      *lastArgumentMatchers;
-@property (nonatomic, readonly) NSArray      *lastRecordedInvocations;
-
-@end
-
-@implementation FakeVerificationHandler {
-    NSIndexSet *_result;
-    BOOL        _satisfied;
-    NSString   *_failureMessage;
-}
-
-#pragma mark - Initialization
-
-+ (id)handlerWhichFailsWithMessage:(NSString *)message {
-    return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message];
-}
-
-+ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
-    return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil];
-}
-
-- (id)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message {
-    if ((self = [super init])) {
-        _result = [result copy];
-        _satisfied = satisfied;
-        _failureMessage = [message copy];
-    }
-    return self;
-}
-
-
-#pragma mark - MCKVerificationHandler
-
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)argumentMatchers
-                     inInvocationRecorder:(MCKInvocationRecorder *)recorder
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
-{
-    _lastInvocationPrototype = prototype;
-    _lastArgumentMatchers = [argumentMatchers.primitiveArgumentMatchers copy];
-    _lastRecordedInvocations = [recorder.recordedInvocations copy];
-    _numberOfCalls++;
-    
-    if (satisified != NULL) *satisified = _satisfied;
-    if (failureMessage != NULL) *failureMessage = [_failureMessage copy];
-    return _result;
-}
-
-@end
+#import "CannedVerificationHandler.h"
 
 
 @interface MCKMockingContextTest : SenTestCase
@@ -259,19 +200,19 @@
 - (void)testThatHandlingInvocationInVerificationModeCallsVerificationHandler {
     // given
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    context.verificationHandler = [CannedVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
     
     // then
-    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
+    STAssertEquals([(CannedVerificationHandler *)context.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
 }
 
 - (void)testThatHandlingInvocationInVerificationModeThrowsIfHandlerIsNotSatisfied {
     // given
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
+    context.verificationHandler = [CannedVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
     
     // then
     AssertFails({
@@ -289,7 +230,7 @@
     
     [context updateContextMode:MCKContextModeVerifying];
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSetWithIndex:0]; [toRemove addIndex:2];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
+    context.verificationHandler = [CannedVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
     
     // when
     [context handleInvocation:nil]; // any invocation is ok, just as long as the handler is called
@@ -387,7 +328,7 @@
     id matcher1 = [[BlockArgumentMatcher alloc] init];
     
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    context.verificationHandler = [CannedVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
     [context pushPrimitiveArgumentMatcher:matcher0];
@@ -395,9 +336,9 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then
-    STAssertEquals([[(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers] count], (NSUInteger)2, @"Number of matchers is wrong");
-    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][0], matcher0, @"Wrong matcher");
-    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][1], matcher1, @"Wrong matcher");
+    STAssertEquals([[(CannedVerificationHandler *)context.verificationHandler lastArgumentMatchers] count], (NSUInteger)2, @"Number of matchers is wrong");
+    STAssertEquals([(CannedVerificationHandler *)context.verificationHandler lastArgumentMatchers][0], matcher0, @"Wrong matcher");
+    STAssertEquals([(CannedVerificationHandler *)context.verificationHandler lastArgumentMatchers][1], matcher1, @"Wrong matcher");
 }
 
 
@@ -406,7 +347,7 @@
 - (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
     // given
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
+    context.verificationHandler = [CannedVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
     
     // then
     AssertFailsWith(@"verify: Foo was never called", nil, 0, {
@@ -417,7 +358,7 @@
 - (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
     // given
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
+    context.verificationHandler = [CannedVerificationHandler handlerWhichFailsWithMessage:nil];
     
     // then
     AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {

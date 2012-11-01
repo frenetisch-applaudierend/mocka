@@ -12,6 +12,8 @@
 
 @interface MCKSenTestFailureHandler : NSObject <MCKFailureHandler>
 
+@property (nonatomic, readonly, weak) id testCase;
+
 - (id)initWithTestCase:(id)testCase;
 
 @end

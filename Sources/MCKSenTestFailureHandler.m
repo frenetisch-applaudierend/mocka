@@ -10,11 +10,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 
-@implementation MCKSenTestFailureHandler {
-    id _testCase;
-    NSString *_fileName;
-    NSUInteger _lineNumber;
-}
+@implementation MCKSenTestFailureHandler
 
 @synthesize fileName = _fileName;
 @synthesize lineNumber = _lineNumber;

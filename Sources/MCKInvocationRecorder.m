@@ -11,7 +11,7 @@
 
 
 @implementation MCKInvocationRecorder {
-    NSMutableArray          *_recordedInvocations;
+    NSMutableArray *_recordedInvocations;
     MCKInvocationMatcher *_invocationMatcher;
 }
 
