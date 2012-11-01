@@ -41,11 +41,7 @@ typedef enum {
 - (id)initWithTestCase:(id)testCase;
 
 
-#pragma mark - File Information and Handling Failures
-
-@property (nonatomic, readonly, weak) id testCase;
-@property (nonatomic, readonly, copy) NSString *fileName;
-@property (nonatomic, readonly, assign) int lineNumber;
+#pragma mark - Failure Handling
 
 @property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
 
