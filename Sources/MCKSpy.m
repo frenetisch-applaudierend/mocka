@@ -41,11 +41,10 @@ id mck_createSpyForObject(id object, MCKMockingContext *context) {
     
     // safeguards
     if (object == nil) {
-        [context.failureHandler handleFailureWithReason:@"You cannot spy nil"];
+        [context failWithReason:@"You cannot spy nil"];
         return nil;
     } else if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
-        NSString *failureReason = [NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)];
-        [context.failureHandler handleFailureWithReason:failureReason];
+        [context failWithReason:[NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)]];
         return nil;
     }
     
@@ -112,8 +111,7 @@ static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMut
         BOOL success = class_addMethod(spyClass, backupSelector, backup, method_getTypeEncoding(methods[i]));
         success &= class_addMethod(spyClass, method_getName(methods[i]), forwarder, method_getTypeEncoding(methods[i]));
         if (!success) {
-            NSString *failureReason = [NSString stringWithFormat:@"Error overriding method %@", NSStringFromSelector(method_getName(methods[i]))];
-            [context.failureHandler handleFailureWithReason:failureReason];
+            [context failWithReason:[NSString stringWithFormat:@"Error overriding method %@", NSStringFromSelector(method_getName(methods[i]))]];
         }
         
         [overriddenMethods addObject:NSStringFromSelector(method_getName(methods[i]))];

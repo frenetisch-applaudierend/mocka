@@ -403,6 +403,15 @@
 
 #pragma mark - Test Error Messages
 
+- (void)testThatFailWithReasonCreatesSenTestExceptionWithCorrectContents {
+    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
+    ctx.failureHandler = [[MCKExceptionFailureHandler alloc] init];
+    
+    AssertFailsWith(@"Test reason", @"Foo", 10, {
+        [ctx failWithReason:@"Test reason"];
+    });
+}
+
 - (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
     // given
     [context updateContextMode:MCKContextModeVerifying];

@@ -38,7 +38,7 @@
 
 + (BOOL)hasAtLeastOneEntityInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
     if ([sourceList count] == 0) {
-        [context.failureHandler handleFailureWithReason:@"Need at least one class or protocol for mocking"];
+        [context failWithReason:@"Need at least one class or protocol for mocking"];
         return NO;
     }
     return YES;
@@ -47,7 +47,7 @@
 + (BOOL)hasOnlyMockableEntitiesInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
     for (id object in sourceList) {
         if (![self objectIsMockableEntity:object]) {
-            [context.failureHandler handleFailureWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
+            [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
             return NO;
         }
     }
@@ -63,7 +63,7 @@
     }
     
     if (numClasses > 1) {
-        [context.failureHandler handleFailureWithReason:@"At most one class can be mocked."];
+        [context failWithReason:@"At most one class can be mocked."];
         return NO;
     }
     
@@ -74,7 +74,7 @@
     NSArray *entitiesWhichMustBeProtocols = [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)];
     for (id object in entitiesWhichMustBeProtocols) {
         if ([self objectIsClass:object]) {
-            [context.failureHandler handleFailureWithReason:@"If you mock a class it must be at the first position"];
+            [context failWithReason:@"If you mock a class it must be at the first position"];
             return NO;
         }
     }
