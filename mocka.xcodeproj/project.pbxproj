@@ -408,7 +408,6 @@
 			isa = PBXGroup;
 			children = (
 				28575E1515B1F4CE0077ACFC /* MCKMockingContextTest.m */,
-				2822C335162039490031D92C /* MCKInvocationCollectionTest.m */,
 				2822C346162089820031D92C /* MCKInvocationStubberTest.m */,
 				28575E2215B20A3A0077ACFC /* MCKInvocationMatcherTest.m */,
 				2899C36A162AD82700550CFB /* MCKArgumentMatcherCollectionTest.m */,
@@ -425,6 +424,7 @@
 				2822C330162038A00031D92C /* Stub Actions */,
 				2822C331162038BF0031D92C /* Verification Handlers */,
 				28FFE0F61633DF61000BDF5B /* Argument Matchers */,
+				36C4BE0116440D1100355B25 /* Utilities */,
 			);
 			name = "Unit Tests";
 			sourceTree = "<group>";
@@ -443,8 +443,6 @@
 		283E0FD91641054A00ADB57E /* Recording */ = {
 			isa = PBXGroup;
 			children = (
-				2822C328162036BD0031D92C /* MCKInvocationCollection.h */,
-				2822C329162036BD0031D92C /* MCKInvocationCollection.m */,
 			);
 			name = Recording;
 			sourceTree = "<group>";
@@ -581,13 +579,13 @@
 				28D7B39B14D74DE400D494FD /* mocka-Prefix.pch */,
 				2832CC9D14D74F7C00BE74C2 /* Mocka.h */,
 				28575E1315B1F3190077ACFC /* MCKKeywords.h */,
-				36D69C99163123610004C6C1 /* Utilities */,
 				2822C333162038FD0031D92C /* Mocking Core */,
 				28575DED15B1DBE60077ACFC /* Mock Objects */,
 				36A07E67161F5AF8006153C7 /* Failure Handling */,
 				2857B58015B4744300D64D27 /* Stub Actions */,
 				28575E1915B205170077ACFC /* Verification Handlers */,
 				2822C326162036720031D92C /* Argument Matchers */,
+				36D69C99163123610004C6C1 /* Utilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -640,6 +638,14 @@
 			name = "Failure Handling";
 			sourceTree = "<group>";
 		};
+		36C4BE0116440D1100355B25 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2822C335162039490031D92C /* MCKInvocationCollectionTest.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		36D69C99163123610004C6C1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,6 +653,8 @@
 				28DF1CAE15BAA682003408ED /* MCKTypeEncodings.m */,
 				36D69C9B1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h */,
 				36D69C9C1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m */,
+				2822C328162036BD0031D92C /* MCKInvocationCollection.h */,
+				2822C329162036BD0031D92C /* MCKInvocationCollection.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";

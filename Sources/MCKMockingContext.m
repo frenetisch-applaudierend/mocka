@@ -33,6 +33,7 @@
     MCKInvocationStubber *_invocationStubber;
     MCKArgumentMatcherCollection *_argumentMatcherCollection;
     BOOL _inOrder;
+    NSUInteger _inOrderSkipped;
 }
 
 static __weak id _CurrentContext = nil;
@@ -176,21 +177,28 @@ static __weak id _CurrentContext = nil;
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;
     NSString *reason = nil;
+    
+    MCKInvocationCollection *relevantInvocations = (_inOrder ? [_recordedInvocations subcollectionFromIndex:_inOrderSkipped] : _recordedInvocations);
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
                                                              withArgumentMatchers:_argumentMatcherCollection
-                                                            inRecordedInvocations:_recordedInvocations
+                                                            inRecordedInvocations:relevantInvocations
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
     
     if (!satisfied) {
         [self failWithReason:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
-    } else if (_inOrder) {
-        if (![matchingIndexes containsIndex:0]) {
-            [self failWithReason:@"Invocation out of order: -[%@ %@]", invocation.target, NSStringFromSelector(invocation.selector)];
-        }
     }
     
-    [_recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
+    if (_inOrder) {
+        NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
+        [matchingIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            [toRemove addIndex:idx];
+        }];
+        [_recordedInvocations removeInvocationsAtIndexes:toRemove];
+        _inOrderSkipped += [matchingIndexes lastIndex];
+    } else {
+        [_recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
+    }
     
     if (_inOrder) {
         [self updateContextMode:MCKContextModeVerifying];
@@ -202,6 +210,7 @@ static __weak id _CurrentContext = nil;
 - (void)verifyInOrder:(void (^)())verifications {
     NSParameterAssert(verifications != nil);
     _inOrder = YES;
+    _inOrderSkipped = 0;
     verifications();
     _inOrder = NO;
 }

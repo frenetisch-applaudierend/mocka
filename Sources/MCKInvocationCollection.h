@@ -12,12 +12,13 @@
 @class MCKArgumentMatcherCollection;
 
 
-// Record invocations, query for recorded invocations and remove invocations
 @interface MCKInvocationCollection : NSObject
 
 #pragma mark - Initialization
 
+- (id)initWithInvocationMatcher:(MCKInvocationMatcher *)matcher invocations:(NSArray *)invocations;
 - (id)initWithInvocationMatcher:(MCKInvocationMatcher *)matcher;
+- (id)init;
 
 
 #pragma mark - Querying for invocations
@@ -25,6 +26,11 @@
 @property (nonatomic, readonly) NSArray *allInvocations;
 
 - (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withArgumentMatchers:(MCKArgumentMatcherCollection *)argMatchers;
+
+
+#pragma mark - Deriving New Collections
+
+- (MCKInvocationCollection *)subcollectionFromIndex:(NSUInteger)skip;
 
 @end
 

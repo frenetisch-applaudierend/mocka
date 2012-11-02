@@ -23,16 +23,20 @@
 
 #pragma mark - Initialization
 
-- (id)initWithInvocationMatcher:(MCKInvocationMatcher *)matcher {
+- (id)initWithInvocationMatcher:(MCKInvocationMatcher *)matcher invocations:(NSArray *)invocations {
     if ((self = [super init])) {
-        _storedInvocations = [NSMutableArray array];
+        _storedInvocations = (invocations != nil ? [invocations mutableCopy] : [NSMutableArray array]);
         _invocationMatcher = matcher;
     }
     return self;
 }
 
+- (id)initWithInvocationMatcher:(MCKInvocationMatcher *)matcher {
+    return [self initWithInvocationMatcher:matcher invocations:nil];
+}
+
 - (id)init {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
+    return [self initWithInvocationMatcher:[MCKInvocationMatcher matcher] invocations:nil];
 }
 
 
@@ -47,6 +51,14 @@
         return [_invocationMatcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argMatchers.primitiveArgumentMatchers];
     }];
     return matchingIndexes;
+}
+
+
+#pragma mark - Deriving New Collections
+
+- (MCKInvocationCollection *)subcollectionFromIndex:(NSUInteger)skip {
+    NSArray *newInvocations = [_storedInvocations subarrayWithRange:NSMakeRange(skip, [_storedInvocations count] - skip)];
+    return [[MCKInvocationCollection alloc] initWithInvocationMatcher:_invocationMatcher invocations:newInvocations];
 }
 
 @end
