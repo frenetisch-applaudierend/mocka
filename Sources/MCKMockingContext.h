@@ -43,11 +43,14 @@ typedef enum {
 - (id)initWithTestCase:(id)testCase;
 
 
-#pragma mark - File Information and Handling Failures
+#pragma mark - Environment Information
 
-@property (nonatomic, readonly, weak) id testCase;
-@property (nonatomic, readonly, copy) NSString *fileName;
+@property (nonatomic, readonly, weak)   id testCase;
+@property (nonatomic, readonly, copy)   NSString *fileName;
 @property (nonatomic, readonly, assign) int lineNumber;
+
+
+#pragma mark - Failure Handling
 
 @property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
 
@@ -57,11 +60,16 @@ typedef enum {
 #pragma mark - Handling Invocations
 
 @property (nonatomic, readonly) MCKContextMode mode;
-@property (nonatomic, readonly) NSArray *recordedInvocations;
 
 - (void)updateContextMode:(MCKContextMode)newMode;
-
 - (void)handleInvocation:(NSInvocation *)invocation;
+
+
+#pragma mark - Recording
+
+@property (nonatomic, readonly) NSArray *recordedInvocations;
+
+- (void)recordInvocation:(NSInvocation *)invocation;
 
 
 #pragma mark - Stubbing
@@ -73,7 +81,9 @@ typedef enum {
 #pragma mark - Verifying
 
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
-@property (nonatomic, strong) void(^inOrderBlock)();
+@property (nonatomic, strong) void(^inOrderBlock)(); // don't use, only for syntax reasons here
+
+- (void)verifyInOrder:(void(^)())verifications;
 
 
 #pragma mark - Argument Matchers

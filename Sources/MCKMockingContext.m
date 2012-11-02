@@ -164,6 +164,15 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Verification
 
+- (void (^)())inOrderBlock {
+    NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
+    return nil;
+}
+
+- (void)setInOrderBlock:(void (^)())inOrderBlock {
+    [self verifyInOrder:inOrderBlock];
+}
+
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;
     NSString *reason = nil;
@@ -190,15 +199,10 @@ static __weak id _CurrentContext = nil;
     }
 }
 
-- (void (^)())inOrderBlock {
-    NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
-    return nil;
-}
-
-- (void)setInOrderBlock:(void (^)())inOrderBlock {
-    NSParameterAssert(inOrderBlock != nil);
+- (void)verifyInOrder:(void (^)())verifications {
+    NSParameterAssert(verifications != nil);
     _inOrder = YES;
-    inOrderBlock();
+    verifications();
     _inOrder = NO;
 }
 
