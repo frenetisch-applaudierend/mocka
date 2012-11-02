@@ -11,13 +11,6 @@
 
 @protocol MCKFailureHandler <NSObject>
 
-#pragma mark - Providing
-
-@property (nonatomic, readonly, copy)   NSString   *fileName;
-@property (nonatomic, readonly, assign) NSUInteger  lineNumber;
-
-- (void)updateCurrentFileName:(NSString *)file andLineNumber:(NSUInteger)line;
-
-- (void)handleFailureWithReason:(NSString *)reason;
+- (void)handleFailureInFile:(NSString *)file atLine:(NSUInteger)line withReason:(NSString *)reason;
 
 @end

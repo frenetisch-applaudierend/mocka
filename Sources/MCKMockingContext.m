@@ -20,6 +20,14 @@
 #import <objc/runtime.h>
 
 
+@interface MCKMockingContext ()
+
+@property (nonatomic, readwrite, copy)   NSString *fileName;
+@property (nonatomic, readwrite, assign) int       lineNumber;
+
+@end
+
+
 @implementation MCKMockingContext {
     MCKInvocationRecorder *_invocationRecorder;
     MCKInvocationStubber *_invocationStubber;
@@ -34,23 +42,23 @@ static __weak id _CurrentContext = nil;
 + (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line {
     NSParameterAssert(testCase != nil);
     
-    MCKMockingContext *context = [self fetchOrCreateContextForTestCase:testCase];
-    [context.failureHandler updateCurrentFileName:file andLineNumber:line];
-    return context;
-}
-
-+ (id)contextForTestCase:(id)testCase {
-    return [self contextForTestCase:testCase fileName:nil lineNumber:0];
-}
-
-+ (id)fetchOrCreateContextForTestCase:(id)testCase {
+    // Get the context or create a new one if necessary
     static const NSUInteger MCKMockingContextKey;
     MCKMockingContext *context = objc_getAssociatedObject(testCase, &MCKMockingContextKey);
     if (context == nil) {
         context = [[MCKMockingContext alloc] initWithTestCase:testCase];
         objc_setAssociatedObject(testCase, &MCKMockingContextKey, context, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
+    
+    // Update the file/line info
+    context.fileName = file;
+    context.lineNumber = line;
+    
     return context;
+}
+
++ (id)contextForTestCase:(id)testCase {
+    return [self contextForTestCase:testCase fileName:nil lineNumber:0];
 }
 
 + (id)currentContext {
@@ -67,6 +75,7 @@ static __weak id _CurrentContext = nil;
 
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
+        _testCase = testCase;
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
         
         MCKInvocationMatcher *invocationMatcher = [[MCKInvocationMatcher alloc] init];
@@ -87,18 +96,7 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason {
-    [_failureHandler handleFailureWithReason:reason];
-}
-
-- (void)setFailureHandler:(id<MCKFailureHandler>)failureHandler {
-    if (_failureHandler == failureHandler) {
-        return;
-    }
-    
-    if (_failureHandler != nil) {
-        [failureHandler updateCurrentFileName:_failureHandler.fileName andLineNumber:_failureHandler.lineNumber];
-    }
-    _failureHandler = failureHandler;
+    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:reason];
 }
 
 

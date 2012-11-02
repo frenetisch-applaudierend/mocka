@@ -104,14 +104,14 @@
     STAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
 }
 
-- (void)testThatGettingContextUpdatesFileLocationInformationInFailureHandler {
+- (void)testThatGettingContextUpdatesFileLocationInformation {
     MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
-    STAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
-    STAssertEquals(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
+    STAssertEqualObjects(ctx.fileName, @"Foo", @"File name not updated");
+    STAssertEquals(ctx.lineNumber, 10, @"Line number not updated");
     
     ctx = [MCKMockingContext contextForTestCase:self fileName:@"Bar" lineNumber:20];
-    STAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
-    STAssertEquals(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
+    STAssertEqualObjects(ctx.fileName, @"Bar", @"File name not updated");
+    STAssertEquals(ctx.lineNumber, 20, @"Line number not updated");
 }
 
 - (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
@@ -122,7 +122,9 @@
     MCKMockingContext *existingContext = [MCKMockingContext currentContext];
     
     // then
-    STAssertTrue(ctx == existingContext, @"Not the same context returned");
+    STAssertEquals(ctx, existingContext, @"Not the same context returned");
+    STAssertEquals(existingContext.fileName, @"Foo", @"Filename was changed");
+    STAssertEquals(existingContext.lineNumber, 10, @"Linenumber was changed");
 }
 
 - (void)testThatGettingExistingContextAlwaysGetsLatestContext {
@@ -403,7 +405,7 @@
 
 #pragma mark - Test Error Messages
 
-- (void)testThatFailWithReasonCreatesSenTestExceptionWithCorrectContents {
+- (void)testThatFailWithReasonCreatesSenTestException {
     MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
     ctx.failureHandler = [[MCKExceptionFailureHandler alloc] init];
     
