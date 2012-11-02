@@ -213,6 +213,7 @@ static __weak id _CurrentContext = nil;
     _inOrderSkipped = 0;
     verifications();
     _inOrder = NO;
+    [self updateContextMode:MCKContextModeRecording];
 }
 
 

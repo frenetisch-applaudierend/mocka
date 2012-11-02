@@ -302,6 +302,20 @@
 }
 
 
+#pragma mark - Test Ordered Verify
+
+- (void)testThatAfterVerifyingInOrderTheContextIsInRecordingMode {
+    // given
+    [context updateContextMode:MCKContextModeVerifying];
+    
+    // when
+    [context verifyInOrder:^{}];
+    
+    // then
+    STAssertEquals(context.mode, MCKContextModeRecording, @"Should be in recording mode");
+}
+
+
 #pragma mark - Test Supporting Matchers
 
 - (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
