@@ -226,7 +226,7 @@
     });
 }
 
-- (void)testThatVerifyingInOrderIgnoresUnverifiedCalls {
+- (void)ignore_testThatVerifyingInOrderIgnoresUnverifiedCalls {
     // if you simply verify in order then 
     
     [mockArray addObject:@"One"];

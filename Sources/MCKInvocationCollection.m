@@ -10,10 +10,15 @@
 #import "MCKInvocationMatcher.h"
 
 
-@implementation MCKInvocationCollection {
+@interface MCKInvocationCollection () {
+@protected
     NSMutableArray *_storedInvocations;
     MCKInvocationMatcher *_invocationMatcher;
 }
+@end
+
+
+@implementation MCKInvocationCollection
 
 #pragma mark - Initialization
 
@@ -30,15 +35,7 @@
 }
 
 
-#pragma mark - Recording invocations
-
-- (void)addInvocation:(NSInvocation *)invocation {
-    [invocation retainArguments];
-    [_storedInvocations addObject:invocation];
-}
-
-
-#pragma mark - Querying for recorded invocations
+#pragma mark - Querying for invocations
 
 - (NSArray *)allInvocations {
     return [_storedInvocations copy];
@@ -51,8 +48,17 @@
     return matchingIndexes;
 }
 
+@end
 
-#pragma mark - Removing recorded invocations
+
+@implementation MCKMutableInvocationCollection
+
+#pragma mark - Adding and Removing Invocations
+
+- (void)addInvocation:(NSInvocation *)invocation {
+    [invocation retainArguments];
+    [_storedInvocations addObject:invocation];
+}
 
 - (void)removeInvocationsAtIndexes:(NSIndexSet *)indexes {
     [_storedInvocations removeObjectsAtIndexes:indexes];

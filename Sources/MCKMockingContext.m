@@ -29,7 +29,7 @@
 
 
 @implementation MCKMockingContext {
-    MCKInvocationCollection *_recordedInvocations;
+    MCKMutableInvocationCollection *_recordedInvocations;
     MCKInvocationStubber *_invocationStubber;
     MCKArgumentMatcherCollection *_argumentMatcherCollection;
     BOOL _inOrder;
@@ -80,7 +80,7 @@ static __weak id _CurrentContext = nil;
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
         
         MCKInvocationMatcher *invocationMatcher = [[MCKInvocationMatcher alloc] init];
-        _recordedInvocations = [[MCKInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
+        _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
         _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
         _argumentMatcherCollection = [[MCKArgumentMatcherCollection alloc] init];
         

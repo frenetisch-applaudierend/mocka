@@ -1,5 +1,5 @@
 //
-//  MCKInvocationRecorderTest.m
+//  MCKInvocationCollectionTest.m
 //  mocka
 //
 //  Created by Markus Gasser on 06.10.12.
@@ -14,11 +14,11 @@
 #import "BlockArgumentMatcher.h"
 
 
-@interface MCKInvocationRecorderTest : SenTestCase
+@interface MCKInvocationCollectionTest : SenTestCase
 @end
 
-@implementation MCKInvocationRecorderTest {
-    MCKInvocationCollection *recorder;
+@implementation MCKInvocationCollectionTest {
+    MCKMutableInvocationCollection *recorder;
     BlockInvocationMatcher   *invocationMatcher;
 }
 
@@ -26,7 +26,7 @@
 
 - (void)setUp {
     invocationMatcher = [[BlockInvocationMatcher alloc] init];
-    recorder = [[MCKInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
+    recorder = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
 }
 
 

@@ -19,20 +19,20 @@
 - (id)initWithInvocationMatcher:(MCKInvocationMatcher *)matcher;
 
 
-#pragma mark - Recording invocations
-
-- (void)addInvocation:(NSInvocation *)invocation;
-
-
-#pragma mark - Querying recorded invocations
+#pragma mark - Querying for invocations
 
 @property (nonatomic, readonly) NSArray *allInvocations;
 
 - (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers;
 
+@end
 
-#pragma mark - Removing recorded invocations
 
+@interface MCKMutableInvocationCollection : MCKInvocationCollection
+
+#pragma mark - Adding and Removing Invocations
+
+- (void)addInvocation:(NSInvocation *)invocation;
 - (void)removeInvocationsAtIndexes:(NSIndexSet *)indexes;
 
 @end
