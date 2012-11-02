@@ -10,15 +10,4 @@
 
 @implementation MCKDefaultInvocationVerifier
 
-@synthesize verificationHandler = _verificationHandler;
-
-
-- (void)verifyInvocation:(NSInvocation *)invocation inRecorder:(MCKInvocationRecorder *)recorder failureHandler:(id<MCKFailureHandler>)failureHandler {
-    
-}
-
-- (MCKContextMode)nextContextMode {
-    return MCKContextModeRecording;
-}
-
 @end

@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCKInvocationVerifier.h"
+#import "MCKMockingContext.h"
 
 
-@interface MCKDefaultInvocationVerifier : NSObject <MCKInvocationVerifier>
+@interface MCKDefaultInvocationVerifier : NSObject
+
 
 @end

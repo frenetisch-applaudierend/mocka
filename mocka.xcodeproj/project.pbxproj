@@ -118,12 +118,6 @@
 		28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE1021633E676000BDF5B /* MCKSetOutParameterStubActionTest.m */; };
 		28FFE11816343C68000BDF5B /* CategoriesTestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */; };
 		28FFE11916343C68000BDF5B /* CategoriesTestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */; };
-		3639DA001642CDD700FB9BDC /* MCKInvocationVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 3639D9FF1642CDD700FB9BDC /* MCKInvocationVerifier.h */; };
-		3639DA011642CDD700FB9BDC /* MCKInvocationVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 3639D9FF1642CDD700FB9BDC /* MCKInvocationVerifier.h */; };
-		3639DA041642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3639DA031642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m */; };
-		3639DA051642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3639DA031642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m */; };
-		3639DA081642D93400FB9BDC /* CannedVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3639DA071642D93400FB9BDC /* CannedVerificationHandler.m */; };
-		3639DA091642D93400FB9BDC /* CannedVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3639DA071642D93400FB9BDC /* CannedVerificationHandler.m */; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -299,10 +293,6 @@
 		28FFE1051633EC6C000BDF5B /* TestExceptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestExceptionUtils.h; sourceTree = "<group>"; };
 		28FFE11616343C68000BDF5B /* CategoriesTestClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesTestClasses.h; sourceTree = "<group>"; };
 		28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesTestClasses.m; sourceTree = "<group>"; };
-		3639D9FF1642CDD700FB9BDC /* MCKInvocationVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationVerifier.h; sourceTree = "<group>"; };
-		3639DA031642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKDefaultInvocationVerifierTest.m; sourceTree = "<group>"; };
-		3639DA061642D93400FB9BDC /* CannedVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannedVerificationHandler.h; sourceTree = "<group>"; };
-		3639DA071642D93400FB9BDC /* CannedVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedVerificationHandler.m; sourceTree = "<group>"; };
 		364701631604CFA400B74E8B /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.md; sourceTree = "<group>"; };
 		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -429,7 +419,6 @@
 				2822C346162089820031D92C /* MCKInvocationStubberTest.m */,
 				28575E2215B20A3A0077ACFC /* MCKInvocationMatcherTest.m */,
 				2899C36A162AD82700550CFB /* MCKArgumentMatcherCollectionTest.m */,
-				3639DA031642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m */,
 			);
 			name = "Mocking Core";
 			sourceTree = "<group>";
@@ -450,7 +439,6 @@
 		283E0FD71641052400ADB57E /* Verifying */ = {
 			isa = PBXGroup;
 			children = (
-				3639D9FF1642CDD700FB9BDC /* MCKInvocationVerifier.h */,
 				283E0FD01641050B00ADB57E /* MCKDefaultInvocationVerifier.h */,
 				283E0FD11641050B00ADB57E /* MCKDefaultInvocationVerifier.m */,
 			);
@@ -524,7 +512,7 @@
 			name = "Verification Handlers";
 			sourceTree = "<group>";
 		};
-		2857B56D15B23FCE00D64D27 /* Testing Helper Classes */ = {
+		2857B56D15B23FCE00D64D27 /* Testing Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				28FFE1051633EC6C000BDF5B /* TestExceptionUtils.h */,
@@ -542,10 +530,8 @@
 				2822C33916203DB90031D92C /* BlockInvocationMatcher.m */,
 				2857B57215B23FF100D64D27 /* NSInvocation+TestSupport.h */,
 				2857B57315B23FF100D64D27 /* NSInvocation+TestSupport.m */,
-				3639DA061642D93400FB9BDC /* CannedVerificationHandler.h */,
-				3639DA071642D93400FB9BDC /* CannedVerificationHandler.m */,
 			);
-			name = "Testing Helper Classes";
+			name = "Testing Utilities";
 			sourceTree = "<group>";
 		};
 		2857B58015B4744300D64D27 /* Stub Actions */ = {
@@ -627,7 +613,7 @@
 			children = (
 				28575DD915B1D4C30077ACFC /* Functional and Integration Tests */,
 				2832CC9614D74F3900BE74C2 /* Unit Tests */,
-				2857B56D15B23FCE00D64D27 /* Testing Helper Classes */,
+				2857B56D15B23FCE00D64D27 /* Testing Utilities */,
 				28D7B3AE14D74DE400D494FD /* Supporting Files */,
 			);
 			path = Tests;
@@ -716,7 +702,6 @@
 				36D69C9D1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				28FFE0FE1633E565000BDF5B /* MCKSetOutParameterStubAction.h in Headers */,
 				283E0FD21641050B00ADB57E /* MCKDefaultInvocationVerifier.h in Headers */,
-				3639DA001642CDD700FB9BDC /* MCKInvocationVerifier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,7 +737,6 @@
 				36D69C9E1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				28FFE0FF1633E565000BDF5B /* MCKSetOutParameterStubAction.h in Headers */,
 				283E0FD31641050B00ADB57E /* MCKDefaultInvocationVerifier.h in Headers */,
-				3639DA011642CDD700FB9BDC /* MCKInvocationVerifier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1016,8 +1000,6 @@
 				281F76101630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 				28FFE11816343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
-				3639DA041642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m in Sources */,
-				3639DA081642D93400FB9BDC /* CannedVerificationHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1083,8 +1065,6 @@
 				281F76111630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 				28FFE11916343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
-				3639DA051642D29400FB9BDC /* MCKDefaultInvocationVerifierTest.m in Sources */,
-				3639DA091642D93400FB9BDC /* CannedVerificationHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

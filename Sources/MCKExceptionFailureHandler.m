@@ -13,7 +13,10 @@ NSString * const MCKFileNameKey = @"fileName";
 NSString * const MCKLineNumberKey = @"lineNumber";
 
 
-@implementation MCKExceptionFailureHandler
+@implementation MCKExceptionFailureHandler {
+    NSString *_fileName;
+    NSUInteger _lineNumber;
+}
 
 @synthesize fileName = _fileName;
 @synthesize lineNumber = _lineNumber;
