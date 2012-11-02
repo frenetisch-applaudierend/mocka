@@ -210,8 +210,6 @@
 
 #pragma mark - Ordered Verify
 
-#define inOrder if(YES)
-
 - (void)testThatVerifyingInOrderFailsIfCallIsMadeOutOfOrder {
     // by verifying in order you can check that a certain flow of methods is called one after another
     
@@ -222,8 +220,8 @@
     ThisWillFail({
         verify inOrder {
             [mockArray addObject:@"One"];
-            [mockArray addObject:@"Three"]; // <-- EVIL, out of order!
-            [mockArray addObject:@"Two"];
+            [mockArray addObject:@"Three"];
+            [mockArray addObject:@"Two"];   // <-- EVIL, out of order!
         };
     });
 }

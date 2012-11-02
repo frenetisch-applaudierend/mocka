@@ -32,6 +32,7 @@
     MCKInvocationRecorder *_invocationRecorder;
     MCKInvocationStubber *_invocationStubber;
     MCKArgumentMatcherCollection *_argumentMatcherCollection;
+    BOOL _inOrder;
 }
 
 static __weak id _CurrentContext = nil;
@@ -95,8 +96,13 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Handling Failures
 
-- (void)failWithReason:(NSString *)reason {
-    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:reason];
+- (void)failWithReason:(NSString *)reason, ... {
+    va_list ap;
+    va_start(ap, reason);
+    NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
+    va_end(ap);
+    
+    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:formattedReason];
 }
 
 
@@ -169,10 +175,32 @@ static __weak id _CurrentContext = nil;
                                                                    failureMessage:&reason];
     
     if (!satisfied) {
-        [self failWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
+        [self failWithReason:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
+    } else if (_inOrder) {
+        if (![matchingIndexes containsIndex:0]) {
+            [self failWithReason:@"Invocation out of order: -[%@ %@]", invocation.target, NSStringFromSelector(invocation.selector)];
+        }
     }
+    
     [_invocationRecorder removeInvocationsAtIndexes:matchingIndexes];
-    [self updateContextMode:MCKContextModeRecording];
+    
+    if (_inOrder) {
+        [self updateContextMode:MCKContextModeVerifying];
+    } else {
+        [self updateContextMode:MCKContextModeRecording];
+    }
+}
+
+- (void (^)())inOrderBlock {
+    NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
+    return nil;
+}
+
+- (void)setInOrderBlock:(void (^)())inOrderBlock {
+    NSParameterAssert(inOrderBlock != nil);
+    _inOrder = YES;
+    inOrderBlock();
+    _inOrder = NO;
 }
 
 

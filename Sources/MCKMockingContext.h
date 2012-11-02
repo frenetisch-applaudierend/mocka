@@ -15,8 +15,10 @@
 @class MCKStub;
 
 
-#define mck_updatedContext() [MCKMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
-#define mck_currentContext() [MCKMockingContext currentContext]
+#define mck_updatedContext() ((MCKMockingContext *)[MCKMockingContext contextForTestCase:self\
+                                                                      fileName:[NSString stringWithUTF8String:__FILE__]\
+                                                                      lineNumber:__LINE__])
+#define mck_currentContext() ((MCKMockingContext *)[MCKMockingContext currentContext])
 
 
 typedef enum {
@@ -49,13 +51,12 @@ typedef enum {
 
 @property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
 
-- (void)failWithReason:(NSString *)reason;
+- (void)failWithReason:(NSString *)reason, ...;
 
 
 #pragma mark - Handling Invocations
 
 @property (nonatomic, readonly) MCKContextMode mode;
-@property (nonatomic, strong)   id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
 - (void)updateContextMode:(MCKContextMode)newMode;
@@ -67,6 +68,12 @@ typedef enum {
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
 - (void)addStubAction:(id<MCKStubAction>)action;
+
+
+#pragma mark - Verifying
+
+@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
+@property (nonatomic, strong) void(^inOrderBlock)();
 
 
 #pragma mark - Argument Matchers
