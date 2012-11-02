@@ -8,6 +8,7 @@
 
 #import "MCKInvocationCollection.h"
 #import "MCKInvocationMatcher.h"
+#import "MCKArgumentMatcherCollection.h"
 
 
 @interface MCKInvocationCollection () {
@@ -41,9 +42,9 @@
     return [_storedInvocations copy];
 }
 
-- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers {
+- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withArgumentMatchers:(MCKArgumentMatcherCollection *)argMatchers {
     NSIndexSet *matchingIndexes = [_storedInvocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *candidate, NSUInteger idx, BOOL *stop) {
-        return [_invocationMatcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argMatchers];
+        return [_invocationMatcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argMatchers.primitiveArgumentMatchers];
     }];
     return matchingIndexes;
 }

@@ -38,7 +38,7 @@
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recordedInvocations invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:matchers.primitiveArgumentMatchers];
+    NSIndexSet *indexes = [recordedInvocations invocationsMatchingPrototype:prototype withArgumentMatchers:matchers];
     
     if (satisified != NULL) {
         *satisified = ([indexes count] == _count);

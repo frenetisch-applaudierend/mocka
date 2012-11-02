@@ -11,6 +11,8 @@
 
 @interface MCKInvocationMatcher : NSObject
 
++ (id)matcher;
+
 - (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)matchers;
 
 @end

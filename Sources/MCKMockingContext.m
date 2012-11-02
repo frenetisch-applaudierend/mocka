@@ -79,9 +79,8 @@ static __weak id _CurrentContext = nil;
         _testCase = testCase;
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
         
-        MCKInvocationMatcher *invocationMatcher = [[MCKInvocationMatcher alloc] init];
-        _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
-        _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
+        _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
+        _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
         _argumentMatcherCollection = [[MCKArgumentMatcherCollection alloc] init];
         
         _CurrentContext = self;
@@ -99,10 +98,10 @@ static __weak id _CurrentContext = nil;
 - (void)failWithReason:(NSString *)reason, ... {
     va_list ap;
     va_start(ap, reason);
-    NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
-    va_end(ap);
     
-    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:formattedReason];
+    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
+    
+    va_end(ap);
 }
 
 

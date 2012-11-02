@@ -13,6 +13,18 @@
 
 @implementation MCKInvocationMatcher
 
+#pragma mark - Initialization
+
++ (id)matcher {
+    static id sharedMatcher = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMatcher = [[MCKInvocationMatcher alloc] init];
+    });
+    return sharedMatcher;
+}
+
+
 #pragma mark - Invocation Matching
 
 - (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers {

@@ -16,11 +16,15 @@
 
 #pragma mark - Initialization
 
-- (id)init {
+- (id)initWithPrimitiveArgumentMatchers:(NSArray *)primitiveMatchers {
     if ((self = [super init])) {
-        _primitiveArgumentMatchers = [NSMutableArray array];
+        _primitiveArgumentMatchers = (primitiveMatchers != nil ? [primitiveMatchers mutableCopy] : [NSMutableArray array]);
     }
     return self;
+}
+
+- (id)init {
+    return [self initWithPrimitiveArgumentMatchers:nil];
 }
 
 

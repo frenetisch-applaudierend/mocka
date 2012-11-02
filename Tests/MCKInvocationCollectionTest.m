@@ -8,6 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "MCKInvocationCollection.h"
+#import "MCKArgumentMatcherCollection.h"
 
 #import "NSInvocation+TestSupport.h"
 #import "BlockInvocationMatcher.h"
@@ -73,7 +74,7 @@
     }];
     
     // when
-    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withPrimitiveArgumentMatchers:nil];
+    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withArgumentMatchers:nil];
     
     // then
     STAssertEqualObjects(testedInvocations, (@[ invocation0, invocation1, invocation2, invocation3 ]), @"Invocations not all tested or not in correct order");
@@ -94,7 +95,8 @@
     }];
     
     // when
-    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withPrimitiveArgumentMatchers:primitiveArgMatchers];
+    [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil]
+                      withArgumentMatchers:[[MCKArgumentMatcherCollection alloc] initWithPrimitiveArgumentMatchers:primitiveArgMatchers]];
     
     // then
     for (NSArray *matchers in passedMatchers) {
@@ -114,7 +116,7 @@
     }];
     
     // when
-    NSIndexSet *matchingIndexes = [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withPrimitiveArgumentMatchers:nil];
+    NSIndexSet *matchingIndexes = [recorder invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withArgumentMatchers:nil];
     
     // then
     NSMutableIndexSet *expectedIndexes = [NSMutableIndexSet indexSet];

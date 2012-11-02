@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class MCKInvocationMatcher;
+@class MCKArgumentMatcherCollection;
 
 
 // Record invocations, query for recorded invocations and remove invocations
@@ -23,7 +24,7 @@
 
 @property (nonatomic, readonly) NSArray *allInvocations;
 
-- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers;
+- (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withArgumentMatchers:(MCKArgumentMatcherCollection *)argMatchers;
 
 @end
 
