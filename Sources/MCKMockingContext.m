@@ -7,7 +7,7 @@
 //
 
 #import "MCKMockingContext.h"
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
 #import "MCKInvocationStubber.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
@@ -29,7 +29,7 @@
 
 
 @implementation MCKMockingContext {
-    MCKInvocationRecorder *_invocationRecorder;
+    MCKInvocationCollection *_recordedInvocations;
     MCKInvocationStubber *_invocationStubber;
     MCKArgumentMatcherCollection *_argumentMatcherCollection;
     BOOL _inOrder;
@@ -80,7 +80,7 @@ static __weak id _CurrentContext = nil;
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
         
         MCKInvocationMatcher *invocationMatcher = [[MCKInvocationMatcher alloc] init];
-        _invocationRecorder = [[MCKInvocationRecorder alloc] initWithInvocationMatcher:invocationMatcher];
+        _recordedInvocations = [[MCKInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
         _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
         _argumentMatcherCollection = [[MCKArgumentMatcherCollection alloc] init];
         
@@ -137,11 +137,11 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Recording
 
 - (NSArray *)recordedInvocations {
-    return _invocationRecorder.recordedInvocations;
+    return _recordedInvocations.allInvocations;
 }
 
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [_invocationRecorder recordInvocation:invocation];
+    [_recordedInvocations addInvocation:invocation];
     [_invocationStubber applyStubsForInvocation:invocation];
 }
 
@@ -170,7 +170,7 @@ static __weak id _CurrentContext = nil;
     NSString *reason = nil;
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
                                                              withArgumentMatchers:_argumentMatcherCollection
-                                                             inInvocationRecorder:_invocationRecorder
+                                                            inRecordedInvocations:_recordedInvocations
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
     
@@ -182,7 +182,7 @@ static __weak id _CurrentContext = nil;
         }
     }
     
-    [_invocationRecorder removeInvocationsAtIndexes:matchingIndexes];
+    [_recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
     
     if (_inOrder) {
         [self updateContextMode:MCKContextModeVerifying];

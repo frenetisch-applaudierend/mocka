@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MCKMockingContext.h"
 
-@class MCKInvocationRecorder;
+@class MCKInvocationCollection;
 @class MCKArgumentMatcherCollection;
 
 
@@ -17,7 +17,7 @@
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
                      withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
-                     inInvocationRecorder:(MCKInvocationRecorder *)recorder
+                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage;
 

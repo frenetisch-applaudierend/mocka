@@ -1,5 +1,5 @@
 //
-//  MCKInvocationRecorder.h
+//  MCKInvocationCollection.h
 //  mocka
 //
 //  Created by Markus Gasser on 06.10.12.
@@ -12,7 +12,7 @@
 
 
 // Record invocations, query for recorded invocations and remove invocations
-@interface MCKInvocationRecorder : NSObject
+@interface MCKInvocationCollection : NSObject
 
 #pragma mark - Initialization
 
@@ -21,12 +21,12 @@
 
 #pragma mark - Recording invocations
 
-- (void)recordInvocation:(NSInvocation *)invocation;
+- (void)addInvocation:(NSInvocation *)invocation;
 
 
 #pragma mark - Querying recorded invocations
 
-@property (nonatomic, readonly) NSArray *recordedInvocations;
+@property (nonatomic, readonly) NSArray *allInvocations;
 
 - (NSIndexSet *)invocationsMatchingPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argMatchers;
 

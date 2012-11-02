@@ -30,16 +30,16 @@
 		281F760C163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
 		281F76101630924400A10434 /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F760F1630924400A10434 /* ExamplesStub.m */; };
 		281F76111630924400A10434 /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F760F1630924400A10434 /* ExamplesStub.m */; };
-		2822C32A162036BD0031D92C /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationRecorder.h */; };
-		2822C32B162036BD0031D92C /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationRecorder.h */; };
-		2822C32C162036BD0031D92C /* MCKInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C329162036BD0031D92C /* MCKInvocationRecorder.m */; };
-		2822C32D162036BD0031D92C /* MCKInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C329162036BD0031D92C /* MCKInvocationRecorder.m */; };
+		2822C32A162036BD0031D92C /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationCollection.h */; };
+		2822C32B162036BD0031D92C /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationCollection.h */; };
+		2822C32C162036BD0031D92C /* MCKInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C329162036BD0031D92C /* MCKInvocationCollection.m */; };
+		2822C32D162036BD0031D92C /* MCKInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C329162036BD0031D92C /* MCKInvocationCollection.m */; };
 		2822C336162039490031D92C /* MCKInvocationRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C335162039490031D92C /* MCKInvocationRecorderTest.m */; };
 		2822C337162039490031D92C /* MCKInvocationRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C335162039490031D92C /* MCKInvocationRecorderTest.m */; };
 		2822C33A16203DB90031D92C /* BlockInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33916203DB90031D92C /* BlockInvocationMatcher.m */; };
 		2822C33B16203DB90031D92C /* BlockInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33916203DB90031D92C /* BlockInvocationMatcher.m */; };
-		2822C33E16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */; };
-		2822C33F16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */; };
+		2822C33E16206B4A0031D92C /* CannedInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33D16206B4A0031D92C /* CannedInvocationCollection.m */; };
+		2822C33F16206B4A0031D92C /* CannedInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C33D16206B4A0031D92C /* CannedInvocationCollection.m */; };
 		2822C342162076BF0031D92C /* MCKInvocationStubber.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C340162076BF0031D92C /* MCKInvocationStubber.h */; };
 		2822C343162076BF0031D92C /* MCKInvocationStubber.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C340162076BF0031D92C /* MCKInvocationStubber.h */; };
 		2822C344162076BF0031D92C /* MCKInvocationStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C341162076BF0031D92C /* MCKInvocationStubber.m */; };
@@ -209,13 +209,13 @@
 		281F7606163076C300A10434 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		281F7607163076C300A10434 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
 		281F760F1630924400A10434 /* ExamplesStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesStub.m; sourceTree = "<group>"; };
-		2822C328162036BD0031D92C /* MCKInvocationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationRecorder.h; sourceTree = "<group>"; };
-		2822C329162036BD0031D92C /* MCKInvocationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationRecorder.m; sourceTree = "<group>"; };
+		2822C328162036BD0031D92C /* MCKInvocationCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationCollection.h; sourceTree = "<group>"; };
+		2822C329162036BD0031D92C /* MCKInvocationCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationCollection.m; sourceTree = "<group>"; };
 		2822C335162039490031D92C /* MCKInvocationRecorderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationRecorderTest.m; sourceTree = "<group>"; };
 		2822C33816203DB90031D92C /* BlockInvocationMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockInvocationMatcher.h; sourceTree = "<group>"; };
 		2822C33916203DB90031D92C /* BlockInvocationMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockInvocationMatcher.m; sourceTree = "<group>"; };
-		2822C33C16206B4A0031D92C /* CannedInvocationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannedInvocationRecorder.h; sourceTree = "<group>"; };
-		2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedInvocationRecorder.m; sourceTree = "<group>"; };
+		2822C33C16206B4A0031D92C /* CannedInvocationCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannedInvocationCollection.h; sourceTree = "<group>"; };
+		2822C33D16206B4A0031D92C /* CannedInvocationCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannedInvocationCollection.m; sourceTree = "<group>"; };
 		2822C340162076BF0031D92C /* MCKInvocationStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationStubber.h; sourceTree = "<group>"; };
 		2822C341162076BF0031D92C /* MCKInvocationStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationStubber.m; sourceTree = "<group>"; };
 		2822C346162089820031D92C /* MCKInvocationStubberTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationStubberTest.m; sourceTree = "<group>"; };
@@ -443,8 +443,8 @@
 		283E0FD91641054A00ADB57E /* Recording */ = {
 			isa = PBXGroup;
 			children = (
-				2822C328162036BD0031D92C /* MCKInvocationRecorder.h */,
-				2822C329162036BD0031D92C /* MCKInvocationRecorder.m */,
+				2822C328162036BD0031D92C /* MCKInvocationCollection.h */,
+				2822C329162036BD0031D92C /* MCKInvocationCollection.m */,
 			);
 			name = Recording;
 			sourceTree = "<group>";
@@ -506,8 +506,8 @@
 				28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */,
 				2857B57915B3296100D64D27 /* FakeMockingContext.h */,
 				2857B57A15B3296100D64D27 /* FakeMockingContext.m */,
-				2822C33C16206B4A0031D92C /* CannedInvocationRecorder.h */,
-				2822C33D16206B4A0031D92C /* CannedInvocationRecorder.m */,
+				2822C33C16206B4A0031D92C /* CannedInvocationCollection.h */,
+				2822C33D16206B4A0031D92C /* CannedInvocationCollection.m */,
 				28685FD115FDEE8300B59545 /* BlockArgumentMatcher.h */,
 				28685FD215FDEE8300B59545 /* BlockArgumentMatcher.m */,
 				2822C33816203DB90031D92C /* BlockInvocationMatcher.h */,
@@ -680,7 +680,7 @@
 				36A07E4D161EF487006153C7 /* MCKFailureHandler.h in Headers */,
 				36A07E52161EF504006153C7 /* MCKSenTestFailureHandler.h in Headers */,
 				36A07E63161F5AF3006153C7 /* MCKExceptionFailureHandler.h in Headers */,
-				2822C32A162036BD0031D92C /* MCKInvocationRecorder.h in Headers */,
+				2822C32A162036BD0031D92C /* MCKInvocationCollection.h in Headers */,
 				2822C342162076BF0031D92C /* MCKInvocationStubber.h in Headers */,
 				2899C365162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */,
 				36D69C9D1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */,
@@ -714,7 +714,7 @@
 				36A07E4E161EF487006153C7 /* MCKFailureHandler.h in Headers */,
 				36A07E53161EF504006153C7 /* MCKSenTestFailureHandler.h in Headers */,
 				36A07E64161F5AF3006153C7 /* MCKExceptionFailureHandler.h in Headers */,
-				2822C32B162036BD0031D92C /* MCKInvocationRecorder.h in Headers */,
+				2822C32B162036BD0031D92C /* MCKInvocationCollection.h in Headers */,
 				2822C343162076BF0031D92C /* MCKInvocationStubber.h in Headers */,
 				2899C366162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */,
 				36D69C9E1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.h in Headers */,
@@ -940,7 +940,7 @@
 				28685FDD15FE289700B59545 /* MCKAnyArgumentMatcher.m in Sources */,
 				36A07E54161EF504006153C7 /* MCKSenTestFailureHandler.m in Sources */,
 				36A07E65161F5AF3006153C7 /* MCKExceptionFailureHandler.m in Sources */,
-				2822C32C162036BD0031D92C /* MCKInvocationRecorder.m in Sources */,
+				2822C32C162036BD0031D92C /* MCKInvocationCollection.m in Sources */,
 				2822C344162076BF0031D92C /* MCKInvocationStubber.m in Sources */,
 				2899C367162AD75900550CFB /* MCKArgumentMatcherCollection.m in Sources */,
 				36D69C9F1631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m in Sources */,
@@ -973,7 +973,7 @@
 				36A07E6B161F5BED006153C7 /* MCKExceptionFailureHandlerTest.m in Sources */,
 				2822C336162039490031D92C /* MCKInvocationRecorderTest.m in Sources */,
 				2822C33A16203DB90031D92C /* BlockInvocationMatcher.m in Sources */,
-				2822C33E16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
+				2822C33E16206B4A0031D92C /* CannedInvocationCollection.m in Sources */,
 				2822C349162089860031D92C /* MCKInvocationStubberTest.m in Sources */,
 				2899C383162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
 				281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */,
@@ -1004,7 +1004,7 @@
 				36A07E34161ED16A006153C7 /* MCKAnyArgumentMatcher.m in Sources */,
 				36A07E55161EF504006153C7 /* MCKSenTestFailureHandler.m in Sources */,
 				36A07E66161F5AF3006153C7 /* MCKExceptionFailureHandler.m in Sources */,
-				2822C32D162036BD0031D92C /* MCKInvocationRecorder.m in Sources */,
+				2822C32D162036BD0031D92C /* MCKInvocationCollection.m in Sources */,
 				2822C345162076BF0031D92C /* MCKInvocationStubber.m in Sources */,
 				2899C368162AD75900550CFB /* MCKArgumentMatcherCollection.m in Sources */,
 				36D69CA01631239A0004C6C1 /* NSInvocation+MCKArgumentHandling.m in Sources */,
@@ -1037,7 +1037,7 @@
 				36A07E6C161F5BEE006153C7 /* MCKExceptionFailureHandlerTest.m in Sources */,
 				2822C337162039490031D92C /* MCKInvocationRecorderTest.m in Sources */,
 				2822C33B16203DB90031D92C /* BlockInvocationMatcher.m in Sources */,
-				2822C33F16206B4A0031D92C /* CannedInvocationRecorder.m in Sources */,
+				2822C33F16206B4A0031D92C /* CannedInvocationCollection.m in Sources */,
 				2822C34A162089860031D92C /* MCKInvocationStubberTest.m in Sources */,
 				2899C384162AE30700550CFB /* MCKArgumentMatcherCollectionTest.m in Sources */,
 				281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */,

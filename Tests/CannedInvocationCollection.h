@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
 
-@interface CannedInvocationRecorder : MCKInvocationRecorder
+@interface CannedInvocationCollection : MCKInvocationCollection
 
 @property (nonatomic, copy) NSIndexSet *cannedResult;
 

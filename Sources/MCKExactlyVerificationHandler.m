@@ -8,7 +8,7 @@
 
 #import "MCKExactlyVerificationHandler.h"
 #import "MCKInvocationMatcher.h"
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 
@@ -34,11 +34,11 @@
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
                      withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
-                     inInvocationRecorder:(MCKInvocationRecorder *)recorder
+                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recorder invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:matchers.primitiveArgumentMatchers];
+    NSIndexSet *indexes = [recordedInvocations invocationsMatchingPrototype:prototype withPrimitiveArgumentMatchers:matchers.primitiveArgumentMatchers];
     
     if (satisified != NULL) {
         *satisified = ([indexes count] == _count);

@@ -11,7 +11,7 @@
 #import "MCKMockObject.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
@@ -63,13 +63,13 @@
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
                      withArgumentMatchers:(MCKArgumentMatcherCollection *)argumentMatchers
-                     inInvocationRecorder:(MCKInvocationRecorder *)recorder
+                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
     _lastInvocationPrototype = prototype;
     _lastArgumentMatchers = [argumentMatchers.primitiveArgumentMatchers copy];
-    _lastRecordedInvocations = [recorder.recordedInvocations copy];
+    _lastRecordedInvocations = [recordedInvocations.allInvocations copy];
     _numberOfCalls++;
     
     if (satisified != NULL) *satisified = _satisfied;

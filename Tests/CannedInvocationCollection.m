@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import "CannedInvocationRecorder.h"
+#import "CannedInvocationCollection.h"
 #import "MCKInvocationMatcher.h"
 
 
-@implementation CannedInvocationRecorder
+@implementation CannedInvocationCollection
 
 - (id)initWithCannedResult:(NSIndexSet *)indexSet {
     if ((self = [super initWithInvocationMatcher:[[MCKInvocationMatcher alloc] init]])) {

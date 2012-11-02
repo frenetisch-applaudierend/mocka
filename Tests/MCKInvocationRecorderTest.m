@@ -7,7 +7,7 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
 
 #import "NSInvocation+TestSupport.h"
 #import "BlockInvocationMatcher.h"
@@ -18,7 +18,7 @@
 @end
 
 @implementation MCKInvocationRecorderTest {
-    MCKInvocationRecorder *recorder;
+    MCKInvocationCollection *recorder;
     BlockInvocationMatcher   *invocationMatcher;
 }
 
@@ -26,7 +26,7 @@
 
 - (void)setUp {
     invocationMatcher = [[BlockInvocationMatcher alloc] init];
-    recorder = [[MCKInvocationRecorder alloc] initWithInvocationMatcher:invocationMatcher];
+    recorder = [[MCKInvocationCollection alloc] initWithInvocationMatcher:invocationMatcher];
 }
 
 
@@ -38,11 +38,11 @@
     NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    [recorder recordInvocation:invocation0];
-    [recorder recordInvocation:invocation1];
+    [recorder addInvocation:invocation0];
+    [recorder addInvocation:invocation1];
     
     // then
-    STAssertEqualObjects(recorder.recordedInvocations, (@[ invocation0, invocation1 ]), @"Invocations were not recorded as required");
+    STAssertEqualObjects(recorder.allInvocations, (@[ invocation0, invocation1 ]), @"Invocations were not recorded as required");
 }
 
 - (void)testThatRecordInvocationMakesInvocationRetainArguments {
@@ -50,7 +50,7 @@
     NSInvocation *invocation = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    [recorder recordInvocation:invocation];
+    [recorder addInvocation:invocation];
     
     // then
     STAssertTrue([invocation argumentsRetained], @"Arguments should be retained by the invocation");
@@ -61,10 +61,10 @@
 
 - (void)testThatInvocationsMatchingPrototypePassesEachRecordedInvocationToMatcherInOrder {
     // given
-    NSInvocation *invocation0 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation0];
-    NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation1];
-    NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation2];
-    NSInvocation *invocation3 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation3];
+    NSInvocation *invocation0 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation0];
+    NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation1];
+    NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation2];
+    NSInvocation *invocation3 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation3];
     
     NSMutableArray *testedInvocations = [NSMutableArray array];
     [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
@@ -81,10 +81,10 @@
 
 - (void)testThatInvocationsMatchingPrototypePassesArgumentMatchersToMatcher {
     // given
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     
     NSArray *primitiveArgMatchers = @[ [[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init] ];
     NSMutableArray *passedMatchers = [NSMutableArray array];
@@ -104,10 +104,10 @@
 
 - (void)testThatInvocationsMatchingPrototypeReturnsIndexesForMatchingInvocationsInOrder {
     // given
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:@"Match"]];
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:@"No Match"]];
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:@"No Match"]];
-    [recorder recordInvocation:[NSInvocation voidMethodInvocationForTarget:@"Match"]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:@"Match"]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:@"No Match"]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:@"No Match"]];
+    [recorder addInvocation:[NSInvocation voidMethodInvocationForTarget:@"Match"]];
     
     [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
         return [candidate.target isEqual:@"Match"];
@@ -128,10 +128,10 @@
 
 - (void)testThatRemoveMatchersAtIndexesRemovesMatchers {
     // given
-    NSInvocation *invocation0 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation0];
-    NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation1];
-    NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation2];
-    NSInvocation *invocation3 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder recordInvocation:invocation3];
+    NSInvocation *invocation0 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation0];
+    NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation1];
+    NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation2];
+    NSInvocation *invocation3 = [NSInvocation voidMethodInvocationForTarget:nil]; [recorder addInvocation:invocation3];
     
     // when
     NSMutableIndexSet *indexes = [[NSMutableIndexSet alloc] init];
@@ -140,7 +140,7 @@
     [recorder removeInvocationsAtIndexes:indexes];
     
     // then
-    STAssertEqualObjects(recorder.recordedInvocations, (@[ invocation0, invocation2 ]), @"Invocations were not recorded as required");
+    STAssertEqualObjects(recorder.allInvocations, (@[ invocation0, invocation2 ]), @"Invocations were not recorded as required");
 }
 
 @end
