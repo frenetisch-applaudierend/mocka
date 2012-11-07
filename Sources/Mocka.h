@@ -8,25 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MCKKeywords.h"
-#import "MCKMockingContext.h"
 
-#import "MCKMockObject.h"
-#import "MCKSpy.h"
-
-#import "MCKVerificationHandler.h"
-#import "MCKDefaultVerificationHandler.h"
-#import "MCKNeverVerificationHandler.h"
-#import "MCKExactlyVerificationHandler.h"
-#import "MCKVerifyNoInteractions.h"
-
-#import "MCKStubAction.h"
-#import "MCKReturnStubAction.h"
-#import "MCKPerformBlockStubAction.h"
-#import "MCKThrowExceptionStubAction.h"
-#import "MCKSetOutParameterStubAction.h"
-
-#import "MCKArgumentMatcher.h"
-#import "MCKAnyArgumentMatcher.h"
-
-#import "NSInvocation+MCKArgumentHandling.h"
+#import "MCKMockingCore.h"
+#import "MCKVerification.h"
+#import "MCKStubbing.h"
+#import "MCKArgumentMatching.h"
+#import "MCKUtilities.h"
