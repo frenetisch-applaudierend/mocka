@@ -1,9 +1,9 @@
 //
 //  FakeMockingContext.m
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 15.07.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
 #import "FakeMockingContext.h"

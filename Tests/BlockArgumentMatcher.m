@@ -1,9 +1,9 @@
 //
 //  DummyArgumentMatcher.m
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 10.09.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
 #import "BlockArgumentMatcher.h"

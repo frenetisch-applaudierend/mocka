@@ -1,10 +1,12 @@
 //
 //  NSInvocation+TestSupport.h
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 05.02.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
+
+#import <Foundation/Foundation.h>
 
 
 @interface NSInvocation (TestSupport)

@@ -1,15 +1,15 @@
 //
 //  FakeMockingContext.h
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 15.07.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import "RGMockContext.h"
+#import "MCKMockingContext.h"
 
 
-@interface FakeMockingContext : RGMockContext
+@interface FakeMockingContext : MCKMockingContext
 
 #pragma mark - Initialization
 
@@ -18,7 +18,7 @@
 
 #pragma mark - Handling the Mocking Mode
 
-@property (nonatomic, readwrite, assign) RGMockContextMode mode;
+@property (nonatomic, readwrite, assign) MockaContextMode mode;
 
 
 #pragma mark - Handling Invocations
@@ -30,7 +30,7 @@
 @end
 
 
-@interface RGMockContext (PrivateMethods)
+@interface MCKMockingContext (PrivateMethods)
 
 - (void)stubInvocation:(NSInvocation *)invocation;
 

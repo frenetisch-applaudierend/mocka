@@ -1,16 +1,16 @@
 //
 //  BlockInvocationMatcher.m
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 06.10.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
 #import "BlockInvocationMatcher.h"
 
 @implementation BlockInvocationMatcher
 
-- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withNonObjectArgumentMatchers:(NSArray *)matchers {
+- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)matchers {
     if (_matcherImplementation != nil) {
         return _matcherImplementation(candidate, prototype, matchers);
     } else {

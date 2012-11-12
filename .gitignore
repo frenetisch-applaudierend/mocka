@@ -1,5 +1,5 @@
 .DS_Store
-rgmock.xcodeproj/xcuserdata/
-rgmock.xcodeproj/project.xcworkspace/xcuserdata/
-distribution/
+mocka.xcodeproj/xcuserdata/
+mocka.xcodeproj/project.xcworkspace/xcuserdata/
+Distribution/
 build/

@@ -1,18 +1,21 @@
 //
 //  NSInvocation+TestSupport.m
-//  rgmock
+//  mocka
 //
 //  Created by Markus Gasser on 05.02.12.
-//  Copyright (c) 2012 coresystems ag. All rights reserved.
+//  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
 #import "NSInvocation+TestSupport.h"
-#import "RGMockTypeEncodings.h"
+#import "MCKTypeEncodings.h"
 
 
 @implementation NSInvocation (TestSupport)
 
 + (id)invocationForTarget:(id)target selectorAndArguments:(SEL)selector, ... {
+    NSParameterAssert(target != nil);
+    NSParameterAssert(selector != NULL);
+    
     NSMethodSignature *signature = [target methodSignatureForSelector:selector];
     NSInvocation *invocation = [self invocationWithMethodSignature:signature];
     invocation.selector = selector;
@@ -38,34 +41,34 @@
     for (NSUInteger argIndex = 2; argIndex < [self.methodSignature numberOfArguments]; argIndex++) {
         const char *argType = [self.methodSignature getArgumentTypeAtIndex:argIndex];
         
-        if ([RGMockTypeEncodings isObjectType:argType]) {
+        if ([MCKTypeEncodings isObjectType:argType]) {
             id arg = va_arg(args, id);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isPointerType:argType]) {
+        } else if ([MCKTypeEncodings isPointerType:argType]) {
             void *arg = va_arg(args, void*);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isSelectorType:argType]) {
+        } else if ([MCKTypeEncodings isSelectorType:argType]) {
             SEL arg = va_arg(args, SEL);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isCStringType:argType]) {
+        } else if ([MCKTypeEncodings isCStringType:argType]) {
             char *arg = va_arg(args, char*);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isType:argType equalToType:@encode(char)] || [RGMockTypeEncodings isType:argType equalToType:@encode(unsigned char)]
-                   || [RGMockTypeEncodings isType:argType equalToType:@encode(short)] || [RGMockTypeEncodings isType:argType equalToType:@encode(unsigned short)]
-                   || [RGMockTypeEncodings isType:argType equalToType:@encode(int)] || [RGMockTypeEncodings isType:argType equalToType:@encode(unsigned int)])
+        } else if ([MCKTypeEncodings isType:argType equalToType:@encode(char)] || [MCKTypeEncodings isType:argType equalToType:@encode(unsigned char)]
+                   || [MCKTypeEncodings isType:argType equalToType:@encode(short)] || [MCKTypeEncodings isType:argType equalToType:@encode(unsigned short)]
+                   || [MCKTypeEncodings isType:argType equalToType:@encode(int)] || [MCKTypeEncodings isType:argType equalToType:@encode(unsigned int)])
         {
             int arg = va_arg(args, int);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isType:argType equalToType:@encode(long)] || [RGMockTypeEncodings isType:argType equalToType:@encode(unsigned long)]) {
+        } else if ([MCKTypeEncodings isType:argType equalToType:@encode(long)] || [MCKTypeEncodings isType:argType equalToType:@encode(unsigned long)]) {
             unsigned long arg = va_arg(args, unsigned long);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isType:argType equalToType:@encode(long long)] || [RGMockTypeEncodings isType:argType equalToType:@encode(unsigned long long)]) {
+        } else if ([MCKTypeEncodings isType:argType equalToType:@encode(long long)] || [MCKTypeEncodings isType:argType equalToType:@encode(unsigned long long)]) {
             unsigned long long arg = va_arg(args, unsigned long long);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isType:argType equalToType:@encode(float)] || [RGMockTypeEncodings isType:argType equalToType:@encode(double)]) {
+        } else if ([MCKTypeEncodings isType:argType equalToType:@encode(float)] || [MCKTypeEncodings isType:argType equalToType:@encode(double)]) {
             double arg = va_arg(args, double);
             [self setArgument:&arg atIndex:argIndex];
-        } else if ([RGMockTypeEncodings isType:argType equalToType:@encode(_Bool)] || [RGMockTypeEncodings isType:argType equalToType:@encode(bool)]) {
+        } else if ([MCKTypeEncodings isType:argType equalToType:@encode(_Bool)] || [MCKTypeEncodings isType:argType equalToType:@encode(bool)]) {
             int arg = va_arg(args, int);
             [self setArgument:&arg atIndex:argIndex];
         } else {
