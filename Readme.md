@@ -29,7 +29,7 @@ This is an example of a simple test using Mocka.
 
 	- (void)testThatGuardianCallsOperatorOnErrorCondition {
 		// given
-		CallCenter *callCenter = mockClass(CallCenter);
+		CallCenter *callCenter = mockForClass(CallCenter);
 		Guardian *guardian = [[Guardian alloc] initWithCallCenter:callCenter];
 		
 		// when
@@ -56,10 +56,10 @@ You can create arbitrary combinations, with the rule that you can have at most o
 If you just want to mock a single protocol or class there is a shortcut.
 
 	// create a mock for just a class
-	NSArray *arrayMock = mockClass(NSArray);
+	NSArray *arrayMock = mockForClass(NSArray);
 	
 	// create a mock for just a protocol
-	id<NSCoding> codingMock = mockProtocol(NSCoding);
+	id<NSCoding> codingMock = mockForProtocol(NSCoding);
 
 Note that you don’t need to call `[Foo class]` or `@protocol(Bar)` in this case.
 
@@ -76,7 +76,7 @@ To see some examples for creating mocks see `Examples/ExamplesCreatingMocks.m`.
 To verify that a certain call was made use the `verify` keyword.
 
 	// given
-	NSArray *arrayMock = mockClass(NSArray);
+	NSArray *arrayMock = mockForClass(NSArray);
 	
 	// when
 	DoSomethingWith(arrayMock);
@@ -96,7 +96,7 @@ More examples can be found in `Examples/ExamplesVerify.m`.
 ## Stubbing
 By default when a method is called on a mock it will do nothing and simply return the default value (`nil` for objects, `0` for integers, etc). Stubbing allows you to specify actions that should be executed when a certain method on a mock is called. To stub a method use the `whenCalling ... thenDo` keywords.
 
-	NSArray *arrayMock = mockClass(NSArray);
+	NSArray *arrayMock = mockForClass(NSArray);
 	
 	whenCalling [arrayMock count] thenDo returnValue(1);
 	whenCalling [arrayMock objectAtIndex:0] thenDo returnValue(@"Foo");
