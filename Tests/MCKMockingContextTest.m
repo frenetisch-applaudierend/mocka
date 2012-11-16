@@ -11,7 +11,8 @@
 #import "MCKMockObject.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
+#import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
 #import "NSInvocation+TestSupport.h"
@@ -61,14 +62,14 @@
 #pragma mark - MCKVerificationHandler
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers
-                     inInvocationRecorder:(MCKInvocationRecorder *)recorder
+                     withArgumentMatchers:(MCKArgumentMatcherCollection *)argumentMatchers
+                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage
 {
     _lastInvocationPrototype = prototype;
-    _lastArgumentMatchers = [argumentMatchers copy];
-    _lastRecordedInvocations = [recorder.recordedInvocations copy];
+    _lastArgumentMatchers = [argumentMatchers.primitiveArgumentMatchers copy];
+    _lastRecordedInvocations = [recordedInvocations.allInvocations copy];
     _numberOfCalls++;
     
     if (satisified != NULL) *satisified = _satisfied;
@@ -154,7 +155,7 @@
 
 - (void)testThatHandlingInvocationInRecordingModeAddsToRecordedInvocations {
     // given
-    [context updateContextMode:MockaContextModeRecording];
+    [context updateContextMode:MCKContextModeRecording];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -169,7 +170,7 @@
 
 - (void)testThatHandlingInvocationInStubbingModeDoesNotAddToRecordedInvocations {
     // given
-    [context updateContextMode:MockaContextModeStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -181,7 +182,7 @@
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
     // given
-    [context updateContextMode:MockaContextModeStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -193,7 +194,7 @@
 
 - (void)testThatUnhandledMethodIsNotStubbed {
     // given
-    [context updateContextMode:MockaContextModeStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *stubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     NSInvocation *unstubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)];
     
@@ -206,26 +207,26 @@
 
 - (void)testThatModeIsNotSwitchedAfterHandlingInvocation {
     // given
-    [context updateContextMode:MockaContextModeStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
     [context handleInvocation:invocation];
     
     // then
-    STAssertEquals(context.mode, MockaContextModeStubbing, @"Stubbing mode was not permanent");
+    STAssertEquals(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
 }
 
 - (void)testThatAddingStubActionSwitchesToRecordingMode {
     // given
-    [context updateContextMode:MockaContextModeStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
     
     // when
     [context addStubAction:[[MCKReturnStubAction alloc] init]];
     
     // then
-    STAssertEquals(context.mode, MockaContextModeRecording, @"Adding an action did not switch to recording mode");
+    STAssertEquals(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
 }
 
 
@@ -233,7 +234,7 @@
 
 - (void)testThatHandlingInvocationInVerificationModeDoesNotAddToRecordedInvocations {
     // given
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -251,7 +252,7 @@
     STAssertNil(context.verificationHandler, @"verificationHandler was stil set after setting to nil");
     
     // when
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     
     // then
     STAssertEqualObjects(context.verificationHandler, [MCKDefaultVerificationHandler defaultHandler], @"Not the expected verificationHanlder set");
@@ -259,7 +260,7 @@
 
 - (void)testThatHandlingInvocationInVerificationModeCallsVerificationHandler {
     // given
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
@@ -271,7 +272,7 @@
 
 - (void)testThatHandlingInvocationInVerificationModeThrowsIfHandlerIsNotSatisfied {
     // given
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
     
     // then
@@ -282,13 +283,13 @@
 
 - (void)testThatHandlingInvocationInVerificationModeRemovesMatchingInvocationsFromRecordedInvocations {
     // given
-    [context updateContextMode:MockaContextModeRecording];
+    [context updateContextMode:MCKContextModeRecording];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]]; // record some calls
     STAssertEquals([context.recordedInvocations count], (NSUInteger)3, @"Calls were not recorded");
     
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSetWithIndex:0]; [toRemove addIndex:2];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
     
@@ -301,11 +302,25 @@
 }
 
 
+#pragma mark - Test Ordered Verify
+
+- (void)testThatAfterVerifyingInOrderTheContextIsInRecordingMode {
+    // given
+    [context updateContextMode:MCKContextModeVerifying];
+    
+    // when
+    [context verifyInOrder:^{}];
+    
+    // then
+    STAssertEquals(context.mode, MCKContextModeRecording, @"Should be in recording mode");
+}
+
+
 #pragma mark - Test Supporting Matchers
 
 - (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
     // given
-    [context updateContextMode:MockaContextModeRecording];
+    [context updateContextMode:MCKContextModeRecording];
     id matcher = [[BlockArgumentMatcher alloc] init];
     
     // then
@@ -316,7 +331,7 @@
 
 - (void)testThatMatcherCanBeAddedToContextInStubbingMode {
     // given
-    [context updateContextMode:MockaContextModeStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     id matcher = [[BlockArgumentMatcher alloc] init];
     
     // when
@@ -329,7 +344,7 @@
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
     // given
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     id matcher = [[BlockArgumentMatcher alloc] init];
     
     // when
@@ -342,7 +357,7 @@
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
     // given
-    [context updateContextMode:MockaContextModeStubbing]; // Fulfill precondition
+    [context updateContextMode:MCKContextModeStubbing]; // Fulfill precondition
     id matcher0 = [[BlockArgumentMatcher alloc] init];
     id matcher1 = [[BlockArgumentMatcher alloc] init];
     id matcher2 = [[BlockArgumentMatcher alloc] init];
@@ -356,7 +371,7 @@
 - (void)testThatHandlingInvocationClearsPushedMatchers {
     // given
     TestObject *object = [[TestObject alloc] init];
-    [context updateContextMode:MockaContextModeStubbing]; // Fulfill precondition
+    [context updateContextMode:MCKContextModeStubbing]; // Fulfill precondition
     [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
     [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
     
@@ -372,7 +387,7 @@
     TestObject *object = mock([TestObject class]);
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]]; // Prepare a verify call
     
     // when
@@ -387,7 +402,7 @@
     id matcher0 = [[BlockArgumentMatcher alloc] init];
     id matcher1 = [[BlockArgumentMatcher alloc] init];
     
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
@@ -415,7 +430,7 @@
 
 - (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
     // given
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
     
     // then
@@ -426,7 +441,7 @@
 
 - (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
     // given
-    [context updateContextMode:MockaContextModeVerifying];
+    [context updateContextMode:MCKContextModeVerifying];
     context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
     
     // then

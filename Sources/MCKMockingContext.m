@@ -7,7 +7,7 @@
 //
 
 #import "MCKMockingContext.h"
-#import "MCKInvocationRecorder.h"
+#import "MCKInvocationCollection.h"
 #import "MCKInvocationStubber.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
@@ -29,9 +29,11 @@
 
 
 @implementation MCKMockingContext {
-    MCKInvocationRecorder *_invocationRecorder;
+    MCKMutableInvocationCollection *_recordedInvocations;
     MCKInvocationStubber *_invocationStubber;
     MCKArgumentMatcherCollection *_argumentMatcherCollection;
+    BOOL _inOrder;
+    NSUInteger _inOrderSkipped;
 }
 
 static __weak id _CurrentContext = nil;
@@ -78,9 +80,8 @@ static __weak id _CurrentContext = nil;
         _testCase = testCase;
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
         
-        MCKInvocationMatcher *invocationMatcher = [[MCKInvocationMatcher alloc] init];
-        _invocationRecorder = [[MCKInvocationRecorder alloc] initWithInvocationMatcher:invocationMatcher];
-        _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:invocationMatcher];
+        _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
+        _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
         _argumentMatcherCollection = [[MCKArgumentMatcherCollection alloc] init];
         
         _CurrentContext = self;
@@ -95,18 +96,23 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Handling Failures
 
-- (void)failWithReason:(NSString *)reason {
-    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:reason];
+- (void)failWithReason:(NSString *)reason, ... {
+    va_list ap;
+    va_start(ap, reason);
+    
+    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
+    
+    va_end(ap);
 }
 
 
 #pragma mark - Handling Invocations
 
-- (void)updateContextMode:(MockaContextMode)newMode {
+- (void)updateContextMode:(MCKContextMode)newMode {
     _mode = newMode;
     [_argumentMatcherCollection resetAllMatchers];
     
-    if (newMode == MockaContextModeVerifying) {
+    if (newMode == MCKContextModeVerifying) {
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
     }
 }
@@ -118,9 +124,9 @@ static __weak id _CurrentContext = nil;
     }
     
     switch (_mode) {
-        case MockaContextModeRecording: [self recordInvocation:invocation]; break;
-        case MockaContextModeStubbing:  [self stubInvocation:invocation]; break;
-        case MockaContextModeVerifying: [self verifyInvocation:invocation]; break;
+        case MCKContextModeRecording: [self recordInvocation:invocation]; break;
+        case MCKContextModeStubbing:  [self stubInvocation:invocation]; break;
+        case MCKContextModeVerifying: [self verifyInvocation:invocation]; break;
             
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", _mode);
@@ -131,11 +137,11 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Recording
 
 - (NSArray *)recordedInvocations {
-    return _invocationRecorder.recordedInvocations;
+    return _recordedInvocations.allInvocations;
 }
 
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [_invocationRecorder recordInvocation:invocation];
+    [_recordedInvocations addInvocation:invocation];
     [_invocationStubber applyStubsForInvocation:invocation];
 }
 
@@ -153,26 +159,61 @@ static __weak id _CurrentContext = nil;
 
 - (void)addStubAction:(id<MCKStubAction>)action {
     [_invocationStubber addActionToLastStub:action];
-    [self updateContextMode:MockaContextModeRecording];
+    [self updateContextMode:MCKContextModeRecording];
 }
 
 
 #pragma mark - Verification
 
+- (void (^)())inOrderBlock {
+    NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
+    return nil;
+}
+
+- (void)setInOrderBlock:(void (^)())inOrderBlock {
+    [self verifyInOrder:inOrderBlock];
+}
+
 - (void)verifyInvocation:(NSInvocation *)invocation {
     BOOL satisfied = NO;
     NSString *reason = nil;
+    
+    MCKInvocationCollection *relevantInvocations = (_inOrder ? [_recordedInvocations subcollectionFromIndex:_inOrderSkipped] : _recordedInvocations);
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                    withPrimitiveArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers
-                                                             inInvocationRecorder:_invocationRecorder
+                                                             withArgumentMatchers:_argumentMatcherCollection
+                                                            inRecordedInvocations:relevantInvocations
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
     
     if (!satisfied) {
-        [self failWithReason:[NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")]];
+        [self failWithReason:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
     }
-    [_invocationRecorder removeInvocationsAtIndexes:matchingIndexes];
-    [self updateContextMode:MockaContextModeRecording];
+    
+    if (_inOrder) {
+        NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
+        [matchingIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            [toRemove addIndex:idx];
+        }];
+        [_recordedInvocations removeInvocationsAtIndexes:toRemove];
+        _inOrderSkipped += ([matchingIndexes lastIndex] - ([matchingIndexes count] - 1));
+    } else {
+        [_recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
+    }
+    
+    if (_inOrder) {
+        [self updateContextMode:MCKContextModeVerifying];
+    } else {
+        [self updateContextMode:MCKContextModeRecording];
+    }
+}
+
+- (void)verifyInOrder:(void (^)())verifications {
+    NSParameterAssert(verifications != nil);
+    _inOrder = YES;
+    _inOrderSkipped = 0;
+    verifications();
+    _inOrder = NO;
+    [self updateContextMode:MCKContextModeRecording];
 }
 
 
@@ -183,7 +224,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (_mode == MockaContextModeRecording) {
+    if (_mode == MCKContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
         return 0;
     }

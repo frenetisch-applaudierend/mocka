@@ -15,15 +15,17 @@
 @class MCKStub;
 
 
-#define mck_updatedContext() [MCKMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__]
-#define mck_currentContext() [MCKMockingContext currentContext]
+#define mck_updatedContext() ((MCKMockingContext *)[MCKMockingContext contextForTestCase:self\
+                                                                      fileName:[NSString stringWithUTF8String:__FILE__]\
+                                                                      lineNumber:__LINE__])
+#define mck_currentContext() ((MCKMockingContext *)[MCKMockingContext currentContext])
 
 
 typedef enum {
-    MockaContextModeRecording,
-    MockaContextModeStubbing,
-    MockaContextModeVerifying,
-} MockaContextMode;
+    MCKContextModeRecording,
+    MCKContextModeStubbing,
+    MCKContextModeVerifying,
+} MCKContextMode;
 
 
 @interface MCKMockingContext : NSObject
@@ -41,32 +43,47 @@ typedef enum {
 - (id)initWithTestCase:(id)testCase;
 
 
-#pragma mark - File Information and Handling Failures
+#pragma mark - Environment Information
 
-@property (nonatomic, readonly, weak) id testCase;
-@property (nonatomic, readonly, copy) NSString *fileName;
+@property (nonatomic, readonly, weak)   id testCase;
+@property (nonatomic, readonly, copy)   NSString *fileName;
 @property (nonatomic, readonly, assign) int lineNumber;
+
+
+#pragma mark - Failure Handling
 
 @property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
 
-- (void)failWithReason:(NSString *)reason;
+- (void)failWithReason:(NSString *)reason, ...;
 
 
 #pragma mark - Handling Invocations
 
-@property (nonatomic, readonly) MockaContextMode mode;
-@property (nonatomic, strong)   id<MCKVerificationHandler> verificationHandler;
+@property (nonatomic, readonly) MCKContextMode mode;
+
+- (void)updateContextMode:(MCKContextMode)newMode;
+- (void)handleInvocation:(NSInvocation *)invocation;
+
+
+#pragma mark - Recording
+
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
-- (void)updateContextMode:(MockaContextMode)newMode;
-
-- (void)handleInvocation:(NSInvocation *)invocation;
+- (void)recordInvocation:(NSInvocation *)invocation;
 
 
 #pragma mark - Stubbing
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
 - (void)addStubAction:(id<MCKStubAction>)action;
+
+
+#pragma mark - Verifying
+
+@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
+@property (nonatomic, strong) void(^inOrderBlock)(); // don't use, only for syntax reasons here
+
+- (void)verifyInOrder:(void(^)())verifications;
 
 
 #pragma mark - Argument Matchers

@@ -44,7 +44,7 @@ id mck_createSpyForObject(id object, MCKMockingContext *context) {
         [context failWithReason:@"You cannot spy nil"];
         return nil;
     } else if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
-        [context failWithReason:[NSString stringWithFormat:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)]];
+        [context failWithReason:@"Cannot spy an instance of a core foundation class (%@)", object_getClass(object)];
         return nil;
     }
     
@@ -111,7 +111,7 @@ static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMut
         BOOL success = class_addMethod(spyClass, backupSelector, backup, method_getTypeEncoding(methods[i]));
         success &= class_addMethod(spyClass, method_getName(methods[i]), forwarder, method_getTypeEncoding(methods[i]));
         if (!success) {
-            [context failWithReason:[NSString stringWithFormat:@"Error overriding method %@", NSStringFromSelector(method_getName(methods[i]))]];
+            [context failWithReason:@"Error overriding method %@", NSStringFromSelector(method_getName(methods[i]))];
         }
         
         [overriddenMethods addObject:NSStringFromSelector(method_getName(methods[i]))];
@@ -142,7 +142,7 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
     MCKMockingContext *context = objc_getAssociatedObject(self, &MCKContextKey);
     
     // In recording mode we want the original method to be called; unless it's stubbed in which case the stub takes over
-    if (context.mode == MockaContextModeRecording && ![context isInvocationStubbed:invocation]) {
+    if (context.mode == MCKContextModeRecording && ![context isInvocationStubbed:invocation]) {
         // Exchange our overridden method with the backup one to call through the original
         // Why not just change the selector on the invocation? Because we want to retain
         // the original selector, in case the original method relies on this.

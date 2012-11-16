@@ -18,7 +18,7 @@
 
 #pragma mark - Handling the Mocking Mode
 
-@property (nonatomic, readwrite, assign) MockaContextMode mode;
+@property (nonatomic, readwrite, assign) MCKContextMode mode;
 
 
 #pragma mark - Handling Invocations
