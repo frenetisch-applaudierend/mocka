@@ -242,4 +242,131 @@
     };
 }
 
+- (void)testCanUseExactlyInOrderedVerify {
+    // you can use exactly() as usual in ordered verify
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Three"];
+    [mockArray removeAllObjects];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+        [mockArray removeAllObjects];
+    };
+}
+
+- (void)testLeadingUnverifiedMethodCallsAreIgnoredWithExactly {
+    // also with exactly, leading method calls are just ignored
+    
+    [mockArray count];
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Three"];
+    [mockArray removeAllObjects];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+        [mockArray removeAllObjects];
+    };
+}
+
+- (void)testInterleavedUnverifiedMethodCallsAreIgnoredWithExactly {
+    // also with exactly, interleaving method calls are just ignored
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+}
+
+- (void)testOrderedVerifyFailsIfExactlyFails {
+    // exactly must also match exactly n objects in ordered verify
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    
+    ThisWillFail({
+        verify inOrder {
+            exactly(3) [mockArray addObject:anyObject()];
+            [mockArray removeAllObjects];
+        };
+    });
+}
+
+- (void)testOrderedVerifyFailsForInterleavedCallsWhichShouldBeOrderedWithExactly {
+    // if exactly skips calls while verifying, the skipped calls are not evaluated further
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    ThisWillFail({
+        verify inOrder {
+            exactly(3) [mockArray addObject:anyObject()];
+            [mockArray removeAllObjects];
+        };
+    });
+}
+
+- (void)testSkippedCallsCanLaterStillBeVerified {
+    // if exactly skips calls while verifying, the skipped calls can be verified outside of the inOrder
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+    verify [mockArray removeAllObjects];
+}
+
+- (void)testSkippedCallsCanLaterStillBeVerifiedOrdered {
+    // skipped calls can even be verified ordered later
+    
+    [mockArray addObject:@"One"];
+    [mockArray count];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+    
+    verify inOrder {
+        verify [mockArray count];
+        verify [mockArray removeAllObjects];
+    };
+}
+
+- (void)testOrderingIsAlsoEnforcedWhenTestingSkippedCalls {
+    // skipped calls can even be verified ordered later
+    
+    [mockArray addObject:@"One"];
+    [mockArray count];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+    
+    ThisWillFail({
+        verify inOrder {
+            verify [mockArray removeAllObjects];
+            verify [mockArray count];
+        };
+    });
+}
+
 @end

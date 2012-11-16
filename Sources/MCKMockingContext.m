@@ -195,7 +195,7 @@ static __weak id _CurrentContext = nil;
             [toRemove addIndex:idx];
         }];
         [_recordedInvocations removeInvocationsAtIndexes:toRemove];
-        _inOrderSkipped += [matchingIndexes lastIndex];
+        _inOrderSkipped += ([matchingIndexes lastIndex] - ([matchingIndexes count] - 1));
     } else {
         [_recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
     }
