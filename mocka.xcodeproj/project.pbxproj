@@ -121,6 +121,8 @@
 		364C865C164A6F24009F0EF4 /* MCKStubbing.h in Headers */ = {isa = PBXBuildFile; fileRef = 364C865A164A6F24009F0EF4 /* MCKStubbing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		364C865E164A6F72009F0EF4 /* MCKMockingCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 364C865D164A6F72009F0EF4 /* MCKMockingCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		364C865F164A6F72009F0EF4 /* MCKMockingCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 364C865D164A6F72009F0EF4 /* MCKMockingCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		366126B716565233002F1372 /* FakeFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B616565233002F1372 /* FakeFailureHandler.m */; };
+		366126B816565233002F1372 /* FakeFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B616565233002F1372 /* FakeFailureHandler.m */; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -303,6 +305,8 @@
 		364C8657164A6EEE009F0EF4 /* MCKVerification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerification.h; sourceTree = "<group>"; };
 		364C865A164A6F24009F0EF4 /* MCKStubbing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStubbing.h; sourceTree = "<group>"; };
 		364C865D164A6F72009F0EF4 /* MCKMockingCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockingCore.h; sourceTree = "<group>"; };
+		366126B516565233002F1372 /* FakeFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeFailureHandler.h; sourceTree = "<group>"; };
+		366126B616565233002F1372 /* FakeFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeFailureHandler.m; sourceTree = "<group>"; };
 		36A07DED161EC9B3006153C7 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07DFF161EC9B3006153C7 /* mocka-osx-tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-osx-tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mocka-osx-tests-Info.plist"; sourceTree = "<group>"; };
@@ -454,7 +458,7 @@
 			name = "Built-In Verification Handlers";
 			sourceTree = "<group>";
 		};
-		2857B56D15B23FCE00D64D27 /* Testing Utilities */ = {
+		2857B56D15B23FCE00D64D27 /* Helper Classes */ = {
 			isa = PBXGroup;
 			children = (
 				28FFE1051633EC6C000BDF5B /* TestExceptionUtils.h */,
@@ -464,6 +468,8 @@
 				28FFE11716343C68000BDF5B /* CategoriesTestClasses.m */,
 				2857B57915B3296100D64D27 /* FakeMockingContext.h */,
 				2857B57A15B3296100D64D27 /* FakeMockingContext.m */,
+				366126B516565233002F1372 /* FakeFailureHandler.h */,
+				366126B616565233002F1372 /* FakeFailureHandler.m */,
 				2822C33C16206B4A0031D92C /* CannedInvocationCollection.h */,
 				2822C33D16206B4A0031D92C /* CannedInvocationCollection.m */,
 				28685FD115FDEE8300B59545 /* BlockArgumentMatcher.h */,
@@ -473,7 +479,7 @@
 				2857B57215B23FF100D64D27 /* NSInvocation+TestSupport.h */,
 				2857B57315B23FF100D64D27 /* NSInvocation+TestSupport.m */,
 			);
-			name = "Testing Utilities";
+			name = "Helper Classes";
 			sourceTree = "<group>";
 		};
 		2857B58015B4744300D64D27 /* Built-In Stub Actions */ = {
@@ -552,7 +558,6 @@
 			children = (
 				28575DD915B1D4C30077ACFC /* Functional and Integration Tests */,
 				2832CC9614D74F3900BE74C2 /* Unit Tests */,
-				2857B56D15B23FCE00D64D27 /* Testing Utilities */,
 				28D7B3AE14D74DE400D494FD /* Supporting Files */,
 			);
 			path = Tests;
@@ -563,6 +568,7 @@
 			children = (
 				28D7B3AF14D74DE400D494FD /* mocka-ios-tests-Info.plist */,
 				36A07E07161EC9B3006153C7 /* mocka-osx-tests-Info.plist */,
+				2857B56D15B23FCE00D64D27 /* Helper Classes */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1009,6 +1015,7 @@
 				281F76101630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 				28FFE11816343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
+				366126B716565233002F1372 /* FakeFailureHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,6 +1080,7 @@
 				281F76111630924400A10434 /* ExamplesStub.m in Sources */,
 				28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 				28FFE11916343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
+				366126B816565233002F1372 /* FakeFailureHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

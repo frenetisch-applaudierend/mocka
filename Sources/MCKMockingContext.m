@@ -53,8 +53,7 @@ static __weak id _CurrentContext = nil;
     }
     
     // Update the file/line info
-    context.fileName = file;
-    context.lineNumber = line;
+    [context.failureHandler updateFileName:file lineNumber:line];
     
     return context;
 }
@@ -77,7 +76,6 @@ static __weak id _CurrentContext = nil;
 
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
-        _testCase = testCase;
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
         
         _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
@@ -100,7 +98,7 @@ static __weak id _CurrentContext = nil;
     va_list ap;
     va_start(ap, reason);
     
-    [_failureHandler handleFailureInFile:_fileName atLine:_lineNumber withReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
+    [_failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
     
     va_end(ap);
 }

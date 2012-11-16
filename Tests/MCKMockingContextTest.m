@@ -18,6 +18,7 @@
 #import "NSInvocation+TestSupport.h"
 #import "BlockArgumentMatcher.h"
 #import "TestObject.h"
+#import "FakeFailureHandler.h"
 
 
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
@@ -104,14 +105,14 @@
     STAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
 }
 
-- (void)testThatGettingContextUpdatesFileLocationInformation {
+- (void)testThatGettingContextUpdatesFileLocationInformationOnErrorHandler {
     MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
-    STAssertEqualObjects(ctx.fileName, @"Foo", @"File name not updated");
-    STAssertEquals(ctx.lineNumber, 10, @"Line number not updated");
+    STAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
+    STAssertEquals(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
     
     ctx = [MCKMockingContext contextForTestCase:self fileName:@"Bar" lineNumber:20];
-    STAssertEqualObjects(ctx.fileName, @"Bar", @"File name not updated");
-    STAssertEquals(ctx.lineNumber, 20, @"Line number not updated");
+    STAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
+    STAssertEquals(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
 }
 
 - (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
@@ -123,8 +124,8 @@
     
     // then
     STAssertEquals(ctx, existingContext, @"Not the same context returned");
-    STAssertEquals(existingContext.fileName, @"Foo", @"Filename was changed");
-    STAssertEquals(existingContext.lineNumber, 10, @"Linenumber was changed");
+    STAssertEquals(existingContext.failureHandler.fileName, @"Foo", @"Filename was changed");
+    STAssertEquals(existingContext.failureHandler.lineNumber, (NSUInteger)10, @"Linenumber was changed");
 }
 
 - (void)testThatGettingExistingContextAlwaysGetsLatestContext {
@@ -419,13 +420,17 @@
 
 #pragma mark - Test Error Messages
 
-- (void)testThatFailWithReasonCreatesSenTestException {
-    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
-    ctx.failureHandler = [[MCKExceptionFailureHandler alloc] init];
+- (void)testThatFailWithReasonCallsFailureHandlerWithFormattedReason {
+    // given
+    context.failureHandler = [[FakeFailureHandler alloc] init];
     
-    AssertFailsWith(@"Test reason", @"Foo", 10, {
-        [ctx failWithReason:@"Test reason"];
-    });
+    // when
+    [context failWithReason:@"Hello, %@!", @"World"];
+    
+    // then
+    NSArray *failures = [(FakeFailureHandler *)context.failureHandler capturedFailures];
+    STAssertEquals([failures count], (NSUInteger)1, @"Should have exactly one failure");
+    STAssertEqualObjects([[failures lastObject] reason], @"Hello, World!", @"Wrong reason in failure");
 }
 
 - (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
