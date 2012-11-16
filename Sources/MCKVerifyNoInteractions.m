@@ -11,7 +11,7 @@
 
 
 void mck_checkNoInteractions(MCKMockingContext *context, id mockObject) {
-    for (NSInvocation *invocation in context.recordedInvocations) {
+    for (NSInvocation *invocation in context.recordedInvocations.allInvocations) {
         if (invocation.target == mockObject) {
             [context failWithReason:@"Expected no more interactions on %@, but still had", mockObject];
             break;

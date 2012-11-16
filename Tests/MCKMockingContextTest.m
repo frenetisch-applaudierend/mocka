@@ -163,7 +163,7 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertTrue([context.recordedInvocations containsObject:invocation], @"Invocation was not recorded");
+    STAssertTrue([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was not recorded");
 }
 
 
@@ -178,7 +178,7 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+    STAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
@@ -244,7 +244,7 @@
     });
     
     // then
-    STAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+    STAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatSettingVerificationModeSetsDefaultVerificationHandler {
@@ -288,7 +288,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]]; // record some calls
-    STAssertEquals([context.recordedInvocations count], (NSUInteger)3, @"Calls were not recorded");
+    STAssertEquals([context.recordedInvocations.allInvocations count], (NSUInteger)3, @"Calls were not recorded");
     
     [context updateContextMode:MCKContextModeVerifying];
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSetWithIndex:0]; [toRemove addIndex:2];
@@ -298,8 +298,8 @@
     [context handleInvocation:nil]; // any invocation is ok, just as long as the handler is called
     
     // then
-    STAssertEquals([context.recordedInvocations count], (NSUInteger)1, @"Calls were not removed");
-    STAssertEquals([[context.recordedInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
+    STAssertEquals([context.recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
+    STAssertEquals([[context.recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
 }
 
 

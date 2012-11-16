@@ -7,8 +7,6 @@
 //
 
 #import "MCKMockingContext.h"
-#import "MCKInvocationCollection.h"
-#import "MCKInvocationStubber.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKStub.h"
@@ -29,9 +27,6 @@
 
 
 @implementation MCKMockingContext {
-    MCKMutableInvocationCollection *_recordedInvocations;
-    MCKInvocationStubber *_invocationStubber;
-    MCKArgumentMatcherCollection *_argumentMatcherCollection;
     BOOL _inOrder;
     NSUInteger _inOrderSkipped;
 }
@@ -80,7 +75,7 @@ static __weak id _CurrentContext = nil;
         
         _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
         _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
-        _argumentMatcherCollection = [[MCKArgumentMatcherCollection alloc] init];
+        _argumentMatchers = [[MCKArgumentMatcherCollection alloc] init];
         
         _CurrentContext = self;
     }
@@ -91,15 +86,17 @@ static __weak id _CurrentContext = nil;
     return [self initWithTestCase:nil];
 }
 
+- (void)dealloc {
+    _CurrentContext = nil;
+}
+
 
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason, ... {
     va_list ap;
     va_start(ap, reason);
-    
     [_failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
-    
     va_end(ap);
 }
 
@@ -108,7 +105,7 @@ static __weak id _CurrentContext = nil;
 
 - (void)updateContextMode:(MCKContextMode)newMode {
     _mode = newMode;
-    [_argumentMatcherCollection resetAllMatchers];
+    [_argumentMatchers resetAllMatchers];
     
     if (newMode == MCKContextModeVerifying) {
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
@@ -116,7 +113,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    if (![_argumentMatcherCollection isValidForMethodSignature:invocation.methodSignature]) {
+    if (![_argumentMatchers isValidForMethodSignature:invocation.methodSignature]) {
         [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
         return;
     }
@@ -134,10 +131,6 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Recording
 
-- (NSArray *)recordedInvocations {
-    return _recordedInvocations.allInvocations;
-}
-
 - (void)recordInvocation:(NSInvocation *)invocation {
     [_recordedInvocations addInvocation:invocation];
     [_invocationStubber applyStubsForInvocation:invocation];
@@ -147,8 +140,8 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    [_invocationStubber recordStubInvocation:invocation withPrimitiveArgumentMatchers:_argumentMatcherCollection.primitiveArgumentMatchers];
-    [_argumentMatcherCollection resetAllMatchers];
+    [_invocationStubber recordStubInvocation:invocation withPrimitiveArgumentMatchers:_argumentMatchers.primitiveArgumentMatchers];
+    [_argumentMatchers resetAllMatchers];
 }
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
@@ -178,7 +171,7 @@ static __weak id _CurrentContext = nil;
     
     MCKInvocationCollection *relevantInvocations = (_inOrder ? [_recordedInvocations subcollectionFromIndex:_inOrderSkipped] : _recordedInvocations);
     NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                             withArgumentMatchers:_argumentMatcherCollection
+                                                             withArgumentMatchers:_argumentMatchers
                                                             inRecordedInvocations:relevantInvocations
                                                                         satisfied:&satisfied
                                                                    failureMessage:&reason];
@@ -218,7 +211,7 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Argument Matching
 
 - (NSArray *)primitiveArgumentMatchers {
-    return [_argumentMatcherCollection.primitiveArgumentMatchers copy];
+    return [_argumentMatchers.primitiveArgumentMatchers copy];
 }
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
@@ -227,8 +220,8 @@ static __weak id _CurrentContext = nil;
         return 0;
     }
     
-    [_argumentMatcherCollection addPrimitiveArgumentMatcher:matcher];
-    return [_argumentMatcherCollection lastPrimitiveArgumentMatcherIndex];
+    [_argumentMatchers addPrimitiveArgumentMatcher:matcher];
+    return [_argumentMatchers lastPrimitiveArgumentMatcherIndex];
 }
 
 @end

@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol MCKFailureHandler;
+#import "MCKFailureHandler.h"
+#import "MCKInvocationCollection.h"
+#import "MCKInvocationStubber.h"
+
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
@@ -43,6 +46,13 @@ typedef enum {
 - (id)initWithTestCase:(id)testCase;
 
 
+#pragma mark - Context Data
+
+@property (nonatomic, readonly) MCKMutableInvocationCollection *recordedInvocations;
+@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
+@property (nonatomic, readonly) MCKArgumentMatcherCollection *argumentMatchers;
+
+
 #pragma mark - Failure Handling
 
 @property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
@@ -59,8 +69,6 @@ typedef enum {
 
 
 #pragma mark - Recording
-
-@property (nonatomic, readonly) NSArray *recordedInvocations;
 
 - (void)recordInvocation:(NSInvocation *)invocation;
 
