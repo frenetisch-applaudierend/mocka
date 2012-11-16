@@ -10,7 +10,7 @@
 #import "MCKFailureHandler.h"
 
 
-@interface MCKSenTestFailureHandler : NSObject <MCKFailureHandler>
+@interface MCKSenTestFailureHandler : MCKFailureHandler
 
 - (id)initWithTestCase:(id)testCase;
 

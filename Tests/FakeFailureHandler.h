@@ -10,7 +10,7 @@
 #import "MCKFailureHandler.h"
 
 
-@interface FakeFailureHandler : NSObject <MCKFailureHandler>
+@interface FakeFailureHandler : MCKFailureHandler
 
 @property (nonatomic, readonly) NSArray *capturedFailures;
 

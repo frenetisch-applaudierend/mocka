@@ -12,10 +12,6 @@
     NSMutableArray *_capturedFailures;
 }
 
-@synthesize fileName = _fileName;
-@synthesize lineNumber = _lineNumber;
-
-
 #pragma mark - Initialization
 
 - (id)init {
@@ -26,14 +22,6 @@
 }
 
 
-#pragma mark - Maintaining Context File Information
-
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
-    _fileName = [fileName copy];
-    _lineNumber = lineNumber;
-}
-
-
 #pragma mark - Handling Failures
 
 - (NSArray *)capturedFailures {
@@ -41,7 +29,7 @@
 }
 
 - (void)handleFailureWithReason:(NSString *)reason {
-    [_capturedFailures addObject:[CapturedFailure failureWithFileName:_fileName lineNumber:_lineNumber reason:reason]];
+    [_capturedFailures addObject:[CapturedFailure failureWithFileName:self.fileName lineNumber:self.lineNumber reason:reason]];
 }
 
 @end

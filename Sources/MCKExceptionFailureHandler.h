@@ -13,6 +13,6 @@
 extern NSString * const MCKFileNameKey;
 extern NSString * const MCKLineNumberKey;
 
-@interface MCKExceptionFailureHandler : NSObject <MCKFailureHandler>
+@interface MCKExceptionFailureHandler : MCKFailureHandler
 
 @end

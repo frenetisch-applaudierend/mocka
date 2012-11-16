@@ -19,3 +19,8 @@
 - (void)handleFailureWithReason:(NSString *)reason;
 
 @end
+
+
+@interface MCKFailureHandler : NSObject <MCKFailureHandler>
+
+@end

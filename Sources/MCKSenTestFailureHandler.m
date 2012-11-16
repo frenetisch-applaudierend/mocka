@@ -14,10 +14,6 @@
     id _testCase;
 }
 
-@synthesize fileName = _fileName;
-@synthesize lineNumber = _lineNumber;
-
-
 #pragma mark - Initialization
 
 - (id)initWithTestCase:(id)testCase {
@@ -28,18 +24,11 @@
 }
 
 
-#pragma mark - Maintaining Context File Information
-
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
-    _fileName = [fileName copy];
-    _lineNumber = lineNumber;
-}
-
-
 #pragma mark - Handling Failures
 
 - (void)handleFailureWithReason:(NSString *)reason {
-    [_testCase failWithException:[NSException failureInFile:_fileName atLine:(int)_lineNumber withDescription:(reason != nil ? @"%@" : nil), reason]];
+    NSException *ex = [NSException failureInFile:self.fileName atLine:(int)self.lineNumber withDescription:(reason != nil ? @"%@" : nil), reason];
+    [_testCase failWithException:ex];
 }
 
 @end
