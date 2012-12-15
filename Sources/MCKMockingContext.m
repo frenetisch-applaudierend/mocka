@@ -7,7 +7,9 @@
 //
 
 #import "MCKMockingContext.h"
+#import "MCKVerifier.h"
 #import "MCKDefaultVerifier.h"
+#import "MCKOrderedVerifier.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKStub.h"
@@ -15,7 +17,6 @@
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKTypeEncodings.h"
 #import "MCKSenTestFailureHandler.h"
-
 
 #import <objc/runtime.h>
 
@@ -28,10 +29,7 @@
 @end
 
 
-@implementation MCKMockingContext {
-    BOOL _inOrder;
-    NSUInteger _inOrderSkipped;
-}
+@implementation MCKMockingContext
 
 static __weak id _CurrentContext = nil;
 
@@ -74,12 +72,15 @@ static __weak id _CurrentContext = nil;
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
+        _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
         
         _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
         _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
         _argumentMatchers = [[MCKArgumentMatcherCollection alloc] init];
         
         _CurrentContext = self;
+        
+        [self setVerifier:[[MCKDefaultVerifier alloc] init]];
     }
     return self;
 }
@@ -94,6 +95,11 @@ static __weak id _CurrentContext = nil;
 
 
 #pragma mark - Handling Failures
+
+- (void)setFailureHandler:(id<MCKFailureHandler>)failureHandler {
+    _failureHandler = failureHandler;
+    _verifier.failureHandler = failureHandler;
+}
 
 - (void)failWithReason:(NSString *)reason, ... {
     va_list ap;
@@ -110,7 +116,7 @@ static __weak id _CurrentContext = nil;
     [_argumentMatchers resetAllMatchers];
     
     if (newMode == MCKContextModeVerifying) {
-        _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+        [self setVerificationHandler:[MCKDefaultVerificationHandler defaultHandler]];
     }
 }
 
@@ -158,6 +164,17 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Verification
 
+- (void)setVerifier:(id<MCKVerifier>)verifier {
+    _verifier = verifier;
+    _verifier.failureHandler = _failureHandler;
+    _verifier.verificationHandler = _verificationHandler;
+}
+
+- (void)setVerificationHandler:(id<MCKVerificationHandler>)verificationHandler {
+    _verificationHandler = verificationHandler;
+    _verifier.verificationHandler = verificationHandler;
+}
+
 - (void (^)())inOrderBlock {
     NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
     return nil;
@@ -168,43 +185,15 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
-    if (_inOrder) {
-        BOOL satisfied = NO;
-        NSString *reason = nil;
-        
-        MCKInvocationCollection *relevantInvocations = [_recordedInvocations subcollectionFromIndex:_inOrderSkipped];
-        NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                                 withArgumentMatchers:_argumentMatchers
-                                                                inRecordedInvocations:relevantInvocations
-                                                                            satisfied:&satisfied
-                                                                       failureMessage:&reason];
-        
-        if (!satisfied) {
-            [self failWithReason:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
-        }
-
-        NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
-        [matchingIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            [toRemove addIndex:idx];
-        }];
-        [_recordedInvocations removeInvocationsAtIndexes:toRemove];
-        _inOrderSkipped += ([matchingIndexes lastIndex] - ([matchingIndexes count] - 1));
-        
-        [self updateContextMode:MCKContextModeVerifying];
-    } else {
-        id<MCKVerifier> verifier = [[MCKDefaultVerifier alloc] init];
-        verifier.failureHandler = _failureHandler;
-        verifier.verificationHandler = _verificationHandler;
-        [self updateContextMode:[verifier verifyInvocation:invocation withMatchers:_argumentMatchers inRecordedInvocations:_recordedInvocations]];
-    }
+    MCKContextMode newMode = [_verifier verifyInvocation:invocation withMatchers:_argumentMatchers inRecordedInvocations:_recordedInvocations];
+    [self updateContextMode:newMode];
 }
 
 - (void)verifyInOrder:(void (^)())verifications {
     NSParameterAssert(verifications != nil);
-    _inOrder = YES;
-    _inOrderSkipped = 0;
+    [self setVerifier:[[MCKOrderedVerifier alloc] init]];
     verifications();
-    _inOrder = NO;
+    [self setVerifier:[[MCKDefaultVerifier alloc] init]];
     [self updateContextMode:MCKContextModeRecording];
 }
 

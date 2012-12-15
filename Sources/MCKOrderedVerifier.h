@@ -1,5 +1,5 @@
 //
-//  MCKDefaultVerifier.h
+//  MCKOrderedVerifier.h
 //  mocka
 //
 //  Created by Markus Gasser on 15.12.12.
@@ -10,6 +10,8 @@
 #import "MCKVerifier.h"
 
 
-@interface MCKDefaultVerifier : NSObject <MCKVerifier>
+@interface MCKOrderedVerifier : NSObject <MCKVerifier>
+
+@property (nonatomic, assign) NSUInteger skippedInvocations;
 
 @end

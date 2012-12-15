@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 #import "MCKMockingCore.h"
 #import "MCKVerification.h"
 #import "MCKStubbing.h"

@@ -30,6 +30,7 @@
     verifier.failureHandler = [[MCKExceptionFailureHandler alloc] init];
 }
 
+
 #pragma mark - Test Invocation Verification
 
 - (void)testThatVerifyInvocationUsesVerificationHandler {
@@ -74,6 +75,9 @@
     STAssertEquals([recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
     STAssertEquals([[recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
 }
+
+
+#pragma mark - Test Return Value
 
 - (void)testThatVerifyInvocationReturnsRecordingModeForSatisfiedHandler {
     verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];

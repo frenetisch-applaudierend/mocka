@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 #import "MCKMockingContext.h"
 #import "MCKMockObject.h"
 #import "MCKSpy.h"

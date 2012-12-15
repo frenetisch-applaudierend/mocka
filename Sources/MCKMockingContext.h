@@ -15,6 +15,7 @@
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
+@protocol MCKVerifier;
 @class MCKStub;
 
 
@@ -81,6 +82,7 @@ typedef enum {
 
 #pragma mark - Verifying
 
+@property (nonatomic, strong) id<MCKVerifier> verifier;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, strong) void(^inOrderBlock)(); // don't use, only for syntax reasons here
 

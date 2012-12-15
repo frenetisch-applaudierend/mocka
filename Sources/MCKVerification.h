@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-
 #import "MCKVerificationSyntax.h"
 
 #import "MCKVerifier.h"
 #import "MCKDefaultVerifier.h"
+#import "MCKOrderedVerifier.h"
 
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
