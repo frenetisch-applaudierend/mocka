@@ -7,6 +7,7 @@
 //
 
 #import "MCKOrderedVerifier.h"
+#import "MCKDefaultVerifier.h"
 #import "MCKVerificationHandler.h"
 #import "MCKFailureHandler.h"
 
@@ -51,3 +52,26 @@
 }
 
 @end
+
+
+@implementation MCKMockingContext (MCKOrderedVerification)
+
+- (void (^)())inOrderBlock {
+    NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
+    return nil;
+}
+
+- (void)setInOrderBlock:(void (^)())inOrderBlock {
+    [self verifyInOrder:inOrderBlock];
+}
+
+- (void)verifyInOrder:(void (^)())verifications {
+    NSParameterAssert(verifications != nil);
+    [self setVerifier:[[MCKOrderedVerifier alloc] init]];
+    verifications();
+    [self setVerifier:[[MCKDefaultVerifier alloc] init]];
+    [self updateContextMode:MCKContextModeRecording];
+}
+
+@end
+

@@ -84,9 +84,6 @@ typedef enum {
 
 @property (nonatomic, strong) id<MCKVerifier> verifier;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
-@property (nonatomic, strong) void(^inOrderBlock)(); // don't use, only for syntax reasons here
-
-- (void)verifyInOrder:(void(^)())verifications;
 
 
 #pragma mark - Argument Matchers

@@ -175,26 +175,9 @@ static __weak id _CurrentContext = nil;
     _verifier.verificationHandler = verificationHandler;
 }
 
-- (void (^)())inOrderBlock {
-    NSAssert(NO, @"The inOrderBlock property is only for internal use and cannot be read");
-    return nil;
-}
-
-- (void)setInOrderBlock:(void (^)())inOrderBlock {
-    [self verifyInOrder:inOrderBlock];
-}
-
 - (void)verifyInvocation:(NSInvocation *)invocation {
     MCKContextMode newMode = [_verifier verifyInvocation:invocation withMatchers:_argumentMatchers inRecordedInvocations:_recordedInvocations];
     [self updateContextMode:newMode];
-}
-
-- (void)verifyInOrder:(void (^)())verifications {
-    NSParameterAssert(verifications != nil);
-    [self setVerifier:[[MCKOrderedVerifier alloc] init]];
-    verifications();
-    [self setVerifier:[[MCKDefaultVerifier alloc] init]];
-    [self updateContextMode:MCKContextModeRecording];
 }
 
 

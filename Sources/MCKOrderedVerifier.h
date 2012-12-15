@@ -15,3 +15,21 @@
 @property (nonatomic, assign) NSUInteger skippedInvocations;
 
 @end
+
+
+@interface MCKMockingContext (MCKOrderedVerification)
+
+@property (nonatomic, strong) void(^inOrderBlock)(); // don't use, only for syntax reasons here
+
+- (void)verifyInOrder:(void(^)())verifications;
+
+@end
+
+
+// Safe syntax
+#define mck_inOrder mck_updatedContext().inOrderBlock = ^()
+
+// Nice syntax
+#ifndef MOCK_DISABLE_NICE_SYNTAX
+#define inOrder mck_inOrder
+#endif
