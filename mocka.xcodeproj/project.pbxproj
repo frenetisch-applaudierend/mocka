@@ -62,6 +62,8 @@
 		28249DC2167CBB7B006560C0 /* MCKOrderedVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DBE167CBB7B006560C0 /* MCKOrderedVerifier.m */; };
 		28249DC4167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */; };
 		28249DC5167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */; };
+		28249DC8167D3CA1006560C0 /* FakeVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC7167D3CA1006560C0 /* FakeVerifier.m */; };
+		28249DC9167D3CA1006560C0 /* FakeVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC7167D3CA1006560C0 /* FakeVerifier.m */; };
 		2832CC9E14D74F7C00BE74C2 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2832CCB414D75D3E00BE74C2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		28575DD815B1D4380077ACFC /* MCKMockObjectIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DD715B1D4380077ACFC /* MCKMockObjectIntegrationTest.m */; };
@@ -260,6 +262,8 @@
 		28249DBD167CBB7B006560C0 /* MCKOrderedVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKOrderedVerifier.h; sourceTree = "<group>"; };
 		28249DBE167CBB7B006560C0 /* MCKOrderedVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKOrderedVerifier.m; sourceTree = "<group>"; };
 		28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKOrderedVerifierTest.m; sourceTree = "<group>"; };
+		28249DC6167D3CA1006560C0 /* FakeVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeVerifier.h; sourceTree = "<group>"; };
+		28249DC7167D3CA1006560C0 /* FakeVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeVerifier.m; sourceTree = "<group>"; };
 		2832CC9D14D74F7C00BE74C2 /* Mocka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mocka.h; sourceTree = "<group>"; };
 		28575DD715B1D4380077ACFC /* MCKMockObjectIntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockObjectIntegrationTest.m; sourceTree = "<group>"; };
 		28575DDA15B1D5850077ACFC /* MCKMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockObject.h; sourceTree = "<group>"; };
@@ -481,6 +485,8 @@
 				2857B57A15B3296100D64D27 /* FakeMockingContext.m */,
 				366126B516565233002F1372 /* FakeFailureHandler.h */,
 				366126B616565233002F1372 /* FakeFailureHandler.m */,
+				28249DC6167D3CA1006560C0 /* FakeVerifier.h */,
+				28249DC7167D3CA1006560C0 /* FakeVerifier.m */,
 				28249DB5167CB108006560C0 /* FakeVerificationHandler.h */,
 				28249DB6167CB108006560C0 /* FakeVerificationHandler.m */,
 				2822C33C16206B4A0031D92C /* CannedInvocationCollection.h */,
@@ -1098,6 +1104,7 @@
 				28249DB3167CB054006560C0 /* MCKDefaultVerifierTest.m in Sources */,
 				28249DB7167CB108006560C0 /* FakeVerificationHandler.m in Sources */,
 				28249DC4167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */,
+				28249DC8167D3CA1006560C0 /* FakeVerifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,6 +1176,7 @@
 				28249DB4167CB054006560C0 /* MCKDefaultVerifierTest.m in Sources */,
 				28249DB8167CB108006560C0 /* FakeVerificationHandler.m in Sources */,
 				28249DC5167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */,
+				28249DC9167D3CA1006560C0 /* FakeVerifier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

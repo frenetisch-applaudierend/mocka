@@ -19,7 +19,7 @@
 #import "BlockArgumentMatcher.h"
 #import "TestObject.h"
 #import "FakeFailureHandler.h"
-#import "FakeVerificationHandler.h"
+#import "FakeVerifier.h"
 
 
 @interface MCKMockingContextTest : SenTestCase
@@ -200,47 +200,40 @@
     STAssertEqualObjects(context.verificationHandler, [MCKDefaultVerificationHandler defaultHandler], @"Not the expected verificationHanlder set");
 }
 
-- (void)testThatHandlingInvocationInVerificationModeCallsVerificationHandler {
+- (void)testThatHandlingInvocationInVerificationModeCallsVerifier {
     // given
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    context.verifier = [[FakeVerifier alloc] init];
+    
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
-    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    [context handleInvocation:invocation];
     
     // then
-    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
+    STAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedInvocation], invocation, @"Wrong invocation passed");
+    STAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedMatchers], context.argumentMatchers, @"Wrong matchers passed");
+    STAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedRecordedInvocations], context.recordedInvocations, @"Wrong invocation passed");
 }
 
-- (void)testThatHandlingInvocationInVerificationModeThrowsIfHandlerIsNotSatisfied {
-    // given
+- (void)testThatHandlingInvocationInVerificationModeUpdatesToModeReturnedByVerifier {
+    // Test for switch to recording mode
     [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
+    context.verifier = [[FakeVerifier alloc] initWithNewContextMode:MCKContextModeRecording];
+    [context handleInvocation:nil];
+    STAssertEquals(context.mode, MCKContextModeRecording, @"Wrong context mode");
     
-    // then
-    AssertFails({
-        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    });
-}
-
-- (void)testThatHandlingInvocationInVerificationModeRemovesMatchingInvocationsFromRecordedInvocations {
-    // given
-    [context updateContextMode:MCKContextModeRecording];
-    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
-    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]]; // record some calls
-    STAssertEquals([context.recordedInvocations.allInvocations count], (NSUInteger)3, @"Calls were not recorded");
-    
+    // Test for switch to verification mode
     [context updateContextMode:MCKContextModeVerifying];
-    NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSetWithIndex:0]; [toRemove addIndex:2];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
+    context.verifier = [[FakeVerifier alloc] initWithNewContextMode:MCKContextModeVerifying];
+    [context handleInvocation:nil];
+    STAssertEquals(context.mode, MCKContextModeVerifying, @"Wrong context mode");
     
-    // when
-    [context handleInvocation:nil]; // any invocation is ok, just as long as the handler is called
-    
-    // then
-    STAssertEquals([context.recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
-    STAssertEquals([[context.recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
+    // Test for switch to stubbing mode
+    [context updateContextMode:MCKContextModeVerifying];
+    context.verifier = [[FakeVerifier alloc] initWithNewContextMode:MCKContextModeStubbing];
+    [context handleInvocation:nil];
+    STAssertEquals(context.mode, MCKContextModeStubbing, @"Wrong context mode");
 }
 
 
@@ -324,26 +317,6 @@
     });
 }
 
-- (void)testThatHandlingInvocationInVerificationModePassesMatchers {
-    // given
-    TestObject *object = [[TestObject alloc] init];
-    id matcher0 = [[BlockArgumentMatcher alloc] init];
-    id matcher1 = [[BlockArgumentMatcher alloc] init];
-    
-    [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
-    
-    // when
-    [context pushPrimitiveArgumentMatcher:matcher0];
-    [context pushPrimitiveArgumentMatcher:matcher1];
-    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
-    
-    // then
-    STAssertEquals([[(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers] count], (NSUInteger)2, @"Number of matchers is wrong");
-    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][0], matcher0, @"Wrong matcher");
-    STAssertEquals([(FakeVerificationHandler *)context.verificationHandler lastArgumentMatchers][1], matcher1, @"Wrong matcher");
-}
-
 
 #pragma mark - Test Error Messages
 
@@ -358,28 +331,6 @@
     NSArray *failures = [(FakeFailureHandler *)context.failureHandler capturedFailures];
     STAssertEquals([failures count], (NSUInteger)1, @"Should have exactly one failure");
     STAssertEqualObjects([[failures lastObject] reason], @"Hello, World!", @"Wrong reason in failure");
-}
-
-- (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
-    // given
-    [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
-    
-    // then
-    AssertFailsWith(@"verify: Foo was never called", nil, 0, {
-        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    });
-}
-
-- (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
-    // given
-    [context updateContextMode:MCKContextModeVerifying];
-    context.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
-    
-    // then
-    AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {
-        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    });
 }
 
 @end

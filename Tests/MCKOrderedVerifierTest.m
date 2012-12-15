@@ -141,4 +141,27 @@
     STAssertEquals([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeVerifying, @"Wrong context mode returned");
 }
 
+
+#pragma mark - Test Error Reporting
+
+- (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
+    // given
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
+    
+    // then
+    AssertFailsWith(@"verify: Foo was never called", nil, 0, {
+        [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil];
+    });
+}
+
+- (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
+    // given
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
+    
+    // then
+    AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {
+        [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil];
+    });
+}
+
 @end
