@@ -10,6 +10,10 @@
 
 
 #import "MCKVerificationSyntax.h"
+
+#import "MCKVerifier.h"
+#import "MCKDefaultVerifier.h"
+
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKNeverVerificationHandler.h"

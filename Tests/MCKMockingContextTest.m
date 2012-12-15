@@ -19,66 +19,7 @@
 #import "BlockArgumentMatcher.h"
 #import "TestObject.h"
 #import "FakeFailureHandler.h"
-
-
-@interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
-
-+ (id)handlerWhichFailsWithMessage:(NSString *)message;
-+ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
-
-@property (nonatomic, readonly) NSUInteger numberOfCalls;
-
-@property (nonatomic, readonly) NSInvocation *lastInvocationPrototype;
-@property (nonatomic, readonly) NSArray      *lastArgumentMatchers;
-@property (nonatomic, readonly) NSArray      *lastRecordedInvocations;
-
-@end
-
-@implementation FakeVerificationHandler {
-    NSIndexSet *_result;
-    BOOL        _satisfied;
-    NSString   *_failureMessage;
-}
-
-#pragma mark - Initialization
-
-+ (id)handlerWhichFailsWithMessage:(NSString *)message {
-    return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message];
-}
-
-+ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
-    return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil];
-}
-
-- (id)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message {
-    if ((self = [super init])) {
-        _result = [result copy];
-        _satisfied = satisfied;
-        _failureMessage = [message copy];
-    }
-    return self;
-}
-
-
-#pragma mark - MCKVerificationHandler
-
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)argumentMatchers
-                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
-{
-    _lastInvocationPrototype = prototype;
-    _lastArgumentMatchers = [argumentMatchers.primitiveArgumentMatchers copy];
-    _lastRecordedInvocations = [recordedInvocations.allInvocations copy];
-    _numberOfCalls++;
-    
-    if (satisified != NULL) *satisified = _satisfied;
-    if (failureMessage != NULL) *failureMessage = [_failureMessage copy];
-    return _result;
-}
-
-@end
+#import "FakeVerificationHandler.h"
 
 
 @interface MCKMockingContextTest : SenTestCase

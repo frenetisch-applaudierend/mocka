@@ -7,6 +7,7 @@
 //
 
 #import "MCKMockingContext.h"
+#import "MCKDefaultVerifier.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKStub.h"
@@ -14,6 +15,7 @@
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKTypeEncodings.h"
 #import "MCKSenTestFailureHandler.h"
+
 
 #import <objc/runtime.h>
 
@@ -166,35 +168,34 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
-    BOOL satisfied = NO;
-    NSString *reason = nil;
-    
-    MCKInvocationCollection *relevantInvocations = (_inOrder ? [_recordedInvocations subcollectionFromIndex:_inOrderSkipped] : _recordedInvocations);
-    NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
-                                                             withArgumentMatchers:_argumentMatchers
-                                                            inRecordedInvocations:relevantInvocations
-                                                                        satisfied:&satisfied
-                                                                   failureMessage:&reason];
-    
-    if (!satisfied) {
-        [self failWithReason:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
-    }
-    
     if (_inOrder) {
+        BOOL satisfied = NO;
+        NSString *reason = nil;
+        
+        MCKInvocationCollection *relevantInvocations = [_recordedInvocations subcollectionFromIndex:_inOrderSkipped];
+        NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation
+                                                                 withArgumentMatchers:_argumentMatchers
+                                                                inRecordedInvocations:relevantInvocations
+                                                                            satisfied:&satisfied
+                                                                       failureMessage:&reason];
+        
+        if (!satisfied) {
+            [self failWithReason:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
+        }
+
         NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
         [matchingIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
             [toRemove addIndex:idx];
         }];
         [_recordedInvocations removeInvocationsAtIndexes:toRemove];
         _inOrderSkipped += ([matchingIndexes lastIndex] - ([matchingIndexes count] - 1));
-    } else {
-        [_recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
-    }
-    
-    if (_inOrder) {
+        
         [self updateContextMode:MCKContextModeVerifying];
     } else {
-        [self updateContextMode:MCKContextModeRecording];
+        id<MCKVerifier> verifier = [[MCKDefaultVerifier alloc] init];
+        verifier.failureHandler = _failureHandler;
+        verifier.verificationHandler = _verificationHandler;
+        [self updateContextMode:[verifier verifyInvocation:invocation withMatchers:_argumentMatchers inRecordedInvocations:_recordedInvocations]];
     }
 }
 
