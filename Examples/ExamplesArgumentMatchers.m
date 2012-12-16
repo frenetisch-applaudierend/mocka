@@ -29,10 +29,11 @@
 }
 
 
-#pragma mark - Built-in object matchers basics
+#pragma mark - Built-in object argument matchers
 
 - (void)testYouCanUseObjectArgumentMatchersInVerify {
     // instead of specifiying an exact value in verify you can also use argument matchers
+    
     [mockArray addObject:@"Hello World"];
     verify [mockArray addObject:anyObject()];
 }
@@ -52,22 +53,22 @@
 
 - (void)testYouCanMixArgumentsAndMatchersForObjects {
     // for object arguments you can just mix normal arguments and matchers
+    
     [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
     verify [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()];
 }
 
 
-#pragma mark - Built-in primitive argument matchers basics
+#pragma mark - Built-in primitive argument matchers
 
-- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArgumentsInVerify {
+- (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsInVerify {
     // matchers are also available for primitive arguments
     
     [mockArray objectAtIndex:10];
-    
     verify [mockArray objectAtIndex:anyInt()];
 }
 
-- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArgumentsWhenStubbing {
+- (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsWhenStubbing {
     // matchers are also available for primitive arguments
     
     whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
@@ -79,6 +80,41 @@
 }
 
 - (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
+    // for primitive arguments you must either use argument matchers only or no matchers at all
+    
+    [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];
+    [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
+    [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
+    
+    verify [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];             // ok
+    verify [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]; // ok
+    ThisWillFail({
+        verify [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
+    });
+}
+
+
+#pragma mark - Built-in struct argument matchers
+
+- (void)testYouCanUseArgumentMatchersForStructArgumentsInVerify {
+    // matchers are also available for struct arguments
+    
+    [mockArray subarrayWithRange:NSMakeRange(0, 10)];
+    verify [mockArray subarrayWithRange:anyStruct(NSRange)];
+}
+
+- (void)testYouCanUseArgumentMatchersForStructArgumentsWhenStubbing {
+    // matchers are also available for struct arguments
+    
+    whenCalling [mockArray subarrayWithRange:anyStruct(NSRange)] thenDo performBlock(^(NSInvocation *inv) {
+        NSRange range = structParameter(inv, 0, NSRange);
+        [inv setObjectReturnValue:@[ @(range.location), @(range.length) ]];
+    });
+    
+    STAssertEqualObjects([mockArray subarrayWithRange:NSMakeRange(0, 10)], (@[ @0, @10 ]), @"Wrong return value");
+}
+
+- (void)testYouCanNotMixArgumentsAndMatchersForStructs {
     // for primitive arguments you must either use argument matchers only or no matchers at all
     
     [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];

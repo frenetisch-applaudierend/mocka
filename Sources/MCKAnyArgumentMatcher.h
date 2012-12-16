@@ -22,6 +22,8 @@ static char* mck_anyCString(void) { return mck_registerCStringMatcher([[MCKAnyAr
 static SEL mck_anySelector(void) { return mck_registerSelectorMatcher([[MCKAnyArgumentMatcher alloc] init]); }
 static void* mck_anyPointer(void) { return mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]); }
 static __autoreleasing id* mck_anyObjectPointer(void) { return (__autoreleasing id *)mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]); }
+#define mck_anyStruct(structType) mck_registerStructMatcher([[MCKAnyArgumentMatcher alloc] init], structType)
+
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 static id anyObject(void) { return mck_anyObject(); }
@@ -31,4 +33,5 @@ static char* anyCString(void) { return mck_anyCString(); }
 static SEL anySelector(void) { return mck_anySelector(); }
 static void* anyPointer(void) { return mck_anyPointer(); }
 static __autoreleasing id* anyObjectPointer(void) { return mck_anyObjectPointer(); }
+#define anyStruct(structType) mck_anyStruct(structType)
 #endif

@@ -21,6 +21,7 @@
 - (id)mck_objectParameterAtIndex:(NSUInteger)index;
 - (NSInteger)mck_integerParameterAtIndex:(NSUInteger)index;
 - (NSUInteger)mck_unsignedIntegerParameterAtIndex:(NSUInteger)index;
+- (void *)mck_structParameter:(out void *)parameter atIndex:(NSUInteger)index;
 
 
 #pragma mark - Setting the Return Value
@@ -29,6 +30,8 @@
 
 @end
 
+#define mck_structParameter(inv, idx, structType) (*((structType *)([(inv) mck_structParameter:&(structType){} atIndex:(idx)])))
+
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 @interface NSInvocation (MCKArgumentHandling_NiceSyntax)
@@ -36,8 +39,12 @@
 - (id)objectParameterAtIndex:(NSUInteger)index;
 - (NSInteger)integerParameterAtIndex:(NSUInteger)index;
 - (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index;
+- (void *)structParameter:(out void *)parameter atIndex:(NSUInteger)index;
 
 - (void)setObjectReturnValue:(id)value;
 
 @end
+
+#define structParameter(inv, idx, structType) mck_structParameter(inv, idx, structType)
+
 #endif

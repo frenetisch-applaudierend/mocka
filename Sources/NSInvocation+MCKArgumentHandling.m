@@ -31,6 +31,10 @@
     ReturnArgumentAtEffectiveIndex(NSUInteger, index);
 }
 
+- (void *)mck_structParameter:(out void *)parameter atIndex:(NSUInteger)index {
+    [self getArgument:parameter atIndex:(index + 2)];
+    return parameter;
+}
 
 #pragma mark - Setting Return Value
 
@@ -45,7 +49,7 @@
 - (id)objectParameterAtIndex:(NSUInteger)index { return [self mck_objectParameterAtIndex:index]; }
 - (NSInteger)integerParameterAtIndex:(NSUInteger)index { return [self mck_integerParameterAtIndex:index]; }
 - (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index { return [self mck_unsignedIntegerParameterAtIndex:index]; }
-
+- (void *)structParameter:(out void *)parameter atIndex:(NSUInteger)index { return [self mck_structParameter:parameter atIndex:index]; }
 - (void)setObjectReturnValue:(id)value { [self mck_setObjectReturnValue:value]; }
 
 #endif

@@ -40,14 +40,12 @@ static inline void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher) {
     return (void *)[[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
 }
 
-static inline const void* mck_createStructForMatcher(id<MCKArgumentMatcher> matcher, size_t structSize) {
-    if (structSize < sizeof(UInt8)) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Struct must have at least one member" userInfo:nil];
-    }
+static inline const void* mck_createStructForMatcher(id<MCKArgumentMatcher> matcher, void *inputStruct, size_t structSize) {
+    NSCParameterAssert(inputStruct != NULL);
+    NSCParameterAssert(structSize >= sizeof(UInt8));
     
-    NSMutableData *structData = [[NSMutableData alloc] initWithLength:structSize];
-    ((UInt8 *)structData.bytes)[0] = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
-    return structData.bytes;
+    ((UInt8 *)inputStruct)[0] = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    return inputStruct;
 }
 
-#define mck_registerStructMatcher(matcher, structType) ((structType)mck_createStructForMatcher((matcher), (sizeof(structType))))
+#define mck_registerStructMatcher(matcher, structType) (*((structType *)mck_createStructForMatcher((matcher), &(structType){}, sizeof(structType))))
