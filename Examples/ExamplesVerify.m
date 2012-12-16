@@ -100,44 +100,6 @@
     });
 }
 
-- (void)testYouCanUseArgumentMatchersInVerify {
-    // instead of specifiying an exact value in verify you can also use argument matchers
-    
-    [mockArray addObject:@"Hello World"];
-    
-    verify [mockArray addObject:anyObject()];
-}
-
-- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArguments {
-    // matchers are also available for primitive arguments
-    
-    [mockArray objectAtIndex:10];
-    
-    verify [mockArray objectAtIndex:anyInt()];
-}
-
-- (void)testYouCanMixArgumentsAndMatchersForObjects {
-    // for object arguments you can just mix normal arguments and matchers
-    
-    [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
-    
-    verify [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()];
-}
-
-- (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
-    // for primitive arguments you must either use argument matchers only or no matchers at all
-    
-    [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];
-    [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
-    [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
-    
-    verify [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];             // ok
-    verify [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]; // ok
-    ThisWillFail({
-        verify [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
-    });
-}
-
 
 #pragma mark - Verify An Exact Number Of Invocations
 

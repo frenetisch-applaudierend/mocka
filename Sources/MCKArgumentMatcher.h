@@ -39,3 +39,15 @@ static inline SEL mck_registerSelectorMatcher(id<MCKArgumentMatcher> matcher) {
 static inline void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher) {
     return (void *)[[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
 }
+
+static inline const void* mck_createStructForMatcher(id<MCKArgumentMatcher> matcher, size_t structSize) {
+    if (structSize < sizeof(UInt8)) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Struct must have at least one member" userInfo:nil];
+    }
+    
+    NSMutableData *structData = [[NSMutableData alloc] initWithLength:structSize];
+    ((UInt8 *)structData.bytes)[0] = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    return structData.bytes;
+}
+
+#define mck_registerStructMatcher(matcher, structType) ((structType)mck_createStructForMatcher((matcher), (sizeof(structType))))

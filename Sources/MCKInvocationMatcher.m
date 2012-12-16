@@ -28,8 +28,11 @@
 #pragma mark - Invocation Matching
 
 - (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers {
+    NSParameterAssert(candidate != nil);
+    NSParameterAssert(prototype != nil);
+    
     // Check for the most obvious failures
-    if (candidate == nil || prototype == nil || candidate.target != prototype.target || candidate.selector != prototype.selector) {
+    if (candidate.target != prototype.target || candidate.selector != prototype.selector) {
         return NO;
     }
     
