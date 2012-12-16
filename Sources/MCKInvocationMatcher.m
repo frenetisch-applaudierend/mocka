@@ -65,6 +65,11 @@
             if (![self matchesPointerArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
                 return NO;
             }
+        } else if ([MCKTypeEncodings isStructType:candidateArgumentType]) {
+            NSLog(@"Invocation Matcher: ignoring unknown objc type %s", candidateArgumentType);
+            if (![self matchesStructArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
+                return NO;
+            }
         } else {
             NSLog(@"Invocation Matcher: ignoring unknown objc type %s", candidateArgumentType);
         }
@@ -133,6 +138,23 @@
         return [matcher matchesCandidate:[NSValue valueWithPointer:candidateArgument]];
     } else {
         return (candidateArgument == prototypeArgument);
+    }
+}
+
+- (BOOL)matchesStructArgumentAtIndex:(NSUInteger)argIndex
+                        forCandidate:(NSInvocation *)candidate
+                           prototype:(NSInvocation *)prototype
+                    argumentMatchers:(NSArray *)argumentMatchers
+{
+    const NSUInteger StructMaxSize = 1024; // arbitrary chosen for now
+    UInt8 candidateArgument[StructMaxSize]; memset(candidateArgument, 0, StructMaxSize); [candidate getArgument:candidateArgument atIndex:argIndex];
+    UInt8 prototypeArgument[StructMaxSize]; memset(prototypeArgument, 0, StructMaxSize); [prototype getArgument:prototypeArgument atIndex:argIndex];
+    
+    if ([argumentMatchers count] > 0) {
+        id<MCKArgumentMatcher> matcher = argumentMatchers[prototypeArgument[0]];
+        return [matcher matchesCandidate:[NSValue valueWithBytes:candidateArgument objCType:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]]];
+    } else {
+        return (memcmp(candidateArgument, prototypeArgument, StructMaxSize) == 0);
     }
 }
 
