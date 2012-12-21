@@ -9,6 +9,7 @@
 #import "MCKInvocationMatcher.h"
 #import "MCKTypeEncodings.h"
 #import "MCKArgumentMatcher.h"
+#import <objc/runtime.h>
 
 
 @implementation MCKInvocationMatcher
@@ -80,6 +81,7 @@
                         forCandidate:(NSInvocation *)candidate
                            prototype:(NSInvocation *)prototype
 {
+    Protocol *hamcrestProtocol = [self hamcrestMatcherProtocol];
     void *candidateArgumentPtr = nil; [candidate getArgument:&candidateArgumentPtr atIndex:argIndex];
     void *prototypeArgumentPtr = nil; [prototype getArgument:&prototypeArgumentPtr atIndex:argIndex];
     id candidateArgument = (__bridge id)candidateArgumentPtr;
@@ -87,6 +89,8 @@
     
     if ([prototypeArgument conformsToProtocol:@protocol(MCKArgumentMatcher)]) {
         return [(id<MCKArgumentMatcher>)prototypeArgument matchesCandidate:candidateArgument];
+    } else if (hamcrestProtocol != NULL && [prototypeArgument conformsToProtocol:hamcrestProtocol]) {
+        return [(id)prototypeArgument matches:candidateArgument];
     } else {
         return (candidateArgument == prototypeArgument || [candidateArgument isEqual:prototypeArgument]);
     }
@@ -158,10 +162,27 @@
     }
 }
 
+
+#pragma mark - Helpers
+
 - (NSUInteger)sizeofStructWithEncoding:(const char *)encodeType {
     NSUInteger size = 0;
     NSGetSizeAndAlignment(encodeType, &size, NULL);
     return size;
+}
+
+- (Protocol *)hamcrestMatcherProtocol {
+    static Protocol *hamcrestProtocol = NULL;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        hamcrestProtocol = objc_getProtocol("HCMatcher");
+    });
+    return hamcrestProtocol;
+}
+
+- (BOOL)matches:(id)item {
+    // Only here to provide a signature for the hamcrest -matches: selector
+    return NO;
 }
 
 @end

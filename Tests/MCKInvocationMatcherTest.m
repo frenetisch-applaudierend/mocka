@@ -12,7 +12,7 @@
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
 #import "MCKBlockArgumentMatcher.h"
-
+#import "HCBlockMatcher.h"
 
 #define stringMatcher(idx) (char[]){ (idx), 0 }
 
@@ -175,6 +175,28 @@ struct mck_test_4 {
     // given
     TestObject *target = [[TestObject alloc] init];
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
+    NSInvocation *prototype = [NSInvocation invocationForTarget:target
+                                           selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), argumentMatchers[1], argumentMatchers[0]];
+    NSInvocation *candidate = [NSInvocation invocationForTarget:target
+                                           selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), @"Foo", @"Bar"];
+    
+    __block BOOL called = NO;
+    [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
+        STAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
+        called = YES;
+    }];
+    
+    // when
+    [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:@[]];
+    
+    // then
+    STAssertTrue(called, @"Matcher was not called");
+}
+
+- (void)testThatInvocationMatcherUsesPassedHamcrestMatcherForObjectArgumentsIfGiven {
+    // given
+    TestObject *target = [[TestObject alloc] init];
+    NSArray *argumentMatchers = @[[[HCBlockMatcher alloc] init], [[HCBlockMatcher alloc] init]];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), argumentMatchers[1], argumentMatchers[0]];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target

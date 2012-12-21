@@ -8,6 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "ExamplesCommon.h"
+#import "HCBlockMatcher.h"
 
 
 @interface ExamplesArgumentMatchers : SenTestCase
@@ -126,6 +127,19 @@
     ThisWillFail({
         verify [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
     });
+}
+
+
+#pragma mark - Hamcrest Matchers
+
+- (void)testYouCanUseOCHamcrestMatchersForObjectsInVerify {
+    // for object args you can also use hamcrest matchers just like this
+    
+    [mockArray addObject:@"Hello World"];
+    
+    verify [mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+        return [candidate hasPrefix:@"Hello"];
+    }]];
 }
 
 @end

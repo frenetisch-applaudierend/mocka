@@ -70,6 +70,9 @@
 		28277E0C168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */; };
 		28277E11168497A10026BF51 /* MCKBlockArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E0E1684979A0026BF51 /* MCKBlockArgumentMatcherTest.m */; };
 		28277E12168497A10026BF51 /* MCKBlockArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E0E1684979A0026BF51 /* MCKBlockArgumentMatcherTest.m */; };
+		28277E3E1684BFE80026BF51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28277E3D1684BFE80026BF51 /* Foundation.framework */; };
+		28277E431684C1660026BF51 /* HCBlockMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E421684C1660026BF51 /* HCBlockMatcher.m */; };
+		28277E441684C1660026BF51 /* HCBlockMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E421684C1660026BF51 /* HCBlockMatcher.m */; };
 		2827D4FF167DE8B60042F420 /* ExamplesArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2827D4FE167DE8B60042F420 /* ExamplesArgumentMatchers.m */; };
 		2827D500167DE8B60042F420 /* ExamplesArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2827D4FE167DE8B60042F420 /* ExamplesArgumentMatchers.m */; };
 		2832CC9E14D74F7C00BE74C2 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -273,6 +276,10 @@
 		28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKBlockArgumentMatcher.h; sourceTree = "<group>"; };
 		28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcher.m; sourceTree = "<group>"; };
 		28277E0E1684979A0026BF51 /* MCKBlockArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcherTest.m; sourceTree = "<group>"; };
+		28277E3D1684BFE80026BF51 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		28277E401684C0330026BF51 /* HCMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCMatcher.h; sourceTree = "<group>"; };
+		28277E411684C1660026BF51 /* HCBlockMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCBlockMatcher.h; sourceTree = "<group>"; };
+		28277E421684C1660026BF51 /* HCBlockMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HCBlockMatcher.m; sourceTree = "<group>"; };
 		2827D4FE167DE8B60042F420 /* ExamplesArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesArgumentMatchers.m; sourceTree = "<group>"; };
 		2832CC9D14D74F7C00BE74C2 /* Mocka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mocka.h; sourceTree = "<group>"; };
 		28575DD715B1D4380077ACFC /* MCKMockObjectIntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockObjectIntegrationTest.m; sourceTree = "<group>"; };
@@ -395,8 +402,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */,
 				36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */,
+				28277E3E1684BFE80026BF51 /* Foundation.framework in Frameworks */,
+				36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +419,9 @@
 				281F760F1630924400A10434 /* ExamplesStub.m */,
 				2827D4FE167DE8B60042F420 /* ExamplesArgumentMatchers.m */,
 				281F7605163076C300A10434 /* ExamplesCommon.h */,
+				28277E401684C0330026BF51 /* HCMatcher.h */,
+				28277E411684C1660026BF51 /* HCBlockMatcher.h */,
+				28277E421684C1660026BF51 /* HCBlockMatcher.m */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -617,6 +628,7 @@
 			isa = PBXGroup;
 			children = (
 				28D7B39714D74DE400D494FD /* Foundation.framework */,
+				28277E3D1684BFE80026BF51 /* Foundation.framework */,
 				28D7B3A514D74DE400D494FD /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
@@ -1119,6 +1131,7 @@
 				28249DC8167D3CA1006560C0 /* FakeVerifier.m in Sources */,
 				2827D4FF167DE8B60042F420 /* ExamplesArgumentMatchers.m in Sources */,
 				28277E11168497A10026BF51 /* MCKBlockArgumentMatcherTest.m in Sources */,
+				28277E431684C1660026BF51 /* HCBlockMatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1193,6 +1206,7 @@
 				28249DC9167D3CA1006560C0 /* FakeVerifier.m in Sources */,
 				2827D500167DE8B60042F420 /* ExamplesArgumentMatchers.m in Sources */,
 				28277E12168497A10026BF51 /* MCKBlockArgumentMatcherTest.m in Sources */,
+				28277E441684C1660026BF51 /* HCBlockMatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
