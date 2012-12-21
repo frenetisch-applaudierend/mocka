@@ -9,7 +9,6 @@
 #import "MCKOrderedVerifier.h"
 #import "MCKDefaultVerifier.h"
 #import "MCKVerificationHandler.h"
-#import "MCKFailureHandler.h"
 
 
 @implementation MCKOrderedVerifier

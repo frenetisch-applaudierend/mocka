@@ -151,23 +151,17 @@
     
     if ([argumentMatchers count] > 0) {
         id<MCKArgumentMatcher> matcher = argumentMatchers[prototypeArgument[0]];
-        return [matcher matchesCandidate:[NSValue valueWithBytes:candidateArgument objCType:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]]];
+        NSValue *candidateValue = [NSValue valueWithBytes:candidateArgument objCType:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]];
+        return [matcher matchesCandidate:candidateValue];
     } else {
         return (memcmp(candidateArgument, prototypeArgument, structSize) == 0);
     }
 }
 
 - (NSUInteger)sizeofStructWithEncoding:(const char *)encodeType {
-    NSUInteger structSize = 0;
-    
-    while (strlen(encodeType) > 0) {
-        NSUInteger fieldSize = 0;
-        NSUInteger align = 0;
-        encodeType = NSGetSizeAndAlignment(encodeType, &fieldSize, &align);
-        structSize += (fieldSize + align);
-    }
-    
-    return structSize;
+    NSUInteger size = 0;
+    NSGetSizeAndAlignment(encodeType, &size, NULL);
+    return size;
 }
 
 @end

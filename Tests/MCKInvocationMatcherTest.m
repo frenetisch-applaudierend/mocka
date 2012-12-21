@@ -346,18 +346,20 @@ struct mck_test_4 {
 
 #pragma mark - Test Struct  Argument Matching
 
+#define StructCallMethodTypes [[NSString stringWithFormat:@"v@:%s%s", @encode(NSRange), @encode(NSRange)] UTF8String]
+
 - (void)testThatInvocationMatcherMatchesSameStructArguments {
     // given
     NSRange foo = { 0, 0 }, bar = { 0, 0 };
     TestObject *target = [[TestObject alloc] init];
     
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     prototype.target = target,
     prototype.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [prototype setArgument:&foo atIndex:2];
     [prototype setArgument:&bar atIndex:3];
     
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     candidate.target = target,
     candidate.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [candidate setArgument:&foo atIndex:2];
@@ -372,13 +374,13 @@ struct mck_test_4 {
     NSRange foo = { 10, 10 }, bar = { 20, 20 };
     TestObject *target = [[TestObject alloc] init];
     
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     prototype.target = target,
     prototype.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [prototype setArgument:&foo atIndex:2];
     [prototype setArgument:&bar atIndex:3];
     
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     candidate.target = target,
     candidate.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [candidate setArgument:&bar atIndex:2];
@@ -399,13 +401,13 @@ struct mck_test_4 {
     
     TestObject *target = [[TestObject alloc] init];
     
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     prototype.target = target,
     prototype.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [prototype setArgument:&fooMatcher atIndex:2];
     [prototype setArgument:&barMatcher atIndex:3];
     
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     candidate.target = target,
     candidate.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [candidate setArgument:&foo atIndex:2];
