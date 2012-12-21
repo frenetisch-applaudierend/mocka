@@ -132,14 +132,24 @@
 
 #pragma mark - Hamcrest Matchers
 
-- (void)testYouCanUseOCHamcrestMatchersForObjectsInVerify {
-    // for object args you can also use hamcrest matchers just like this
+- (void)testYouCanUseHamcrestMatchersForObjectsInVerify {
+    // for object args you can use hamcrest matchers just like this
     
     [mockArray addObject:@"Hello World"];
     
     verify [mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate hasPrefix:@"Hello"];
     }]];
+}
+
+- (void)testYouCanUseHamcrestMatchersForPrimitivesInVerify {
+    // for primitive args you can use hamcrest matchers by wrapping them in an appropriate <type>ArgThat()
+    
+    [mockArray objectAtIndex:10];
+    
+    verify [mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+        return [candidate isEqual:@10];
+    }])];
 }
 
 @end
