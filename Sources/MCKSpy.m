@@ -26,6 +26,8 @@ static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation);
 static NSString* spy_descriptionWithLocale(id self, SEL _cmd, NSLocale *locale);
 static NSString* spy_description(id self, SEL _cmd);
 
+
+#pragma mark -
 @interface NSObject (MCKUnhandledMethod)
 - (void)mck_methodThatDoesNotExist;
 @end
@@ -132,7 +134,7 @@ BOOL mck_objectIsSpy(id object) {
 }
 
 
-#pragma mark - Overridden Methods
+#pragma mark - Methods to override in Spies
 
 static Class spy_class(id self, SEL _cmd) {
     return class_getSuperclass(object_getClass(self));

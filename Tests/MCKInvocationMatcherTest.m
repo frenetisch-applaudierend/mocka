@@ -11,10 +11,38 @@
 
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
-#import "BlockArgumentMatcher.h"
+#import "MCKBlockArgumentMatcher.h"
 
 
 #define stringMatcher(idx) (char[]){ (idx), 0 }
+
+
+struct mck_test_1 {
+    char field1;
+};
+
+struct mck_test_2 {
+    char field1;
+    double field2;
+};
+
+struct mck_test_3 {
+    char field1;
+    double field2;
+    char field3;
+};
+
+struct mck_test_4 {
+    char field1;
+    struct {
+        char *field1;
+        unsigned int field2;
+        struct {
+            unsigned int field1;
+        } field3;
+    } field2;
+};
+
 
 @interface MCKInvocationMatcherTest : SenTestCase
 @end
@@ -92,9 +120,9 @@
     TestObject *target = [[TestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 1, 0];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20];
-    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherImplementation:^BOOL(id value) {
+    [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
         STAssertEqualObjects(value, @20, @"Wrong argument value passed");
         called = YES;
     }];
@@ -146,14 +174,14 @@
 - (void)testThatInvocationMatcherUsesPassedMatchersForObjectArgumentsIfGiven {
     // given
     TestObject *target = [[TestObject alloc] init];
-    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), argumentMatchers[1], argumentMatchers[0]];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), @"Foo", @"Bar"];
     
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherImplementation:^BOOL(id value) {
+    [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
         STAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
         called = YES;
     }];
@@ -199,9 +227,9 @@
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), @selector(class), @selector(self)];
-    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
+    [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
         STAssertEquals((SEL)[value pointerValue], @selector(self), @"Wrong argument value passed");
         called = YES;
     }];
@@ -248,9 +276,9 @@
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), foo, bar];
-    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
+    [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
         STAssertTrue((strcmp((const char *)[value pointerValue], (const char *)bar) == 0), @"Wrong argument value passed");
         called = YES;
         return YES;
@@ -300,9 +328,9 @@
                                            selectorAndArguments:@selector(voidMethodCallWithPointerParam1:pointerParam2:), (UInt8*)1, (UInt8*)0];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithPointerParam1:pointerParam2:), foo, bar];
-    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherImplementation:^BOOL(NSValue *value) {
+    [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
         STAssertEquals([value pointerValue], (void *)bar, @"Wrong argument value passed");
         called = YES;
         return YES;
@@ -383,9 +411,9 @@
     [candidate setArgument:&foo atIndex:2];
     [candidate setArgument:&bar atIndex:3];
     
-    NSArray *argumentMatchers = @[[[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init]];
+    NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[1] setMatcherImplementation:^BOOL(NSValue *value) {
+    [argumentMatchers[1] setMatcherBlock:^BOOL(NSValue *value) {
         NSRange range; [value getValue:&range];
         STAssertTrue(NSEqualRanges(range, bar), @"Wrong argument value passed");
         called = YES;
@@ -397,6 +425,20 @@
     
     // then
     STAssertTrue(called, @"Matcher was not called");
+}
+
+
+#pragma mark - Test Struct Sizing
+
+- (void)testThatStructSizesAreGuessedCorrectly {
+#define TestStructSize(structName) STAssertTrue(sizeof(struct structName) <= [matcher sizeofStructWithEncoding:@encode(struct structName)],\
+                                   @"Wrong struct size (sizeof=%d encoded=%d",\
+                                   sizeof(struct structName), [matcher sizeofStructWithEncoding:@encode(struct structName)])
+    
+    TestStructSize(mck_test_1);
+    TestStructSize(mck_test_2);
+    TestStructSize(mck_test_3);
+    TestStructSize(mck_test_4);
 }
 
 @end

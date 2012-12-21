@@ -14,7 +14,7 @@
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
 #import "BlockInvocationMatcher.h"
-#import "BlockArgumentMatcher.h"
+#import "MCKBlockArgumentMatcher.h"
 
 
 @interface MCKInvocationStubberTest : SenTestCase
@@ -61,7 +61,7 @@
 - (void)testThatCreatedStubForInvocationContainsArgumentMatchers {
     // given
     NSInvocation *invocation = [NSInvocation voidMethodInvocationForTarget:nil];
-    NSArray *argumentMatchers = @[ [[BlockArgumentMatcher alloc] init] ];
+    NSArray *argumentMatchers = @[ [[MCKBlockArgumentMatcher alloc] init] ];
     
     // when
     [stubber recordStubInvocation:invocation withPrimitiveArgumentMatchers:argumentMatchers];
@@ -109,9 +109,9 @@
     // given
     TestObject *object = [[TestObject alloc] init];
     NSInvocation *invocation0 = [NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20];
-    NSArray *argumentMatchers0 = @[ [[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init] ];
+    NSArray *argumentMatchers0 = @[ [[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init] ];
     NSInvocation *invocation1 = [NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithObjectParam1:intParam2:), nil, 0];
-    NSArray *argumentMatchers1 = @[ [[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init] ];
+    NSArray *argumentMatchers1 = @[ [[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init] ];
     
     // when
     [stubber recordStubInvocation:invocation0 withPrimitiveArgumentMatchers:argumentMatchers0];

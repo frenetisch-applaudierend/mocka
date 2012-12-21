@@ -16,7 +16,7 @@
 
 #import "TestExceptionUtils.h"
 #import "NSInvocation+TestSupport.h"
-#import "BlockArgumentMatcher.h"
+#import "MCKBlockArgumentMatcher.h"
 #import "TestObject.h"
 #import "FakeFailureHandler.h"
 #import "FakeVerifier.h"
@@ -242,7 +242,7 @@
 - (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
     // given
     [context updateContextMode:MCKContextModeRecording];
-    id matcher = [[BlockArgumentMatcher alloc] init];
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
     
     // then
     AssertFails({
@@ -253,7 +253,7 @@
 - (void)testThatMatcherCanBeAddedToContextInStubbingMode {
     // given
     [context updateContextMode:MCKContextModeStubbing];
-    id matcher = [[BlockArgumentMatcher alloc] init];
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
     
     // when
     [context pushPrimitiveArgumentMatcher:matcher];
@@ -266,7 +266,7 @@
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
     // given
     [context updateContextMode:MCKContextModeVerifying];
-    id matcher = [[BlockArgumentMatcher alloc] init];
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
     
     // when
     [context pushPrimitiveArgumentMatcher:matcher];
@@ -279,9 +279,9 @@
 - (void)testThatAddingMatcherReturnsMatcherIndex {
     // given
     [context updateContextMode:MCKContextModeStubbing]; // Fulfill precondition
-    id matcher0 = [[BlockArgumentMatcher alloc] init];
-    id matcher1 = [[BlockArgumentMatcher alloc] init];
-    id matcher2 = [[BlockArgumentMatcher alloc] init];
+    id matcher0 = [[MCKBlockArgumentMatcher alloc] init];
+    id matcher1 = [[MCKBlockArgumentMatcher alloc] init];
+    id matcher2 = [[MCKBlockArgumentMatcher alloc] init];
     
     // then
     STAssertEquals([context pushPrimitiveArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
@@ -293,8 +293,8 @@
     // given
     TestObject *object = [[TestObject alloc] init];
     [context updateContextMode:MCKContextModeStubbing]; // Fulfill precondition
-    [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
-    [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]];
+    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
@@ -309,7 +309,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
     [context updateContextMode:MCKContextModeVerifying];
-    [context pushPrimitiveArgumentMatcher:[[BlockArgumentMatcher alloc] init]]; // Prepare a verify call
+    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
     
     // when
     AssertFails({

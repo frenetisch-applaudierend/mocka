@@ -12,7 +12,7 @@
 
 #import "NSInvocation+TestSupport.h"
 #import "BlockInvocationMatcher.h"
-#import "BlockArgumentMatcher.h"
+#import "MCKBlockArgumentMatcher.h"
 
 
 @interface MCKInvocationCollectionTest : SenTestCase
@@ -88,7 +88,7 @@
     [invocationCollection addInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     [invocationCollection addInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     
-    NSArray *primitiveArgMatchers = @[ [[BlockArgumentMatcher alloc] init], [[BlockArgumentMatcher alloc] init] ];
+    NSArray *primitiveArgMatchers = @[ [[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init] ];
     NSMutableArray *passedMatchers = [NSMutableArray array];
     [invocationMatcher setMatcherImplementation:^BOOL(NSInvocation *candidate, NSInvocation *prototype, NSArray *argMatchers) {
         [passedMatchers addObject:argMatchers];

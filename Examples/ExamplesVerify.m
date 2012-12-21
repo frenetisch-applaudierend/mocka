@@ -82,7 +82,7 @@
 
 #pragma mark - Verification With Arguments
 
-- (void)testVerifyWillMatchOnEqualArguments {
+- (void)testVerifyWillMatchOnEqualObjectArguments {
     // when you verify a method that has arguments verify will match equal arguments (isEqual: is used to compare)
     
     [mockArray addObject:@"Hello World"];
@@ -90,13 +90,49 @@
     verify [mockArray addObject:@"Hello World"];
 }
 
-- (void)testVerifyWillFailForUnequalArguments {
+- (void)testVerifyWillFailForUnequalObjectArguments {
     // in contrast to above, if the arguments are not equal verify will not consider it a match
     
     [mockArray addObject:@"Hello World"];
     
     ThisWillFail({
         verify [mockArray addObject:@"Goodbye"];
+    });
+}
+
+- (void)testVerifyWillMatchOnEqualPrimitiveArguments {
+    // when you verify a method that has arguments verify will match equal primitive arguments
+    
+    [mockArray objectAtIndex:10];
+    
+    verify [mockArray objectAtIndex:10];
+}
+
+- (void)testVerifyWillFailForUnequalPrimitiveArguments {
+    // in contrast to above, if the arguments are not equal verify will not consider it a match
+    
+    [mockArray objectAtIndex:10];
+    
+    ThisWillFail({
+        verify [mockArray objectAtIndex:0];
+    });
+}
+
+- (void)testVerifyWillMatchOnEqualStructArguments {
+    // when you verify a method that has arguments verify will match equal struct arguments (equal as compared by memcmp)
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    
+    verify [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+}
+
+- (void)testVerifyWillFailForUnequalStructArguments {
+    // in contrast to above, if the arguments are not equal verify will not consider it a match
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    
+    ThisWillFail({
+        verify [mockArray subarrayWithRange:NSMakeRange(10, 10)];
     });
 }
 

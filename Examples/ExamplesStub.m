@@ -212,6 +212,87 @@
 }
 
 
+#pragma mark - Stubbing on matching arguments
+
+- (void)testStubbingWillMatchOnEqualObjectArguments {
+    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray addObject:@"Hello World"] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray addObject:@"Hello World"];
+    
+    STAssertTrue(actionWasCalled, @"Action should have been called");
+}
+
+- (void)testStubbingWillFailForUnequalObjectArguments {
+    // in contrast to above, if the arguments are not equal stubbing will not consider it a match
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray addObject:@"Hello World"] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray addObject:@"Goodbye World"];
+    
+    STAssertFalse(actionWasCalled, @"Action should not have been called");
+}
+
+- (void)testStubbingWillMatchOnEqualPrimitiveArguments {
+    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray objectAtIndex:10] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray objectAtIndex:10];
+    
+    STAssertTrue(actionWasCalled, @"Action should have been called");
+}
+
+- (void)testStubbingWillFailForUnequalPrimitiveArguments {
+    // in contrast to above, if the arguments are not equal stubbing will not consider it a match
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray objectAtIndex:10] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray objectAtIndex:1];
+    
+    STAssertFalse(actionWasCalled, @"Action should not have been called");
+}
+
+- (void)testStubbingWillMatchOnEqualStructArguments {
+    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray subarrayWithRange:NSMakeRange(10, 20)] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    
+    STAssertTrue(actionWasCalled, @"Action should have been called");
+}
+
+- (void)testStubbingWillFailForUnequalStructArguments {
+    // in contrast to above, if the arguments are not equal stubbing will not consider it a match
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray subarrayWithRange:NSMakeRange(10, 20)] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 0)];
+    
+    STAssertFalse(actionWasCalled, @"Action should not have been called");
+}
+
+
 #pragma mark - Given When Then Style Stubbing
 
 - (void)testCanAlsoUseGivenCallToAsKeyword {
@@ -221,6 +302,28 @@
     givenCallTo [mockArray count] thenDo returnValue(10);
     
     STAssertEquals([mockArray count], (NSUInteger)10, @"Wrong return value");
+}
+
+
+#pragma mark - Stubbing and Verifying in Relation
+
+- (void)testStubbingDoesNotQualifyForVerify {
+    // when you stub a method this method is not called, so it's not considered for verify
+    
+    whenCalling [mockArray objectAtIndex:0] thenDo returnValue(10);
+    
+    ThisWillFail({
+        verify [mockArray objectAtIndex:0];
+    });
+}
+
+- (void)testStubbingIsNotCalledOnVerify {
+    // when you verify a stubbed method, the stub action must not be performed
+    whenCalling [mockArray objectAtIndex:0] thenDo performBlock(^(NSInvocation *inv) {
+        STFail(@"Should not be invoked");
+    });
+    
+    verify never [mockArray objectAtIndex:0];
 }
 
 @end

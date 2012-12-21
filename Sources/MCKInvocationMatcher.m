@@ -66,7 +66,6 @@
                 return NO;
             }
         } else if ([MCKTypeEncodings isStructType:candidateArgumentType]) {
-            NSLog(@"Invocation Matcher: ignoring unknown objc type %s", candidateArgumentType);
             if (![self matchesStructArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
                 return NO;
             }
@@ -146,16 +145,29 @@
                            prototype:(NSInvocation *)prototype
                     argumentMatchers:(NSArray *)argumentMatchers
 {
-    const NSUInteger StructMaxSize = 1024; // arbitrary chosen for now
-    UInt8 candidateArgument[StructMaxSize]; memset(candidateArgument, 0, StructMaxSize); [candidate getArgument:candidateArgument atIndex:argIndex];
-    UInt8 prototypeArgument[StructMaxSize]; memset(prototypeArgument, 0, StructMaxSize); [prototype getArgument:prototypeArgument atIndex:argIndex];
+    const NSUInteger structSize = [self sizeofStructWithEncoding:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]];
+    UInt8 candidateArgument[structSize]; memset(candidateArgument, 0, structSize); [candidate getArgument:candidateArgument atIndex:argIndex];
+    UInt8 prototypeArgument[structSize]; memset(prototypeArgument, 0, structSize); [prototype getArgument:prototypeArgument atIndex:argIndex];
     
     if ([argumentMatchers count] > 0) {
         id<MCKArgumentMatcher> matcher = argumentMatchers[prototypeArgument[0]];
         return [matcher matchesCandidate:[NSValue valueWithBytes:candidateArgument objCType:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]]];
     } else {
-        return (memcmp(candidateArgument, prototypeArgument, StructMaxSize) == 0);
+        return (memcmp(candidateArgument, prototypeArgument, structSize) == 0);
     }
+}
+
+- (NSUInteger)sizeofStructWithEncoding:(const char *)encodeType {
+    NSUInteger structSize = 0;
+    
+    while (strlen(encodeType) > 0) {
+        NSUInteger fieldSize = 0;
+        NSUInteger align = 0;
+        encodeType = NSGetSizeAndAlignment(encodeType, &fieldSize, &align);
+        structSize += (fieldSize + align);
+    }
+    
+    return structSize;
 }
 
 @end
