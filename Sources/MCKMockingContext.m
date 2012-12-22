@@ -10,9 +10,11 @@
 #import "MCKDefaultVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationMatcher.h"
+#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
+#import "MCKInvocationStubber.h"
 #import "MCKSenTestFailureHandler.h"
-
+#import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
 
@@ -28,6 +30,23 @@
 
 static __weak id _CurrentContext = nil;
 
+
+#pragma mark - Startup
+
++ (void)initialize {
+    if (!(self == [MCKMockingContext class])) {
+        return;
+    }
+    
+    // Check that categories were loaded
+    if (![NSInvocation instancesRespondToSelector:@selector(mck_sizeofParameterAtIndex:)]) {
+        NSLog(@"****************************************************************************");
+        NSLog(@"* Mocka could not find required category methods                           *");
+        NSLog(@"* Make sure you have \"-ObjC\" in your testing target's \"Other Linker Flags\" *");
+        NSLog(@"************************************************************************");
+        abort();
+    }
+}
 
 #pragma mark - Getting a Context
 

@@ -8,6 +8,8 @@
 
 #import "MCKDefaultVerifier.h"
 #import "MCKVerificationHandler.h"
+#import "MCKInvocationCollection.h"
+#import "MCKArgumentMatcherCollection.h"
 
 
 @implementation MCKDefaultVerifier

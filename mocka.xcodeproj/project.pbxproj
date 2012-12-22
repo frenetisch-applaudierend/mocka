@@ -23,17 +23,19 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2803FEB315B9B06800108114 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; };
+		2803FEB315B9B06800108114 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
 		280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
+		280FCCF4168632BC009631C9 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
+		280FCCF5168632BD009631C9 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
 		281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760B163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
 		281F760C163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
 		281F76101630924400A10434 /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F760F1630924400A10434 /* ExamplesStub.m */; };
 		281F76111630924400A10434 /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F760F1630924400A10434 /* ExamplesStub.m */; };
-		2822C32A162036BD0031D92C /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationCollection.h */; };
-		2822C32B162036BD0031D92C /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationCollection.h */; };
+		2822C32A162036BD0031D92C /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationCollection.h */; settings = {ATTRIBUTES = (); }; };
+		2822C32B162036BD0031D92C /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2822C328162036BD0031D92C /* MCKInvocationCollection.h */; settings = {ATTRIBUTES = (); }; };
 		2822C32C162036BD0031D92C /* MCKInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C329162036BD0031D92C /* MCKInvocationCollection.m */; };
 		2822C32D162036BD0031D92C /* MCKInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C329162036BD0031D92C /* MCKInvocationCollection.m */; };
 		2822C336162039490031D92C /* MCKInvocationCollectionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2822C335162039490031D92C /* MCKInvocationCollectionTest.m */; };
@@ -169,8 +171,6 @@
 		364C865F164A6F72009F0EF4 /* MCKMockingCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 364C865D164A6F72009F0EF4 /* MCKMockingCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		366126B716565233002F1372 /* FakeFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B616565233002F1372 /* FakeFailureHandler.m */; };
 		366126B816565233002F1372 /* FakeFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B616565233002F1372 /* FakeFailureHandler.m */; };
-		366126BA165696A2002F1372 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
-		366126BB165696A2002F1372 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
 		36A07E00161EC9B3006153C7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D7B3A514D74DE400D494FD /* SenTestingKit.framework */; };
 		36A07E04161EC9B3006153C7 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36A07DED161EC9B3006153C7 /* libmocka-osx.a */; };
 		36A07E14161ED0C1006153C7 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 2832CC9D14D74F7C00BE74C2 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -178,7 +178,7 @@
 		36A07E17161ED0D7006153C7 /* MCKInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575E1F15B209F20077ACFC /* MCKInvocationMatcher.m */; };
 		36A07E18161ED0D7006153C7 /* MCKTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DF1CAE15BAA682003408ED /* MCKTypeEncodings.m */; };
 		36A07E19161ED0DD006153C7 /* MCKInvocationMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575E1E15B209F20077ACFC /* MCKInvocationMatcher.h */; };
-		36A07E1A161ED0DD006153C7 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; };
+		36A07E1A161ED0DD006153C7 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E1B161ED0E1006153C7 /* MCKMockingContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575DE815B1DB180077ACFC /* MCKMockingContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E1C161ED0F4006153C7 /* MCKMockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 28575DDA15B1D5850077ACFC /* MCKMockObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E1D161ED0F4006153C7 /* MCKMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 28575DDB15B1D5850077ACFC /* MCKMockObject.m */; };
@@ -221,8 +221,8 @@
 		36A07E45161ED1A5006153C7 /* FakeMockingContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B57A15B3296100D64D27 /* FakeMockingContext.m */; };
 		36A07E47161ED1A5006153C7 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B57115B23FF100D64D27 /* TestObject.m */; };
 		36A07E48161ED1A5006153C7 /* NSInvocation+TestSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 2857B57315B23FF100D64D27 /* NSInvocation+TestSupport.m */; };
-		36A07E4D161EF487006153C7 /* MCKFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E4C161EF487006153C7 /* MCKFailureHandler.h */; };
-		36A07E4E161EF487006153C7 /* MCKFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E4C161EF487006153C7 /* MCKFailureHandler.h */; };
+		36A07E4D161EF487006153C7 /* MCKFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E4C161EF487006153C7 /* MCKFailureHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		36A07E4E161EF487006153C7 /* MCKFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E4C161EF487006153C7 /* MCKFailureHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36A07E52161EF504006153C7 /* MCKSenTestFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E50161EF503006153C7 /* MCKSenTestFailureHandler.h */; };
 		36A07E53161EF504006153C7 /* MCKSenTestFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 36A07E50161EF503006153C7 /* MCKSenTestFailureHandler.h */; };
 		36A07E54161EF504006153C7 /* MCKSenTestFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A07E51161EF503006153C7 /* MCKSenTestFailureHandler.m */; };
@@ -1040,7 +1040,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\"\n\nbuild() {\n    echo \"Building library for $2 (sdk $3)\"\n    mkdir -p \"${BUILD_ROOT}/${CONFIGURATION}-$3/\"\n    xcodebuild -target \"$1\" -configuration \"${CONFIGURATION}\" -arch \"$2\" -sdk \"$3\" build \\\n      PRODUCT_NAME=\"mocka-$2\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" \\\n      > \"${BUILD_ROOT}/${CONFIGURATION}-$3/mocka-$2-build.log\"\n}\n\nbuild \"libmocka-ios\" \"armv7\"  \"iphoneos\"\nbuild \"libmocka-ios\" \"armv7s\" \"iphoneos\"\nbuild \"libmocka-ios\" \"i386\"   \"iphonesimulator\"\nbuild \"libmocka-osx\" \"x86_64\" \"macosx\"\n\necho \"Creating universal library in ${UNIVERSAL_LIBRARY_PATH}\"\nlipo \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/libmocka-armv7.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/libmocka-armv7s.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/libmocka-i386.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-x86_64.a\" \\\n  -create -output \"${UNIVERSAL_LIBRARY_PATH}\"\n";
+			shellScript = "set -e\n\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\"\n\nbuild() {\n    echo \"Building library for $2 (sdk $3)\"\n    mkdir -p \"${BUILD_ROOT}/${CONFIGURATION}-$3/\"\n    xcodebuild -target \"$1\" -configuration \"${CONFIGURATION}\" -arch \"$2\" -sdk \"$3\" clean build \\\n      PRODUCT_NAME=\"mocka-$2\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" \\\n      > \"${BUILD_ROOT}/${CONFIGURATION}-$3/mocka-$2-build.log\"\n}\n\nbuild \"libmocka-ios\" \"armv7\"  \"iphoneos\"\nbuild \"libmocka-ios\" \"armv7s\" \"iphoneos\"\nbuild \"libmocka-ios\" \"i386\"   \"iphonesimulator\"\nbuild \"libmocka-osx\" \"x86_64\" \"macosx\"\n\necho \"Creating universal library in ${UNIVERSAL_LIBRARY_PATH}\"\nlipo \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/libmocka-armv7.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/libmocka-armv7s.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}-iphonesimulator/libmocka-i386.a\" \\\n  \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-x86_64.a\" \\\n  -create -output \"${UNIVERSAL_LIBRARY_PATH}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2855725B162B377100384DF9 /* Build Framework */ = {
@@ -1133,6 +1133,7 @@
 				28277E4C1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.m in Sources */,
 				288E76EF1685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
 				280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
+				280FCCF4168632BC009631C9 /* MCKFailureHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,7 +1170,6 @@
 				28FFE1031633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 				28FFE11816343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
 				366126B716565233002F1372 /* FakeFailureHandler.m in Sources */,
-				366126BA165696A2002F1372 /* MCKFailureHandler.m in Sources */,
 				28249DB3167CB054006560C0 /* MCKDefaultVerifierTest.m in Sources */,
 				28249DB7167CB108006560C0 /* FakeVerificationHandler.m in Sources */,
 				28249DC4167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */,
@@ -1214,6 +1214,7 @@
 				28277E4D1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.m in Sources */,
 				288E76F01685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
 				280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
+				280FCCF5168632BD009631C9 /* MCKFailureHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1250,7 +1251,6 @@
 				28FFE1041633E676000BDF5B /* MCKSetOutParameterStubActionTest.m in Sources */,
 				28FFE11916343C68000BDF5B /* CategoriesTestClasses.m in Sources */,
 				366126B816565233002F1372 /* FakeFailureHandler.m in Sources */,
-				366126BB165696A2002F1372 /* MCKFailureHandler.m in Sources */,
 				28249DB4167CB054006560C0 /* MCKDefaultVerifierTest.m in Sources */,
 				28249DB8167CB108006560C0 /* FakeVerificationHandler.m in Sources */,
 				28249DC5167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */,
@@ -1303,7 +1303,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 0.2;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1311,7 +1310,6 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -1333,8 +1331,6 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 0.2;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
-				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;

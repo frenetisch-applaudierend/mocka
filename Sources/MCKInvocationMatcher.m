@@ -94,7 +94,7 @@
 }
 
 - (NSUInteger)primitiveMatcherIndexFromPrototype:(NSInvocation *)prototype argumentIndex:(NSUInteger)argIndex {
-    NSUInteger paramSize = [prototype sizeofParameterAtIndex:(argIndex - 2)];
+    NSUInteger paramSize = [prototype mck_sizeofParameterAtIndex:(argIndex - 2)];
     NSAssert(paramSize >= 1, @"Minimum byte size not given");
     UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
     [prototype getArgument:buffer atIndex:argIndex];
@@ -102,7 +102,7 @@
 }
 
 - (id)serializedValueForArgumentAtIndex:(NSUInteger)argIndex ofInvocation:(NSInvocation *)invocation {
-    NSUInteger paramSize = [invocation sizeofParameterAtIndex:(argIndex - 2)];
+    NSUInteger paramSize = [invocation mck_sizeofParameterAtIndex:(argIndex - 2)];
     UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
     [invocation getArgument:buffer atIndex:argIndex];
     return mck_encodeValueFromBytesAndType(buffer, paramSize, [invocation.methodSignature getArgumentTypeAtIndex:argIndex]);

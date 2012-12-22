@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "MCKMockingContext.h"
 
-@class MCKInvocationCollection;
 @class MCKArgumentMatcherCollection;
+@class MCKInvocationCollection;
 
 
 @protocol MCKVerificationHandler <NSObject>

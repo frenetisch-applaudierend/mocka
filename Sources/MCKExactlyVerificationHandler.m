@@ -8,6 +8,8 @@
 
 #import "MCKExactlyVerificationHandler.h"
 #import "MCKArgumentMatcherCollection.h"
+#import "MCKInvocationCollection.h"
+#import "MCKArgumentMatcherCollection.h"
 
 
 @implementation MCKExactlyVerificationHandler {

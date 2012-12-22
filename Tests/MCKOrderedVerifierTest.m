@@ -8,6 +8,8 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "MCKOrderedVerifier.h"
+#import "MCKInvocationCollection.h"
+#import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
 #import "FakeVerificationHandler.h"

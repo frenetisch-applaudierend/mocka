@@ -9,13 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import "MCKFailureHandler.h"
-#import "MCKInvocationCollection.h"
-#import "MCKInvocationStubber.h"
 
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
 @protocol MCKVerifier;
+@class MCKMutableInvocationCollection;
+@class MCKArgumentMatcherCollection;
+@class MCKInvocationStubber;
 @class MCKStub;
 
 
