@@ -13,41 +13,42 @@
 @interface MCKExceptionFailureHandlerTest : SenTestCase
 @end
 
-@implementation MCKExceptionFailureHandlerTest
+@implementation MCKExceptionFailureHandlerTest {
+    MCKExceptionFailureHandler *failureHandler;
+}
+
+#pragma mark - Setup and Teardown
+
+- (void)setUp {
+    failureHandler = [[MCKExceptionFailureHandler alloc] init];
+}
+
 
 #pragma mark - Test Cases
 
 - (void)testThatHandleFailureThrowsException {
-    MCKExceptionFailureHandler *failureHandler = [[MCKExceptionFailureHandler alloc] init];
-    STAssertThrows([failureHandler handleFailureInFile:nil atLine:0 withReason:nil], @"This should have thrown");
+    STAssertThrows([failureHandler handleFailureWithReason:nil], @"This should have thrown");
 }
 
 - (void)testThatHandleFailureSetsReasonOnException {
-    MCKExceptionFailureHandler *failureHandler = [[MCKExceptionFailureHandler alloc] init];
     @try {
-        [failureHandler handleFailureInFile:nil atLine:0 withReason:@"My passed reason"];
+        [failureHandler handleFailureWithReason:@"My passed reason"];
         STFail(@"Should have thrown");
     } @catch (NSException *exception) {
         STAssertEqualObjects(exception.reason, @"My passed reason", @"Reason was not passed");
     }
 }
 
-- (void)testThatHandleFailureSetsFileOnException {
-    MCKExceptionFailureHandler *failureHandler = [[MCKExceptionFailureHandler alloc] init];
+- (void)testThatHandleFailureSetsFileAndLineOnException {
+    // given
+    [failureHandler updateFileName:@"Foobar.m" lineNumber:10];
+    
+    // then
     @try {
-        [failureHandler handleFailureInFile:@"Foobar.m" atLine:0 withReason:nil];
+        [failureHandler handleFailureWithReason:nil];
         STFail(@"Should have thrown");
     } @catch (NSException *exception) {
         STAssertEqualObjects(exception.userInfo[MCKFileNameKey], @"Foobar.m", @"File was not passed");
-    }
-}
-
-- (void)testThatHandleFailureSetsLineOnException {
-    MCKExceptionFailureHandler *failureHandler = [[MCKExceptionFailureHandler alloc] init];
-    @try {
-        [failureHandler handleFailureInFile:nil atLine:10 withReason:nil];
-        STFail(@"Should have thrown");
-    } @catch (NSException *exception) {
         STAssertEqualObjects(exception.userInfo[MCKLineNumberKey], @10, @"Line was not passed");
     }
 }

@@ -14,6 +14,11 @@
 
 @interface MCKArgumentMatcherCollection : NSObject
 
+#pragma mark - Initialization
+
+- (id)initWithPrimitiveArgumentMatchers:(NSArray *)primitiveMatchers;
+- (id)init;
+
 
 #pragma mark - Managing Matchers
 

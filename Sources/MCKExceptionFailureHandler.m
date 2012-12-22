@@ -15,10 +15,12 @@ NSString * const MCKLineNumberKey = @"lineNumber";
 
 @implementation MCKExceptionFailureHandler
 
-- (void)handleFailureInFile:(NSString *)file atLine:(NSUInteger)line withReason:(NSString *)reason {
+#pragma mark - Handling Failures
+
+- (void)handleFailureWithReason:(NSString *)reason {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo setValue:file forKey:MCKFileNameKey];
-    [userInfo setValue:@(line) forKey:MCKLineNumberKey];
+    [userInfo setValue:self.fileName forKey:MCKFileNameKey];
+    [userInfo setValue:@(self.lineNumber) forKey:MCKLineNumberKey];
     @throw [NSException exceptionWithName:@"TestFailureException" reason:reason userInfo:userInfo];
 }
 

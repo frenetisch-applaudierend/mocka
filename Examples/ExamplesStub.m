@@ -21,8 +21,6 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    SetupExampleErrorHandler();
-    
     // we'll use these objects in the examples
     mockArray = mock([NSMutableArray class]);
     mockString = mock([NSMutableString class]);
@@ -171,7 +169,7 @@
             executionCount++;
         });
         returnValue(@"Hello World");
-    }
+    };
     
     id value1 = [mockArray objectAtIndex:0];
     STAssertEqualObjects(value1, @"Hello World", @"Wrong return value");
@@ -180,60 +178,6 @@
     id value2 = [mockArray objectAtIndexedSubscript:0];
     STAssertEqualObjects(value2, @"Hello World", @"Wrong return value");
     STAssertEquals(executionCount, (NSUInteger)2, @"Wrong execution count");
-}
-
-
-#pragma mark - Using Argument Matchers When Stubbing
-
-- (void)testYouCanUseArgumentMatchersWhenStubbing {
-    // instead of specifiying an exact value in whenCalling you can also use argument matchers
-    
-    
-    __block id addedObject = nil;
-    whenCalling [mockArray addObject:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
-        addedObject = [inv objectParameterAtIndex:0];
-    });
-    
-    [mockArray addObject:@"Hello World"];
-    
-    STAssertEqualObjects(addedObject, @"Hello World", @"Wrong object added");
-}
-
-- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArguments {
-    // matchers are also available for primitive arguments
-    
-    whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
-        NSUInteger index = [inv unsignedIntegerParameterAtIndex:0];
-        [inv setObjectReturnValue:@(index)];
-    });
-    
-    STAssertEqualObjects([mockArray objectAtIndex:10], @10, @"Wrong return value");
-}
-
-- (void)testYouCanMixArgumentsAndMatchersForObjects {
-    // for object arguments you can just mix normal arguments and matchers
-    
-    __block NSArray *insertedObjects = nil;
-    __block NSIndexSet *insertedIndexes = nil;
-    whenCalling [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
-        insertedObjects = [inv objectParameterAtIndex:0];
-        insertedIndexes = [inv objectParameterAtIndex:1];
-    });
-    
-    [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
-    
-    STAssertEqualObjects(insertedObjects, (@[ @"foo" ]), @"Wrong inserted objects");
-    STAssertEqualObjects(insertedIndexes, [NSIndexSet indexSetWithIndex:3], @"Wrong inserted indexes");
-}
-
-- (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
-    // for primitive arguments you must either use argument matchers only or no matchers at all
-    
-    whenCalling [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20] thenDo performBlock(nil);             // ok
-    whenCalling [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()] thenDo performBlock(nil); // ok
-    ThisWillFail({
-        whenCalling [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()] thenDo performBlock(nil);   // not ok
-    });
 }
 
 
@@ -246,7 +190,7 @@
     whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
-    }
+    };
     
     NSError *reportedError = nil;
     [mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:&reportedError];
@@ -260,9 +204,90 @@
     whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
-    }
+    };
     
     STAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL], @"Should not have failed");
+}
+
+
+#pragma mark - Stubbing on matching arguments
+
+- (void)testStubbingWillMatchOnEqualObjectArguments {
+    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray addObject:@"Hello World"] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray addObject:@"Hello World"];
+    
+    STAssertTrue(actionWasCalled, @"Action should have been called");
+}
+
+- (void)testStubbingWillFailForUnequalObjectArguments {
+    // in contrast to above, if the arguments are not equal stubbing will not consider it a match
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray addObject:@"Hello World"] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray addObject:@"Goodbye World"];
+    
+    STAssertFalse(actionWasCalled, @"Action should not have been called");
+}
+
+- (void)testStubbingWillMatchOnEqualPrimitiveArguments {
+    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray objectAtIndex:10] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray objectAtIndex:10];
+    
+    STAssertTrue(actionWasCalled, @"Action should have been called");
+}
+
+- (void)testStubbingWillFailForUnequalPrimitiveArguments {
+    // in contrast to above, if the arguments are not equal stubbing will not consider it a match
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray objectAtIndex:10] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray objectAtIndex:1];
+    
+    STAssertFalse(actionWasCalled, @"Action should not have been called");
+}
+
+- (void)testStubbingWillMatchOnEqualStructArguments {
+    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray subarrayWithRange:NSMakeRange(10, 20)] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    
+    STAssertTrue(actionWasCalled, @"Action should have been called");
+}
+
+- (void)testStubbingWillFailForUnequalStructArguments {
+    // in contrast to above, if the arguments are not equal stubbing will not consider it a match
+    
+    __block BOOL actionWasCalled = NO;
+    whenCalling [mockArray subarrayWithRange:NSMakeRange(10, 20)] thenDo performBlock(^(NSInvocation *inv) {
+        actionWasCalled = YES;
+    });
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 0)];
+    
+    STAssertFalse(actionWasCalled, @"Action should not have been called");
 }
 
 
@@ -275,6 +300,28 @@
     givenCallTo [mockArray count] thenDo returnValue(10);
     
     STAssertEquals([mockArray count], (NSUInteger)10, @"Wrong return value");
+}
+
+
+#pragma mark - Stubbing and Verifying in Relation
+
+- (void)testStubbingDoesNotQualifyForVerify {
+    // when you stub a method this method is not called, so it's not considered for verify
+    
+    whenCalling [mockArray objectAtIndex:0] thenDo returnValue(10);
+    
+    ThisWillFail({
+        verify [mockArray objectAtIndex:0];
+    });
+}
+
+- (void)testStubbingIsNotCalledOnVerify {
+    // when you verify a stubbed method, the stub action must not be performed
+    whenCalling [mockArray objectAtIndex:0] thenDo performBlock(^(NSInvocation *inv) {
+        STFail(@"Should not be invoked");
+    });
+    
+    verify never [mockArray objectAtIndex:0];
 }
 
 @end

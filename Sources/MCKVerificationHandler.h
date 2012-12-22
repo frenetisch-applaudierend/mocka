@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "MCKMockingContext.h"
 
-@class MCKInvocationRecorder;
+@class MCKArgumentMatcherCollection;
+@class MCKInvocationCollection;
 
 
 @protocol MCKVerificationHandler <NSObject>
 
 - (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-            withPrimitiveArgumentMatchers:(NSArray *)matchers
-                     inInvocationRecorder:(MCKInvocationRecorder *)recorder
+                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
+                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
                                 satisfied:(BOOL *)satisified
                            failureMessage:(NSString **)failureMessage;
 

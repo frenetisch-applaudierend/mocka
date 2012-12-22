@@ -11,6 +11,16 @@
 
 @protocol MCKFailureHandler <NSObject>
 
-- (void)handleFailureInFile:(NSString *)file atLine:(NSUInteger)line withReason:(NSString *)reason;
+@property (nonatomic, readonly, copy)   NSString *fileName;
+@property (nonatomic, readonly, assign) NSUInteger lineNumber;
+
+- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
+
+- (void)handleFailureWithReason:(NSString *)reason;
+
+@end
+
+
+@interface MCKFailureHandler : NSObject <MCKFailureHandler>
 
 @end

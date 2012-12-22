@@ -29,8 +29,8 @@
 
 // Mocking Syntax
 #define mck_mock(cls, ...) [MCKMockObject mockWithContext:mck_updatedContext() classAndProtocols:@[ cls, __VA_ARGS__ ]]
-#define mck_mockForClass(cls) mck_mock([cls class])
-#define mck_mockForProtocol(prt) mck_mock(@protocol(prt))
+#define mck_mockForClass(cls) (cls *)mck_mock([cls class])
+#define mck_mockForProtocol(prt) (id<prt>)mck_mock(@protocol(prt))
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define mock(cls, ...) mck_mock(cls, __VA_ARGS__)

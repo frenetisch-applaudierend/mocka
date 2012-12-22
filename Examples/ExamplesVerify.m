@@ -20,8 +20,6 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    SetupExampleErrorHandler();
-    
     // we'll use this object in the examples
     mockArray = mock([NSMutableArray class]);
 }
@@ -82,7 +80,7 @@
 
 #pragma mark - Verification With Arguments
 
-- (void)testVerifyWillMatchOnEqualArguments {
+- (void)testVerifyWillMatchOnEqualObjectArguments {
     // when you verify a method that has arguments verify will match equal arguments (isEqual: is used to compare)
     
     [mockArray addObject:@"Hello World"];
@@ -90,7 +88,7 @@
     verify [mockArray addObject:@"Hello World"];
 }
 
-- (void)testVerifyWillFailForUnequalArguments {
+- (void)testVerifyWillFailForUnequalObjectArguments {
     // in contrast to above, if the arguments are not equal verify will not consider it a match
     
     [mockArray addObject:@"Hello World"];
@@ -100,41 +98,39 @@
     });
 }
 
-- (void)testYouCanUseArgumentMatchersInVerify {
-    // instead of specifiying an exact value in verify you can also use argument matchers
-    
-    [mockArray addObject:@"Hello World"];
-    
-    verify [mockArray addObject:anyObject()];
-}
-
-- (void)testYouCanUseArgumentMatchersAlsoForPrimitiveArguments {
-    // matchers are also available for primitive arguments
+- (void)testVerifyWillMatchOnEqualPrimitiveArguments {
+    // when you verify a method that has arguments verify will match equal primitive arguments
     
     [mockArray objectAtIndex:10];
     
-    verify [mockArray objectAtIndex:anyInt()];
+    verify [mockArray objectAtIndex:10];
 }
 
-- (void)testYouCanMixArgumentsAndMatchersForObjects {
-    // for object arguments you can just mix normal arguments and matchers
+- (void)testVerifyWillFailForUnequalPrimitiveArguments {
+    // in contrast to above, if the arguments are not equal verify will not consider it a match
     
-    [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
+    [mockArray objectAtIndex:10];
     
-    verify [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()];
-}
-
-- (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
-    // for primitive arguments you must either use argument matchers only or no matchers at all
-    
-    [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];
-    [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
-    [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
-    
-    verify [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];             // ok
-    verify [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]; // ok
     ThisWillFail({
-        verify [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
+        verify [mockArray objectAtIndex:0];
+    });
+}
+
+- (void)testVerifyWillMatchOnEqualStructArguments {
+    // when you verify a method that has arguments verify will match equal struct arguments (equal as compared by memcmp)
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    
+    verify [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+}
+
+- (void)testVerifyWillFailForUnequalStructArguments {
+    // in contrast to above, if the arguments are not equal verify will not consider it a match
+    
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    
+    ThisWillFail({
+        verify [mockArray subarrayWithRange:NSMakeRange(10, 10)];
     });
 }
 
@@ -205,6 +201,168 @@
     
     verify [mockArray count];
     verify noMoreInteractionsOn(mockArray); // [mockArray count] was verified
+}
+
+
+#pragma mark - Ordered Verify
+
+- (void)testThatVerifyingInOrderFailsIfCallIsMadeOutOfOrder {
+    // by verifying in order you can check that a certain flow of methods is called one after another
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Three"];
+    
+    ThisWillFail({
+        verify inOrder {
+            [mockArray addObject:@"One"];
+            [mockArray addObject:@"Three"];
+            [mockArray addObject:@"Two"];   // <-- EVIL, out of order!
+        };
+    });
+}
+
+- (void)testThatVerifyingInOrderIgnoresUnverifiedCalls {
+    // if you simply verify in order then 
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Unverified"];      // this is ignored
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Also unverified"]; // also this
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        [mockArray addObject:@"One"];
+        [mockArray addObject:@"Two"];
+        [mockArray addObject:@"Three"];
+    };
+}
+
+- (void)testCanUseExactlyInOrderedVerify {
+    // you can use exactly() as usual in ordered verify
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Three"];
+    [mockArray removeAllObjects];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+        [mockArray removeAllObjects];
+    };
+}
+
+- (void)testLeadingUnverifiedMethodCallsAreIgnoredWithExactly {
+    // also with exactly, leading method calls are just ignored
+    
+    [mockArray count];
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray addObject:@"Three"];
+    [mockArray removeAllObjects];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+        [mockArray removeAllObjects];
+    };
+}
+
+- (void)testInterleavedUnverifiedMethodCallsAreIgnoredWithExactly {
+    // also with exactly, interleaving method calls are just ignored
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+}
+
+- (void)testOrderedVerifyFailsIfExactlyFails {
+    // exactly must also match exactly n objects in ordered verify
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    
+    ThisWillFail({
+        verify inOrder {
+            exactly(3) [mockArray addObject:anyObject()];
+            [mockArray removeAllObjects];
+        };
+    });
+}
+
+- (void)testOrderedVerifyFailsForInterleavedCallsWhichShouldBeOrderedWithExactly {
+    // if exactly skips calls while verifying, the skipped calls are not evaluated further
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    ThisWillFail({
+        verify inOrder {
+            exactly(3) [mockArray addObject:anyObject()];
+            [mockArray removeAllObjects];
+        };
+    });
+}
+
+- (void)testSkippedCallsCanLaterStillBeVerified {
+    // if exactly skips calls while verifying, the skipped calls can be verified outside of the inOrder
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+    verify [mockArray removeAllObjects];
+}
+
+- (void)testSkippedCallsCanLaterStillBeVerifiedOrdered {
+    // skipped calls can even be verified ordered later
+    
+    [mockArray addObject:@"One"];
+    [mockArray count];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+    
+    verify inOrder {
+        verify [mockArray count];
+        verify [mockArray removeAllObjects];
+    };
+}
+
+- (void)testOrderingIsAlsoEnforcedWhenTestingSkippedCalls {
+    // skipped calls can even be verified ordered later
+    
+    [mockArray addObject:@"One"];
+    [mockArray count];
+    [mockArray addObject:@"Two"];
+    [mockArray removeAllObjects];
+    [mockArray addObject:@"Three"];
+    
+    verify inOrder {
+        exactly(3) [mockArray addObject:anyObject()];
+    };
+    
+    ThisWillFail({
+        verify inOrder {
+            verify [mockArray removeAllObjects];
+            verify [mockArray count];
+        };
+    });
 }
 
 @end
