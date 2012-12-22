@@ -22,8 +22,6 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    SetupExampleErrorHandler();
-    
     // we'll use these objects in the examples
     mockArray = mock([NSMutableArray class]);
     mockString = mock([NSMutableString class]);
@@ -115,17 +113,28 @@
     STAssertEqualObjects([mockArray subarrayWithRange:NSMakeRange(0, 10)], (@[ @0, @10 ]), @"Wrong return value");
 }
 
-- (void)testYouCanNotMixArgumentsAndMatchersForStructs {
-    // for primitive arguments you must either use argument matchers only or no matchers at all
+
+#pragma mark - Exact Matchers
+
+- (void)testThatYouCanUseIntArgToSpecifyAnExactIntArg {
+    // since you need to specify either all args as matchers or none for primitives,
+    // there is a special matcher that allows you to match the exact argument
     
     [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    verify [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];             // ok
-    verify [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]; // ok
+    verify [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];               // ok
+    verify [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()];   // ok
+    verify [mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:anyInt()]; // also ok
+}
+
+- (void)testExactStructArgumentMatcherSyntax {
+    [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    [mockArray subarrayWithRange:NSMakeRange(30, 40)];
+    verify [mockArray subarrayWithRange:structArg(NSMakeRange(10, 20))];
     ThisWillFail({
-        verify [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
+        verify [mockArray subarrayWithRange:structArg(NSMakeRange(40, 50))];
     });
 }
 

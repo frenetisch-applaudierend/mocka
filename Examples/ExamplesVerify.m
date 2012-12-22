@@ -20,8 +20,6 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    SetupExampleErrorHandler();
-    
     // we'll use this object in the examples
     mockArray = mock([NSMutableArray class]);
 }
