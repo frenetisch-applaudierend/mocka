@@ -26,7 +26,7 @@ static float mck_floatArg(float arg) { return mck_registerPrimitiveNumberMatcher
 static BOOL mck_boolArg(BOOL arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
 
 static char* mck_cStringArg(const char *arg) {
-    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], MCKDefaultCStringBuffer);
 }
 
 static SEL mck_selectorArg(SEL arg) {

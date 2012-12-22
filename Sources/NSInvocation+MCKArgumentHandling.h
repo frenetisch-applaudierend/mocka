@@ -18,7 +18,7 @@
 //       index 0 is the first parameter, not self, so you don't need
 //       to add 2 to get to the right parameter
 
-- (id)mck_objectParameterAtIndex:(NSUInteger)index;
+- (__autoreleasing id)mck_objectParameterAtIndex:(NSUInteger)index;
 - (NSInteger)mck_integerParameterAtIndex:(NSUInteger)index;
 - (NSUInteger)mck_unsignedIntegerParameterAtIndex:(NSUInteger)index;
 - (void *)mck_structParameter:(out void *)parameter atIndex:(NSUInteger)index;
@@ -28,6 +28,11 @@
 
 - (void)mck_setObjectReturnValue:(id)value;
 
+
+#pragma mark - Argument Information
+
+- (NSUInteger)mck_sizeofParameterAtIndex:(NSUInteger)index;
+
 @end
 
 #define mck_structParameter(inv, idx, structType) (*((structType *)([(inv) mck_structParameter:&(structType){} atIndex:(idx)])))
@@ -36,12 +41,14 @@
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 @interface NSInvocation (MCKArgumentHandling_NiceSyntax)
 
-- (id)objectParameterAtIndex:(NSUInteger)index;
+- (__autoreleasing id)objectParameterAtIndex:(NSUInteger)index;
 - (NSInteger)integerParameterAtIndex:(NSUInteger)index;
 - (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index;
 - (void *)structParameter:(out void *)parameter atIndex:(NSUInteger)index;
 
 - (void)setObjectReturnValue:(id)value;
+
+- (NSUInteger)sizeofParameterAtIndex:(NSUInteger)index;
 
 @end
 

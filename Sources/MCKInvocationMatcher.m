@@ -10,6 +10,9 @@
 #import "MCKTypeEncodings.h"
 #import "MCKArgumentMatcher.h"
 #import "MCKArgumentSerialization.h"
+#import "MCKExactArgumentMatcher.h"
+#import "MCKHamcrestArgumentMatcher.h"
+#import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
 
@@ -33,37 +36,18 @@
     NSParameterAssert(candidate != nil);
     NSParameterAssert(prototype != nil);
     
-    // Check if the structure of the candidate and prototype are even the same
+    // check if the structure of the candidate and prototype are even the same
     if (![self candidate:candidate canMatch:prototype]) {
         return NO;
     }
     
-    // Check arguments (first two can be skipped, it's self and _cmd)
+    // match all arguments
+    NSArray *orderedArgumentMatchers = [self orderedArgumentMatchersFromPrototype:prototype primitiveArgumentMatchers:argumentMatchers];
     for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
-        // Test for argument types
-        const char *candidateArgumentType = [candidate.methodSignature getArgumentTypeAtIndex:argIndex];
-        if ([MCKTypeEncodings isObjectType:candidateArgumentType]) {
-            if (![self matchesObjectArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype]) {
-                return NO;
-            }
-        } else if ([MCKTypeEncodings isPrimitiveType:candidateArgumentType]) {
-            if (![self matchesPrimitiveArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
-                return NO;
-            }
-        } else if ([MCKTypeEncodings isSelectorOrCStringType:candidateArgumentType]) {
-            if (![self matchesCStringArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
-                return NO;
-            }
-        } else if ([MCKTypeEncodings isPointerType:candidateArgumentType]) {
-            if (![self matchesPointerArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
-                return NO;
-            }
-        } else if ([MCKTypeEncodings isStructType:candidateArgumentType]) {
-            if (![self matchesStructArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype argumentMatchers:argumentMatchers]) {
-                return NO;
-            }
-        } else {
-            NSLog(@"Invocation Matcher: ignoring unknown objc type %s", candidateArgumentType);
+        id<MCKArgumentMatcher> matcher = [orderedArgumentMatchers objectAtIndex:(argIndex - 2)];
+        id candidateValue = [self serializedValueForArgumentAtIndex:argIndex ofInvocation:candidate];
+        if (![matcher matchesCandidate:candidateValue]) {
+            return NO;
         }
     }
     return YES;
@@ -74,9 +58,7 @@
         return NO;
     }
     
-    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments,
-             @"Same target and selector but different number of arguments... Houston we have a problem");
-    
+    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments, @"Different number of arguments");
     for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
         if (strcmp([candidate.methodSignature getArgumentTypeAtIndex:argIndex], [prototype.methodSignature getArgumentTypeAtIndex:argIndex]) != 0) {
             return NO;
@@ -86,99 +68,48 @@
     return YES;
 }
 
-- (BOOL)matchesObjectArgumentAtIndex:(NSUInteger)argIndex
-                        forCandidate:(NSInvocation *)candidate
-                           prototype:(NSInvocation *)prototype
-{
-    Protocol *hamcrestProtocol = [self hamcrestMatcherProtocol];
-    void *candidateArgumentPtr = nil; [candidate getArgument:&candidateArgumentPtr atIndex:argIndex];
-    void *prototypeArgumentPtr = nil; [prototype getArgument:&prototypeArgumentPtr atIndex:argIndex];
-    id candidateArgument = (__bridge id)candidateArgumentPtr;
-    id prototypeArgument = (__bridge id)prototypeArgumentPtr;
-    
-    if ([prototypeArgument conformsToProtocol:@protocol(MCKArgumentMatcher)]) {
-        return [(id<MCKArgumentMatcher>)prototypeArgument matchesCandidate:mck_encodeObjectArgument(candidateArgument)];
-    } else if (hamcrestProtocol != NULL && [prototypeArgument conformsToProtocol:hamcrestProtocol]) {
-        return [(id)prototypeArgument matches:candidateArgument];
+- (NSArray *)orderedArgumentMatchersFromPrototype:(NSInvocation *)prototype primitiveArgumentMatchers:(NSArray *)primitiveMatchers {
+    NSMutableArray *matchers = [NSMutableArray arrayWithCapacity:(prototype.methodSignature.numberOfArguments - 2)];
+    for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
+        if ([MCKTypeEncodings isObjectType:[prototype.methodSignature getArgumentTypeAtIndex:argIndex]]) {
+            [matchers addObject:[self wrapObjectInMatcherIfNeeded:[prototype mck_objectParameterAtIndex:(argIndex - 2)]]];
+        } else if ([primitiveMatchers count] > 0) {
+            [matchers addObject:[primitiveMatchers objectAtIndex:[self primitiveMatcherIndexFromPrototype:prototype argumentIndex:argIndex]]];
+        } else {
+            id value = [self serializedValueForArgumentAtIndex:argIndex ofInvocation:prototype];
+            [matchers addObject:[MCKExactArgumentMatcher matcherWithArgument:value]];
+        }
+    }
+    return matchers;
+}
+
+- (id<MCKArgumentMatcher>)wrapObjectInMatcherIfNeeded:(id)object {
+    if ([object conformsToProtocol:@protocol(MCKArgumentMatcher)]) {
+        return object;
+    } else if ([self hamcrestMatcherProtocol] != nil && [object conformsToProtocol:[self hamcrestMatcherProtocol]]) {
+        return [MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:object];
     } else {
-        return (candidateArgument == prototypeArgument || [candidateArgument isEqual:prototypeArgument]);
+        return [MCKExactArgumentMatcher matcherWithArgument:object];
     }
 }
 
-- (BOOL)matchesPrimitiveArgumentAtIndex:(NSUInteger)argIndex
-                           forCandidate:(NSInvocation *)candidate
-                              prototype:(NSInvocation *)prototype
-                       argumentMatchers:(NSArray *)argumentMatchers
-{
-    UInt64 candidateArgument = 0; [candidate getArgument:&candidateArgument atIndex:argIndex];
-    UInt64 prototypeArgument = 0; [prototype getArgument:&prototypeArgument atIndex:argIndex];
-    
-    if ([argumentMatchers count] > 0) {
-        id<MCKArgumentMatcher> matcher = argumentMatchers[(char)prototypeArgument];
-        return [matcher matchesCandidate:@(candidateArgument)];
-    } else {
-        return (candidateArgument == prototypeArgument);
-    }
+- (NSUInteger)primitiveMatcherIndexFromPrototype:(NSInvocation *)prototype argumentIndex:(NSUInteger)argIndex {
+    NSUInteger paramSize = [prototype sizeofParameterAtIndex:(argIndex - 2)];
+    NSAssert(paramSize >= 1, @"Minimum byte size not given");
+    UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
+    [prototype getArgument:buffer atIndex:argIndex];
+    return mck_matcherIndexForArgumentBytes(buffer, [prototype.methodSignature getArgumentTypeAtIndex:argIndex]);
 }
 
-- (BOOL)matchesCStringArgumentAtIndex:(NSUInteger)argIndex
-                         forCandidate:(NSInvocation *)candidate
-                            prototype:(NSInvocation *)prototype
-                     argumentMatchers:(NSArray *)argumentMatchers
-{
-    const char *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
-    const char *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
-    
-    if ([argumentMatchers count] > 0) {
-        id<MCKArgumentMatcher> matcher = argumentMatchers[(NSUInteger)(prototypeArgument[0])];
-        return [matcher matchesCandidate:[NSValue valueWithPointer:candidateArgument]];
-    } else {
-        return (candidateArgument == prototypeArgument || strcmp(candidateArgument, prototypeArgument) == 0);
-    }
-}
-
-- (BOOL)matchesPointerArgumentAtIndex:(NSUInteger)argIndex
-                         forCandidate:(NSInvocation *)candidate
-                            prototype:(NSInvocation *)prototype
-                     argumentMatchers:(NSArray *)argumentMatchers
-{
-    const void *candidateArgument = NULL; [candidate getArgument:&candidateArgument atIndex:argIndex];
-    const void *prototypeArgument = NULL; [prototype getArgument:&prototypeArgument atIndex:argIndex];
-    
-    if ([argumentMatchers count] > 0) {
-        id<MCKArgumentMatcher> matcher = argumentMatchers[(UInt8)prototypeArgument];
-        return [matcher matchesCandidate:[NSValue valueWithPointer:candidateArgument]];
-    } else {
-        return (candidateArgument == prototypeArgument);
-    }
-}
-
-- (BOOL)matchesStructArgumentAtIndex:(NSUInteger)argIndex
-                        forCandidate:(NSInvocation *)candidate
-                           prototype:(NSInvocation *)prototype
-                    argumentMatchers:(NSArray *)argumentMatchers
-{
-    const NSUInteger structSize = [self sizeofStructWithEncoding:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]];
-    UInt8 candidateArgument[structSize]; memset(candidateArgument, 0, structSize); [candidate getArgument:candidateArgument atIndex:argIndex];
-    UInt8 prototypeArgument[structSize]; memset(prototypeArgument, 0, structSize); [prototype getArgument:prototypeArgument atIndex:argIndex];
-    
-    if ([argumentMatchers count] > 0) {
-        id<MCKArgumentMatcher> matcher = argumentMatchers[prototypeArgument[0]];
-        NSValue *candidateValue = [NSValue valueWithBytes:candidateArgument objCType:[candidate.methodSignature getArgumentTypeAtIndex:argIndex]];
-        return [matcher matchesCandidate:candidateValue];
-    } else {
-        return (memcmp(candidateArgument, prototypeArgument, structSize) == 0);
-    }
+- (id)serializedValueForArgumentAtIndex:(NSUInteger)argIndex ofInvocation:(NSInvocation *)invocation {
+    NSUInteger paramSize = [invocation sizeofParameterAtIndex:(argIndex - 2)];
+    UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
+    [invocation getArgument:buffer atIndex:argIndex];
+    return mck_encodeValueFromBytesAndType(buffer, paramSize, [invocation.methodSignature getArgumentTypeAtIndex:argIndex]);
 }
 
 
 #pragma mark - Helpers
-
-- (NSUInteger)sizeofStructWithEncoding:(const char *)encodeType {
-    NSUInteger size = 0;
-    NSGetSizeAndAlignment(encodeType, &size, NULL);
-    return size;
-}
 
 - (Protocol *)hamcrestMatcherProtocol {
     static Protocol *hamcrestProtocol = NULL;
@@ -187,11 +118,6 @@
         hamcrestProtocol = objc_getProtocol("HCMatcher");
     });
     return hamcrestProtocol;
-}
-
-- (BOOL)matches:(id)item {
-    // Only here to provide a signature for the hamcrest -matches: selector
-    return NO;
 }
 
 @end

@@ -14,7 +14,14 @@
 #import "MCKBlockArgumentMatcher.h"
 #import "HCBlockMatcher.h"
 
-#define stringMatcher(idx) (char[]){ (idx), 0 }
+
+#define stringMatcher(idx) (char[2]){ idx, '\0' }
+
+static inline SEL selectorMatcher(UInt8 index) {
+    SEL matcher = NULL;
+    ((UInt8 *)(&matcher))[0] = index;
+    return matcher;
+}
 
 
 struct mck_test_1 {
@@ -158,10 +165,15 @@ struct mck_test_4 {
 - (void)testThatInvocationMatcherMatchesSameTargetSelectorAndObjectArguments {
     // given
     TestObject *target = [[TestObject alloc] init];
+    NSString *protoArg1 = @"Foo";
+    NSString *protoArg2 = [NSString stringWithUTF8String:"Bar"];
+    NSString *candArg1 = @"Foo";
+    NSString *candArg2 = [NSString stringWithUTF8String:"Bar"];
+    
     NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:),
-                               @"Foo", [NSString stringWithUTF8String:"Bar"]];
+                               protoArg1, protoArg2];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:),
-                               @"Foo", [NSString stringWithUTF8String:"Bar"]];
+                               candArg1, candArg2];
     
     // then
     STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
@@ -272,7 +284,7 @@ struct mck_test_4 {
     TestObject *target = [[TestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:),
-                               stringMatcher(1), stringMatcher(0)];
+                               selectorMatcher(1), selectorMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:),
                                @selector(class), @selector(self)];
@@ -330,8 +342,8 @@ struct mck_test_4 {
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), foo, bar];
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
-        STAssertTrue((strcmp((const char *)[value pointerValue], (const char *)bar) == 0), @"Wrong argument value passed");
+    [argumentMatchers[0] setMatcherBlock:^BOOL(NSString *value) {
+        STAssertEqualObjects(@"Bar", value, @"Wrong value");
         called = YES;
         return YES;
     }];
@@ -483,20 +495,6 @@ struct mck_test_4 {
     
     // then
     STAssertTrue(called, @"Matcher was not called");
-}
-
-
-#pragma mark - Test Struct Sizing
-
-- (void)testThatStructSizesAreGuessedCorrectly {
-#define TestStructSize(structName) STAssertTrue(sizeof(struct structName) <= [matcher sizeofStructWithEncoding:@encode(struct structName)],\
-                                   @"Wrong struct size (sizeof=%d encoded=%d",\
-                                   sizeof(struct structName), [matcher sizeofStructWithEncoding:@encode(struct structName)])
-    
-    TestStructSize(mck_test_1);
-    TestStructSize(mck_test_2);
-    TestStructSize(mck_test_3);
-    TestStructSize(mck_test_4);
 }
 
 @end

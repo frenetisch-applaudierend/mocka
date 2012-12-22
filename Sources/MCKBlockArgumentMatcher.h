@@ -66,7 +66,7 @@ static char* mck_matchCString(BOOL(^block)(char* candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerCStringMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
         return block((char *)[candidate pointerValue]);
-    }]);
+    }], MCKDefaultCStringBuffer);
 }
 
 static SEL mck_matchSelector(BOOL(^block)(SEL candidate)) {

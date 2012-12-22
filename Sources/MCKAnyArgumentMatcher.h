@@ -19,7 +19,7 @@ static id mck_anyObject(void) { return mck_registerObjectMatcher([[MCKAnyArgumen
 static char mck_anyInt(void) { return mck_registerPrimitiveNumberMatcher([[MCKAnyArgumentMatcher alloc] init]); }
 static float mck_anyFloat(void) { return mck_registerPrimitiveNumberMatcher([[MCKAnyArgumentMatcher alloc] init]); }
 static BOOL mck_anyBool(void) { return mck_anyInt(); }
-static char* mck_anyCString(void) { return mck_registerCStringMatcher([[MCKAnyArgumentMatcher alloc] init]); }
+static char* mck_anyCString(void) { return mck_registerCStringMatcher([[MCKAnyArgumentMatcher alloc] init], MCKDefaultCStringBuffer); }
 static SEL mck_anySelector(void) { return mck_registerSelectorMatcher([[MCKAnyArgumentMatcher alloc] init]); }
 static void* mck_anyPointer(void) { return mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]); }
 static __autoreleasing id* mck_anyObjectPointer(void) { return (__autoreleasing id *)mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]); }
