@@ -70,7 +70,8 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:candidateTarget selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different targets");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different targets");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentSelectors {
@@ -80,7 +81,8 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(intMethodCallWithoutParameters)];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different selectors");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different selectors");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentArgumentTypes {
@@ -89,7 +91,8 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:s"]];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different argument types");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different argument types");
 }
 
 
@@ -102,7 +105,8 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentPrimitiveArguments {
@@ -112,7 +116,8 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 10];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different arguments");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
 }
 
 - (void)testThatInvocationMatcherUsesPassedMatchersForPrimitiveArgumentsIfGiven {
@@ -134,6 +139,19 @@ struct mck_test_4 {
     STAssertTrue(called, @"Matcher was not called");
 }
 
+- (void)testThatInvocationMatcherFailsForDifferentDoubleArguments {
+    // given
+    TestObject *target = [[TestObject alloc] init];
+    NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithDoubleParam1:doubleParam2:),
+                               0.0, 1.0];
+    NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithDoubleParam1:doubleParam2:),
+                               0.0, 1.2];
+    
+    // then
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
+}
+
 
 #pragma mark - Test Object Argument Matching
 
@@ -146,17 +164,21 @@ struct mck_test_4 {
                                @"Foo", [NSString stringWithUTF8String:"Bar"]];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherMatchesSameTargetSelectorAndNilArguments {
     // given
     TestObject *target = [[TestObject alloc] init];
-    NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
-    NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), nil, nil];
+    NSInvocation *prototype = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:),
+                               nil, nil];
+    NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:),
+                               nil, nil];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentObjectArguments {
@@ -168,7 +190,8 @@ struct mck_test_4 {
                                @"Foo", [NSString stringWithUTF8String:"Foo"]];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different arguments");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
 }
 
 - (void)testThatInvocationMatcherUsesPassedMatchersForObjectArgumentsIfGiven {
@@ -227,7 +250,8 @@ struct mck_test_4 {
                                NSSelectorFromString(@"description"), @selector(self)];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentSelectorArguments {
@@ -239,16 +263,19 @@ struct mck_test_4 {
                                NSSelectorFromString(@"description"), @selector(class)];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different arguments");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
 }
 
 - (void)testThatInvocationMatcherUsesPassedMatchersForSelectorArgumentsIfGiven {
     // given
     TestObject *target = [[TestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
-                                           selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), stringMatcher(1), stringMatcher(0)];
+                                           selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:),
+                               stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
-                                           selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:), @selector(class), @selector(self)];
+                                           selectorAndArguments:@selector(voidMethodCallWithSelectorParam1:selectorParam2:),
+                               @selector(class), @selector(self)];
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
@@ -275,7 +302,8 @@ struct mck_test_4 {
                                [@"Hello" UTF8String], [@"World" UTF8String]];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentCStringArguments {
@@ -287,7 +315,8 @@ struct mck_test_4 {
                                [@"World" UTF8String], [@"Hello" UTF8String]];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different arguments");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
 }
 
 - (void)testThatInvocationMatcherUsesPassedMatchersForCStringArgumentsIfGiven {
@@ -295,7 +324,8 @@ struct mck_test_4 {
     char *foo = "Foo", *bar = "Bar";
     TestObject *target = [[TestObject alloc] init];
     NSInvocation *prototype = [NSInvocation invocationForTarget:target
-                                           selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), stringMatcher(1), stringMatcher(0)];
+                                           selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:),
+                               stringMatcher(1), stringMatcher(0)];
     NSInvocation *candidate = [NSInvocation invocationForTarget:target
                                            selectorAndArguments:@selector(voidMethodCallWithCStringParam1:cStringParam2:), foo, bar];
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
@@ -326,7 +356,8 @@ struct mck_test_4 {
                                &foo, &bar];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentPointerArguments {
@@ -339,7 +370,8 @@ struct mck_test_4 {
                                &bar, &foo];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different arguments");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
 }
 
 - (void)testThatInvocationMatcherUsesPassedMatchersForPointerArgumentsIfGiven {
@@ -388,7 +420,8 @@ struct mck_test_4 {
     [candidate setArgument:&bar atIndex:3];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should match identical invocations");
+    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                 @"Matcher should match identical invocations");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentStructArguments {
@@ -409,7 +442,8 @@ struct mck_test_4 {
     [candidate setArgument:&foo atIndex:3];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil], @"Matcher should fail for different arguments");
+    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+                  @"Matcher should fail for different arguments");
 }
 
 - (void)testThatInvocationMatcherUsesPassedMatchersForStructArgumentsIfGiven {

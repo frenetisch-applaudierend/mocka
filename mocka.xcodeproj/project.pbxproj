@@ -112,6 +112,8 @@
 		288E76F01685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76EC1685CBF200BC7A5A /* MCKExactArgumentMatcher.m */; };
 		288E76F31685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */; };
 		288E76F41685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */; };
+		288E76F61685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		288E76F71685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2899C365162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */; };
 		2899C366162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */; };
 		2899C367162AD75900550CFB /* MCKArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */; };
@@ -331,6 +333,7 @@
 		288E76EB1685CBF200BC7A5A /* MCKExactArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExactArgumentMatcher.h; sourceTree = "<group>"; };
 		288E76EC1685CBF200BC7A5A /* MCKExactArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactArgumentMatcher.m; sourceTree = "<group>"; };
 		288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactArgumentMatcherTest.m; sourceTree = "<group>"; };
+		288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentSerialization.h; sourceTree = "<group>"; };
 		2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcherCollection.h; sourceTree = "<group>"; };
 		2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherCollection.m; sourceTree = "<group>"; };
 		2899C36A162AD82700550CFB /* MCKArgumentMatcherCollectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherCollectionTest.m; sourceTree = "<group>"; };
@@ -451,6 +454,7 @@
 				2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */,
 				2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */,
 				28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */,
+				288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */,
 				36F346DF164A6AB9000CFBDA /* Built-In Argument Matchers */,
 			);
 			name = "Argument Matching";
@@ -841,6 +845,7 @@
 				28277E09168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */,
 				28277E4A1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h in Headers */,
 				288E76ED1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */,
+				288E76F61685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,6 +892,7 @@
 				28277E0A168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */,
 				28277E4B1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h in Headers */,
 				288E76EE1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */,
+				288E76F71685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

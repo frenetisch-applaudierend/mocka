@@ -40,6 +40,10 @@ NSArray* TestObjectCalledSelectors(TestObject *object) {
     RegisterCall();
 }
 
+- (void)voidMethodCallWithDoubleParam1:(double)d1 doubleParam2:(double)d2 {
+    RegisterCall();
+}
+
 - (void)voidMethodCallWithObjectParam1:(id)o1 objectParam2:(id)o2 {
     RegisterCall();
 }

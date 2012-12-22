@@ -9,6 +9,7 @@
 #import "MCKInvocationMatcher.h"
 #import "MCKTypeEncodings.h"
 #import "MCKArgumentMatcher.h"
+#import "MCKArgumentSerialization.h"
 #import <objc/runtime.h>
 
 
@@ -88,7 +89,7 @@
     id prototypeArgument = (__bridge id)prototypeArgumentPtr;
     
     if ([prototypeArgument conformsToProtocol:@protocol(MCKArgumentMatcher)]) {
-        return [(id<MCKArgumentMatcher>)prototypeArgument matchesCandidate:candidateArgument];
+        return [(id<MCKArgumentMatcher>)prototypeArgument matchesCandidate:mck_encodeObjectArgument(candidateArgument)];
     } else if (hamcrestProtocol != NULL && [prototypeArgument conformsToProtocol:hamcrestProtocol]) {
         return [(id)prototypeArgument matches:candidateArgument];
     } else {
