@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MCKArgumentMatcher.h"
+#import "MCKArgumentSerialization.h"
 
 
 @interface MCKBlockArgumentMatcher : NSObject <MCKArgumentMatcher>
@@ -21,7 +22,9 @@
 
 // Mocking Syntax
 static id mck_matchObject(BOOL(^block)(id candidate)) {
-    return mck_registerObjectMatcher([MCKBlockArgumentMatcher matcherWithBlock:block]);
+    return mck_registerObjectMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
+        return block(mck_decodeObjectArgument(candidate));
+    }]);
 }
 
 static char mck_matchInt(BOOL(^block)(int64_t candidate)) {
@@ -63,7 +66,7 @@ static char* mck_matchCString(BOOL(^block)(char* candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerCStringMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
         return block((char *)[candidate pointerValue]);
-    }]);
+    }], MCKDefaultCStringBuffer);
 }
 
 static SEL mck_matchSelector(BOOL(^block)(SEL candidate)) {

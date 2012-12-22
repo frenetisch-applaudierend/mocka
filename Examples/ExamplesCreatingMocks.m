@@ -16,13 +16,6 @@
 
 @implementation ExamplesCreatingMocks
 
-#pragma mark - Setup
-
-- (void)setUp {
-    SetupExampleErrorHandler();
-}
-
-
 #pragma mark - Creating Mocks For Classes
 
 - (void)testCreatingMockForClass {

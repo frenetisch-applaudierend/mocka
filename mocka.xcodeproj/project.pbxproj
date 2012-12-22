@@ -24,6 +24,8 @@
 
 /* Begin PBXBuildFile section */
 		2803FEB315B9B06800108114 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; };
+		280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
+		280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
 		281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760B163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
@@ -106,6 +108,16 @@
 		287020DD15B742EB00218C49 /* MCKStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 287020DB15B742EB00218C49 /* MCKStub.m */; };
 		287020E415B750C100218C49 /* MCKPerformBlockStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 287020E215B750C100218C49 /* MCKPerformBlockStubAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		287020E515B750C100218C49 /* MCKPerformBlockStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 287020E315B750C100218C49 /* MCKPerformBlockStubAction.m */; };
+		288E76ED1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 288E76EB1685CBF200BC7A5A /* MCKExactArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		288E76EE1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 288E76EB1685CBF200BC7A5A /* MCKExactArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		288E76EF1685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76EC1685CBF200BC7A5A /* MCKExactArgumentMatcher.m */; };
+		288E76F01685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76EC1685CBF200BC7A5A /* MCKExactArgumentMatcher.m */; };
+		288E76F31685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */; };
+		288E76F41685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */; };
+		288E76F61685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		288E76F71685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		288E76F916860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76F816860B5500BC7A5A /* MCKArgumentMatcherTest.m */; };
+		288E76FA16860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 288E76F816860B5500BC7A5A /* MCKArgumentMatcherTest.m */; };
 		2899C365162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */; };
 		2899C366162AD75900550CFB /* MCKArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */; };
 		2899C367162AD75900550CFB /* MCKArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */; };
@@ -254,6 +266,7 @@
 
 /* Begin PBXFileReference section */
 		2803FEB115B9B06500108114 /* MCKTypeEncodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCKTypeEncodings.h; sourceTree = "<group>"; };
+		280FCC9916862579009631C9 /* MCKArgumentSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentSerialization.m; sourceTree = "<group>"; };
 		281F7605163076C300A10434 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		281F7606163076C300A10434 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		281F7607163076C300A10434 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
@@ -322,6 +335,11 @@
 		287020E315B750C100218C49 /* MCKPerformBlockStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKPerformBlockStubAction.m; sourceTree = "<group>"; };
 		287020E615B75F7400218C49 /* MCKReturnStubActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKReturnStubActionTest.m; sourceTree = "<group>"; };
 		287544E915B230E0009539F1 /* MCKDefaultVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKDefaultVerificationHandlerTest.m; sourceTree = "<group>"; };
+		288E76EB1685CBF200BC7A5A /* MCKExactArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExactArgumentMatcher.h; sourceTree = "<group>"; };
+		288E76EC1685CBF200BC7A5A /* MCKExactArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactArgumentMatcher.m; sourceTree = "<group>"; };
+		288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactArgumentMatcherTest.m; sourceTree = "<group>"; };
+		288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentSerialization.h; sourceTree = "<group>"; };
+		288E76F816860B5500BC7A5A /* MCKArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherTest.m; sourceTree = "<group>"; };
 		2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcherCollection.h; sourceTree = "<group>"; };
 		2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherCollection.m; sourceTree = "<group>"; };
 		2899C36A162AD82700550CFB /* MCKArgumentMatcherCollectionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherCollectionTest.m; sourceTree = "<group>"; };
@@ -442,6 +460,8 @@
 				2899C363162AD75900550CFB /* MCKArgumentMatcherCollection.h */,
 				2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */,
 				28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */,
+				288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */,
+				280FCC9916862579009631C9 /* MCKArgumentSerialization.m */,
 				36F346DF164A6AB9000CFBDA /* Built-In Argument Matchers */,
 			);
 			name = "Argument Matching";
@@ -685,6 +705,8 @@
 				28685FE015FE290F00B59545 /* MCKAnyArgumentMatcherTest.m */,
 				28277E0E1684979A0026BF51 /* MCKBlockArgumentMatcherTest.m */,
 				28277E4F1684D87A0026BF51 /* MCKHamcrestArgumentMatcherTest.m */,
+				288E76F21685D11500BC7A5A /* MCKExactArgumentMatcherTest.m */,
+				288E76F816860B5500BC7A5A /* MCKArgumentMatcherTest.m */,
 			);
 			name = "Argument Matching";
 			sourceTree = "<group>";
@@ -752,6 +774,8 @@
 			children = (
 				28685FDA15FE289700B59545 /* MCKAnyArgumentMatcher.h */,
 				28685FDB15FE289700B59545 /* MCKAnyArgumentMatcher.m */,
+				288E76EB1685CBF200BC7A5A /* MCKExactArgumentMatcher.h */,
+				288E76EC1685CBF200BC7A5A /* MCKExactArgumentMatcher.m */,
 				28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */,
 				28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */,
 				28277E481684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h */,
@@ -828,6 +852,8 @@
 				28249DBF167CBB7B006560C0 /* MCKOrderedVerifier.h in Headers */,
 				28277E09168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */,
 				28277E4A1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h in Headers */,
+				288E76ED1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */,
+				288E76F61685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,6 +899,8 @@
 				28249DC0167CBB7B006560C0 /* MCKOrderedVerifier.h in Headers */,
 				28277E0A168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */,
 				28277E4B1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h in Headers */,
+				288E76EE1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */,
+				288E76F71685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1103,6 +1131,8 @@
 				28249DC1167CBB7B006560C0 /* MCKOrderedVerifier.m in Sources */,
 				28277E0B168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */,
 				28277E4C1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.m in Sources */,
+				288E76EF1685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
+				280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1148,6 +1178,8 @@
 				28277E11168497A10026BF51 /* MCKBlockArgumentMatcherTest.m in Sources */,
 				28277E431684C1660026BF51 /* HCBlockMatcher.m in Sources */,
 				28277E501684D87A0026BF51 /* MCKHamcrestArgumentMatcherTest.m in Sources */,
+				288E76F31685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
+				288E76F916860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1180,6 +1212,8 @@
 				28249DC2167CBB7B006560C0 /* MCKOrderedVerifier.m in Sources */,
 				28277E0C168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */,
 				28277E4D1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.m in Sources */,
+				288E76F01685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
+				280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,6 +1259,8 @@
 				28277E12168497A10026BF51 /* MCKBlockArgumentMatcherTest.m in Sources */,
 				28277E441684C1660026BF51 /* HCBlockMatcher.m in Sources */,
 				28277E511684D87A0026BF51 /* MCKHamcrestArgumentMatcherTest.m in Sources */,
+				288E76F41685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
+				288E76FA16860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

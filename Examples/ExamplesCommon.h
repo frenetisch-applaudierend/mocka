@@ -12,7 +12,5 @@
 #import "TestObject.h"
 
 
-#define SetupExampleErrorHandler() [[MCKMockingContext contextForTestCase:self] setFailureHandler:[[MCKExceptionFailureHandler alloc] init]]
-
 #define ThisWillFail(...) AssertFails(__VA_ARGS__)
 static inline void IgnoreUnused(id var, ...) { }

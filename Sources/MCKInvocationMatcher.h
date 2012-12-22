@@ -15,6 +15,4 @@
 
 - (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)matchers;
 
-- (NSUInteger)sizeofStructWithEncoding:(const char *)encodeType;
-
 @end
