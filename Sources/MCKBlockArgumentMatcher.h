@@ -27,66 +27,66 @@ static id mck_matchObject(BOOL(^block)(id candidate)) {
     }]);
 }
 
-static char mck_matchInt(BOOL(^block)(int64_t candidate)) {
+static char mck_matchSignedInt(BOOL(^block)(SInt64 candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerPrimitiveNumberMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block([candidate longLongValue]);
+        return block(mck_decodeSignedIntegerArgument(candidate));
     }]);
 }
 
-static char mck_matchUnsignedInt(BOOL(^block)(uint64_t candidate)) {
+static char mck_matchUnsignedInt(BOOL(^block)(UInt64 candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerPrimitiveNumberMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block([candidate unsignedLongLongValue]);
+        return block(mck_decodeUnsignedIntegerArgument(candidate));
     }]);
 }
 
 static float mck_matchFloat(BOOL(^block)(float candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerPrimitiveNumberMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block([candidate floatValue]);
+        return block(mck_decodeFloatingPointArgument(candidate));
     }]);
 }
 
 static double mck_matchDouble(BOOL(^block)(double candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerPrimitiveNumberMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block([candidate doubleValue]);
+        return block(mck_decodeFloatingPointArgument(candidate));
     }]);
 }
 
 static BOOL mck_matchBool(BOOL(^block)(BOOL candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerPrimitiveNumberMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block([candidate boolValue]);
+        return block(mck_decodeBooleanArgument(candidate));
     }]);
 }
 
-static char* mck_matchCString(BOOL(^block)(char* candidate)) {
+static char* mck_matchCString(BOOL(^block)(const char* candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerCStringMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block((char *)[candidate pointerValue]);
+        return block(mck_decodeCStringArgument(candidate));
     }], MCKDefaultCStringBuffer);
 }
 
 static SEL mck_matchSelector(BOOL(^block)(SEL candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerSelectorMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block((SEL)[candidate pointerValue]);
+        return block(mck_decodeSelectorArgument(candidate));
     }]);
 }
 
 static void* mck_matchPointer(BOOL(^block)(void* candidate)) {
     NSCParameterAssert(block != nil);
     return mck_registerPointerMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block([candidate pointerValue]);
+        return block(mck_decodePointerArgument(candidate));
     }]);
 }
 
 static __autoreleasing id* mck_matchObjectPointer(BOOL(^block)(id* candidate)) {
     NSCParameterAssert(block != nil);
     return (__autoreleasing id *)mck_registerPointerMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return block((__autoreleasing id *)[candidate pointerValue]);
+        return block((__autoreleasing id *)mck_decodePointerArgument(candidate));
     }]);
 }
 
@@ -97,12 +97,12 @@ static __autoreleasing id* mck_matchObjectPointer(BOOL(^block)(id* candidate)) {
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 static id matchObject(BOOL(^block)(id candidate)) { return mck_matchObject(block); }
-static char matchInt(BOOL(^block)(int64_t candidate)) { return mck_matchInt(block); }
-static char matchUnsignedInt(BOOL(^block)(uint64_t candidate)) { return mck_matchUnsignedInt(block); }
+static char matchSignedInt(BOOL(^block)(SInt64 candidate)) { return mck_matchSignedInt(block); }
+static char matchUnsignedInt(BOOL(^block)(UInt64 candidate)) { return mck_matchUnsignedInt(block); }
 static float matchFloat(BOOL(^block)(float candidate)) { return mck_matchFloat(block); }
 static double matchDouble(BOOL(^block)(double candidate)) { return mck_matchDouble(block); }
 static BOOL matchBool(BOOL(^block)(BOOL candidate)) { return mck_matchBool(block); }
-static char* matchCString(BOOL(^block)(char* candidate)) { return mck_matchCString(block); }
+static char* matchCString(BOOL(^block)(const char* candidate)) { return mck_matchCString(block); }
 static SEL matchSelector(BOOL(^block)(SEL candidate)) { return mck_matchSelector(block); }
 static void* matchPointer(BOOL(^block)(void* candidate)) { return mck_matchPointer(block); }
 static __autoreleasing id* matchObjectPointer(BOOL(^block)(id* candidate)) { return mck_matchObjectPointer(block); }

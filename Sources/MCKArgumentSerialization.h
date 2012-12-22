@@ -32,6 +32,9 @@ SInt64 mck_decodeUnsignedIntegerArgument(id serialized);
 id mck_encodeFloatingPointArgument(double arg);
 double mck_decodeFloatingPointArgument(id serialized);
 
+id mck_encodeBooleanArgument(BOOL arg);
+BOOL mck_decodeBooleanArgument(id serialized);
+
 
 #pragma mark - Non-Object Pointer Types
 
@@ -40,6 +43,9 @@ void* mck_decodePointerArgument(id serialized);
 
 id mck_encodeCStringArgument(const char *arg);
 const char* mck_decodeCStringArgument(id serialized);
+
+id mck_encodeSelectorArgument(SEL arg);
+SEL mck_decodeSelectorArgument(id serialized);
 
 id mck_encodeStructBytes(const void *arg, const char *type);
 void* mck_decodeStructBytes(id serialized, void *arg);

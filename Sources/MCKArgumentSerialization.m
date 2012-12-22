@@ -33,11 +33,12 @@ id mck_encodeValueFromBytesAndType(const void *bytes, size_t size, const char *t
         case 'f': return mck_encodeFloatingPointArgument(*(float *)bytes);
         case 'd': return mck_encodeFloatingPointArgument(*(double *)bytes);
             
-        case 'B': return mck_encodeUnsignedIntegerArgument(*(_Bool *)bytes);
+        case 'B': return mck_encodeBooleanArgument(*(_Bool *)bytes);
             
         case '*': return mck_encodeCStringArgument(*(void **)bytes);
             
-        case ':':
+        case ':': return mck_encodeSelectorArgument(*(SEL *)bytes);
+        
         case '^':
         case '[': return mck_encodePointerArgument(*(void **)bytes);
             
@@ -88,6 +89,14 @@ double mck_decodeFloatingPointArgument(id serialized) {
     return [serialized doubleValue];
 }
 
+id mck_encodeBooleanArgument(BOOL arg) {
+    return @(arg);
+}
+
+BOOL mck_decodeBooleanArgument(id serialized) {
+    return [serialized boolValue];
+}
+
 
 #pragma mark - Non-Object Pointer Types
 
@@ -105,6 +114,14 @@ id mck_encodeCStringArgument(const char *arg) {
 
 const char* mck_decodeCStringArgument(id serialized) {
     return [serialized UTF8String];
+}
+
+id mck_encodeSelectorArgument(SEL arg) {
+    return (arg != NULL ? NSStringFromSelector(arg) : nil);
+}
+
+SEL mck_decodeSelectorArgument(id serialized) {
+    return (serialized != nil ? NSSelectorFromString(serialized) : NULL);
 }
 
 id mck_encodeStructBytes(const void *arg, const char *type) {

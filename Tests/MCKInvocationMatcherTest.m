@@ -290,8 +290,8 @@ struct mck_test_4 {
                                @selector(class), @selector(self)];
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
-    [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
-        STAssertEquals((SEL)[value pointerValue], @selector(self), @"Wrong argument value passed");
+    [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
+        STAssertEquals(mck_decodeSelectorArgument(value), @selector(self), @"Wrong argument value passed");
         called = YES;
     }];
     
