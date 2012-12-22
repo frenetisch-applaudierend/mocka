@@ -24,6 +24,8 @@
 
 /* Begin PBXBuildFile section */
 		2803FEB315B9B06800108114 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2803FEB115B9B06500108114 /* MCKTypeEncodings.h */; };
+		280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
+		280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
 		281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760B163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
@@ -264,6 +266,7 @@
 
 /* Begin PBXFileReference section */
 		2803FEB115B9B06500108114 /* MCKTypeEncodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCKTypeEncodings.h; sourceTree = "<group>"; };
+		280FCC9916862579009631C9 /* MCKArgumentSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentSerialization.m; sourceTree = "<group>"; };
 		281F7605163076C300A10434 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		281F7606163076C300A10434 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		281F7607163076C300A10434 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
@@ -458,6 +461,7 @@
 				2899C364162AD75900550CFB /* MCKArgumentMatcherCollection.m */,
 				28ECE8A715BBF2FD00F15F12 /* MCKArgumentMatcher.h */,
 				288E76F51685DABA00BC7A5A /* MCKArgumentSerialization.h */,
+				280FCC9916862579009631C9 /* MCKArgumentSerialization.m */,
 				36F346DF164A6AB9000CFBDA /* Built-In Argument Matchers */,
 			);
 			name = "Argument Matching";
@@ -1128,6 +1132,7 @@
 				28277E0B168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */,
 				28277E4C1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.m in Sources */,
 				288E76EF1685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
+				280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1208,6 +1213,7 @@
 				28277E0C168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */,
 				28277E4D1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.m in Sources */,
 				288E76F01685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
+				280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
