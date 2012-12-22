@@ -33,24 +33,15 @@
     NSParameterAssert(candidate != nil);
     NSParameterAssert(prototype != nil);
     
-    // Check for the most obvious failures
-    if (candidate.target != prototype.target || candidate.selector != prototype.selector) {
+    // Check if the structure of the candidate and prototype are even the same
+    if (![self candidate:candidate canMatch:prototype]) {
         return NO;
     }
-    
-    // Sanity check => if this fails, something is seriously broken
-    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments,
-             @"Same selector but different number of arguments");
     
     // Check arguments (first two can be skipped, it's self and _cmd)
     for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
         // Test for argument types
         const char *candidateArgumentType = [candidate.methodSignature getArgumentTypeAtIndex:argIndex];
-        const char *prototypeArgumentType = [prototype.methodSignature getArgumentTypeAtIndex:argIndex];
-        if (strcmp(candidateArgumentType, prototypeArgumentType) != 0) {
-            return NO;
-        }
-        
         if ([MCKTypeEncodings isObjectType:candidateArgumentType]) {
             if (![self matchesObjectArgumentAtIndex:argIndex forCandidate:candidate prototype:prototype]) {
                 return NO;
@@ -75,6 +66,23 @@
             NSLog(@"Invocation Matcher: ignoring unknown objc type %s", candidateArgumentType);
         }
     }
+    return YES;
+}
+
+- (BOOL)candidate:(NSInvocation *)candidate canMatch:(NSInvocation *)prototype {
+    if (candidate.target != prototype.target || candidate.selector != prototype.selector) {
+        return NO;
+    }
+    
+    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments,
+             @"Same target and selector but different number of arguments... Houston we have a problem");
+    
+    for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
+        if (strcmp([candidate.methodSignature getArgumentTypeAtIndex:argIndex], [prototype.methodSignature getArgumentTypeAtIndex:argIndex]) != 0) {
+            return NO;
+        }
+    }
+    
     return YES;
 }
 
