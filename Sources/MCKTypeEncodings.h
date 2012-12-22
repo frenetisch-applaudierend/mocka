@@ -14,18 +14,13 @@
 
 #pragma mark - Get Information about @encode() types
 
-//+ (BOOL)isPrimitiveType:(const char *)type;
-+ (BOOL)isSignedIntegerType:(const char *)type;
-+ (BOOL)isUnsignedIntegerType:(const char *)type;
-+ (BOOL)isFloatingPointType:(const char *)type;
-+ (BOOL)isBuiltinBoolType:(const char *)type;
 + (BOOL)isObjectType:(const char *)type;
 + (BOOL)isSelectorType:(const char *)type;
 + (BOOL)isCStringType:(const char *)type;
 + (BOOL)isPointerType:(const char *)type;
-+ (BOOL)isStructType:(const char *)type;
-+ (BOOL)isVoidType:(const char *)type;
-+ (BOOL)isSelectorOrCStringType:(const char *)type;
+
+
+#pragma mark - Testing for Equality
 
 + (BOOL)isType:(const char *)type equalToType:(const char *)other;
 
