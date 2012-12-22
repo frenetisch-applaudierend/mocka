@@ -13,15 +13,11 @@
 
 #pragma mark - Initialization
 
-- (id)initWithMatcherBlock:(BOOL(^)(id candidate))matcherBlock {
-    if ((self = [super init])) {
-        _matcherBlock = [matcherBlock copy];
-    }
-    return self;
-}
-
-- (id)init {
-    return [self initWithMatcherBlock:nil];
++ (id)matcherWithBlock:(BOOL(^)(id candidate))block {
+    NSParameterAssert(block != nil);
+    MCKBlockArgumentMatcher *matcher = [[MCKBlockArgumentMatcher alloc] init];
+    matcher.matcherBlock = block;
+    return matcher;
 }
 
 

@@ -12,7 +12,7 @@
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
 #import "MCKBlockArgumentMatcher.h"
-
+#import "HCBlockMatcher.h"
 
 #define stringMatcher(idx) (char[]){ (idx), 0 }
 
@@ -193,6 +193,28 @@ struct mck_test_4 {
     STAssertTrue(called, @"Matcher was not called");
 }
 
+- (void)testThatInvocationMatcherUsesPassedHamcrestMatcherForObjectArgumentsIfGiven {
+    // given
+    TestObject *target = [[TestObject alloc] init];
+    NSArray *argumentMatchers = @[[[HCBlockMatcher alloc] init], [[HCBlockMatcher alloc] init]];
+    NSInvocation *prototype = [NSInvocation invocationForTarget:target
+                                           selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), argumentMatchers[1], argumentMatchers[0]];
+    NSInvocation *candidate = [NSInvocation invocationForTarget:target
+                                           selectorAndArguments:@selector(voidMethodCallWithObjectParam1:objectParam2:), @"Foo", @"Bar"];
+    
+    __block BOOL called = NO;
+    [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
+        STAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
+        called = YES;
+    }];
+    
+    // when
+    [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:@[]];
+    
+    // then
+    STAssertTrue(called, @"Matcher was not called");
+}
+
 
 #pragma mark - Test SEL Argument Matching
 
@@ -346,18 +368,20 @@ struct mck_test_4 {
 
 #pragma mark - Test Struct  Argument Matching
 
+#define StructCallMethodTypes [[NSString stringWithFormat:@"v@:%s%s", @encode(NSRange), @encode(NSRange)] UTF8String]
+
 - (void)testThatInvocationMatcherMatchesSameStructArguments {
     // given
     NSRange foo = { 0, 0 }, bar = { 0, 0 };
     TestObject *target = [[TestObject alloc] init];
     
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     prototype.target = target,
     prototype.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [prototype setArgument:&foo atIndex:2];
     [prototype setArgument:&bar atIndex:3];
     
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     candidate.target = target,
     candidate.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [candidate setArgument:&foo atIndex:2];
@@ -372,13 +396,13 @@ struct mck_test_4 {
     NSRange foo = { 10, 10 }, bar = { 20, 20 };
     TestObject *target = [[TestObject alloc] init];
     
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     prototype.target = target,
     prototype.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [prototype setArgument:&foo atIndex:2];
     [prototype setArgument:&bar atIndex:3];
     
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     candidate.target = target,
     candidate.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [candidate setArgument:&bar atIndex:2];
@@ -399,13 +423,13 @@ struct mck_test_4 {
     
     TestObject *target = [[TestObject alloc] init];
     
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     prototype.target = target,
     prototype.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [prototype setArgument:&fooMatcher atIndex:2];
     [prototype setArgument:&barMatcher atIndex:3];
     
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:{_NSRange=QQ}{_NSRange=QQ}"]];
+    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:StructCallMethodTypes]];
     candidate.target = target,
     candidate.selector = @selector(voidMethodCallWithStructParam1:structParam2:);
     [candidate setArgument:&foo atIndex:2];
