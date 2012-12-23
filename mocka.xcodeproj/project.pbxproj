@@ -74,6 +74,8 @@
 		28249DC5167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */; };
 		28249DC8167D3CA1006560C0 /* FakeVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC7167D3CA1006560C0 /* FakeVerifier.m */; };
 		28249DC9167D3CA1006560C0 /* FakeVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC7167D3CA1006560C0 /* FakeVerifier.m */; };
+		2826CA65168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */; };
+		2826CA66168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */; };
 		28277E09168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28277E0A168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28277E0B168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */; };
@@ -302,6 +304,7 @@
 		28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKOrderedVerifierTest.m; sourceTree = "<group>"; };
 		28249DC6167D3CA1006560C0 /* FakeVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeVerifier.h; sourceTree = "<group>"; };
 		28249DC7167D3CA1006560C0 /* FakeVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeVerifier.m; sourceTree = "<group>"; };
+		2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTimeoutVerificationHandlerTest.m; sourceTree = "<group>"; };
 		28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKBlockArgumentMatcher.h; sourceTree = "<group>"; };
 		28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcher.m; sourceTree = "<group>"; };
 		28277E0E1684979A0026BF51 /* MCKBlockArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcherTest.m; sourceTree = "<group>"; };
@@ -487,6 +490,7 @@
 				287544E915B230E0009539F1 /* MCKDefaultVerificationHandlerTest.m */,
 				28ECE89A15BB6C1700F15F12 /* MCKNeverVerificationHandlerTest.m */,
 				28ECE8A015BB76B400F15F12 /* MCKExactlyVerificationHandlerTest.m */,
+				2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */,
 			);
 			name = Verification;
 			sourceTree = "<group>";
@@ -1198,6 +1202,7 @@
 				288E76F31685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
 				288E76F916860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
 				280FCD011686483D009631C9 /* AsyncService.m in Sources */,
+				2826CA65168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1281,6 +1286,7 @@
 				288E76F41685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
 				288E76FA16860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
 				280FCD021686483D009631C9 /* AsyncService.m in Sources */,
+				2826CA66168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

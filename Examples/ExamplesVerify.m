@@ -375,7 +375,7 @@
         [mockArray removeAllObjects];
     }];
     
-    // normal verify would probably fail, since the callback was not called yet at this point
+    // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
     verify withTimeout(1.0) [mockArray removeAllObjects];
 }

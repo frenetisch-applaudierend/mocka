@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "MCKVerificationHandler.h"
 
+typedef NSIndexSet*(^FakeVerificationHandlerImplementation)(NSInvocation*, MCKArgumentMatcherCollection*, MCKInvocationCollection*, BOOL*, NSString**);
 
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
 
 + (id)handlerWhichFailsWithMessage:(NSString *)message;
 + (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
++ (id)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl;
 
 @property (nonatomic, readonly) NSUInteger numberOfCalls;
 
