@@ -25,9 +25,4 @@
 
 
 // Setting a verification handler
-#define mck_setVerificationHandler(handler) if (mck_setVerificationHandlerOnContext(mck_currentContext(), (handler)))
-
-static BOOL mck_setVerificationHandlerOnContext(MCKMockingContext *context, id<MCKVerificationHandler> handler) {
-    [context setVerificationHandler:handler];
-    return YES;
-}
+#define mck_setVerificationHandler(handler) [mck_currentContext() setVerificationHandler:handler];

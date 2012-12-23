@@ -8,6 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import "ExamplesCommon.h"
+#import "AsyncService.h"
 
 
 @interface ExamplesVerify : SenTestCase
@@ -362,6 +363,45 @@
             verify [mockArray removeAllObjects];
             verify [mockArray count];
         };
+    });
+}
+
+
+#pragma mark - Verify with Timeout
+
+- (void)testYouCanWaitForAsyncCalls {
+    // call some async service
+    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+        [mockArray removeAllObjects];
+    }];
+    
+    // normal verify would probably fail, since the callback was not called yet at this point
+    // therefore use timeout with verify
+    verify withTimeout(1.0) [mockArray removeAllObjects];
+}
+
+- (void)testTimeoutWorksAlsoWithOtherModes {
+    // call some async service
+    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+        [mockArray removeAllObjects];
+        [mockArray removeAllObjects];
+    }];
+    
+    // you can also combine the timeout with another verification mode like exactly(...)
+    // note that with timeout must be after any other mode
+    verify exactly(2) withTimeout(1.0) [mockArray removeAllObjects];
+}
+
+- (void)testTimeoutWorksDifferentWithNever {
+    // call some async service
+    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+        [mockArray removeAllObjects];
+    }];
+    
+    // when using withTimeout(...) together with verify never then the semantics change a bit
+    // in this case the call will wait the whole timeout before checking that no call was made
+    ThisWillFail({ // because the call is made after 0.2s and we check after 0.5s
+        verify never withTimeout(0.5) [mockArray removeAllObjects];
     });
 }
 
