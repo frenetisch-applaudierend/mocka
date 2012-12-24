@@ -245,6 +245,8 @@
 		36F346E4164A6C08000CFBDA /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 36F346E2164A6C08000CFBDA /* MCKVerificationSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36F346E6164A6CDA000CFBDA /* MCKUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 36F346E5164A6CDA000CFBDA /* MCKUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36F346E7164A6CDA000CFBDA /* MCKUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 36F346E5164A6CDA000CFBDA /* MCKUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5F138761168859EE007CE329 /* MCKRegressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F138760168859EE007CE329 /* MCKRegressionTests.m */; };
+		5F138762168859EE007CE329 /* MCKRegressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F138760168859EE007CE329 /* MCKRegressionTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -396,6 +398,7 @@
 		36F346DC164A68C7000CFBDA /* MCKStubbingSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStubbingSyntax.h; sourceTree = "<group>"; };
 		36F346E2164A6C08000CFBDA /* MCKVerificationSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationSyntax.h; sourceTree = "<group>"; };
 		36F346E5164A6CDA000CFBDA /* MCKUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKUtilities.h; sourceTree = "<group>"; };
+		5F138760168859EE007CE329 /* MCKRegressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKRegressionTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -576,6 +579,7 @@
 			children = (
 				28575DD715B1D4380077ACFC /* MCKMockObjectIntegrationTest.m */,
 				28ECE87F15BB38C000F15F12 /* MCKSpyIntegrationTest.m */,
+				5F138760168859EE007CE329 /* MCKRegressionTests.m */,
 			);
 			name = "Functional and Integration Tests";
 			sourceTree = "<group>";
@@ -1180,6 +1184,7 @@
 				28277E501684D87A0026BF51 /* MCKHamcrestArgumentMatcherTest.m in Sources */,
 				288E76F31685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
 				288E76F916860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
+				5F138761168859EE007CE329 /* MCKRegressionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1261,6 +1266,7 @@
 				28277E511684D87A0026BF51 /* MCKHamcrestArgumentMatcherTest.m in Sources */,
 				288E76F41685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
 				288E76FA16860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
+				5F138762168859EE007CE329 /* MCKRegressionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

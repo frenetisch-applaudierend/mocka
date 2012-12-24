@@ -40,7 +40,9 @@
     
     [self removeMatchingIndexes:matchingIndexes fromRecordedInvocations:recordedInvocations];
     
-    _skippedInvocations += ([matchingIndexes lastIndex] - [matchingIndexes count] + 1);
+    if ([matchingIndexes count] > 0) {
+        _skippedInvocations += ([matchingIndexes lastIndex] - [matchingIndexes count] + 1);
+    }
     return MCKContextModeVerifying;
 }
 
