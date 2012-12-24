@@ -27,12 +27,28 @@
 
 #pragma mark - Test Cases
 
+- (void)testThatVerifyNoMoreInteractionsSwitchesToRecordingMode {
+    // https://bitbucket.org/teamrg_gam/rgmock/issue/8/
+    // noMoreInteractions() leaves context in verification state
+    
+    // when
+    verify noMoreInteractionsOn(mockArray);
+    
+    // then
+    AssertDoesNotFail({
+        [mockArray removeAllObjects];
+    });
+}
+
 - (void)testThatNeverDoesNotScrewUpInOrderVerification {
     // https://bitbucket.org/teamrg_gam/mocka/issue/29/
+    // When verifying inOrder a "never" verification will screw up the following verification
     
+    // when
     [mockArray removeAllObjects];
     [mockArray addObject:@"Foo"];
     
+    // then
     AssertDoesNotFail({
         verify inOrder {
             never [mockArray objectAtIndex:anyInt()];
@@ -41,7 +57,5 @@
         };
     });
 }
-
-
 
 @end
