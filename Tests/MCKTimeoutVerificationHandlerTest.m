@@ -10,6 +10,7 @@
 #import "MCKTimeoutVerificationHandler.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationCollection.h"
+#import "MCKNeverVerificationHandler.h"
 
 #import "FakeVerificationHandler.h"
 #import "NSInvocation+TestSupport.h"
@@ -156,6 +157,53 @@
     // then
     STAssertEqualObjects(returnValue, [NSIndexSet indexSet], @"Wrong indexes returned");
     STAssertFalse(satisfied, @"Should not be satisfied");
+}
+
+
+#pragma mark - Test Cases with "never" handler
+
+- (void)testThatNeverHandlerFailsIfCallIsMadeWhileTimeout {
+    // given
+    MCKNeverVerificationHandler *previousHandler = [MCKNeverVerificationHandler neverHandler];
+    timeoutHandler = [MCKTimeoutVerificationHandler timeoutHandlerWithTimeout:0.2 currentVerificationHandler:previousHandler];
+    
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)];
+    MCKArgumentMatcherCollection *matchers = [[MCKArgumentMatcherCollection alloc] init];
+    MCKMutableInvocationCollection *recordedInvocations = [[MCKMutableInvocationCollection alloc] init];
+    
+    // when
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        [recordedInvocations addInvocation:invocation];
+    });
+    
+    BOOL satisfied = YES;
+    [timeoutHandler indexesMatchingInvocation:invocation withArgumentMatchers:matchers inRecordedInvocations:recordedInvocations
+                                    satisfied:&satisfied failureMessage:NULL];
+    
+    // then
+    STAssertFalse(satisfied, @"Should not be satisfied");
+}
+
+- (void)testThatNeverHandlerSucceedsIfNoCallIsMadeWhileTimeout {
+    // given
+    MCKNeverVerificationHandler *previousHandler = [MCKNeverVerificationHandler neverHandler];
+    timeoutHandler = [MCKTimeoutVerificationHandler timeoutHandlerWithTimeout:0.1 currentVerificationHandler:previousHandler];
+    
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)];
+    MCKArgumentMatcherCollection *matchers = [[MCKArgumentMatcherCollection alloc] init];
+    MCKMutableInvocationCollection *recordedInvocations = [[MCKMutableInvocationCollection alloc] init];
+    
+    // when
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.2 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        [recordedInvocations addInvocation:invocation];
+    });
+    
+    BOOL satisfied = NO;
+    [timeoutHandler indexesMatchingInvocation:invocation withArgumentMatchers:matchers inRecordedInvocations:recordedInvocations
+                                    satisfied:&satisfied failureMessage:NULL];
+    
+    // then
+    STAssertTrue(satisfied, @"Should be satisfied");
 }
 
 @end

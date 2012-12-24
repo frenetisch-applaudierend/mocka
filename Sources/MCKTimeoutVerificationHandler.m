@@ -7,6 +7,7 @@
 //
 
 #import "MCKTimeoutVerificationHandler.h"
+#import "MCKNeverVerificationHandler.h"
 
 
 @implementation MCKTimeoutVerificationHandler {
@@ -41,21 +42,22 @@
     NSString *internalFailureMessage = nil;
     NSIndexSet *indices = nil;
     NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:_timeout];
+    BOOL expectedResult = ![_previousHandler isKindOfClass:[MCKNeverVerificationHandler class]];
     
     do {
-        indices = [_previousHandler indexesMatchingInvocation:prototype
-                                         withArgumentMatchers:matchers
-                                        inRecordedInvocations:recordedInvocations
-                                                    satisfied:&internalSatisfied
-                                               failureMessage:&internalFailureMessage];
-    } while (!internalSatisfied && [self processNormalInput:lastDate]);
+        indices = [_previousHandler indexesMatchingInvocation:prototype withArgumentMatchers:matchers inRecordedInvocations:recordedInvocations
+                                                    satisfied:&internalSatisfied failureMessage:&internalFailureMessage];
+    } while ((internalSatisfied != expectedResult) && [self processRecordingInputIfBefore:lastDate]);
     
     if (satisified != NULL) { *satisified = internalSatisfied; }
     if (failureMessage != NULL) { *failureMessage = [internalFailureMessage copy]; }
     return indices;
 }
 
-- (BOOL)processNormalInput:(NSDate *)lastDate {
+
+#pragma mark - Handling Waiting for timeout
+
+- (BOOL)processRecordingInputIfBefore:(NSDate *)lastDate {
     if ([[NSDate date] laterDate:lastDate] != lastDate) {
         return NO;
     }
