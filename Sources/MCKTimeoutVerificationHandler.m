@@ -8,6 +8,9 @@
 
 #import "MCKTimeoutVerificationHandler.h"
 #import "MCKNeverVerificationHandler.h"
+#import "MCKMockingContext.h"
+#import "MCKMockObject.h"
+#import <objc/runtime.h>
 
 
 @implementation MCKTimeoutVerificationHandler {
@@ -70,3 +73,39 @@
 }
 
 @end
+
+
+#pragma mark - Signaling
+
+@interface MCKSignaler : NSObject
+@end
+
+@implementation MCKSignaler
+
+- (void)giveSignal:(NSString *)signal {}
+
++ (id)signalerForContext:(MCKMockingContext *)context {
+    NSParameterAssert(context != nil);
+    static NSString *SignalerKey = @"signaler";
+    
+    MCKSignaler *signaler = objc_getAssociatedObject(context, &SignalerKey);
+    if (signaler == nil) {
+        signaler = [MCKMockObject mockWithContext:context classAndProtocols:@[ [self class] ]];
+        objc_setAssociatedObject(context, &SignalerKey, signaler, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return signaler;
+}
+
+@end
+
+
+void mck_giveSignal(NSString *signal) {
+    NSCParameterAssert(signal != nil);
+    [[MCKSignaler signalerForContext:[MCKMockingContext currentContext]] giveSignal:signal];
+}
+
+void mck_signalGiven(NSString *signal, NSTimeInterval timeout) {
+    NSCParameterAssert(signal != nil);
+    mck_withTimeout(timeout);
+    [[MCKSignaler signalerForContext:[MCKMockingContext currentContext]] giveSignal:signal];
+}

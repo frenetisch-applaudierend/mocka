@@ -25,3 +25,11 @@
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define withTimeout(t) mck_withTimeout(t)
 #endif
+
+void mck_giveSignal(NSString *signal);
+void mck_signalGiven(NSString *signal, NSTimeInterval timeout);
+
+#ifndef MOCK_DISABLE_NICE_SYNTAX
+static inline void giveSignal(NSString *signal) { mck_giveSignal(signal); }
+static inline void signalGiven(NSString *signal, NSTimeInterval timeout) { mck_signalGiven(signal, timeout); }
+#endif
