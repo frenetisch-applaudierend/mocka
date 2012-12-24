@@ -18,4 +18,5 @@
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKNeverVerificationHandler.h"
 #import "MCKExactlyVerificationHandler.h"
+#import "MCKTimeoutVerificationHandler.h"
 #import "MCKVerifyNoInteractions.h"

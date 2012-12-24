@@ -15,24 +15,32 @@
     NSIndexSet *_result;
     BOOL        _satisfied;
     NSString   *_failureMessage;
+    FakeVerificationHandlerImplementation _implementation;
 }
 
 
 #pragma mark - Initialization
 
 + (id)handlerWhichFailsWithMessage:(NSString *)message {
-    return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message];
+    return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message implementation:nil];
 }
 
 + (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
-    return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil];
+    return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil implementation:nil];
 }
 
-- (id)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message {
++ (id)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl {
+    return [[self alloc] initWithResult:nil isSatisfied:NO failureMessage:nil implementation:impl];
+}
+
+- (id)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message
+      implementation:(FakeVerificationHandlerImplementation)impl
+{
     if ((self = [super init])) {
         _result = [result copy];
         _satisfied = satisfied;
         _failureMessage = [message copy];
+        _implementation = [impl copy];
     }
     return self;
 }
@@ -51,9 +59,13 @@
     _lastRecordedInvocations = [recordedInvocations.allInvocations copy];
     _numberOfCalls++;
     
-    if (satisified != NULL) *satisified = _satisfied;
-    if (failureMessage != NULL) *failureMessage = [_failureMessage copy];
-    return _result;
+    if (_implementation != nil) {
+        return _implementation(prototype, argumentMatchers, recordedInvocations, satisified, failureMessage);
+    } else {
+        if (satisified != NULL) *satisified = _satisfied;
+        if (failureMessage != NULL) *failureMessage = [_failureMessage copy];
+        return _result;
+    }
 }
 
 @end
