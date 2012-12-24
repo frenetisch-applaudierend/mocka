@@ -19,7 +19,9 @@
 
 // Mocking Syntax
 #define mck_never mck_setVerificationHandler([MCKNeverVerificationHandler neverHandler])
+#define mck_noMore mck_never
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define never mck_never
+#define noMore mck_noMore
 #endif
