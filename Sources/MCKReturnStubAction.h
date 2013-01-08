@@ -21,12 +21,12 @@
 
 
 // Mocking Syntax
-#define mck_returnValue(val) [mck_currentContext() addStubAction:mck_returnValueAction(val)]
-#define mck_returnStruct(strt) [mck_currentContext() addStubAction:mck_returnStructAction(strt)]
+#define mck_returnValue(...) [mck_currentContext() addStubAction:mck_returnValueAction((__VA_ARGS__))]
+#define mck_returnStruct(...) [mck_currentContext() addStubAction:mck_returnStructAction((__VA_ARGS__))]
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define returnValue(val) mck_returnValue(val)
-#define returnStruct(val) mck_returnStruct(val)
+#define returnValue(...) mck_returnValue((__VA_ARGS__))
+#define returnStruct(...) mck_returnStruct((__VA_ARGS__))
 #endif
 
 #define mck_returnValueAction(val) \

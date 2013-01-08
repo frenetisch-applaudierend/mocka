@@ -35,7 +35,9 @@
         [_failureHandler handleFailureWithReason:message];
     }
     
-    [recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
+    if (matchingIndexes != nil) {
+        [recordedInvocations removeInvocationsAtIndexes:matchingIndexes];
+    }
     
     return MCKContextModeRecording;
 }

@@ -28,6 +28,12 @@
 		280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCC9916862579009631C9 /* MCKArgumentSerialization.m */; };
 		280FCCF4168632BC009631C9 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
 		280FCCF5168632BD009631C9 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
+		280FCD011686483D009631C9 /* AsyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD001686483D009631C9 /* AsyncService.m */; };
+		280FCD021686483D009631C9 /* AsyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD001686483D009631C9 /* AsyncService.m */; };
+		280FCD1316864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */; };
+		280FCD1416864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */; };
+		280FCD1516864D9E009631C9 /* MCKTimeoutVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD1216864D9E009631C9 /* MCKTimeoutVerificationHandler.m */; };
+		280FCD1616864D9E009631C9 /* MCKTimeoutVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD1216864D9E009631C9 /* MCKTimeoutVerificationHandler.m */; };
 		281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760A163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
 		281F760B163076C300A10434 /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7607163076C300A10434 /* ExamplesVerify.m */; };
@@ -68,6 +74,8 @@
 		28249DC5167CBD1B006560C0 /* MCKOrderedVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */; };
 		28249DC8167D3CA1006560C0 /* FakeVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC7167D3CA1006560C0 /* FakeVerifier.m */; };
 		28249DC9167D3CA1006560C0 /* FakeVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 28249DC7167D3CA1006560C0 /* FakeVerifier.m */; };
+		2826CA65168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */; };
+		2826CA66168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */; };
 		28277E09168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28277E0A168497660026BF51 /* MCKBlockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		28277E0B168497660026BF51 /* MCKBlockArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */; };
@@ -269,6 +277,10 @@
 /* Begin PBXFileReference section */
 		2803FEB115B9B06500108114 /* MCKTypeEncodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCKTypeEncodings.h; sourceTree = "<group>"; };
 		280FCC9916862579009631C9 /* MCKArgumentSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentSerialization.m; sourceTree = "<group>"; };
+		280FCCFF1686483D009631C9 /* AsyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncService.h; sourceTree = "<group>"; };
+		280FCD001686483D009631C9 /* AsyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncService.m; sourceTree = "<group>"; };
+		280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKTimeoutVerificationHandler.h; sourceTree = "<group>"; };
+		280FCD1216864D9E009631C9 /* MCKTimeoutVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTimeoutVerificationHandler.m; sourceTree = "<group>"; };
 		281F7605163076C300A10434 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		281F7606163076C300A10434 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		281F7607163076C300A10434 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
@@ -294,6 +306,7 @@
 		28249DC3167CBD1B006560C0 /* MCKOrderedVerifierTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKOrderedVerifierTest.m; sourceTree = "<group>"; };
 		28249DC6167D3CA1006560C0 /* FakeVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeVerifier.h; sourceTree = "<group>"; };
 		28249DC7167D3CA1006560C0 /* FakeVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeVerifier.m; sourceTree = "<group>"; };
+		2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTimeoutVerificationHandlerTest.m; sourceTree = "<group>"; };
 		28277E07168497660026BF51 /* MCKBlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKBlockArgumentMatcher.h; sourceTree = "<group>"; };
 		28277E08168497660026BF51 /* MCKBlockArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcher.m; sourceTree = "<group>"; };
 		28277E0E1684979A0026BF51 /* MCKBlockArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcherTest.m; sourceTree = "<group>"; };
@@ -452,6 +465,8 @@
 				28277E401684C0330026BF51 /* HCMatcher.h */,
 				28277E411684C1660026BF51 /* HCBlockMatcher.h */,
 				28277E421684C1660026BF51 /* HCBlockMatcher.m */,
+				280FCCFF1686483D009631C9 /* AsyncService.h */,
+				280FCD001686483D009631C9 /* AsyncService.m */,
 			);
 			path = Examples;
 			sourceTree = "<group>";
@@ -478,6 +493,7 @@
 				287544E915B230E0009539F1 /* MCKDefaultVerificationHandlerTest.m */,
 				28ECE89A15BB6C1700F15F12 /* MCKNeverVerificationHandlerTest.m */,
 				28ECE8A015BB76B400F15F12 /* MCKExactlyVerificationHandlerTest.m */,
+				2826CA64168725800018101E /* MCKTimeoutVerificationHandlerTest.m */,
 			);
 			name = Verification;
 			sourceTree = "<group>";
@@ -594,6 +610,8 @@
 				28ECE89615BB69B800F15F12 /* MCKNeverVerificationHandler.m */,
 				28ECE89C15BB701300F15F12 /* MCKExactlyVerificationHandler.h */,
 				28ECE89D15BB701300F15F12 /* MCKExactlyVerificationHandler.m */,
+				280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */,
+				280FCD1216864D9E009631C9 /* MCKTimeoutVerificationHandler.m */,
 				28ECE8A215BB7AAA00F15F12 /* MCKVerifyNoInteractions.h */,
 				28ECE8A315BB7AAA00F15F12 /* MCKVerifyNoInteractions.m */,
 			);
@@ -858,6 +876,7 @@
 				28277E4A1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h in Headers */,
 				288E76ED1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */,
 				288E76F61685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */,
+				280FCD1316864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,6 +924,7 @@
 				28277E4B1684C7D40026BF51 /* MCKHamcrestArgumentMatcher.h in Headers */,
 				288E76EE1685CBF200BC7A5A /* MCKExactArgumentMatcher.h in Headers */,
 				288E76F71685DABA00BC7A5A /* MCKArgumentSerialization.h in Headers */,
+				280FCD1416864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1158,7 @@
 				288E76EF1685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
 				280FCC9A16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
 				280FCCF4168632BC009631C9 /* MCKFailureHandler.m in Sources */,
+				280FCD1516864D9E009631C9 /* MCKTimeoutVerificationHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1185,6 +1206,8 @@
 				288E76F31685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
 				288E76F916860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
 				5F138761168859EE007CE329 /* MCKRegressionTests.m in Sources */,
+				280FCD011686483D009631C9 /* AsyncService.m in Sources */,
+				2826CA65168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1220,6 +1243,7 @@
 				288E76F01685CBF200BC7A5A /* MCKExactArgumentMatcher.m in Sources */,
 				280FCC9B16862579009631C9 /* MCKArgumentSerialization.m in Sources */,
 				280FCCF5168632BD009631C9 /* MCKFailureHandler.m in Sources */,
+				280FCD1616864D9E009631C9 /* MCKTimeoutVerificationHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1266,6 +1290,8 @@
 				28277E511684D87A0026BF51 /* MCKHamcrestArgumentMatcherTest.m in Sources */,
 				288E76F41685D11500BC7A5A /* MCKExactArgumentMatcherTest.m in Sources */,
 				288E76FA16860B5500BC7A5A /* MCKArgumentMatcherTest.m in Sources */,
+				280FCD021686483D009631C9 /* AsyncService.m in Sources */,
+				2826CA66168725800018101E /* MCKTimeoutVerificationHandlerTest.m in Sources */,
 				5F138762168859EE007CE329 /* MCKRegressionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1307,7 +1333,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.2;
+				CURRENT_PROJECT_VERSION = 0.3;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
@@ -1335,7 +1361,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.2;
+				CURRENT_PROJECT_VERSION = 0.3;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
