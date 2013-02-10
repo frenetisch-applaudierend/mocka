@@ -36,7 +36,7 @@ NSArray* TestObjectCalledSelectors(TestObject *object) {
     RegisterCall();
 }
 
-- (void)voidMethodCallWithIntParam1:(int)i1 intParam2:(int)i2 {
+- (void)voidMethodCallWithIntParam1:(NSInteger)i1 intParam2:(NSInteger)i2 {
     RegisterCall();
 }
 

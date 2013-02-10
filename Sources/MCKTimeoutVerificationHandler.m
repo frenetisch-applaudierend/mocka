@@ -99,13 +99,7 @@
 @end
 
 
-void mck_giveSignal(NSString *signal) {
+void _mck_issueSignalInternal(NSString *signal) {
     NSCParameterAssert(signal != nil);
-    [[MCKSignaler signalerForContext:[MCKMockingContext currentContext]] giveSignal:signal];
-}
-
-void mck_signalGiven(NSString *signal, NSTimeInterval timeout) {
-    NSCParameterAssert(signal != nil);
-    mck_withTimeout(timeout);
     [[MCKSignaler signalerForContext:[MCKMockingContext currentContext]] giveSignal:signal];
 }

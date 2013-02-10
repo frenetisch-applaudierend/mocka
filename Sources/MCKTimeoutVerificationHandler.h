@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MCKVerificationHandler.h"
+#import "MCKUtilities.h"
 
 
 @interface MCKTimeoutVerificationHandler : NSObject <MCKVerificationHandler>
@@ -26,10 +27,15 @@
 #define withTimeout(t) mck_withTimeout(t)
 #endif
 
-void mck_giveSignal(NSString *signal);
-void mck_signalGiven(NSString *signal, NSTimeInterval timeout);
+
+// Signaling
+#define mck_giveSignal(signal) MCKSuppressRetainCylceWarning({\
+    if (mck_updatedContext()) { _mck_issueSignalInternal(signal); }\
+})
+#define mck_signalGiven(signal) mck_giveSignal(signal)
+void _mck_issueSignalInternal(NSString *signal);
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-static inline void giveSignal(NSString *signal) { mck_giveSignal(signal); }
-static inline void signalGiven(NSString *signal, NSTimeInterval timeout) { mck_signalGiven(signal, timeout); }
+#define giveSignal(signal) mck_giveSignal(signal)
+#define signalGiven(signal) mck_signalGiven(signal)
 #endif

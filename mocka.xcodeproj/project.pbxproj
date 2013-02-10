@@ -30,8 +30,8 @@
 		280FCCF5168632BD009631C9 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 366126B9165696A2002F1372 /* MCKFailureHandler.m */; };
 		280FCD011686483D009631C9 /* AsyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD001686483D009631C9 /* AsyncService.m */; };
 		280FCD021686483D009631C9 /* AsyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD001686483D009631C9 /* AsyncService.m */; };
-		280FCD1316864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */; };
-		280FCD1416864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */; };
+		280FCD1316864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		280FCD1416864D9E009631C9 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 280FCD1116864D9E009631C9 /* MCKTimeoutVerificationHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		280FCD1516864D9E009631C9 /* MCKTimeoutVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD1216864D9E009631C9 /* MCKTimeoutVerificationHandler.m */; };
 		280FCD1616864D9E009631C9 /* MCKTimeoutVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 280FCD1216864D9E009631C9 /* MCKTimeoutVerificationHandler.m */; };
 		281F7609163076C300A10434 /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 281F7606163076C300A10434 /* ExamplesCreatingMocks.m */; };
@@ -1010,7 +1010,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MCK;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Markus Gasser";
 			};
 			buildConfigurationList = 28D7B38E14D74DE400D494FD /* Build configuration list for PBXProject "mocka" */;
@@ -1332,6 +1332,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 0.3;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1347,6 +1351,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mocka;
@@ -1360,6 +1365,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 0.3;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1368,6 +1377,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PUBLIC_HEADERS_FOLDER_PATH = include/Mocka;
@@ -1448,6 +1458,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
@@ -1472,6 +1483,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
