@@ -21,6 +21,7 @@
 
 @implementation MCKOrderedVerifierTest {
     MCKOrderedVerifier *verifier;
+    MCKInvocationPrototype *prototype;
 }
 
 
@@ -29,6 +30,9 @@
 - (void)setUp {
     verifier = [[MCKOrderedVerifier alloc] init];
     verifier.failureHandler = [[MCKExceptionFailureHandler alloc] init];
+    
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation];
 }
 
 
@@ -39,7 +43,7 @@
     verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
     
     // when
-    [verifier verifyInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)] withMatchers:nil inRecordedInvocations:nil];
+    [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     
     // then
     XCTAssertEqual([(FakeVerificationHandler *)verifier.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
@@ -51,7 +55,7 @@
     
     // then
     AssertFails({
-        [verifier verifyInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)] withMatchers:nil inRecordedInvocations:nil];
+        [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     });
 }
 
@@ -62,15 +66,14 @@
     [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
     [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
     
-    NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
-    [toRemove addIndex:0];
-    [toRemove addIndex:2];
+    NSMutableIndexSet *matching = [NSMutableIndexSet indexSet];
+    [matching addIndex:0];
+    [matching addIndex:2];
     
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
-    
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:matching isSatisfied:YES];
     
     // when
-    [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
+    [verifier verifyPrototype:prototype invocations:recordedInvocations];
     
     // then
     XCTAssertEqual([recordedInvocations count], (NSUInteger)1, @"Calls were not removed");
@@ -86,16 +89,16 @@
     [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(init)]];
     [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(copy)]];
     
-    NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
-    [toRemove addIndex:0];
-    [toRemove addIndex:2];
+    NSMutableIndexSet *matching = [NSMutableIndexSet indexSet];
+    [matching addIndex:0];
+    [matching addIndex:2];
     
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:matching isSatisfied:YES];
     
     
     // when
     verifier.skippedInvocations = 2;
-    [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
+    [verifier verifyPrototype:prototype invocations:recordedInvocations];
     
     // then
     XCTAssertEqual([recordedInvocations count], (NSUInteger)3, @"Calls were not removed");
@@ -122,7 +125,7 @@
     verifier.skippedInvocations = 1;
     
     // when
-    [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
+    [verifier verifyPrototype:prototype invocations:recordedInvocations];
     
     // then
     XCTAssertEqual(verifier.skippedInvocations, (NSUInteger)3, @"Skipped invocations count was not recorded");
@@ -133,13 +136,15 @@
 
 - (void)testThatVerifyInvocationReturnsVerificationModeForSatisfiedHandler {
     verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
-    XCTAssertEqual([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeVerifying, @"Wrong context mode returned");
+    MCKContextMode newMode = [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
+    XCTAssertEqual(newMode, MCKContextModeVerifying, @"Wrong context mode returned");
 }
 
 - (void)testThatVerifyInvocationReturnsVerificationModeForUnsatisfiedHandler {
     verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
     verifier.failureHandler = nil; // needed to prevent exception
-    XCTAssertEqual([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeVerifying, @"Wrong context mode returned");
+    MCKContextMode newMode = [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
+    XCTAssertEqual(newMode, MCKContextModeVerifying, @"Wrong context mode returned");
 }
 
 
@@ -151,7 +156,7 @@
     
     // then
     AssertFailsWith(@"verify: Foo was never called", nil, 0, {
-        [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil];
+        [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     });
 }
 
@@ -161,7 +166,7 @@
     
     // then
     AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {
-        [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil];
+        [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     });
 }
 
