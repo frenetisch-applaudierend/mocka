@@ -12,7 +12,6 @@
 #import "MCKExactArgumentMatcher.h"
 #import "MCKHamcrestArgumentMatcher.h"
 #import "MCKTypeEncodings.h"
-#import "MCKArgumentSerialization.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 
 
@@ -60,7 +59,7 @@
     } else if (hasProvidedMatchers) {
         return [matchers objectAtIndex:[self primitiveMatcherIndexFromInvocation:invocation argumentIndex:index]];
     } else {
-        return [MCKExactArgumentMatcher matcherWithArgument:[self serializedArgumentAtIndex:index ofInvocation:invocation]];
+        return [MCKExactArgumentMatcher matcherWithArgument:[invocation mck_serializedParameterAtIndex:(index - 2)]];
     }
 }
 
@@ -105,23 +104,13 @@
     // match arguments
     NSUInteger argIndex = 2;
     for (id<MCKArgumentMatcher> matcher in self.orderedArgumentMatchers) {
-        if (![matcher matchesCandidate:[self serializedArgumentAtIndex:argIndex ofInvocation:candidate]]) {
+        if (![matcher matchesCandidate:[candidate mck_serializedParameterAtIndex:(argIndex - 2)]]) {
             return NO;
         }
         argIndex++;
     }
     
     return YES;
-}
-
-
-#pragma mark - Serializing Primitive Values
-
-- (id)serializedArgumentAtIndex:(NSUInteger)argIndex ofInvocation:(NSInvocation *)invocation {
-    NSUInteger paramSize = [invocation mck_sizeofParameterAtIndex:(argIndex - 2)];
-    UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
-    [invocation getArgument:buffer atIndex:argIndex];
-    return mck_encodeValueFromBytesAndType(buffer, paramSize, [invocation.methodSignature getArgumentTypeAtIndex:argIndex]);
 }
 
 @end

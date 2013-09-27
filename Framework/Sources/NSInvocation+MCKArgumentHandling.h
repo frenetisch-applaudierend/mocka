@@ -22,16 +22,14 @@
 - (NSInteger)mck_integerParameterAtIndex:(NSUInteger)index;
 - (NSUInteger)mck_unsignedIntegerParameterAtIndex:(NSUInteger)index;
 - (void *)mck_structParameter:(out void *)parameter atIndex:(NSUInteger)index;
+- (id)mck_serializedParameterAtIndex:(NSUInteger)index;
+
+- (NSUInteger)mck_sizeofParameterAtIndex:(NSUInteger)index;
 
 
 #pragma mark - Setting the Return Value
 
 - (void)mck_setObjectReturnValue:(id)value;
-
-
-#pragma mark - Argument Information
-
-- (NSUInteger)mck_sizeofParameterAtIndex:(NSUInteger)index;
 
 @end
 
@@ -45,10 +43,11 @@
 - (NSInteger)integerParameterAtIndex:(NSUInteger)index;
 - (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index;
 - (void *)structParameter:(out void *)parameter atIndex:(NSUInteger)index;
-
-- (void)setObjectReturnValue:(id)value;
+- (id)serializedParameterAtIndex:(NSUInteger)index;
 
 - (NSUInteger)sizeofParameterAtIndex:(NSUInteger)index;
+
+- (void)setObjectReturnValue:(id)value;
 
 @end
 
