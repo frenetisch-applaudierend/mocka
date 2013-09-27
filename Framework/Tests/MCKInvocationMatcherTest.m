@@ -24,33 +24,6 @@ static inline SEL selectorMatcher(UInt8 index) {
 }
 
 
-struct mck_test_1 {
-    char field1;
-};
-
-struct mck_test_2 {
-    char field1;
-    double field2;
-};
-
-struct mck_test_3 {
-    char field1;
-    double field2;
-    char field3;
-};
-
-struct mck_test_4 {
-    char field1;
-    struct {
-        char *field1;
-        unsigned int field2;
-        struct {
-            unsigned int field1;
-        } field3;
-    } field2;
-};
-
-
 @interface MCKInvocationMatcherTest : XCTestCase
 @end
 
@@ -90,16 +63,6 @@ struct mck_test_4 {
     // then
     XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different selectors");
-}
-
-- (void)testThatInvocationMatcherFailsForDifferentArgumentTypes {
-    // given
-    NSInvocation *prototype = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:c"]];
-    NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:s"]];
-    
-    // then
-    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
-                  @"Matcher should fail for different argument types");
 }
 
 

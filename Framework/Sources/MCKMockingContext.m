@@ -149,7 +149,7 @@ static __weak id _CurrentContext = nil;
         return;
     }
     
-    switch (_mode) {
+    switch (self.mode) {
         case MCKContextModeRecording: [self recordInvocation:invocation]; break;
         case MCKContextModeStubbing:  [self stubInvocation:invocation]; break;
         case MCKContextModeVerifying: [self verifyInvocation:invocation]; break;

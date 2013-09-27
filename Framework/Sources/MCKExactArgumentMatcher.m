@@ -42,4 +42,11 @@
     return (candidate == _expectedArgument || (candidate != nil && _expectedArgument != nil && [candidate isEqual:_expectedArgument]));
 }
 
+
+#pragma mark - Debugging
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p expected=%@>", [self class], self, _expectedArgument];
+}
+
 @end
