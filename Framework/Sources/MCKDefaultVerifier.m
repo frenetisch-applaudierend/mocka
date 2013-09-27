@@ -43,16 +43,4 @@
     return MCKContextModeRecording;
 }
 
-
-#pragma mark - Legacy
-
-- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
-                      withMatchers:(MCKArgumentMatcherCollection *)argMatchers
-             inRecordedInvocations:(NSMutableArray *)recordedInvocations
-{
-    NSArray *matchers = argMatchers.primitiveArgumentMatchers;
-    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    return [self verifyPrototype:prototype invocations:recordedInvocations];
-}
-
 @end
