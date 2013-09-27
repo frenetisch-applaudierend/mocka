@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKSpy.h"
 
 #import "TestObject.h"
@@ -30,7 +30,7 @@
 
 
 #pragma mark -
-@interface MCKSpyTest : SenTestCase
+@interface MCKSpyTest : XCTestCase
 @end
 
 @implementation MCKSpyTest {
@@ -57,7 +57,7 @@
     mck_createSpyForObject(object, nil);
     
     // then
-    STAssertTrue(mck_objectIsSpy(object), @"Object is not turned into spy");
+    XCTAssertTrue(mck_objectIsSpy(object), @"Object is not turned into spy");
 }
 
 - (void)testThatCreateSpyReturnsPassedObject {
@@ -68,7 +68,7 @@
     id objectSpy = mck_createSpyForObject(object, nil);
     
     // then
-    STAssertTrue(object == objectSpy, @"A different object than the passed object was returned");
+    XCTAssertTrue(object == objectSpy, @"A different object than the passed object was returned");
 }
 
 - (void)testThatSpyStillReportsPreviousClassIfAskedViaClassMethod {
@@ -79,7 +79,7 @@
     mck_createSpyForObject(object, nil);
     
     // then
-    STAssertEqualObjects([object class], [TestObject class], @"Original class was not retained");
+    XCTAssertEqualObjects([object class], [TestObject class], @"Original class was not retained");
 }
 
 
@@ -91,11 +91,11 @@
     [spy intMethodCallWithoutParameters]; // check two invocations because the implementation does some swizzling when calling. ensure all went ok
     
     // then
-    STAssertEquals([context.handledInvocations count], (NSUInteger)2, @"Wrong number of handled invocations");
-    STAssertTrue([context.handledInvocations[0] target] == spy, @"Wrong target of handled invocation");
-    STAssertTrue([context.handledInvocations[0] selector] == @selector(voidMethodCallWithoutParameters), @"Wrong selector of handled invocation");
-    STAssertTrue([context.handledInvocations[1] target] == spy, @"Wrong target of handled invocation");
-    STAssertTrue([context.handledInvocations[1] selector] == @selector(intMethodCallWithoutParameters), @"Wrong selector of handled invocation");
+    XCTAssertEqual([context.handledInvocations count], (NSUInteger)2, @"Wrong number of handled invocations");
+    XCTAssertTrue([context.handledInvocations[0] target] == spy, @"Wrong target of handled invocation");
+    XCTAssertTrue([context.handledInvocations[0] selector] == @selector(voidMethodCallWithoutParameters), @"Wrong selector of handled invocation");
+    XCTAssertTrue([context.handledInvocations[1] target] == spy, @"Wrong target of handled invocation");
+    XCTAssertTrue([context.handledInvocations[1] selector] == @selector(intMethodCallWithoutParameters), @"Wrong selector of handled invocation");
 }
 
 
@@ -110,9 +110,9 @@
     [spy intMethodCallWithoutParameters]; // check two invocations because the implementation does some swizzling when calling. ensure all went ok
     
     // then
-    STAssertEquals([TestObjectCalledSelectors(spy) count], (NSUInteger)2, @"Method was not called or too many methods called");
-    STAssertEqualObjects(TestObjectCalledSelectors(spy)[0], NSStringFromSelector(@selector(voidMethodCallWithoutParameters)), @"Original Method was not called");
-    STAssertEqualObjects(TestObjectCalledSelectors(spy)[1], NSStringFromSelector(@selector(intMethodCallWithoutParameters)), @"Original Method was not called");
+    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)2, @"Method was not called or too many methods called");
+    XCTAssertEqualObjects(TestObjectCalledSelectors(spy)[0], NSStringFromSelector(@selector(voidMethodCallWithoutParameters)), @"Original Method was not called");
+    XCTAssertEqualObjects(TestObjectCalledSelectors(spy)[1], NSStringFromSelector(@selector(intMethodCallWithoutParameters)), @"Original Method was not called");
 }
 
 - (void)testThatSpyReturnsNormalReturnValueIfCalledInRecordingMode {
@@ -124,8 +124,8 @@
     int returnValue2 = [spy intMethodCallWithoutParameters]; // check two invocations because the implementation does some swizzling when calling. ensure all went ok
     
     // then
-    STAssertEquals(returnValue1, 150, @"Return value was incorrect");
-    STAssertEquals(returnValue2, 150, @"Return value was incorrect");
+    XCTAssertEqual(returnValue1, 150, @"Return value was incorrect");
+    XCTAssertEqual(returnValue2, 150, @"Return value was incorrect");
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInVerificationMode {
@@ -136,7 +136,7 @@
     [spy voidMethodCallWithoutParameters];
     
     // then
-    STAssertEquals([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
+    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInStubbingMode {
@@ -147,7 +147,7 @@
     [spy voidMethodCallWithoutParameters];
     
     // then
-    STAssertEquals([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
+    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodInRecordingModeIfStubExists {
@@ -163,7 +163,7 @@
     [spy voidMethodCallWithoutParameters];
     
     // then
-    STAssertEquals([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
+    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
 }
 
 - (void)testThatSpyCallsImplementationOfMostRecentOverride {
@@ -176,7 +176,7 @@
     int returnValue = [subclassSpy intMethodCallWithoutParameters];
     
     // then
-    STAssertEquals(returnValue, [refObject intMethodCallWithoutParameters], @"Return value was incorrect");
+    XCTAssertEqual(returnValue, [refObject intMethodCallWithoutParameters], @"Return value was incorrect");
 }
 
 #pragma mark - Test Spying in Special Cases
@@ -190,7 +190,7 @@
     int returnValue = [spy spySpecialMethod];
     
     // then
-    STAssertEquals(returnValue, [refObject spySpecialMethod], @"Method in category not spied");
+    XCTAssertEqual(returnValue, [refObject spySpecialMethod], @"Method in category not spied");
 }
 
 @end

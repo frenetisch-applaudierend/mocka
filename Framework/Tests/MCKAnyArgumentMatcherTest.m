@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKAnyArgumentMatcher.h"
 
 
-@interface MCKAnyArgumentMatcherTest : SenTestCase
+@interface MCKAnyArgumentMatcherTest : XCTestCase
 @end
 
 @implementation MCKAnyArgumentMatcherTest {
@@ -27,11 +27,11 @@
 #pragma mark - Test Object Matching
 
 - (void)testThatNilCandidateMatches {
-    STAssertTrue([matcher matchesCandidate:nil], @"Nil was not matched");
+    XCTAssertTrue([matcher matchesCandidate:nil], @"Nil was not matched");
 }
 
 - (void)testThatNonNilCandidateMatches {
-    STAssertTrue([matcher matchesCandidate:@"Foobar"], @"Non-nil candidate was not matched");
+    XCTAssertTrue([matcher matchesCandidate:@"Foobar"], @"Non-nil candidate was not matched");
 }
 
 @end

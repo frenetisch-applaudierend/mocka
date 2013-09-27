@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKTimeoutVerificationHandler.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationCollection.h"
@@ -16,7 +16,7 @@
 #import "NSInvocation+TestSupport.h"
 
 
-@interface MCKTimeoutVerificationHandlerTest : SenTestCase
+@interface MCKTimeoutVerificationHandlerTest : XCTestCase
 @end
 
 @implementation MCKTimeoutVerificationHandlerTest {
@@ -42,9 +42,9 @@
                                failureMessage:NULL];
     
     // then
-    STAssertEqualObjects(previousHandler.lastInvocationPrototype, invocation, @"Wrong invocation passed");
-    STAssertEqualObjects(previousHandler.lastArgumentMatchers, matchers.primitiveArgumentMatchers, @"Wrong matchers passed");
-    STAssertEqualObjects(previousHandler.lastRecordedInvocations, recordedInvocations.allInvocations, @"Wrong recorded invocations passed");
+    XCTAssertEqualObjects(previousHandler.lastInvocationPrototype, invocation, @"Wrong invocation passed");
+    XCTAssertEqualObjects(previousHandler.lastArgumentMatchers, matchers.primitiveArgumentMatchers, @"Wrong matchers passed");
+    XCTAssertEqualObjects(previousHandler.lastRecordedInvocations, recordedInvocations.allInvocations, @"Wrong recorded invocations passed");
 }
 
 - (void)testThatTimeoutHandlerReturnsIndexesIfPreviousHandlerIsSatisfied {
@@ -65,7 +65,7 @@
                                                          failureMessage:NULL];
     
     // then
-    STAssertEqualObjects(returnValue, [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)], @"Wrong indexes returned");
+    XCTAssertEqualObjects(returnValue, [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)], @"Wrong indexes returned");
 }
 
 - (void)testThatTimeoutHandlerIsSatisfiedIfPreviousHandlerIsSatisfied {
@@ -87,7 +87,7 @@
                                failureMessage:NULL];
     
     // then
-    STAssertTrue(satisfied, @"Should be satisfied");
+    XCTAssertTrue(satisfied, @"Should be satisfied");
 }
 
 - (void)testThatTimeoutHandlerRetriesUntilPreviousHandlerIsSatisfied {
@@ -120,8 +120,8 @@
                                                          failureMessage:NULL];
     
     // then
-    STAssertEqualObjects(returnValue, [NSIndexSet indexSetWithIndex:10], @"Wrong indexes returned");
-    STAssertTrue(satisfied, @"Should be satisfied");
+    XCTAssertEqualObjects(returnValue, [NSIndexSet indexSetWithIndex:10], @"Wrong indexes returned");
+    XCTAssertTrue(satisfied, @"Should be satisfied");
 }
 
 - (void)testThatTimeoutHandlerWillStopAfterTimeoutIsReached {
@@ -133,7 +133,7 @@
     [FakeVerificationHandler handlerWithImplementation:
      ^(NSInvocation *prototype, MCKArgumentMatcherCollection *matchers, MCKInvocationCollection *recordedInvocations, BOOL *satisfied, NSString **reason) {
          if ([[NSDate date] compare:(id)lastDate] == NSOrderedDescending) {
-             STFail(@"Timeout not accepted");
+             XCTFail(@"Timeout not accepted");
              @throw [NSException exceptionWithName:@"StopTheTestException" reason:@"Stopping the test forcibly" userInfo:nil];
          }
          if (satisfied != NULL) *satisfied = NO;
@@ -155,8 +155,8 @@
                                                          failureMessage:NULL];
     
     // then
-    STAssertEqualObjects(returnValue, [NSIndexSet indexSet], @"Wrong indexes returned");
-    STAssertFalse(satisfied, @"Should not be satisfied");
+    XCTAssertEqualObjects(returnValue, [NSIndexSet indexSet], @"Wrong indexes returned");
+    XCTAssertFalse(satisfied, @"Should not be satisfied");
 }
 
 
@@ -181,7 +181,7 @@
                                     satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisfied");
+    XCTAssertFalse(satisfied, @"Should not be satisfied");
 }
 
 - (void)testThatNeverHandlerSucceedsIfNoCallIsMadeWhileTimeout {
@@ -203,7 +203,7 @@
                                     satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertTrue(satisfied, @"Should be satisfied");
+    XCTAssertTrue(satisfied, @"Should be satisfied");
 }
 
 @end

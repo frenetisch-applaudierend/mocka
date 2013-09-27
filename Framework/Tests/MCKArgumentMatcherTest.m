@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKArgumentMatcher.h"
 #import "MCKBlockArgumentMatcher.h"
 #import "MCKArgumentMatcherCollection.h"
 
 
-@interface MCKArgumentMatcherTest : SenTestCase
+@interface MCKArgumentMatcherTest : XCTestCase
 @end
 
 @implementation MCKArgumentMatcherTest
@@ -29,7 +29,7 @@
 - (void)testThatObjectArgumentMatcherIsPassedDirectly {
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
     id value = mck_registerObjectMatcher(matcher);
-    STAssertTrue(matcher == value, @"Wrong object is returned");
+    XCTAssertTrue(matcher == value, @"Wrong object is returned");
 }
 
 - (void)testThatPrimitiveNumberMatcherIndexCanBeRetrievedAgain {
@@ -43,7 +43,7 @@
     UInt8 value = mck_registerPrimitiveNumberMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    STAssertEquals((int)mck_matcherIndexForArgumentBytes(&value, @encode(id)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(id)),
                    (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
                    @"Wrong index returned");
 }
@@ -59,7 +59,7 @@
     char *value = mck_registerCStringMatcher([[MCKBlockArgumentMatcher alloc] init], MCKDefaultCStringBuffer);
     
     // then
-    STAssertEquals((int)mck_matcherIndexForArgumentBytes(&value, @encode(char*)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(char*)),
                    (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
                    @"Wrong index returned");
 }
@@ -75,7 +75,7 @@
     SEL value = mck_registerSelectorMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    STAssertEquals((int)mck_matcherIndexForArgumentBytes(&value, @encode(SEL)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(SEL)),
                    (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
                    @"Wrong index returned");
 }
@@ -91,7 +91,7 @@
     void *value = mck_registerPointerMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    STAssertEquals((int)mck_matcherIndexForArgumentBytes(&value, @encode(void*)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(void*)),
                    (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
                    @"Wrong index returned");
 }
@@ -107,7 +107,7 @@
     NSRange value = mck_registerStructMatcher([[MCKBlockArgumentMatcher alloc] init], NSRange);
     
     // then
-    STAssertEquals((int)mck_matcherIndexForArgumentBytes(&value, @encode(NSRange)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(NSRange)),
                    (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
                    @"Wrong index returned");
 }

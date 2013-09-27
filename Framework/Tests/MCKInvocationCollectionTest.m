@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
@@ -15,7 +15,7 @@
 #import "MCKBlockArgumentMatcher.h"
 
 
-@interface MCKInvocationCollectionTest : SenTestCase
+@interface MCKInvocationCollectionTest : XCTestCase
 @end
 
 @implementation MCKInvocationCollectionTest {
@@ -43,7 +43,7 @@
     [invocationCollection addInvocation:invocation1];
     
     // then
-    STAssertEqualObjects(invocationCollection.allInvocations, (@[ invocation0, invocation1 ]), @"Invocations were not recorded as required");
+    XCTAssertEqualObjects(invocationCollection.allInvocations, (@[ invocation0, invocation1 ]), @"Invocations were not recorded as required");
 }
 
 - (void)testThatRecordInvocationMakesInvocationRetainArguments {
@@ -54,7 +54,7 @@
     [invocationCollection addInvocation:invocation];
     
     // then
-    STAssertTrue([invocation argumentsRetained], @"Arguments should be retained by the invocation");
+    XCTAssertTrue([invocation argumentsRetained], @"Arguments should be retained by the invocation");
 }
 
 
@@ -77,7 +77,7 @@
     [invocationCollection invocationsMatchingPrototype:[NSInvocation voidMethodInvocationForTarget:nil] withArgumentMatchers:nil];
     
     // then
-    STAssertEqualObjects(testedInvocations, (@[ invocation0, invocation1, invocation2, invocation3 ]),
+    XCTAssertEqualObjects(testedInvocations, (@[ invocation0, invocation1, invocation2, invocation3 ]),
                          @"Invocations not all tested or not in correct order");
 }
 
@@ -101,7 +101,7 @@
     
     // then
     for (NSArray *matchers in passedMatchers) {
-        STAssertEqualObjects(matchers, primitiveArgMatchers, @"Wrong matchers passed");
+        XCTAssertEqualObjects(matchers, primitiveArgMatchers, @"Wrong matchers passed");
     }
 }
 
@@ -124,7 +124,7 @@
     NSMutableIndexSet *expectedIndexes = [NSMutableIndexSet indexSet];
     [expectedIndexes addIndex:0];
     [expectedIndexes addIndex:3];
-    STAssertEqualObjects(matchingIndexes, expectedIndexes, @"Incorrect matches");
+    XCTAssertEqualObjects(matchingIndexes, expectedIndexes, @"Incorrect matches");
 }
 
 
@@ -144,7 +144,7 @@
     [invocationCollection removeInvocationsAtIndexes:indexes];
     
     // then
-    STAssertEqualObjects(invocationCollection.allInvocations, (@[ invocation0, invocation2 ]), @"Invocations were not recorded as required");
+    XCTAssertEqualObjects(invocationCollection.allInvocations, (@[ invocation0, invocation2 ]), @"Invocations were not recorded as required");
 }
 
 
@@ -161,7 +161,7 @@
     MCKInvocationCollection *derived = [source subcollectionFromIndex:1];
     
     // then
-    STAssertEqualObjects(derived.allInvocations, [invocations subarrayWithRange:NSMakeRange(1, 2)], @"Wrong invocations in subarray");
+    XCTAssertEqualObjects(derived.allInvocations, [invocations subarrayWithRange:NSMakeRange(1, 2)], @"Wrong invocations in subarray");
 }
 
 - (void)testThatDerivingSubcollectionFromIndexZeroReturnsAllInvocations {
@@ -175,7 +175,7 @@
     MCKInvocationCollection *derived = [source subcollectionFromIndex:0];
     
     // then
-    STAssertEqualObjects(derived.allInvocations, source.allInvocations, @"Wrong invocations in subarray");
+    XCTAssertEqualObjects(derived.allInvocations, source.allInvocations, @"Wrong invocations in subarray");
 }
 
 - (void)testThatDerivingSubcollectionFromIndexLastIndexPlusOneReturnsNoInvocations {
@@ -189,7 +189,7 @@
     MCKInvocationCollection *derived = [source subcollectionFromIndex:[invocations count]];
     
     // then
-    STAssertEqualObjects(derived.allInvocations, @[], @"Wrong invocations in subarray");
+    XCTAssertEqualObjects(derived.allInvocations, @[], @"Wrong invocations in subarray");
 }
 
 @end

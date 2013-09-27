@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKAnyArgumentMatcher.h"
 
 
-@interface MCKArgumentMatcherCollectionTest : SenTestCase
+@interface MCKArgumentMatcherCollectionTest : XCTestCase
 @end
 
 @implementation MCKArgumentMatcherCollectionTest {
@@ -35,7 +35,7 @@
     [collection addPrimitiveArgumentMatcher:matcher];
     
     // then
-    STAssertEqualObjects(collection.primitiveArgumentMatchers, (@[ matcher ]), @"Primitive matcher was not recoreded");
+    XCTAssertEqualObjects(collection.primitiveArgumentMatchers, (@[ matcher ]), @"Primitive matcher was not recoreded");
 }
 
 - (void)testThatAddPrimitiveMatcherThrowsIfMoreMatchersAddedThanCanBeIndexedByUInt8 {
@@ -45,18 +45,18 @@
     }
 
     // then
-    STAssertThrows([collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]], @"Should throw after %d matchers", (UINT8_MAX + 1));
+    XCTAssertThrows([collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]], @"Should throw after %d matchers", (UINT8_MAX + 1));
 }
 
 - (void)testThatLastPrimitiveMatcherIndexReturnsIndexForLastAddedMatcher {
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
-    STAssertEquals([collection lastPrimitiveArgumentMatcherIndex], (UInt8)0, @"Wrong index returned");
+    XCTAssertEqual([collection lastPrimitiveArgumentMatcherIndex], (UInt8)0, @"Wrong index returned");
     
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
-    STAssertEquals([collection lastPrimitiveArgumentMatcherIndex], (UInt8)1, @"Wrong index returned");
+    XCTAssertEqual([collection lastPrimitiveArgumentMatcherIndex], (UInt8)1, @"Wrong index returned");
     
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
-    STAssertEquals([collection lastPrimitiveArgumentMatcherIndex], (UInt8)2, @"Wrong index returned");
+    XCTAssertEqual([collection lastPrimitiveArgumentMatcherIndex], (UInt8)2, @"Wrong index returned");
 }
 
 - (void)testThatResetArgumentMatchersRemovesAllMatchers {
@@ -69,7 +69,7 @@
     [collection resetAllMatchers];
     
     // then
-    STAssertEquals([collection.primitiveArgumentMatchers count], (NSUInteger)0, @"Primitive matchers were not reset");
+    XCTAssertEqual([collection.primitiveArgumentMatchers count], (NSUInteger)0, @"Primitive matchers were not reset");
 }
 
 
@@ -84,7 +84,7 @@
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
     
     // then
-    STAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid if all primitive args have matchers");
+    XCTAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid if all primitive args have matchers");
 }
 
 - (void)testThatCollectionIsValidIfAllPrimitiveArgumentsForSignatureWithObjectArgsHaveMatchers {
@@ -96,7 +96,7 @@
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
     
     // then
-    STAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid if all primitive args have matchers");
+    XCTAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid if all primitive args have matchers");
 }
 
 - (void)testThatCollectionIsNotValidIfNotAllPrimitiveArgumentsHaveMatchers {
@@ -107,7 +107,7 @@
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
     
     // then
-    STAssertFalse([collection isValidForMethodSignature:signature], @"Collection was valid for less matchers than primitive args");
+    XCTAssertFalse([collection isValidForMethodSignature:signature], @"Collection was valid for less matchers than primitive args");
 }
 
 - (void)testThatCollectionIsNotValidIfThereAreMoreMatchersThanPrimitiveArguments {
@@ -120,7 +120,7 @@
     [collection addPrimitiveArgumentMatcher:[[MCKAnyArgumentMatcher alloc] init]];
     
     // then
-    STAssertFalse([collection isValidForMethodSignature:signature], @"Collection was valid for more matchers than primitive args");
+    XCTAssertFalse([collection isValidForMethodSignature:signature], @"Collection was valid for more matchers than primitive args");
 }
 
 - (void)testThatCollectionIsValidIfSignatureHasNoPrimitiveArgsAndNoMatchersAreRecorded {
@@ -131,7 +131,7 @@
     // no matchers
     
     // then
-    STAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid for no matchers and no primitive args");
+    XCTAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid for no matchers and no primitive args");
 }
 
 - (void)testThatCollectionIsValidIfSignatureHasPrimitiveArgsAndNoMatchersAreRecorded {
@@ -142,7 +142,7 @@
     // no matchers
     
     // then
-    STAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid for no matchers and no primitive args");
+    XCTAssertTrue([collection isValidForMethodSignature:signature], @"Collection was not valid for no matchers and no primitive args");
 }
 
 @end

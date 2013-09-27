@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKSetOutParameterStubAction.h"
 
 #import "NSInvocation+TestSupport.h"
 
 
-@interface MCKSetOutParameterStubActionTest : SenTestCase
+@interface MCKSetOutParameterStubActionTest : XCTestCase
 - (void)outParamMethod:(id __autoreleasing *)param;
 @end
 
@@ -32,7 +32,7 @@
     [action performWithInvocation:invocation];
     
     // then
-    STAssertTrue(paramContainer == objectValue, @"Out parameter not set correctly");
+    XCTAssertTrue(paramContainer == objectValue, @"Out parameter not set correctly");
 }
 
 
@@ -50,7 +50,7 @@
     
     // then
     id __autoreleasing *param = NULL; [invocation getArgument:&param atIndex:2];
-    STAssertTrue(param == NULL, @"Should not have been set");
+    XCTAssertTrue(param == NULL, @"Should not have been set");
 }
 
 

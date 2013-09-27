@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKExactlyVerificationHandler.h"
 
 #import "NSInvocation+TestSupport.h"
@@ -14,7 +14,7 @@
 #import "CannedInvocationCollection.h"
 
 
-@interface MCKExactlyVerificationHandlerTest : SenTestCase
+@interface MCKExactlyVerificationHandlerTest : XCTestCase
 @end
 
 @implementation MCKExactlyVerificationHandlerTest
@@ -32,7 +32,7 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsSatisfiedIfNoMatchIsFoundForExactlyZero {
@@ -47,7 +47,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertTrue(satisfied, @"Should be satisfied");
+    XCTAssertTrue(satisfied, @"Should be satisfied");
 }
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyZero {
@@ -61,7 +61,7 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyZero {
@@ -76,7 +76,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(satisfied, @"Should not be satisifed");
 }
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFoundForExactlyZero {
@@ -90,7 +90,7 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFoundForExactlyZero {
@@ -105,7 +105,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(satisfied, @"Should not be satisifed");
 }
 
 
@@ -122,7 +122,7 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfNoMatchIsFoundForExactlyTwo {
@@ -137,7 +137,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisfied");
+    XCTAssertFalse(satisfied, @"Should not be satisfied");
 }
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyTwo {
@@ -151,7 +151,7 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyTwo {
@@ -166,7 +166,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(satisfied, @"Should not be satisifed");
 }
 
 - (void)testThatHandlerReturnsFilledIndexSetIfTwoMatchesAreFoundForExactlyTwo {
@@ -180,9 +180,9 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 2, @"Should result in filled set");
-    STAssertTrue([indexes containsIndex:1], @"First result not reported");
-    STAssertTrue([indexes containsIndex:2], @"Second result not reported");
+    XCTAssertTrue([indexes count] == 2, @"Should result in filled set");
+    XCTAssertTrue([indexes containsIndex:1], @"First result not reported");
+    XCTAssertTrue([indexes containsIndex:2], @"Second result not reported");
 }
 
 - (void)testThatHandlerIsSatisfiedIfTwoMatchesAreFoundForExactlyTwo {
@@ -197,7 +197,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertTrue(satisfied, @"Should be satisifed");
+    XCTAssertTrue(satisfied, @"Should be satisifed");
 }
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfMoreThanTwoMatchesAreFoundForExactlyTwo {
@@ -212,7 +212,7 @@
                                         inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
     
     // then
-    STAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfMoreThanTwoMatchesAreFoundForExactlyTwo {
@@ -227,7 +227,7 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(satisfied, @"Should not be satisifed");
 }
 
 
@@ -247,11 +247,11 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:&reason];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
     
     NSString *expectedReason =
     [NSString stringWithFormat:@"Expected exactly 2 calls to -[%@ voidMethodCallWithoutParameters] but got 1", target];
-    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+    XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 
 - (void)testThatHandlerIncludesNumberOfCallsInErrorReasonIfNotSatisifiedForPlainMethod {
@@ -268,11 +268,11 @@
                   inRecordedInvocations:recorder satisfied:&satisfied failureMessage:&reason];
     
     // then
-    STAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
+    XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
     
     NSString *expectedReason =
     [NSString stringWithFormat:@"Expected exactly 5 calls to -[%@ voidMethodCallWithoutParameters] but got 3", target];
-    STAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+    XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 
 @end

@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKPerformBlockStubAction.h"
 
 
-@interface MCKPerformBlockStubActionTest : SenTestCase
+@interface MCKPerformBlockStubActionTest : XCTestCase
 @end
 
 @implementation MCKPerformBlockStubActionTest
@@ -26,7 +26,7 @@
     [action performWithInvocation:[NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"@@:"]]];
     
     // then
-    STAssertTrue(called, @"Block was not called");
+    XCTAssertTrue(called, @"Block was not called");
 }
 
 - (void)testThatPerformBlockActionPassesInvocationToBlock {
@@ -41,7 +41,7 @@
     [action performWithInvocation:expectedInvocation];
     
     // then
-    STAssertEqualObjects(passedInvocation, expectedInvocation, @"Block was called with wrong invocation");
+    XCTAssertEqualObjects(passedInvocation, expectedInvocation, @"Block was called with wrong invocation");
 }
 
 @end

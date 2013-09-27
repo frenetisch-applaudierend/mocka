@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKBlockArgumentMatcher.h"
 
 
-@interface MCKBlockArgumentMatcherTest : SenTestCase
+@interface MCKBlockArgumentMatcherTest : XCTestCase
 @end
 
 @implementation MCKBlockArgumentMatcherTest {
@@ -38,7 +38,7 @@
     [matcher matchesCandidate:@"Hello World"];
     
     // then
-    STAssertEqualObjects(passedCandiate, @"Hello World", @"Wrong candidate passed");
+    XCTAssertEqualObjects(passedCandiate, @"Hello World", @"Wrong candidate passed");
 }
 
 - (void)testThatMatcherReturnsTrueIfNoMatcherBlockIsSet {
@@ -46,7 +46,7 @@
     matcher.matcherBlock = nil;
     
     // then
-    STAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsTrueIfMatcherBlockReturnsTrue {
@@ -54,7 +54,7 @@
     matcher.matcherBlock = ^(id _) { return YES; };
     
     // then
-    STAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsFalseIfMatcherBlockReturnsFalse {
@@ -62,7 +62,7 @@
     matcher.matcherBlock = ^(id _) { return NO; };
     
     // then
-    STAssertFalse([matcher matchesCandidate:@"Foo"], @"Matcher should not have matched");
+    XCTAssertFalse([matcher matchesCandidate:@"Foo"], @"Matcher should not have matched");
 }
 
 @end

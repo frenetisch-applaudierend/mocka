@@ -1,12 +1,12 @@
 //
-//  MCKSpyIntegrationTest.m
+//  RGClassMockTest.m
 //  mocka
 //
-//  Created by Markus Gasser on 21.07.12.
+//  Created by Markus Gasser on 14.07.12.
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "Mocka.h"
 
 #import "TestExceptionUtils.h"
@@ -14,10 +14,12 @@
 #import "CategoriesTestClasses.h"
 
 
-@interface MCKSpyIntegrationTest : SenTestCase
+#pragma mark - Functional Test for mocking a single Class
+
+@interface MCKMockObjectIntegrationTest : XCTestCase
 @end
 
-@implementation MCKSpyIntegrationTest {
+@implementation MCKMockObjectIntegrationTest {
     TestObject *object;
 }
 
@@ -26,7 +28,7 @@
 
 - (void)setUp {
     [super setUp];
-    object = spy([[TestObject alloc] init]);
+    object = mock([TestObject class]);
     [[MCKMockingContext currentContext] setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];
 }
 
@@ -41,9 +43,6 @@
     AssertDoesNotFail({
         verify [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
 }
 
 - (void)testThatVerifyFailsForMissingMethodCall {
@@ -51,8 +50,6 @@
     AssertFails({
         verify [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 0);
 }
 
 - (void)testThatVerifySucceedsForTwoCallsAndTwoVerifies {
@@ -67,10 +64,6 @@
     AssertDoesNotFail({
         verify [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 2);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 1);
 }
 
 - (void)testThatVerifyFailsIfAppliedTwiceToOneCall {
@@ -84,13 +77,10 @@
     AssertFails({
         verify [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
 }
 
 
-#pragma mark - Test Verify with handlers
+#pragma mark - Test Verify with Handlers
 
 - (void)testThatVerifyNeverFailsWhenCallWasMade {
     // when
@@ -100,17 +90,12 @@
     AssertFails({
         verify never [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
 }
 
 - (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
     AssertDoesNotFail({
         verify never [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 0);
 }
 
 - (void)testThatExactlyOneSucceedsWhenOneCallWasMade {
@@ -121,17 +106,12 @@
     AssertDoesNotFail({
         verify exactly(1) [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
 }
 
 - (void)testThatExactlyOneFailsWhenNoCallWasMade {
     AssertFails({
         verify exactly(1) [object voidMethodCallWithoutParameters];
     });
-    
-    AssertNumberOfInvocations(object, 0);
 }
 
 - (void)testThatExactlyOneFailsWhenMultipleCallsWereMade {
@@ -143,10 +123,17 @@
     AssertFails({
         verify exactly(1) [object voidMethodCallWithoutParameters];
     });
+}
+
+- (void)testThatAfterVerifyContextSwitchesToRecordingMode {
+    // given
+    [object voidMethodCallWithoutParameters];
+    verify [object voidMethodCallWithoutParameters];
     
-    AssertNumberOfInvocations(object, 2);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 0);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithoutParameters), 1);
+    // then
+    AssertDoesNotFail({
+        [object voidMethodCallWithoutParameters];
+    });
 }
 
 
@@ -160,9 +147,6 @@
     AssertDoesNotFail({
         verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithObjectParam1:objectParam2:), 0);
 }
 
 - (void)testThatVerifyFailsForNonMatchingObjectArguments {
@@ -173,9 +157,6 @@
     AssertFails({
         verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithObjectParam1:objectParam2:), 0);
 }
 
 - (void)testThatVerifySucceedsForMatchingPrimitiveArguments {
@@ -186,9 +167,6 @@
     AssertDoesNotFail({
         verify [object voidMethodCallWithIntParam1:2 intParam2:45];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithIntParam1:intParam2:), 0);
 }
 
 - (void)testThatVerifyFailsForNonMatchingPrimitiveArguments {
@@ -199,9 +177,6 @@
     AssertFails({
         verify [object voidMethodCallWithIntParam1:0 intParam2:45];
     });
-    
-    AssertNumberOfInvocations(object, 1);
-    AssertSelectorCalledAtIndex(object, @selector(voidMethodCallWithIntParam1:intParam2:), 0);
 }
 
 
@@ -229,29 +204,65 @@
     });
 }
 
+- (void)testThatVerifySucceedsForAnyObjectWithAnyObjMatcher {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Foo" objectParam2:@42];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+    });
+}
+
+- (void)testThatVerifySucceedsForEdgeCasesWithAnyObjMatcher {
+    // when
+    [object voidMethodCallWithObjectParam1:nil objectParam2:[NSNull null]];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+    });
+}
+
+- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectParameters {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Foo" objectParam2:@"Bar"];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"];
+    });
+}
+
+- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectAndPrimitiveParameters {
+    // when
+    [object voidMethodCallWithObjectParam1:@"Foo" intParam2:20];
+    
+    // then
+    AssertDoesNotFail({
+        verify [object voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()];
+    });
+}
+
 
 #pragma mark - Test Stubbing
 
-- (void)testThatUnstubbedMethodsReturnOriginalValues {
-    TestObject *referenceObject = [[TestObject alloc] init];
-    
-    STAssertEqualObjects([object objectMethodCallWithoutParameters], [referenceObject objectMethodCallWithoutParameters], @"Should return reference value for unstubbed object return");
-    STAssertEquals([object intMethodCallWithoutParameters], [referenceObject intMethodCallWithoutParameters], @"Should return reference value for unstubbed int return");
-    STAssertEquals([object intPointerMethodCallWithoutParameters], [referenceObject intPointerMethodCallWithoutParameters], @"Should return reference value for unstubbed pointer return");
-    STAssertTrue(NSEqualRanges([object rangeMethodCallWithoutParameters], [referenceObject rangeMethodCallWithoutParameters]), @"Should return reference value for unstubbed range");
+- (void)testThatUnstubbedMethodsReturnDefaultValues {
+    XCTAssertNil([object objectMethodCallWithoutParameters], @"Should return nil for unstubbed object return");
+    XCTAssertEqual([object intMethodCallWithoutParameters], (int)0, @"Should return 0 for unstubbed int return");
+    XCTAssertEqual([object intPointerMethodCallWithoutParameters], (int*)NULL, @"Should return NULL for unstubbed pointer return");
+    XCTAssertTrue(NSEqualRanges(NSMakeRange(0, 0), [object rangeMethodCallWithoutParameters]), @"Should return uninitialized value for unstubbed range");
 }
 
 - (void)testThatStubbedReturnValueIsReturned {
     // given
-    whenCalling [object objectMethodCallWithoutParameters] thenDo returnValue(@"Hello World");
+    whenCalling [object objectMethodCallWithoutParameters]; thenDo returnValue(@"Hello World");
     
     // when
     id result = [object objectMethodCallWithoutParameters];
     
     // then
-    STAssertEqualObjects(result, @"Hello World", @"Wrong object value returned");
-    
-    AssertNumberOfInvocations(object, 0);
+    XCTAssertEqualObjects(result, @"Hello World", @"Wrong object value returned");
 }
 
 - (void)testMultipleStubActions {
@@ -264,25 +275,22 @@
     andDo returnValue(@20);
     
     // then
-    STAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
-    STAssertEqualObjects(marker, @"called", @"Marker was not set or wrongly set");
-    
-    AssertNumberOfInvocations(object, 0);
+    XCTAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
+    XCTAssertEqualObjects(marker, @"called", @"Marker was not set or wrongly set");
 }
 
 - (void)testThatSubsequentStubbingsDontInterfere {
     // given
-    TestObject *object1 = spy([[TestObject alloc] init]);
-    TestObject *object2 = spy([[TestObject alloc] init]);
-    TestObject *object3 = spy([[TestObject alloc] init]);
-    TestObject *object4 = spy([[TestObject alloc] init]);
-    TestObject *refObject = [[TestObject alloc] init];
+    TestObject *object1 = mock([TestObject class]);
+    TestObject *object2 = mock([TestObject class]);
+    TestObject *object3 = mock([TestObject class]);
+    TestObject *object4 = mock([TestObject class]);
     __block NSString *marker = nil;
     
     // when
-    whenCalling [object1 objectMethodCallWithoutParameters] thenDo returnValue(@"First Object");
-    whenCalling [object2 objectMethodCallWithoutParameters] thenDo returnValue(@"Second Object");
-    whenCalling [object3 objectMethodCallWithoutParameters] thenDo performBlock(^(NSInvocation *inv) {
+    whenCalling [object1 objectMethodCallWithoutParameters]; thenDo returnValue(@"First Object");
+    whenCalling [object2 objectMethodCallWithoutParameters]; thenDo returnValue(@"Second Object");
+    whenCalling [object3 objectMethodCallWithoutParameters]; thenDo performBlock(^(NSInvocation *inv) {
         marker = @"Third Object";
     });
     
@@ -290,24 +298,16 @@
     
     
     // then
-    STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @"First Object", @"Wrong return value for object");
-    STAssertNil(marker, @"Marker was set too early");
+    XCTAssertEqualObjects([object1 objectMethodCallWithoutParameters], @"First Object", @"Wrong return value for object");
+    XCTAssertNil(marker, @"Marker was set too early");
     
-    STAssertEqualObjects([object2 objectMethodCallWithoutParameters], @"Second Object", @"Wrong return value for object");
-    STAssertNil(marker, @"Marker was set too early");
+    XCTAssertEqualObjects([object2 objectMethodCallWithoutParameters], @"Second Object", @"Wrong return value for object");
+    XCTAssertNil(marker, @"Marker was set too early");
     
-    STAssertNil([object3 objectMethodCallWithoutParameters], @"Wrong return value for object");
-    STAssertEqualObjects(marker, @"Third Object", @"Marker was not set or wrongly set");
+    XCTAssertNil([object3 objectMethodCallWithoutParameters], @"Wrong return value for object");
+    XCTAssertEqualObjects(marker, @"Third Object", @"Marker was not set or wrongly set");
     
-    STAssertEqualObjects([object4 objectMethodCallWithoutParameters], [refObject objectMethodCallWithoutParameters], @"Non-stubbed call was suddenly stubbed");
-    
-    AssertNumberOfInvocations(object1, 0);
-    AssertNumberOfInvocations(object2, 0);
-    AssertNumberOfInvocations(object3, 0);
-    
-    AssertNumberOfInvocations(object4, 2);
-    AssertSelectorCalledAtIndex(object4, @selector(objectMethodCallWithoutParameters), 0);
-    AssertSelectorCalledAtIndex(object4, @selector(objectMethodCallWithoutParameters), 1);
+    XCTAssertNil([object4 objectMethodCallWithoutParameters], @"Non-stubbed call was suddenly stubbed");
 }
 
 - (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
@@ -320,19 +320,17 @@
     andDo returnValue(@20);
     
     // when
-    whenCalling [object objectMethodCallWithoutParameters] thenDo returnValue(@30);
+    whenCalling [object objectMethodCallWithoutParameters]; thenDo returnValue(@30);
     
     // then
-    STAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
-    STAssertEqualObjects(marker, @"called", @"Marker was not set");
-    
-    AssertNumberOfInvocations(object, 0);
+    XCTAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
+    XCTAssertEqualObjects(marker, @"called", @"Marker was not set");
 }
 
 - (void)testThatMultipleStubbingsCanBeCombined {
     // given
-    TestObject *object1 = spy([[TestObject alloc] init]);
-    TestObject *object2 = spy([[TestObject alloc] init]);
+    TestObject *object1 = mock([TestObject class]);
+    TestObject *object2 = mock([TestObject class]);
     
     // when
     whenCalling {
@@ -342,23 +340,20 @@
     thenDo returnValue(@10);
     
     // then
-    STAssertEqualObjects([object1 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
-    STAssertEqualObjects([object2 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
-    
-    AssertNumberOfInvocations(object1, 0);
-    AssertNumberOfInvocations(object2, 0);
+    XCTAssertEqualObjects([object1 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
+    XCTAssertEqualObjects([object2 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
 }
 
 - (void)testStubbingArray {
     // given
-    NSMutableArray *array = spy([NSMutableArray array]);
+    NSMutableArray *array = mock([NSMutableArray class]);
     
     whenCalling [array count];
     thenDo performBlock(^(NSInvocation *inv) { [self description]; });
     andDo returnValue(10);
     
     // then
-    STAssertEquals((int)[array count], (int)10, @"[array count] stub does not work");
+    XCTAssertEqual((int)[array count], (int)10, @"[array count] stub does not work");
 }
 
 
@@ -373,7 +368,7 @@
     
     // then
     [object voidMethodCallWithIntParam1:10 intParam2:20];
-    STAssertTrue(methodMatched, @"Method was not matched");
+    XCTAssertTrue(methodMatched, @"Method was not matched");
 }
 
 - (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
@@ -386,7 +381,15 @@
     // then
     [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
     [object voidMethodCallWithIntParam1:NSIntegerMax intParam2:NSIntegerMin];
-    STAssertEquals(invocationCount, 2, @"Not all egde cases match");
+    XCTAssertEqual(invocationCount, 2, @"Not all egde cases match");
+}
+
+- (void)testThatCallingStubbedOutParameterCallWithNullWorks {
+    // given
+    whenCalling [object boolMethodCallWithError:anyObjectPointer()] thenDo returnValue(NO);
+    
+    // if it crashes hard here then the test has failed (a EXC_BAD_ACCESS is more likely than an exception)
+    XCTAssertNoThrow([object boolMethodCallWithError:NULL], @"Should not crash");
 }
 
 
@@ -394,32 +397,32 @@
 
 - (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClass {
     // given
-    CategoriesTestMockedClass *spy = spy([[CategoriesTestMockedClass alloc] init]);
+    CategoriesTestMockedClass *mock = mockForClass(CategoriesTestMockedClass);
     
     __block BOOL called = NO;
-    whenCalling [spy categoryMethodInMockedClass] thenDo performBlock(^(NSInvocation *inv) {
+    whenCalling [mock categoryMethodInMockedClass] thenDo performBlock(^(NSInvocation *inv) {
         called = YES;
     });
     
-    [spy categoryMethodInMockedClass];
+    [mock categoryMethodInMockedClass];
     
-    verify [spy categoryMethodInMockedClass];
-    STAssertTrue(called, @"Should have been called");
+    verify [mock categoryMethodInMockedClass];
+    XCTAssertTrue(called, @"Should have been called");
 }
 
 - (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
     // given
-    CategoriesTestMockedClass *spy = spy([[CategoriesTestMockedClass alloc] init]);
+    CategoriesTestMockedClass *mock = mockForClass(CategoriesTestMockedClass);
     
     __block BOOL called = NO;
-    whenCalling [spy categoryMethodInMockedClassSuperclass] thenDo performBlock(^(NSInvocation *inv) {
+    whenCalling [mock categoryMethodInMockedClassSuperclass] thenDo performBlock(^(NSInvocation *inv) {
         called = YES;
     });
     
-    [spy categoryMethodInMockedClassSuperclass];
+    [mock categoryMethodInMockedClassSuperclass];
     
-    verify [spy categoryMethodInMockedClassSuperclass];
-    STAssertTrue(called, @"Should have been called");
+    verify [mock categoryMethodInMockedClassSuperclass];
+    XCTAssertTrue(called, @"Should have been called");
 }
 
 @end

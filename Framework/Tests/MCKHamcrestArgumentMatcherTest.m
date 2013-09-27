@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKHamcrestArgumentMatcher.h"
 #import "HCBlockMatcher.h"
 
 
-@interface MCKHamcrestArgumentMatcherTest : SenTestCase
+@interface MCKHamcrestArgumentMatcherTest : XCTestCase
 @end
 
 @implementation MCKHamcrestArgumentMatcherTest {
@@ -39,7 +39,7 @@
     [matcher matchesCandidate:@"Hello World"];
     
     // then
-    STAssertEqualObjects(passedCandidate, @"Hello World", @"Wrong candidate matched");
+    XCTAssertEqualObjects(passedCandidate, @"Hello World", @"Wrong candidate matched");
 }
 
 - (void)testThatMatcherReturnsTrueIfNoHamcrestMatcherIsSet {
@@ -47,7 +47,7 @@
     matcher.hamcrestMatcher = nil;
     
     // then
-    STAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsTrueIfHamcrestMatcherReturnsTrue {
@@ -55,7 +55,7 @@
     matcher.hamcrestMatcher = [HCBlockMatcher matcherWithBlock:^(id _) { return YES; }];
     
     // then
-    STAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsFalseIfHamcrestMatcherReturnsFalse {
@@ -63,7 +63,7 @@
     matcher.hamcrestMatcher = [HCBlockMatcher matcherWithBlock:^(id _) { return NO; }];
     
     // then
-    STAssertFalse([matcher matchesCandidate:@"Foo"], @"Matcher should not have matched");
+    XCTAssertFalse([matcher matchesCandidate:@"Foo"], @"Matcher should not have matched");
 }
 
 @end

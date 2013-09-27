@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
 
 
-@interface MCKRegressionTest : SenTestCase
+@interface MCKRegressionTest : XCTestCase
 @end
 
 

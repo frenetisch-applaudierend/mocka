@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKMockingContext.h"
 #import "MCKMockObject.h"
 #import "MCKDefaultVerificationHandler.h"
@@ -22,7 +22,7 @@
 #import "FakeVerifier.h"
 
 
-@interface MCKMockingContextTest : SenTestCase
+@interface MCKMockingContextTest : XCTestCase
 @end
 
 @implementation MCKMockingContextTest {
@@ -43,17 +43,17 @@
 - (void)testThatGettingTheContextTwiceReturnsSameContext {
     id ctx1 = [MCKMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__];
     id ctx2 = [MCKMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__];
-    STAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
+    XCTAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
 }
 
 - (void)testThatGettingContextUpdatesFileLocationInformationOnErrorHandler {
     MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
-    STAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
-    STAssertEquals(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
+    XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
+    XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
     
     ctx = [MCKMockingContext contextForTestCase:self fileName:@"Bar" lineNumber:20];
-    STAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
-    STAssertEquals(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
+    XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
+    XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
 }
 
 - (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
@@ -64,9 +64,9 @@
     MCKMockingContext *existingContext = [MCKMockingContext currentContext];
     
     // then
-    STAssertEquals(ctx, existingContext, @"Not the same context returned");
-    STAssertEquals(existingContext.failureHandler.fileName, @"Foo", @"Filename was changed");
-    STAssertEquals(existingContext.failureHandler.lineNumber, (NSUInteger)10, @"Linenumber was changed");
+    XCTAssertEqual(ctx, existingContext, @"Not the same context returned");
+    XCTAssertEqual(existingContext.failureHandler.fileName, @"Foo", @"Filename was changed");
+    XCTAssertEqual(existingContext.failureHandler.lineNumber, (NSUInteger)10, @"Linenumber was changed");
 }
 
 - (void)testThatGettingExistingContextAlwaysGetsLatestContext {
@@ -75,7 +75,7 @@
     MCKMockingContext *newCtx = [[MCKMockingContext alloc] initWithTestCase:self];
     
     // then
-    STAssertEquals([MCKMockingContext currentContext], newCtx, @"Context was not updated");
+    XCTAssertEqual([MCKMockingContext currentContext], newCtx, @"Context was not updated");
     oldCtx = nil; // shut the compiler up
 }
 
@@ -89,7 +89,7 @@
     testCase = nil; // at this point the context should be deallocated
     
     // then
-    STAssertThrows([MCKMockingContext currentContext], @"Getting a context before it's created should fail");
+    XCTAssertThrows([MCKMockingContext currentContext], @"Getting a context before it's created should fail");
 }
 
 
@@ -104,7 +104,7 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertTrue([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was not recorded");
+    XCTAssertTrue([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was not recorded");
 }
 
 
@@ -119,7 +119,7 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
@@ -131,7 +131,7 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertTrue([context isInvocationStubbed:invocation], @"Invocation was not stubbed");
+    XCTAssertTrue([context isInvocationStubbed:invocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatUnhandledMethodIsNotStubbed {
@@ -144,7 +144,7 @@
     [context handleInvocation:stubbedInvocation];
     
     // then
-    STAssertFalse([context isInvocationStubbed:unstubbedInvocation], @"Invocation was not stubbed");
+    XCTAssertFalse([context isInvocationStubbed:unstubbedInvocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatModeIsNotSwitchedAfterHandlingInvocation {
@@ -156,7 +156,7 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertEquals(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
+    XCTAssertEqual(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
 }
 
 - (void)testThatAddingStubActionSwitchesToRecordingMode {
@@ -168,7 +168,7 @@
     [context addStubAction:[[MCKReturnStubAction alloc] init]];
     
     // then
-    STAssertEquals(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
+    XCTAssertEqual(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
 }
 
 
@@ -185,19 +185,19 @@
     });
     
     // then
-    STAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatSettingVerificationModeSetsDefaultVerificationHandler {
     // given
     context.verificationHandler = nil;
-    STAssertNil(context.verificationHandler, @"verificationHandler was stil set after setting to nil");
+    XCTAssertNil(context.verificationHandler, @"verificationHandler was stil set after setting to nil");
     
     // when
     [context updateContextMode:MCKContextModeVerifying];
     
     // then
-    STAssertEqualObjects(context.verificationHandler, [MCKDefaultVerificationHandler defaultHandler], @"Not the expected verificationHanlder set");
+    XCTAssertEqualObjects(context.verificationHandler, [MCKDefaultVerificationHandler defaultHandler], @"Not the expected verificationHanlder set");
 }
 
 - (void)testThatHandlingInvocationInVerificationModeCallsVerifier {
@@ -211,9 +211,9 @@
     [context handleInvocation:invocation];
     
     // then
-    STAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedInvocation], invocation, @"Wrong invocation passed");
-    STAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedMatchers], context.argumentMatchers, @"Wrong matchers passed");
-    STAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedRecordedInvocations], context.recordedInvocations, @"Wrong invocation passed");
+    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedInvocation], invocation, @"Wrong invocation passed");
+    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedMatchers], context.argumentMatchers, @"Wrong matchers passed");
+    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedRecordedInvocations], context.recordedInvocations, @"Wrong invocation passed");
 }
 
 - (void)testThatHandlingInvocationInVerificationModeUpdatesToModeReturnedByVerifier {
@@ -221,19 +221,19 @@
     [context updateContextMode:MCKContextModeVerifying];
     context.verifier = [[FakeVerifier alloc] initWithNewContextMode:MCKContextModeRecording];
     [context handleInvocation:nil];
-    STAssertEquals(context.mode, MCKContextModeRecording, @"Wrong context mode");
+    XCTAssertEqual(context.mode, MCKContextModeRecording, @"Wrong context mode");
     
     // Test for switch to verification mode
     [context updateContextMode:MCKContextModeVerifying];
     context.verifier = [[FakeVerifier alloc] initWithNewContextMode:MCKContextModeVerifying];
     [context handleInvocation:nil];
-    STAssertEquals(context.mode, MCKContextModeVerifying, @"Wrong context mode");
+    XCTAssertEqual(context.mode, MCKContextModeVerifying, @"Wrong context mode");
     
     // Test for switch to stubbing mode
     [context updateContextMode:MCKContextModeVerifying];
     context.verifier = [[FakeVerifier alloc] initWithNewContextMode:MCKContextModeStubbing];
     [context handleInvocation:nil];
-    STAssertEquals(context.mode, MCKContextModeStubbing, @"Wrong context mode");
+    XCTAssertEqual(context.mode, MCKContextModeStubbing, @"Wrong context mode");
 }
 
 
@@ -259,8 +259,8 @@
     [context pushPrimitiveArgumentMatcher:matcher];
     
     // then
-    STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
-    STAssertEquals([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+    XCTAssertEqual([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
+    XCTAssertEqual([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
 }
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
@@ -272,8 +272,8 @@
     [context pushPrimitiveArgumentMatcher:matcher];
     
     // then
-    STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
-    STAssertEquals([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+    XCTAssertEqual([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
+    XCTAssertEqual([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
 }
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
@@ -284,9 +284,9 @@
     id matcher2 = [[MCKBlockArgumentMatcher alloc] init];
     
     // then
-    STAssertEquals([context pushPrimitiveArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
-    STAssertEquals([context pushPrimitiveArgumentMatcher:matcher1], (uint8_t)1, @"Wrong index returned for matcher");
-    STAssertEquals([context pushPrimitiveArgumentMatcher:matcher2], (uint8_t)2, @"Wrong index returned for matcher");
+    XCTAssertEqual([context pushPrimitiveArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
+    XCTAssertEqual([context pushPrimitiveArgumentMatcher:matcher1], (uint8_t)1, @"Wrong index returned for matcher");
+    XCTAssertEqual([context pushPrimitiveArgumentMatcher:matcher2], (uint8_t)2, @"Wrong index returned for matcher");
 }
 
 - (void)testThatHandlingInvocationClearsPushedMatchers {
@@ -300,7 +300,7 @@
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then
-    STAssertEquals([context.primitiveArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
+    XCTAssertEqual([context.primitiveArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
 }
 
 - (void)testThatVerificationInvocationFailsForUnequalNumberOfPrimitiveMatchers {
@@ -329,8 +329,8 @@
     
     // then
     NSArray *failures = [(FakeFailureHandler *)context.failureHandler capturedFailures];
-    STAssertEquals([failures count], (NSUInteger)1, @"Should have exactly one failure");
-    STAssertEqualObjects([[failures lastObject] reason], @"Hello, World!", @"Wrong reason in failure");
+    XCTAssertEqual([failures count], (NSUInteger)1, @"Should have exactly one failure");
+    XCTAssertEqualObjects([[failures lastObject] reason], @"Hello, World!", @"Wrong reason in failure");
 }
 
 @end

@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKExactArgumentMatcher.h"
 
 
-@interface MCKExactArgumentMatcherTest : SenTestCase
+@interface MCKExactArgumentMatcherTest : XCTestCase
 @end
 
 @implementation MCKExactArgumentMatcherTest {
@@ -34,7 +34,7 @@
     BOOL result = [matcher matchesCandidate:[NSNumber numberWithInt:2000]];
     
     // then
-    STAssertTrue(result, @"Matcher should have matched");
+    XCTAssertTrue(result, @"Matcher should have matched");
 }
 
 - (void)testThatMatcherDoesNotMatchArgumentWhichIsNotExpected {
@@ -45,7 +45,7 @@
     BOOL result = [matcher matchesCandidate:[NSNumber numberWithInt:1000]];
     
     // then
-    STAssertFalse(result, @"Matcher should not have matched");
+    XCTAssertFalse(result, @"Matcher should not have matched");
 }
 
 @end

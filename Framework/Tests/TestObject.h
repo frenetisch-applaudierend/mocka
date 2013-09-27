@@ -12,7 +12,7 @@
 @class TestObject;
 
 #define AssertNumberOfInvocations(obj, num) \
-    XCTAssertEquals([TestObjectCalledSelectors((obj)) count], (NSUInteger)(num), @"Expected different call count")
+    XCTAssertEqual([TestObjectCalledSelectors((obj)) count], (NSUInteger)(num), @"Expected different call count")
 #define AssertSelectorCalledAtIndex(obj, sel, idx) \
     XCTAssertEqualObjects(TestObjectCalledSelectors((obj))[(idx)], NSStringFromSelector((sel)), @"Selector not called at this index")
 #define AssertSelectorNotCalled(obj, sel) \

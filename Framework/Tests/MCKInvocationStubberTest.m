@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKInvocationStubber.h"
 #import "MCKStub.h"
 #import "MCKPerformBlockStubAction.h"
@@ -17,7 +17,7 @@
 #import "MCKBlockArgumentMatcher.h"
 
 
-@interface MCKInvocationStubberTest : SenTestCase
+@interface MCKInvocationStubberTest : XCTestCase
 @end
 
 @implementation MCKInvocationStubberTest {
@@ -43,7 +43,7 @@
     [stubber recordStubInvocation:invocation withPrimitiveArgumentMatchers:nil];
     
     // then
-    STAssertEquals([stubber.recordedStubs count], (NSUInteger)1, @"Stubbing was not created");
+    XCTAssertEqual([stubber.recordedStubs count], (NSUInteger)1, @"Stubbing was not created");
 }
 
 - (void)testThatCreatedStubForInvocationContainsInvocation {
@@ -55,7 +55,7 @@
     
     // then
     MCKStub *stub = [stubber.recordedStubs lastObject];
-    STAssertEqualObjects([[stub.invocationPrototypes lastObject] invocation], invocation, @"Invocation was not added to stub");
+    XCTAssertEqualObjects([[stub.invocationPrototypes lastObject] invocation], invocation, @"Invocation was not added to stub");
 }
 
 - (void)testThatCreatedStubForInvocationContainsArgumentMatchers {
@@ -68,7 +68,7 @@
     
     // then
     MCKStub *stub = [stubber.recordedStubs lastObject];
-    STAssertEqualObjects([[stub.invocationPrototypes lastObject] primitiveArgumentMatchers], argumentMatchers, @"Matchers were not added to stub");
+    XCTAssertEqualObjects([[stub.invocationPrototypes lastObject] primitiveArgumentMatchers], argumentMatchers, @"Matchers were not added to stub");
 }
 
 
@@ -85,7 +85,7 @@
     [stubber recordStubInvocation:invocation1 withPrimitiveArgumentMatchers:nil];
     
     // then
-    STAssertEquals([stubber.recordedStubs count], (NSUInteger)1, @"Only one stub should have been created");
+    XCTAssertEqual([stubber.recordedStubs count], (NSUInteger)1, @"Only one stub should have been created");
 }
 
 - (void)testThatCreatedStubForMultipleInvocationsContainsAllInvocations {
@@ -100,9 +100,9 @@
     
     // then
     MCKStub *stub = [stubber.recordedStubs lastObject];
-    STAssertEquals([stub.invocationPrototypes count], (NSUInteger)2, @"Not all invocations were added");
-    STAssertEqualObjects([stub.invocationPrototypes[0] invocation], invocation0, @"Invocation was not added to stub");
-    STAssertEqualObjects([stub.invocationPrototypes[1] invocation], invocation1, @"Invocation was not added to stub");
+    XCTAssertEqual([stub.invocationPrototypes count], (NSUInteger)2, @"Not all invocations were added");
+    XCTAssertEqualObjects([stub.invocationPrototypes[0] invocation], invocation0, @"Invocation was not added to stub");
+    XCTAssertEqualObjects([stub.invocationPrototypes[1] invocation], invocation1, @"Invocation was not added to stub");
 }
 
 - (void)testThatCreatedStubForMultipleInvocationsContainsAllArgumentMatchers {
@@ -119,9 +119,9 @@
     
     // then
     MCKStub *stub = [stubber.recordedStubs lastObject];
-    STAssertEquals([stub.invocationPrototypes count], (NSUInteger)2, @"Not all invocations were added");
-    STAssertEqualObjects([stub.invocationPrototypes[0] primitiveArgumentMatchers], argumentMatchers0, @"Matchers were not added to stub");
-    STAssertEqualObjects([stub.invocationPrototypes[1] primitiveArgumentMatchers], argumentMatchers1, @"Matchers were not added to stub");
+    XCTAssertEqual([stub.invocationPrototypes count], (NSUInteger)2, @"Not all invocations were added");
+    XCTAssertEqualObjects([stub.invocationPrototypes[0] primitiveArgumentMatchers], argumentMatchers0, @"Matchers were not added to stub");
+    XCTAssertEqualObjects([stub.invocationPrototypes[1] primitiveArgumentMatchers], argumentMatchers1, @"Matchers were not added to stub");
 }
 
 - (void)testThatAfterAddingActionNewInvocationGroupStarts {
@@ -136,7 +136,7 @@
     [stubber recordStubInvocation:invocation1 withPrimitiveArgumentMatchers:nil];
     
     // then
-    STAssertEquals([stubber.recordedStubs count], (NSUInteger)2, @"Two stub should have been created");
+    XCTAssertEqual([stubber.recordedStubs count], (NSUInteger)2, @"Two stub should have been created");
 }
 
 
@@ -153,7 +153,7 @@
     // then
     TestObject *otherObject = [[TestObject alloc] init];
     NSInvocation *unrecordedInvocation = [NSInvocation voidMethodInvocationForTarget:otherObject];
-    STAssertFalse([stubber hasStubsRecordedForInvocation:unrecordedInvocation], @"Should not have stubs for unrecorded invocation");
+    XCTAssertFalse([stubber hasStubsRecordedForInvocation:unrecordedInvocation], @"Should not have stubs for unrecorded invocation");
 }
 
 - (void)testThatHasStubsReturnsYesIfOneStubIsRecordedForInvocation {
@@ -166,7 +166,7 @@
     }];
     
     // then
-    STAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
+    XCTAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
 }
 
 - (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInOneGroupForInvocation {
@@ -181,7 +181,7 @@
     }];
     
     // then
-    STAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
+    XCTAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
 }
 
 - (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInManyGroupsForInvocation {
@@ -198,7 +198,7 @@
     }];
     
     // then
-    STAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
+    XCTAssertTrue([stubber hasStubsRecordedForInvocation:recordedInvocation], @"Should have stubs for recorded invocation");
 }
 
 
@@ -214,8 +214,8 @@
     
     // then
     NSArray *actions = [[stubber.recordedStubs lastObject] actions];
-    STAssertEquals([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
-    STAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
+    XCTAssertEqual([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
+    XCTAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
 }
 
 - (void)testThatApplyingStubsToInvocationAppliesStubActionToAllMatchingInvocationsInOrder {
@@ -246,7 +246,7 @@
     [stubber applyStubsForInvocation:matchingInvocation];
     
     // then
-    STAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2", @"stub3" ]), @"Performed actions were not recorded in correct order");
+    XCTAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2", @"stub3" ]), @"Performed actions were not recorded in correct order");
 }
 
 - (void)testThatApplyingStubsToInvocationDoesNotApplyStubActionToNonMatchingInvocation {
@@ -278,7 +278,7 @@
     [stubber applyStubsForInvocation:matchingInvocation];
     
     // then
-    STAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2" ]), @"Performed actions were not recorded in correct order");
+    XCTAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2" ]), @"Performed actions were not recorded in correct order");
 }
 
 @end

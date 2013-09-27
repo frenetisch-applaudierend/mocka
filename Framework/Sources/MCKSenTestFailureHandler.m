@@ -7,7 +7,9 @@
 //
 
 #import "MCKSenTestFailureHandler.h"
-#import <SenTestingKit/SenTestingKit.h>
+
+#import <SenTestingKit/NSException_SenTestFailure.h>
+#import <SenTestingKit/SenTestCase.h>
 
 
 @implementation MCKSenTestFailureHandler {
@@ -16,7 +18,7 @@
 
 #pragma mark - Initialization
 
-- (id)initWithTestCase:(id)testCase {
+- (id)initWithTestCase:(SenTestCase *)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
     }

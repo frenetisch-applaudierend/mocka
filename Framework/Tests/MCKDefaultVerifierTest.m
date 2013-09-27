@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKDefaultVerifier.h"
 #import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
@@ -17,7 +17,7 @@
 #import "NSInvocation+TestSupport.h"
 
 
-@interface MCKDefaultVerifierTest : SenTestCase
+@interface MCKDefaultVerifierTest : XCTestCase
 @end
 
 @implementation MCKDefaultVerifierTest {
@@ -43,7 +43,7 @@
     [verifier verifyInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)] withMatchers:nil inRecordedInvocations:nil];
     
     // then
-    STAssertEquals([(FakeVerificationHandler *)verifier.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
+    XCTAssertEqual([(FakeVerificationHandler *)verifier.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
 }
 
 - (void)testThatVerifyInvocationFailsIfHandlerIsNotSatisfied {
@@ -74,8 +74,8 @@
     [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
     
     // then
-    STAssertEquals([recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
-    STAssertEquals([[recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
+    XCTAssertEqual([recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
+    XCTAssertEqual([[recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
 }
 
 
@@ -83,13 +83,13 @@
 
 - (void)testThatVerifyInvocationReturnsRecordingModeForSatisfiedHandler {
     verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
-    STAssertEquals([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeRecording, @"Wrong context mode returned");
+    XCTAssertEqual([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeRecording, @"Wrong context mode returned");
 }
 
 - (void)testThatVerifyInvocationReturnsRecordingModeForUnsatisfiedHandler {
     verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
     verifier.failureHandler = nil; // needed to prevent exception
-    STAssertEquals([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeRecording, @"Wrong context mode returned");
+    XCTAssertEqual([verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:nil], MCKContextModeRecording, @"Wrong context mode returned");
 }
 
 

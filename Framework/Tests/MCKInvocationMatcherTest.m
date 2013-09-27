@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKInvocationMatcher.h"
 
 #import "NSInvocation+TestSupport.h"
@@ -51,7 +51,7 @@ struct mck_test_4 {
 };
 
 
-@interface MCKInvocationMatcherTest : SenTestCase
+@interface MCKInvocationMatcherTest : XCTestCase
 @end
 
 
@@ -77,7 +77,7 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:candidateTarget selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different targets");
 }
 
@@ -88,7 +88,7 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(intMethodCallWithoutParameters)];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different selectors");
 }
 
@@ -98,7 +98,7 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:s"]];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different argument types");
 }
 
@@ -112,7 +112,7 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 20];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -123,7 +123,7 @@ struct mck_test_4 {
     NSInvocation *candidate = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 10, 10];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -135,7 +135,7 @@ struct mck_test_4 {
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
-        STAssertEqualObjects(value, @20, @"Wrong argument value passed");
+        XCTAssertEqualObjects(value, @20, @"Wrong argument value passed");
         called = YES;
     }];
     
@@ -143,7 +143,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argumentMatchers];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 - (void)testThatInvocationMatcherFailsForDifferentDoubleArguments {
@@ -155,7 +155,7 @@ struct mck_test_4 {
                                0.0, 1.2];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -176,7 +176,7 @@ struct mck_test_4 {
                                candArg1, candArg2];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -189,7 +189,7 @@ struct mck_test_4 {
                                nil, nil];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -202,7 +202,7 @@ struct mck_test_4 {
                                @"Foo", [NSString stringWithUTF8String:"Foo"]];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -217,7 +217,7 @@ struct mck_test_4 {
     
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
-        STAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
+        XCTAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
         called = YES;
     }];
     
@@ -225,7 +225,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:@[]];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 - (void)testThatInvocationMatcherUsesPassedHamcrestMatcherForObjectArgumentsIfGiven {
@@ -239,7 +239,7 @@ struct mck_test_4 {
     
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
-        STAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
+        XCTAssertEqualObjects(value, @"Bar", @"Wrong argument value passed");
         called = YES;
     }];
     
@@ -247,7 +247,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:@[]];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 
@@ -262,7 +262,7 @@ struct mck_test_4 {
                                NSSelectorFromString(@"description"), @selector(self)];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -275,7 +275,7 @@ struct mck_test_4 {
                                NSSelectorFromString(@"description"), @selector(class)];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -291,7 +291,7 @@ struct mck_test_4 {
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
-        STAssertEquals(mck_decodeSelectorArgument(value), @selector(self), @"Wrong argument value passed");
+        XCTAssertEqual(mck_decodeSelectorArgument(value), @selector(self), @"Wrong argument value passed");
         called = YES;
     }];
     
@@ -299,7 +299,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argumentMatchers];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 
@@ -314,7 +314,7 @@ struct mck_test_4 {
                                [@"Hello" UTF8String], [@"World" UTF8String]];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -327,7 +327,7 @@ struct mck_test_4 {
                                [@"World" UTF8String], [@"Hello" UTF8String]];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -343,7 +343,7 @@ struct mck_test_4 {
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(NSString *value) {
-        STAssertEqualObjects(@"Bar", value, @"Wrong value");
+        XCTAssertEqualObjects(@"Bar", value, @"Wrong value");
         called = YES;
         return YES;
     }];
@@ -352,7 +352,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argumentMatchers];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 
@@ -368,7 +368,7 @@ struct mck_test_4 {
                                &foo, &bar];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -382,7 +382,7 @@ struct mck_test_4 {
                                &bar, &foo];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -397,7 +397,7 @@ struct mck_test_4 {
     NSArray *argumentMatchers = @[[[MCKBlockArgumentMatcher alloc] init], [[MCKBlockArgumentMatcher alloc] init]];
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(NSValue *value) {
-        STAssertEquals([value pointerValue], (void *)bar, @"Wrong argument value passed");
+        XCTAssertEqual([value pointerValue], (void *)bar, @"Wrong argument value passed");
         called = YES;
         return YES;
     }];
@@ -406,7 +406,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argumentMatchers];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 
@@ -432,7 +432,7 @@ struct mck_test_4 {
     [candidate setArgument:&bar atIndex:3];
     
     // then
-    STAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertTrue([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                  @"Matcher should match identical invocations");
 }
 
@@ -454,7 +454,7 @@ struct mck_test_4 {
     [candidate setArgument:&foo atIndex:3];
     
     // then
-    STAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
+    XCTAssertFalse([matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:nil],
                   @"Matcher should fail for different arguments");
 }
 
@@ -485,7 +485,7 @@ struct mck_test_4 {
     __block BOOL called = NO;
     [argumentMatchers[1] setMatcherBlock:^BOOL(NSValue *value) {
         NSRange range; [value getValue:&range];
-        STAssertTrue(NSEqualRanges(range, bar), @"Wrong argument value passed");
+        XCTAssertTrue(NSEqualRanges(range, bar), @"Wrong argument value passed");
         called = YES;
         return YES;
     }];
@@ -494,7 +494,7 @@ struct mck_test_4 {
     [matcher invocation:candidate matchesPrototype:prototype withPrimitiveArgumentMatchers:argumentMatchers];
     
     // then
-    STAssertTrue(called, @"Matcher was not called");
+    XCTAssertTrue(called, @"Matcher was not called");
 }
 
 @end

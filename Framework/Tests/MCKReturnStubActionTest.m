@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKReturnStubAction.h"
 
 
@@ -18,7 +18,7 @@ static const char* _makeSignature(const char *returnType) {
 }
 
 
-@interface MCKReturnStubActionTest : SenTestCase
+@interface MCKReturnStubActionTest : XCTestCase
 @end
 
 @implementation MCKReturnStubActionTest
@@ -35,7 +35,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     id returnValue = nil; [invocation getReturnValue:&returnValue];
-    STAssertEqualObjects(returnValue, @"Hello World", @"Wrong return value set");
+    XCTAssertEqualObjects(returnValue, @"Hello World", @"Wrong return value set");
 }
 
 - (void)testThatClassReturnValueIsSet {
@@ -48,7 +48,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     id returnValue = nil; [invocation getReturnValue:&returnValue];
-    STAssertEqualObjects(returnValue, [NSString class], @"Wrong return value set");
+    XCTAssertEqualObjects(returnValue, [NSString class], @"Wrong return value set");
 }
 
 - (void)testThatNilValueIsSet {
@@ -62,7 +62,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     id returnValue = @"Foo"; [invocation getReturnValue:&returnValue];
-    STAssertNil(returnValue, @"Wrong return value set");
+    XCTAssertNil(returnValue, @"Wrong return value set");
 }
 
 
@@ -78,7 +78,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     BOOL returnValue = NO; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, YES, @"Wrong return value set");
+    XCTAssertEqual(returnValue, YES, @"Wrong return value set");
 }
 
 - (void)testCharReturnValueIsSet {
@@ -91,7 +91,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     char returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (char)-21, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (char)-21, @"Wrong return value set");
 }
 
 - (void)testShortReturnValueIsSet {
@@ -104,7 +104,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     short returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (short)-23003, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (short)-23003, @"Wrong return value set");
 }
 
 - (void)testIntReturnValueIsSet {
@@ -117,7 +117,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     int returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (int)-900009, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (int)-900009, @"Wrong return value set");
 }
 
 - (void)testLongReturnValueIsSet {
@@ -130,7 +130,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     long returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (long)-900009, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (long)-900009, @"Wrong return value set");
 }
 
 - (void)testLongLongReturnValueIsSet {
@@ -143,7 +143,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     long long returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (long long)-1000000000, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (long long)-1000000000, @"Wrong return value set");
 }
 
 
@@ -159,7 +159,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     unsigned char returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (unsigned char)21, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (unsigned char)21, @"Wrong return value set");
 }
 
 - (void)testUnsignedShortReturnValueIsSet {
@@ -172,7 +172,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     unsigned short returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (unsigned short)23003, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (unsigned short)23003, @"Wrong return value set");
 }
 
 - (void)testUnsignedIntReturnValueIsSet {
@@ -185,7 +185,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     unsigned int returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (unsigned int)900009, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (unsigned int)900009, @"Wrong return value set");
 }
 
 - (void)testUnsignedLongReturnValueIsSet {
@@ -198,7 +198,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     unsigned long returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (unsigned long)900009, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (unsigned long)900009, @"Wrong return value set");
 }
 
 - (void)testUnsignedLongLongReturnValueIsSet {
@@ -211,7 +211,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     unsigned long long returnValue = 0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (unsigned long long)1000000000, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (unsigned long long)1000000000, @"Wrong return value set");
 }
 
 
@@ -227,7 +227,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     float returnValue = 0.0f; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (float)123.45f, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (float)123.45f, @"Wrong return value set");
 }
 
 - (void)testDoubleReturnValueIsSet {
@@ -240,7 +240,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     double returnValue = 0.0; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (double)1234567.89, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (double)1234567.89, @"Wrong return value set");
 }
 
 
@@ -257,7 +257,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     NSRange returnValue = NSMakeRange(0, 0); [invocation getReturnValue:&returnValue];
-    STAssertTrue(NSEqualRanges(returnValue, NSMakeRange(5, 26)), @"Wrong return value set");
+    XCTAssertTrue(NSEqualRanges(returnValue, NSMakeRange(5, 26)), @"Wrong return value set");
 }
 
 
@@ -274,7 +274,7 @@ static const char* _makeSignature(const char *returnType) {
     
     // then
     int *returnValue = NULL; [invocation getReturnValue:&returnValue];
-    STAssertEquals(returnValue, (int *)&foo, @"Wrong return value set");
+    XCTAssertEqual(returnValue, (int *)&foo, @"Wrong return value set");
 }
 
 

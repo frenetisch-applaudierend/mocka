@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MCKThrowExceptionStubAction.h"
 
 
-@interface MCKThrowExceptionStubActionTest : SenTestCase
+@interface MCKThrowExceptionStubActionTest : XCTestCase
 @end
 
 @implementation MCKThrowExceptionStubActionTest
@@ -21,7 +21,7 @@
     MCKThrowExceptionStubAction *action = [MCKThrowExceptionStubAction throwExceptionActionWithException:exception];
     
     // then
-    STAssertThrowsSpecificNamed([action performWithInvocation:nil], NSException, @"TestException", @"Wrong or no exception thrown");
+    XCTAssertThrowsSpecificNamed([action performWithInvocation:nil], NSException, @"TestException", @"Wrong or no exception thrown");
 }
 
 @end

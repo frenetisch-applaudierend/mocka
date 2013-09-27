@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "636B770217F59D2C00B6A3BD"
-               BuildableName = "mocka-examples-ios.xctest"
-               BlueprintName = "mocka-examples-ios"
+               BuildableName = "mocka-tests-ios.xctest"
+               BlueprintName = "mocka-tests-ios"
                ReferencedContainer = "container:Framework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "636B770217F59D2C00B6A3BD"
-               BuildableName = "mocka-examples-ios.xctest"
-               BlueprintName = "mocka-examples-ios"
+               BuildableName = "mocka-tests-ios.xctest"
+               BlueprintName = "mocka-tests-ios"
                ReferencedContainer = "container:Framework.xcodeproj">
             </BuildableReference>
          </TestableReference>
