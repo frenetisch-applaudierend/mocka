@@ -20,13 +20,13 @@
 
 
 // Mocking Syntax
-static void mck_setOutParameterAtIndex(NSUInteger index, id value) {
+static inline void mck_setOutParameterAtIndex(NSUInteger index, id value) {
     [[MCKMockingContext currentContext] addStubAction:[MCKSetOutParameterStubAction actionToSetObject:value atEffectiveIndex:index]];
 }
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 
-static void setOutParameterAtIndex(NSUInteger index, id value) {
+static inline void setOutParameterAtIndex(NSUInteger index, id value) {
     mck_setOutParameterAtIndex(index, value);
 }
 

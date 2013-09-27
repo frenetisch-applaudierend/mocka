@@ -20,12 +20,12 @@
 
 
 // Mocking Syntax
-static void mck_performBlock(void(^block)(NSInvocation *inv)) {
+static inline void mck_performBlock(void(^block)(NSInvocation *inv)) {
     [[MCKMockingContext currentContext] addStubAction:[MCKPerformBlockStubAction performBlockActionWithBlock:block]];
 }
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-static void performBlock(void(^block)(NSInvocation *inv)) {
+static inline void performBlock(void(^block)(NSInvocation *inv)) {
     mck_performBlock(block);
 }
 #endif

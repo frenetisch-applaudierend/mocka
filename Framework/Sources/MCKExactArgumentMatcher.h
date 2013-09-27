@@ -20,24 +20,24 @@
 
 
 // Mocking Syntax
-static char mck_intArg(int64_t arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
-static char mck_unsignedIntArg(uint64_t arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
-static float mck_floatArg(float arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
-static BOOL mck_boolArg(BOOL arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
+static inline char mck_intArg(int64_t arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
+static inline char mck_unsignedIntArg(uint64_t arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
+static inline float mck_floatArg(float arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
+static inline BOOL mck_boolArg(BOOL arg) { return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]); }
 
-static char* mck_cStringArg(const char *arg) {
+static inline char* mck_cStringArg(const char *arg) {
     return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], MCKDefaultCStringBuffer);
 }
 
-static SEL mck_selectorArg(SEL arg) {
+static inline SEL mck_selectorArg(SEL arg) {
     return mck_registerSelectorMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }
 
-static void* mck_pointerArg(void *arg) {
+static inline void* mck_pointerArg(void *arg) {
     return mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }
 
-static __autoreleasing id* mck_objectPointerArg(id *arg) {
+static inline __autoreleasing id* mck_objectPointerArg(id *arg) {
     return (__autoreleasing id *)mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }
 
@@ -47,13 +47,13 @@ static __autoreleasing id* mck_objectPointerArg(id *arg) {
 
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-static char intArg(int64_t arg) { return mck_intArg(arg); }
-static char unsignedIntArg(uint64_t arg) { return mck_unsignedIntArg(arg); }
-static float floatArg(float arg) { return mck_floatArg(arg); }
-static BOOL boolArg(BOOL arg) { return mck_boolArg(arg); }
-static char* cStringArg(const char *arg) { return mck_cStringArg(arg); }
-static SEL selectorArg(SEL arg) { return mck_selectorArg(arg); }
-static void* pointerArg(void *arg) { return mck_pointerArg(arg); }
-static __autoreleasing id* objectPointerArg(id *arg) { return mck_objectPointerArg(arg); }
+static inline char intArg(int64_t arg) { return mck_intArg(arg); }
+static inline char unsignedIntArg(uint64_t arg) { return mck_unsignedIntArg(arg); }
+static inline float floatArg(float arg) { return mck_floatArg(arg); }
+static inline BOOL boolArg(BOOL arg) { return mck_boolArg(arg); }
+static inline char* cStringArg(const char *arg) { return mck_cStringArg(arg); }
+static inline SEL selectorArg(SEL arg) { return mck_selectorArg(arg); }
+static inline void* pointerArg(void *arg) { return mck_pointerArg(arg); }
+static inline __autoreleasing id* objectPointerArg(id *arg) { return mck_objectPointerArg(arg); }
 #define structArg(arg) mck_structArg(arg)
 #endif
