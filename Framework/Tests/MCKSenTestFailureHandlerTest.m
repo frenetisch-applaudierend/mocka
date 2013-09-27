@@ -12,15 +12,20 @@
 #import <SenTestingKit/SenTestingKit.h>
 
 
-@interface FakeTestCase : NSObject
+@interface FakeSenTestCase : NSObject
+
 @property (nonatomic, readonly) NSException *lastReportedFailure;
+
 - (void)failWithException:(NSException *)exception;
+
 @end
 
-@implementation FakeTestCase
+@implementation FakeSenTestCase
+
 - (void)failWithException:(NSException *)exception {
     _lastReportedFailure = exception;
 }
+
 @end
 
 
@@ -28,16 +33,17 @@
 @end
 
 @implementation MCKSenTestFailureHandlerTest {
-    FakeTestCase                *testCase;
+    FakeSenTestCase *testCase;
     MCKSenTestFailureHandler *failureHandler;
 }
 
 #pragma mark - Setup
 
 - (void)setUp {
-    testCase = [[FakeTestCase alloc] init];
+    testCase = [[FakeSenTestCase alloc] init];
     failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:(SenTestCase *)testCase];
 }
+
 
 #pragma mark - Test Cases
 

@@ -13,7 +13,11 @@
 #import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationStubber.h"
+
 #import "MCKSenTestFailureHandler.h"
+#import "MCKXCTestFailureHandler.h"
+#import "MCKExceptionFailureHandler.h"
+
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
@@ -85,7 +89,7 @@ static __weak id _CurrentContext = nil;
 
 - (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
-        _failureHandler = [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
+        _failureHandler = [[self class] defaultFailureHandlerForTestCase:testCase];
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
         
         _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
@@ -105,6 +109,16 @@ static __weak id _CurrentContext = nil;
 
 - (void)dealloc {
     _CurrentContext = nil;
+}
+
++ (id<MCKFailureHandler>)defaultFailureHandlerForTestCase:(id)testCase {
+    if ([testCase isKindOfClass:NSClassFromString(@"SenTestCase")]) {
+        return [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
+    } else if ([testCase isKindOfClass:NSClassFromString(@"XCTestCase")]) {
+        return [[MCKXCTestFailureHandler alloc] initWithTestCase:testCase];
+    } else {
+        return [[MCKExceptionFailureHandler alloc] init];
+    }
 }
 
 
