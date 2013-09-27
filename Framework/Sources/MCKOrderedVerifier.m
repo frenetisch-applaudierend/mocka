@@ -7,9 +7,10 @@
 //
 
 #import "MCKOrderedVerifier.h"
+
 #import "MCKDefaultVerifier.h"
+#import "MCKInvocationPrototype.h"
 #import "MCKVerificationHandler.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKFailureHandler.h"
 
@@ -24,15 +25,20 @@
 
 - (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
                       withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(MCKMutableInvocationCollection *)recordedInvocations
+             inRecordedInvocations:(NSMutableArray *)recordedInvocations
 {
     BOOL satisified = NO;
     NSString *reason = nil;
     
-    MCKInvocationCollection *relevantInvocations = [recordedInvocations subcollectionFromIndex:_skippedInvocations];
-    NSIndexSet *matchingIndexes = [_verificationHandler indexesMatchingInvocation:invocation withArgumentMatchers:matchers
-                                                            inRecordedInvocations:relevantInvocations
-                                                                        satisfied:&satisified failureMessage:&reason];
+    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation
+                                                                          argumentMatchers:matchers.primitiveArgumentMatchers];
+    
+    NSRange relevantRange = NSMakeRange(_skippedInvocations, ([recordedInvocations count] - _skippedInvocations));
+    NSArray *relevantInvocations = [recordedInvocations subarrayWithRange:relevantRange];
+    NSIndexSet *matchingIndexes = [_verificationHandler indexesOfInvocations:relevantInvocations
+                                                        matchingForPrototype:prototype
+                                                                   satisfied:&satisified
+                                                              failureMessage:&reason];
     
     if (!satisified) {
         NSString *message = [NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
@@ -47,12 +53,12 @@
     return MCKContextModeVerifying;
 }
 
-- (void)removeMatchingIndexes:(NSIndexSet *)indexes fromRecordedInvocations:(MCKMutableInvocationCollection *)recordedInvocations {
+- (void)removeMatchingIndexes:(NSIndexSet *)indexes fromRecordedInvocations:(NSMutableArray *)recordedInvocations {
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
     [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         [toRemove addIndex:idx + _skippedInvocations];
     }];
-    [recordedInvocations removeInvocationsAtIndexes:toRemove];
+    [recordedInvocations removeObjectsAtIndexes:toRemove];
 }
 
 @end

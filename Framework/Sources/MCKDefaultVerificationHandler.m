@@ -7,8 +7,9 @@
 //
 
 #import "MCKDefaultVerificationHandler.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
+
+#import "MCKInvocationPrototype.h"
 
 
 @implementation MCKDefaultVerificationHandler
@@ -27,20 +28,22 @@
 
 #pragma mark - Matching Invocations
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
-                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
+- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
+                matchingForPrototype:(MCKInvocationPrototype *)prototype
+                           satisfied:(BOOL *)satisified
+                      failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recordedInvocations invocationsMatchingPrototype:prototype withArgumentMatchers:matchers];
+    NSIndexSet *indexes = [invocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *invocation, NSUInteger idx, BOOL *stop) {
+        return [prototype matchesInvocation:invocation];
+    }];
+    
     if (satisified != NULL) {
         *satisified = ([indexes count] > 0);
     }
     
     if ([indexes count] == 0 && failureMessage != NULL) {
         *failureMessage = [NSString stringWithFormat:@"Expected a call to -[%@ %@] but no such call was made",
-                           prototype.target, NSStringFromSelector(prototype.selector)];
+                           prototype.invocation.target, NSStringFromSelector(prototype.invocation.selector)];
     }
     
     return (([indexes count] > 0) ? [NSIndexSet indexSetWithIndex:[indexes firstIndex]] : [NSIndexSet indexSet]);

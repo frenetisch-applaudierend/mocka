@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "MCKVerificationHandler.h"
+#import "MCKInvocationPrototype.h"
+#import "MCKArgumentMatcherCollection.h"
 
-typedef NSIndexSet*(^FakeVerificationHandlerImplementation)(NSInvocation*, MCKArgumentMatcherCollection*, MCKInvocationCollection*, BOOL*, NSString**);
+
+typedef NSIndexSet*(^FakeVerificationHandlerImplementation)(MCKInvocationPrototype*, NSArray*, BOOL*, NSString**);
 
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
 
@@ -19,7 +22,7 @@ typedef NSIndexSet*(^FakeVerificationHandlerImplementation)(NSInvocation*, MCKAr
 
 @property (nonatomic, readonly) NSUInteger numberOfCalls;
 
-@property (nonatomic, readonly) NSInvocation *lastInvocationPrototype;
+@property (nonatomic, readonly) NSInvocation *lastPrototypeInvocation;
 @property (nonatomic, readonly) NSArray      *lastArgumentMatchers;
 @property (nonatomic, readonly) NSArray      *lastRecordedInvocations;
 

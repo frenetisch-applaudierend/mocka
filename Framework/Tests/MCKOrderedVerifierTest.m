@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKOrderedVerifier.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
@@ -58,10 +57,10 @@
 
 - (void)testThatVerifyInvocationRemovesMatchingInvocationsFromRecordedInvocations {
     // given
-    MCKMutableInvocationCollection *recordedInvocations = [[MCKMutableInvocationCollection alloc] init];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
+    NSMutableArray *recordedInvocations = [NSMutableArray array];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
     
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
     [toRemove addIndex:0];
@@ -74,18 +73,18 @@
     [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
     
     // then
-    XCTAssertEqual([recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
-    XCTAssertEqual([[recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
+    XCTAssertEqual([recordedInvocations count], (NSUInteger)1, @"Calls were not removed");
+    XCTAssertEqual([[recordedInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
 }
 
 - (void)testThatVerifyInvocationIgnoresSkippedInvocations {
     // given
-    MCKMutableInvocationCollection *recordedInvocations = [[MCKMutableInvocationCollection alloc] init];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(init)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(copy)]];
+    NSMutableArray *recordedInvocations = [NSMutableArray array];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(init)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(copy)]];
     
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
     [toRemove addIndex:0];
@@ -99,21 +98,21 @@
     [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
     
     // then
-    XCTAssertEqual([recordedInvocations.allInvocations count], (NSUInteger)3, @"Calls were not removed");
-    XCTAssertEqual([[recordedInvocations.allInvocations objectAtIndex:0] selector], @selector(setUp), @"Wrong calls were removed");
-    XCTAssertEqual([[recordedInvocations.allInvocations objectAtIndex:1] selector], @selector(tearDown), @"Wrong calls were removed");
-    XCTAssertEqual([[recordedInvocations.allInvocations objectAtIndex:2] selector], @selector(init), @"Wrong calls were removed");
+    XCTAssertEqual([recordedInvocations count], (NSUInteger)3, @"Calls were not removed");
+    XCTAssertEqual([[recordedInvocations objectAtIndex:0] selector], @selector(setUp), @"Wrong calls were removed");
+    XCTAssertEqual([[recordedInvocations objectAtIndex:1] selector], @selector(tearDown), @"Wrong calls were removed");
+    XCTAssertEqual([[recordedInvocations objectAtIndex:2] selector], @selector(init), @"Wrong calls were removed");
 }
 
 - (void)testThatSkippedInvocationCountIsLastMatchedInvocationPosition {
     // given
-    MCKMutableInvocationCollection *recordedInvocations = [[MCKMutableInvocationCollection alloc] init];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(init)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(copy)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(mutableCopy)]];
+    NSMutableArray *recordedInvocations = [NSMutableArray array];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(init)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(copy)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(mutableCopy)]];
     
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
     [toRemove addIndex:1];

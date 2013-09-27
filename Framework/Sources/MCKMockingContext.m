@@ -10,7 +10,6 @@
 #import "MCKDefaultVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationMatcher.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationStubber.h"
 
@@ -23,6 +22,8 @@
 
 
 @interface MCKMockingContext ()
+
+@property (nonatomic, readonly) NSMutableArray *mutableRecordedInvocations;
 @end
 
 
@@ -80,7 +81,7 @@ static __weak id _CurrentContext = nil;
         _failureHandler = [[self class] defaultFailureHandlerForTestCase:testCase];
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
         
-        _recordedInvocations = [[MCKMutableInvocationCollection alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
+        _mutableRecordedInvocations = [NSMutableArray array];
         _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
         _argumentMatchers = [[MCKArgumentMatcherCollection alloc] init];
         
@@ -144,6 +145,8 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
+    [invocation retainArguments];
+    
     if (![self.argumentMatchers isValidForMethodSignature:invocation.methodSignature]) {
         [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
         return;
@@ -162,8 +165,12 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Recording
 
+- (NSArray *)recordedInvocations {
+    return [self.mutableRecordedInvocations copy];
+}
+
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [self.recordedInvocations addInvocation:invocation];
+    [self.mutableRecordedInvocations addObject:invocation];
     [self.invocationStubber applyStubsForInvocation:invocation];
 }
 
@@ -202,7 +209,7 @@ static __weak id _CurrentContext = nil;
 - (void)verifyInvocation:(NSInvocation *)invocation {
     MCKContextMode newMode = [self.verifier verifyInvocation:invocation
                                                 withMatchers:self.argumentMatchers
-                                       inRecordedInvocations:self.recordedInvocations];
+                                       inRecordedInvocations:self.mutableRecordedInvocations];
     [self updateContextMode:newMode];
 }
 

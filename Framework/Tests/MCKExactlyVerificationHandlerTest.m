@@ -11,25 +11,39 @@
 
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
-#import "CannedInvocationCollection.h"
+#import "FakeInvocationPrototype.h"
 
 
 @interface MCKExactlyVerificationHandlerTest : XCTestCase
 @end
 
-@implementation MCKExactlyVerificationHandlerTest
+@implementation MCKExactlyVerificationHandlerTest {
+    NSArray *invocations;
+}
+
+#pragma mark - Setup
+
+- (void)setUp {
+    [super setUp];
+    
+    invocations = @[
+        [NSInvocation voidMethodInvocationForTarget:nil],
+        [NSInvocation voidMethodInvocationForTarget:nil],
+        [NSInvocation voidMethodInvocationForTarget:nil]
+    ];
+}
+
 
 #pragma mark - Test exactly(0)
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSet]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -38,13 +52,11 @@
 - (void)testThatHandlerIsSatisfiedIfNoMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSet]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertTrue(satisfied, @"Should be satisfied");
@@ -53,12 +65,13 @@
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -67,13 +80,13 @@
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisifed");
@@ -82,12 +95,11 @@
 - (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -96,13 +108,11 @@
 - (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisifed");
@@ -114,12 +124,11 @@
 - (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSet]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -128,13 +137,11 @@
 - (void)testThatHandlerIsNotSatisfiedIfNoMatchIsFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSet]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisfied");
@@ -143,12 +150,13 @@
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -157,13 +165,13 @@
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisifed");
@@ -172,29 +180,30 @@
 - (void)testThatHandlerReturnsFilledIndexSetIfTwoMatchesAreFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0] || candidate == invocations[1]);
+    }];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 2, @"Should result in filled set");
-    XCTAssertTrue([indexes containsIndex:1], @"First result not reported");
-    XCTAssertTrue([indexes containsIndex:2], @"Second result not reported");
+    XCTAssertTrue([indexes containsIndex:0], @"First result not reported");
+    XCTAssertTrue([indexes containsIndex:1], @"Second result not reported");
 }
 
 - (void)testThatHandlerIsSatisfiedIfTwoMatchesAreFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0] || candidate == invocations[1]);
+    }];
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertTrue(satisfied, @"Should be satisifed");
@@ -203,13 +212,11 @@
 - (void)testThatHandlerReturnsEmptyIndexSetIfMoreThanTwoMatchesAreFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
-    
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -218,13 +225,11 @@
 - (void)testThatHandlerIsNotSatisfiedIfMoreThanTwoMatchesAreFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisifed");
@@ -237,41 +242,23 @@
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
     TestObject *target = [[TestObject alloc] init];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
-    NSInvocation *prototypeInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    SEL selector = @selector(voidMethodCallWithoutParameters);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:target selectorAndArguments:selector];
+    FakeInvocationPrototype *prototype = [[FakeInvocationPrototype alloc] initWithInvocation:invocation];
+    prototype.matcherImplementation = ^BOOL(NSInvocation *candidate) {
+        return YES;
+    };
     
     // when
     BOOL satisfied = YES;
     NSString *reason = nil;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:&reason];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:&reason];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
     
     NSString *expectedReason =
-    [NSString stringWithFormat:@"Expected exactly 2 calls to -[%@ voidMethodCallWithoutParameters] but got 1", target];
-    XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
-}
-
-- (void)testThatHandlerIncludesNumberOfCallsInErrorReasonIfNotSatisifiedForPlainMethod {
-    // given
-    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:5];
-    TestObject *target = [[TestObject alloc] init];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
-    
-    // when
-    BOOL satisfied = YES;
-    NSString *reason = nil;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:&reason];
-    
-    // then
-    XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
-    
-    NSString *expectedReason =
-    [NSString stringWithFormat:@"Expected exactly 5 calls to -[%@ voidMethodCallWithoutParameters] but got 3", target];
+    [NSString stringWithFormat:@"Expected exactly 2 calls to -[%@ voidMethodCallWithoutParameters] but got 3", target];
     XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
 }
 

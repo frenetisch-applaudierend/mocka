@@ -35,11 +35,10 @@
 
 #pragma mark - Handling Verification
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
-                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
+- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
+                matchingForPrototype:(MCKInvocationPrototype *)prototype
+                           satisfied:(BOOL *)satisified
+                      failureMessage:(NSString **)failureMessage
 {
     BOOL internalSatisfied = NO;
     NSString *internalFailureMessage = nil;
@@ -48,8 +47,10 @@
     BOOL expectedResult = ![_previousHandler isKindOfClass:[MCKNeverVerificationHandler class]];
     
     do {
-        indices = [_previousHandler indexesMatchingInvocation:prototype withArgumentMatchers:matchers inRecordedInvocations:recordedInvocations
-                                                    satisfied:&internalSatisfied failureMessage:&internalFailureMessage];
+        indices = [_previousHandler indexesOfInvocations:invocations
+                                    matchingForPrototype:prototype
+                                               satisfied:&internalSatisfied
+                                          failureMessage:&internalFailureMessage];
     } while ((internalSatisfied != expectedResult) && [self processRecordingInputIfBefore:lastDate]);
     
     if (satisified != NULL) { *satisified = internalSatisfied; }

@@ -12,7 +12,6 @@
 
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
@@ -108,7 +107,7 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertTrue([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was not recorded");
+    XCTAssertTrue([context.recordedInvocations containsObject:invocation], @"Invocation was not recorded");
 }
 
 
@@ -123,7 +122,7 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
@@ -189,7 +188,7 @@
     });
     
     // then
-    XCTAssertFalse([context.recordedInvocations.allInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatSettingVerificationModeSetsDefaultVerificationHandler {

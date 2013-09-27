@@ -35,7 +35,7 @@
 
 - (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
                       withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(MCKMutableInvocationCollection *)recordedInvocations
+             inRecordedInvocations:(NSMutableArray *)recordedInvocations
 {
     _lastPassedInvocation = invocation;
     _lastPassedMatchers = matchers;

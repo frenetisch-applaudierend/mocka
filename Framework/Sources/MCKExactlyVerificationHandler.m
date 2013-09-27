@@ -7,8 +7,9 @@
 //
 
 #import "MCKExactlyVerificationHandler.h"
+
+#import "MCKInvocationPrototype.h"
 #import "MCKArgumentMatcherCollection.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 
@@ -32,21 +33,22 @@
 
 #pragma mark - Matching Invocations
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
-                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
+- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
+                matchingForPrototype:(MCKInvocationPrototype *)prototype
+                           satisfied:(BOOL *)satisified
+                      failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recordedInvocations invocationsMatchingPrototype:prototype withArgumentMatchers:matchers];
+    NSIndexSet *indexes = [invocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *invocation, NSUInteger idx, BOOL *stop) {
+        return [prototype matchesInvocation:invocation];
+    }];
     
     if (satisified != NULL) {
         *satisified = ([indexes count] == _count);
     }
     
     if ([indexes count] != _count && failureMessage != NULL) {
-        NSString *targetDescription = [prototype.target description];
-        NSString *selectorDescription = NSStringFromSelector(prototype.selector);
+        NSString *targetDescription = [prototype.invocation.target description];
+        NSString *selectorDescription = NSStringFromSelector(prototype.invocation.selector);
         *failureMessage = [NSString stringWithFormat:@"Expected exactly %ld calls to -[%@ %@] but got %ld",
                            (unsigned long)_count, targetDescription, selectorDescription, (unsigned long)[indexes count]];
     }

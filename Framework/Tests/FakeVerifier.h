@@ -14,7 +14,7 @@
 
 @property (nonatomic, readonly) NSInvocation *lastPassedInvocation;
 @property (nonatomic, readonly) MCKArgumentMatcherCollection *lastPassedMatchers;
-@property (nonatomic, readonly) MCKMutableInvocationCollection *lastPassedRecordedInvocations;
+@property (nonatomic, readonly) NSMutableArray *lastPassedRecordedInvocations;
 
 - (id)initWithNewContextMode:(MCKContextMode)mode;
 

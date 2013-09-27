@@ -22,6 +22,6 @@
 
 - (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
                       withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(MCKMutableInvocationCollection *)recordedInvocations;
+             inRecordedInvocations:(NSMutableArray *)recordedInvocations;
 
 @end

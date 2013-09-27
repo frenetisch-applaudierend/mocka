@@ -9,7 +9,6 @@
 #import <XCTest/XCTest.h>
 #import "MCKTimeoutVerificationHandler.h"
 #import "MCKArgumentMatcherCollection.h"
-#import "MCKInvocationCollection.h"
 #import "MCKNeverVerificationHandler.h"
 
 #import "FakeVerificationHandler.h"

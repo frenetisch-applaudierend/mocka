@@ -11,7 +11,7 @@
 
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
-#import "CannedInvocationCollection.h"
+#import "FakeInvocationPrototype.h"
 
 
 @interface MCKNeverVerificationHandlerTest : XCTestCase
@@ -19,13 +19,20 @@
 
 @implementation MCKNeverVerificationHandlerTest {
     MCKNeverVerificationHandler *handler;
+    NSArray *invocations;
 }
 
 #pragma mark - Setup
 
 - (void)setUp {
     [super setUp];
+    
     handler = [[MCKNeverVerificationHandler alloc] init];
+    invocations = @[
+        [NSInvocation voidMethodInvocationForTarget:nil],
+        [NSInvocation voidMethodInvocationForTarget:nil],
+        [NSInvocation voidMethodInvocationForTarget:nil]
+    ];
 }
 
 
@@ -33,12 +40,11 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFound {
     // given
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSet]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -46,13 +52,11 @@
 
 - (void)testThatHandlerIsSatisfiedIfNoMatchIsFound {
     // given
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSet]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
     BOOL satisfied = NO;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertTrue(satisfied, @"Should be satisfied");
@@ -60,12 +64,13 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFound {
     // given
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:2]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -73,13 +78,13 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFound {
     // given
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:2]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisifed");
@@ -87,12 +92,11 @@
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFound {
     // given
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    NSIndexSet *indexes = [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                                        inRecordedInvocations:recorder satisfied:NULL failureMessage:NULL];
+    NSIndexSet *indexes =
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
     
     // then
     XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
@@ -100,13 +104,11 @@
 
 - (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFound {
     // given
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation voidMethodInvocationForTarget:nil];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
     BOOL satisfied = YES;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:NULL];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisifed");
@@ -118,34 +120,17 @@
 - (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {
     // given
     TestObject *target = [[TestObject alloc] init];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndex:1]];
-    NSInvocation *prototypeInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
+    SEL selector = @selector(voidMethodCallWithoutParameters);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:target selectorAndArguments:selector];
+    FakeInvocationPrototype *prototype = [[FakeInvocationPrototype alloc] initWithInvocation:invocation];
+    prototype.matcherImplementation = ^BOOL(NSInvocation *candidate) {
+        return YES;
+    };
     
     // when
     BOOL satisfied = YES;
     NSString *reason = nil;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:&reason];
-    
-    // then
-    XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
-    
-    NSString *expectedReason =
-    [NSString stringWithFormat:@"Expected no calls to -[%@ voidMethodCallWithoutParameters] but got 1", target];
-    XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
-}
-
-- (void)testThatHandlerIncludesNumberOfCallsInErrorReasonIfNotSatisifiedForPlainMethod {
-    // given
-    TestObject *target = [[TestObject alloc] init];
-    CannedInvocationCollection *recorder = [[CannedInvocationCollection alloc] initWithCannedResult:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
-    NSInvocation *prototypeInvocation = [NSInvocation invocationForTarget:target selectorAndArguments:@selector(voidMethodCallWithoutParameters)];
-    
-    // when
-    BOOL satisfied = YES;
-    NSString *reason = nil;
-    [handler indexesMatchingInvocation:prototypeInvocation withArgumentMatchers:nil
-                  inRecordedInvocations:recorder satisfied:&satisfied failureMessage:&reason];
+    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:&reason];
     
     // then
     XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed

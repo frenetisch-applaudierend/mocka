@@ -8,7 +8,6 @@
 
 #import "FakeVerificationHandler.h"
 #import "MCKArgumentMatcherCollection.h"
-#import "MCKInvocationCollection.h"
 
 
 @implementation FakeVerificationHandler {
@@ -48,19 +47,18 @@
 
 #pragma mark - MCKVerificationHandler
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)argumentMatchers
-                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
+- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
+                matchingForPrototype:(MCKInvocationPrototype *)prototype
+                           satisfied:(BOOL *)satisified
+                      failureMessage:(NSString *__autoreleasing *)failureMessage
 {
-    _lastInvocationPrototype = prototype;
-    _lastArgumentMatchers = [argumentMatchers.primitiveArgumentMatchers copy];
-    _lastRecordedInvocations = [recordedInvocations.allInvocations copy];
+    _lastPrototypeInvocation = prototype.invocation;
+    _lastArgumentMatchers = [prototype.argumentMatchers copy];
+    _lastRecordedInvocations = [invocations copy];
     _numberOfCalls++;
     
     if (_implementation != nil) {
-        return _implementation(prototype, argumentMatchers, recordedInvocations, satisified, failureMessage);
+        return _implementation(prototype, invocations, satisified, failureMessage);
     } else {
         if (satisified != NULL) *satisified = _satisfied;
         if (failureMessage != NULL) *failureMessage = [_failureMessage copy];

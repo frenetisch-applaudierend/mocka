@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKDefaultVerifier.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
@@ -58,10 +57,10 @@
 
 - (void)testThatVerifyInvocationRemovesMatchingInvocationsFromRecordedInvocations {
     // given
-    MCKMutableInvocationCollection *recordedInvocations = [[MCKMutableInvocationCollection alloc] init];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
-    [recordedInvocations addInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
+    NSMutableArray *recordedInvocations = [NSMutableArray array];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)]];
+    [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(description)]];
     
     NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
     [toRemove addIndex:0];
@@ -71,11 +70,12 @@
     
     
     // when
-    [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations]; // any invocation is ok, just as long as the handler is called
+    [verifier verifyInvocation:nil withMatchers:nil inRecordedInvocations:recordedInvocations];
+    // any invocation is ok, just as long as the handler is called
     
     // then
-    XCTAssertEqual([recordedInvocations.allInvocations count], (NSUInteger)1, @"Calls were not removed");
-    XCTAssertEqual([[recordedInvocations.allInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
+    XCTAssertEqual([recordedInvocations count], (NSUInteger)1, @"Calls were not removed");
+    XCTAssertEqual([[recordedInvocations lastObject] selector], @selector(tearDown), @"Wrong calls were removed");
 }
 
 

@@ -43,7 +43,7 @@ typedef enum {
 
 #pragma mark - Context Data
 
-@property (nonatomic, readonly) MCKMutableInvocationCollection *recordedInvocations;
+@property (nonatomic, readonly) NSArray *recordedInvocations;
 @property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
 @property (nonatomic, readonly) MCKArgumentMatcherCollection *argumentMatchers;
 

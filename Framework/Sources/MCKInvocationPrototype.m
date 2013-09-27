@@ -42,7 +42,7 @@
 #pragma mark - Preparing Argument Matchers
 
 - (NSArray *)prepareOrderedArgumentMatchersFromInvocation:(NSInvocation *)invocation matchers:(NSArray *)matchers {
-    NSMutableArray *orderedMatchers = [NSMutableArray arrayWithCapacity:(invocation.methodSignature.numberOfArguments - 2)];
+    NSMutableArray *orderedMatchers = [NSMutableArray array];
     for (NSUInteger argIndex = 2; argIndex < invocation.methodSignature.numberOfArguments; argIndex++) {
         id<MCKArgumentMatcher> matcher = [self matcherAtIndex:argIndex forInvocation:invocation matchers:matchers];
         [orderedMatchers addObject:matcher];

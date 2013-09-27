@@ -7,8 +7,9 @@
 //
 
 #import "MCKNeverVerificationHandler.h"
+
+#import "MCKInvocationPrototype.h"
 #import "MCKArgumentMatcherCollection.h"
-#import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
 
 
@@ -23,13 +24,14 @@
 
 #pragma mark - Matching Invocations
 
-- (NSIndexSet *)indexesMatchingInvocation:(NSInvocation *)prototype
-                     withArgumentMatchers:(MCKArgumentMatcherCollection *)matchers
-                    inRecordedInvocations:(MCKInvocationCollection *)recordedInvocations
-                                satisfied:(BOOL *)satisified
-                           failureMessage:(NSString **)failureMessage
+- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
+                matchingForPrototype:(MCKInvocationPrototype *)prototype
+                           satisfied:(BOOL *)satisified
+                      failureMessage:(NSString **)failureMessage
 {
-    NSIndexSet *indexes = [recordedInvocations invocationsMatchingPrototype:prototype withArgumentMatchers:matchers];
+    NSIndexSet *indexes = [invocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *invocation, NSUInteger idx, BOOL *stop) {
+        return [prototype matchesInvocation:invocation];
+    }];
     
     if (satisified != NULL) {
         *satisified = ([indexes count] == 0);
@@ -37,7 +39,9 @@
     
     if ([indexes count] > 0 && failureMessage != NULL) {
         *failureMessage = [NSString stringWithFormat:@"Expected no calls to -[%@ %@] but got %ld",
-                           prototype.target, NSStringFromSelector(prototype.selector), (unsigned long)[indexes count]];
+                           prototype.invocation.target,
+                           NSStringFromSelector(prototype.invocation.selector),
+                           (unsigned long)[indexes count]];
     }
     
     return [NSIndexSet indexSet];
