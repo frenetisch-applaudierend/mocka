@@ -14,6 +14,10 @@
 
 @property (nonatomic, assign) NSUInteger skippedInvocations;
 
+- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
+                      withMatchers:(MCKArgumentMatcherCollection *)argMatchers
+             inRecordedInvocations:(NSMutableArray *)recordedInvocations;
+
 @end
 
 

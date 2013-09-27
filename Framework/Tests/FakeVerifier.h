@@ -13,7 +13,7 @@
 @interface FakeVerifier : NSObject <MCKVerifier>
 
 @property (nonatomic, readonly) NSInvocation *lastPassedInvocation;
-@property (nonatomic, readonly) MCKArgumentMatcherCollection *lastPassedMatchers;
+@property (nonatomic, readonly) NSArray *lastPassedMatchers;
 @property (nonatomic, readonly) NSMutableArray *lastPassedRecordedInvocations;
 
 - (id)initWithNewContextMode:(MCKContextMode)mode;

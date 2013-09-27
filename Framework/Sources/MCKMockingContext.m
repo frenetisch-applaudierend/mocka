@@ -9,6 +9,7 @@
 #import "MCKMockingContext.h"
 #import "MCKDefaultVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
+#import "MCKInvocationPrototype.h"
 #import "MCKInvocationMatcher.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationStubber.h"
@@ -207,9 +208,9 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
-    MCKContextMode newMode = [self.verifier verifyInvocation:invocation
-                                                withMatchers:self.argumentMatchers
-                                       inRecordedInvocations:self.mutableRecordedInvocations];
+    NSArray *matchers = self.argumentMatchers.primitiveArgumentMatchers;
+    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
+    MCKContextMode newMode = [self.verifier verifyPrototype:prototype invocations:self.mutableRecordedInvocations];
     [self updateContextMode:newMode];
 }
 

@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKMockingContext.h"
+
 
 @protocol MCKVerificationHandler;
 @class MCKFailureHandler;
-@class MCKMutableInvocationCollection;
-@class MCKArgumentMatcherCollection;
+@class MCKInvocationPrototype;
 
 
 @protocol MCKVerifier <NSObject>
@@ -20,8 +21,6 @@
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, strong) MCKFailureHandler *failureHandler;
 
-- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
-                      withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(NSMutableArray *)recordedInvocations;
+- (MCKContextMode)verifyPrototype:(MCKInvocationPrototype *)prototype invocations:(NSMutableArray *)invocations;
 
 @end

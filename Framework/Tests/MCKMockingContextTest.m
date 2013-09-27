@@ -215,7 +215,8 @@
     
     // then
     XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedInvocation], invocation, @"Wrong invocation passed");
-    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedMatchers], context.argumentMatchers, @"Wrong matchers passed");
+    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedMatchers],
+                          context.argumentMatchers.primitiveArgumentMatchers, @"Wrong matchers passed");
     XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedRecordedInvocations], context.recordedInvocations, @"Wrong invocation passed");
 }
 

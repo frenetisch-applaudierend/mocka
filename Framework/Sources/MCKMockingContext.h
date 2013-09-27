@@ -14,7 +14,6 @@
 @protocol MCKArgumentMatcher;
 @protocol MCKVerifier;
 @protocol MCKFailureHandler;
-@class MCKMutableInvocationCollection;
 @class MCKArgumentMatcherCollection;
 @class MCKInvocationStubber;
 @class MCKStub;

@@ -23,18 +23,12 @@
 
 #pragma mark - Verifying
 
-- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
-                      withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(NSMutableArray *)recordedInvocations
-{
+- (MCKContextMode)verifyPrototype:(MCKInvocationPrototype *)prototype invocations:(NSMutableArray *)invocations {
     BOOL satisified = NO;
     NSString *reason = nil;
     
-    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation
-                                                                          argumentMatchers:matchers.primitiveArgumentMatchers];
-    
-    NSRange relevantRange = NSMakeRange(_skippedInvocations, ([recordedInvocations count] - _skippedInvocations));
-    NSArray *relevantInvocations = [recordedInvocations subarrayWithRange:relevantRange];
+    NSRange relevantRange = NSMakeRange(_skippedInvocations, ([invocations count] - _skippedInvocations));
+    NSArray *relevantInvocations = [invocations subarrayWithRange:relevantRange];
     NSIndexSet *matchingIndexes = [_verificationHandler indexesOfInvocations:relevantInvocations
                                                         matchingForPrototype:prototype
                                                                    satisfied:&satisified
@@ -45,7 +39,7 @@
         [_failureHandler handleFailureWithReason:message];
     }
     
-    [self removeMatchingIndexes:matchingIndexes fromRecordedInvocations:recordedInvocations];
+    [self removeMatchingIndexes:matchingIndexes fromRecordedInvocations:invocations];
     
     if ([matchingIndexes count] > 0) {
         _skippedInvocations += ([matchingIndexes lastIndex] - [matchingIndexes count] + 1);
@@ -59,6 +53,18 @@
         [toRemove addIndex:idx + _skippedInvocations];
     }];
     [recordedInvocations removeObjectsAtIndexes:toRemove];
+}
+
+
+#pragma mark - Legacy
+
+- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
+                      withMatchers:(MCKArgumentMatcherCollection *)argMatchers
+             inRecordedInvocations:(NSMutableArray *)recordedInvocations
+{
+    NSArray *matchers = argMatchers.primitiveArgumentMatchers;
+    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
+    return [self verifyPrototype:prototype invocations:recordedInvocations];
 }
 
 @end

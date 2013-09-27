@@ -22,16 +22,11 @@
 
 #pragma mark - Verifying
 
-- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
-                      withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(NSMutableArray *)recordedInvocations
-{
+- (MCKContextMode)verifyPrototype:(MCKInvocationPrototype *)prototype invocations:(NSMutableArray *)invocations {
     BOOL satisified = NO;
     NSString *reason = nil;
     
-    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation
-                                                                          argumentMatchers:matchers.primitiveArgumentMatchers];
-    NSIndexSet *matchingIndexes = [_verificationHandler indexesOfInvocations:recordedInvocations
+    NSIndexSet *matchingIndexes = [_verificationHandler indexesOfInvocations:invocations
                                                         matchingForPrototype:prototype
                                                                    satisfied:&satisified
                                                               failureMessage:&reason];
@@ -42,10 +37,22 @@
     }
     
     if (matchingIndexes != nil) {
-        [recordedInvocations removeObjectsAtIndexes:matchingIndexes];
+        [invocations removeObjectsAtIndexes:matchingIndexes];
     }
     
     return MCKContextModeRecording;
+}
+
+
+#pragma mark - Legacy
+
+- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
+                      withMatchers:(MCKArgumentMatcherCollection *)argMatchers
+             inRecordedInvocations:(NSMutableArray *)recordedInvocations
+{
+    NSArray *matchers = argMatchers.primitiveArgumentMatchers;
+    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
+    return [self verifyPrototype:prototype invocations:recordedInvocations];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "FakeVerifier.h"
+#import "MCKInvocationPrototype.h"
 
 
 @implementation FakeVerifier {
@@ -19,27 +20,24 @@
 
 #pragma mark - Initialization
 
-- (id)initWithNewContextMode:(MCKContextMode)mode {
+- (instancetype)initWithNewContextMode:(MCKContextMode)mode {
     if ((self = [super init])) {
         _contextMode = mode;
     }
     return self;
 }
 
-- (id)init {
+- (instancetype)init {
     return [self initWithNewContextMode:MCKContextModeRecording];
 }
 
 
 #pragma mark - Verifying
 
-- (MCKContextMode)verifyInvocation:(NSInvocation *)invocation
-                      withMatchers:(MCKArgumentMatcherCollection *)matchers
-             inRecordedInvocations:(NSMutableArray *)recordedInvocations
-{
-    _lastPassedInvocation = invocation;
-    _lastPassedMatchers = matchers;
-    _lastPassedRecordedInvocations = recordedInvocations;
+- (MCKContextMode)verifyPrototype:(MCKInvocationPrototype *)prototype invocations:(NSMutableArray *)invocations {
+    _lastPassedInvocation = prototype.invocation;
+    _lastPassedMatchers = prototype.argumentMatchers;
+    _lastPassedRecordedInvocations = invocations;
     return _contextMode;
 }
 
