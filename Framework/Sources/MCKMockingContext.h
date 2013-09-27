@@ -52,7 +52,7 @@ typedef enum {
 
 #pragma mark - Failure Handling
 
-@property (nonatomic, readwrite, strong) id<MCKFailureHandler> failureHandler;
+@property (nonatomic, strong) id<MCKFailureHandler> failureHandler;
 
 - (void)failWithReason:(NSString *)reason, ...;
 

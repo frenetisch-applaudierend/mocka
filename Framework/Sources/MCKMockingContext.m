@@ -23,10 +23,6 @@
 
 
 @interface MCKMockingContext ()
-
-@property (nonatomic, readwrite, copy)   NSString *fileName;
-@property (nonatomic, readwrite, assign) int       lineNumber;
-
 @end
 
 
@@ -125,13 +121,13 @@ static __weak id _CurrentContext = nil;
 
 - (void)setFailureHandler:(id<MCKFailureHandler>)failureHandler {
     _failureHandler = failureHandler;
-    _verifier.failureHandler = failureHandler;
+    self.verifier.failureHandler = failureHandler;
 }
 
 - (void)failWithReason:(NSString *)reason, ... {
     va_list ap;
     va_start(ap, reason);
-    [_failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
+    [self.failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
     va_end(ap);
 }
 
@@ -140,7 +136,7 @@ static __weak id _CurrentContext = nil;
 
 - (void)updateContextMode:(MCKContextMode)newMode {
     _mode = newMode;
-    [_argumentMatchers resetAllMatchers];
+    [self.argumentMatchers resetAllMatchers];
     
     if (newMode == MCKContextModeVerifying) {
         [self setVerificationHandler:[MCKDefaultVerificationHandler defaultHandler]];
@@ -148,7 +144,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
-    if (![_argumentMatchers isValidForMethodSignature:invocation.methodSignature]) {
+    if (![self.argumentMatchers isValidForMethodSignature:invocation.methodSignature]) {
         [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
         return;
     }
@@ -167,24 +163,25 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Recording
 
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [_recordedInvocations addInvocation:invocation];
-    [_invocationStubber applyStubsForInvocation:invocation];
+    [self.recordedInvocations addInvocation:invocation];
+    [self.invocationStubber applyStubsForInvocation:invocation];
 }
 
 
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    [_invocationStubber recordStubInvocation:invocation withPrimitiveArgumentMatchers:_argumentMatchers.primitiveArgumentMatchers];
-    [_argumentMatchers resetAllMatchers];
+    [self.invocationStubber recordStubInvocation:invocation
+                   withPrimitiveArgumentMatchers:self.argumentMatchers.primitiveArgumentMatchers];
+    [self.argumentMatchers resetAllMatchers];
 }
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
-    return [_invocationStubber hasStubsRecordedForInvocation:invocation];
+    return [self.invocationStubber hasStubsRecordedForInvocation:invocation];
 }
 
 - (void)addStubAction:(id<MCKStubAction>)action {
-    [_invocationStubber addActionToLastStub:action];
+    [self.invocationStubber addActionToLastStub:action];
     [self updateContextMode:MCKContextModeRecording];
 }
 
@@ -193,17 +190,19 @@ static __weak id _CurrentContext = nil;
 
 - (void)setVerifier:(id<MCKVerifier>)verifier {
     _verifier = verifier;
-    _verifier.failureHandler = _failureHandler;
-    _verifier.verificationHandler = _verificationHandler;
+    verifier.failureHandler = self.failureHandler;
+    verifier.verificationHandler = self.verificationHandler;
 }
 
 - (void)setVerificationHandler:(id<MCKVerificationHandler>)verificationHandler {
     _verificationHandler = verificationHandler;
-    _verifier.verificationHandler = verificationHandler;
+    self.verifier.verificationHandler = verificationHandler;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
-    MCKContextMode newMode = [_verifier verifyInvocation:invocation withMatchers:_argumentMatchers inRecordedInvocations:_recordedInvocations];
+    MCKContextMode newMode = [self.verifier verifyInvocation:invocation
+                                                withMatchers:self.argumentMatchers
+                                       inRecordedInvocations:self.recordedInvocations];
     [self updateContextMode:newMode];
 }
 
@@ -211,17 +210,17 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Argument Matching
 
 - (NSArray *)primitiveArgumentMatchers {
-    return [_argumentMatchers.primitiveArgumentMatchers copy];
+    return [self.argumentMatchers.primitiveArgumentMatchers copy];
 }
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (_mode == MCKContextModeRecording) {
+    if (self.mode == MCKContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
         return 0;
     }
     
-    [_argumentMatchers addPrimitiveArgumentMatcher:matcher];
-    return [_argumentMatchers lastPrimitiveArgumentMatcherIndex];
+    [self.argumentMatchers addPrimitiveArgumentMatcher:matcher];
+    return [self.argumentMatchers lastPrimitiveArgumentMatcherIndex];
 }
 
 @end
