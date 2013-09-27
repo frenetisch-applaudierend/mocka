@@ -14,3 +14,6 @@
 - (void)performWithInvocation:(NSInvocation *)invocation;
 
 @end
+
+
+extern void _mck_addStubAction(id<MCKStubAction> action);

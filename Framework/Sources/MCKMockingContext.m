@@ -54,7 +54,7 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Getting a Context
 
-+ (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line {
++ (instancetype)contextForTestCase:(id)testCase {
     NSParameterAssert(testCase != nil);
     
     // Get the context or create a new one if necessary
@@ -64,18 +64,10 @@ static __weak id _CurrentContext = nil;
         context = [[MCKMockingContext alloc] initWithTestCase:testCase];
         objc_setAssociatedObject(testCase, &MCKMockingContextKey, context, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    
-    // Update the file/line info
-    [context.failureHandler updateFileName:file lineNumber:line];
-    
     return context;
 }
 
-+ (id)contextForTestCase:(id)testCase {
-    return [self contextForTestCase:testCase fileName:nil lineNumber:0];
-}
-
-+ (id)currentContext {
++ (instancetype)currentContext {
     if (_CurrentContext == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:@"This method cannot be used before a context was created using +contextForTestCase:fileName:lineNumber:"
@@ -87,7 +79,7 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Initialization
 
-- (id)initWithTestCase:(id)testCase {
+- (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _failureHandler = [[self class] defaultFailureHandlerForTestCase:testCase];
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
@@ -103,7 +95,7 @@ static __weak id _CurrentContext = nil;
     return self;
 }
 
-- (id)init {
+- (instancetype)init {
     return [self initWithTestCase:nil];
 }
 
@@ -119,6 +111,13 @@ static __weak id _CurrentContext = nil;
     } else {
         return [[MCKExceptionFailureHandler alloc] init];
     }
+}
+
+
+#pragma mark - Context Data
+
+- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
+    [self.failureHandler updateFileName:fileName lineNumber:lineNumber];
 }
 
 

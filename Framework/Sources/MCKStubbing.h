@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MCKStubbingSyntax.h"
 #import "MCKStubAction.h"
 #import "MCKReturnStubAction.h"
 #import "MCKPerformBlockStubAction.h"

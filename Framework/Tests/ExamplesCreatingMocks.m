@@ -9,6 +9,7 @@
 
 #import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
+#import "MCKMockObject.h"
 
 
 @interface ExamplesCreatingMocks : XCTestCase
@@ -133,7 +134,8 @@
 - (void)testCreatingSpyForNilIsNotPossible {
     // you may not pass nil as an argument to spy(...)
     ThisWillFail({
-        id nilSpy = spy(nil);
+        id nilObject = nil;
+        id nilSpy = spy(nilObject);
         IgnoreUnused(nilSpy);
     });
 }

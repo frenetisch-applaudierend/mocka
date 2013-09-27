@@ -8,7 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKMockingContext.h"
-#import "MCKMockObject.h"
+#import "MCKMockingSyntax.h"
+
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
 #import "MCKInvocationCollection.h"
@@ -41,24 +42,27 @@
 #pragma mark - Test Getting a Context
 
 - (void)testThatGettingTheContextTwiceReturnsSameContext {
-    id ctx1 = [MCKMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__];
-    id ctx2 = [MCKMockingContext contextForTestCase:self fileName:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__];
+    id ctx1 = [MCKMockingContext contextForTestCase:self];
+    id ctx2 = [MCKMockingContext contextForTestCase:self];
     XCTAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
 }
 
-- (void)testThatGettingContextUpdatesFileLocationInformationOnErrorHandler {
-    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
+- (void)testThatUpdatingLocationOnContextUpdatesFileLocationInformationOnErrorHandler {
+    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
+    
+    [ctx updateFileName:@"Foo" lineNumber:10];
     XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
     XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
     
-    ctx = [MCKMockingContext contextForTestCase:self fileName:@"Bar" lineNumber:20];
+    [ctx updateFileName:@"Bar" lineNumber:20];
     XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
     XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
 }
 
 - (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
     // given
-    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self fileName:@"Foo" lineNumber:10];
+    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
+    [ctx updateFileName:@"Foo" lineNumber:10];
     
     // when
     MCKMockingContext *existingContext = [MCKMockingContext currentContext];

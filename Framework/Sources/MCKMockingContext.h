@@ -8,22 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MCKFailureHandler.h"
 
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
 @protocol MCKVerifier;
+@protocol MCKFailureHandler;
 @class MCKMutableInvocationCollection;
 @class MCKArgumentMatcherCollection;
 @class MCKInvocationStubber;
 @class MCKStub;
-
-
-#define mck_updatedContext() ((MCKMockingContext *)[MCKMockingContext contextForTestCase:self\
-                                                                      fileName:[NSString stringWithUTF8String:__FILE__]\
-                                                                      lineNumber:__LINE__])
-#define mck_currentContext() ((MCKMockingContext *)[MCKMockingContext currentContext])
 
 
 typedef enum {
@@ -38,14 +32,13 @@ typedef enum {
 
 #pragma mark - Getting a Context
 
-+ (id)contextForTestCase:(id)testCase fileName:(NSString *)file lineNumber:(int)line;
-+ (id)contextForTestCase:(id)testCase;
-+ (id)currentContext;
++ (instancetype)contextForTestCase:(id)testCase;
++ (instancetype)currentContext;
 
 
 #pragma mark - Initialization
 
-- (id)initWithTestCase:(id)testCase;
+- (instancetype)initWithTestCase:(id)testCase;
 
 
 #pragma mark - Context Data
@@ -53,6 +46,8 @@ typedef enum {
 @property (nonatomic, readonly) MCKMutableInvocationCollection *recordedInvocations;
 @property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
 @property (nonatomic, readonly) MCKArgumentMatcherCollection *argumentMatchers;
+
+- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
 
 
 #pragma mark - Failure Handling

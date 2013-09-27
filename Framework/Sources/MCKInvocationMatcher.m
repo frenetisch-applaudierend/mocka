@@ -13,7 +13,6 @@
 #import "MCKExactArgumentMatcher.h"
 #import "MCKHamcrestArgumentMatcher.h"
 #import "NSInvocation+MCKArgumentHandling.h"
-#import <objc/runtime.h>
 
 
 @implementation MCKInvocationMatcher
@@ -32,7 +31,10 @@
 
 #pragma mark - Invocation Matching
 
-- (BOOL)invocation:(NSInvocation *)candidate matchesPrototype:(NSInvocation *)prototype withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers {
+- (BOOL)invocation:(NSInvocation *)candidate
+  matchesPrototype:(NSInvocation *)prototype
+withPrimitiveArgumentMatchers:(NSArray *)matchers
+{
     NSParameterAssert(candidate != nil);
     NSParameterAssert(prototype != nil);
     
@@ -42,7 +44,7 @@
     }
     
     // match all arguments
-    NSArray *orderedArgumentMatchers = [self orderedArgumentMatchersFromPrototype:prototype primitiveArgumentMatchers:argumentMatchers];
+    NSArray *orderedArgumentMatchers = [self orderedArgumentMatchersFromPrototype:prototype primitiveArgumentMatchers:matchers];
     for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
         id<MCKArgumentMatcher> matcher = [orderedArgumentMatchers objectAtIndex:(argIndex - 2)];
         id candidateValue = [self serializedValueForArgumentAtIndex:argIndex ofInvocation:candidate];
@@ -58,9 +60,12 @@
         return NO;
     }
     
-    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments, @"Different number of arguments");
+    NSAssert(candidate.methodSignature.numberOfArguments == prototype.methodSignature.numberOfArguments,
+             @"Different number of arguments");
+    
     for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
-        if (strcmp([candidate.methodSignature getArgumentTypeAtIndex:argIndex], [prototype.methodSignature getArgumentTypeAtIndex:argIndex]) != 0) {
+        if (strcmp([candidate.methodSignature getArgumentTypeAtIndex:argIndex],
+                   [prototype.methodSignature getArgumentTypeAtIndex:argIndex]) != 0) {
             return NO;
         }
     }
@@ -68,7 +73,9 @@
     return YES;
 }
 
-- (NSArray *)orderedArgumentMatchersFromPrototype:(NSInvocation *)prototype primitiveArgumentMatchers:(NSArray *)primitiveMatchers {
+- (NSArray *)orderedArgumentMatchersFromPrototype:(NSInvocation *)prototype
+                        primitiveArgumentMatchers:(NSArray *)primitiveMatchers
+{
     NSMutableArray *matchers = [NSMutableArray arrayWithCapacity:(prototype.methodSignature.numberOfArguments - 2)];
     for (NSUInteger argIndex = 2; argIndex < prototype.methodSignature.numberOfArguments; argIndex++) {
         if ([MCKTypeEncodings isObjectType:[prototype.methodSignature getArgumentTypeAtIndex:argIndex]]) {
@@ -115,7 +122,7 @@
     static Protocol *hamcrestProtocol = NULL;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        hamcrestProtocol = objc_getProtocol("HCMatcher");
+        hamcrestProtocol = NSProtocolFromString(@"HCMatcher");
     });
     return hamcrestProtocol;
 }

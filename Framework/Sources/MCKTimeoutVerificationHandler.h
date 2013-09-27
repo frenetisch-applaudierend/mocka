@@ -19,9 +19,9 @@
 
 
 // Mocking Syntax
-#define mck_withTimeout(t) mck_setVerificationHandler(\
-    [MCKTimeoutVerificationHandler timeoutHandlerWithTimeout:(t) currentVerificationHandler:[mck_currentContext() verificationHandler]]\
-)
+#define mck_withTimeout(t) _mck_setVerificationHandler(\
+    [MCKTimeoutVerificationHandler timeoutHandlerWithTimeout:(t) currentVerificationHandler:_mck_getVerificationHandler()]\
+);
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 #define withTimeout(t) mck_withTimeout(t)
@@ -30,7 +30,7 @@
 
 // Signaling
 #define mck_giveSignal(signal) MCKSuppressRetainCylceWarning({\
-    if (mck_updatedContext()) { _mck_issueSignalInternal(signal); }\
+    _mck_updateLocationInfo(__FILE__, __LINE__); _mck_issueSignalInternal(signal);\
 })
 #define mck_signalGiven(signal) mck_giveSignal(signal)
 void _mck_issueSignalInternal(NSString *signal);

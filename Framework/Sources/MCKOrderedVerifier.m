@@ -11,6 +11,7 @@
 #import "MCKVerificationHandler.h"
 #import "MCKInvocationCollection.h"
 #import "MCKArgumentMatcherCollection.h"
+#import "MCKFailureHandler.h"
 
 
 @implementation MCKOrderedVerifier

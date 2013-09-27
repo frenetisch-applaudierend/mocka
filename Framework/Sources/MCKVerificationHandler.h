@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCKMockingContext.h"
+
 
 @class MCKArgumentMatcherCollection;
 @class MCKInvocationCollection;
@@ -23,6 +23,5 @@
 
 @end
 
-
-// Setting a verification handler
-#define mck_setVerificationHandler(handler) [mck_currentContext() setVerificationHandler:handler];
+extern id<MCKVerificationHandler> _mck_getVerificationHandler(void);
+extern void _mck_setVerificationHandler(id<MCKVerificationHandler> handler);

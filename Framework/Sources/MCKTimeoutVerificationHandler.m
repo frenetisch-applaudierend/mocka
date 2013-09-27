@@ -61,15 +61,16 @@
 #pragma mark - Handling Waiting for timeout
 
 - (BOOL)processRecordingInputIfBefore:(NSDate *)lastDate {
-    if ([[NSDate date] laterDate:lastDate] != lastDate) {
-        return NO;
-    }
-    
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeRecording];
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeVerifying];
-    [[MCKMockingContext currentContext] setVerificationHandler:self];
-    return YES;
+    return NO;
+//    if ([[NSDate date] laterDate:lastDate] != lastDate) {
+//        return NO;
+//    }
+//    
+//    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeRecording];
+//    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
+//    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeVerifying];
+//    [[MCKMockingContext currentContext] setVerificationHandler:self];
+//    return YES;
 }
 
 @end

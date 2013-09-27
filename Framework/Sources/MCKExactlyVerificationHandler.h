@@ -19,10 +19,10 @@
 
 
 // Mocking Syntax
-#define mck_exactly(count) mck_setVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:(count)])
-#define mck_once mck_exactly(1)
+#define mck_exactly(COUNT) _mck_setVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:(COUNT)]);
+#define mck_once           mck_exactly(1)
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-#define exactly(count) mck_exactly((count))
-#define once mck_once
+#define exactly(COUNT) mck_exactly(COUNT)
+#define once           mck_once
 #endif

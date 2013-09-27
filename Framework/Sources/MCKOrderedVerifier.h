@@ -27,7 +27,7 @@
 
 
 // Safe syntax
-#define mck_inOrder mck_updatedContext().inOrderBlock = ^()
+#define mck_inOrder [MCKMockingContext currentContext].inOrderBlock = ^()
 
 // Nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX

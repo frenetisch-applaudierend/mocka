@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MCKMockingCore.h"
+#import <Mocka/MCKMockingSyntax.h>
+
 #import "MCKVerification.h"
 #import "MCKStubbing.h"
 #import "MCKArgumentMatching.h"

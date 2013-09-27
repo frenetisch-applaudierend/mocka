@@ -8,11 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class MCKMockingContext;
-
 
 // Mocking Syntax
-#define mck_noMoreInteractionsOn(mock) mck_checkNoInteractions(mck_currentContext(), (mock))
+#define mck_noMoreInteractionsOn(mock) mck_checkNoInteractions(self, (mock))
 #define mck_noInteractionsOn(mock) mck_noMoreInteractionsOn((mock))
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
@@ -20,4 +18,4 @@
 #define noInteractionsOn(mock) mck_noInteractionsOn((mock))
 #endif
 
-void mck_checkNoInteractions(MCKMockingContext *context, id mockObject);
+extern void mck_checkNoInteractions(id testCase, id mockObject);

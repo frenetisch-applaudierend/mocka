@@ -108,11 +108,11 @@
 
 #pragma mark - Initialization
 
-- (id)initWithContext:(MCKMockingContext *)context mockedClass:(Class)mockedClass mockedProtocols:(NSArray *)mockedProtocols {
+- (id)initWithContext:(MCKMockingContext *)context mockedClass:(Class)cls mockedProtocols:(NSArray *)protocols {
     if ((self = [super init])) {
         _mockingContext = context;
-        _mockedClass = mockedClass;
-        _mockedProtocols = [mockedProtocols copy];
+        _mockedClass = cls;
+        _mockedProtocols = [protocols copy];
     }
     return self;
 }
