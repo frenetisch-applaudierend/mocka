@@ -4,4 +4,14 @@
    <FileRef
       location = "group:Framework/Framework.xcodeproj">
    </FileRef>
+   <Group
+      location = "group:Framework"
+      name = "Documentation">
+      <FileRef
+         location = "group:../Readme.md">
+      </FileRef>
+      <FileRef
+         location = "group:../LICENSE">
+      </FileRef>
+   </Group>
 </Workspace>

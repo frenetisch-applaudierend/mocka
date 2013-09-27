@@ -7,11 +7,11 @@
 //
 
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
 
 
-@interface ExamplesCreatingMocks : SenTestCase
+@interface ExamplesCreatingMocks : XCTestCase
 @end
 
 @implementation ExamplesCreatingMocks
@@ -22,7 +22,7 @@
     // to create a mock for a given class, pass the Class to the mock(...) function
     id mockForClass = mock([NSArray class]);
     
-    STAssertEqualObjects([mockForClass mck_mockedEntites], (@[ [NSArray class] ]), @"Wrong entities mocked");
+    XCTAssertEqualObjects([mockForClass mck_mockedEntites], (@[ [NSArray class] ]), @"Wrong entities mocked");
 }
 
 - (void)testCreatingMockForClassShorthand {
@@ -30,7 +30,7 @@
     // note that you don't need to to wrap the class name in [... class]
     id mockForClass = mockForClass(NSArray);
     
-    STAssertEqualObjects([mockForClass mck_mockedEntites], (@[ [NSArray class] ]), @"Wrong entities mocked");
+    XCTAssertEqualObjects([mockForClass mck_mockedEntites], (@[ [NSArray class] ]), @"Wrong entities mocked");
 }
 
 
@@ -40,7 +40,7 @@
     // to create a mock for a given protocol, pass the @protocol(...) to the mock(...) function
     id mockForProtocol = mock(@protocol(NSCoding));
     
-    STAssertEqualObjects([mockForProtocol mck_mockedEntites], (@[ @protocol(NSCoding) ]), @"Wrong entities mocked");
+    XCTAssertEqualObjects([mockForProtocol mck_mockedEntites], (@[ @protocol(NSCoding) ]), @"Wrong entities mocked");
 }
 
 - (void)testCreatingMockForSingleProtocolShorthand {
@@ -48,14 +48,14 @@
     // note that you don't need to to wrap the protocol name in @protocol(...)
     id mockForProtocol = mockForProtocol(NSCoding);
     
-    STAssertEqualObjects([mockForProtocol mck_mockedEntites], (@[ @protocol(NSCoding) ]), @"Wrong entities mocked");
+    XCTAssertEqualObjects([mockForProtocol mck_mockedEntites], (@[ @protocol(NSCoding) ]), @"Wrong entities mocked");
 }
 
 - (void)testCreatingMockForMultipleProtocols {
     // you're not restricted to a single protocol
     id mockForProtocols = mock(@protocol(NSCoding), @protocol(NSCopying));
     
-    STAssertEqualObjects([mockForProtocols mck_mockedEntites], (@[ @protocol(NSCoding), @protocol(NSCopying) ]), @"Wrong entities mocked");
+    XCTAssertEqualObjects([mockForProtocols mck_mockedEntites], (@[ @protocol(NSCoding), @protocol(NSCopying) ]), @"Wrong entities mocked");
 }
 
 
@@ -65,7 +65,7 @@
     // it's possible to create mocks which mock a class and a number of protocols
     id mockForClassAndProtocols = mock([TestObject class], @protocol(NSCoding), @protocol(NSCopying));
     
-    STAssertEqualObjects([mockForClassAndProtocols mck_mockedEntites], (@[ [TestObject class], @protocol(NSCoding), @protocol(NSCopying) ]),
+    XCTAssertEqualObjects([mockForClassAndProtocols mck_mockedEntites], (@[ [TestObject class], @protocol(NSCoding), @protocol(NSCopying) ]),
                          @"Wrong entities mocked");
 }
 
@@ -86,7 +86,7 @@
     TestObject *object = [[TestObject alloc] init];
     TestObject *spyObject = spy(object);
     
-    STAssertTrue((object == spyObject), @"Should be the same object");
+    XCTAssertTrue((object == spyObject), @"Should be the same object");
 }
 
 

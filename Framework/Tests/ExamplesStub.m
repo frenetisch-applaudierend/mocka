@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
 
 
-@interface ExamplesStub : SenTestCase
+@interface ExamplesStub : XCTestCase
 @end
 
 @implementation ExamplesStub {
@@ -33,9 +33,9 @@
     // when you have an unstubbed method it will return the "default" value
     // for objects nil, for numbers 0 and for structs a struct with all fields 0
     
-    STAssertTrue([mockArray objectAtIndex:0] == nil, @"Default value for object returns should be nil");
-    STAssertTrue([mockArray count] == 0, @"Default value for primitive number returns should be 0");
-    STAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0)), @"Default value for struct returns should be a zero-struct");
+    XCTAssertTrue([mockArray objectAtIndex:0] == nil, @"Default value for object returns should be nil");
+    XCTAssertTrue([mockArray count] == 0, @"Default value for primitive number returns should be 0");
+    XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0)), @"Default value for struct returns should be a zero-struct");
 }
 
 - (void)testSettingCustomObjectReturnValue {
@@ -43,7 +43,7 @@
     
     whenCalling [mockArray objectAtIndex:0] thenDo returnValue(@"Hello World");
     
-    STAssertEqualObjects([mockArray objectAtIndex:0], @"Hello World", @"Wrong return value");
+    XCTAssertEqualObjects([mockArray objectAtIndex:0], @"Hello World", @"Wrong return value");
 }
 
 - (void)testSettingCustomPrimitiveNumberReturnValue {
@@ -51,7 +51,7 @@
     
     whenCalling [mockArray count] thenDo returnValue(10);
 
-    STAssertEquals([mockArray count], (NSUInteger)10, @"Wrong return value");
+    XCTAssertEqual([mockArray count], (NSUInteger)10, @"Wrong return value");
 }
 
 - (void)testSettingCustomStructReturnValue {
@@ -59,7 +59,7 @@
     
     whenCalling [mockString rangeOfString:@"Foo"] thenDo returnStruct(NSMakeRange(10, 20));
     
-    STAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20)), @"Wrong return value");
+    XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20)), @"Wrong return value");
 }
 
 
@@ -73,9 +73,9 @@
     
     @try {
         [mockArray objectAtIndex:1];
-        STFail(@"Should have thrown");
+        XCTFail(@"Should have thrown");
     } @catch (id exception) {
-        STAssertEqualObjects(exception, preconfiguredException, @"Wrong exception was thrown");
+        XCTAssertEqualObjects(exception, preconfiguredException, @"Wrong exception was thrown");
     }
 }
 
@@ -84,7 +84,7 @@
     
     whenCalling [mockArray objectAtIndex:1] thenDo throwNewException(NSRangeException, @"Index 1 out of bounds", nil);
     
-    STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
 }
 
 
@@ -98,7 +98,7 @@
         [inv setReturnValue:&returnValue];
     });
     
-    STAssertEqualObjects([mockArray objectAtIndex:11], @11, @"Wrong return value generated");
+    XCTAssertEqualObjects([mockArray objectAtIndex:11], @11, @"Wrong return value generated");
 }
 
 
@@ -112,8 +112,8 @@
         [mockArray removeObjectAtIndex:1];
     } thenDo throwNewException(NSRangeException, @"Index out of bounds", nil);
     
-    STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
-    STAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    XCTAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
 }
 
 - (void)testStubbingMultipleCallsWithTheSameActionsOrCallingVariant {
@@ -122,8 +122,8 @@
     whenCalling [mockArray objectAtIndex:1] orCalling [mockArray removeObjectAtIndex:1]
     thenDo throwNewException(NSRangeException, @"Index out of bounds", nil);
     
-    STAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
-    STAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
+    XCTAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
 }
 
 - (void)testStubbingMultipleActionsForTheSameCallBracketVariant {
@@ -139,8 +139,8 @@
     }
     
     NSUInteger result = [mockArray count];
-    STAssertEquals(result, (NSUInteger)10, @"Wrong result returned");
-    STAssertTrue(executed, @"Block was not executed");
+    XCTAssertEqual(result, (NSUInteger)10, @"Wrong result returned");
+    XCTAssertTrue(executed, @"Block was not executed");
 }
 
 - (void)testStubbingMultipleActionsForTheSameCallAndDoVariant {
@@ -153,8 +153,8 @@
     });
     
     NSUInteger result = [mockArray count];
-    STAssertEquals(result, (NSUInteger)10, @"Wrong result returned");
-    STAssertTrue(executed, @"Block was not executed");
+    XCTAssertEqual(result, (NSUInteger)10, @"Wrong result returned");
+    XCTAssertTrue(executed, @"Block was not executed");
 }
 
 - (void)testThatCombinationIsAlsoPossible {
@@ -172,12 +172,12 @@
     };
     
     id value1 = [mockArray objectAtIndex:0];
-    STAssertEqualObjects(value1, @"Hello World", @"Wrong return value");
-    STAssertEquals(executionCount, (NSUInteger)1, @"Wrong execution count");
+    XCTAssertEqualObjects(value1, @"Hello World", @"Wrong return value");
+    XCTAssertEqual(executionCount, (NSUInteger)1, @"Wrong execution count");
     
     id value2 = [mockArray objectAtIndexedSubscript:0];
-    STAssertEqualObjects(value2, @"Hello World", @"Wrong return value");
-    STAssertEquals(executionCount, (NSUInteger)2, @"Wrong execution count");
+    XCTAssertEqualObjects(value2, @"Hello World", @"Wrong return value");
+    XCTAssertEqual(executionCount, (NSUInteger)2, @"Wrong execution count");
 }
 
 
@@ -194,7 +194,7 @@
     
     NSError *reportedError = nil;
     [mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:&reportedError];
-    STAssertEqualObjects(reportedError, testError, @"Error was not set");
+    XCTAssertEqualObjects(reportedError, testError, @"Error was not set");
 }
 
 - (void)testPassingNULLForOutParameterHasNoEffect {
@@ -206,7 +206,7 @@
         returnValue(NO);
     };
     
-    STAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL], @"Should not have failed");
+    XCTAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL], @"Should not have failed");
 }
 
 
@@ -222,7 +222,7 @@
     
     [mockArray addObject:@"Hello World"];
     
-    STAssertTrue(actionWasCalled, @"Action should have been called");
+    XCTAssertTrue(actionWasCalled, @"Action should have been called");
 }
 
 - (void)testStubbingWillFailForUnequalObjectArguments {
@@ -235,7 +235,7 @@
     
     [mockArray addObject:@"Goodbye World"];
     
-    STAssertFalse(actionWasCalled, @"Action should not have been called");
+    XCTAssertFalse(actionWasCalled, @"Action should not have been called");
 }
 
 - (void)testStubbingWillMatchOnEqualPrimitiveArguments {
@@ -248,7 +248,7 @@
     
     [mockArray objectAtIndex:10];
     
-    STAssertTrue(actionWasCalled, @"Action should have been called");
+    XCTAssertTrue(actionWasCalled, @"Action should have been called");
 }
 
 - (void)testStubbingWillFailForUnequalPrimitiveArguments {
@@ -261,7 +261,7 @@
     
     [mockArray objectAtIndex:1];
     
-    STAssertFalse(actionWasCalled, @"Action should not have been called");
+    XCTAssertFalse(actionWasCalled, @"Action should not have been called");
 }
 
 - (void)testStubbingWillMatchOnEqualStructArguments {
@@ -274,7 +274,7 @@
     
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     
-    STAssertTrue(actionWasCalled, @"Action should have been called");
+    XCTAssertTrue(actionWasCalled, @"Action should have been called");
 }
 
 - (void)testStubbingWillFailForUnequalStructArguments {
@@ -287,7 +287,7 @@
     
     [mockArray subarrayWithRange:NSMakeRange(10, 0)];
     
-    STAssertFalse(actionWasCalled, @"Action should not have been called");
+    XCTAssertFalse(actionWasCalled, @"Action should not have been called");
 }
 
 
@@ -299,7 +299,7 @@
     
     givenCallTo [mockArray count] thenDo returnValue(10);
     
-    STAssertEquals([mockArray count], (NSUInteger)10, @"Wrong return value");
+    XCTAssertEqual([mockArray count], (NSUInteger)10, @"Wrong return value");
 }
 
 
@@ -318,7 +318,7 @@
 - (void)testStubbingIsNotCalledOnVerify {
     // when you verify a stubbed method, the stub action must not be performed
     whenCalling [mockArray objectAtIndex:0] thenDo performBlock(^(NSInvocation *inv) {
-        STFail(@"Should not be invoked");
+        XCTFail(@"Should not be invoked");
     });
     
     verify never [mockArray objectAtIndex:0];

@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
 #import "AsyncService.h"
 
 
-@interface ExamplesVerify : SenTestCase
+@interface ExamplesVerify : XCTestCase
 @end
 
 @implementation ExamplesVerify {

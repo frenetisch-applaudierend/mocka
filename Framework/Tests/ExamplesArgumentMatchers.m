@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
 #import "HCBlockMatcher.h"
 
 
-@interface ExamplesArgumentMatchers : SenTestCase
+@interface ExamplesArgumentMatchers : XCTestCase
 @end
 
 @implementation ExamplesArgumentMatchers {
@@ -47,7 +47,7 @@
     
     [mockArray addObject:@"Hello World"];
     
-    STAssertEqualObjects(addedObject, @"Hello World", @"Wrong object added");
+    XCTAssertEqualObjects(addedObject, @"Hello World", @"Wrong object added");
 }
 
 - (void)testYouCanMixArgumentsAndMatchersForObjects {
@@ -75,7 +75,7 @@
         [inv setObjectReturnValue:@(index)];
     });
     
-    STAssertEqualObjects([mockArray objectAtIndex:10], @10, @"Wrong return value");
+    XCTAssertEqualObjects([mockArray objectAtIndex:10], @10, @"Wrong return value");
 }
 
 - (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
@@ -110,7 +110,7 @@
         [inv setObjectReturnValue:@[ @(range.location), @(range.length) ]];
     });
     
-    STAssertEqualObjects([mockArray subarrayWithRange:NSMakeRange(0, 10)], (@[ @0, @10 ]), @"Wrong return value");
+    XCTAssertEqualObjects([mockArray subarrayWithRange:NSMakeRange(0, 10)], (@[ @0, @10 ]), @"Wrong return value");
 }
 
 
