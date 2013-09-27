@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:mocka.xcodeproj">
+      location = "group:Framework/Framework.xcodeproj">
    </FileRef>
 </Workspace>

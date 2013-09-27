@@ -1,0 +1,688 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6334758417F59221001F5C88 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334758317F59221001F5C88 /* Foundation.framework */; };
+		633475D617F5944B001F5C88 /* MCKAnyArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */; };
+		633475D717F5944B001F5C88 /* MCKAnyArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759017F5944B001F5C88 /* MCKAnyArgumentMatcher.m */; };
+		633475D817F5944B001F5C88 /* MCKArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759117F5944B001F5C88 /* MCKArgumentMatcher.h */; };
+		633475D917F5944B001F5C88 /* MCKArgumentMatcherCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759217F5944B001F5C88 /* MCKArgumentMatcherCollection.h */; };
+		633475DA17F5944B001F5C88 /* MCKArgumentMatcherCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759317F5944B001F5C88 /* MCKArgumentMatcherCollection.m */; };
+		633475DB17F5944B001F5C88 /* MCKArgumentMatching.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759417F5944B001F5C88 /* MCKArgumentMatching.h */; };
+		633475DC17F5944B001F5C88 /* MCKArgumentSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */; };
+		633475DD17F5944B001F5C88 /* MCKArgumentSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */; };
+		633475DE17F5944B001F5C88 /* MCKBlockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759717F5944B001F5C88 /* MCKBlockArgumentMatcher.h */; };
+		633475DF17F5944B001F5C88 /* MCKBlockArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759817F5944B001F5C88 /* MCKBlockArgumentMatcher.m */; };
+		633475E017F5944B001F5C88 /* MCKDefaultVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759917F5944B001F5C88 /* MCKDefaultVerificationHandler.h */; };
+		633475E117F5944B001F5C88 /* MCKDefaultVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759A17F5944B001F5C88 /* MCKDefaultVerificationHandler.m */; };
+		633475E217F5944B001F5C88 /* MCKDefaultVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759B17F5944B001F5C88 /* MCKDefaultVerifier.h */; };
+		633475E317F5944B001F5C88 /* MCKDefaultVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759C17F5944B001F5C88 /* MCKDefaultVerifier.m */; };
+		633475E417F5944B001F5C88 /* MCKExactArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759D17F5944B001F5C88 /* MCKExactArgumentMatcher.h */; };
+		633475E517F5944B001F5C88 /* MCKExactArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759E17F5944B001F5C88 /* MCKExactArgumentMatcher.m */; };
+		633475E617F5944B001F5C88 /* MCKExactlyVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759F17F5944B001F5C88 /* MCKExactlyVerificationHandler.h */; };
+		633475E717F5944B001F5C88 /* MCKExactlyVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475A017F5944B001F5C88 /* MCKExactlyVerificationHandler.m */; };
+		633475E817F5944B001F5C88 /* MCKExceptionFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A117F5944B001F5C88 /* MCKExceptionFailureHandler.h */; };
+		633475E917F5944B001F5C88 /* MCKExceptionFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475A217F5944B001F5C88 /* MCKExceptionFailureHandler.m */; };
+		633475EA17F5944B001F5C88 /* MCKFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A317F5944B001F5C88 /* MCKFailureHandler.h */; };
+		633475EB17F5944B001F5C88 /* MCKFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475A417F5944B001F5C88 /* MCKFailureHandler.m */; };
+		633475EC17F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A517F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h */; };
+		633475ED17F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475A617F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m */; };
+		633475EE17F5944B001F5C88 /* MCKInvocationCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A717F5944B001F5C88 /* MCKInvocationCollection.h */; };
+		633475EF17F5944B001F5C88 /* MCKInvocationCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475A817F5944B001F5C88 /* MCKInvocationCollection.m */; };
+		633475F017F5944B001F5C88 /* MCKInvocationMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A917F5944B001F5C88 /* MCKInvocationMatcher.h */; };
+		633475F117F5944B001F5C88 /* MCKInvocationMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475AA17F5944B001F5C88 /* MCKInvocationMatcher.m */; };
+		633475F217F5944B001F5C88 /* MCKInvocationStubber.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */; };
+		633475F317F5944B001F5C88 /* MCKInvocationStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */; };
+		633475F417F5944B001F5C88 /* MCKMockingContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475AD17F5944B001F5C88 /* MCKMockingContext.h */; };
+		633475F517F5944B001F5C88 /* MCKMockingContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475AE17F5944B001F5C88 /* MCKMockingContext.m */; };
+		633475F617F5944B001F5C88 /* MCKMockingCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475AF17F5944B001F5C88 /* MCKMockingCore.h */; };
+		633475F717F5944B001F5C88 /* MCKMockObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475B017F5944B001F5C88 /* MCKMockObject.h */; };
+		633475F817F5944B001F5C88 /* MCKMockObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475B117F5944B001F5C88 /* MCKMockObject.m */; };
+		633475F917F5944B001F5C88 /* MCKNeverVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475B217F5944B001F5C88 /* MCKNeverVerificationHandler.h */; };
+		633475FA17F5944B001F5C88 /* MCKNeverVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475B317F5944B001F5C88 /* MCKNeverVerificationHandler.m */; };
+		633475FB17F5944B001F5C88 /* MCKOrderedVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475B417F5944B001F5C88 /* MCKOrderedVerifier.h */; };
+		633475FC17F5944B001F5C88 /* MCKOrderedVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475B517F5944B001F5C88 /* MCKOrderedVerifier.m */; };
+		633475FD17F5944B001F5C88 /* MCKPerformBlockStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475B617F5944B001F5C88 /* MCKPerformBlockStubAction.h */; };
+		633475FE17F5944B001F5C88 /* MCKPerformBlockStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475B717F5944B001F5C88 /* MCKPerformBlockStubAction.m */; };
+		633475FF17F5944B001F5C88 /* MCKReturnStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475B817F5944B001F5C88 /* MCKReturnStubAction.h */; };
+		6334760017F5944B001F5C88 /* MCKReturnStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475B917F5944B001F5C88 /* MCKReturnStubAction.m */; };
+		6334760117F5944B001F5C88 /* MCKSenTestFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475BA17F5944B001F5C88 /* MCKSenTestFailureHandler.h */; };
+		6334760217F5944B001F5C88 /* MCKSenTestFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475BB17F5944B001F5C88 /* MCKSenTestFailureHandler.m */; };
+		6334760317F5944B001F5C88 /* MCKSetOutParameterStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475BC17F5944B001F5C88 /* MCKSetOutParameterStubAction.h */; };
+		6334760417F5944B001F5C88 /* MCKSetOutParameterStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475BD17F5944B001F5C88 /* MCKSetOutParameterStubAction.m */; };
+		6334760517F5944B001F5C88 /* MCKSpy.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475BE17F5944B001F5C88 /* MCKSpy.h */; };
+		6334760617F5944B001F5C88 /* MCKSpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475BF17F5944B001F5C88 /* MCKSpy.m */; };
+		6334760717F5944B001F5C88 /* MCKStub.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C017F5944B001F5C88 /* MCKStub.h */; };
+		6334760817F5944B001F5C88 /* MCKStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475C117F5944B001F5C88 /* MCKStub.m */; };
+		6334760917F5944B001F5C88 /* MCKStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C217F5944B001F5C88 /* MCKStubAction.h */; };
+		6334760A17F5944B001F5C88 /* MCKStubbing.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C317F5944B001F5C88 /* MCKStubbing.h */; };
+		6334760B17F5944B001F5C88 /* MCKStubbingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C417F5944B001F5C88 /* MCKStubbingSyntax.h */; };
+		6334760C17F5944B001F5C88 /* MCKThrowExceptionStubAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C517F5944B001F5C88 /* MCKThrowExceptionStubAction.h */; };
+		6334760D17F5944B001F5C88 /* MCKThrowExceptionStubAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475C617F5944B001F5C88 /* MCKThrowExceptionStubAction.m */; };
+		6334760E17F5944B001F5C88 /* MCKTimeoutVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C717F5944B001F5C88 /* MCKTimeoutVerificationHandler.h */; };
+		6334760F17F5944B001F5C88 /* MCKTimeoutVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475C817F5944B001F5C88 /* MCKTimeoutVerificationHandler.m */; };
+		6334761017F5944B001F5C88 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C917F5944B001F5C88 /* MCKTypeEncodings.h */; };
+		6334761117F5944B001F5C88 /* MCKTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */; };
+		6334761217F5944B001F5C88 /* MCKUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475CB17F5944B001F5C88 /* MCKUtilities.h */; };
+		6334761317F5944B001F5C88 /* MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475CC17F5944B001F5C88 /* MCKVerification.h */; };
+		6334761417F5944B001F5C88 /* MCKVerificationHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475CD17F5944B001F5C88 /* MCKVerificationHandler.h */; };
+		6334761517F5944B001F5C88 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475CE17F5944B001F5C88 /* MCKVerificationSyntax.h */; };
+		6334761617F5944B001F5C88 /* MCKVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475CF17F5944B001F5C88 /* MCKVerifier.h */; };
+		6334761717F5944B001F5C88 /* MCKVerifyNoInteractions.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D017F5944B001F5C88 /* MCKVerifyNoInteractions.h */; };
+		6334761817F5944B001F5C88 /* MCKVerifyNoInteractions.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475D117F5944B001F5C88 /* MCKVerifyNoInteractions.m */; };
+		6334761A17F5944B001F5C88 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D317F5944B001F5C88 /* Mocka.h */; };
+		6334761B17F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */; };
+		6334761C17F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */; };
+		6334762717F59A46001F5C88 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334762617F59A46001F5C88 /* SenTestingKit.framework */; };
+		6334762917F59A4E001F5C88 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334762817F59A4E001F5C88 /* XCTest.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6334758017F59221001F5C88 /* Mocka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = Mocka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6334758317F59221001F5C88 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6334758717F59221001F5C88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6334758B17F59221001F5C88 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAnyArgumentMatcher.h; sourceTree = "<group>"; };
+		6334759017F5944B001F5C88 /* MCKAnyArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnyArgumentMatcher.m; sourceTree = "<group>"; };
+		6334759117F5944B001F5C88 /* MCKArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcher.h; sourceTree = "<group>"; };
+		6334759217F5944B001F5C88 /* MCKArgumentMatcherCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcherCollection.h; sourceTree = "<group>"; };
+		6334759317F5944B001F5C88 /* MCKArgumentMatcherCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherCollection.m; sourceTree = "<group>"; };
+		6334759417F5944B001F5C88 /* MCKArgumentMatching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatching.h; sourceTree = "<group>"; };
+		6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentSerialization.h; sourceTree = "<group>"; };
+		6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentSerialization.m; sourceTree = "<group>"; };
+		6334759717F5944B001F5C88 /* MCKBlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKBlockArgumentMatcher.h; sourceTree = "<group>"; };
+		6334759817F5944B001F5C88 /* MCKBlockArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcher.m; sourceTree = "<group>"; };
+		6334759917F5944B001F5C88 /* MCKDefaultVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKDefaultVerificationHandler.h; sourceTree = "<group>"; };
+		6334759A17F5944B001F5C88 /* MCKDefaultVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKDefaultVerificationHandler.m; sourceTree = "<group>"; };
+		6334759B17F5944B001F5C88 /* MCKDefaultVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKDefaultVerifier.h; sourceTree = "<group>"; };
+		6334759C17F5944B001F5C88 /* MCKDefaultVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKDefaultVerifier.m; sourceTree = "<group>"; };
+		6334759D17F5944B001F5C88 /* MCKExactArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExactArgumentMatcher.h; sourceTree = "<group>"; };
+		6334759E17F5944B001F5C88 /* MCKExactArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactArgumentMatcher.m; sourceTree = "<group>"; };
+		6334759F17F5944B001F5C88 /* MCKExactlyVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExactlyVerificationHandler.h; sourceTree = "<group>"; };
+		633475A017F5944B001F5C88 /* MCKExactlyVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactlyVerificationHandler.m; sourceTree = "<group>"; };
+		633475A117F5944B001F5C88 /* MCKExceptionFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExceptionFailureHandler.h; sourceTree = "<group>"; };
+		633475A217F5944B001F5C88 /* MCKExceptionFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExceptionFailureHandler.m; sourceTree = "<group>"; };
+		633475A317F5944B001F5C88 /* MCKFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKFailureHandler.h; sourceTree = "<group>"; };
+		633475A417F5944B001F5C88 /* MCKFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKFailureHandler.m; sourceTree = "<group>"; };
+		633475A517F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKHamcrestArgumentMatcher.h; sourceTree = "<group>"; };
+		633475A617F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKHamcrestArgumentMatcher.m; sourceTree = "<group>"; };
+		633475A717F5944B001F5C88 /* MCKInvocationCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationCollection.h; sourceTree = "<group>"; };
+		633475A817F5944B001F5C88 /* MCKInvocationCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationCollection.m; sourceTree = "<group>"; };
+		633475A917F5944B001F5C88 /* MCKInvocationMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationMatcher.h; sourceTree = "<group>"; };
+		633475AA17F5944B001F5C88 /* MCKInvocationMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationMatcher.m; sourceTree = "<group>"; };
+		633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationStubber.h; sourceTree = "<group>"; };
+		633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationStubber.m; sourceTree = "<group>"; };
+		633475AD17F5944B001F5C88 /* MCKMockingContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockingContext.h; sourceTree = "<group>"; };
+		633475AE17F5944B001F5C88 /* MCKMockingContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockingContext.m; sourceTree = "<group>"; };
+		633475AF17F5944B001F5C88 /* MCKMockingCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockingCore.h; sourceTree = "<group>"; };
+		633475B017F5944B001F5C88 /* MCKMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockObject.h; sourceTree = "<group>"; };
+		633475B117F5944B001F5C88 /* MCKMockObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockObject.m; sourceTree = "<group>"; };
+		633475B217F5944B001F5C88 /* MCKNeverVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKNeverVerificationHandler.h; sourceTree = "<group>"; };
+		633475B317F5944B001F5C88 /* MCKNeverVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKNeverVerificationHandler.m; sourceTree = "<group>"; };
+		633475B417F5944B001F5C88 /* MCKOrderedVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKOrderedVerifier.h; sourceTree = "<group>"; };
+		633475B517F5944B001F5C88 /* MCKOrderedVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKOrderedVerifier.m; sourceTree = "<group>"; };
+		633475B617F5944B001F5C88 /* MCKPerformBlockStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKPerformBlockStubAction.h; sourceTree = "<group>"; };
+		633475B717F5944B001F5C88 /* MCKPerformBlockStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKPerformBlockStubAction.m; sourceTree = "<group>"; };
+		633475B817F5944B001F5C88 /* MCKReturnStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKReturnStubAction.h; sourceTree = "<group>"; };
+		633475B917F5944B001F5C88 /* MCKReturnStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKReturnStubAction.m; sourceTree = "<group>"; };
+		633475BA17F5944B001F5C88 /* MCKSenTestFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKSenTestFailureHandler.h; sourceTree = "<group>"; };
+		633475BB17F5944B001F5C88 /* MCKSenTestFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSenTestFailureHandler.m; sourceTree = "<group>"; };
+		633475BC17F5944B001F5C88 /* MCKSetOutParameterStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKSetOutParameterStubAction.h; sourceTree = "<group>"; };
+		633475BD17F5944B001F5C88 /* MCKSetOutParameterStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSetOutParameterStubAction.m; sourceTree = "<group>"; };
+		633475BE17F5944B001F5C88 /* MCKSpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKSpy.h; sourceTree = "<group>"; };
+		633475BF17F5944B001F5C88 /* MCKSpy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSpy.m; sourceTree = "<group>"; };
+		633475C017F5944B001F5C88 /* MCKStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStub.h; sourceTree = "<group>"; };
+		633475C117F5944B001F5C88 /* MCKStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStub.m; sourceTree = "<group>"; };
+		633475C217F5944B001F5C88 /* MCKStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStubAction.h; sourceTree = "<group>"; };
+		633475C317F5944B001F5C88 /* MCKStubbing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStubbing.h; sourceTree = "<group>"; };
+		633475C417F5944B001F5C88 /* MCKStubbingSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStubbingSyntax.h; sourceTree = "<group>"; };
+		633475C517F5944B001F5C88 /* MCKThrowExceptionStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKThrowExceptionStubAction.h; sourceTree = "<group>"; };
+		633475C617F5944B001F5C88 /* MCKThrowExceptionStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKThrowExceptionStubAction.m; sourceTree = "<group>"; };
+		633475C717F5944B001F5C88 /* MCKTimeoutVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKTimeoutVerificationHandler.h; sourceTree = "<group>"; };
+		633475C817F5944B001F5C88 /* MCKTimeoutVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTimeoutVerificationHandler.m; sourceTree = "<group>"; };
+		633475C917F5944B001F5C88 /* MCKTypeEncodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKTypeEncodings.h; sourceTree = "<group>"; };
+		633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTypeEncodings.m; sourceTree = "<group>"; };
+		633475CB17F5944B001F5C88 /* MCKUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKUtilities.h; sourceTree = "<group>"; };
+		633475CC17F5944B001F5C88 /* MCKVerification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerification.h; sourceTree = "<group>"; };
+		633475CD17F5944B001F5C88 /* MCKVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationHandler.h; sourceTree = "<group>"; };
+		633475CE17F5944B001F5C88 /* MCKVerificationSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationSyntax.h; sourceTree = "<group>"; };
+		633475CF17F5944B001F5C88 /* MCKVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerifier.h; sourceTree = "<group>"; };
+		633475D017F5944B001F5C88 /* MCKVerifyNoInteractions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerifyNoInteractions.h; sourceTree = "<group>"; };
+		633475D117F5944B001F5C88 /* MCKVerifyNoInteractions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerifyNoInteractions.m; sourceTree = "<group>"; };
+		633475D317F5944B001F5C88 /* Mocka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mocka.h; sourceTree = "<group>"; };
+		633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+MCKArgumentHandling.h"; sourceTree = "<group>"; };
+		633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+MCKArgumentHandling.m"; sourceTree = "<group>"; };
+		6334762617F59A46001F5C88 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6334762817F59A4E001F5C88 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6334757A17F59221001F5C88 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6334758417F59221001F5C88 /* Foundation.framework in Frameworks */,
+				6334762917F59A4E001F5C88 /* XCTest.framework in Frameworks */,
+				6334762717F59A46001F5C88 /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6334757117F591FA001F5C88 = {
+			isa = PBXGroup;
+			children = (
+				6334758517F59221001F5C88 /* Sources */,
+				6334758217F59221001F5C88 /* Frameworks */,
+				6334758117F59221001F5C88 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6334758117F59221001F5C88 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6334758017F59221001F5C88 /* Mocka.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6334758217F59221001F5C88 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6334758317F59221001F5C88 /* Foundation.framework */,
+				6334762817F59A4E001F5C88 /* XCTest.framework */,
+				6334762617F59A46001F5C88 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6334758517F59221001F5C88 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				633475D317F5944B001F5C88 /* Mocka.h */,
+				6334761D17F59466001F5C88 /* Mocking Core */,
+				6334761E17F594C0001F5C88 /* Verification */,
+				6334762117F598CE001F5C88 /* Stubbing */,
+				6334762317F5992F001F5C88 /* Argument Matching */,
+				6334762417F599B1001F5C88 /* Failure Handling */,
+				6334762517F599EE001F5C88 /* Utilities */,
+				6334758617F59221001F5C88 /* Supporting Files */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		6334758617F59221001F5C88 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6334758717F59221001F5C88 /* Info.plist */,
+				6334758B17F59221001F5C88 /* Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6334761D17F59466001F5C88 /* Mocking Core */ = {
+			isa = PBXGroup;
+			children = (
+				633475AF17F5944B001F5C88 /* MCKMockingCore.h */,
+				633475AD17F5944B001F5C88 /* MCKMockingContext.h */,
+				633475AE17F5944B001F5C88 /* MCKMockingContext.m */,
+				633475B017F5944B001F5C88 /* MCKMockObject.h */,
+				633475B117F5944B001F5C88 /* MCKMockObject.m */,
+				633475BE17F5944B001F5C88 /* MCKSpy.h */,
+				633475BF17F5944B001F5C88 /* MCKSpy.m */,
+				633475A917F5944B001F5C88 /* MCKInvocationMatcher.h */,
+				633475AA17F5944B001F5C88 /* MCKInvocationMatcher.m */,
+			);
+			name = "Mocking Core";
+			sourceTree = "<group>";
+		};
+		6334761E17F594C0001F5C88 /* Verification */ = {
+			isa = PBXGroup;
+			children = (
+				633475CC17F5944B001F5C88 /* MCKVerification.h */,
+				633475CE17F5944B001F5C88 /* MCKVerificationSyntax.h */,
+				6334761F17F594E2001F5C88 /* Verification Modes */,
+				6334762017F594F2001F5C88 /* Verification Handlers */,
+			);
+			name = Verification;
+			sourceTree = "<group>";
+		};
+		6334761F17F594E2001F5C88 /* Verification Modes */ = {
+			isa = PBXGroup;
+			children = (
+				633475CF17F5944B001F5C88 /* MCKVerifier.h */,
+				6334759B17F5944B001F5C88 /* MCKDefaultVerifier.h */,
+				6334759C17F5944B001F5C88 /* MCKDefaultVerifier.m */,
+				633475B417F5944B001F5C88 /* MCKOrderedVerifier.h */,
+				633475B517F5944B001F5C88 /* MCKOrderedVerifier.m */,
+			);
+			name = "Verification Modes";
+			sourceTree = "<group>";
+		};
+		6334762017F594F2001F5C88 /* Verification Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				633475CD17F5944B001F5C88 /* MCKVerificationHandler.h */,
+				6334759917F5944B001F5C88 /* MCKDefaultVerificationHandler.h */,
+				6334759A17F5944B001F5C88 /* MCKDefaultVerificationHandler.m */,
+				633475B217F5944B001F5C88 /* MCKNeverVerificationHandler.h */,
+				633475B317F5944B001F5C88 /* MCKNeverVerificationHandler.m */,
+				6334759F17F5944B001F5C88 /* MCKExactlyVerificationHandler.h */,
+				633475A017F5944B001F5C88 /* MCKExactlyVerificationHandler.m */,
+				633475C717F5944B001F5C88 /* MCKTimeoutVerificationHandler.h */,
+				633475C817F5944B001F5C88 /* MCKTimeoutVerificationHandler.m */,
+				633475D017F5944B001F5C88 /* MCKVerifyNoInteractions.h */,
+				633475D117F5944B001F5C88 /* MCKVerifyNoInteractions.m */,
+			);
+			name = "Verification Handlers";
+			sourceTree = "<group>";
+		};
+		6334762117F598CE001F5C88 /* Stubbing */ = {
+			isa = PBXGroup;
+			children = (
+				633475C317F5944B001F5C88 /* MCKStubbing.h */,
+				633475C417F5944B001F5C88 /* MCKStubbingSyntax.h */,
+				633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */,
+				633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */,
+				633475C017F5944B001F5C88 /* MCKStub.h */,
+				633475C117F5944B001F5C88 /* MCKStub.m */,
+				633475C217F5944B001F5C88 /* MCKStubAction.h */,
+				6334762217F598EE001F5C88 /* Built-In Stub Actions */,
+			);
+			name = Stubbing;
+			sourceTree = "<group>";
+		};
+		6334762217F598EE001F5C88 /* Built-In Stub Actions */ = {
+			isa = PBXGroup;
+			children = (
+				633475B817F5944B001F5C88 /* MCKReturnStubAction.h */,
+				633475B917F5944B001F5C88 /* MCKReturnStubAction.m */,
+				633475B617F5944B001F5C88 /* MCKPerformBlockStubAction.h */,
+				633475B717F5944B001F5C88 /* MCKPerformBlockStubAction.m */,
+				633475C517F5944B001F5C88 /* MCKThrowExceptionStubAction.h */,
+				633475C617F5944B001F5C88 /* MCKThrowExceptionStubAction.m */,
+				633475BC17F5944B001F5C88 /* MCKSetOutParameterStubAction.h */,
+				633475BD17F5944B001F5C88 /* MCKSetOutParameterStubAction.m */,
+			);
+			name = "Built-In Stub Actions";
+			sourceTree = "<group>";
+		};
+		6334762317F5992F001F5C88 /* Argument Matching */ = {
+			isa = PBXGroup;
+			children = (
+				6334759417F5944B001F5C88 /* MCKArgumentMatching.h */,
+				6334759217F5944B001F5C88 /* MCKArgumentMatcherCollection.h */,
+				6334759317F5944B001F5C88 /* MCKArgumentMatcherCollection.m */,
+				6334759117F5944B001F5C88 /* MCKArgumentMatcher.h */,
+				6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */,
+				6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */,
+				6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */,
+				6334759017F5944B001F5C88 /* MCKAnyArgumentMatcher.m */,
+				6334759D17F5944B001F5C88 /* MCKExactArgumentMatcher.h */,
+				6334759E17F5944B001F5C88 /* MCKExactArgumentMatcher.m */,
+				6334759717F5944B001F5C88 /* MCKBlockArgumentMatcher.h */,
+				6334759817F5944B001F5C88 /* MCKBlockArgumentMatcher.m */,
+				633475A517F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h */,
+				633475A617F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m */,
+			);
+			name = "Argument Matching";
+			sourceTree = "<group>";
+		};
+		6334762417F599B1001F5C88 /* Failure Handling */ = {
+			isa = PBXGroup;
+			children = (
+				633475A317F5944B001F5C88 /* MCKFailureHandler.h */,
+				633475A417F5944B001F5C88 /* MCKFailureHandler.m */,
+				633475BA17F5944B001F5C88 /* MCKSenTestFailureHandler.h */,
+				633475BB17F5944B001F5C88 /* MCKSenTestFailureHandler.m */,
+				633475A117F5944B001F5C88 /* MCKExceptionFailureHandler.h */,
+				633475A217F5944B001F5C88 /* MCKExceptionFailureHandler.m */,
+			);
+			name = "Failure Handling";
+			sourceTree = "<group>";
+		};
+		6334762517F599EE001F5C88 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				633475CB17F5944B001F5C88 /* MCKUtilities.h */,
+				633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */,
+				633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */,
+				633475C917F5944B001F5C88 /* MCKTypeEncodings.h */,
+				633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */,
+				633475A717F5944B001F5C88 /* MCKInvocationCollection.h */,
+				633475A817F5944B001F5C88 /* MCKInvocationCollection.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		6334757B17F59221001F5C88 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6334761717F5944B001F5C88 /* MCKVerifyNoInteractions.h in Headers */,
+				633475FD17F5944B001F5C88 /* MCKPerformBlockStubAction.h in Headers */,
+				6334761517F5944B001F5C88 /* MCKVerificationSyntax.h in Headers */,
+				633475DB17F5944B001F5C88 /* MCKArgumentMatching.h in Headers */,
+				633475F717F5944B001F5C88 /* MCKMockObject.h in Headers */,
+				6334760C17F5944B001F5C88 /* MCKThrowExceptionStubAction.h in Headers */,
+				633475E617F5944B001F5C88 /* MCKExactlyVerificationHandler.h in Headers */,
+				6334761617F5944B001F5C88 /* MCKVerifier.h in Headers */,
+				633475EC17F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h in Headers */,
+				6334760517F5944B001F5C88 /* MCKSpy.h in Headers */,
+				633475E017F5944B001F5C88 /* MCKDefaultVerificationHandler.h in Headers */,
+				6334760B17F5944B001F5C88 /* MCKStubbingSyntax.h in Headers */,
+				633475D817F5944B001F5C88 /* MCKArgumentMatcher.h in Headers */,
+				6334761B17F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h in Headers */,
+				6334760117F5944B001F5C88 /* MCKSenTestFailureHandler.h in Headers */,
+				633475FB17F5944B001F5C88 /* MCKOrderedVerifier.h in Headers */,
+				633475DC17F5944B001F5C88 /* MCKArgumentSerialization.h in Headers */,
+				633475D917F5944B001F5C88 /* MCKArgumentMatcherCollection.h in Headers */,
+				6334761417F5944B001F5C88 /* MCKVerificationHandler.h in Headers */,
+				6334760A17F5944B001F5C88 /* MCKStubbing.h in Headers */,
+				633475FF17F5944B001F5C88 /* MCKReturnStubAction.h in Headers */,
+				633475DE17F5944B001F5C88 /* MCKBlockArgumentMatcher.h in Headers */,
+				6334760717F5944B001F5C88 /* MCKStub.h in Headers */,
+				6334761317F5944B001F5C88 /* MCKVerification.h in Headers */,
+				633475F217F5944B001F5C88 /* MCKInvocationStubber.h in Headers */,
+				6334761017F5944B001F5C88 /* MCKTypeEncodings.h in Headers */,
+				6334761A17F5944B001F5C88 /* Mocka.h in Headers */,
+				6334760917F5944B001F5C88 /* MCKStubAction.h in Headers */,
+				633475E417F5944B001F5C88 /* MCKExactArgumentMatcher.h in Headers */,
+				633475E217F5944B001F5C88 /* MCKDefaultVerifier.h in Headers */,
+				633475EE17F5944B001F5C88 /* MCKInvocationCollection.h in Headers */,
+				633475F417F5944B001F5C88 /* MCKMockingContext.h in Headers */,
+				6334760E17F5944B001F5C88 /* MCKTimeoutVerificationHandler.h in Headers */,
+				633475E817F5944B001F5C88 /* MCKExceptionFailureHandler.h in Headers */,
+				633475EA17F5944B001F5C88 /* MCKFailureHandler.h in Headers */,
+				633475D617F5944B001F5C88 /* MCKAnyArgumentMatcher.h in Headers */,
+				633475F617F5944B001F5C88 /* MCKMockingCore.h in Headers */,
+				633475F017F5944B001F5C88 /* MCKInvocationMatcher.h in Headers */,
+				6334761217F5944B001F5C88 /* MCKUtilities.h in Headers */,
+				6334760317F5944B001F5C88 /* MCKSetOutParameterStubAction.h in Headers */,
+				633475F917F5944B001F5C88 /* MCKNeverVerificationHandler.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		6334757F17F59221001F5C88 /* mocka-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6334758C17F59221001F5C88 /* Build configuration list for PBXNativeTarget "mocka-ios" */;
+			buildPhases = (
+				6334757817F59221001F5C88 /* ShellScript */,
+				6334757917F59221001F5C88 /* Sources */,
+				6334757A17F59221001F5C88 /* Frameworks */,
+				6334757B17F59221001F5C88 /* Headers */,
+				6334757C17F59221001F5C88 /* Resources */,
+				6334757D17F59221001F5C88 /* ShellScript */,
+				6334757E17F59221001F5C88 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mocka-ios";
+			productName = "mocka-ios";
+			productReference = 6334758017F59221001F5C88 /* Mocka.framework */;
+			productType = "com.apple.product-type.framework.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6334757217F591FA001F5C88 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+			};
+			buildConfigurationList = 6334757517F591FA001F5C88 /* Build configuration list for PBXProject "Framework" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6334757117F591FA001F5C88;
+			productRefGroup = 6334758117F59221001F5C88 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6334757F17F59221001F5C88 /* mocka-ios */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6334757C17F59221001F5C88 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6334757817F59221001F5C88 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n\tUFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version  from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\nONLY_ACTIVE_PLATFORM=${ONLY_ACTIVE_PLATFORM:-$ONLY_ACTIVE_ARCH}\n\n# Short-circuit if all binaries are up to date\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n   [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n   [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n  ([[ \"${ONLY_ACTIVE_PLATFORM}\" == \"YES\" ]] || \\\n    ([[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n     [[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n     [[ ! \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\n    )\n  )\nthen\n    exit 0\nfi\n\n\n# Clean other platform if needed\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && [[ \"${ONLY_ACTIVE_PLATFORM}\" != \"YES\" ]]\nthen\n\techo \"Platform \\\"$UFW_SDK_PLATFORM\\\" was cleaned recently. Cleaning \\\"$UFW_OTHER_PLATFORM\\\" as well\"\n\techo xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\n\txcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\nfi\n\n\n# Make sure we are building from fresh binaries\n\nrm -rf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\n\nif [[ \"${ONLY_ACTIVE_PLATFORM}\" != \"YES\" ]]\nthen\n    rm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n    rm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nfi\n";
+		};
+		6334757D17F59221001F5C88 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "HEADERS_ROOT=$SRCROOT/$PRODUCT_NAME\nFRAMEWORK_HEADERS_DIR=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Versions/$FRAMEWORK_VERSION/Headers\"\n\n## only header files expected at this point\nPUBLIC_HEADERS=$(find $FRAMEWORK_HEADERS_DIR/. -not -type d 2> /dev/null | sed -e \"s@.*/@@g\")\n\nFIND_OPTS=\"\"\nfor PUBLIC_HEADER in $PUBLIC_HEADERS; do\n  if [ -n \"$FIND_OPTS\" ]; then\n    FIND_OPTS=\"$FIND_OPTS -o\"\n  fi\n  FIND_OPTS=\"$FIND_OPTS -name '$PUBLIC_HEADER'\"\ndone\n\nif [ -n \"$FIND_OPTS\" ]; then\n  for ORIG_HEADER in $(eval \"find $HEADERS_ROOT/. $FIND_OPTS\" 2> /dev/null | sed -e \"s@^$HEADERS_ROOT/./@@g\"); do\n    PUBLIC_HEADER=$(basename $ORIG_HEADER)\n    RELATIVE_PATH=$(dirname $ORIG_HEADER)\n    if [ -e $FRAMEWORK_HEADERS_DIR/$PUBLIC_HEADER ]; then\n      mkdir -p \"$FRAMEWORK_HEADERS_DIR/$RELATIVE_PATH\"\n      mv \"$FRAMEWORK_HEADERS_DIR/$PUBLIC_HEADER\" \"$FRAMEWORK_HEADERS_DIR/$RELATIVE_PATH/$PUBLIC_HEADER\"\n    fi\n  done\nfi\n";
+		};
+		6334757E17F59221001F5C88 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\nexport UFW_MASTER_SCRIPT_RUNNING=1\n\n\n# Functions\n\n## List files in the specified directory, storing to the specified array.\n#\n# @param $1 The path to list\n# @param $2 The name of the array to fill\n#\n##\nlist_files ()\n{\n    filelist=$(ls \"$1\")\n    while read line\n    do\n        eval \"$2[\\${#$2[*]}]=\\\"\\$line\\\"\"\n    done <<< \"$filelist\"\n}\n\n\n# Sanity check\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]]\nthen\n    echo \"Framework target \\\"${TARGET_NAME}\\\" had no source files to build from. Make sure your source files have the correct target membership\"\n    exit 1\nfi\n\n\n# Gather information\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n    UFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\nONLY_ACTIVE_PLATFORM=${ONLY_ACTIVE_PLATFORM:-$ONLY_ACTIVE_ARCH}\n\n# Short-circuit if all binaries are up to date.\n# We already checked the other platform in the prerun script.\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\nthen\n    exit 0\nfi\n\nif [ \"${ONLY_ACTIVE_PLATFORM}\" == \"YES\" ]\nthen\n    echo \"ONLY_ACTIVE_PLATFORM=${ONLY_ACTIVE_PLATFORM}: Skipping other platform build\"\nelse\n    # Make sure the other platform gets built\n    \n    echo \"Build other platform\"\n    \n    echo xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n    xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n    \n    \n    # Build the fat static library binary\n    \n    echo \"Create universal static library\"\n    \necho \"Xcode version: $XCODE_VERSION_MAJOR\"\n\nif [[ \"$XCODE_VERSION_MAJOR\" == \"0500\" ]]\nthen\n    echo \"$DT_TOOLCHAIN_DIR/usr/bin/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n    \"$DT_TOOLCHAIN_DIR/usr/bin/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\nelse\n    echo \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n    \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\nfi \n    echo mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n    mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nfi\n\n# Build embedded framework structure\n\necho \"Build Embedded Framework\"\n\necho rm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\necho mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\necho cp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\ncp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\n\ndeclare -a UFW_FILE_LIST\nlist_files \"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\" UFW_FILE_LIST\nfor filename in \"${UFW_FILE_LIST[@]}\"\ndo\n    if [[ \"${filename}\" != \"Info.plist\" ]] && [[ ! \"${filename}\" =~ .*\\.lproj$ ]]\n    then\n        echo ln -sfh \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n        ln -sfh \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n    fi\ndone\n\n\nif [ \"${ONLY_ACTIVE_PLATFORM}\" != \"YES\" ]\nthen\n    # Replace other platform's framework with a copy of this one (so that both have the same universal binary)\n    \n    echo \"Copy from $UFW_SDK_PLATFORM to $UFW_OTHER_PLATFORM\"\n    \n    echo rm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n    rm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n    echo cp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n    cp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6334757917F59221001F5C88 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6334761C17F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m in Sources */,
+				633475E717F5944B001F5C88 /* MCKExactlyVerificationHandler.m in Sources */,
+				633475D717F5944B001F5C88 /* MCKAnyArgumentMatcher.m in Sources */,
+				633475FE17F5944B001F5C88 /* MCKPerformBlockStubAction.m in Sources */,
+				633475F117F5944B001F5C88 /* MCKInvocationMatcher.m in Sources */,
+				633475ED17F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m in Sources */,
+				6334760D17F5944B001F5C88 /* MCKThrowExceptionStubAction.m in Sources */,
+				6334760817F5944B001F5C88 /* MCKStub.m in Sources */,
+				633475DF17F5944B001F5C88 /* MCKBlockArgumentMatcher.m in Sources */,
+				633475E117F5944B001F5C88 /* MCKDefaultVerificationHandler.m in Sources */,
+				633475F817F5944B001F5C88 /* MCKMockObject.m in Sources */,
+				633475FC17F5944B001F5C88 /* MCKOrderedVerifier.m in Sources */,
+				6334761117F5944B001F5C88 /* MCKTypeEncodings.m in Sources */,
+				633475E317F5944B001F5C88 /* MCKDefaultVerifier.m in Sources */,
+				633475EB17F5944B001F5C88 /* MCKFailureHandler.m in Sources */,
+				6334760F17F5944B001F5C88 /* MCKTimeoutVerificationHandler.m in Sources */,
+				633475E517F5944B001F5C88 /* MCKExactArgumentMatcher.m in Sources */,
+				6334761817F5944B001F5C88 /* MCKVerifyNoInteractions.m in Sources */,
+				633475F317F5944B001F5C88 /* MCKInvocationStubber.m in Sources */,
+				633475DA17F5944B001F5C88 /* MCKArgumentMatcherCollection.m in Sources */,
+				6334760217F5944B001F5C88 /* MCKSenTestFailureHandler.m in Sources */,
+				6334760417F5944B001F5C88 /* MCKSetOutParameterStubAction.m in Sources */,
+				633475EF17F5944B001F5C88 /* MCKInvocationCollection.m in Sources */,
+				6334760017F5944B001F5C88 /* MCKReturnStubAction.m in Sources */,
+				633475FA17F5944B001F5C88 /* MCKNeverVerificationHandler.m in Sources */,
+				633475DD17F5944B001F5C88 /* MCKArgumentSerialization.m in Sources */,
+				633475F517F5944B001F5C88 /* MCKMockingContext.m in Sources */,
+				6334760617F5944B001F5C88 /* MCKSpy.m in Sources */,
+				633475E917F5944B001F5C88 /* MCKExceptionFailureHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6334757617F591FA001F5C88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		6334757717F591FA001F5C88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		6334758D17F59221001F5C88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Sources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Mocka;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		6334758E17F59221001F5C88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Sources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = Mocka;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6334757517F591FA001F5C88 /* Build configuration list for PBXProject "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6334757617F591FA001F5C88 /* Debug */,
+				6334757717F591FA001F5C88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6334758C17F59221001F5C88 /* Build configuration list for PBXNativeTarget "mocka-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6334758D17F59221001F5C88 /* Debug */,
+				6334758E17F59221001F5C88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6334757217F591FA001F5C88 /* Project object */;
+}
