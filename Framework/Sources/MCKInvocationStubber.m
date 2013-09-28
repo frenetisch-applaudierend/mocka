@@ -9,6 +9,7 @@
 #import "MCKInvocationStubber.h"
 #import "MCKStub.h"
 #import "MCKInvocationMatcher.h"
+#import "MCKInvocationPrototype.h"
 
 
 @implementation MCKInvocationStubber {
@@ -19,7 +20,7 @@
 
 #pragma mark - Initialization
 
-- (id)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher {
+- (instancetype)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher {
     if ((self = [super init])) {
         _recordedStubs = [NSMutableArray array];
         _invocationMatcher = invocationMatcher;
@@ -27,12 +28,16 @@
     return self;
 }
 
-- (id)init {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
+- (instancetype)init {
+    return [self initWithInvocationMatcher:nil];
 }
 
 
 #pragma mark - Creating and Updating Stubbings
+
+- (void)recordStubPrototype:(MCKInvocationPrototype *)prototype {
+    [self recordStubInvocation:prototype.invocation withPrimitiveArgumentMatchers:prototype.argumentMatchers];
+}
 
 - (void)recordStubInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)matchers {
     NSParameterAssert(invocation != nil);

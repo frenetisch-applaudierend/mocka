@@ -179,8 +179,9 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    [self.invocationStubber recordStubInvocation:invocation
-                   withPrimitiveArgumentMatchers:self.argumentMatchers.primitiveArgumentMatchers];
+    NSArray *matchers = self.argumentMatchers.primitiveArgumentMatchers;
+    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
+    [self.invocationStubber recordStubPrototype:prototype];
     [self.argumentMatchers resetAllMatchers];
 }
 

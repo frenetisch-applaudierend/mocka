@@ -10,6 +10,7 @@
 
 @class MCKStub;
 @class MCKInvocationMatcher;
+@class MCKInvocationPrototype;
 @protocol MCKStubAction;
 
 
@@ -22,7 +23,7 @@
 
 #pragma mark - Creating and Updating Stubs
 
-- (void)recordStubInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)matchers;
+- (void)recordStubPrototype:(MCKInvocationPrototype *)prototype;
 - (void)addActionToLastStub:(id<MCKStubAction>)action;
 
 

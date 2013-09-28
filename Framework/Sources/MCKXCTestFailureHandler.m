@@ -8,7 +8,7 @@
 
 #import "MCKXCTestFailureHandler.h"
 
-#import <XCTest/XCTestCase.h>
+
 
 
 @implementation MCKXCTestFailureHandler
@@ -26,7 +26,10 @@
 #pragma mark - Handling Failures
 
 - (void)handleFailureWithReason:(NSString *)reason {
-    [self.testCase recordFailureWithDescription:reason inFile:self.fileName atLine:self.lineNumber expected:NO];
+    [(id)self.testCase recordFailureWithDescription:reason inFile:self.fileName atLine:self.lineNumber expected:NO];
+}
+
+- (void)recordFailureWithDescription:(NSString *)d inFile:(NSString *)f atLine:(NSUInteger)l expected:(BOOL)e {
 }
 
 @end
