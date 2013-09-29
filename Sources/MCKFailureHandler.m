@@ -7,15 +7,27 @@
 //
 
 #import "MCKFailureHandler.h"
+#import "MCKSenTestFailureHandler.h"
+#import "MCKXCTestFailureHandler.h"
+#import "MCKExceptionFailureHandler.h"
 
 
 @implementation MCKFailureHandler
 
-@synthesize fileName = _fileName;
-@synthesize lineNumber = _lineNumber;
+#pragma mark - Getting a Failure Handler
+
++ (instancetype)failureHandlerForTestCase:(id)testCase {
+    if ([testCase isKindOfClass:NSClassFromString(@"SenTestCase")]) {
+        return [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
+    } else if ([testCase isKindOfClass:NSClassFromString(@"XCTestCase")]) {
+        return [[MCKXCTestFailureHandler alloc] initWithTestCase:testCase];
+    } else {
+        return [[MCKExceptionFailureHandler alloc] init];
+    }
+}
 
 
-#pragma mark - Maintaining Context File Information
+#pragma mark - Updating Location Information
 
 - (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
     _fileName = [fileName copy];

@@ -13,10 +13,7 @@
 #import "MCKInvocationMatcher.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationStubber.h"
-
-#import "MCKSenTestFailureHandler.h"
-#import "MCKXCTestFailureHandler.h"
-#import "MCKExceptionFailureHandler.h"
+#import "MCKFailureHandler.h"
 
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
@@ -50,6 +47,7 @@ static __weak id _CurrentContext = nil;
     }
 }
 
+
 #pragma mark - Getting a Context
 
 + (instancetype)contextForTestCase:(id)testCase {
@@ -79,7 +77,7 @@ static __weak id _CurrentContext = nil;
 
 - (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
-        _failureHandler = [[self class] defaultFailureHandlerForTestCase:testCase];
+        _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
         
         _mutableRecordedInvocations = [NSMutableArray array];
@@ -101,16 +99,6 @@ static __weak id _CurrentContext = nil;
     _CurrentContext = nil;
 }
 
-+ (id<MCKFailureHandler>)defaultFailureHandlerForTestCase:(id)testCase {
-    if ([testCase isKindOfClass:NSClassFromString(@"SenTestCase")]) {
-        return [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
-    } else if ([testCase isKindOfClass:NSClassFromString(@"XCTestCase")]) {
-        return [[MCKXCTestFailureHandler alloc] initWithTestCase:testCase];
-    } else {
-        return [[MCKExceptionFailureHandler alloc] init];
-    }
-}
-
 
 #pragma mark - Context Data
 
@@ -121,7 +109,7 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Handling Failures
 
-- (void)setFailureHandler:(id<MCKFailureHandler>)failureHandler {
+- (void)setFailureHandler:(MCKFailureHandler *)failureHandler {
     _failureHandler = failureHandler;
     self.verifier.failureHandler = failureHandler;
 }

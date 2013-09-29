@@ -12,11 +12,12 @@
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
+
 @protocol MCKVerifier;
-@protocol MCKFailureHandler;
 @class MCKArgumentMatcherCollection;
 @class MCKInvocationStubber;
 @class MCKStub;
+@class MCKFailureHandler;
 
 
 typedef enum {
@@ -51,7 +52,7 @@ typedef enum {
 
 #pragma mark - Failure Handling
 
-@property (nonatomic, strong) id<MCKFailureHandler> failureHandler;
+@property (nonatomic, strong) MCKFailureHandler *failureHandler;
 
 - (void)failWithReason:(NSString *)reason, ...;
 
