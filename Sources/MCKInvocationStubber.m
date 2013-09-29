@@ -8,28 +8,21 @@
 
 #import "MCKInvocationStubber.h"
 #import "MCKStub.h"
-#import "MCKInvocationMatcher.h"
 #import "MCKInvocationPrototype.h"
 
 
 @implementation MCKInvocationStubber {
     NSMutableArray *_recordedStubs;
     BOOL _groupRecording;
-    MCKInvocationMatcher *_invocationMatcher;
 }
 
 #pragma mark - Initialization
 
-- (instancetype)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher {
+- (instancetype)init {
     if ((self = [super init])) {
         _recordedStubs = [NSMutableArray array];
-        _invocationMatcher = invocationMatcher;
     }
     return self;
-}
-
-- (instancetype)init {
-    return [self initWithInvocationMatcher:nil];
 }
 
 
@@ -86,7 +79,7 @@
 
 - (void)pushNewStubForRecordingInvocationGroup {
     _groupRecording = YES;
-    [_recordedStubs addObject:[[MCKStub alloc] initWithInvocationMatcher:_invocationMatcher]];
+    [_recordedStubs addObject:[[MCKStub alloc] init]];
 }
 
 - (void)endRecordingInvocationGroup {

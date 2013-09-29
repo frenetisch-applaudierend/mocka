@@ -9,17 +9,11 @@
 #import <Foundation/Foundation.h>
 
 
-@class MCKInvocationMatcher;
 @class MCKInvocationPrototype;
 @protocol MCKStubAction;
 
 
 @interface MCKStub : NSObject
-
-#pragma mark - Initialization
-
-- (instancetype)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher;
-
 
 #pragma mark - Configuration
 

@@ -10,7 +10,6 @@
 #import "MCKDefaultVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationPrototype.h"
-#import "MCKInvocationMatcher.h"
 #import "MCKArgumentMatcherCollection.h"
 #import "MCKInvocationStubber.h"
 #import "MCKFailureHandler.h"
@@ -81,7 +80,7 @@ static __weak id _CurrentContext = nil;
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
         
         _mutableRecordedInvocations = [NSMutableArray array];
-        _invocationStubber = [[MCKInvocationStubber alloc] initWithInvocationMatcher:[MCKInvocationMatcher matcher]];
+        _invocationStubber = [[MCKInvocationStubber alloc] init];
         _argumentMatchers = [[MCKArgumentMatcherCollection alloc] init];
         
         _CurrentContext = self;

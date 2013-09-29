@@ -14,23 +14,17 @@
 @implementation MCKStub {
     NSMutableArray *_invocationPrototypes;
     NSMutableArray *_actions;
-    MCKInvocationMatcher *_invocationMatcher;
 }
 
 
 #pragma mark - Initialization
 
-- (instancetype)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher {
+- (instancetype)init {
     if ((self = [super init])) {
         _invocationPrototypes = [NSMutableArray array];
         _actions = [NSMutableArray array];
-        _invocationMatcher = invocationMatcher;
     }
     return self;
-}
-
-- (instancetype)init {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
 }
 
 
