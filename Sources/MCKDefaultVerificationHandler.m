@@ -7,7 +7,6 @@
 //
 
 #import "MCKDefaultVerificationHandler.h"
-#import "MCKArgumentMatcherCollection.h"
 
 #import "MCKInvocationPrototype.h"
 

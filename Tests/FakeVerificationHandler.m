@@ -7,7 +7,6 @@
 //
 
 #import "FakeVerificationHandler.h"
-#import "MCKArgumentMatcherCollection.h"
 
 
 @implementation FakeVerificationHandler {

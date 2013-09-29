@@ -9,18 +9,22 @@
 #import <XCTest/XCTest.h>
 #import "MCKArgumentMatcher.h"
 #import "MCKBlockArgumentMatcher.h"
-#import "MCKArgumentMatcherCollection.h"
+#import "MCKArgumentMatcherRecorder.h"
 
 
 @interface MCKArgumentMatcherTest : XCTestCase
 @end
 
-@implementation MCKArgumentMatcherTest
+@implementation MCKArgumentMatcherTest {
+    MCKMockingContext *context;
+    MCKArgumentMatcherRecorder *recorder;
+}
 
 #pragma mark - Setup
 
 - (void)setUp {
-    [MCKMockingContext contextForTestCase:self]; // setup a context
+    context = [MCKMockingContext contextForTestCase:self];
+    recorder = [[MCKMockingContext currentContext] argumentMatcherRecorder];
 }
 
 
@@ -34,81 +38,81 @@
 
 - (void)testThatPrimitiveNumberMatcherIndexCanBeRetrievedAgain {
     // given
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeStubbing];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [context updateContextMode:MCKContextModeStubbing];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
     UInt8 value = mck_registerPrimitiveNumberMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(id)),
-                   (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(int)),
+                   (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
 
 - (void)testThatCStringMatcherIndexCanBeRetrievedAgain {
     // given
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeStubbing];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [context updateContextMode:MCKContextModeStubbing];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
     char *value = mck_registerCStringMatcher([[MCKBlockArgumentMatcher alloc] init], MCKDefaultCStringBuffer);
     
     // then
     XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(char*)),
-                   (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
+                   (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
 
 - (void)testThatSelectorMatcherIndexCanBeRetrievedAgain {
     // given
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeStubbing];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [context updateContextMode:MCKContextModeStubbing];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
     SEL value = mck_registerSelectorMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
     XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(SEL)),
-                   (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
+                   (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
 
 - (void)testThatPointerMatcherIndexCanBeRetrievedAgain {
     // given
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeStubbing];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [context updateContextMode:MCKContextModeStubbing];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
     void *value = mck_registerPointerMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
     XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(void*)),
-                   (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
+                   (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
 
 - (void)testThatStructMatcherIndexCanBeRetrievedAgain {
     // given
-    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeStubbing];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-    [[[MCKMockingContext currentContext] argumentMatchers] addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [context updateContextMode:MCKContextModeStubbing];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
+    [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
     NSRange value = mck_registerStructMatcher([[MCKBlockArgumentMatcher alloc] init], NSRange);
     
     // then
     XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(NSRange)),
-                   (int)[[[MCKMockingContext currentContext] argumentMatchers] lastPrimitiveArgumentMatcherIndex],
+                   (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
 

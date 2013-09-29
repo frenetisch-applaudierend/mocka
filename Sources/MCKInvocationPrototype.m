@@ -15,12 +15,6 @@
 #import "NSInvocation+MCKArgumentHandling.h"
 
 
-@interface MCKInvocationPrototype ()
-
-@property (nonatomic, readonly) NSArray *orderedArgumentMatchers;
-
-@end
-
 @implementation MCKInvocationPrototype
 
 #pragma mark - Initialization
@@ -28,8 +22,7 @@
 - (instancetype)initWithInvocation:(NSInvocation *)invocation argumentMatchers:(NSArray *)argumentMatchers {
     if ((self = [super init])) {
         _invocation = invocation;
-        _argumentMatchers = [argumentMatchers copy];
-        _orderedArgumentMatchers = [self prepareOrderedArgumentMatchersFromInvocation:invocation matchers:argumentMatchers];
+        _argumentMatchers= [self prepareOrderedArgumentMatchersFromInvocation:invocation matchers:argumentMatchers];
     }
     return self;
 }
@@ -103,7 +96,7 @@
     
     // match arguments
     NSUInteger argIndex = 2;
-    for (id<MCKArgumentMatcher> matcher in self.orderedArgumentMatchers) {
+    for (id<MCKArgumentMatcher> matcher in self.argumentMatchers) {
         if (![matcher matchesCandidate:[candidate mck_serializedParameterAtIndex:(argIndex - 2)]]) {
             return NO;
         }

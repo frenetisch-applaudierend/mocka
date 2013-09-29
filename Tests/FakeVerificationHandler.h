@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "MCKVerificationHandler.h"
 #import "MCKInvocationPrototype.h"
-#import "MCKArgumentMatcherCollection.h"
 
 
 typedef NSIndexSet*(^FakeVerificationHandlerImplementation)(MCKInvocationPrototype*, NSArray*, BOOL*, NSString**);

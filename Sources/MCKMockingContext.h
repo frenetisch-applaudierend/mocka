@@ -12,11 +12,11 @@
 @protocol MCKVerificationHandler;
 @protocol MCKStubAction;
 @protocol MCKArgumentMatcher;
-
 @protocol MCKVerifier;
-@class MCKArgumentMatcherCollection;
+
 @class MCKInvocationStubber;
 @class MCKStub;
+@class MCKArgumentMatcherRecorder;
 @class MCKFailureHandler;
 
 
@@ -41,20 +41,16 @@ typedef enum {
 - (instancetype)initWithTestCase:(id)testCase;
 
 
-#pragma mark - Context Data
-
-@property (nonatomic, readonly) NSArray *recordedInvocations;
-@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
-@property (nonatomic, readonly) MCKArgumentMatcherCollection *argumentMatchers;
+#pragma mark - Update Location Data
 
 - (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
 
 
-#pragma mark - Failure Handling
+#pragma mark - Handling Failures
 
 @property (nonatomic, strong) MCKFailureHandler *failureHandler;
 
-- (void)failWithReason:(NSString *)reason, ...;
+- (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);
 
 
 #pragma mark - Handling Invocations
@@ -67,10 +63,12 @@ typedef enum {
 
 #pragma mark - Recording
 
-- (void)recordInvocation:(NSInvocation *)invocation;
+@property (nonatomic, readonly) NSArray *recordedInvocations;
 
 
 #pragma mark - Stubbing
+
+@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
 - (void)addStubAction:(id<MCKStubAction>)action;
@@ -84,7 +82,7 @@ typedef enum {
 
 #pragma mark - Argument Matchers
 
-@property (nonatomic, readonly, copy) NSArray *primitiveArgumentMatchers;
+@property (nonatomic, readonly) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 

@@ -10,7 +10,7 @@
 #import "MCKDefaultVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationPrototype.h"
-#import "MCKArgumentMatcherCollection.h"
+#import "MCKArgumentMatcherRecorder.h"
 #import "MCKInvocationStubber.h"
 #import "MCKFailureHandler.h"
 
@@ -81,7 +81,7 @@ static __weak id _CurrentContext = nil;
         
         _mutableRecordedInvocations = [NSMutableArray array];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
-        _argumentMatchers = [[MCKArgumentMatcherCollection alloc] init];
+        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
         
         _CurrentContext = self;
         
@@ -125,7 +125,8 @@ static __weak id _CurrentContext = nil;
 
 - (void)updateContextMode:(MCKContextMode)newMode {
     _mode = newMode;
-    [self.argumentMatchers resetAllMatchers];
+    
+    NSAssert([self.argumentMatcherRecorder.argumentMatchers count] == 0, @"Should not contain any matchers at this point");
     
     if (newMode == MCKContextModeVerifying) {
         [self setVerificationHandler:[MCKDefaultVerificationHandler defaultHandler]];
@@ -135,8 +136,9 @@ static __weak id _CurrentContext = nil;
 - (void)handleInvocation:(NSInvocation *)invocation {
     [invocation retainArguments];
     
-    if (![self.argumentMatchers isValidForMethodSignature:invocation.methodSignature]) {
-        [self failWithReason:@"When using argument matchers, all non-object arguments must be matchers"];
+    NSString *reason = nil;
+    if (![self.argumentMatcherRecorder isValidForMethodSignature:invocation.methodSignature reason:&reason]) {
+        [self failWithReason:@"%@", reason];
         return;
     }
     
@@ -166,10 +168,9 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Stubbing
 
 - (void)stubInvocation:(NSInvocation *)invocation {
-    NSArray *matchers = self.argumentMatchers.primitiveArgumentMatchers;
+    NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
     [self.invocationStubber recordStubPrototype:prototype];
-    [self.argumentMatchers resetAllMatchers];
 }
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
@@ -196,7 +197,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
-    NSArray *matchers = self.argumentMatchers.primitiveArgumentMatchers;
+    NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
     MCKContextMode newMode = [self.verifier verifyPrototype:prototype invocations:self.mutableRecordedInvocations];
     [self updateContextMode:newMode];
@@ -205,18 +206,12 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Argument Matching
 
-- (NSArray *)primitiveArgumentMatchers {
-    return [self.argumentMatchers.primitiveArgumentMatchers copy];
-}
-
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
     if (self.mode == MCKContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
         return 0;
     }
-    
-    [self.argumentMatchers addPrimitiveArgumentMatcher:matcher];
-    return [self.argumentMatchers lastPrimitiveArgumentMatcherIndex];
+    return [self.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
 }
 
 @end

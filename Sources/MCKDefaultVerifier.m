@@ -10,7 +10,6 @@
 
 #import "MCKVerificationHandler.h"
 #import "MCKInvocationPrototype.h"
-#import "MCKArgumentMatcherCollection.h"
 #import "MCKFailureHandler.h"
 
 

@@ -12,7 +12,7 @@
 
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
-#import "MCKArgumentMatcherCollection.h"
+#import "MCKArgumentMatcherRecorder.h"
 
 #import "TestExceptionUtils.h"
 #import "NSInvocation+TestSupport.h"
@@ -214,10 +214,10 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedInvocation], invocation, @"Wrong invocation passed");
-    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedMatchers],
-                          context.argumentMatchers.primitiveArgumentMatchers, @"Wrong matchers passed");
-    XCTAssertEqualObjects([(FakeVerifier *)context.verifier lastPassedRecordedInvocations], context.recordedInvocations, @"Wrong invocation passed");
+    FakeVerifier *verifier = context.verifier;
+    XCTAssertEqualObjects(verifier.lastPassedInvocation, invocation, @"Wrong invocation passed");
+    XCTAssertEqualObjects(verifier.lastPassedMatchers, context.argumentMatcherRecorder.argumentMatchers, @"Wrong matchers passed");
+    XCTAssertEqualObjects(verifier.lastPassedRecordedInvocations, context.recordedInvocations, @"Wrong invocation passed");
 }
 
 - (void)testThatHandlingInvocationInVerificationModeUpdatesToModeReturnedByVerifier {
@@ -263,8 +263,7 @@
     [context pushPrimitiveArgumentMatcher:matcher];
     
     // then
-    XCTAssertEqual([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
-    XCTAssertEqual([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+    XCTAssertEqualObjects(context.argumentMatcherRecorder.argumentMatchers, @[ matcher ], @"Argument matcher was not recorded");
 }
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
@@ -276,8 +275,7 @@
     [context pushPrimitiveArgumentMatcher:matcher];
     
     // then
-    XCTAssertEqual([context.primitiveArgumentMatchers count], (NSUInteger)1, @"Argument matcher was not recorded");
-    XCTAssertEqual([context.primitiveArgumentMatchers lastObject], matcher, @"Argument matcher was not recorded");
+    XCTAssertEqualObjects(context.argumentMatcherRecorder.argumentMatchers, @[ matcher ], @"Argument matcher was not recorded");
 }
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
@@ -301,10 +299,12 @@
     [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
+    [context handleInvocation:[NSInvocation invocationForTarget:object
+                                           selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
     
     // then
-    XCTAssertEqual([context.primitiveArgumentMatchers count], (NSUInteger)0, @"Argument matchers were not cleared after -handleInvocation:");
+    XCTAssertEqual([context.argumentMatcherRecorder.argumentMatchers count], (NSUInteger)0,
+                   @"Argument matchers were not cleared after -handleInvocation:");
 }
 
 - (void)testThatVerificationInvocationFailsForUnequalNumberOfPrimitiveMatchers {

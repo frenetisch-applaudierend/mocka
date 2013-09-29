@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKDefaultVerifier.h"
-#import "MCKArgumentMatcherCollection.h"
 
 #import "TestExceptionUtils.h"
 #import "FakeVerificationHandler.h"
