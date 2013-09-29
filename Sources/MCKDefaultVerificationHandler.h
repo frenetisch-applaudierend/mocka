@@ -12,6 +12,6 @@
 
 @interface MCKDefaultVerificationHandler : NSObject <MCKVerificationHandler>
 
-+ (id)defaultHandler;
++ (instancetype)defaultHandler;
 
 @end

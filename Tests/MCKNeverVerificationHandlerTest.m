@@ -36,30 +36,44 @@
 }
 
 
-#pragma mark - Test Index Matching
-
-- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFound {
-    // given
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
-    
-    // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
-    
-    // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
-}
+#pragma mark - Test Zero Matches
 
 - (void)testThatHandlerIsSatisfiedIfNoMatchIsFound {
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    BOOL satisfied = NO;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue(satisfied, @"Should be satisfied");
+    XCTAssertTrue(result.success, @"Should be satisfied");
+}
+
+- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFound {
+    // given
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
+    
+    // when
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
+    
+    // then
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
+}
+
+
+#pragma mark - Test Exactly One Match
+
+- (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFound {
+    // given
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
+    
+    // when
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
+    
+    // then
+    XCTAssertFalse(result.success, @"Should not be satisifed");
 }
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFound {
@@ -69,25 +83,24 @@
     }];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
-- (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFound {
+
+#pragma mark - Test Multiple Matches
+
+- (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFound {
     // given
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
-        return (candidate == invocations[0]);
-    }];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(result.success, @"Should not be satisifed");
 }
 
 - (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFound {
@@ -95,23 +108,10 @@
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
-}
-
-- (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFound {
-    // given
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
-    
-    // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
-    
-    // then
-    XCTAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 
@@ -128,16 +128,14 @@
     };
     
     // when
-    BOOL satisfied = YES;
-    NSString *reason = nil;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:&reason];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
-    
     NSString *expectedReason =
     [NSString stringWithFormat:@"Expected no calls to -[%@ voidMethodCallWithoutParameters] but got 3", target];
-    XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+    
+    XCTAssertFalse(result.success, @"Should not be satisfied"); // To be sure it really failed
+    XCTAssertEqualObjects(result.failureReason, expectedReason, @"Wrong error message returned");
 }
 
 @end

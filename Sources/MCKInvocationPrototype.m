@@ -84,6 +84,13 @@
 }
 
 
+#pragma mark - Calculated Properties
+
+- (NSString *)methodName {
+    return [NSString stringWithFormat:@"-[%@ %@]", self.invocation.target, NSStringFromSelector(self.invocation.selector)];
+}
+
+
 #pragma mark - Matching Invocations
 
 - (BOOL)matchesInvocation:(NSInvocation *)candidate {

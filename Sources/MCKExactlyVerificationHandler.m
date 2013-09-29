@@ -11,17 +11,15 @@
 #import "MCKInvocationPrototype.h"
 
 
-@implementation MCKExactlyVerificationHandler {
-    NSUInteger _count;
-}
+@implementation MCKExactlyVerificationHandler
 
 #pragma mark - Initialization
 
-+ (id)exactlyHandlerWithCount:(NSUInteger)count {
++ (instancetype)exactlyHandlerWithCount:(NSUInteger)count {
     return [[self alloc] initWithCount:count];
 }
 
-- (id)initWithCount:(NSUInteger)count {
+- (instancetype)initWithCount:(NSUInteger)count {
     if ((self = [super init])) {
         _count = count;
     }
@@ -29,29 +27,20 @@
 }
 
 
-#pragma mark - Matching Invocations
+#pragma mark - Verifying Invocations
 
-- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
-                matchingForPrototype:(MCKInvocationPrototype *)prototype
-                           satisfied:(BOOL *)satisified
-                      failureMessage:(NSString **)failureMessage
-{
+- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
     NSIndexSet *indexes = [invocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *invocation, NSUInteger idx, BOOL *stop) {
         return [prototype matchesInvocation:invocation];
     }];
     
-    if (satisified != NULL) {
-        *satisified = ([indexes count] == _count);
+    if ([indexes count] == self.count) {
+        return [MCKVerificationResult successWithMatchingIndexes:indexes];
+    } else {
+        NSString *reason = [NSString stringWithFormat:@"Expected exactly %ld calls to %@ but got %ld",
+                            (unsigned long)self.count, prototype.methodName, (unsigned long)[indexes count]];
+        return [MCKVerificationResult failureWithReason:reason matchingIndexes:[NSIndexSet indexSet]];
     }
-    
-    if ([indexes count] != _count && failureMessage != NULL) {
-        NSString *targetDescription = [prototype.invocation.target description];
-        NSString *selectorDescription = NSStringFromSelector(prototype.invocation.selector);
-        *failureMessage = [NSString stringWithFormat:@"Expected exactly %ld calls to -[%@ %@] but got %ld",
-                           (unsigned long)_count, targetDescription, selectorDescription, (unsigned long)[indexes count]];
-    }
-    
-    return (([indexes count] == _count) ? indexes : [NSIndexSet indexSet]);
 }
 
 @end

@@ -36,45 +36,28 @@
 
 #pragma mark - Test exactly(0)
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyZero {
-    // given
-    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
-    
-    // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
-    
-    // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
-}
-
 - (void)testThatHandlerIsSatisfiedIfNoMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    BOOL satisfied = NO;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue(satisfied, @"Should be satisfied");
+    XCTAssertTrue(result.success, @"Should be satisfied");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyZero {
+- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
-        return (candidate == invocations[0]);
-    }];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyZero {
@@ -85,24 +68,24 @@
     }];
     
     // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(result.success, @"Should not be satisifed");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFoundForExactlyZero {
+- (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyZero {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0]);
+    }];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFoundForExactlyZero {
@@ -111,28 +94,26 @@
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(result.success, @"Should not be satisifed");
+}
+
+- (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFoundForExactlyZero {
+    // given
+    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:0];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
+    
+    // when
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
+    
+    // then
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 
 #pragma mark - Test exactly() with non-zero count
-
-- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyTwo {
-    // given
-    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
-    
-    // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
-    
-    // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
-}
 
 - (void)testThatHandlerIsNotSatisfiedIfNoMatchIsFoundForExactlyTwo {
     // given
@@ -140,26 +121,22 @@
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisfied");
+    XCTAssertFalse(result.success, @"Should not be satisfied");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyTwo {
+- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
-        return (candidate == invocations[0]);
-    }];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFoundForExactlyTwo {
@@ -170,28 +147,24 @@
     }];
     
     // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(result.success, @"Should not be satisifed");
 }
 
-- (void)testThatHandlerReturnsFilledIndexSetIfTwoMatchesAreFoundForExactlyTwo {
+- (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
-        return (candidate == invocations[0] || candidate == invocations[1]);
+        return (candidate == invocations[0]);
     }];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 2, @"Should result in filled set");
-    XCTAssertTrue([indexes containsIndex:0], @"First result not reported");
-    XCTAssertTrue([indexes containsIndex:1], @"Second result not reported");
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 - (void)testThatHandlerIsSatisfiedIfTwoMatchesAreFoundForExactlyTwo {
@@ -202,24 +175,26 @@
     }];
     
     // when
-    BOOL satisfied = NO;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue(satisfied, @"Should be satisifed");
+    XCTAssertTrue(result.success, @"Should be satisifed");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfMoreThanTwoMatchesAreFoundForExactlyTwo {
+- (void)testThatHandlerReturnsFilledIndexSetIfTwoMatchesAreFoundForExactlyTwo {
     // given
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
+        return (candidate == invocations[0] || candidate == invocations[1]);
+    }];
     
     // when
-    NSIndexSet *indexes =
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:NULL failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertTrue([indexes count] == 0, @"Should result in empty set");
+    XCTAssertTrue([result.matchingIndexes count] == 2, @"Should result in filled set");
+    XCTAssertTrue([result.matchingIndexes containsIndex:0], @"First result not reported");
+    XCTAssertTrue([result.matchingIndexes containsIndex:1], @"Second result not reported");
 }
 
 - (void)testThatHandlerIsNotSatisfiedIfMoreThanTwoMatchesAreFoundForExactlyTwo {
@@ -228,11 +203,22 @@
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
     // when
-    BOOL satisfied = YES;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:NULL];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisifed");
+    XCTAssertFalse(result.success, @"Should not be satisifed");
+}
+
+- (void)testThatHandlerReturnsEmptyIndexSetIfMoreThanTwoMatchesAreFoundForExactlyTwo {
+    // given
+    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
+    
+    // when
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
+    
+    // then
+    XCTAssertTrue([result.matchingIndexes count] == 0, @"Should result in empty set");
 }
 
 
@@ -250,16 +236,14 @@
     };
     
     // when
-    BOOL satisfied = YES;
-    NSString *reason = nil;
-    [handler indexesOfInvocations:invocations matchingForPrototype:prototype satisfied:&satisfied failureMessage:&reason];
+    MCKVerificationResult *result = [handler verifyInvocations:invocations forPrototype:prototype];
     
     // then
-    XCTAssertFalse(satisfied, @"Should not be satisfied"); // To be sure it really failed
-    
     NSString *expectedReason =
     [NSString stringWithFormat:@"Expected exactly 2 calls to -[%@ voidMethodCallWithoutParameters] but got 3", target];
-    XCTAssertEqualObjects(reason, expectedReason, @"Wrong error message returned");
+    
+    XCTAssertFalse(result.success, @"Should not be satisfied"); // To be sure it really failed
+    XCTAssertEqualObjects(result.failureReason, expectedReason, @"Wrong error message returned");
 }
 
 @end

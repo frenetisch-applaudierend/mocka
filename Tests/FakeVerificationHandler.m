@@ -46,22 +46,16 @@
 
 #pragma mark - MCKVerificationHandler
 
-- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
-                matchingForPrototype:(MCKInvocationPrototype *)prototype
-                           satisfied:(BOOL *)satisified
-                      failureMessage:(NSString *__autoreleasing *)failureMessage
-{
+- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
     _lastPrototypeInvocation = prototype.invocation;
     _lastArgumentMatchers = [prototype.argumentMatchers copy];
     _lastRecordedInvocations = [invocations copy];
     _numberOfCalls++;
     
     if (_implementation != nil) {
-        return _implementation(prototype, invocations, satisified, failureMessage);
+        return _implementation(prototype, invocations);
     } else {
-        if (satisified != NULL) *satisified = _satisfied;
-        if (failureMessage != NULL) *failureMessage = [_failureMessage copy];
-        return _result;
+        return [[MCKVerificationResult alloc] initWithSuccess:_satisfied failureReason:_failureMessage matchingIndexes:_result];
     }
 }
 

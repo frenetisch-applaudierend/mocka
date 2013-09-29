@@ -328,7 +328,7 @@
 				6334761D17F59466001F5C88 /* Mocking Core */,
 				6334761E17F594C0001F5C88 /* Verification */,
 				6334762117F598CE001F5C88 /* Stubbing */,
-				6334762317F5992F001F5C88 /* Argument Matching */,
+				6334762317F5992F001F5C88 /* Argument Matchers */,
 				6334762417F599B1001F5C88 /* Failure Handling */,
 				6334762517F599EE001F5C88 /* Utilities */,
 				6334758617F59221001F5C88 /* Supporting Files */,
@@ -357,6 +357,8 @@
 				633475BF17F5944B001F5C88 /* MCKSpy.m */,
 				638BA45017F5DCBC0086226D /* MCKInvocationPrototype.h */,
 				638BA45117F5DCBC0086226D /* MCKInvocationPrototype.m */,
+				6334759217F5944B001F5C88 /* MCKArgumentMatcherRecorder.h */,
+				6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */,
 			);
 			name = "Mocking Core";
 			sourceTree = "<group>";
@@ -430,11 +432,9 @@
 			name = "Built-In Stub Actions";
 			sourceTree = "<group>";
 		};
-		6334762317F5992F001F5C88 /* Argument Matching */ = {
+		6334762317F5992F001F5C88 /* Argument Matchers */ = {
 			isa = PBXGroup;
 			children = (
-				6334759217F5944B001F5C88 /* MCKArgumentMatcherRecorder.h */,
-				6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */,
 				6334759117F5944B001F5C88 /* MCKArgumentMatcher.h */,
 				6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */,
 				6334759017F5944B001F5C88 /* MCKAnyArgumentMatcher.m */,
@@ -445,7 +445,7 @@
 				633475A517F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h */,
 				633475A617F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m */,
 			);
-			name = "Argument Matching";
+			name = "Argument Matchers";
 			sourceTree = "<group>";
 		};
 		6334762417F599B1001F5C88 /* Failure Handling */ = {
@@ -517,6 +517,7 @@
 				63732BC317F5A8060041C869 /* MCKMockObjectTest.m */,
 				63732BCC17F5A8060041C869 /* MCKSpyTest.m */,
 				638BA45D17F5DF3F0086226D /* MCKInvocationPrototypeTest.m */,
+				63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */,
 			);
 			name = "Mocking Core";
 			sourceTree = "<group>";
@@ -559,7 +560,6 @@
 		638BA45A17F5DE9E0086226D /* Argument Matching */ = {
 			isa = PBXGroup;
 			children = (
-				63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */,
 				63732BB617F5A8060041C869 /* MCKArgumentMatcherTest.m */,
 				63732BB417F5A8060041C869 /* MCKAnyArgumentMatcherTest.m */,
 				63732BB717F5A8060041C869 /* MCKBlockArgumentMatcherTest.m */,

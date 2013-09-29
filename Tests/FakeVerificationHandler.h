@@ -11,7 +11,7 @@
 #import "MCKInvocationPrototype.h"
 
 
-typedef NSIndexSet*(^FakeVerificationHandlerImplementation)(MCKInvocationPrototype*, NSArray*, BOOL*, NSString**);
+typedef MCKVerificationResult*(^FakeVerificationHandlerImplementation)(MCKInvocationPrototype*, NSArray*);
 
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
 

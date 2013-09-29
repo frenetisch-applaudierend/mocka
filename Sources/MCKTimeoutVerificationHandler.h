@@ -13,7 +13,7 @@
 
 @interface MCKTimeoutVerificationHandler : NSObject <MCKVerificationHandler>
 
-+ (id)timeoutHandlerWithTimeout:(NSTimeInterval)timeout currentVerificationHandler:(id<MCKVerificationHandler>)handler;
++ (instancetype)timeoutHandlerWithTimeout:(NSTimeInterval)timeout currentVerificationHandler:(id<MCKVerificationHandler>)handler;
 
 @end
 

@@ -10,14 +10,25 @@
 
 
 @class MCKInvocationPrototype;
+@class MCKVerificationResult;
 
 
 @protocol MCKVerificationHandler <NSObject>
 
-- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
-                matchingForPrototype:(MCKInvocationPrototype *)prototype
-                           satisfied:(BOOL *)satisified
-                      failureMessage:(NSString **)failureMessage;
+- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype;
+
+@end
+
+
+@interface MCKVerificationResult : NSObject
+
++ (instancetype)successWithMatchingIndexes:(NSIndexSet *)matches;
++ (instancetype)failureWithReason:(NSString *)reason matchingIndexes:(NSIndexSet *)matches;
+- (instancetype)initWithSuccess:(BOOL)success failureReason:(NSString *)failureReason matchingIndexes:(NSIndexSet *)matches;
+
+@property (nonatomic, readonly, getter = isSuccess) BOOL success;
+@property (nonatomic, readonly) NSString *failureReason;
+@property (nonatomic, readonly) NSIndexSet *matchingIndexes;
 
 @end
 

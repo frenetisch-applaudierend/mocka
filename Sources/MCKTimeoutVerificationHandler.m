@@ -13,18 +13,22 @@
 #import <objc/runtime.h>
 
 
-@implementation MCKTimeoutVerificationHandler {
-    NSTimeInterval _timeout;
-    id<MCKVerificationHandler> _previousHandler;
-}
+@interface MCKTimeoutVerificationHandler ()
+
+@property (nonatomic, readonly) NSTimeInterval timeout;
+@property (nonatomic, readonly) id<MCKVerificationHandler> previousHandler;
+
+@end
+
+@implementation MCKTimeoutVerificationHandler
 
 #pragma mark - Initialization
 
-+ (id)timeoutHandlerWithTimeout:(NSTimeInterval)timeout currentVerificationHandler:(id<MCKVerificationHandler>)handler {
++ (instancetype)timeoutHandlerWithTimeout:(NSTimeInterval)timeout currentVerificationHandler:(id<MCKVerificationHandler>)handler {
     return [[self alloc] initWithTimeout:timeout currentVerificationHandler:handler];
 }
 
-- (id)initWithTimeout:(NSTimeInterval)timeout currentVerificationHandler:(id<MCKVerificationHandler>)handler {
+- (instancetype)initWithTimeout:(NSTimeInterval)timeout currentVerificationHandler:(id<MCKVerificationHandler>)handler {
     if ((self = [super init])) {
         _timeout = timeout;
         _previousHandler = handler;
@@ -33,45 +37,32 @@
 }
 
 
-#pragma mark - Handling Verification
+#pragma mark - Verifying Invocations
 
-- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
-                matchingForPrototype:(MCKInvocationPrototype *)prototype
-                           satisfied:(BOOL *)satisified
-                      failureMessage:(NSString **)failureMessage
-{
-    BOOL internalSatisfied = NO;
-    NSString *internalFailureMessage = nil;
-    NSIndexSet *indices = nil;
-    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:_timeout];
-    BOOL expectedResult = ![_previousHandler isKindOfClass:[MCKNeverVerificationHandler class]];
+- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
+    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
+    BOOL expectSuccess = ![self.previousHandler isKindOfClass:[MCKNeverVerificationHandler class]];
     
+    MCKVerificationResult *result;
     do {
-        indices = [_previousHandler indexesOfInvocations:invocations
-                                    matchingForPrototype:prototype
-                                               satisfied:&internalSatisfied
-                                          failureMessage:&internalFailureMessage];
-    } while ((internalSatisfied != expectedResult) && [self processRecordingInputIfBefore:lastDate]);
-    
-    if (satisified != NULL) { *satisified = internalSatisfied; }
-    if (failureMessage != NULL) { *failureMessage = [internalFailureMessage copy]; }
-    return indices;
+        result = [self.previousHandler verifyInvocations:invocations forPrototype:prototype];
+    } while ((result.success != expectSuccess) && [self processRecordingInputIfBefore:lastDate]);
+    return result;
 }
 
 
 #pragma mark - Handling Waiting for timeout
 
 - (BOOL)processRecordingInputIfBefore:(NSDate *)lastDate {
-    return NO;
-//    if ([[NSDate date] laterDate:lastDate] != lastDate) {
-//        return NO;
-//    }
-//    
-//    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeRecording];
-//    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
-//    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeVerifying];
-//    [[MCKMockingContext currentContext] setVerificationHandler:self];
-//    return YES;
+    if ([[NSDate date] laterDate:lastDate] != lastDate) {
+        return NO;
+    }
+    
+    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeRecording];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
+    [[MCKMockingContext currentContext] updateContextMode:MCKContextModeVerifying];
+    [[MCKMockingContext currentContext] setVerificationHandler:self];
+    return YES;
 }
 
 @end

@@ -15,34 +15,25 @@
 
 #pragma mark - Initialization
 
-+ (id)neverHandler {
++ (instancetype)neverHandler {
     return [[self alloc] init];
 }
 
 
-#pragma mark - Matching Invocations
+#pragma mark - Verifying Invocations
 
-- (NSIndexSet *)indexesOfInvocations:(NSArray *)invocations
-                matchingForPrototype:(MCKInvocationPrototype *)prototype
-                           satisfied:(BOOL *)satisified
-                      failureMessage:(NSString **)failureMessage
-{
+- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
     NSIndexSet *indexes = [invocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *invocation, NSUInteger idx, BOOL *stop) {
         return [prototype matchesInvocation:invocation];
     }];
     
-    if (satisified != NULL) {
-        *satisified = ([indexes count] == 0);
+    if ([indexes count] == 0) {
+        return [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
+    } else {
+        NSString *reason = [NSString stringWithFormat:@"Expected no calls to %@ but got %ld",
+                            prototype.methodName, (unsigned long)[indexes count]];
+        return [MCKVerificationResult failureWithReason:reason matchingIndexes:[NSIndexSet indexSet]];
     }
-    
-    if ([indexes count] > 0 && failureMessage != NULL) {
-        *failureMessage = [NSString stringWithFormat:@"Expected no calls to -[%@ %@] but got %ld",
-                           prototype.invocation.target,
-                           NSStringFromSelector(prototype.invocation.selector),
-                           (unsigned long)[indexes count]];
-    }
-    
-    return [NSIndexSet indexSet];
 }
 
 @end

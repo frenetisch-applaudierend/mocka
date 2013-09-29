@@ -66,7 +66,6 @@
     }
     
     NSUInteger signaturePrimitiveArgs = [self countPrimitiveArgumentsOfSignature:signature];
-    
     if (signaturePrimitiveArgs > [self.mutablePrimitiveMatchers count]) {
         if (reason != NULL) { *reason = @"When using argument matchers, all non-object arguments must be matchers"; }
         return NO;
@@ -74,7 +73,6 @@
         if (reason != NULL) { *reason = @"Too many primitive matchers for this method invocation"; }
         return NO;
     }
-    
     return YES;
 }
 

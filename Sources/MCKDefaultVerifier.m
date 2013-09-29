@@ -22,23 +22,12 @@
 #pragma mark - Verifying
 
 - (MCKContextMode)verifyPrototype:(MCKInvocationPrototype *)prototype invocations:(NSMutableArray *)invocations {
-    BOOL satisified = NO;
-    NSString *reason = nil;
-    
-    NSIndexSet *matchingIndexes = [_verificationHandler indexesOfInvocations:invocations
-                                                        matchingForPrototype:prototype
-                                                                   satisfied:&satisified
-                                                              failureMessage:&reason];
-    
-    if (!satisified) {
-        NSString *message = [NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
+    MCKVerificationResult *result = [_verificationHandler verifyInvocations:invocations forPrototype:prototype];
+    if (![result isSuccess]) {
+        NSString *message = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
         [_failureHandler handleFailureWithReason:message];
     }
-    
-    if (matchingIndexes != nil) {
-        [invocations removeObjectsAtIndexes:matchingIndexes];
-    }
-    
+    [invocations removeObjectsAtIndexes:result.matchingIndexes];
     return MCKContextModeRecording;
 }
 

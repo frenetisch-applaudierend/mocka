@@ -23,25 +23,18 @@
 #pragma mark - Verifying
 
 - (MCKContextMode)verifyPrototype:(MCKInvocationPrototype *)prototype invocations:(NSMutableArray *)invocations {
-    BOOL satisified = NO;
-    NSString *reason = nil;
-    
     NSRange relevantRange = NSMakeRange(_skippedInvocations, ([invocations count] - _skippedInvocations));
     NSArray *relevantInvocations = [invocations subarrayWithRange:relevantRange];
-    NSIndexSet *matchingIndexes = [_verificationHandler indexesOfInvocations:relevantInvocations
-                                                        matchingForPrototype:prototype
-                                                                   satisfied:&satisified
-                                                              failureMessage:&reason];
+    MCKVerificationResult *result = [_verificationHandler verifyInvocations:relevantInvocations forPrototype:prototype];
     
-    if (!satisified) {
-        NSString *message = [NSString stringWithFormat:@"verify: %@", (reason != nil ? reason : @"failed with an unknown reason")];
+    if (![result isSuccess]) {
+        NSString *message = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
         [_failureHandler handleFailureWithReason:message];
     }
     
-    [self removeMatchingIndexes:matchingIndexes fromRecordedInvocations:invocations];
-    
-    if ([matchingIndexes count] > 0) {
-        _skippedInvocations += ([matchingIndexes lastIndex] - [matchingIndexes count] + 1);
+    [self removeMatchingIndexes:result.matchingIndexes fromRecordedInvocations:invocations];
+    if ([result.matchingIndexes count] > 0) {
+        _skippedInvocations += ([result.matchingIndexes lastIndex] - [result.matchingIndexes count] + 1);
     }
     return MCKContextModeVerifying;
 }

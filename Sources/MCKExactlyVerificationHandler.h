@@ -7,13 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCKVerificationHandler.h"
+#import <Mocka/MCKVerificationHandler.h>
 
 
 @interface MCKExactlyVerificationHandler : NSObject <MCKVerificationHandler>
 
-+ (id)exactlyHandlerWithCount:(NSUInteger)count;
-- (id)initWithCount:(NSUInteger)count;
++ (instancetype)exactlyHandlerWithCount:(NSUInteger)count;
+- (instancetype)initWithCount:(NSUInteger)count;
+
+@property (nonatomic, readonly) NSUInteger count;
 
 @end
 

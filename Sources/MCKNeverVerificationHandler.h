@@ -12,7 +12,7 @@
 
 @interface MCKNeverVerificationHandler : NSObject <MCKVerificationHandler>
 
-+ (id)neverHandler;
++ (instancetype)neverHandler;
 
 @end
 

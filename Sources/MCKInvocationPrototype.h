@@ -16,8 +16,12 @@
 - (instancetype)initWithInvocation:(NSInvocation *)invocation argumentMatchers:(NSArray *)argumentMatchers;
 - (instancetype)initWithInvocation:(NSInvocation *)invocation;
 
+
+#pragma mark - Getting Prototype Infos
+
 @property (nonatomic, readonly) NSInvocation *invocation;
 @property (nonatomic, readonly) NSArray *argumentMatchers; // ordered and completed argument matchers
+@property (nonatomic, readonly) NSString *methodName;
 
 
 #pragma mark - Matching Invocations
