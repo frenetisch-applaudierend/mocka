@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6334757F17F59221001F5C88"
-               BuildableName = "Mocka.framework"
+               BlueprintIdentifier = "638BA46C17F6F7A30086226D"
+               BuildableName = "libmocka-ios.a"
                BlueprintName = "mocka-ios"
-               ReferencedContainer = "container:Framework.xcodeproj">
+               ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "636B770217F59D2C00B6A3BD"
                BuildableName = "mocka-tests-ios.xctest"
                BlueprintName = "mocka-tests-ios"
-               ReferencedContainer = "container:Framework.xcodeproj">
+               ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "636B770217F59D2C00B6A3BD"
                BuildableName = "mocka-tests-ios.xctest"
                BlueprintName = "mocka-tests-ios"
-               ReferencedContainer = "container:Framework.xcodeproj">
+               ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

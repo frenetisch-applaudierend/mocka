@@ -113,4 +113,23 @@
     return YES;
 }
 
+
+#pragma mark - Equality Testing
+
+- (BOOL)isEqual:(id)object {
+    if (object == self) { return YES; }
+    else if (object == nil || [object class] != [self class]) { return NO; }
+    return [self isEqualToInvocationPrototype:object];
+}
+
+- (BOOL)isEqualToInvocationPrototype:(MCKInvocationPrototype *)other {
+    return (other != nil
+            && (self.invocation == other.invocation || [self.invocation isEqual:other.invocation])
+            && (self.argumentMatchers == other.argumentMatchers || [self.argumentMatchers isEqual:other.argumentMatchers]));
+}
+
+- (NSUInteger)hash {
+    return ([self.invocation hash] ^ [self.argumentMatchers hash]);
+}
+
 @end

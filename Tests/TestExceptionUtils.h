@@ -7,7 +7,10 @@
 //
 
 #import <XCTest/XCTest.h>
+
+#import "MCKMockingContext.h"
 #import "MCKExceptionFailureHandler.h"
+
 
 #define IgnoreFailures(...) InExceptionReporter({\
     @try { __VA_ARGS__; } @catch (id ex) {}\

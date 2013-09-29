@@ -36,16 +36,10 @@
 #pragma mark - Creating and Updating Stubbings
 
 - (void)recordStubPrototype:(MCKInvocationPrototype *)prototype {
-    [self recordStubInvocation:prototype.invocation withPrimitiveArgumentMatchers:prototype.argumentMatchers];
-}
-
-- (void)recordStubInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)matchers {
-    NSParameterAssert(invocation != nil);
-    
     if (![self isRecordingInvocationGroup]) {
         [self pushNewStubForRecordingInvocationGroup];
     }
-    [[self activeStub] addInvocation:invocation withPrimitiveArgumentMatchers:matchers];
+    [[self activeStub] addInvocationPrototype:prototype];
 }
 
 - (void)addActionToLastStub:(id<MCKStubAction>)action {

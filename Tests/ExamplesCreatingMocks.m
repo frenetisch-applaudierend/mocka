@@ -8,8 +8,9 @@
 
 
 #import <XCTest/XCTest.h>
-#import "ExamplesCommon.h"
+#import <Mocka/Mocka.h>
 #import "MCKMockObject.h"
+#import "ExamplesCommon.h"
 
 
 @interface ExamplesCreatingMocks : XCTestCase

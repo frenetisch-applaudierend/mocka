@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <Mocka/Mocka.h>
 #import "ExamplesCommon.h"
 
 

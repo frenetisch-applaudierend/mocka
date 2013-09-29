@@ -9,8 +9,6 @@
 #import "MCKXCTestFailureHandler.h"
 
 
-
-
 @implementation MCKXCTestFailureHandler
 
 #pragma mark - Initialization

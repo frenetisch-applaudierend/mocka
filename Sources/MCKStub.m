@@ -8,19 +8,19 @@
 
 #import "MCKStub.h"
 #import "MCKStubAction.h"
-#import "MCKInvocationMatcher.h"
+#import "MCKInvocationPrototype.h"
 
 
 @implementation MCKStub {
-    NSMutableArray          *_invocationPrototypes;
-    NSMutableArray          *_actions;
+    NSMutableArray *_invocationPrototypes;
+    NSMutableArray *_actions;
     MCKInvocationMatcher *_invocationMatcher;
 }
 
 
 #pragma mark - Initialization
 
-- (id)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher {
+- (instancetype)initWithInvocationMatcher:(MCKInvocationMatcher *)invocationMatcher {
     if ((self = [super init])) {
         _invocationPrototypes = [NSMutableArray array];
         _actions = [NSMutableArray array];
@@ -29,15 +29,15 @@
     return self;
 }
 
-- (id)init {
+- (instancetype)init {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Use -initWithInvocationMatcher:" userInfo:nil];
 }
 
 
 #pragma mark - Configuration
 
-- (void)addInvocation:(NSInvocation *)invocation withPrimitiveArgumentMatchers:(NSArray *)argumentMatchers {
-    [_invocationPrototypes addObject:[[MCKStubInvocationPrototpye alloc] initWithInvocation:invocation primitiveArgumentMatchers:argumentMatchers]];
+- (void)addInvocationPrototype:(MCKInvocationPrototype *)prototype {
+    [_invocationPrototypes addObject:prototype];
 }
 
 - (void)addAction:(id<MCKStubAction>)action {
@@ -56,8 +56,8 @@
 #pragma mark - Matching and Applying
 
 - (BOOL)matchesForInvocation:(NSInvocation *)candidate {
-    for (MCKStubInvocationPrototpye *prototype in _invocationPrototypes) {
-        if ([_invocationMatcher invocation:candidate matchesPrototype:prototype.invocation withPrimitiveArgumentMatchers:prototype.primitiveArgumentMatchers]) {
+    for (MCKInvocationPrototype *prototype in _invocationPrototypes) {
+        if ([prototype matchesInvocation:candidate]) {
             return YES;
         }
     }
@@ -68,19 +68,6 @@
     for (id<MCKStubAction> action in _actions) {
         [action performWithInvocation:invocation];
     }
-}
-
-@end
-
-
-@implementation MCKStubInvocationPrototpye
-
-- (id)initWithInvocation:(NSInvocation *)invocation primitiveArgumentMatchers:(NSArray *)argumentMatchers {
-    if ((self = [super init])) {
-        _invocation = invocation;
-        _primitiveArgumentMatchers = [argumentMatchers copy];
-    }
-    return self;
 }
 
 @end
