@@ -17,6 +17,8 @@
 + (instancetype)handlerWhichSucceedsWithMatches:(NSIndexSet *)matches;
 + (instancetype)handlerWhichFailsWithMatches:(NSIndexSet *)matches reason:(NSString *)reason;
 + (instancetype)handlerWhichFailsWithReason:(NSString *)reason;
+
++ (instancetype)handlerWithResult:(MCKVerificationResult *)result;
 + (instancetype)handlerWithImplementation:(MCKVerificationResult*(^)(MCKInvocationPrototype*, NSArray*))implementation;
 
 @property (nonatomic, readonly) MCKVerificationResult*(^implementation)(MCKInvocationPrototype*, NSArray*);

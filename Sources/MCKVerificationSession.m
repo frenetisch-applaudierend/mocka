@@ -10,6 +10,16 @@
 
 #import <Mocka/MCKVerificationHandler.h>
 #import <Mocka/MCKDefaultVerificationHandler.h>
+#import <Mocka/MCKVerificationResultCollector.h>
+
+
+@interface MCKVerificationSession ()
+
+@property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
+@property (nonatomic, strong) NSMutableArray *collectedResults;
+@property (nonatomic, strong) NSMutableArray *preservedInvocations;
+
+@end
 
 
 @implementation MCKVerificationSession
@@ -29,14 +39,50 @@
 - (void)verifyInvocations:(NSMutableArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
     MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
     
-    [invocations removeObjectsAtIndexes:result.matchingIndexes];
+    if (self.collector != nil) {
+        [self collectResult:result forInvocations:invocations];
+    } else {
+        [self processResult:result forInvocations:invocations];
+    }
     self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
-    
+}
+
+- (void)collectResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
+    [self.collectedResults addObject:result];
+    self.preservedInvocations = invocations;
+}
+
+- (void)processResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
+    [invocations removeObjectsAtIndexes:result.matchingIndexes];
     if (![result isSuccess]) {
         [self notifyFailureWithResult:result];
     }
     [self notifyFinish];
 }
+
+
+#pragma mark - Group Recording
+
+- (void)beginGroupRecordingWithCollector:(id<MCKVerificationResultCollector>)collector {
+    self.collector = collector;
+    self.collectedResults = [NSMutableArray array];
+}
+
+- (void)finishGroupRecording {
+    NSAssert(self.collector != nil, @"Finish called without collector");
+    
+    MCKVerificationResult *mergedResult = [self.collector resultByMergingResults:self.collectedResults];
+    if (mergedResult == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"merged result cannot be nil" userInfo:nil];
+    }
+    
+    [self processResult:mergedResult forInvocations:self.preservedInvocations];
+    self.preservedInvocations = nil;
+    self.collector = nil;
+}
+
+
+#pragma mark - Notifications
 
 - (void)notifyFailureWithResult:(MCKVerificationResult *)result {
     NSString *reason = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
@@ -45,15 +91,6 @@
 
 - (void)notifyFinish {
     [self.delegate verificationSessionDidEnd:self];
-}
-
-
-#pragma mark - Group Recording
-
-- (void)beginGroupRecordingWithCollector:(id<MCKVerificationResultCollector>)collector {
-}
-
-- (void)finishGroupRecording {
 }
 
 @end

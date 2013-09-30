@@ -40,6 +40,10 @@
     return [[self alloc] initWithResult:result implementation:nil];
 }
 
++ (instancetype)handlerWithResult:(MCKVerificationResult *)result {
+    return [[self alloc] initWithResult:result implementation:nil];
+}
+
 + (instancetype)handlerWithImplementation:(MCKVerificationResult*(^)(MCKInvocationPrototype*, NSArray*))implementation {
     return [[self alloc] initWithResult:nil implementation:implementation];
 }
