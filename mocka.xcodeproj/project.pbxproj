@@ -82,6 +82,9 @@
 		639085DF17F9C0F1006A0714 /* MCKVerificationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */; };
 		639085E217F9C341006A0714 /* MCKVerificationSessionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */; };
 		639085E917F9E782006A0714 /* FakeVerificationResultCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */; };
+		639085EF17FA1D3F006A0714 /* MCKVerificationResultCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */; };
+		639085F217FA2097006A0714 /* MCKInOrderCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085F017FA2097006A0714 /* MCKInOrderCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		639085F317FA2097006A0714 /* MCKInOrderCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085F117FA2097006A0714 /* MCKInOrderCollector.m */; };
 		6397EFC917F6F91800F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
 		6397EFCA17F6FAA700F5902F /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */; };
 		6397EFCB17F6FAA700F5902F /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30517F5A18400584A08 /* ExamplesVerify.m */; };
@@ -249,6 +252,9 @@
 		639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationSessionTest.m; sourceTree = "<group>"; };
 		639085E717F9E782006A0714 /* FakeVerificationResultCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeVerificationResultCollector.h; sourceTree = "<group>"; };
 		639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeVerificationResultCollector.m; sourceTree = "<group>"; };
+		639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationResultCollector.m; sourceTree = "<group>"; };
+		639085F017FA2097006A0714 /* MCKInOrderCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInOrderCollector.h; sourceTree = "<group>"; };
+		639085F117FA2097006A0714 /* MCKInOrderCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollector.m; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -570,6 +576,9 @@
 			isa = PBXGroup;
 			children = (
 				639085DA17F9C0D5006A0714 /* MCKVerificationResultCollector.h */,
+				639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */,
+				639085F017FA2097006A0714 /* MCKInOrderCollector.h */,
+				639085F117FA2097006A0714 /* MCKInOrderCollector.m */,
 			);
 			name = "Verification Result Collectors";
 			sourceTree = "<group>";
@@ -701,6 +710,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				639085F217FA2097006A0714 /* MCKInOrderCollector.h in Headers */,
 				638BA4B217F6F8690086226D /* MCKStub.h in Headers */,
 				638BA49017F6F7D70086226D /* Mocka.h in Headers */,
 				639085D817F9AD85006A0714 /* MCKVerificationSession.h in Headers */,
@@ -823,8 +833,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				639085F317FA2097006A0714 /* MCKInOrderCollector.m in Sources */,
 				638BA4CF17F6F8760086226D /* MCKSenTestFailureHandler.m in Sources */,
 				638BA4B117F6F8690086226D /* MCKInvocationStubber.m in Sources */,
+				639085EF17FA1D3F006A0714 /* MCKVerificationResultCollector.m in Sources */,
 				638BA4B917F6F8690086226D /* MCKPerformBlockStubAction.m in Sources */,
 				638BA4AA17F6F8580086226D /* MCKExactlyVerificationHandler.m in Sources */,
 				638BA4B517F6F8690086226D /* MCKStubAction.m in Sources */,

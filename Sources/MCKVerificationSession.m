@@ -16,7 +16,6 @@
 @interface MCKVerificationSession ()
 
 @property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
-@property (nonatomic, strong) NSMutableArray *collectedResults;
 @property (nonatomic, strong) NSMutableArray *preservedInvocations;
 
 @end
@@ -48,7 +47,7 @@
 }
 
 - (void)collectResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
-    [self.collectedResults addObject:result];
+    [self.collector collectVerificationResult:result];
     self.preservedInvocations = invocations;
 }
 
@@ -65,13 +64,12 @@
 
 - (void)beginGroupRecordingWithCollector:(id<MCKVerificationResultCollector>)collector {
     self.collector = collector;
-    self.collectedResults = [NSMutableArray array];
 }
 
 - (void)finishGroupRecording {
     NSAssert(self.collector != nil, @"Finish called without collector");
     
-    MCKVerificationResult *mergedResult = [self.collector resultByMergingResults:self.collectedResults];
+    MCKVerificationResult *mergedResult = [self.collector mergedVerificationResult];
     if (mergedResult == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"merged result cannot be nil" userInfo:nil];
     }

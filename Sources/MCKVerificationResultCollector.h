@@ -13,6 +13,17 @@
 
 @protocol MCKVerificationResultCollector <NSObject>
 
-- (MCKVerificationResult *)collectedResultFromResults:(NSArray *)results;
+- (void)collectVerificationResult:(MCKVerificationResult *)result;
+
+- (MCKVerificationResult *)resultByMergingResults:(NSArray *)results;
 
 @end
+
+
+#define mck_beginVerifyGroupCallsUsingCollector(COL) _mck_setVerifyGroupCollector(COL); while (_mck_executeGroupCalls(self))
+
+
+#pragma mark - Internal Bridging Calls
+
+extern void _mck_setVerifyGroupCollector(id<MCKVerificationResultCollector> collector);
+extern BOOL _mck_executeGroupCalls(id testCase);

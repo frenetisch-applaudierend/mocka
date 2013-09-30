@@ -9,6 +9,13 @@
 #import "FakeVerificationResultCollector.h"
 
 
+@interface FakeVerificationResultCollector ()
+
+@property (nonatomic, readonly) NSMutableArray *mutableCollectedResults;
+
+@end
+
+
 @implementation FakeVerificationResultCollector
 
 #pragma mark - Initialization
@@ -24,13 +31,27 @@
 - (instancetype)initWithMergedResult:(MCKVerificationResult *)result {
     if ((self = [super init])) {
         _mergedResult = result;
+        _mutableCollectedResults = [NSMutableArray array];
     }
     return self;
 }
 
-- (MCKVerificationResult *)resultByMergingResults:(NSArray *)results {
-    _collectedResults = [results copy];
+
+#pragma mark - Collector Methods
+
+- (void)collectVerificationResult:(MCKVerificationResult *)result {
+    [self.mutableCollectedResults addObject:result];
+}
+
+- (MCKVerificationResult *)mergedVerificationResult {
     return self.mergedResult;
+}
+
+
+#pragma mark - Getting Collected Results
+
+- (NSArray *)collectedResults {
+    return [self.mutableCollectedResults copy];
 }
 
 @end
