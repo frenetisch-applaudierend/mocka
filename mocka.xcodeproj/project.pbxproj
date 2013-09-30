@@ -69,10 +69,9 @@
 		638BA4D117F6F8760086226D /* MCKXCTestFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA43017F5B3B60086226D /* MCKXCTestFailureHandler.m */; };
 		638BA4D217F6F8760086226D /* MCKExceptionFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A117F5944B001F5C88 /* MCKExceptionFailureHandler.h */; };
 		638BA4D317F6F8760086226D /* MCKExceptionFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475A217F5944B001F5C88 /* MCKExceptionFailureHandler.m */; };
-		638BA4D417F6F87C0086226D /* MCKUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475CB17F5944B001F5C88 /* MCKUtilities.h */; };
 		638BA4D517F6F87C0086226D /* NSInvocation+MCKArgumentHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638BA4D617F6F87C0086226D /* NSInvocation+MCKArgumentHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */; };
-		638BA4D717F6F87C0086226D /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C917F5944B001F5C88 /* MCKTypeEncodings.h */; };
+		638BA4D717F6F87C0086226D /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C917F5944B001F5C88 /* MCKTypeEncodings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638BA4D817F6F87C0086226D /* MCKTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */; };
 		639085D217F8D185006A0714 /* MCKTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085D117F8D185006A0714 /* MCKTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		639085D417F99917006A0714 /* MCKArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D317F99917006A0714 /* MCKArgumentMatcher.m */; };
@@ -190,7 +189,6 @@
 		633475C617F5944B001F5C88 /* MCKThrowExceptionStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKThrowExceptionStubAction.m; sourceTree = "<group>"; };
 		633475C917F5944B001F5C88 /* MCKTypeEncodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKTypeEncodings.h; sourceTree = "<group>"; };
 		633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTypeEncodings.m; sourceTree = "<group>"; };
-		633475CB17F5944B001F5C88 /* MCKUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKUtilities.h; sourceTree = "<group>"; };
 		633475CD17F5944B001F5C88 /* MCKVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationHandler.h; sourceTree = "<group>"; };
 		633475CF17F5944B001F5C88 /* MCKVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerifier.h; sourceTree = "<group>"; };
 		633475D017F5944B001F5C88 /* MCKVerifyNoInteractions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerifyNoInteractions.h; sourceTree = "<group>"; };
@@ -336,10 +334,10 @@
 			children = (
 				633475D317F5944B001F5C88 /* Mocka.h */,
 				6334761D17F59466001F5C88 /* Mocking Core */,
-				6334761E17F594C0001F5C88 /* Verification */,
-				6334762117F598CE001F5C88 /* Stubbing */,
+				639085D517F9ACF1006A0714 /* Verification Result Collectors */,
+				6334762017F594F2001F5C88 /* Verification Handlers */,
+				6334762217F598EE001F5C88 /* Stub Actions */,
 				6334762317F5992F001F5C88 /* Argument Matchers */,
-				6334762417F599B1001F5C88 /* Failure Handling */,
 				6334762517F599EE001F5C88 /* Utilities */,
 				6334758617F59221001F5C88 /* Supporting Files */,
 			);
@@ -361,30 +359,15 @@
 				638BA43F17F5C6740086226D /* MCKMockingSyntax.m */,
 				633475AD17F5944B001F5C88 /* MCKMockingContext.h */,
 				633475AE17F5944B001F5C88 /* MCKMockingContext.m */,
-				633475B017F5944B001F5C88 /* MCKMockObject.h */,
-				633475B117F5944B001F5C88 /* MCKMockObject.m */,
-				633475BE17F5944B001F5C88 /* MCKSpy.h */,
-				633475BF17F5944B001F5C88 /* MCKSpy.m */,
 				638BA45017F5DCBC0086226D /* MCKInvocationPrototype.h */,
 				638BA45117F5DCBC0086226D /* MCKInvocationPrototype.m */,
-				6334759217F5944B001F5C88 /* MCKArgumentMatcherRecorder.h */,
-				6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */,
-				639085D617F9AD85006A0714 /* MCKVerificationSession.h */,
-				639085D717F9AD85006A0714 /* MCKVerificationSession.m */,
-				639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */,
-				639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */,
+				639085E417F9C529006A0714 /* Mock Objects */,
+				639085E617F9C5D7006A0714 /* Argument Matching Core */,
+				639085E317F9C517006A0714 /* Verification Core */,
+				639085E517F9C569006A0714 /* Stubbing Core */,
+				6334762417F599B1001F5C88 /* Failure Handling */,
 			);
 			name = "Mocking Core";
-			sourceTree = "<group>";
-		};
-		6334761E17F594C0001F5C88 /* Verification */ = {
-			isa = PBXGroup;
-			children = (
-				6334761F17F594E2001F5C88 /* Verification Modes */,
-				639085D517F9ACF1006A0714 /* Verification Result Collectors */,
-				6334762017F594F2001F5C88 /* Verification Handlers */,
-			);
-			name = Verification;
 			sourceTree = "<group>";
 		};
 		6334761F17F594E2001F5C88 /* Verification Modes */ = {
@@ -414,18 +397,6 @@
 				633475D117F5944B001F5C88 /* MCKVerifyNoInteractions.m */,
 			);
 			name = "Verification Handlers";
-			sourceTree = "<group>";
-		};
-		6334762117F598CE001F5C88 /* Stubbing */ = {
-			isa = PBXGroup;
-			children = (
-				633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */,
-				633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */,
-				633475C017F5944B001F5C88 /* MCKStub.h */,
-				633475C117F5944B001F5C88 /* MCKStub.m */,
-				6334762217F598EE001F5C88 /* Stub Actions */,
-			);
-			name = Stubbing;
 			sourceTree = "<group>";
 		};
 		6334762217F598EE001F5C88 /* Stub Actions */ = {
@@ -480,14 +451,11 @@
 		6334762517F599EE001F5C88 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				633475CB17F5944B001F5C88 /* MCKUtilities.h */,
-				633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */,
-				633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */,
-				6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */,
-				6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */,
+				639085D117F8D185006A0714 /* MCKTypes.h */,
 				633475C917F5944B001F5C88 /* MCKTypeEncodings.h */,
 				633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */,
-				639085D117F8D185006A0714 /* MCKTypes.h */,
+				633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */,
+				633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -517,10 +485,9 @@
 			isa = PBXGroup;
 			children = (
 				638BA45617F5DDFE0086226D /* Mocking Core */,
-				638BA45817F5DE620086226D /* Verification */,
-				638BA45917F5DE960086226D /* Stubbing */,
-				638BA45A17F5DE9E0086226D /* Argument Matching */,
-				638BA45C17F5DF0B0086226D /* Failure Handling */,
+				638BA45817F5DE620086226D /* Verification Handlers */,
+				638BA45917F5DE960086226D /* Stub Actions */,
+				638BA45A17F5DE9E0086226D /* Argument Matchers */,
 			);
 			name = "Unit Tests";
 			sourceTree = "<group>";
@@ -533,6 +500,13 @@
 				63732BCC17F5A8060041C869 /* MCKSpyTest.m */,
 				638BA45D17F5DF3F0086226D /* MCKInvocationPrototypeTest.m */,
 				63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */,
+				639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */,
+				63732BB917F5A8060041C869 /* MCKDefaultVerifierTest.m */,
+				63732BC517F5A8060041C869 /* MCKOrderedVerifierTest.m */,
+				63732BC017F5A8060041C869 /* MCKInvocationStubberTest.m */,
+				63732BC917F5A8060041C869 /* MCKSenTestFailureHandlerTest.m */,
+				638BA43517F5B66E0086226D /* MCKXCTestFailureHandlerTest.m */,
+				63732BBC17F5A8060041C869 /* MCKExceptionFailureHandlerTest.m */,
 			);
 			name = "Mocking Core";
 			sourceTree = "<group>";
@@ -547,32 +521,28 @@
 			name = "Integration Tests";
 			sourceTree = "<group>";
 		};
-		638BA45817F5DE620086226D /* Verification */ = {
+		638BA45817F5DE620086226D /* Verification Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */,
-				63732BB917F5A8060041C869 /* MCKDefaultVerifierTest.m */,
-				63732BC517F5A8060041C869 /* MCKOrderedVerifierTest.m */,
 				63732BB817F5A8060041C869 /* MCKDefaultVerificationHandlerTest.m */,
 				63732BC417F5A8060041C869 /* MCKNeverVerificationHandlerTest.m */,
 				63732BBB17F5A8060041C869 /* MCKExactlyVerificationHandlerTest.m */,
 			);
-			name = Verification;
+			name = "Verification Handlers";
 			sourceTree = "<group>";
 		};
-		638BA45917F5DE960086226D /* Stubbing */ = {
+		638BA45917F5DE960086226D /* Stub Actions */ = {
 			isa = PBXGroup;
 			children = (
-				63732BC017F5A8060041C869 /* MCKInvocationStubberTest.m */,
 				63732BC817F5A8060041C869 /* MCKReturnStubActionTest.m */,
 				63732BC617F5A8060041C869 /* MCKPerformBlockStubActionTest.m */,
 				63732BCD17F5A8060041C869 /* MCKThrowExceptionStubActionTest.m */,
 				63732BCA17F5A8060041C869 /* MCKSetOutParameterStubActionTest.m */,
 			);
-			name = Stubbing;
+			name = "Stub Actions";
 			sourceTree = "<group>";
 		};
-		638BA45A17F5DE9E0086226D /* Argument Matching */ = {
+		638BA45A17F5DE9E0086226D /* Argument Matchers */ = {
 			isa = PBXGroup;
 			children = (
 				63732BB617F5A8060041C869 /* MCKArgumentMatcherTest.m */,
@@ -581,17 +551,7 @@
 				63732BBA17F5A8060041C869 /* MCKExactArgumentMatcherTest.m */,
 				63732BBD17F5A8060041C869 /* MCKHamcrestArgumentMatcherTest.m */,
 			);
-			name = "Argument Matching";
-			sourceTree = "<group>";
-		};
-		638BA45C17F5DF0B0086226D /* Failure Handling */ = {
-			isa = PBXGroup;
-			children = (
-				63732BC917F5A8060041C869 /* MCKSenTestFailureHandlerTest.m */,
-				638BA43517F5B66E0086226D /* MCKXCTestFailureHandlerTest.m */,
-				63732BBC17F5A8060041C869 /* MCKExceptionFailureHandlerTest.m */,
-			);
-			name = "Failure Handling";
+			name = "Argument Matchers";
 			sourceTree = "<group>";
 		};
 		638BA46617F6F73C0086226D /* Documentation */ = {
@@ -609,6 +569,51 @@
 				639085DA17F9C0D5006A0714 /* MCKVerificationResultCollector.h */,
 			);
 			name = "Verification Result Collectors";
+			sourceTree = "<group>";
+		};
+		639085E317F9C517006A0714 /* Verification Core */ = {
+			isa = PBXGroup;
+			children = (
+				639085D617F9AD85006A0714 /* MCKVerificationSession.h */,
+				639085D717F9AD85006A0714 /* MCKVerificationSession.m */,
+				639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */,
+				639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */,
+				6334761F17F594E2001F5C88 /* Verification Modes */,
+			);
+			name = "Verification Core";
+			sourceTree = "<group>";
+		};
+		639085E417F9C529006A0714 /* Mock Objects */ = {
+			isa = PBXGroup;
+			children = (
+				633475B017F5944B001F5C88 /* MCKMockObject.h */,
+				633475B117F5944B001F5C88 /* MCKMockObject.m */,
+				633475BE17F5944B001F5C88 /* MCKSpy.h */,
+				633475BF17F5944B001F5C88 /* MCKSpy.m */,
+			);
+			name = "Mock Objects";
+			sourceTree = "<group>";
+		};
+		639085E517F9C569006A0714 /* Stubbing Core */ = {
+			isa = PBXGroup;
+			children = (
+				633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */,
+				633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */,
+				633475C017F5944B001F5C88 /* MCKStub.h */,
+				633475C117F5944B001F5C88 /* MCKStub.m */,
+			);
+			name = "Stubbing Core";
+			sourceTree = "<group>";
+		};
+		639085E617F9C5D7006A0714 /* Argument Matching Core */ = {
+			isa = PBXGroup;
+			children = (
+				6334759217F5944B001F5C88 /* MCKArgumentMatcherRecorder.h */,
+				6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */,
+				6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */,
+				6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */,
+			);
+			name = "Argument Matching Core";
 			sourceTree = "<group>";
 		};
 		63BDE2D817F59E9F00584A08 /* Utilities and Test Objects */ = {
@@ -728,7 +733,6 @@
 				638BA4C817F6F8710086226D /* MCKBlockArgumentMatcher.h in Headers */,
 				638BA4D517F6F87C0086226D /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				638BA49117F6F7DC0086226D /* MCKMockingSyntax.h in Headers */,
-				638BA4D417F6F87C0086226D /* MCKUtilities.h in Headers */,
 				638BA4BC17F6F8690086226D /* MCKSetOutParameterStubAction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -87,8 +87,10 @@
     [failureHandler handleFailureWithReason:nil];
     
     // then
-    XCTAssertEqualObjects(testCase.lastReportedFailure.userInfo[SenTestFilenameKey], @"Foofile.m", @"Incorrect file name reported");
-    XCTAssertEqualObjects(testCase.lastReportedFailure.userInfo[SenTestLineNumberKey], @10, @"Incorrect line number reported");
+    XCTAssertEqualObjects(testCase.lastReportedFailure.userInfo[SenTestFilenameKey], @"Foofile.m",
+                          @"Incorrect file name reported");
+    XCTAssertEqualObjects(testCase.lastReportedFailure.userInfo[SenTestLineNumberKey], @10,
+                          @"Incorrect line number reported");
 }
 
 @end

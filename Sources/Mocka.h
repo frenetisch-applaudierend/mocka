@@ -30,4 +30,5 @@
 #import <Mocka/MCKHamcrestArgumentMatcher.h>
 
 #import <Mocka/MCKTypes.h>
+#import <Mocka/MCKTypeEncodings.h>
 #import <Mocka/NSInvocation+MCKArgumentHandling.h>
