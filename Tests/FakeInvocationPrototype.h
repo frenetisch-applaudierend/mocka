@@ -6,7 +6,7 @@
 //
 //
 
-#import "MCKInvocationPrototype.h"
+#import <Mocka/MCKInvocationPrototype.h>
 
 
 @interface FakeInvocationPrototype : MCKInvocationPrototype

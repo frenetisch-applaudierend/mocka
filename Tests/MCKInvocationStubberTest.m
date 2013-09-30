@@ -7,11 +7,12 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "MCKInvocationStubber.h"
-#import "MCKInvocationPrototype.h"
 #import "MCKStub.h"
-#import "MCKPerformBlockStubAction.h"
-#import "MCKBlockArgumentMatcher.h"
+
+#import <Mocka/MCKPerformBlockStubAction.h>
+#import <Mocka/MCKBlockArgumentMatcher.h>
 
 #import "NSInvocation+TestSupport.h"
 #import "FakeInvocationPrototype.h"

@@ -8,8 +8,8 @@
 
 #import "MCKDefaultVerifier.h"
 
-#import "MCKVerificationHandler.h"
-#import "MCKInvocationPrototype.h"
+#import <Mocka/MCKVerificationHandler.h>
+
 #import "MCKFailureHandler.h"
 
 

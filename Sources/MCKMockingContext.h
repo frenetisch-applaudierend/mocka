@@ -79,6 +79,8 @@ typedef enum {
 @property (nonatomic, strong) id<MCKVerifier> verifier;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 
+- (void)beginVerification;
+
 
 #pragma mark - Argument Matchers
 

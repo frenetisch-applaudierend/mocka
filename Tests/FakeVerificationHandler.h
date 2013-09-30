@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCKVerificationHandler.h"
-#import "MCKInvocationPrototype.h"
+
+#import <Mocka/MCKVerificationHandler.h>
 
 
 typedef MCKVerificationResult*(^FakeVerificationHandlerImplementation)(MCKInvocationPrototype*, NSArray*);
 
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
 
-+ (id)handlerWhichFailsWithMessage:(NSString *)message;
-+ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
-+ (id)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl;
++ (instancetype)handlerWhichFailsWithMessage:(NSString *)message;
++ (instancetype)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
++ (instancetype)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl;
 
 @property (nonatomic, readonly) NSUInteger numberOfCalls;
 

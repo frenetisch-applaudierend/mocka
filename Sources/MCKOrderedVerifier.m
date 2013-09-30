@@ -8,9 +8,10 @@
 
 #import "MCKOrderedVerifier.h"
 
+#import <Mocka/MCKInvocationPrototype.h>
+#import <Mocka/MCKVerificationHandler.h>
+
 #import "MCKDefaultVerifier.h"
-#import "MCKInvocationPrototype.h"
-#import "MCKVerificationHandler.h"
 #import "MCKFailureHandler.h"
 
 

@@ -68,14 +68,14 @@
 - (void)testThrowingPreconfiguredExceptionFromMockedMethod {
     // you can throw a preconfigured exception in a stubbed method
     
-    NSException *preconfiguredException = [NSException exceptionWithName:NSRangeException reason:@"Index 1 out of bounds" userInfo:nil];
-    whenCalling [mockArray objectAtIndex:1] thenDo throwException(preconfiguredException);
+    NSException *stubException = [NSException exceptionWithName:NSRangeException reason:@"Index 1 out of bounds" userInfo:nil];
+    whenCalling [mockArray objectAtIndex:1] thenDo throwException(stubException);
     
     @try {
         [mockArray objectAtIndex:1];
         XCTFail(@"Should have thrown");
     } @catch (id exception) {
-        XCTAssertEqualObjects(exception, preconfiguredException, @"Wrong exception was thrown");
+        XCTAssertEqualObjects(exception, stubException, @"Wrong exception was thrown");
     }
 }
 
@@ -94,11 +94,11 @@
     // you can provide a block which gets the NSInvocation passed which you can manipulate at will
     
     whenCalling [mockArray objectAtIndex:11] thenDo performBlock(^(NSInvocation *inv) {
-        NSNumber *returnValue = @([inv unsignedIntegerParameterAtIndex:0]);
+        NSNumber *returnValue = @([inv unsignedIntegerParameterAtIndex:0] + 1);
         [inv setReturnValue:&returnValue];
     });
     
-    XCTAssertEqualObjects([mockArray objectAtIndex:11], @11, @"Wrong return value generated");
+    XCTAssertEqualObjects([mockArray objectAtIndex:11], @12, @"Wrong return value generated");
 }
 
 
@@ -132,8 +132,7 @@
     __block BOOL executed = NO;
     whenCalling [mockArray count] thenDo {
         performBlock(^(NSInvocation *inv) {
-            // do something useful here
-            executed = YES;
+            executed = YES; // do something useful here instead
         });
         returnValue(10);
     }
@@ -206,7 +205,8 @@
         returnValue(NO);
     };
     
-    XCTAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL], @"Should not have failed");
+    XCTAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL],
+                     @"Should not have failed");
 }
 
 

@@ -8,8 +8,6 @@
 
 #import "MCKNeverVerificationHandler.h"
 
-#import "MCKInvocationPrototype.h"
-
 
 @implementation MCKNeverVerificationHandler
 

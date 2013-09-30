@@ -8,8 +8,6 @@
 
 #import "MCKExactlyVerificationHandler.h"
 
-#import "MCKInvocationPrototype.h"
-
 
 @implementation MCKExactlyVerificationHandler
 

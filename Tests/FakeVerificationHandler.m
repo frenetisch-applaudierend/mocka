@@ -19,19 +19,19 @@
 
 #pragma mark - Initialization
 
-+ (id)handlerWhichFailsWithMessage:(NSString *)message {
++ (instancetype)handlerWhichFailsWithMessage:(NSString *)message {
     return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message implementation:nil];
 }
 
-+ (id)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
++ (instancetype)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
     return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil implementation:nil];
 }
 
-+ (id)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl {
++ (instancetype)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl {
     return [[self alloc] initWithResult:nil isSatisfied:NO failureMessage:nil implementation:impl];
 }
 
-- (id)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message
+- (instancetype)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message
       implementation:(FakeVerificationHandlerImplementation)impl
 {
     if ((self = [super init])) {
