@@ -11,6 +11,7 @@
 
 @interface FakeInvocationPrototype : MCKInvocationPrototype
 
++ (instancetype)dummy;
 + (instancetype)thatAlwaysMatches;
 + (instancetype)thatNeverMatches;
 

@@ -13,6 +13,10 @@
 
 #pragma mark - Initialization
 
++ (instancetype)dummy {
+    return [self thatAlwaysMatches];
+}
+
 + (instancetype)thatAlwaysMatches {
     return [self withImplementation:^BOOL(NSInvocation *candidate) {
         return YES;
