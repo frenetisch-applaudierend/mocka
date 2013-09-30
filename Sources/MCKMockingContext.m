@@ -207,11 +207,26 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Argument Matching
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (self.mode == MCKContextModeRecording) {
-        [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
+    if (![self checkCanPushArgumentMatcher]) {
         return 0;
     }
     return [self.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
+}
+
+- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+    if (![self checkCanPushArgumentMatcher]) {
+        return 0;
+    }
+    return [self.argumentMatcherRecorder addObjectArgumentMatcher:matcher];
+}
+
+- (BOOL)checkCanPushArgumentMatcher {
+    if (self.mode == MCKContextModeRecording) {
+        [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 @end

@@ -30,8 +30,14 @@
 #pragma mark - Test Cases
 
 - (void)testThatObjectArgumentMatcherIsPassedDirectly {
+    // given
+    [context updateContextMode:MCKContextModeStubbing];
+    
+    // when
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
     id value = mck_registerObjectMatcher(matcher);
+    
+    // then
     XCTAssertTrue(matcher == value, @"Wrong object is returned");
 }
 
@@ -46,7 +52,7 @@
     UInt8 value = mck_registerPrimitiveNumberMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(int)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
                    (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
@@ -59,10 +65,10 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    char *value = mck_registerCStringMatcher([[MCKBlockArgumentMatcher alloc] init], MCKDefaultCStringBuffer);
+    char *value = mck_registerCStringMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(char*)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
                    (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
@@ -78,7 +84,7 @@
     SEL value = mck_registerSelectorMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(SEL)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
                    (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
@@ -94,7 +100,7 @@
     void *value = mck_registerPointerMatcher([[MCKBlockArgumentMatcher alloc] init]);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(void*)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
                    (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }
@@ -110,7 +116,7 @@
     NSRange value = mck_registerStructMatcher([[MCKBlockArgumentMatcher alloc] init], NSRange);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value, @encode(NSRange)),
+    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
                    (int)([recorder.argumentMatchers count] - 1),
                    @"Wrong index returned");
 }

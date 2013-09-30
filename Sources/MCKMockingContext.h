@@ -85,5 +85,6 @@ typedef enum {
 @property (nonatomic, readonly) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
+- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 
 @end

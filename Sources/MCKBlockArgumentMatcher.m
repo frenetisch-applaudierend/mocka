@@ -68,7 +68,7 @@ BOOL mck_boolMatching(BOOL(^block)(BOOL candidate)) {
 }
 
 const char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {
-    return mck_registerCStringMatcher(CREATE_MATCHER(block, mck_decodeCStringArgument), MCKDefaultCStringBuffer);
+    return mck_registerCStringMatcher(CREATE_MATCHER(block, mck_decodeCStringArgument));
 }
 
 SEL mck_selectorMatching(BOOL(^block)(SEL candidate)) {

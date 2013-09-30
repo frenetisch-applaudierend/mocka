@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKAnyArgumentMatcher.h"
+#import "MCKMockingContext.h"
 #import "MCKExceptionFailureHandler.h"
 
 

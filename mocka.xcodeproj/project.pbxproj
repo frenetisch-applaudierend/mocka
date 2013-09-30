@@ -77,6 +77,7 @@
 		638BA4D717F6F87C0086226D /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C917F5944B001F5C88 /* MCKTypeEncodings.h */; };
 		638BA4D817F6F87C0086226D /* MCKTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */; };
 		639085D217F8D185006A0714 /* MCKTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085D117F8D185006A0714 /* MCKTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		639085D417F99917006A0714 /* MCKArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D317F99917006A0714 /* MCKArgumentMatcher.m */; };
 		6397EFC917F6F91800F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
 		6397EFCA17F6FAA700F5902F /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */; };
 		6397EFCB17F6FAA700F5902F /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30517F5A18400584A08 /* ExamplesVerify.m */; };
@@ -240,6 +241,7 @@
 		638BA46D17F6F7A30086226D /* libmocka-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		638BA47A17F6F7A30086226D /* mocka-tests-ios.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-tests-ios.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		639085D117F8D185006A0714 /* MCKTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKTypes.h; sourceTree = "<group>"; };
+		639085D317F99917006A0714 /* MCKArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcher.m; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -438,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				6334759117F5944B001F5C88 /* MCKArgumentMatcher.h */,
+				639085D317F99917006A0714 /* MCKArgumentMatcher.m */,
 				6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */,
 				6334759017F5944B001F5C88 /* MCKAnyArgumentMatcher.m */,
 				6334759D17F5944B001F5C88 /* MCKExactArgumentMatcher.h */,
@@ -824,6 +827,7 @@
 				638BA4B717F6F8690086226D /* MCKReturnStubAction.m in Sources */,
 				638BA4A817F6F8580086226D /* MCKNeverVerificationHandler.m in Sources */,
 				638BA4D617F6F87C0086226D /* NSInvocation+MCKArgumentHandling.m in Sources */,
+				639085D417F99917006A0714 /* MCKArgumentMatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

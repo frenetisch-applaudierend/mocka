@@ -13,8 +13,8 @@
 
 @interface MCKArgumentMatcherRecorder ()
 
-@property (nonatomic, readonly) NSMutableArray *mutablePrimitiveMatchers;
-@property (nonatomic, readonly) NSMutableArray *mutableObjectMatchers;
+@property (nonatomic, assign) NSUInteger primitiveMatcherCount;
+@property (nonatomic, readonly) NSMutableArray *mutableArgumentMatchers;
 
 @end
 
@@ -24,8 +24,7 @@
 
 - (instancetype)init {
     if ((self = [super init])) {
-        _mutablePrimitiveMatchers = [NSMutableArray array];
-        _mutableObjectMatchers = [NSMutableArray array];
+        _mutableArgumentMatchers = [NSMutableArray array];
     }
     return self;
 }
@@ -34,7 +33,7 @@
 #pragma mark - Adding Matchers
 
 - (NSArray *)argumentMatchers {
-    return [self.mutablePrimitiveMatchers arrayByAddingObjectsFromArray:self.mutableObjectMatchers];
+    return [self.mutableArgumentMatchers copy];
 }
 
 - (NSArray *)collectAndReset {
@@ -44,32 +43,41 @@
 }
 
 - (UInt8)addPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if ([self.mutablePrimitiveMatchers count] > UINT8_MAX) {
-        [[MCKMockingContext currentContext] failWithReason:@"Only UINT8_MAX primitive matchers supported"];
+    self.primitiveMatcherCount++;
+    return [self addArgumentMatcher:matcher];
+}
+
+- (UInt8)addObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+    return [self addArgumentMatcher:matcher];
+}
+
+- (UInt8)addArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+    if ([self.mutableArgumentMatchers count] > UINT8_MAX) {
+        [[MCKMockingContext currentContext] failWithReason:@"Only UINT8_MAX matchers supported"];
         return UINT8_MAX;
     }
-    [self.mutablePrimitiveMatchers addObject:matcher];
-    return ([self.mutablePrimitiveMatchers count] - 1);
+    [self.mutableArgumentMatchers addObject:matcher];
+    return ([self.mutableArgumentMatchers count] - 1);
 }
 
 - (void)reset {
-    [self.mutablePrimitiveMatchers removeAllObjects];
-    [self.mutableObjectMatchers removeAllObjects];
+    [self.mutableArgumentMatchers removeAllObjects];
+    self.primitiveMatcherCount = 0;
 }
 
 
-#pragma mark - Validating the Collection
+#pragma mark - Validating the Recorder
 
 - (BOOL)isValidForMethodSignature:(NSMethodSignature *)signature reason:(NSString **)reason {
-    if ([self.mutablePrimitiveMatchers count] == 0) {
+    if (self.primitiveMatcherCount == 0) {
         return YES;
     }
     
     NSUInteger signaturePrimitiveArgs = [self countPrimitiveArgumentsOfSignature:signature];
-    if (signaturePrimitiveArgs > [self.mutablePrimitiveMatchers count]) {
+    if (signaturePrimitiveArgs > self.primitiveMatcherCount) {
         if (reason != NULL) { *reason = @"When using argument matchers, all non-object arguments must be matchers"; }
         return NO;
-    } else if (signaturePrimitiveArgs < [self.mutablePrimitiveMatchers count]) {
+    } else if (signaturePrimitiveArgs < self.primitiveMatcherCount) {
         if (reason != NULL) { *reason = @"Too many primitive matchers for this method invocation"; }
         return NO;
     }

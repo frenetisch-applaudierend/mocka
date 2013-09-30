@@ -19,6 +19,7 @@
 @property (nonatomic, readonly) NSArray *argumentMatchers;
 
 - (UInt8)addPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
+- (UInt8)addObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 
 - (NSArray *)collectAndReset; // Return all matchers and then reset
 

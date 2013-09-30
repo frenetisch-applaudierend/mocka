@@ -78,7 +78,7 @@ BOOL mck_boolArg(BOOL arg) {
 }
 
 char* mck_cStringArg(const char *arg) {
-    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], MCKDefaultCStringBuffer);
+    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }
 
 SEL mck_selectorArg(SEL arg) {

@@ -37,7 +37,7 @@ BOOL mck_anyBool(void) {
 }
 
 char* mck_anyCString(void) {
-    return mck_registerCStringMatcher([[MCKAnyArgumentMatcher alloc] init], MCKDefaultCStringBuffer);
+    return mck_registerCStringMatcher([[MCKAnyArgumentMatcher alloc] init]);
 }
 
 SEL mck_anySelector(void) {
