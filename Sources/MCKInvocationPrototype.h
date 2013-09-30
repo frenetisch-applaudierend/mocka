@@ -1,6 +1,6 @@
 //
 //  MCKInvocationPrototype.h
-//  Framework
+//  mocka
 //
 //  Created by Markus Gasser on 27.9.2013.
 //

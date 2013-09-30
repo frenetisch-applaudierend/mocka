@@ -1,6 +1,6 @@
 //
 //  MCKInvocationPrototype.m
-//  Framework
+//  mocka
 //
 //  Created by Markus Gasser on 27.9.2013.
 //
@@ -8,9 +8,10 @@
 
 #import "MCKInvocationPrototype.h"
 
-#import "MCKArgumentMatcher.h"
-#import "MCKExactArgumentMatcher.h"
-#import "MCKHamcrestArgumentMatcher.h"
+#import <Mocka/MCKArgumentMatcher.h>
+#import <Mocka/MCKExactArgumentMatcher.h>
+#import <Mocka/MCKHamcrestArgumentMatcher.h>
+
 #import "MCKTypeEncodings.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 

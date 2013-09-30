@@ -28,3 +28,5 @@
 #import <Mocka/MCKExactArgumentMatcher.h>
 #import <Mocka/MCKBlockArgumentMatcher.h>
 #import <Mocka/MCKHamcrestArgumentMatcher.h>
+
+#import <Mocka/MCKTypes.h>

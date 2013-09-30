@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKBlockArgumentMatcher.h"
+#import "MCKArgumentSerialization.h"
 
 
 @interface MCKBlockArgumentMatcherTest : XCTestCase

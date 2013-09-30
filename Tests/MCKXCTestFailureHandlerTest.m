@@ -1,9 +1,9 @@
 //
 //  MCKXCTestFailureHandlerTest.m
-//  Framework
+//  mocka
 //
 //  Created by Markus Gasser on 27.9.2013.
-//  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

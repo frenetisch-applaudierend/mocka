@@ -13,18 +13,18 @@
 
 #pragma mark - Initialization
 
-+ (id)matcherWithArgument:(id)expected {
++ (instancetype)matcherWithArgument:(id)expected {
     return [[self alloc] initWithArgument:expected];
 }
 
-- (id)initWithArgument:(id)expected {
+- (instancetype)initWithArgument:(id)expected {
     if ((self = [super init])) {
         [self setExpectedArgument:expected];
     }
     return self;
 }
 
-- (id)init {
+- (instancetype)init {
     return [self initWithArgument:nil];
 }
 
@@ -39,14 +39,56 @@
 #pragma mark - Argument Matching
 
 - (BOOL)matchesCandidate:(id)candidate {
-    return (candidate == _expectedArgument || (candidate != nil && _expectedArgument != nil && [candidate isEqual:_expectedArgument]));
+    return (candidate == self.expectedArgument
+            || (candidate != nil
+                && self.expectedArgument != nil
+                && [candidate isEqual:self.expectedArgument]));
 }
 
 
 #pragma mark - Debugging
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p expected=%@>", [self class], self, _expectedArgument];
+    return [NSString stringWithFormat:@"<%@: %p expected=%@>", [self class], self, self.expectedArgument];
 }
 
 @end
+
+
+#pragma mark - Mocking Syntax
+
+char mck_intArg(int64_t arg) {
+    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+}
+
+char mck_unsignedIntArg(uint64_t arg) {
+    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+}
+
+float mck_floatArg(float arg) {
+    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+}
+
+double mck_doubleArg(double arg) {
+    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+}
+
+BOOL mck_boolArg(BOOL arg) {
+    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+}
+
+char* mck_cStringArg(const char *arg) {
+    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], MCKDefaultCStringBuffer);
+}
+
+SEL mck_selectorArg(SEL arg) {
+    return mck_registerSelectorMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+}
+
+void* mck_pointerArg(void *arg) {
+    return mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+}
+
+mck_objptr mck_objectPointerArg(id *arg) {
+    return (mck_objptr)mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+}
