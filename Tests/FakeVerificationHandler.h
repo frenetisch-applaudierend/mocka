@@ -11,18 +11,29 @@
 #import <Mocka/MCKVerificationHandler.h>
 
 
-typedef MCKVerificationResult*(^FakeVerificationHandlerImplementation)(MCKInvocationPrototype*, NSArray*);
-
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
 
-+ (instancetype)handlerWhichFailsWithMessage:(NSString *)message;
-+ (instancetype)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied;
-+ (instancetype)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl;
++ (instancetype)handlerWhichSucceeds;
++ (instancetype)handlerWhichSucceedsWithMatches:(NSIndexSet *)matches;
++ (instancetype)handlerWhichFailsWithMatches:(NSIndexSet *)matches reason:(NSString *)reason;
++ (instancetype)handlerWhichFailsWithReason:(NSString *)reason;
++ (instancetype)handlerWithImplementation:(MCKVerificationResult*(^)(MCKInvocationPrototype*, NSArray*))implementation;
 
-@property (nonatomic, readonly) NSUInteger numberOfCalls;
+@property (nonatomic, readonly) MCKVerificationResult*(^implementation)(MCKInvocationPrototype*, NSArray*);
+@property (nonatomic, readonly) MCKVerificationResult *result;
+@property (nonatomic, readonly) NSArray *calls; // instances of FakeVerificationHandlerCall
 
-@property (nonatomic, readonly) NSInvocation *lastPrototypeInvocation;
-@property (nonatomic, readonly) NSArray      *lastArgumentMatchers;
-@property (nonatomic, readonly) NSArray      *lastRecordedInvocations;
+@end
+
+
+@interface FakeVerificationHandlerCall : NSObject
+
++ (instancetype)callWithPrototype:(MCKInvocationPrototype *)prototype
+                      invocations:(NSArray *)invocations
+                           result:(MCKVerificationResult *)result;
+
+@property (nonatomic, readonly) MCKInvocationPrototype *prototype;
+@property (nonatomic, readonly) NSArray *invocations;
+@property (nonatomic, readonly) MCKVerificationResult *result;
 
 @end

@@ -9,36 +9,48 @@
 #import "FakeVerificationHandler.h"
 
 
-@implementation FakeVerificationHandler {
-    NSIndexSet *_result;
-    BOOL        _satisfied;
-    NSString   *_failureMessage;
-    FakeVerificationHandlerImplementation _implementation;
-}
+@interface FakeVerificationHandler ()
 
+@property (nonatomic, readonly) NSMutableArray *recordedCalls;
+
+@end
+
+
+@implementation FakeVerificationHandler
 
 #pragma mark - Initialization
 
-+ (instancetype)handlerWhichFailsWithMessage:(NSString *)message {
-    return [[self alloc] initWithResult:[NSIndexSet indexSet] isSatisfied:NO failureMessage:message implementation:nil];
++ (instancetype)handlerWhichSucceeds {
+    MCKVerificationResult* result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
+    return [[self alloc] initWithResult:result implementation:nil];
 }
 
-+ (instancetype)handlerWhichReturns:(NSIndexSet *)indexSet isSatisfied:(BOOL)isSatisfied {
-    return [[self alloc] initWithResult:indexSet isSatisfied:isSatisfied failureMessage:nil implementation:nil];
++ (instancetype)handlerWhichSucceedsWithMatches:(NSIndexSet *)matches {
+    MCKVerificationResult* result = [MCKVerificationResult successWithMatchingIndexes:matches];
+    return [[self alloc] initWithResult:result implementation:nil];
 }
 
-+ (instancetype)handlerWithImplementation:(FakeVerificationHandlerImplementation)impl {
-    return [[self alloc] initWithResult:nil isSatisfied:NO failureMessage:nil implementation:impl];
++ (instancetype)handlerWhichFailsWithMatches:(NSIndexSet *)matches reason:(NSString *)reason {
+    MCKVerificationResult* result = [MCKVerificationResult failureWithReason:reason matchingIndexes:matches];
+    return [[self alloc] initWithResult:result implementation:nil];
 }
 
-- (instancetype)initWithResult:(NSIndexSet *)result isSatisfied:(BOOL)satisfied failureMessage:(NSString *)message
-      implementation:(FakeVerificationHandlerImplementation)impl
++ (instancetype)handlerWhichFailsWithReason:(NSString *)reason {
+    MCKVerificationResult* result = [MCKVerificationResult failureWithReason:reason matchingIndexes:[NSIndexSet indexSet]];
+    return [[self alloc] initWithResult:result implementation:nil];
+}
+
++ (instancetype)handlerWithImplementation:(MCKVerificationResult*(^)(MCKInvocationPrototype*, NSArray*))implementation {
+    return [[self alloc] initWithResult:nil implementation:implementation];
+}
+
+- (instancetype)initWithResult:(MCKVerificationResult *)result
+                implementation:(MCKVerificationResult*(^)(MCKInvocationPrototype*, NSArray*))implementation
 {
     if ((self = [super init])) {
-        _result = [result copy];
-        _satisfied = satisfied;
-        _failureMessage = [message copy];
-        _implementation = [impl copy];
+        _result = result;
+        _implementation = [implementation copy];
+        _recordedCalls = [NSMutableArray array];
     }
     return self;
 }
@@ -46,17 +58,40 @@
 
 #pragma mark - MCKVerificationHandler
 
+- (NSArray *)calls {
+    return [self.recordedCalls copy];
+}
+
 - (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
-    _lastPrototypeInvocation = prototype.invocation;
-    _lastArgumentMatchers = [prototype.argumentMatchers copy];
-    _lastRecordedInvocations = [invocations copy];
-    _numberOfCalls++;
-    
-    if (_implementation != nil) {
-        return _implementation(prototype, invocations);
-    } else {
-        return [[MCKVerificationResult alloc] initWithSuccess:_satisfied failureReason:_failureMessage matchingIndexes:_result];
+    MCKVerificationResult *result = (self.implementation != nil ? self.implementation(prototype, invocations) : self.result);
+    FakeVerificationHandlerCall *call =
+    [FakeVerificationHandlerCall callWithPrototype:prototype invocations:invocations result:result];
+    [self.recordedCalls addObject:call];
+    return result;
+}
+
+@end
+
+
+@implementation FakeVerificationHandlerCall
+
++ (instancetype)callWithPrototype:(MCKInvocationPrototype *)prototype
+                      invocations:(NSArray *)invocations
+                           result:(MCKVerificationResult *)result
+{
+    return [[self alloc] initWithPrototype:prototype invocations:invocations result:result];
+}
+
+- (instancetype)initWithPrototype:(MCKInvocationPrototype *)prototype
+                      invocations:(NSArray *)invocations
+                           result:(MCKVerificationResult *)result
+{
+    if ((self = [super init])) {
+        _prototype = prototype;
+        _invocations = [invocations copy];
+        _result = result;
     }
+    return self;
 }
 
 @end

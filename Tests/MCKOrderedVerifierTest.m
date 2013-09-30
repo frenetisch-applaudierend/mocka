@@ -39,18 +39,19 @@
 
 - (void)testThatVerifyInvocationUsesVerificationHandler {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
+    verifier.verificationHandler = handler;
     
     // when
     [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     
     // then
-    XCTAssertEqual([(FakeVerificationHandler *)verifier.verificationHandler numberOfCalls], (NSUInteger)1, @"Number of calls is wrong");
+    XCTAssertEqual([handler.calls count], (NSUInteger)1, @"Number of calls is wrong");
 }
 
 - (void)testThatVerifyInvocationFailsIfHandlerIsNotSatisfied {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     
     // then
     AssertFails({
@@ -69,7 +70,7 @@
     [matching addIndex:0];
     [matching addIndex:2];
     
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:matching isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matching];
     
     // when
     [verifier verifyPrototype:prototype invocations:recordedInvocations];
@@ -92,7 +93,7 @@
     [matching addIndex:0];
     [matching addIndex:2];
     
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:matching isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matching];
     
     
     // when
@@ -116,11 +117,11 @@
     [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(copy)]];
     [recordedInvocations addObject:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(mutableCopy)]];
     
-    NSMutableIndexSet *toRemove = [NSMutableIndexSet indexSet];
-    [toRemove addIndex:1];
-    [toRemove addIndex:3];
+    NSMutableIndexSet *matching = [NSMutableIndexSet indexSet];
+    [matching addIndex:1];
+    [matching addIndex:3];
     
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:toRemove isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matching];
     verifier.skippedInvocations = 1;
     
     // when
@@ -134,13 +135,13 @@
 #pragma mark - Test Return Value
 
 - (void)testThatVerifyInvocationReturnsVerificationModeForSatisfiedHandler {
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
     MCKContextMode newMode = [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     XCTAssertEqual(newMode, MCKContextModeVerifying, @"Wrong context mode returned");
 }
 
 - (void)testThatVerifyInvocationReturnsVerificationModeForUnsatisfiedHandler {
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     verifier.failureHandler = nil; // needed to prevent exception
     MCKContextMode newMode = [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     XCTAssertEqual(newMode, MCKContextModeVerifying, @"Wrong context mode returned");
@@ -151,7 +152,7 @@
 
 - (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:@"Foo was never called"];
     
     // then
     AssertFailsWith(@"verify: Foo was never called", nil, 0, {
@@ -161,7 +162,7 @@
 
 - (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     
     // then
     AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {

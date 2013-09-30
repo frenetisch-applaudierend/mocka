@@ -39,19 +39,21 @@
 
 - (void)testThatVerifyInvocationUsesVerificationHandler {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
+    verifier.verificationHandler = handler;
     
     // when
     [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     
     // then
-    XCTAssertEqual([(FakeVerificationHandler *)verifier.verificationHandler numberOfCalls], (NSUInteger)1,
-                   @"Number of calls is wrong");
+    XCTAssertEqual([handler.calls count], (NSUInteger)1, @"Number of calls is wrong");
 }
 
 - (void)testThatVerifyInvocationFailsIfHandlerIsNotSatisfied {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    verifier.verificationHandler = handler;
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     
     // then
     AssertFails({
@@ -70,7 +72,7 @@
     [matching addIndex:0];
     [matching addIndex:2];
     
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:matching isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matching];
     
     // when
     [verifier verifyPrototype:prototype invocations:recordedInvocations];
@@ -84,13 +86,13 @@
 #pragma mark - Test Return Value
 
 - (void)testThatVerifyInvocationReturnsRecordingModeForSatisfiedHandler {
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:YES];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
     MCKContextMode newMode = [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     XCTAssertEqual(newMode, MCKContextModeRecording, @"Wrong context mode returned");
 }
 
 - (void)testThatVerifyInvocationReturnsRecordingModeForUnsatisfiedHandler {
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichReturns:[NSIndexSet indexSet] isSatisfied:NO];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     verifier.failureHandler = nil; // needed to prevent exception
     MCKContextMode newMode = [verifier verifyPrototype:prototype invocations:[NSMutableArray array]];
     XCTAssertEqual(newMode, MCKContextModeRecording, @"Wrong context mode returned");
@@ -101,7 +103,7 @@
 
 - (void)testThatContextFailsWithCorrectErrorMessageForFailedVerify {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:@"Foo was never called"];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:@"Foo was never called"];
     
     // then
     AssertFailsWith(@"verify: Foo was never called", nil, 0, {
@@ -111,7 +113,7 @@
 
 - (void)testThatContextFailsWithDefaultErrorMessageForVerifyIfTheHandlerDoesNotProvideOne {
     // given
-    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMessage:nil];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     
     // then
     AssertFailsWith(@"verify: failed with an unknown reason", nil, 0, {
