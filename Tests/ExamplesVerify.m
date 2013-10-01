@@ -340,8 +340,8 @@
     };
     
     verify inOrder {
-        verify [mockArray count];
-        verify [mockArray removeAllObjects];
+        [mockArray count];
+        [mockArray removeAllObjects];
     };
 }
 
@@ -360,8 +360,8 @@
     
     ThisWillFail({
         verify inOrder {
-            verify [mockArray removeAllObjects];
-            verify [mockArray count];
+            [mockArray removeAllObjects];
+            [mockArray count];
         };
     });
 }

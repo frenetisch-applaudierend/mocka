@@ -188,7 +188,7 @@
     XCTAssertFalse(onFailureCalled, @"On failure was called");
 }
 
-- (void)testThatVerifyDoesNotNotifyFinishOrFailureAfterFailureInGroupMode {
+- (void)testThatVerifyNotifiesOnlyFailureAfterFailureInGroupMode {
     // given
     session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
@@ -201,7 +201,7 @@
     
     // then
     XCTAssertFalse(onFinishCalled, @"On finish was called");
-    XCTAssertFalse(onFailureCalled, @"On failure was called");
+    XCTAssertTrue(onFailureCalled, @"On failure was not called");
 }
 
 - (void)testThatVerifyDoesNotRemoveMatchingInvocationsAfterSuccessInGroupMode {
@@ -323,11 +323,11 @@
     XCTAssertEqualObjects(calls, (@[ @"onFailure", @"onFinish" ]), @"Notifications not in correct order");
 }
 
-- (void)testThatFinishGroupRemovesMatchingInvocationsAfterSuccess {
+- (void)testThatFinishGroupDoesNotRemoveMatchingInvocationsAfterSuccess {
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:1]];
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
-    NSArray *expectedRemainingInvocations = @[ invocations[0], invocations[2] ];
+    NSArray *expectedRemainingInvocations = [invocations copy];
     
     // begin the session and make a few calls
     [session beginGroupRecordingWithCollector:collector];
@@ -343,11 +343,11 @@
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were not removed");
 }
 
-- (void)testThatFinishGroupRemovesMatchingInvocationsAfterFailure {
+- (void)testThatFinishGroupDoesNotRemoveMatchingInvocationsAfterFailure {
     // given
     MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSetWithIndex:1]];
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
-    NSArray *expectedRemainingInvocations = @[ invocations[0], invocations[2] ];
+    NSArray *expectedRemainingInvocations = [invocations copy];
     
     // begin the session and make a few calls
     [session beginGroupRecordingWithCollector:collector];

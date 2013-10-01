@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		633F4E4A17FB1C03007D329D /* MCKInOrderCollectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */; };
 		638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA46D17F6F7A30086226D /* libmocka-ios.a */; };
 		638BA49017F6F7D70086226D /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D317F5944B001F5C88 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638BA49117F6F7DC0086226D /* MCKMockingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 638BA43E17F5C6740086226D /* MCKMockingSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -200,6 +201,7 @@
 		633475D317F5944B001F5C88 /* Mocka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mocka.h; sourceTree = "<group>"; };
 		633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+MCKArgumentHandling.h"; sourceTree = "<group>"; };
 		633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+MCKArgumentHandling.m"; sourceTree = "<group>"; };
+		633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollectorTest.m; sourceTree = "<group>"; };
 		636B770A17F59D2C00B6A3BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		636B771017F59D2C00B6A3BD /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		63732BB417F5A8060041C869 /* MCKAnyArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnyArgumentMatcherTest.m; sourceTree = "<group>"; };
@@ -469,6 +471,14 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		633F4E4817FB1BD9007D329D /* Verification Result Collectors */ = {
+			isa = PBXGroup;
+			children = (
+				633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */,
+			);
+			name = "Verification Result Collectors";
+			sourceTree = "<group>";
+		};
 		636B770817F59D2C00B6A3BD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -494,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				638BA45617F5DDFE0086226D /* Mocking Core */,
+				633F4E4817FB1BD9007D329D /* Verification Result Collectors */,
 				638BA45817F5DE620086226D /* Verification Handlers */,
 				638BA45917F5DE960086226D /* Stub Actions */,
 				638BA45A17F5DE9E0086226D /* Argument Matchers */,
@@ -894,6 +905,7 @@
 				6397EFE217F6FAC700F5902F /* MCKArgumentMatcherTest.m in Sources */,
 				6397EFD317F6FAB500F5902F /* MCKSpyTest.m in Sources */,
 				6397EFF017F6FAE700F5902F /* FakeMockingContext.m in Sources */,
+				633F4E4A17FB1C03007D329D /* MCKInOrderCollectorTest.m in Sources */,
 				6397EFCE17F6FAAD00F5902F /* MCKRegressionTests.m in Sources */,
 				6397EFEC17F6FAD800F5902F /* TestObject.m in Sources */,
 				6397EFF117F6FAE700F5902F /* FakeVerificationHandler.m in Sources */,

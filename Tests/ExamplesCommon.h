@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Mocka.h"
+
+#import <Mocka/Mocka.h>
+
 #import "TestExceptionUtils.h"
 #import "TestObject.h"
 
