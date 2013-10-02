@@ -15,9 +15,7 @@
 #import "NSInvocation+TestSupport.h"
 
 
-@interface MCKDefaultVerifierTest : XCTestCase
-@end
-
+@interface MCKDefaultVerifierTest : XCTestCase @end
 @implementation MCKDefaultVerifierTest {
     MCKDefaultVerifier *verifier;
     MCKInvocationPrototype *prototype;

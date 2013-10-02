@@ -10,9 +10,7 @@
 #import "MCKExceptionFailureHandler.h"
 
 
-@interface MCKExceptionFailureHandlerTest : XCTestCase
-@end
-
+@interface MCKExceptionFailureHandlerTest : XCTestCase @end
 @implementation MCKExceptionFailureHandlerTest {
     MCKExceptionFailureHandler *failureHandler;
 }

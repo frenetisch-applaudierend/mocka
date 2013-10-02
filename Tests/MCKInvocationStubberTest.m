@@ -18,9 +18,7 @@
 #import "FakeInvocationPrototype.h"
 
 
-@interface MCKInvocationStubberTest : XCTestCase
-@end
-
+@interface MCKInvocationStubberTest : XCTestCase @end
 @implementation MCKInvocationStubberTest {
     MCKInvocationStubber *stubber;
     NSArray *prototypes;

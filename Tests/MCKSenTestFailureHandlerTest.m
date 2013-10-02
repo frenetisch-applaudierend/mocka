@@ -29,9 +29,7 @@
 @end
 
 
-@interface MCKSenTestFailureHandlerTest : XCTestCase
-@end
-
+@interface MCKSenTestFailureHandlerTest : XCTestCase @end
 @implementation MCKSenTestFailureHandlerTest {
     FakeSenTestCase *testCase;
     MCKSenTestFailureHandler *failureHandler;

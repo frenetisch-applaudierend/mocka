@@ -22,9 +22,7 @@
 #import "FakeVerifier.h"
 
 
-@interface MCKMockingContextTest : XCTestCase
-@end
-
+@interface MCKMockingContextTest : XCTestCase @end
 @implementation MCKMockingContextTest {
     MCKMockingContext *context;
 }

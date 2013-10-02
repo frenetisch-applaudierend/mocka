@@ -15,9 +15,7 @@
 #import "NSInvocation+TestSupport.h"
 
 
-@interface MCKOrderedVerifierTest : XCTestCase
-@end
-
+@interface MCKOrderedVerifierTest : XCTestCase @end
 @implementation MCKOrderedVerifierTest {
     MCKOrderedVerifier *verifier;
     MCKInvocationPrototype *prototype;
