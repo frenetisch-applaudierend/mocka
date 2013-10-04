@@ -1086,7 +1086,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n    --library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n    --headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n    --replace \\\n    Distribution/Mocka.framework";
+			shellScript = "\n${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n    --library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n    --headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n    --replace \\\n    Distribution/Mocka.framework\n\npushd Distribution\nzip -ry \"Mocka-${CURRENT_PROJECT_VERSION}.zip\" \"Mocka.framework\"\npopd";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1377,6 +1377,7 @@
 		6334757617F591FA001F5C88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.4;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 			};
@@ -1385,6 +1386,7 @@
 		6334757717F591FA001F5C88 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 0.4;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 			};
@@ -1741,6 +1743,7 @@
 				6376F89517FF656B00F4752D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		638BA48917F6F7A30086226D /* Build configuration list for PBXNativeTarget "mocka-ios" */ = {
 			isa = XCConfigurationList;
