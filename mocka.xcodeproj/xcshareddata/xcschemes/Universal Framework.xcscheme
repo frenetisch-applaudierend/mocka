@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "638BA46C17F6F7A30086226D"
-               BuildableName = "libmocka-ios.a"
-               BlueprintName = "mocka-ios"
-               ReferencedContainer = "container:mocka.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "638BA47917F6F7A30086226D"
-               BuildableName = "mocka-tests-ios.xctest"
-               BlueprintName = "mocka-tests-ios"
+               BlueprintIdentifier = "6376F89317FF656B00F4752D"
+               BuildableName = "Universal Framework"
+               BlueprintName = "Universal Framework"
                ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "638BA47917F6F7A30086226D"
-               BuildableName = "mocka-tests-ios.xctest"
-               BlueprintName = "mocka-tests-ios"
-               ReferencedContainer = "container:mocka.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

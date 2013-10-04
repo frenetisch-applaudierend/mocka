@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "631E233617FF5F3C00BC2D06"
-               BuildableName = "libmocka-ios copy.a"
+               BuildableName = "libmocka-osx.a"
                BlueprintName = "mocka-osx"
                ReferencedContainer = "container:mocka.xcodeproj">
             </BuildableReference>

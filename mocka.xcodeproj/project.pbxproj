@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6376F89317FF656B00F4752D /* Universal Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6376F89617FF656B00F4752D /* Build configuration list for PBXAggregateTarget "Universal Framework" */;
+			buildPhases = (
+				6376F89717FF658200F4752D /* Create Universal Library */,
+				6376F89817FF672800F4752D /* Create Framework */,
+			);
+			dependencies = (
+			);
+			name = "Universal Framework";
+			productName = Framework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		631E233817FF5F3C00BC2D06 /* MCKInOrderCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085F117FA2097006A0714 /* MCKInOrderCollector.m */; };
 		631E233917FF5F3C00BC2D06 /* MCKSenTestFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475BB17F5944B001F5C88 /* MCKSenTestFailureHandler.m */; };
@@ -1020,6 +1035,7 @@
 				638BA47917F6F7A30086226D /* mocka-tests-ios */,
 				631E233617FF5F3C00BC2D06 /* mocka-osx */,
 				6376F85617FF604500F4752D /* mocka-tests-osx */,
+				6376F89317FF656B00F4752D /* Universal Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -1040,6 +1056,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6376F89717FF658200F4752D /* Create Universal Library */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create Universal Library";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/libmocka-universal.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/fatten.rb \\\n    --ios mocka-ios \\\n    --osx mocka-osx \\\n    --product-name mocka-universal";
+			showEnvVarsInLog = 0;
+		};
+		6376F89817FF672800F4752D /* Create Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n    --library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n    --headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n    --replace \\\n    Distribution/Mocka.framework";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		631E233717FF5F3C00BC2D06 /* Sources */ = {
@@ -1438,6 +1488,20 @@
 			};
 			name = Release;
 		};
+		6376F89417FF656B00F4752D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6376F89517FF656B00F4752D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		638BA48A17F6F7A30086226D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1666,6 +1730,15 @@
 			buildConfigurations = (
 				6376F86517FF604500F4752D /* Debug */,
 				6376F86617FF604500F4752D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6376F89617FF656B00F4752D /* Build configuration list for PBXAggregateTarget "Universal Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6376F89417FF656B00F4752D /* Debug */,
+				6376F89517FF656B00F4752D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

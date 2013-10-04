@@ -1,0 +1,3 @@
+[submodule "Scripts/xcode-build-helpers"]
+	path = Scripts/xcode-build-helpers
+	url = git@bitbucket.org:foensi/xcode-build-helpers.git
