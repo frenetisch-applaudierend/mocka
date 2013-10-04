@@ -18,5 +18,5 @@ void mck_checkNoInteractions(id testCase, id mockObject) {
             break;
         }
     }
-    [context updateContextMode:MCKContextModeRecording];
+    [context endVerification];
 }

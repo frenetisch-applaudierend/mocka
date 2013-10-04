@@ -15,23 +15,21 @@
 
 
 void _mck_setVerifyGroupCollector(id<MCKVerificationResultCollector> collector) {
-//    MCKMockingContext *context = [MCKMockingContext currentContext];
-//    [context.verificationSession beginGroupRecordingWithCollector:collector];
+    MCKMockingContext *context = [MCKMockingContext currentContext];
+    [context.verificationSession beginGroupRecordingWithCollector:collector];
 }
 
 BOOL _mck_executeGroupCalls(id testCase) {
-//    static const NSUInteger ExecutingKey;
-//    
-//    id executingMarker = objc_getAssociatedObject(testCase, &ExecutingKey);
-//    if (executingMarker == nil) {
-//        objc_setAssociatedObject(testCase, &ExecutingKey, @YES, OBJC_ASSOCIATION_COPY);
-//        return YES;
-//    } else {
-//        MCKMockingContext *context = [MCKMockingContext currentContext];
-//        [context.verificationSession finishGroupRecording];
-//        objc_setAssociatedObject(testCase, &ExecutingKey, nil, OBJC_ASSOCIATION_COPY);
-//        return NO;
-//    }
+    static const NSUInteger ExecutingKey;
     
-    return NO;
+    id executingMarker = objc_getAssociatedObject(testCase, &ExecutingKey);
+    if (executingMarker == nil) {
+        objc_setAssociatedObject(testCase, &ExecutingKey, @YES, OBJC_ASSOCIATION_COPY);
+        return YES;
+    } else {
+        MCKMockingContext *context = [MCKMockingContext currentContext];
+        [context.verificationSession finishGroupRecording];
+        objc_setAssociatedObject(testCase, &ExecutingKey, nil, OBJC_ASSOCIATION_COPY);
+        return NO;
+    }
 }

@@ -89,6 +89,19 @@
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
 }
 
+- (void)testThatCollectingResultRemovesAllInvocationsForAllMatches {
+    // given
+    NSIndexSet *matching = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)];
+    MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:matching];
+    NSArray *expectedRemainingInvocations = @[];
+    
+    // when
+    [collector collectVerificationResult:result forInvocations:invocations];
+    
+    // then
+    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
+}
+
 
 #pragma mark - Test Processing
 

@@ -7,7 +7,7 @@
 //
 
 #import "MCKMockingContext.h"
-#import "MCKDefaultVerifier.h"
+#import "MCKVerificationSession.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKInvocationStubber.h"
@@ -17,16 +17,15 @@
 #import <objc/runtime.h>
 
 
-@interface MCKMockingContext ()
+@interface MCKMockingContext () <MCKVerificationSessionDelegate>
 
+@property (nonatomic, readwrite, strong) MCKVerificationSession *verificationSession;
 @property (nonatomic, readonly) NSMutableArray *mutableRecordedInvocations;
+
 @end
 
 
 @implementation MCKMockingContext
-
-static __weak id _CurrentContext = nil;
-
 
 #pragma mark - Startup
 
@@ -48,6 +47,21 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Getting a Context
 
+static __weak id _CurrentContext = nil;
+
++ (instancetype)currentContext {
+    if (_CurrentContext == nil) {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:@"This method cannot be used before a context was created using +contextForTestCase:fileName:lineNumber:"
+                                     userInfo:nil];
+    }
+    return _CurrentContext;
+}
+
++ (void)setCurrentContext:(MCKMockingContext *)context {
+    _CurrentContext = context;
+}
+
 + (instancetype)contextForTestCase:(id)testCase {
     NSParameterAssert(testCase != nil);
     
@@ -61,30 +75,17 @@ static __weak id _CurrentContext = nil;
     return context;
 }
 
-+ (instancetype)currentContext {
-    if (_CurrentContext == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"This method cannot be used before a context was created using +contextForTestCase:fileName:lineNumber:"
-                                     userInfo:nil];
-    }
-    return _CurrentContext;
-}
-
 
 #pragma mark - Initialization
 
 - (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
-        _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
-        _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
-        
         _mutableRecordedInvocations = [NSMutableArray array];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
         _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
+        _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
         
-        _CurrentContext = self;
-        
-        [self setVerifier:[[MCKDefaultVerifier alloc] init]];
+        [[self class] setCurrentContext:self];
     }
     return self;
 }
@@ -94,7 +95,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)dealloc {
-    _CurrentContext = nil;
+    [[self class] setCurrentContext:nil];
 }
 
 
@@ -105,31 +106,11 @@ static __weak id _CurrentContext = nil;
 }
 
 
-#pragma mark - Handling Failures
-
-- (void)setFailureHandler:(MCKFailureHandler *)failureHandler {
-    _failureHandler = failureHandler;
-    self.verifier.failureHandler = failureHandler;
-}
-
-- (void)failWithReason:(NSString *)reason, ... {
-    va_list ap;
-    va_start(ap, reason);
-    [self.failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
-    va_end(ap);
-}
-
-
 #pragma mark - Handling Invocations
 
 - (void)updateContextMode:(MCKContextMode)newMode {
-    _mode = newMode;
-    
     NSAssert([self.argumentMatcherRecorder.argumentMatchers count] == 0, @"Should not contain any matchers at this point");
-    
-    if (newMode == MCKContextModeVerifying) {
-        [self setVerificationHandler:[MCKDefaultVerificationHandler defaultHandler]];
-    }
+    _mode = newMode;
 }
 
 - (void)handleInvocation:(NSInvocation *)invocation {
@@ -166,6 +147,10 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Stubbing
 
+- (void)beginStubbing {
+    [self updateContextMode:MCKContextModeStubbing];
+}
+
 - (void)stubInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
@@ -184,26 +169,38 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Verification
 
-- (void)setVerifier:(id<MCKVerifier>)verifier {
-    _verifier = verifier;
-    verifier.failureHandler = self.failureHandler;
-    verifier.verificationHandler = self.verificationHandler;
+- (void)beginVerification {
+    self.verificationSession = [[MCKVerificationSession alloc] init];
+    self.verificationSession.delegate = self;
+    [self updateContextMode:MCKContextModeVerifying];
+}
+
+- (void)endVerification {
+    self.verificationSession = nil;
+    [self updateContextMode:MCKContextModeRecording];
+}
+
+- (id<MCKVerificationHandler>)verificationHandler {
+    return self.verificationSession.verificationHandler;
 }
 
 - (void)setVerificationHandler:(id<MCKVerificationHandler>)verificationHandler {
-    _verificationHandler = verificationHandler;
-    self.verifier.verificationHandler = verificationHandler;
+    NSAssert(self.verificationSession != nil, @"Cannot set a verification handler outside a verification session");
+    self.verificationSession.verificationHandler = verificationHandler;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    MCKContextMode newMode = [self.verifier verifyPrototype:prototype invocations:self.mutableRecordedInvocations];
-    [self updateContextMode:newMode];
+    [self.verificationSession verifyInvocations:self.mutableRecordedInvocations forPrototype:prototype];
 }
 
-- (void)beginVerification {
-    [self updateContextMode:MCKContextModeVerifying];
+- (void)verificationSession:(MCKVerificationSession *)session didFailWithReason:(NSString *)reason {
+    [self.failureHandler handleFailureWithReason:reason];
+}
+
+- (void)verificationSessionDidEnd:(MCKVerificationSession *)session {
+    [self endVerification];
 }
 
 
@@ -231,5 +228,16 @@ static __weak id _CurrentContext = nil;
         return YES;
     }
 }
+
+
+#pragma mark - Handling Failures
+
+- (void)failWithReason:(NSString *)reason, ... {
+    va_list ap;
+    va_start(ap, reason);
+    [self.failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
+    va_end(ap);
+}
+
 
 @end

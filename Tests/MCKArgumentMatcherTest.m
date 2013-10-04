@@ -31,7 +31,7 @@
 
 - (void)testThatObjectArgumentMatcherIsPassedDirectly {
     // given
-    [context updateContextMode:MCKContextModeStubbing];
+    [context beginStubbing];
     
     // when
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
@@ -43,7 +43,7 @@
 
 - (void)testThatPrimitiveNumberMatcherIndexCanBeRetrievedAgain {
     // given
-    [context updateContextMode:MCKContextModeStubbing];
+    [context beginStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -59,7 +59,7 @@
 
 - (void)testThatCStringMatcherIndexCanBeRetrievedAgain {
     // given
-    [context updateContextMode:MCKContextModeStubbing];
+    [context beginStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -75,7 +75,7 @@
 
 - (void)testThatSelectorMatcherIndexCanBeRetrievedAgain {
     // given
-    [context updateContextMode:MCKContextModeStubbing];
+    [context beginStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -91,7 +91,7 @@
 
 - (void)testThatPointerMatcherIndexCanBeRetrievedAgain {
     // given
-    [context updateContextMode:MCKContextModeStubbing];
+    [context beginStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -107,7 +107,7 @@
 
 - (void)testThatStructMatcherIndexCanBeRetrievedAgain {
     // given
-    [context updateContextMode:MCKContextModeStubbing];
+    [context beginStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];

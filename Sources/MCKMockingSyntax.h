@@ -32,14 +32,12 @@
 
 // safe syntax
 #define mck_verify _mck_beginVerify(self, __FILE__, __LINE__);
-#define mck_inOrder [_MCKOrderedVerificationHandler handler].executeInOrder = ^()
 
 // nice syntax
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 
     #undef verify // under Mac OS X this macro defined already (in /usr/include/AssertMacros.h)
     #define verify mck_verify
-    #define inOrder mck_inOrder
 
 #endif
 
@@ -74,12 +72,3 @@ extern id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumbe
 extern void _mck_beginVerify(id testCase, const char *fileName, NSUInteger lineNumber);
 extern void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber);
 extern void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber);
-
-
-@interface _MCKOrderedVerificationHandler : NSObject
-
-+ (instancetype)handler;
-
-@property (nonatomic, strong) void(^executeInOrder)(void);
-
-@end

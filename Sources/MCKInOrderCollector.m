@@ -34,9 +34,9 @@
     // remove invocations and record skipped invocations
     __block NSUInteger maxIndex = 0;
     [result.matchingIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        NSIndexSet *skippedInvocations = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, idx)];
+        NSIndexSet *skippedInvocations = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, (idx - maxIndex))];
         [self.skippedInvocations addObjectsFromArray:[invocations objectsAtIndexes:skippedInvocations]];
-        [invocations removeObjectsInRange:NSMakeRange(0, (idx + 1))];
+        [invocations removeObjectsInRange:NSMakeRange(0, (idx - maxIndex + 1))];
         maxIndex = (idx + 1);
     }];
     return result;

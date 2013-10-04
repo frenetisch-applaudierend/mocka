@@ -11,6 +11,8 @@
 #import <Mocka/MCKMockingSyntax.h>
 
 #import <Mocka/MCKVerificationResult.h>
+#import <Mocka/MCKVerificationResultCollector.h>
+#import <Mocka/MCKInOrderCollector.h>
 #import <Mocka/MCKVerificationHandler.h>
 #import <Mocka/MCKDefaultVerificationHandler.h>
 #import <Mocka/MCKNeverVerificationHandler.h>
