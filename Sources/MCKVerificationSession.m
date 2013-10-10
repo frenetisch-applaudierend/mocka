@@ -8,9 +8,9 @@
 
 #import "MCKVerificationSession.h"
 
-#import <Mocka/MCKVerificationHandler.h>
-#import <Mocka/MCKDefaultVerificationHandler.h>
-#import <Mocka/MCKVerificationResultCollector.h>
+#import "MCKVerificationHandler.h"
+#import "MCKDefaultVerificationHandler.h"
+#import "MCKVerificationResultCollector.h"
 
 
 @interface MCKVerificationSession ()

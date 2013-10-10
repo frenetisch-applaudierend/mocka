@@ -35,3 +35,18 @@
 }
 
 @end
+
+
+#pragma mark - Mocking Syntax
+
+void mck_performBlock(void(^block)(NSInvocation *inv)) {
+    _mck_addStubAction([MCKPerformBlockStubAction performBlockActionWithBlock:block]);
+}
+
+#ifndef MOCK_DISABLE_NICE_SYNTAX
+
+    void performBlock(void(^block)(NSInvocation *inv)) {
+        mck_performBlock(block);
+    }
+
+#endif

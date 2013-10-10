@@ -8,9 +8,9 @@
 
 #import "MCKInvocationPrototype.h"
 
-#import <Mocka/MCKArgumentMatcher.h>
-#import <Mocka/MCKExactArgumentMatcher.h>
-#import <Mocka/MCKHamcrestArgumentMatcher.h>
+#import "MCKArgumentMatcher.h"
+#import "MCKExactArgumentMatcher.h"
+#import "MCKHamcrestArgumentMatcher.h"
 
 #import "MCKTypeEncodings.h"
 #import "NSInvocation+MCKArgumentHandling.h"

@@ -39,3 +39,19 @@
 }
 
 @end
+
+
+#pragma mark - Mocking Syntax
+
+void mck_setOutParameterAtIndex(NSUInteger index, id value) {
+    _mck_addStubAction([MCKSetOutParameterStubAction actionToSetObject:value atEffectiveIndex:index]);
+}
+
+
+#ifndef MOCK_DISABLE_NICE_SYNTAX
+
+    void setOutParameterAtIndex(NSUInteger index, id value) {
+        mck_setOutParameterAtIndex(index, value);
+    }
+
+#endif

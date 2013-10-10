@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Mocka/MCKVerificationResultCollector.h>
+#import "MCKVerificationResultCollector.h"
 
 
 @interface MCKInOrderCollector : NSObject <MCKVerificationResultCollector>

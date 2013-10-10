@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKStubAction.h"
-#import "MCKMockingContext.h"
 
 
 @interface MCKPerformBlockStubAction : NSObject <MCKStubAction>
@@ -20,12 +20,10 @@
 
 
 // Mocking Syntax
-static inline void mck_performBlock(void(^block)(NSInvocation *inv)) {
-    [[MCKMockingContext currentContext] addStubAction:[MCKPerformBlockStubAction performBlockActionWithBlock:block]];
-}
+extern void mck_performBlock(void(^block)(NSInvocation *inv));
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
-static inline void performBlock(void(^block)(NSInvocation *inv)) {
-    mck_performBlock(block);
-}
+
+    extern void performBlock(void(^block)(NSInvocation *inv));
+
 #endif

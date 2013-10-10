@@ -33,3 +33,27 @@
 }
 
 @end
+
+
+#pragma mark - Mocking Syntax
+
+void mck_throwException(NSException *exception) {
+    _mck_addStubAction([MCKThrowExceptionStubAction throwExceptionActionWithException:exception]);
+}
+
+void mck_throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo) {
+    mck_throwException([NSException exceptionWithName:name reason:reason userInfo:userInfo]);
+}
+
+
+#ifndef MOCK_DISABLE_NICE_SYNTAX
+
+    void throwException(NSException *exception) {
+        mck_throwException(exception);
+    }
+
+    void throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo) {
+        mck_throwNewException(name, reason, userInfo);
+    }
+
+#endif

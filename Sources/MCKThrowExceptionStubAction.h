@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKStubAction.h"
-#import "MCKMockingContext.h"
 
 
 @interface MCKThrowExceptionStubAction : NSObject <MCKStubAction>
@@ -20,22 +20,12 @@
 
 
 // Mocking Syntax
-static inline void mck_throwException(NSException *exception) {
-    [[MCKMockingContext currentContext] addStubAction:[MCKThrowExceptionStubAction throwExceptionActionWithException:exception]];
-}
-
-static inline void mck_throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo) {
-    mck_throwException([NSException exceptionWithName:name reason:reason userInfo:userInfo]);
-}
+extern void mck_throwException(NSException *exception);
+extern void mck_throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo);
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 
-static inline void throwException(NSException *exception) {
-    mck_throwException(exception);
-}
-
-static inline void throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo) {
-    mck_throwNewException(name, reason, userInfo);
-}
+    extern void throwException(NSException *exception);
+    extern void throwNewException(NSString *name, NSString *reason, NSDictionary *userInfo);
 
 #endif

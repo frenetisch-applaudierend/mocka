@@ -27,7 +27,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testThatObjectReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(@"Hello World");
+    MCKReturnStubAction *action = _mck_returnValueAction(@"Hello World");
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(id)]];
     
     // when
@@ -40,7 +40,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testThatClassReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction([NSString class]);
+    MCKReturnStubAction *action = _mck_returnValueAction([NSString class]);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(Class)]];
     
     // when
@@ -53,7 +53,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testThatNilValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(nil);
+    MCKReturnStubAction *action = _mck_returnValueAction(nil);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(id)]];
     [invocation setReturnValue:&(NSString *){ @"Existing Return" }];
     
@@ -70,7 +70,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testBoolReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(YES);
+    MCKReturnStubAction *action = _mck_returnValueAction(YES);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(BOOL)]];
     
     // when
@@ -83,7 +83,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testCharReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(-21);
+    MCKReturnStubAction *action = _mck_returnValueAction(-21);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(char)]];
     
     // when
@@ -96,7 +96,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testShortReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(-23003);
+    MCKReturnStubAction *action = _mck_returnValueAction(-23003);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(short)]];
     
     // when
@@ -109,7 +109,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testIntReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(-900009);
+    MCKReturnStubAction *action = _mck_returnValueAction(-900009);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(int)]];
     
     // when
@@ -122,7 +122,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testLongReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(-900009);
+    MCKReturnStubAction *action = _mck_returnValueAction(-900009);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(long)]];
     
     // when
@@ -135,7 +135,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testLongLongReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(-1000000000);
+    MCKReturnStubAction *action = _mck_returnValueAction(-1000000000);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(long long)]];
     
     // when
@@ -151,7 +151,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testUnsignedCharReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(21);
+    MCKReturnStubAction *action = _mck_returnValueAction(21);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned char)]];
     
     // when
@@ -164,7 +164,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testUnsignedShortReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(23003);
+    MCKReturnStubAction *action = _mck_returnValueAction(23003);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned short)]];
     
     // when
@@ -177,7 +177,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testUnsignedIntReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(900009);
+    MCKReturnStubAction *action = _mck_returnValueAction(900009);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned int)]];
     
     // when
@@ -190,7 +190,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testUnsignedLongReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(900009);
+    MCKReturnStubAction *action = _mck_returnValueAction(900009);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned long)]];
     
     // when
@@ -203,7 +203,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testUnsignedLongLongReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(1000000000);
+    MCKReturnStubAction *action = _mck_returnValueAction(1000000000);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(unsigned long long)]];
     
     // when
@@ -219,7 +219,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testFloatReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(123.45f);
+    MCKReturnStubAction *action = _mck_returnValueAction(123.45f);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(float)]];
     
     // when
@@ -232,7 +232,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testDoubleReturnValueIsSet {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(1234567.89);
+    MCKReturnStubAction *action = _mck_returnValueAction(1234567.89);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(double)]];
     
     // when
@@ -249,7 +249,7 @@ static const char* _makeSignature(const char *returnType) {
 - (void)testNSRangeReturnValueIsSet {
     // given
     NSRange range = NSMakeRange(5, 26);
-    MCKReturnStubAction *action = mck_returnStructAction(range);
+    MCKReturnStubAction *action = _mck_returnStructAction(range);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(NSRange)]];
     
     // when
@@ -266,7 +266,7 @@ static const char* _makeSignature(const char *returnType) {
 - (void)testPointerReturns {
     // given
     int foo = 0;
-    MCKReturnStubAction *action = mck_returnValueAction(&foo);
+    MCKReturnStubAction *action = _mck_returnValueAction(&foo);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(int*)]];
     
     // when
@@ -282,7 +282,7 @@ static const char* _makeSignature(const char *returnType) {
 
 - (void)testThatVoidReturnIsIgnored {
     // given
-    MCKReturnStubAction *action = mck_returnValueAction(@"Hello World");
+    MCKReturnStubAction *action = _mck_returnValueAction(@"Hello World");
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:signatureWithReturnType(void)]];
     
     // when

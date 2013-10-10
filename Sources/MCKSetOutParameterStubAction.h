@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKStubAction.h"
-#import "MCKMockingContext.h"
 
 
 @interface MCKSetOutParameterStubAction : NSObject <MCKStubAction>
@@ -20,14 +20,10 @@
 
 
 // Mocking Syntax
-static inline void mck_setOutParameterAtIndex(NSUInteger index, id value) {
-    [[MCKMockingContext currentContext] addStubAction:[MCKSetOutParameterStubAction actionToSetObject:value atEffectiveIndex:index]];
-}
+extern void mck_setOutParameterAtIndex(NSUInteger index, id value);
 
 #ifndef MOCK_DISABLE_NICE_SYNTAX
 
-static inline void setOutParameterAtIndex(NSUInteger index, id value) {
-    mck_setOutParameterAtIndex(index, value);
-}
+    extern void setOutParameterAtIndex(NSUInteger index, id value);
 
 #endif

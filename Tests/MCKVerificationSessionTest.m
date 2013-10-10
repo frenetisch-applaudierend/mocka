@@ -9,8 +9,8 @@
 #import <XCTest/XCTest.h>
 
 #import "MCKVerificationSession.h"
-#import <Mocka/MCKVerificationHandler.h>
-#import <Mocka/MCKDefaultVerificationHandler.h>
+#import "MCKVerificationHandler.h"
+#import "MCKDefaultVerificationHandler.h"
 
 #import "FakeInvocationPrototype.h"
 #import "FakeVerificationHandler.h"

@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import <Mocka/Mocka.h>
+
+#import "MCKMockingContext.h"
 #import "MCKArgumentMatcherRecorder.h"
 
 

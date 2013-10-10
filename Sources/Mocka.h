@@ -8,29 +8,29 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Mocka/MCKMockingSyntax.h>
+#import "MCKMockingSyntax.h"
 
-#import <Mocka/MCKVerificationResult.h>
-#import <Mocka/MCKVerificationResultCollector.h>
-#import <Mocka/MCKInOrderCollector.h>
-#import <Mocka/MCKVerificationHandler.h>
-#import <Mocka/MCKDefaultVerificationHandler.h>
-#import <Mocka/MCKNeverVerificationHandler.h>
-#import <Mocka/MCKExactlyVerificationHandler.h>
-#import <Mocka/MCKVerifyNoInteractions.h>
+#import "MCKVerificationResult.h"
+#import "MCKVerificationResultCollector.h"
+#import "MCKInOrderCollector.h"
+#import "MCKVerificationHandler.h"
+#import "MCKDefaultVerificationHandler.h"
+#import "MCKNeverVerificationHandler.h"
+#import "MCKExactlyVerificationHandler.h"
+#import "MCKVerifyNoInteractions.h"
 
-#import <Mocka/MCKStubAction.h>
-#import <Mocka/MCKReturnStubAction.h>
-#import <Mocka/MCKPerformBlockStubAction.h>
-#import <Mocka/MCKThrowExceptionStubAction.h>
-#import <Mocka/MCKSetOutParameterStubAction.h>
+#import "MCKStubAction.h"
+#import "MCKReturnStubAction.h"
+#import "MCKPerformBlockStubAction.h"
+#import "MCKThrowExceptionStubAction.h"
+#import "MCKSetOutParameterStubAction.h"
 
-#import <Mocka/MCKArgumentMatcher.h>
-#import <Mocka/MCKAnyArgumentMatcher.h>
-#import <Mocka/MCKExactArgumentMatcher.h>
-#import <Mocka/MCKBlockArgumentMatcher.h>
-#import <Mocka/MCKHamcrestArgumentMatcher.h>
+#import "MCKArgumentMatcher.h"
+#import "MCKAnyArgumentMatcher.h"
+#import "MCKExactArgumentMatcher.h"
+#import "MCKBlockArgumentMatcher.h"
+#import "MCKHamcrestArgumentMatcher.h"
 
-#import <Mocka/MCKTypes.h>
-#import <Mocka/MCKTypeEncodings.h>
-#import <Mocka/NSInvocation+MCKArgumentHandling.h>
+#import "MCKTypes.h"
+#import "MCKTypeEncodings.h"
+#import "NSInvocation+MCKArgumentHandling.h"

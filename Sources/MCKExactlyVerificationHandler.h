@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Mocka/MCKVerificationHandler.h>
+
+#import "MCKVerificationHandler.h"
 
 
 @interface MCKExactlyVerificationHandler : NSObject <MCKVerificationHandler>

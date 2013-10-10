@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Mocka/MCKVerificationResult.h>
-#import <Mocka/MCKInvocationPrototype.h>
-#import <Mocka/MCKVerificationHandler.h>
+#import "MCKVerificationResult.h"
+#import "MCKInvocationPrototype.h"
+#import "MCKVerificationHandler.h"
 
 
 @protocol MCKVerificationResultCollector <NSObject>

@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Mocka/MCKArgumentMatcher.h>
-#import <Mocka/MCKTypes.h>
+#import "MCKArgumentMatcher.h"
+#import "MCKTypes.h"
 
 
 @interface MCKAnyArgumentMatcher : NSObject <MCKArgumentMatcher>

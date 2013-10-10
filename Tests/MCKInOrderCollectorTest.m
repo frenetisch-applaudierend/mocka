@@ -7,7 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <Mocka/MCKInOrderCollector.h>
+
+#import "MCKInOrderCollector.h"
 #import "NSInvocation+TestSupport.h"
 
 

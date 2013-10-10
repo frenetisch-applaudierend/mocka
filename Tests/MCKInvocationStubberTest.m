@@ -11,8 +11,8 @@
 #import "MCKInvocationStubber.h"
 #import "MCKStub.h"
 
-#import <Mocka/MCKPerformBlockStubAction.h>
-#import <Mocka/MCKBlockArgumentMatcher.h>
+#import "MCKPerformBlockStubAction.h"
+#import "MCKBlockArgumentMatcher.h"
 
 #import "NSInvocation+TestSupport.h"
 #import "FakeInvocationPrototype.h"

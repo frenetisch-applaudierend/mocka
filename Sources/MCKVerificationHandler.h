@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Mocka/MCKVerificationResult.h>
-#import <Mocka/MCKInvocationPrototype.h>
+#import "MCKVerificationResult.h"
+#import "MCKInvocationPrototype.h"
 
 
 @protocol MCKVerificationHandler <NSObject>
