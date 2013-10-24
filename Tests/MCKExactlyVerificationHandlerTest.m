@@ -222,6 +222,19 @@
 }
 
 
+#pragma mark - Test Timeout Config
+
+- (void)testThatHandlerDoesNeedToAwaitTimeout {
+    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
+    XCTAssertTrue([handler mustAwaitTimeoutForFailure], @"Should need to await timeout");
+}
+
+- (void)testThatHandlerDoesNotFailFast {
+    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
+    XCTAssertFalse([handler failsFastDuringTimeout], @"Should not fail fast");
+}
+
+
 #pragma mark - Test Error Reporting
 
 - (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {

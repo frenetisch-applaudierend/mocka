@@ -34,4 +34,15 @@
     }
 }
 
+
+#pragma mark - Timeout Handling
+
+- (BOOL)mustAwaitTimeoutForFailure {
+    return YES;
+}
+
+- (BOOL)failsFastDuringTimeout {
+    return YES;
+}
+
 @end

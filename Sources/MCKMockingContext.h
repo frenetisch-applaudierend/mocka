@@ -72,8 +72,11 @@ typedef enum {
 @property (nonatomic, readonly, strong) MCKVerificationSession *verificationSession;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 
-- (void)beginVerification;
+- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout;
 - (void)endVerification;
+
+- (void)suspendVerification;
+- (void)resumeVerification;
 
 
 #pragma mark - Argument Matchers

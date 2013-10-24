@@ -9,6 +9,12 @@
 #import "MCKExactlyVerificationHandler.h"
 
 
+@interface MCKExactlyVerificationHandler ()
+
+@property (nonatomic, strong) MCKVerificationResult *lastFailure;
+
+@end
+
 @implementation MCKExactlyVerificationHandler
 
 #pragma mark - Initialization
@@ -37,8 +43,26 @@
     } else {
         NSString *reason = [NSString stringWithFormat:@"Expected exactly %ld calls to %@ but got %ld",
                             (unsigned long)self.count, prototype.methodName, (unsigned long)[indexes count]];
-        return [MCKVerificationResult failureWithReason:reason matchingIndexes:[NSIndexSet indexSet]];
+        self.lastFailure = [MCKVerificationResult failureWithReason:reason matchingIndexes:[NSIndexSet indexSet]];
+        return self.lastFailure;
     }
+}
+
+
+#pragma mark - Timeout Handling
+
+- (BOOL)mustAwaitTimeoutForFailure {
+    return YES;
+}
+
+- (BOOL)failsFastDuringTimeout {
+    // optimization: if the last result already had too many calls, then we can fail fast
+    //               this speeds things up a bit if 
+    if (self.lastFailure != nil && [self.lastFailure.matchingIndexes count] > self.count) {
+        return YES;
+    }
+    
+    return NO; // by default we return NO
 }
 
 @end

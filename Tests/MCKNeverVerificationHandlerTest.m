@@ -115,6 +115,17 @@
 }
 
 
+#pragma mark - Test Timeout Config
+
+- (void)testThatHandlerDoesNeedToAwaitTimeout {
+    XCTAssertTrue([handler mustAwaitTimeoutForFailure], @"Should need to await timeout");
+}
+
+- (void)testThatHandlerDoesFailFast {
+    XCTAssertTrue([handler failsFastDuringTimeout], @"Should fail fast");
+}
+
+
 #pragma mark - Test Error Reporting
 
 - (void)testThatHandlerReturnsErrorReasonIfNotSatisifiedForPlainMethod {

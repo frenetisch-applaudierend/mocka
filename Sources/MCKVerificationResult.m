@@ -30,4 +30,17 @@
     return self;
 }
 
+
+#pragma mark - Debugging
+
+- (NSString *)description {
+    NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: %p", [self class], self];
+    [description appendFormat:@" success=%@", (self.success ? @"YES" : @"NO")];
+    if (!self.success) {
+        [description appendFormat:@" failureReason='%@'", self.failureReason];
+    }
+    [description appendFormat:@" matchingIndexes=%@>", self.matchingIndexes];
+    return description;
+}
+
 @end

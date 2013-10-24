@@ -13,10 +13,14 @@
 @protocol MCKVerificationHandler;
 @protocol MCKVerificationResultCollector;
 @class MCKInvocationPrototype;
+@class MCKMockingContext;
 
 
 @interface MCKVerificationSession : NSObject
 
+- (instancetype)initWithTimeout:(NSTimeInterval)timeout;
+
+@property (nonatomic, assign) NSTimeInterval timeout;
 @property (nonatomic, weak) id<MCKVerificationSessionDelegate> delegate;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 
@@ -32,5 +36,8 @@
 
 - (void)verificationSession:(MCKVerificationSession *)session didFailWithReason:(NSString *)reason;
 - (void)verificationSessionDidEnd:(MCKVerificationSession *)session;
+
+- (void)verificationSessionWillProcessTimeout:(MCKVerificationSession *)session;
+- (void)verificationSessionDidProcessTimeout:(MCKVerificationSession *)session;
 
 @end

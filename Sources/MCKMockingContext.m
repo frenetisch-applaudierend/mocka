@@ -128,7 +128,7 @@ static __weak id _CurrentContext = nil;
         case MCKContextModeVerifying: [self verifyInvocation:invocation]; break;
             
         default:
-            NSAssert(NO, @"Oops, this context mode is unknown: %d", _mode);
+            NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }
 }
 
@@ -169,8 +169,8 @@ static __weak id _CurrentContext = nil;
 
 #pragma mark - Verification
 
-- (void)beginVerification {
-    self.verificationSession = [[MCKVerificationSession alloc] init];
+- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout {
+    self.verificationSession = [[MCKVerificationSession alloc] initWithTimeout:timeout];
     self.verificationSession.delegate = self;
     [self updateContextMode:MCKContextModeVerifying];
 }
@@ -178,6 +178,14 @@ static __weak id _CurrentContext = nil;
 - (void)endVerification {
     self.verificationSession = nil;
     [self updateContextMode:MCKContextModeRecording];
+}
+
+- (void)suspendVerification {
+    [self updateContextMode:MCKContextModeRecording];
+}
+
+- (void)resumeVerification {
+    [self updateContextMode:MCKContextModeVerifying];
 }
 
 - (id<MCKVerificationHandler>)verificationHandler {
@@ -201,6 +209,14 @@ static __weak id _CurrentContext = nil;
 
 - (void)verificationSessionDidEnd:(MCKVerificationSession *)session {
     [self endVerification];
+}
+
+- (void)verificationSessionWillProcessTimeout:(MCKVerificationSession *)session {
+    [self suspendVerification];
+}
+
+- (void)verificationSessionDidProcessTimeout:(MCKVerificationSession *)session {
+    [self resumeVerification];
 }
 
 
