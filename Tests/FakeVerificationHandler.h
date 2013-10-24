@@ -25,6 +25,7 @@
 @property (nonatomic, readonly) MCKVerificationResult *result;
 @property (nonatomic, readonly) NSArray *calls; // instances of FakeVerificationHandlerCall
 @property (nonatomic, assign) BOOL mustAwaitTimeoutForFailure;
+@property (nonatomic, assign) BOOL failsFastDuringTimeout;
 
 @end
 

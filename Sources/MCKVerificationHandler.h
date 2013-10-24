@@ -17,6 +17,7 @@
 - (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype;
 
 - (BOOL)mustAwaitTimeoutForFailure;
+- (BOOL)failsFastDuringTimeout;
 
 @end
 

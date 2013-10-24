@@ -84,7 +84,13 @@
 }
 
 - (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result {
-    return (self.timeout > 0.0 && (![result isSuccess] || [self.verificationHandler mustAwaitTimeoutForFailure]));
+    if (self.timeout <= 0.0) { return NO; }
+    
+    if ([result isSuccess]) {
+        return [self.verificationHandler mustAwaitTimeoutForFailure];
+    } else {
+        return ![self.verificationHandler failsFastDuringTimeout];
+    }
 }
 
 - (BOOL)didNotYetReachDate:(NSDate *)lastDate {

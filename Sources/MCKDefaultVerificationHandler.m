@@ -45,4 +45,8 @@
     return NO;
 }
 
+- (BOOL)failsFastDuringTimeout {
+    return NO;
+}
+
 @end

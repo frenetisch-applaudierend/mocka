@@ -416,15 +416,4 @@
     });
 }
 
-//- (void)testCanWaitForSignal {
-//    // call some async service
-//    [[AsyncService sharedService] waitForTimeInterval:0.1 thenCallBlock:^{
-//        giveSignal(@"Reached");
-//    }];
-//    
-//    // normal verify would fail, since the callback was not called yet at this point
-//    // therefore use timeout with verify
-//    verifyWithTimeout(0.2) signalGiven(@"Reached");
-//}
-
 @end
