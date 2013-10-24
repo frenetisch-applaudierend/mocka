@@ -13,7 +13,7 @@
 
 #pragma mark - Initialization
 
-+ (id)fakeContext;
++ (instancetype)fakeContext;
 
 
 #pragma mark - Handling the Mocking Mode
@@ -26,6 +26,12 @@
 @property (nonatomic, readonly) NSArray *handledInvocations;
 
 - (void)handleInvocation:(NSInvocation *)invocation;
+
+
+#pragma mark - Verification Helpers
+
+@property (nonatomic, readonly) NSUInteger verificationSuspendCount;
+@property (nonatomic, readonly) NSUInteger verificationResumeCount;
 
 @end
 

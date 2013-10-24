@@ -18,11 +18,11 @@
 
 #pragma mark - Initialization
 
-+ (id)fakeContext {
++ (instancetype)fakeContext {
     return [[self alloc] init];
 }
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super init])) {
         _handledInvocations = [NSMutableArray array];
     }
@@ -41,6 +41,7 @@
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:formattedReason userInfo:nil];
 }
 
+
 #pragma mark - Handling Invocations
 
 - (NSArray *)handledInvocations {
@@ -49,6 +50,19 @@
 
 - (void)handleInvocation:(NSInvocation *)invocation {
     [_handledInvocations addObject:invocation];
+}
+
+
+#pragma mark - Verification Helpers
+
+- (void)suspendVerification {
+    [super suspendVerification];
+    _verificationSuspendCount++;
+}
+
+- (void)resumeVerification {
+    [super resumeVerification];
+    _verificationResumeCount++;
 }
 
 @end

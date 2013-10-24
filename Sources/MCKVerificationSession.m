@@ -8,6 +8,7 @@
 
 #import "MCKVerificationSession.h"
 
+#import "MCKMockingContext.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKVerificationResultCollector.h"
@@ -25,18 +26,23 @@
 
 #pragma mark - Initialization
 
-- (instancetype)init {
+- (instancetype)initWithTimeout:(NSTimeInterval)timeout {
     if ((self = [super init])) {
+        _timeout = timeout;
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
     }
     return self;
+}
+
+- (instancetype)init {
+    return [self initWithTimeout:0.0];
 }
 
 
 #pragma mark - Verifying
 
 - (void)verifyInvocations:(NSMutableArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
-    MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+    MCKVerificationResult *result = [self resultForInvocations:invocations prototype:prototype];
     
     if (self.collector != nil) {
         [self collectResult:result forInvocations:invocations];
@@ -62,6 +68,23 @@
         }
     }
     [self notifyFinish];
+}
+
+- (MCKVerificationResult *)resultForInvocations:(NSArray *)invocations prototype:(MCKInvocationPrototype *)prototype {
+    MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+    if (![result isSuccess] && self.timeout > 0.0) {
+        NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
+        do {
+            [self.delegate verificationSessionWillProcessTimeout:self];
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
+            [self.delegate verificationSessionDidProcessTimeout:self];
+            result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+            if ([result isSuccess]) {
+                break;
+            }
+        } while ([lastDate laterDate:[NSDate date]] == lastDate);
+    }
+    return result;
 }
 
 

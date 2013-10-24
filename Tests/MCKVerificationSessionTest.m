@@ -15,6 +15,8 @@
 #import "FakeInvocationPrototype.h"
 #import "FakeVerificationHandler.h"
 #import "FakeVerificationResultCollector.h"
+#import "FakeMockingContext.h"
+#import "AsyncService.h"
 #import "NSInvocation+TestSupport.h"
 
 
@@ -22,6 +24,8 @@
 
 @property (nonatomic, copy) void(^onFailure)(NSString *reason);
 @property (nonatomic, copy) void(^onFinish)(void);
+@property (nonatomic, copy) void(^onWillProcessTimeout)(void);
+@property (nonatomic, copy) void(^onDidProcessTimeout)(void);
 
 @end
 
@@ -84,7 +88,7 @@
     __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
+    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertTrue(onFinishCalled, @"On finish was not called");
@@ -100,7 +104,7 @@
     sessionDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
+    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertEqualObjects(calls, (@[ @"onFailure", @"onFinish" ]), @"Notifications not in correct order");
@@ -181,7 +185,7 @@
     [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
+    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertFalse(onFinishCalled, @"On finish was called");
@@ -197,7 +201,7 @@
     [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
+    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertFalse(onFinishCalled, @"On finish was called");
@@ -363,6 +367,69 @@
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were not removed");
 }
 
+
+#pragma mark - Test Verification with Timeout
+
+- (void)testThatVerifyCallsDelegateWhenProcessingTimeout {
+    // given
+    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    session.timeout = 0.1;
+    
+    __block BOOL willProcessCalled = NO; sessionDelegate.onWillProcessTimeout = ^{ willProcessCalled = YES; };
+    __block BOOL didProcessCalled = NO; sessionDelegate.onDidProcessTimeout = ^{ didProcessCalled = YES; };
+    
+    // when
+    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    
+    // then
+    XCTAssertTrue(willProcessCalled, @"Was not suspended");
+    XCTAssertTrue(didProcessCalled, @"Was not resumed");
+}
+
+- (void)testThatVerifyNotifiesOnlyFinishAfterSuccessWithTimeout {
+    // given
+    __block BOOL shouldSucceed = NO;
+    MCKVerificationResult *successResult = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
+    MCKVerificationResult *failureResult = [MCKVerificationResult failureWithReason:@"" matchingIndexes:[NSIndexSet indexSet]];
+    
+    session.timeout = 1.0;
+    session.verificationHandler = [FakeVerificationHandler handlerWithImplementation:
+                                   ^MCKVerificationResult *(MCKInvocationPrototype *p, NSArray *a) {
+                                       return (shouldSucceed ? successResult : failureResult);
+                                   }];
+    
+    __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
+    __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    
+    
+    // when
+    [[AsyncService sharedService] waitForTimeInterval:0.1 thenCallBlock:^{
+        shouldSucceed = YES;
+    }];
+    
+    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    
+    // then
+    XCTAssertTrue(onFinishCalled, @"On finish was not called");
+    XCTAssertFalse(onFailureCalled, @"On failure was called");
+}
+
+//- (void)testThatVerifyNotifiesFailureOnlyAfterTimeoutInSingleMode {
+//    // given
+//    NSMutableArray *delayedInvocations = [NSMutableArray array];
+//    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+//    
+//    NSMutableArray *calls = [NSMutableArray array];
+//    sessionDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
+//    sessionDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
+//    
+//    // when
+//    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+//    
+//    // then
+//    XCTAssertEqualObjects(calls, (@[ @"onFailure", @"onFinish" ]), @"Notifications not in correct order");
+//}
+
 @end
 
 
@@ -377,6 +444,18 @@
 - (void)verificationSessionDidEnd:(MCKVerificationSession *)session {
     if (self.onFinish != nil) {
         self.onFinish();
+    }
+}
+
+- (void)verificationSessionWillProcessTimeout:(MCKVerificationSession *)session {
+    if (self.onWillProcessTimeout != nil) {
+        self.onWillProcessTimeout();
+    }
+}
+
+- (void)verificationSessionDidProcessTimeout:(MCKVerificationSession *)session {
+    if (self.onDidProcessTimeout != nil) {
+        self.onDidProcessTimeout();
     }
 }
 

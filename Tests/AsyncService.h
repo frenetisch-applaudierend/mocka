@@ -13,6 +13,6 @@
 
 + (id)sharedService;
 
-- (void)waitForTimeInterval:(NSTimeInterval)timeout thenCallBlock:(void(^)())block;
+- (void)waitForTimeInterval:(NSTimeInterval)timeout thenCallBlock:(void(^)(void))block;
 
 @end

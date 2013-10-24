@@ -176,7 +176,7 @@
 
 - (void)testThatHandlingInvocationInVerificationModeDoesNotAddToRecordedInvocations {
     // given
-    [context beginVerification];
+    [context beginVerificationWithTimeout:0.0];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -186,6 +186,43 @@
     
     // then
     XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+}
+
+- (void)testSuspendingVerificationSetsRecordingMode {
+    // given
+    [context beginVerificationWithTimeout:0.0];
+    
+    // when
+    [context suspendVerification];
+    
+    // then
+    XCTAssertEqual(context.mode, MCKContextModeRecording, @"Suspending did not switch to recording mode");
+}
+
+- (void)testResumingVerificationSetsVerificationMode {
+    // given
+    [context beginVerificationWithTimeout:0.0];
+    [context suspendVerification];
+    
+    // when
+    [context resumeVerification];
+    
+    // then
+    XCTAssertEqual(context.mode, MCKContextModeVerifying, @"Resuming did not switch to verification mode");
+}
+
+- (void)testSuspendingAndResumingVerificationPreservesVerificationSession {
+    // given
+    [context beginVerificationWithTimeout:0.0];
+    
+    id session = context.verificationSession;
+    
+    // when
+    [context suspendVerification];
+    [context resumeVerification];
+    
+    // then
+    XCTAssertTrue(context.verificationSession == session, @"Session was not preserved");
 }
 
 
@@ -216,7 +253,7 @@
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
     // given
-    [context beginVerification];
+    [context beginVerificationWithTimeout:0.0];
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
     
     // when
@@ -260,7 +297,7 @@
     TestObject *object = mock([TestObject class]);
     [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
-    [context beginVerification];
+    [context beginVerificationWithTimeout:0.0];
     [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
     
     // when

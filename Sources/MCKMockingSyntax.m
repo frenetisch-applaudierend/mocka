@@ -25,10 +25,10 @@ id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumber, id o
     return mck_createSpyForObject(object, context);
 }
 
-void _mck_beginVerify(id testCase, const char *fileName, NSUInteger lineNumber) {
+void _mck_beginVerifyWithTimeout(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
-    [context beginVerification];
+    [context beginVerificationWithTimeout:timeout];
 }
 
 void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber) {
