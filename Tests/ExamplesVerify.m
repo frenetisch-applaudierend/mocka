@@ -416,4 +416,23 @@
     });
 }
 
+- (void)testTimeoutAlsoWorksWithInOrder {
+    // do some non-async calls
+    [mockArray addObject:@1];
+    [mockArray addObject:@2];
+    
+    // call some async service
+    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+        [mockArray removeAllObjects];
+    }];
+    
+    // normal verify would fail, since the callback was not called yet at this point
+    // therefore use timeout with verify
+    verifyWithTimeout(1.0) inOrder {
+        [mockArray addObject:@1];
+        [mockArray addObject:@2];
+        [mockArray removeAllObjects];
+    };
+}
+
 @end
