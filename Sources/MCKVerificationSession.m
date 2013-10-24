@@ -72,19 +72,23 @@
 
 - (MCKVerificationResult *)resultForInvocations:(NSArray *)invocations prototype:(MCKInvocationPrototype *)prototype {
     MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
-    if (![result isSuccess] && self.timeout > 0.0) {
+    if ([self mustProcessTimeoutForResult:result]) {
         NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
         do {
             [self.delegate verificationSessionWillProcessTimeout:self];
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
             [self.delegate verificationSessionDidProcessTimeout:self];
             result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
-            if ([result isSuccess]) {
+            if ([result isSuccess] && ![self.verificationHandler mustAwaitTimeoutForFailure]) {
                 break;
             }
         } while ([lastDate laterDate:[NSDate date]] == lastDate);
     }
     return result;
+}
+
+- (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result {
+    return (self.timeout > 0.0 && (![result isSuccess] || [self.verificationHandler mustAwaitTimeoutForFailure]));
 }
 
 

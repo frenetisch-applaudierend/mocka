@@ -34,4 +34,11 @@
     }
 }
 
+
+#pragma mark - Timeout Handling
+
+- (BOOL)mustAwaitTimeoutForFailure {
+    return YES;
+}
+
 @end
