@@ -403,7 +403,7 @@
     
     
     // when
-    [[AsyncService sharedService] waitForTimeInterval:0.1 thenCallBlock:^{
+    [[AsyncService sharedService] callBlockDelayed:^{
         shouldSucceed = YES;
     }];
     
@@ -413,22 +413,6 @@
     XCTAssertTrue(onFinishCalled, @"On finish was not called");
     XCTAssertFalse(onFailureCalled, @"On failure was called");
 }
-
-//- (void)testThatVerifyNotifiesFailureOnlyAfterTimeoutInSingleMode {
-//    // given
-//    NSMutableArray *delayedInvocations = [NSMutableArray array];
-//    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
-//    
-//    NSMutableArray *calls = [NSMutableArray array];
-//    sessionDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
-//    sessionDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
-//    
-//    // when
-//    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
-//    
-//    // then
-//    XCTAssertEqualObjects(calls, (@[ @"onFailure", @"onFinish" ]), @"Notifications not in correct order");
-//}
 
 @end
 
