@@ -371,43 +371,45 @@
 
 - (void)testYouCanWaitForAsyncCalls {
     // call some async service
-    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+    [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
     }];
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    verifyWithTimeout(1.0) [mockArray removeAllObjects];
+    verifyWithTimeout(0.1) [mockArray removeAllObjects];
 }
 
 - (void)testVerifyFailsAfterTheTimeoutExpires {
     // call some async service
-    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+    [[AsyncService sharedService] waitForTimeInterval:0.1 thenCallBlock:^{
         [mockArray removeAllObjects];
     }];
     
     // the timeout will expire before the async taks is executed, so this fails
     ThisWillFail({
-        verifyWithTimeout(0.1) [mockArray removeAllObjects];
+        verifyWithTimeout(0.05) [mockArray removeAllObjects];
     });
 }
 
 - (void)testTimeoutWorksAlsoWithOtherModes {
     // call some async service
-    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+    [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
         [mockArray removeAllObjects];
     }];
     
     // you can also combine the timeout with verification modes like exactly(...)
-    verifyWithTimeout(1.0) exactly(2) [mockArray removeAllObjects];
+    verifyWithTimeout(0.2) exactly(2) [mockArray removeAllObjects];
 }
 
 - (void)testTimeoutWorksDifferentWithNever {
     // call some async service
-    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+    [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
     }];
+    
+    verify never [mockArray removeAllObjects]; // this does not fail, because the call is delayed
     
     // when using withTimeout(...) together with verify never then the semantics change a bit
     // in this case the call will wait the whole timeout before checking that no call was made
@@ -422,7 +424,7 @@
     [mockArray addObject:@2];
     
     // call some async service
-    [[AsyncService sharedService] waitForTimeInterval:0.2 thenCallBlock:^{
+    [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
     }];
     

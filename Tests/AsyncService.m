@@ -20,6 +20,11 @@
     return sharedService;
 }
 
+- (void)callBlockDelayed:(void(^)(void))block {
+    NSParameterAssert(block != nil);
+    dispatch_async(dispatch_get_main_queue(), block);
+}
+
 - (void)waitForTimeInterval:(NSTimeInterval)timeout thenCallBlock:(void(^)(void))block {
     NSParameterAssert(block != nil);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
