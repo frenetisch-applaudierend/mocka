@@ -103,7 +103,7 @@
 
 - (void)testThatSpyExecutesExistingMethodIfInRecordingMode {
     // given
-    context.mode = MCKContextModeRecording;
+    [context updateContextMode:MCKContextModeRecording];
     
     // when
     [spy voidMethodCallWithoutParameters];
@@ -117,7 +117,7 @@
 
 - (void)testThatSpyReturnsNormalReturnValueIfCalledInRecordingMode {
     // given
-    context.mode = MCKContextModeRecording;
+    [context updateContextMode:MCKContextModeRecording];
     
     // when
     int returnValue1 = [spy intMethodCallWithoutParameters];
@@ -130,10 +130,14 @@
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInVerificationMode {
     // given
-    context.mode = MCKContextModeVerifying;
+    [context beginVerificationWithTimeout:0.0];
     
     // when
-    [spy voidMethodCallWithoutParameters];
+    @try {
+        [spy voidMethodCallWithoutParameters];
+    } @catch (NSException *exception) {
+        // ignore, it's because verification fails
+    }
     
     // then
     XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
@@ -141,7 +145,7 @@
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInStubbingMode {
     // given
-    context.mode = MCKContextModeStubbing;
+    [context beginStubbing];
     
     // when
     [spy voidMethodCallWithoutParameters];
@@ -152,7 +156,7 @@
 
 - (void)testThatSpyDoesNotExecuteExistingMethodInRecordingModeIfStubExists {
     // given
-    context.mode = MCKContextModeRecording;
+    [context updateContextMode:MCKContextModeRecording];
     
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
     invocation.selector = @selector(voidMethodCallWithoutParameters);
@@ -170,7 +174,7 @@
     // given
     MockTestObjectSubclass *refObject = [[MockTestObjectSubclass alloc] init];
     MockTestObjectSubclass *subclassSpy = mck_createSpyForObject([[MockTestObjectSubclass alloc] init], context);
-    context.mode = MCKContextModeRecording;
+    [context updateContextMode:MCKContextModeRecording];
     
     // when
     int returnValue = [subclassSpy intMethodCallWithoutParameters];
@@ -184,7 +188,7 @@
 - (void)testThatSpyMocksMethodsInCategories {
     // given
     TestObject *refObject = [[TestObject alloc] init];
-    context.mode = MCKContextModeRecording;
+    [context updateContextMode:MCKContextModeRecording];
     
     // when
     int returnValue = [spy spySpecialMethod];

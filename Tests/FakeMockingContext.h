@@ -16,11 +16,6 @@
 + (instancetype)fakeContext;
 
 
-#pragma mark - Handling the Mocking Mode
-
-@property (nonatomic, readwrite, assign) MCKContextMode mode;
-
-
 #pragma mark - Handling Invocations
 
 @property (nonatomic, readonly) NSArray *handledInvocations;
@@ -38,6 +33,7 @@
 
 @interface MCKMockingContext (MCKMockingContextPrivate)
 
+- (void)updateContextMode:(MCKContextMode)newMode;
 - (void)stubInvocation:(NSInvocation *)invocation;
 
 @end

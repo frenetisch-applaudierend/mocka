@@ -27,8 +27,9 @@
 - (NSUInteger)mck_sizeofParameterAtIndex:(NSUInteger)index;
 
 
-#pragma mark - Setting the Return Value
+#pragma mark - Getting and Setting the Return Value
 
+- (id)mck_objectReturnValue;
 - (void)mck_setObjectReturnValue:(id)value;
 
 @end
@@ -47,6 +48,7 @@
 
 - (NSUInteger)sizeofParameterAtIndex:(NSUInteger)index;
 
+- (id)objectReturnValue;
 - (void)setObjectReturnValue:(id)value;
 
 @end

@@ -13,9 +13,6 @@
     NSMutableArray *_handledInvocations;
 }
 
-@synthesize mode = _fakeMode;
-
-
 #pragma mark - Initialization
 
 + (instancetype)fakeContext {
@@ -54,6 +51,8 @@
 
 - (void)handleInvocation:(NSInvocation *)invocation {
     [_handledInvocations addObject:invocation];
+    
+    [super handleInvocation:invocation];
 }
 
 

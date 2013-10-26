@@ -8,13 +8,36 @@
 
 #import "MCKNetworkMock.h"
 #import "MCKNetworkMock_Private.h"
+#import "MCKMockObject.h"
 #import "MCKNetworkRequestMatcher.h"
 #import "MCKMockingContext.h"
+#import "NSInvocation+MCKArgumentHandling.h"
 
+
+@interface MCKNetworkMock ()
+
+@property (nonatomic, readonly) MCKMockingContext *mockingContext;
+
+@end
 
 @implementation MCKNetworkMock
 
 #pragma mark - Initialization
+
++ (void)initialize {
+    if (!(self == [MCKNetworkMock class])) {
+        return;
+    }
+    
+    // Check that OHHTTPStubs is available
+    if (NSClassFromString(@"OHHTTPStubs") == nil) {
+        NSLog(@"****************************************************************");
+        NSLog(@"* Mocka could not find the OHHTTPStubs library                 *");
+        NSLog(@"* Make sure you have the library linked in your testing target *");
+        NSLog(@"****************************************************************");
+        abort();
+    }
+}
 
 + (instancetype)sharedMock {
     static dispatch_once_t onceToken;
@@ -25,27 +48,36 @@
     return sharedMock;
 }
 
-- (instancetype)init {
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context {
     if ((self = [super init])) {
-        __weak typeof(self) weakSelf = self;
-        _stubDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-            return [weakSelf hasResponseForRequest:request];
-        } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-            return [weakSelf responseForRequest:request];
-        }];
+        _customMockingContext = context;
+        _stubsDescriptor = [self setupStubsDescriptor];
     }
     return self;
 }
 
+- (instancetype)init {
+    return [self initWithMockingContext:nil];
+}
+
+- (id<OHHTTPStubsDescriptor>)setupStubsDescriptor {
+    __weak typeof(self) weakSelf = self;
+    return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [weakSelf hasResponseForRequest:request];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [weakSelf responseForRequest:request];
+    }];
+}
+
 - (void)dealloc {
-    [OHHTTPStubs removeStub:self.stubDescriptor];
+    [OHHTTPStubs removeStub:self.stubsDescriptor];
 }
 
 
-#pragma mark - Properties
+#pragma mark - Getting the Context
 
 - (MCKMockingContext *)mockingContext {
-    return (_mockingContext ?: [MCKMockingContext currentContext]);
+    return (self.customMockingContext ?: [MCKMockingContext currentContext]); // used for testing
 }
 
 
@@ -77,11 +109,17 @@
 #pragma mark - Getting Request Info
 
 - (BOOL)hasResponseForRequest:(NSURLRequest *)request {
-    return NO;
+    return [self.mockingContext isInvocationStubbed:[self handlerInvocationForRequest:request]];
 }
 
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request {
-    return nil;
+    NSInvocation *invocation = [self handlerInvocationForRequest:request];
+    [self.mockingContext handleInvocation:invocation]; // process the stubbings
+    return [self responseForReturnValue:[invocation objectReturnValue]];
+}
+
+- (OHHTTPStubsResponse *)responseForReturnValue:(id)value {
+    return value;
 }
 
 

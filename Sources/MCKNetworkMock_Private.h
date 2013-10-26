@@ -12,12 +12,15 @@
 
 @interface MCKNetworkMock ()
 
-@property (nonatomic, weak) MCKMockingContext *mockingContext;
-@property (nonatomic, readonly, weak) id<OHHTTPStubsDescriptor> stubDescriptor;
+@property (nonatomic, readonly, weak) MCKMockingContext *customMockingContext;
+@property (nonatomic, readonly, weak) id<OHHTTPStubsDescriptor> stubsDescriptor;
 
+- (NSInvocation *)handlerInvocationForRequest:(id)request;
 - (id)handleNetworkRequest:(NSURLRequest *)request;
 
 - (BOOL)hasResponseForRequest:(NSURLRequest *)request;
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request;
+
+- (OHHTTPStubsResponse *)responseForReturnValue:(id)value;
 
 @end

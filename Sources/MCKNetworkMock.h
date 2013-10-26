@@ -19,6 +19,7 @@ typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 @interface MCKNetworkMock : NSObject
 
 + (instancetype)sharedMock;
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
 
 @property (nonatomic, readonly) MCKNetworkActivity GET;
 @property (nonatomic, readonly) MCKNetworkActivity PUT;
