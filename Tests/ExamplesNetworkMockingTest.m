@@ -9,6 +9,8 @@
 #import <XCTest/XCTest.h>
 #import "ExamplesCommon.h"
 
+#import "MCKMockingContext.h"
+
 
 @interface ExamplesNetworkMockingTest : XCTestCase @end
 @implementation ExamplesNetworkMockingTest
@@ -35,16 +37,61 @@
     // start monitoring for network activity
     [Network startObservingNetworkCalls];
     
-    // you call some network
+    // perform some network operation
     [self GET:@"http://www.google.ch" error:NULL];
     
-    // then you can verify
+    // then you can verify it
     verify Network.GET(@"http://www.google.ch");
     
     // uncalled URLs fail the verification
     ThisWillFail({
         verify Network.GET(@"http://you.did-not-call.me");
     });
+}
+
+
+#pragma mark - Test Disabling Network Access
+
+- (void)testYouCanDisableAndEnableNetworkAccess {
+    // disable the network
+    [Network disable];
+    
+    // perform some network operation
+    NSError *error = nil;
+    NSData *data = [self GET:@"http://www.google.ch" error:&error];
+    
+    // the data returned is nil and the error is set to a "no network error"
+    XCTAssertNil(data, @"Data should be nil");
+    XCTAssertEqualObjects(error.domain, NSURLErrorDomain, @"Wrong error domain");
+    XCTAssertEqual(error.code, (NSInteger)NSURLErrorNotConnectedToInternet, @"Wrong error code");
+    
+    // later you can re-enable the network
+    [Network enable];
+    
+    // perform some network operation
+    error = nil;
+    data = [self GET:@"http://www.google.ch" error:&error];
+    
+    // the data returned is nil and the error is set to a "no network error"
+    XCTAssertNotNil(data, @"Data should not be nil");
+    XCTAssertNil(error, @"Error should be nil");
+}
+
+- (void)testStubbingAndVerificationAlsoWorkWhenAccessIsDisabled {
+    // disable the network
+    [Network disable];
+    
+    // set up a stub
+    whenCalling Network.GET(@"http://www.google.ch") thenDo {
+        returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
+    };
+    
+    // if you now make a call to the specified URL you'll receive the stubbed return value
+    // if you use returnValue(...) then the status code 200 is implied
+    NSData *received = [self GET:@"http://www.google.ch" error:NULL];
+    XCTAssertEqualObjects(received, [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding], @"Wrong data was returned");
+    
+    verify Network.GET(@"http://www.google.ch");
 }
 
 

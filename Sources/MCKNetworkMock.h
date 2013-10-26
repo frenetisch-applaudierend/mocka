@@ -18,9 +18,21 @@ typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 
 @interface MCKNetworkMock : NSObject
 
+#pragma mark - Initialization
+
 - (instancetype)initWithMockingContext:(MCKMockingContext *)context;
 
+
+#pragma mark - Network Control
+
+@property (nonatomic, readonly, getter = isEnabled) BOOL enabled;
+
+- (void)disable;
+- (void)enable;
 - (void)startObservingNetworkCalls;
+
+
+#pragma mark - Stubbing and Verification DSL
 
 @property (nonatomic, readonly) MCKNetworkActivity GET;
 @property (nonatomic, readonly) MCKNetworkActivity PUT;

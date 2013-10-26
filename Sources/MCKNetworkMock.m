@@ -50,14 +50,22 @@
 - (instancetype)initWithMockingContext:(MCKMockingContext *)context {
     if ((self = [super init])) {
         _mockingContext = context;
-        _stubsDescriptor = [self setupStubsDescriptor];
+        _enabled = YES;
+        
+        [self setupStubsDescriptor];
     }
     return self;
 }
 
-- (id<OHHTTPStubsDescriptor>)setupStubsDescriptor {
+- (void)setupStubsDescriptor {
+    static id<OHHTTPStubsDescriptor> CurrentDescriptor = nil;
+    
+    if (CurrentDescriptor != nil) { // ensure that any old descriptor form this test case is removed
+        [OHHTTPStubs removeStub:CurrentDescriptor];
+    }
+    
     __weak typeof(self) weakSelf = self;
-    return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    CurrentDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         BOOL hasResponse = [weakSelf hasResponseForRequest:request];
         if (!hasResponse) {
             // If there is no response we need to record the call, otherwise it can't be verified later.
@@ -70,12 +78,16 @@
     }];
 }
 
-- (void)dealloc {
-    [OHHTTPStubs removeStub:self.stubsDescriptor];
-}
-
 
 #pragma mark - Network Control
+
+- (void)disable {
+    _enabled = NO;
+}
+
+- (void)enable {
+    _enabled = YES;
+}
 
 - (void)startObservingNetworkCalls {
     // dummy method, only needed to have the sharedMock initialized
@@ -110,7 +122,8 @@
 #pragma mark - Getting Request Info
 
 - (BOOL)hasResponseForRequest:(NSURLRequest *)request {
-    return [self.mockingContext isInvocationStubbed:[self handlerInvocationForRequest:request]];
+    // if the network is disabled, we will return an error response
+    return (![self isEnabled] || [self.mockingContext isInvocationStubbed:[self handlerInvocationForRequest:request]]);
 }
 
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request {
@@ -120,7 +133,10 @@
 }
 
 - (OHHTTPStubsResponse *)responseForReturnValue:(id)value {
-    if (value == nil || [value isKindOfClass:[OHHTTPStubsResponse class]]) {
+    if (value == nil) {
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
+        return [OHHTTPStubsResponse responseWithError:error];
+    } else if ([value isKindOfClass:[OHHTTPStubsResponse class]]) {
         return value;
     } else if ([value isKindOfClass:[NSData class]]) {
         return [OHHTTPStubsResponse responseWithData:value statusCode:200 headers:nil];
