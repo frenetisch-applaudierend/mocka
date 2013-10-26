@@ -77,15 +77,4 @@
     }
 }
 
-
-#pragma mark - Convenience Getters
-
-#define GetterImpl(type) - (type)type ## ArgumentAtIndex:(NSInteger)index { type arg; [self getArgument:&arg atIndex:index]; return arg; }
-#define GetterImpl2(type, name) - (type)name ## ArgumentAtIndex:(NSInteger)index { type arg; [self getArgument:&arg atIndex:index]; return arg; }
-
-GetterImpl(int);
-GetterImpl2(unsigned int, unsignedInt);
-GetterImpl2(const char *, cString);
-GetterImpl2(void *, pointer);
-
 @end

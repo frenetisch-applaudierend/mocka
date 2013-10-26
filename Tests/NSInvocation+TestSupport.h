@@ -14,11 +14,4 @@
 + (id)invocationForTarget:(id)target selectorAndArguments:(SEL)selector, ...;
 + (id)voidMethodInvocationForTarget:(id)target;
 
-#pragma mark - Convenience Getters
-
-- (int)intArgumentAtIndex:(NSInteger)index;
-- (unsigned int)unsignedIntArgumentAtIndex:(NSInteger)index;
-- (const char *)cStringArgumentAtIndex:(NSInteger)index;
-- (void *)pointerArgumentAtIndex:(NSInteger)index;
-
 @end

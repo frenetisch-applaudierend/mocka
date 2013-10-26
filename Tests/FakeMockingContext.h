@@ -36,7 +36,7 @@
 @end
 
 
-@interface MCKMockingContext (PrivateMethods)
+@interface MCKMockingContext (MCKMockingContextPrivate)
 
 - (void)stubInvocation:(NSInvocation *)invocation;
 

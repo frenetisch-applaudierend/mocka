@@ -19,14 +19,18 @@
 #pragma mark - Initialization
 
 + (instancetype)fakeContext {
-    return [[self alloc] init];
+    return [[self alloc] initWithTestCase:nil];
 }
 
-- (instancetype)init {
-    if ((self = [super init])) {
+- (instancetype)initWithTestCase:(id)testCase {
+    if ((self = [super initWithTestCase:testCase])) {
         _handledInvocations = [NSMutableArray array];
     }
     return self;
+}
+
+- (instancetype)init {
+    return [self initWithTestCase:nil];
 }
 
 

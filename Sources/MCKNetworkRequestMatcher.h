@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCKArgumentMatcher.h"
 
-@interface MCKNetworkRequestMatcher : NSObject
+
+@interface MCKNetworkRequestMatcher : NSObject <MCKArgumentMatcher>
 
 + (instancetype)matcherForURL:(NSURL *)url HTTPMethod:(NSString *)method;
 

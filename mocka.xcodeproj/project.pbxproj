@@ -148,6 +148,16 @@
 		63857DF9181BB09000F63BBB /* MCKNetworkRequestMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 63857DF5181BB09000F63BBB /* MCKNetworkRequestMatcher.m */; };
 		63857DFC181BB1F600F63BBB /* MCKNetworkMockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63857DFB181BB1F600F63BBB /* MCKNetworkMockTest.m */; };
 		63857DFD181BB1F600F63BBB /* MCKNetworkMockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63857DFB181BB1F600F63BBB /* MCKNetworkMockTest.m */; };
+		63857DFF181C2AC000F63BBB /* MCKNetworkMock_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857DFE181C2AC000F63BBB /* MCKNetworkMock_Private.h */; };
+		63857E00181C2AC000F63BBB /* MCKNetworkMock_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857DFE181C2AC000F63BBB /* MCKNetworkMock_Private.h */; };
+		63857E05181C30C400F63BBB /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E01181C30C400F63BBB /* OHHTTPStubs.h */; };
+		63857E06181C30C400F63BBB /* OHHTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E01181C30C400F63BBB /* OHHTTPStubs.h */; };
+		63857E07181C30C400F63BBB /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E02181C30C400F63BBB /* OHHTTPStubsResponse.h */; };
+		63857E08181C30C400F63BBB /* OHHTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E02181C30C400F63BBB /* OHHTTPStubsResponse.h */; };
+		63857E09181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E03181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h */; };
+		63857E0A181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E03181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h */; };
+		63857E0B181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E04181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h */; };
+		63857E0C181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857E04181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h */; };
 		638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA46D17F6F7A30086226D /* libmocka-ios.a */; };
 		638BA49017F6F7D70086226D /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D317F5944B001F5C88 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638BA49117F6F7DC0086226D /* MCKMockingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 638BA43E17F5C6740086226D /* MCKMockingSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -373,6 +383,11 @@
 		63857DF4181BB09000F63BBB /* MCKNetworkRequestMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKNetworkRequestMatcher.h; sourceTree = "<group>"; };
 		63857DF5181BB09000F63BBB /* MCKNetworkRequestMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKNetworkRequestMatcher.m; sourceTree = "<group>"; };
 		63857DFB181BB1F600F63BBB /* MCKNetworkMockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKNetworkMockTest.m; sourceTree = "<group>"; };
+		63857DFE181C2AC000F63BBB /* MCKNetworkMock_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKNetworkMock_Private.h; sourceTree = "<group>"; };
+		63857E01181C30C400F63BBB /* OHHTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubs.h; sourceTree = "<group>"; };
+		63857E02181C30C400F63BBB /* OHHTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHHTTPStubsResponse.h; sourceTree = "<group>"; };
+		63857E03181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+HTTPMessage.h"; sourceTree = "<group>"; };
+		63857E04181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OHHTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
 		638BA42F17F5B3B60086226D /* MCKXCTestFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKXCTestFailureHandler.h; sourceTree = "<group>"; };
 		638BA43017F5B3B60086226D /* MCKXCTestFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKXCTestFailureHandler.m; sourceTree = "<group>"; };
 		638BA43517F5B66E0086226D /* MCKXCTestFailureHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKXCTestFailureHandlerTest.m; sourceTree = "<group>"; };
@@ -676,9 +691,11 @@
 			isa = PBXGroup;
 			children = (
 				63857DEE181BA59200F63BBB /* MCKNetworkMock.h */,
+				63857DFE181C2AC000F63BBB /* MCKNetworkMock_Private.h */,
 				63857DEF181BA59200F63BBB /* MCKNetworkMock.m */,
 				63857DF4181BB09000F63BBB /* MCKNetworkRequestMatcher.h */,
 				63857DF5181BB09000F63BBB /* MCKNetworkRequestMatcher.m */,
+				63857E0D181C30C700F63BBB /* OHHTTPStubs Headers */,
 			);
 			name = "Network Mocking";
 			sourceTree = "<group>";
@@ -689,6 +706,17 @@
 				63857DFB181BB1F600F63BBB /* MCKNetworkMockTest.m */,
 			);
 			name = "Network Mocking";
+			sourceTree = "<group>";
+		};
+		63857E0D181C30C700F63BBB /* OHHTTPStubs Headers */ = {
+			isa = PBXGroup;
+			children = (
+				63857E01181C30C400F63BBB /* OHHTTPStubs.h */,
+				63857E02181C30C400F63BBB /* OHHTTPStubsResponse.h */,
+				63857E03181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h */,
+				63857E04181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h */,
+			);
+			name = "OHHTTPStubs Headers";
 			sourceTree = "<group>";
 		};
 		638BA45617F5DDFE0086226D /* Mocking Core */ = {
@@ -897,9 +925,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63857E0A181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				631E235D17FF5F3C00BC2D06 /* MCKInOrderCollector.h in Headers */,
 				631E235E17FF5F3C00BC2D06 /* MCKStub.h in Headers */,
 				631E235F17FF5F3C00BC2D06 /* Mocka.h in Headers */,
+				63857E06181C30C400F63BBB /* OHHTTPStubs.h in Headers */,
 				631E236017FF5F3C00BC2D06 /* MCKVerificationSession.h in Headers */,
 				631E236117FF5F3C00BC2D06 /* MCKExceptionFailureHandler.h in Headers */,
 				631E236217FF5F3C00BC2D06 /* MCKReturnStubAction.h in Headers */,
@@ -907,6 +937,7 @@
 				631E236417FF5F3C00BC2D06 /* MCKVerificationResult.h in Headers */,
 				631E236517FF5F3C00BC2D06 /* MCKVerificationHandler.h in Headers */,
 				631E236617FF5F3C00BC2D06 /* MCKXCTestFailureHandler.h in Headers */,
+				63857E00181C2AC000F63BBB /* MCKNetworkMock_Private.h in Headers */,
 				631E236717FF5F3C00BC2D06 /* MCKSpy.h in Headers */,
 				631E236817FF5F3C00BC2D06 /* MCKMockObject.h in Headers */,
 				631E236917FF5F3C00BC2D06 /* MCKExactlyVerificationHandler.h in Headers */,
@@ -916,6 +947,7 @@
 				631E236D17FF5F3C00BC2D06 /* MCKVerificationResultCollector.h in Headers */,
 				631E236E17FF5F3C00BC2D06 /* MCKMockingContext.h in Headers */,
 				63857DF1181BA59200F63BBB /* MCKNetworkMock.h in Headers */,
+				63857E0C181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h in Headers */,
 				631E236F17FF5F3C00BC2D06 /* MCKArgumentSerialization.h in Headers */,
 				631E237017FF5F3C00BC2D06 /* MCKAnyArgumentMatcher.h in Headers */,
 				631E237117FF5F3C00BC2D06 /* MCKArgumentMatcher.h in Headers */,
@@ -934,6 +966,7 @@
 				631E237D17FF5F3C00BC2D06 /* MCKBlockArgumentMatcher.h in Headers */,
 				631E237E17FF5F3C00BC2D06 /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				631E237F17FF5F3C00BC2D06 /* MCKMockingSyntax.h in Headers */,
+				63857E08181C30C400F63BBB /* OHHTTPStubsResponse.h in Headers */,
 				631E238017FF5F3C00BC2D06 /* MCKSetOutParameterStubAction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -942,9 +975,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63857E09181C30C400F63BBB /* OHHTTPStubsResponse+HTTPMessage.h in Headers */,
 				639085F217FA2097006A0714 /* MCKInOrderCollector.h in Headers */,
 				638BA4B217F6F8690086226D /* MCKStub.h in Headers */,
 				638BA49017F6F7D70086226D /* Mocka.h in Headers */,
+				63857E05181C30C400F63BBB /* OHHTTPStubs.h in Headers */,
 				639085D817F9AD85006A0714 /* MCKVerificationSession.h in Headers */,
 				638BA4D217F6F8760086226D /* MCKExceptionFailureHandler.h in Headers */,
 				638BA4B617F6F8690086226D /* MCKReturnStubAction.h in Headers */,
@@ -952,6 +987,7 @@
 				639085DE17F9C0F1006A0714 /* MCKVerificationResult.h in Headers */,
 				638BA4A317F6F8580086226D /* MCKVerificationHandler.h in Headers */,
 				638BA4D017F6F8760086226D /* MCKXCTestFailureHandler.h in Headers */,
+				63857DFF181C2AC000F63BBB /* MCKNetworkMock_Private.h in Headers */,
 				638BA49A17F6F8430086226D /* MCKSpy.h in Headers */,
 				638BA49917F6F8430086226D /* MCKMockObject.h in Headers */,
 				638BA4A917F6F8580086226D /* MCKExactlyVerificationHandler.h in Headers */,
@@ -961,6 +997,7 @@
 				639085DB17F9C0D5006A0714 /* MCKVerificationResultCollector.h in Headers */,
 				638BA49817F6F8430086226D /* MCKMockingContext.h in Headers */,
 				63857DF0181BA59200F63BBB /* MCKNetworkMock.h in Headers */,
+				63857E0B181C30C400F63BBB /* OHHTTPStubsResponse+JSON.h in Headers */,
 				638BA4C217F6F8710086226D /* MCKArgumentSerialization.h in Headers */,
 				638BA4C417F6F8710086226D /* MCKAnyArgumentMatcher.h in Headers */,
 				638BA4C117F6F8710086226D /* MCKArgumentMatcher.h in Headers */,
@@ -979,6 +1016,7 @@
 				638BA4C817F6F8710086226D /* MCKBlockArgumentMatcher.h in Headers */,
 				638BA4D517F6F87C0086226D /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				638BA49117F6F7DC0086226D /* MCKMockingSyntax.h in Headers */,
+				63857E07181C30C400F63BBB /* OHHTTPStubsResponse.h in Headers */,
 				638BA4BC17F6F8690086226D /* MCKSetOutParameterStubAction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

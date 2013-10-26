@@ -25,4 +25,11 @@
     return self;
 }
 
+
+#pragma mark - Argument Matching
+
+- (BOOL)matchesCandidate:(NSURLRequest *)candidate {
+    return NO;
+}
+
 @end

@@ -11,6 +11,7 @@
 
 @class MCKNetworkMock;
 @class MCKNetworkRequestMatcher;
+@class MCKMockingContext;
 
 typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 
