@@ -25,7 +25,7 @@
 #define mck_returnValue(...) _mck_addStubAction(_mck_returnValueAction((__VA_ARGS__)))
 #define mck_returnStruct(...) _mck_addStubAction(_mck_returnStructAction((__VA_ARGS__)))
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     #define returnValue(...) mck_returnValue((__VA_ARGS__))
     #define returnStruct(...) mck_returnStruct((__VA_ARGS__))

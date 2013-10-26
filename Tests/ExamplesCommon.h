@@ -11,6 +11,7 @@
 #import <Mocka/Mocka.h>
 
 #import "TestExceptionUtils.h"
+#import "TestTimingUtils.h"
 #import "TestObject.h"
 
 

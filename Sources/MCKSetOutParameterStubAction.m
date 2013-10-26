@@ -48,7 +48,7 @@ void mck_setOutParameterAtIndex(NSUInteger index, id value) {
 }
 
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     void setOutParameterAtIndex(NSUInteger index, id value) {
         mck_setOutParameterAtIndex(index, value);

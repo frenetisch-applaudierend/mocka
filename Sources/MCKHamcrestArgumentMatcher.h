@@ -25,7 +25,7 @@ static inline double mck_doubleArgThat(id matcher) { return mck_registerPrimitiv
 static inline float mck_boolArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
 
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 static inline char intArgThat(id matcher) { return mck_intArgThat(matcher); }
 static inline float floatArgThat(id matcher) { return mck_floatArgThat(matcher); }
 static inline double doubleArgThat(id matcher) { return mck_doubleArgThat(matcher); }

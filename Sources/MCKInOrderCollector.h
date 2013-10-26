@@ -20,7 +20,7 @@
 #define mck_inOrder mck_beginVerifyGroupCallsUsingCollector([[MCKInOrderCollector alloc] init])
 
 // nice syntax
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     #define inOrder mck_inOrder
 

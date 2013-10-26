@@ -37,7 +37,7 @@ extern mck_objptr mck_objectPointerArg(id *arg);
     [MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithBytes:(typeof(arg)[]){ (arg) }\
                                                   objCType:@encode(typeof(arg))]], typeof(arg))
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     static inline char intArg(int64_t arg) { return mck_intArg(arg); }
     static inline char unsignedIntArg(uint64_t arg) { return mck_unsignedIntArg(arg); }

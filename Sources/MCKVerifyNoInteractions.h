@@ -13,7 +13,7 @@
 #define mck_noMoreInteractionsOn(mock) mck_checkNoInteractions(self, (mock))
 #define mck_noInteractionsOn(mock) mck_noMoreInteractionsOn((mock))
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 #define noMoreInteractionsOn(mock) mck_noMoreInteractionsOn((mock))
 #define noInteractionsOn(mock) mck_noInteractionsOn((mock))
 #endif

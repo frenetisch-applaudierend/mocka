@@ -53,7 +53,13 @@
 }
 
 
-#pragma mark - Setting Return Value
+#pragma mark - Getting and Setting Return Value
+
+- (id)mck_objectReturnValue {
+    id returnValue = nil;
+    [self getReturnValue:&returnValue];
+    return returnValue;
+}
 
 - (void)mck_setObjectReturnValue:(id)value {
     [self setReturnValue:&value];
@@ -62,7 +68,7 @@
 
 #pragma mark - Nice Syntax
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
 - (id)objectParameterAtIndex:(NSUInteger)index {
     return [self mck_objectParameterAtIndex:index];
@@ -86,6 +92,10 @@
 
 - (NSUInteger)sizeofParameterAtIndex:(NSUInteger)index {
     return [self mck_sizeofParameterAtIndex:index];
+}
+
+- (id)objectReturnValue {
+    return [self mck_objectReturnValue];
 }
 
 - (void)setObjectReturnValue:(id)value {
