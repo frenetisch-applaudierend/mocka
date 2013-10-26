@@ -11,6 +11,9 @@
 
 @interface MCKNetworkRequestMatcher : NSObject
 
-@property (nonatomic, readonly) MCKNetworkRequestMatcher*(^withHeaders)(NSDictionary *headers);
++ (instancetype)matcherForURL:(NSURL *)url HTTPMethod:(NSString *)method;
+
+@property (nonatomic, readonly) NSURL *URL;
+@property (nonatomic, readonly) NSString *HTTPMethod;
 
 @end

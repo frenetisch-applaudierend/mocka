@@ -18,7 +18,7 @@
 - (void)testYouCanStubNetworkCalls {
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
-    whenCalling Network.GET(@"http://www.google.ch").withHeaders(@{ @"Test": @200 }) thenDo {
+    whenCalling Network.GET(@"http://www.google.ch") thenDo {
         returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
     };
     

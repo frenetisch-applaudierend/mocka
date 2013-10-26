@@ -11,10 +11,18 @@
 
 @implementation MCKNetworkRequestMatcher
 
-- (MCKNetworkRequestMatcher*(^)(NSDictionary*))withHeaders {
-    return ^(NSDictionary *headers) {
-        return self;
-    };
+#pragma mark - Initialization
+
++ (instancetype)matcherForURL:(NSURL *)url HTTPMethod:(NSString *)method {
+    return [[self alloc] initWithURL:url HTTPMethod:method];
+}
+
+- (instancetype)initWithURL:(NSURL *)url HTTPMethod:(NSString *)method {
+    if ((self = [super init])) {
+        _URL = [url copy];
+        _HTTPMethod = [method copy];
+    }
+    return self;
 }
 
 @end

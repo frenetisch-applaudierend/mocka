@@ -28,7 +28,7 @@
 
 - (MCKNetworkActivity)GET {
     return ^(id url) {
-        return [[MCKNetworkRequestMatcher alloc] init];
+        return [MCKNetworkRequestMatcher matcherForURL:url HTTPMethod:@"GET"];
     };
 }
 
