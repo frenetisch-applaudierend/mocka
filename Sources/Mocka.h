@@ -32,6 +32,7 @@
 #import "MCKHamcrestArgumentMatcher.h"
 
 #import "MCKNetworkMock.h"
+#import "MCKNetworkRequestMatcher.h"
 
 #import "MCKTypes.h"
 #import "MCKTypeEncodings.h"

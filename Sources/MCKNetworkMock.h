@@ -9,12 +9,20 @@
 #import <Foundation/Foundation.h>
 
 
+@class MCKNetworkMock;
+@class MCKNetworkRequestMatcher;
+
+typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
+
+
 @interface MCKNetworkMock : NSObject
 
 + (instancetype)sharedMock;
 
-@property (nonatomic, readonly) MCKNetworkMock*(^GET)(id url);
-@property (nonatomic, readonly) MCKNetworkMock*(^withHeaders)(NSDictionary *headers);
+@property (nonatomic, readonly) MCKNetworkActivity GET;
+@property (nonatomic, readonly) MCKNetworkActivity PUT;
+@property (nonatomic, readonly) MCKNetworkActivity POST;
+@property (nonatomic, readonly) MCKNetworkActivity DELETE;
 
 @end
 

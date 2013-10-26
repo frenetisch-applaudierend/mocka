@@ -7,23 +7,28 @@
 //
 
 #import "MCKNetworkMock.h"
+#import "MCKNetworkRequestMatcher.h"
 
 
 @implementation MCKNetworkMock
 
+#pragma mark - Initialization
+
 + (instancetype)sharedMock {
-    return [[self alloc] init];
+    static dispatch_once_t onceToken;
+    static MCKNetworkMock *sharedMock = nil;
+    dispatch_once(&onceToken, ^{
+        sharedMock = [[self alloc] init];
+    });
+    return sharedMock;
 }
 
-- (MCKNetworkMock*(^)(id))GET {
+
+#pragma mark - Request Configuration
+
+- (MCKNetworkActivity)GET {
     return ^(id url) {
-        return self;
-    };
-}
-
-- (MCKNetworkMock*(^)(NSDictionary*))withHeaders {
-    return ^(NSDictionary *headers) {
-        return self;
+        return [[MCKNetworkRequestMatcher alloc] init];
     };
 }
 

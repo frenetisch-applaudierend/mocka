@@ -238,7 +238,7 @@ static __weak id _CurrentContext = nil;
 
 - (BOOL)checkCanPushArgumentMatcher {
     if (self.mode == MCKContextModeRecording) {
-        [self failWithReason:@"Argument matchers can only be used with whenCalling or verify"];
+        [self failWithReason:@"Argument matchers can only be used with stubbing or verification"];
         return NO;
     } else {
         return YES;
