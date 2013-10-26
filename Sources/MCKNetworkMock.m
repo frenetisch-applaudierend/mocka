@@ -121,6 +121,8 @@
 - (OHHTTPStubsResponse *)responseForReturnValue:(id)value {
     if (value == nil || [value isKindOfClass:[OHHTTPStubsResponse class]]) {
         return value;
+    } else if ([value isKindOfClass:[NSData class]]) {
+        return [OHHTTPStubsResponse responseWithData:value statusCode:200 headers:nil];
     } else if ([value isKindOfClass:[NSString class]]) {
         return [OHHTTPStubsResponse responseWithData:[value dataUsingEncoding:NSUTF8StringEncoding] statusCode:200 headers:nil];
     } else {

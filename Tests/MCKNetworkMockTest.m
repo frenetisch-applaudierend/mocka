@@ -121,6 +121,22 @@
     XCTAssertEqualObjects([networkMock responseForRequest:request], response, @"Wrong response returned");
 }
 
+- (void)testThatResponseForRequestReturnsSuccessfulResponseWithDataForDataReturn {
+    // given
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
+    NSData *dataReturn = [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // add a stubbing that matches always
+    [mockingContext beginStubbing];
+    [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
+    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:dataReturn]];
+    
+    // then
+    OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
+    XCTAssert(response.statusCode == 200, @"Wrong status code");
+    XCTAssertEqualObjects([self dataFromStream:response.inputStream], dataReturn, @"Wrong data");
+}
+
 - (void)testThatResponseForRequestReturnsSuccessfulResponseWithDataForStringReturn {
     // given
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
