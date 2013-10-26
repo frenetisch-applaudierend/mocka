@@ -252,6 +252,10 @@
 		6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
 		6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
+		63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
+		63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
+		63B8A4A9181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */; };
+		63B8A4AA181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -353,6 +357,7 @@
 		63732BCD17F5A8060041C869 /* MCKThrowExceptionStubActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKThrowExceptionStubActionTest.m; sourceTree = "<group>"; };
 		6376F85717FF604500F4752D /* mocka-tests-osx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-tests-osx.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6376F86817FF60E100F4752D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		63857DEC181B9DD600F63BBB /* TestTimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTimingUtils.h; sourceTree = "<group>"; };
 		638BA42F17F5B3B60086226D /* MCKXCTestFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKXCTestFailureHandler.h; sourceTree = "<group>"; };
 		638BA43017F5B3B60086226D /* MCKXCTestFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKXCTestFailureHandler.m; sourceTree = "<group>"; };
 		638BA43517F5B66E0086226D /* MCKXCTestFailureHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKXCTestFailureHandlerTest.m; sourceTree = "<group>"; };
@@ -385,6 +390,8 @@
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesNetworkMockingTest.m; sourceTree = "<group>"; };
+		63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Libraries/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		63BDE2D917F59EBE00584A08 /* AsyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncService.h; sourceTree = "<group>"; };
 		63BDE2DA17F59EBE00584A08 /* AsyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncService.m; sourceTree = "<group>"; };
 		63BDE2DC17F59FEF00584A08 /* HCBlockMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HCBlockMatcher.h; sourceTree = "<group>"; };
@@ -425,6 +432,7 @@
 			files = (
 				6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */,
 				6376F85817FF604500F4752D /* XCTest.framework in Frameworks */,
+				63B8A4AA181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */,
 				6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */,
 				6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */,
 			);
@@ -444,6 +452,7 @@
 			files = (
 				6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */,
 				6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */,
+				63B8A4A9181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */,
 				6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */,
 				638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */,
 			);
@@ -477,10 +486,11 @@
 		6334758217F59221001F5C88 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6397EFC817F6F91800F5902F /* Foundation.framework */,
 				6376F86817FF60E100F4752D /* Foundation.framework */,
 				6397EFF817F81B8B00F5902F /* SenTestingKit.framework */,
 				6397EFF517F6FAFB00F5902F /* XCTest.framework */,
-				6397EFC817F6F91800F5902F /* Foundation.framework */,
+				63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -824,6 +834,7 @@
 			isa = PBXGroup;
 			children = (
 				63BDE2F917F5A04700584A08 /* TestExceptionUtils.h */,
+				63857DEC181B9DD600F63BBB /* TestTimingUtils.h */,
 				63BDE2F717F5A04700584A08 /* NSInvocation+TestSupport.h */,
 				63BDE2F817F5A04700584A08 /* NSInvocation+TestSupport.m */,
 			);
@@ -838,6 +849,7 @@
 				63BDE30517F5A18400584A08 /* ExamplesVerify.m */,
 				63BDE30417F5A18400584A08 /* ExamplesStub.m */,
 				63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */,
+				63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -1032,8 +1044,8 @@
 			projectRoot = "";
 			targets = (
 				638BA46C17F6F7A30086226D /* mocka-ios */,
-				638BA47917F6F7A30086226D /* mocka-tests-ios */,
 				631E233617FF5F3C00BC2D06 /* mocka-osx */,
+				638BA47917F6F7A30086226D /* mocka-tests-ios */,
 				6376F85617FF604500F4752D /* mocka-tests-osx */,
 				6376F89317FF656B00F4752D /* Universal Framework */,
 			);
@@ -1137,6 +1149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */,
 				6376F87F17FF61A900F4752D /* MCKExactlyVerificationHandlerTest.m in Sources */,
 				6376F88617FF61B500F4752D /* MCKBlockArgumentMatcherTest.m in Sources */,
 				6376F88017FF61AE00F4752D /* MCKReturnStubActionTest.m in Sources */,
@@ -1225,6 +1238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */,
 				6397EFEF17F6FAE700F5902F /* FakeFailureHandler.m in Sources */,
 				6397EFCA17F6FAA700F5902F /* ExamplesCreatingMocks.m in Sources */,
 				6397EFD017F6FAAD00F5902F /* MCKSpyIntegrationTest.m in Sources */,
@@ -1378,6 +1392,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Libraries",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 			};
@@ -1387,6 +1405,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.4;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Libraries",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 			};
