@@ -46,7 +46,7 @@ void mck_throwNewException(NSString *name, NSString *reason, NSDictionary *userI
 }
 
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     void throwException(NSException *exception) {
         mck_throwException(exception);

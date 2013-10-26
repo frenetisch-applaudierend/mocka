@@ -42,7 +42,7 @@ extern mck_objptr mck_objectPointerMatching(BOOL(^block)(mck_objptr candidate));
 
 
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     static inline id objectMatching(BOOL(^block)(id candidate)) { return mck_objectMatching(block); }
     static inline char integerMatching(BOOL(^block)(SInt64 candidate)) { return integerMatching(block); }

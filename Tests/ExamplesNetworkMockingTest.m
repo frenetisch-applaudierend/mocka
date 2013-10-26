@@ -10,39 +10,6 @@
 #import "ExamplesCommon.h"
 
 
-@interface HTTPServerMock : NSObject
-
-+ (instancetype)sharedMock;
-
-@property (nonatomic, readonly) HTTPServerMock*(^GET)(id url);
-@property (nonatomic, readonly) HTTPServerMock*(^withHeaders)(NSDictionary *headers);
-
-@end
-
-@implementation HTTPServerMock
-
-+ (instancetype)sharedMock {
-    return [[self alloc] init];
-}
-
-- (HTTPServerMock*(^)(id))GET {
-    return ^(id url) {
-        return self;
-    };
-}
-
-- (HTTPServerMock*(^)(NSDictionary*))withHeaders {
-    return ^(NSDictionary *headers) {
-        return self;
-    };
-}
-
-@end
-
-#define Network [HTTPServerMock sharedMock]
-
-
-
 @interface ExamplesNetworkMockingTest : XCTestCase @end
 @implementation ExamplesNetworkMockingTest
 
@@ -51,7 +18,9 @@
 - (void)testYouCanStubNetworkCalls {
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
-    whenCalling Network.GET(@"http://www.google.ch").withHeaders(@{ @"Test": @200 }) thenDo returnValue(@"Hello, World!");
+    whenCalling Network.GET(@"http://www.google.ch").withHeaders(@{ @"Test": @200 }) thenDo {
+        returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
+    };
     
     // if you now make a call to the specified URL you'll receive the stubbed return value
     // if you use returnValue(...) then the status code 200 is implied

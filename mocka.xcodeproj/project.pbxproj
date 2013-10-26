@@ -138,6 +138,10 @@
 		6376F89017FF61D000F4752D /* FakeInvocationPrototype.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA46317F5F8250086226D /* FakeInvocationPrototype.m */; };
 		6376F89117FF61D000F4752D /* FakeVerificationResultCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */; };
 		6376F89217FF61D700F4752D /* NSInvocation+TestSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE2F817F5A04700584A08 /* NSInvocation+TestSupport.m */; };
+		63857DF0181BA59200F63BBB /* MCKNetworkMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857DEE181BA59200F63BBB /* MCKNetworkMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63857DF1181BA59200F63BBB /* MCKNetworkMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857DEE181BA59200F63BBB /* MCKNetworkMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63857DF2181BA59200F63BBB /* MCKNetworkMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 63857DEF181BA59200F63BBB /* MCKNetworkMock.m */; };
+		63857DF3181BA59200F63BBB /* MCKNetworkMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 63857DEF181BA59200F63BBB /* MCKNetworkMock.m */; };
 		638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA46D17F6F7A30086226D /* libmocka-ios.a */; };
 		638BA49017F6F7D70086226D /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D317F5944B001F5C88 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638BA49117F6F7DC0086226D /* MCKMockingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 638BA43E17F5C6740086226D /* MCKMockingSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -278,26 +282,26 @@
 /* Begin PBXFileReference section */
 		631E238417FF5F3C00BC2D06 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6334758B17F59221001F5C88 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAnyArgumentMatcher.h; sourceTree = "<group>"; };
+		6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKAnyArgumentMatcher.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6334759017F5944B001F5C88 /* MCKAnyArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnyArgumentMatcher.m; sourceTree = "<group>"; };
 		6334759117F5944B001F5C88 /* MCKArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcher.h; sourceTree = "<group>"; };
 		6334759217F5944B001F5C88 /* MCKArgumentMatcherRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentMatcherRecorder.h; sourceTree = "<group>"; };
 		6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcherRecorder.m; sourceTree = "<group>"; };
 		6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKArgumentSerialization.h; sourceTree = "<group>"; };
 		6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentSerialization.m; sourceTree = "<group>"; };
-		6334759717F5944B001F5C88 /* MCKBlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKBlockArgumentMatcher.h; sourceTree = "<group>"; };
+		6334759717F5944B001F5C88 /* MCKBlockArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKBlockArgumentMatcher.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6334759817F5944B001F5C88 /* MCKBlockArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKBlockArgumentMatcher.m; sourceTree = "<group>"; };
 		6334759917F5944B001F5C88 /* MCKDefaultVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKDefaultVerificationHandler.h; sourceTree = "<group>"; };
 		6334759A17F5944B001F5C88 /* MCKDefaultVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKDefaultVerificationHandler.m; sourceTree = "<group>"; };
-		6334759D17F5944B001F5C88 /* MCKExactArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExactArgumentMatcher.h; sourceTree = "<group>"; };
+		6334759D17F5944B001F5C88 /* MCKExactArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKExactArgumentMatcher.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6334759E17F5944B001F5C88 /* MCKExactArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactArgumentMatcher.m; sourceTree = "<group>"; };
-		6334759F17F5944B001F5C88 /* MCKExactlyVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExactlyVerificationHandler.h; sourceTree = "<group>"; };
+		6334759F17F5944B001F5C88 /* MCKExactlyVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKExactlyVerificationHandler.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		633475A017F5944B001F5C88 /* MCKExactlyVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExactlyVerificationHandler.m; sourceTree = "<group>"; };
 		633475A117F5944B001F5C88 /* MCKExceptionFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKExceptionFailureHandler.h; sourceTree = "<group>"; };
 		633475A217F5944B001F5C88 /* MCKExceptionFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKExceptionFailureHandler.m; sourceTree = "<group>"; };
 		633475A317F5944B001F5C88 /* MCKFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKFailureHandler.h; sourceTree = "<group>"; };
 		633475A417F5944B001F5C88 /* MCKFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKFailureHandler.m; sourceTree = "<group>"; };
-		633475A517F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKHamcrestArgumentMatcher.h; sourceTree = "<group>"; };
+		633475A517F5944B001F5C88 /* MCKHamcrestArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKHamcrestArgumentMatcher.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		633475A617F5944B001F5C88 /* MCKHamcrestArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKHamcrestArgumentMatcher.m; sourceTree = "<group>"; };
 		633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationStubber.h; sourceTree = "<group>"; };
 		633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationStubber.m; sourceTree = "<group>"; };
@@ -305,31 +309,31 @@
 		633475AE17F5944B001F5C88 /* MCKMockingContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockingContext.m; sourceTree = "<group>"; };
 		633475B017F5944B001F5C88 /* MCKMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockObject.h; sourceTree = "<group>"; };
 		633475B117F5944B001F5C88 /* MCKMockObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockObject.m; sourceTree = "<group>"; };
-		633475B217F5944B001F5C88 /* MCKNeverVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKNeverVerificationHandler.h; sourceTree = "<group>"; };
+		633475B217F5944B001F5C88 /* MCKNeverVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKNeverVerificationHandler.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		633475B317F5944B001F5C88 /* MCKNeverVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKNeverVerificationHandler.m; sourceTree = "<group>"; };
-		633475B617F5944B001F5C88 /* MCKPerformBlockStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKPerformBlockStubAction.h; sourceTree = "<group>"; };
-		633475B717F5944B001F5C88 /* MCKPerformBlockStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKPerformBlockStubAction.m; sourceTree = "<group>"; };
-		633475B817F5944B001F5C88 /* MCKReturnStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKReturnStubAction.h; sourceTree = "<group>"; };
+		633475B617F5944B001F5C88 /* MCKPerformBlockStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKPerformBlockStubAction.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		633475B717F5944B001F5C88 /* MCKPerformBlockStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCKPerformBlockStubAction.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		633475B817F5944B001F5C88 /* MCKReturnStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKReturnStubAction.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		633475B917F5944B001F5C88 /* MCKReturnStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKReturnStubAction.m; sourceTree = "<group>"; };
 		633475BA17F5944B001F5C88 /* MCKSenTestFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKSenTestFailureHandler.h; sourceTree = "<group>"; };
 		633475BB17F5944B001F5C88 /* MCKSenTestFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSenTestFailureHandler.m; sourceTree = "<group>"; };
-		633475BC17F5944B001F5C88 /* MCKSetOutParameterStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKSetOutParameterStubAction.h; sourceTree = "<group>"; };
-		633475BD17F5944B001F5C88 /* MCKSetOutParameterStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSetOutParameterStubAction.m; sourceTree = "<group>"; };
+		633475BC17F5944B001F5C88 /* MCKSetOutParameterStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKSetOutParameterStubAction.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		633475BD17F5944B001F5C88 /* MCKSetOutParameterStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCKSetOutParameterStubAction.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		633475BE17F5944B001F5C88 /* MCKSpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKSpy.h; sourceTree = "<group>"; };
 		633475BF17F5944B001F5C88 /* MCKSpy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSpy.m; sourceTree = "<group>"; };
 		633475C017F5944B001F5C88 /* MCKStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStub.h; sourceTree = "<group>"; };
 		633475C117F5944B001F5C88 /* MCKStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStub.m; sourceTree = "<group>"; };
 		633475C217F5944B001F5C88 /* MCKStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKStubAction.h; sourceTree = "<group>"; };
-		633475C517F5944B001F5C88 /* MCKThrowExceptionStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKThrowExceptionStubAction.h; sourceTree = "<group>"; };
-		633475C617F5944B001F5C88 /* MCKThrowExceptionStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKThrowExceptionStubAction.m; sourceTree = "<group>"; };
+		633475C517F5944B001F5C88 /* MCKThrowExceptionStubAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKThrowExceptionStubAction.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		633475C617F5944B001F5C88 /* MCKThrowExceptionStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MCKThrowExceptionStubAction.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		633475C917F5944B001F5C88 /* MCKTypeEncodings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKTypeEncodings.h; sourceTree = "<group>"; };
 		633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKTypeEncodings.m; sourceTree = "<group>"; };
 		633475CD17F5944B001F5C88 /* MCKVerificationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationHandler.h; sourceTree = "<group>"; };
-		633475D017F5944B001F5C88 /* MCKVerifyNoInteractions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerifyNoInteractions.h; sourceTree = "<group>"; };
+		633475D017F5944B001F5C88 /* MCKVerifyNoInteractions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKVerifyNoInteractions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		633475D117F5944B001F5C88 /* MCKVerifyNoInteractions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerifyNoInteractions.m; sourceTree = "<group>"; };
 		633475D317F5944B001F5C88 /* Mocka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mocka.h; sourceTree = "<group>"; };
-		633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+MCKArgumentHandling.h"; sourceTree = "<group>"; };
-		633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+MCKArgumentHandling.m"; sourceTree = "<group>"; };
+		633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSInvocation+MCKArgumentHandling.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSInvocation+MCKArgumentHandling.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollectorTest.m; sourceTree = "<group>"; };
 		636B770A17F59D2C00B6A3BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		636B771017F59D2C00B6A3BD /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -358,10 +362,12 @@
 		6376F85717FF604500F4752D /* mocka-tests-osx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-tests-osx.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6376F86817FF60E100F4752D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63857DEC181B9DD600F63BBB /* TestTimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTimingUtils.h; sourceTree = "<group>"; };
+		63857DEE181BA59200F63BBB /* MCKNetworkMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKNetworkMock.h; sourceTree = "<group>"; };
+		63857DEF181BA59200F63BBB /* MCKNetworkMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKNetworkMock.m; sourceTree = "<group>"; };
 		638BA42F17F5B3B60086226D /* MCKXCTestFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKXCTestFailureHandler.h; sourceTree = "<group>"; };
 		638BA43017F5B3B60086226D /* MCKXCTestFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKXCTestFailureHandler.m; sourceTree = "<group>"; };
 		638BA43517F5B66E0086226D /* MCKXCTestFailureHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKXCTestFailureHandlerTest.m; sourceTree = "<group>"; };
-		638BA43E17F5C6740086226D /* MCKMockingSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKMockingSyntax.h; sourceTree = "<group>"; };
+		638BA43E17F5C6740086226D /* MCKMockingSyntax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKMockingSyntax.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		638BA43F17F5C6740086226D /* MCKMockingSyntax.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKMockingSyntax.m; sourceTree = "<group>"; };
 		638BA44417F5C9870086226D /* MCKVerificationHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationHandler.m; sourceTree = "<group>"; };
 		638BA44717F5CF310086226D /* MCKStubAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStubAction.m; sourceTree = "<group>"; };
@@ -385,7 +391,7 @@
 		639085E717F9E782006A0714 /* FakeVerificationResultCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeVerificationResultCollector.h; sourceTree = "<group>"; };
 		639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeVerificationResultCollector.m; sourceTree = "<group>"; };
 		639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationResultCollector.m; sourceTree = "<group>"; };
-		639085F017FA2097006A0714 /* MCKInOrderCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInOrderCollector.h; sourceTree = "<group>"; };
+		639085F017FA2097006A0714 /* MCKInOrderCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKInOrderCollector.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		639085F117FA2097006A0714 /* MCKInOrderCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollector.m; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -504,6 +510,7 @@
 				6334762017F594F2001F5C88 /* Verification Handlers */,
 				6334762217F598EE001F5C88 /* Stub Actions */,
 				6334762317F5992F001F5C88 /* Argument Matchers */,
+				63857DED181BA54A00F63BBB /* Network Mocking */,
 				6334762517F599EE001F5C88 /* Utilities */,
 				6334758617F59221001F5C88 /* Supporting Files */,
 			);
@@ -653,6 +660,15 @@
 				638BA45A17F5DE9E0086226D /* Argument Matchers */,
 			);
 			name = "Unit Tests";
+			sourceTree = "<group>";
+		};
+		63857DED181BA54A00F63BBB /* Network Mocking */ = {
+			isa = PBXGroup;
+			children = (
+				63857DEE181BA59200F63BBB /* MCKNetworkMock.h */,
+				63857DEF181BA59200F63BBB /* MCKNetworkMock.m */,
+			);
+			name = "Network Mocking";
 			sourceTree = "<group>";
 		};
 		638BA45617F5DDFE0086226D /* Mocking Core */ = {
@@ -879,6 +895,7 @@
 				631E236C17FF5F3C00BC2D06 /* MCKArgumentMatcherRecorder.h in Headers */,
 				631E236D17FF5F3C00BC2D06 /* MCKVerificationResultCollector.h in Headers */,
 				631E236E17FF5F3C00BC2D06 /* MCKMockingContext.h in Headers */,
+				63857DF1181BA59200F63BBB /* MCKNetworkMock.h in Headers */,
 				631E236F17FF5F3C00BC2D06 /* MCKArgumentSerialization.h in Headers */,
 				631E237017FF5F3C00BC2D06 /* MCKAnyArgumentMatcher.h in Headers */,
 				631E237117FF5F3C00BC2D06 /* MCKArgumentMatcher.h in Headers */,
@@ -922,6 +939,7 @@
 				638BA4BF17F6F8710086226D /* MCKArgumentMatcherRecorder.h in Headers */,
 				639085DB17F9C0D5006A0714 /* MCKVerificationResultCollector.h in Headers */,
 				638BA49817F6F8430086226D /* MCKMockingContext.h in Headers */,
+				63857DF0181BA59200F63BBB /* MCKNetworkMock.h in Headers */,
 				638BA4C217F6F8710086226D /* MCKArgumentSerialization.h in Headers */,
 				638BA4C417F6F8710086226D /* MCKAnyArgumentMatcher.h in Headers */,
 				638BA4C117F6F8710086226D /* MCKArgumentMatcher.h in Headers */,
@@ -1132,6 +1150,7 @@
 				631E234D17FF5F3C00BC2D06 /* MCKVerificationResult.m in Sources */,
 				631E234E17FF5F3C00BC2D06 /* MCKDefaultVerificationHandler.m in Sources */,
 				631E234F17FF5F3C00BC2D06 /* MCKHamcrestArgumentMatcher.m in Sources */,
+				63857DF3181BA59200F63BBB /* MCKNetworkMock.m in Sources */,
 				631E235017FF5F3C00BC2D06 /* MCKInvocationPrototype.m in Sources */,
 				631E235117FF5F3C00BC2D06 /* MCKArgumentSerialization.m in Sources */,
 				631E235217FF5F3C00BC2D06 /* MCKStub.m in Sources */,
@@ -1221,6 +1240,7 @@
 				639085DF17F9C0F1006A0714 /* MCKVerificationResult.m in Sources */,
 				638BA4A617F6F8580086226D /* MCKDefaultVerificationHandler.m in Sources */,
 				638BA4CB17F6F8710086226D /* MCKHamcrestArgumentMatcher.m in Sources */,
+				63857DF2181BA59200F63BBB /* MCKNetworkMock.m in Sources */,
 				638BA49717F6F8370086226D /* MCKInvocationPrototype.m in Sources */,
 				638BA4C317F6F8710086226D /* MCKArgumentSerialization.m in Sources */,
 				638BA4B317F6F8690086226D /* MCKStub.m in Sources */,

@@ -36,7 +36,7 @@
 #define mck_structParameter(inv, idx, structType) (*((structType *)([(inv) mck_structParameter:&(structType){} atIndex:(idx)])))
 
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 @interface NSInvocation (MCKArgumentHandling_NiceSyntax)
 
 - (__autoreleasing id)objectParameterAtIndex:(NSUInteger)index;

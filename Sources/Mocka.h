@@ -31,6 +31,8 @@
 #import "MCKBlockArgumentMatcher.h"
 #import "MCKHamcrestArgumentMatcher.h"
 
+#import "MCKNetworkMock.h"
+
 #import "MCKTypes.h"
 #import "MCKTypeEncodings.h"
 #import "NSInvocation+MCKArgumentHandling.h"

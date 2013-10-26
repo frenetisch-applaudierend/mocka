@@ -22,7 +22,7 @@
 // Mocking Syntax
 extern void mck_performBlock(void(^block)(NSInvocation *inv));
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     extern void performBlock(void(^block)(NSInvocation *inv));
 

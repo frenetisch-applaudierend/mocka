@@ -18,7 +18,7 @@
 #define mck_spy(OBJ)              (typeof(OBJ))_mck_createSpy(self, __FILE__, __LINE__, OBJ)
 
 // nice syntax
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     #define mock(CLS, ...)        mck_mock(CLS, __VA_ARGS__)
     #define mockForClass(CLS)     mck_mockForClass(CLS)
@@ -35,7 +35,7 @@
 #define mck_verifyWithTimeout(T) _mck_beginVerifyWithTimeout(self, __FILE__, __LINE__, (T));
 
 // nice syntax
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     #undef verify // under Mac OS X this macro defined already (in /usr/include/AssertMacros.h)
 
@@ -56,7 +56,7 @@
 #define mck_andDo       mck_thenDo
 
 // nice syntax
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     #define whenCalling mck_whenCalling
     #define orCalling   mck_orCalling

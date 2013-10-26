@@ -29,7 +29,7 @@ extern mck_objptr mck_anyObjectPointer(void);
 #define mck_anyStruct(STRT_TYPE) mck_registerStructMatcher([[MCKAnyArgumentMatcher alloc] init], STRT_TYPE)
 
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
     static inline id anyObject(void) { return mck_anyObject(); }
     static inline char anyInt(void) { return mck_anyInt(); }

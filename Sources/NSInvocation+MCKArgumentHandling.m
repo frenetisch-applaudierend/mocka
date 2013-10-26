@@ -62,7 +62,7 @@
 
 #pragma mark - Nice Syntax
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 
 - (id)objectParameterAtIndex:(NSUInteger)index {
     return [self mck_objectParameterAtIndex:index];

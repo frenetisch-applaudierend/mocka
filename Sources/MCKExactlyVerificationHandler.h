@@ -25,7 +25,7 @@
 #define mck_exactly(COUNT) _mck_setVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:(COUNT)]);
 #define mck_once           mck_exactly(1)
 
-#ifndef MOCK_DISABLE_NICE_SYNTAX
+#ifndef MCK_DISABLE_NICE_SYNTAX
 #define exactly(COUNT) mck_exactly(COUNT)
 #define once           mck_once
 #endif
