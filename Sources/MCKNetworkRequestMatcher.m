@@ -9,6 +9,8 @@
 #import "MCKNetworkRequestMatcher.h"
 
 
+#define Equal(a, b) ((a) == (b) || [(a) isEqual:(b)])
+
 @implementation MCKNetworkRequestMatcher
 
 #pragma mark - Initialization
@@ -29,7 +31,7 @@
 #pragma mark - Argument Matching
 
 - (BOOL)matchesCandidate:(NSURLRequest *)candidate {
-    return NO;
+    return (Equal(self.URL, candidate.URL) && Equal(self.HTTPMethod, candidate.HTTPMethod));
 }
 
 @end
