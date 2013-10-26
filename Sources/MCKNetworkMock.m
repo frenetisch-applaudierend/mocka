@@ -12,6 +12,9 @@
 #import "MCKNetworkRequestMatcher.h"
 #import "MCKMockingContext.h"
 #import "NSInvocation+MCKArgumentHandling.h"
+
+#import "OHHTTPStubsResponse+JSON.h"
+
 #import <objc/runtime.h>
 
 
@@ -142,6 +145,10 @@
         return [OHHTTPStubsResponse responseWithData:value statusCode:200 headers:nil];
     } else if ([value isKindOfClass:[NSString class]]) {
         return [OHHTTPStubsResponse responseWithData:[value dataUsingEncoding:NSUTF8StringEncoding] statusCode:200 headers:nil];
+    } else if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]]) {
+        return [OHHTTPStubsResponse responseWithJSONObject:value statusCode:200 headers:nil];
+    } else if ([value isKindOfClass:[NSError class]]) {
+        return [OHHTTPStubsResponse responseWithError:value];
     } else {
         [self.mockingContext failWithReason:@"Cannot convert %@ to a OHHTTPStubsResponse", [value class]];
         return nil;

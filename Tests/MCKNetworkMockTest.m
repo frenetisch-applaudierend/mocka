@@ -95,7 +95,7 @@
     XCTAssertFalse([networkMock hasResponseForRequest:request], @"Should not have a response for this request");
 }
 
-- (void)testThatHasResponseForRequestReturnsTrueIfOneRequestStubbed {
+- (void)testThatHasResponseForRequestReturnsTrueIfRequestStubbed {
     // given
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
     
@@ -152,6 +152,57 @@
     XCTAssert(response.statusCode == 200, @"Wrong status code");
     XCTAssertEqualObjects([self dataFromStream:response.inputStream], [stringReturn dataUsingEncoding:NSUTF8StringEncoding],
                           @"Wrong data");
+}
+
+- (void)testThatResponseForRequestReturnsSuccessfulResponseWithJSONForDictionaryReturn {
+    // given
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
+    NSDictionary *dictionaryReturn = @{ @"Hello": @"World" };
+    
+    // add a stubbing that matches always
+    [mockingContext beginStubbing];
+    [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
+    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:dictionaryReturn]];
+    
+    // then
+    OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
+    XCTAssert(response.statusCode == 200, @"Wrong status code");
+    XCTAssertEqualObjects([self dataFromStream:response.inputStream],
+                          [NSJSONSerialization dataWithJSONObject:dictionaryReturn options:0 error:NULL],
+                          @"Wrong data");
+}
+
+- (void)testThatResponseForRequestReturnsSuccessfulResponseWithJSONForArrayReturn {
+    // given
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
+    NSArray *arrayReturn = @[ @"Hello", @"World" ];
+    
+    // add a stubbing that matches always
+    [mockingContext beginStubbing];
+    [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
+    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:arrayReturn]];
+    
+    // then
+    OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
+    XCTAssert(response.statusCode == 200, @"Wrong status code");
+    XCTAssertEqualObjects([self dataFromStream:response.inputStream],
+                          [NSJSONSerialization dataWithJSONObject:arrayReturn options:0 error:NULL],
+                          @"Wrong data");
+}
+
+- (void)testThatResponseForRequestReturnsErrorResponseForErrorReturn {
+    // given
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
+    NSError *errorReturn = [NSError errorWithDomain:@"DummyDomain" code:10 userInfo:nil];
+    
+    // add a stubbing that matches always
+    [mockingContext beginStubbing];
+    [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
+    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:errorReturn]];
+    
+    // then
+    OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
+    XCTAssertEqualObjects(response.error, errorReturn, @"Error not set");
 }
 
 
