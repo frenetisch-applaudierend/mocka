@@ -25,9 +25,16 @@
 #pragma mark - Setup
 
 - (void)setUp {
+    [OHHTTPStubs removeAllStubs];
+    
     mockingContext = [FakeMockingContext fakeContext];
     networkMock = [[MCKNetworkMock alloc] init];
     networkMock.mockingContext = mockingContext;
+}
+
+- (void)tearDown {
+    networkMock = nil;
+    mockingContext = nil;
 }
 
 
