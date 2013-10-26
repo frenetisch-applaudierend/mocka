@@ -12,13 +12,8 @@
 #import "MCKNetworkRequestMatcher.h"
 #import "MCKMockingContext.h"
 #import "NSInvocation+MCKArgumentHandling.h"
+#import <objc/runtime.h>
 
-
-@interface MCKNetworkMock ()
-
-@property (nonatomic, readonly) MCKMockingContext *mockingContext;
-
-@end
 
 @implementation MCKNetworkMock
 
@@ -39,31 +34,37 @@
     }
 }
 
-+ (instancetype)sharedMock {
-    static dispatch_once_t onceToken;
-    static MCKNetworkMock *sharedMock = nil;
-    dispatch_once(&onceToken, ^{
-        sharedMock = [[self alloc] init];
-    });
-    return sharedMock;
++ (instancetype)mockForContext:(MCKMockingContext *)context {
+    NSParameterAssert(context != nil);
+    
+    static NSUInteger MockKey;
+    
+    MCKNetworkMock *mock = objc_getAssociatedObject(context, &MockKey);
+    if (mock == nil) {
+        mock = [[self alloc] initWithMockingContext:context];
+        objc_setAssociatedObject(context, &MockKey, mock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return mock;
 }
 
 - (instancetype)initWithMockingContext:(MCKMockingContext *)context {
     if ((self = [super init])) {
-        _customMockingContext = context;
+        _mockingContext = context;
         _stubsDescriptor = [self setupStubsDescriptor];
     }
     return self;
 }
 
-- (instancetype)init {
-    return [self initWithMockingContext:nil];
-}
-
 - (id<OHHTTPStubsDescriptor>)setupStubsDescriptor {
     __weak typeof(self) weakSelf = self;
     return [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        return [weakSelf hasResponseForRequest:request];
+        BOOL hasResponse = [weakSelf hasResponseForRequest:request];
+        if (!hasResponse) {
+            // If there is no response we need to record the call, otherwise it can't be verified later.
+            // Otherwise, if there is a stubbed response, then the recording will be done when the stubbing is applied.
+            [weakSelf responseForRequest:request]; // this will cause the invocation to be recorded
+        }
+        return hasResponse;
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [weakSelf responseForRequest:request];
     }];
@@ -74,10 +75,10 @@
 }
 
 
-#pragma mark - Getting the Context
+#pragma mark - Network Control
 
-- (MCKMockingContext *)mockingContext {
-    return (self.customMockingContext ?: [MCKMockingContext currentContext]); // used for testing
+- (void)startObservingNetworkCalls {
+    // dummy method, only needed to have the sharedMock initialized
 }
 
 
@@ -139,3 +140,12 @@
 }
 
 @end
+
+
+#pragma mark - Getting the Network Mock
+
+MCKNetworkMock* _mck_getNetworkMock(id testCase, const char *fileName, NSUInteger lineNumber) {
+    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
+    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    return [MCKNetworkMock mockForContext:context];
+}

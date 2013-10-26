@@ -18,8 +18,9 @@ typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 
 @interface MCKNetworkMock : NSObject
 
-+ (instancetype)sharedMock;
 - (instancetype)initWithMockingContext:(MCKMockingContext *)context;
+
+- (void)startObservingNetworkCalls;
 
 @property (nonatomic, readonly) MCKNetworkActivity GET;
 @property (nonatomic, readonly) MCKNetworkActivity PUT;
@@ -29,7 +30,8 @@ typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 @end
 
 
-#define MCKNetwork [MCKNetworkMock sharedMock]
+#define MCKNetwork _mck_getNetworkMock(self, __FILE__, __LINE__)
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define Network MCKNetwork
 #endif
+extern MCKNetworkMock* _mck_getNetworkMock(id testCase, const char *fileName, NSUInteger lineNumber);

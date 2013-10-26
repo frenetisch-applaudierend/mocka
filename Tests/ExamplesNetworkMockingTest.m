@@ -29,6 +29,25 @@
 }
 
 
+#pragma mark - Test Network Call Verification
+
+- (void)testYouCanVerifyNetworkCalls {
+    // start monitoring for network activity
+    [Network startObservingNetworkCalls];
+    
+    // you call some network
+    [self GET:@"http://www.google.ch" error:NULL];
+    
+    // then you can verify
+    verify Network.GET(@"http://www.google.ch");
+    
+    // uncalled URLs fail the verification
+    ThisWillFail({
+        verify Network.GET(@"http://you.did-not-call.me");
+    });
+}
+
+
 #pragma mark - Network Access
 
 - (NSData *)GET:(NSString *)urlString error:(NSError **)error {
