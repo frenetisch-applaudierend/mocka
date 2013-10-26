@@ -21,6 +21,4 @@
 - (BOOL)hasResponseForRequest:(NSURLRequest *)request;
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request;
 
-- (OHHTTPStubsResponse *)responseForReturnValue:(id)value;
-
 @end

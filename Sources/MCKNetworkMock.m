@@ -119,7 +119,14 @@
 }
 
 - (OHHTTPStubsResponse *)responseForReturnValue:(id)value {
-    return value;
+    if (value == nil || [value isKindOfClass:[OHHTTPStubsResponse class]]) {
+        return value;
+    } else if ([value isKindOfClass:[NSString class]]) {
+        return [OHHTTPStubsResponse responseWithData:[value dataUsingEncoding:NSUTF8StringEncoding] statusCode:200 headers:nil];
+    } else {
+        [self.mockingContext failWithReason:@"Cannot convert %@ to a OHHTTPStubsResponse", [value class]];
+        return nil;
+    }
 }
 
 

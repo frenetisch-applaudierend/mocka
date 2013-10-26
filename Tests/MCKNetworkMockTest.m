@@ -74,7 +74,7 @@
     MCKNetworkRequestMatcher *matcher = networkMock.GET(@"http://www.google.ch");
     
     // then
-    XCTAssertTrue([mockingContext.handledInvocations count] == 1, @"Wrong invocation count");
+    XCTAssert([mockingContext.handledInvocations count] == 1, @"Wrong invocation count");
     
     NSInvocation *invocation = mockingContext.handledInvocations[0];
     XCTAssertEqualObjects(invocation.target, networkMock, @"Wrong invocation target");
@@ -119,6 +119,40 @@
     
     // then
     XCTAssertEqualObjects([networkMock responseForRequest:request], response, @"Wrong response returned");
+}
+
+- (void)testThatResponseForRequestReturnsSuccessfulResponseWithDataForStringReturn {
+    // given
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.ch"]];
+    NSString *stringReturn = @"Hello, World!";
+    
+    // add a stubbing that matches always
+    [mockingContext beginStubbing];
+    [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
+    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:stringReturn]];
+    
+    // then
+    OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
+    XCTAssert(response.statusCode == 200, @"Wrong status code");
+    XCTAssertEqualObjects([self dataFromStream:response.inputStream], [stringReturn dataUsingEncoding:NSUTF8StringEncoding],
+                          @"Wrong data");
+}
+
+
+#pragma mark - Helpers
+
+- (NSData *)dataFromStream:(NSInputStream *)stream {
+    uint8_t buffer[1024];
+    NSInteger read = 0;
+    
+    NSMutableData *data = [NSMutableData data];
+    [stream open];
+    do {
+        read = [stream read:buffer maxLength:1024];
+        if (read == -1) { return nil; }
+        [data appendBytes:buffer length:read];
+    } while (read > 0);
+    return data;
 }
 
 @end
