@@ -257,11 +257,12 @@
 - (void)testMultipleStubActions {
     // given
     __block NSString *marker = nil;
-    whenCalling [object objectMethodCallWithoutParameters];
-    thenDo performBlock(^(NSInvocation *inv) {
-        marker = @"called";
-    });
-    andDo returnValue(@20);
+    whenCalling [object objectMethodCallWithoutParameters] thenDo {
+        performBlock(^(NSInvocation *inv) {
+            marker = @"called";
+        });
+        returnValue(@20);
+    };
     
     // then
     XCTAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
@@ -313,11 +314,12 @@
 - (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
     // given
     __block NSString *marker = nil;
-    whenCalling [object objectMethodCallWithoutParameters];
-    thenDo performBlock(^(NSInvocation *inv) {
-        marker = @"called";
-    });
-    andDo returnValue(@20);
+    whenCalling [object objectMethodCallWithoutParameters] thenDo {
+        performBlock(^(NSInvocation *inv) {
+            marker = @"called";
+        });
+        returnValue(@20);
+    };
     
     // when
     whenCalling [object objectMethodCallWithoutParameters] thenDo returnValue(@30);
@@ -353,9 +355,10 @@
     // given
     NSMutableArray *array = spy([NSMutableArray array]);
     
-    whenCalling [array count];
-    thenDo performBlock(^(NSInvocation *inv) { [self description]; });
-    andDo returnValue(10);
+    whenCalling [array count] thenDo {
+        performBlock(^(NSInvocation *inv) { [self description]; });
+        returnValue(10);
+    };
     
     // then
     XCTAssertEqual((int)[array count], (int)10, @"[array count] stub does not work");

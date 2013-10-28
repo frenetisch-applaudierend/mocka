@@ -119,14 +119,18 @@
 - (void)testStubbingMultipleCallsWithTheSameActionsOrCallingVariant {
     // you can have multiple calls stub the same action by combining them using orCalling
     
-    whenCalling [mockArray objectAtIndex:1] orCalling [mockArray removeObjectAtIndex:1]
-    thenDo throwNewException(NSRangeException, @"Index out of bounds", nil);
+    whenCalling {
+        [mockArray objectAtIndex:1];
+        [mockArray removeObjectAtIndex:1];
+    } thenDo {
+        throwNewException(NSRangeException, @"Index out of bounds", nil);
+    };
     
     XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
     XCTAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
 }
 
-- (void)testStubbingMultipleActionsForTheSameCallBracketVariant {
+- (void)testStubbingMultipleActionsForTheSameCall {
     // you can also have multiple actions on the same call by putting them in brackets after thenDo
     
     __block BOOL executed = NO;
@@ -136,20 +140,6 @@
         });
         returnValue(10);
     }
-    
-    NSUInteger result = [mockArray count];
-    XCTAssertEqual(result, (NSUInteger)10, @"Wrong result returned");
-    XCTAssertTrue(executed, @"Block was not executed");
-}
-
-- (void)testStubbingMultipleActionsForTheSameCallAndDoVariant {
-    // you can also have multiple actions on the same call by separating them using andDo
-    
-    __block BOOL executed = NO;
-    whenCalling [mockArray count] thenDo returnValue(10) andDo performBlock(^(NSInvocation *inv) {
-        // do something useful here
-        executed = YES;
-    });
     
     NSUInteger result = [mockArray count];
     XCTAssertEqual(result, (NSUInteger)10, @"Wrong result returned");
@@ -288,18 +278,6 @@
     [mockArray subarrayWithRange:NSMakeRange(10, 0)];
     
     XCTAssertFalse(actionWasCalled, @"Action should not have been called");
-}
-
-
-#pragma mark - Given When Then Style Stubbing
-
-- (void)testCanAlsoUseGivenCallToAsKeyword {
-    // if you prefer stubbing using a given... syntax you can use givenCallTo instead of whenCalling
-    // for multiple stubbings you can use orCallTo instead of orCalling
-    
-    givenCallTo [mockArray count] thenDo returnValue(10);
-    
-    XCTAssertEqual([mockArray count], (NSUInteger)10, @"Wrong return value");
 }
 
 
