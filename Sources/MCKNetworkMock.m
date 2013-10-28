@@ -18,6 +18,25 @@
 #import <objc/runtime.h>
 
 
+static inline Class StubsClass() {
+    static dispatch_once_t onceToken;
+    static Class cls = nil;
+    dispatch_once(&onceToken, ^{
+        cls = NSClassFromString(@"OHHTTPStubs");
+    });
+    return cls;
+}
+
+static inline Class StubsResponseClass() {
+    static dispatch_once_t onceToken;
+    static Class cls = nil;
+    dispatch_once(&onceToken, ^{
+        cls = NSClassFromString(@"OHHTTPStubsResponse");
+    });
+    return cls;
+}
+
+
 @implementation MCKNetworkMock
 
 #pragma mark - Initialization
@@ -28,7 +47,7 @@
     }
     
     // Check that OHHTTPStubs is available
-    if (NSClassFromString(@"OHHTTPStubs") == nil) {
+    if (StubsClass() == nil) {
         NSLog(@"****************************************************************");
         NSLog(@"* Mocka could not find the OHHTTPStubs library                 *");
         NSLog(@"* Make sure you have the library linked in your testing target *");
@@ -64,11 +83,11 @@
     static id<OHHTTPStubsDescriptor> CurrentDescriptor = nil;
     
     if (CurrentDescriptor != nil) { // ensure that any old descriptor form this test case is removed
-        [OHHTTPStubs removeStub:CurrentDescriptor];
+        [StubsClass() removeStub:CurrentDescriptor];
     }
     
     __weak typeof(self) weakSelf = self;
-    CurrentDescriptor = [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+    CurrentDescriptor = [StubsClass() stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         BOOL hasResponse = [weakSelf hasResponseForRequest:request];
         if (!hasResponse) {
             // If there is no response we need to record the call, otherwise it can't be verified later.
@@ -138,17 +157,17 @@
 - (OHHTTPStubsResponse *)responseForReturnValue:(id)value {
     if (value == nil) {
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
-        return [OHHTTPStubsResponse responseWithError:error];
-    } else if ([value isKindOfClass:[OHHTTPStubsResponse class]]) {
+        return [StubsResponseClass() responseWithError:error];
+    } else if ([value isKindOfClass:StubsResponseClass()]) {
         return value;
     } else if ([value isKindOfClass:[NSData class]]) {
-        return [OHHTTPStubsResponse responseWithData:value statusCode:200 headers:nil];
+        return [StubsResponseClass() responseWithData:value statusCode:200 headers:nil];
     } else if ([value isKindOfClass:[NSString class]]) {
-        return [OHHTTPStubsResponse responseWithData:[value dataUsingEncoding:NSUTF8StringEncoding] statusCode:200 headers:nil];
+        return [StubsResponseClass() responseWithData:[value dataUsingEncoding:NSUTF8StringEncoding] statusCode:200 headers:nil];
     } else if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]]) {
-        return [OHHTTPStubsResponse responseWithJSONObject:value statusCode:200 headers:nil];
+        return [StubsResponseClass() responseWithJSONObject:value statusCode:200 headers:nil];
     } else if ([value isKindOfClass:[NSError class]]) {
-        return [OHHTTPStubsResponse responseWithError:value];
+        return [StubsResponseClass() responseWithError:value];
     } else {
         [self.mockingContext failWithReason:@"Cannot convert %@ to a OHHTTPStubsResponse", [value class]];
         return nil;
