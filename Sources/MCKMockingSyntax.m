@@ -25,16 +25,24 @@ id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumber, id o
     return mck_createSpyForObject(object, context);
 }
 
-void _mck_beginVerifyWithTimeout(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout) {
+void _mck_beginVerify(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout, MCKCallBlock calls) {
+    NSCParameterAssert(calls != nil);
+    
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
     [context beginVerificationWithTimeout:timeout];
+    
+    calls();
 }
 
-void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber) {
+void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber, MCKCallBlock calls) {
+    NSCParameterAssert(calls != nil);
+    
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
     [context beginStubbing];
+    
+    calls();
 }
 
 void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber) {

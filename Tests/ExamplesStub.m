@@ -41,7 +41,7 @@
 - (void)testSettingCustomObjectReturnValue {
     // you can set a custom return value for objects
     
-    whenCalling [mockArray objectAtIndex:0] thenDo returnValue(@"Hello World");
+    whenCalling ([mockArray objectAtIndex:0]) thenDo (returnValue(@"Hello World"));
     
     XCTAssertEqualObjects([mockArray objectAtIndex:0], @"Hello World", @"Wrong return value");
 }
@@ -49,7 +49,7 @@
 - (void)testSettingCustomPrimitiveNumberReturnValue {
     // you can set a custom return value for primitive numbers
     
-    whenCalling [mockArray count] thenDo returnValue(10);
+    whenCalling ([mockArray count]) thenDo (returnValue(10));
 
     XCTAssertEqual([mockArray count], (NSUInteger)10, @"Wrong return value");
 }
@@ -57,7 +57,7 @@
 - (void)testSettingCustomStructReturnValue {
     // you can also set a custom return value for structs
     
-    whenCalling [mockString rangeOfString:@"Foo"] thenDo returnStruct(NSMakeRange(10, 20));
+    whenCalling ([mockString rangeOfString:@"Foo"]) thenDo (returnStruct(NSMakeRange(10, 20)));
     
     XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20)), @"Wrong return value");
 }
@@ -69,7 +69,7 @@
     // you can throw a preconfigured exception in a stubbed method
     
     NSException *stubException = [NSException exceptionWithName:NSRangeException reason:@"Index 1 out of bounds" userInfo:nil];
-    whenCalling [mockArray objectAtIndex:1] thenDo throwException(stubException);
+    whenCalling ([mockArray objectAtIndex:1]) thenDo (throwException(stubException));
     
     @try {
         [mockArray objectAtIndex:1];
@@ -82,7 +82,7 @@
 - (void)testThrowingCreatedExceptionFromMockedMethod {
     // you can throw also a new exception in a stubbed method
     
-    whenCalling [mockArray objectAtIndex:1] thenDo throwNewException(NSRangeException, @"Index 1 out of bounds", nil);
+    whenCalling ([mockArray objectAtIndex:1]) thenDo (throwNewException(NSRangeException, @"Index 1 out of bounds", nil));
     
     XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
 }
@@ -93,9 +93,11 @@
 - (void)testCallingBlockFromStubbedMethod {
     // you can provide a block which gets the NSInvocation passed which you can manipulate at will
     
-    whenCalling [mockArray objectAtIndex:11] thenDo performBlock(^(NSInvocation *inv) {
-        NSNumber *returnValue = @([inv unsignedIntegerParameterAtIndex:0] + 1);
-        [inv setReturnValue:&returnValue];
+    whenCalling ([mockArray objectAtIndex:11]) thenDo ({
+        performBlock(^(NSInvocation *inv) {
+            NSNumber *returnValue = @([inv unsignedIntegerParameterAtIndex:0] + 1);
+            [inv setReturnValue:&returnValue];
+        });
     });
     
     XCTAssertEqualObjects([mockArray objectAtIndex:11], @12, @"Wrong return value generated");
@@ -107,10 +109,12 @@
 - (void)testStubbingMultipleCallsWithTheSameActionsBracketVariant {
     // you can have multiple calls stub the same action by putting them in brackets after when calling
     
-    whenCalling {
+    whenCalling ({
         [mockArray objectAtIndex:1];
         [mockArray removeObjectAtIndex:1];
-    } thenDo throwNewException(NSRangeException, @"Index out of bounds", nil);
+    }) thenDo ({
+        throwNewException(NSRangeException, @"Index out of bounds", nil);
+    });
     
     XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
     XCTAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
@@ -119,12 +123,12 @@
 - (void)testStubbingMultipleCallsWithTheSameActionsOrCallingVariant {
     // you can have multiple calls stub the same action by combining them using orCalling
     
-    whenCalling {
+    whenCalling ({
         [mockArray objectAtIndex:1];
         [mockArray removeObjectAtIndex:1];
-    } thenDo {
+    }) thenDo ({
         throwNewException(NSRangeException, @"Index out of bounds", nil);
-    };
+    });
     
     XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
     XCTAssertThrowsSpecificNamed([mockArray removeObjectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
@@ -134,12 +138,12 @@
     // you can also have multiple actions on the same call by putting them in brackets after thenDo
     
     __block BOOL executed = NO;
-    whenCalling [mockArray count] thenDo {
+    whenCalling ([mockArray count]) thenDo ({
         performBlock(^(NSInvocation *inv) {
             executed = YES; // do something useful here instead
         });
         returnValue(10);
-    }
+    });
     
     NSUInteger result = [mockArray count];
     XCTAssertEqual(result, (NSUInteger)10, @"Wrong result returned");
@@ -150,15 +154,15 @@
     // of course multiple actions can be applied to multiple stubs
     
     __block NSUInteger executionCount = 0;
-    whenCalling {
+    whenCalling ({
         [mockArray objectAtIndex:0];
         [mockArray objectAtIndexedSubscript:0];
-    } thenDo {
+    }) thenDo ({
         performBlock(^(NSInvocation *inv) {
             executionCount++;
         });
         returnValue(@"Hello World");
-    };
+    });
     
     id value1 = [mockArray objectAtIndex:0];
     XCTAssertEqualObjects(value1, @"Hello World", @"Wrong return value");
@@ -176,10 +180,10 @@
     // you can set out-parameters using setOutParameterAtIndex(idx, value);
     
     NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
-    whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
+    whenCalling ([mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()]) thenDo ({
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
-    };
+    });
     
     NSError *reportedError = nil;
     [mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:&reportedError];
@@ -190,10 +194,10 @@
     // passing NULL as the out parameter will not cause any trouble
     
     NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
-    whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
+    whenCalling ([mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()]) thenDo ({
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
-    };
+    });
     
     XCTAssertNoThrow([mockString writeToFile:@"/foo/bar" atomically:YES encoding:NSUTF8StringEncoding error:NULL],
                      @"Should not have failed");
@@ -206,8 +210,8 @@
     // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
     
     __block BOOL actionWasCalled = NO;
-    whenCalling [mockArray addObject:@"Hello World"] thenDo performBlock(^(NSInvocation *inv) {
-        actionWasCalled = YES;
+    whenCalling ([mockArray addObject:@"Hello World"]) thenDo ({
+        performBlock(^(NSInvocation *inv) { actionWasCalled = YES; });
     });
     
     [mockArray addObject:@"Hello World"];
@@ -219,8 +223,8 @@
     // in contrast to above, if the arguments are not equal stubbing will not consider it a match
     
     __block BOOL actionWasCalled = NO;
-    whenCalling [mockArray addObject:@"Hello World"] thenDo performBlock(^(NSInvocation *inv) {
-        actionWasCalled = YES;
+    whenCalling ([mockArray addObject:@"Hello World"]) thenDo ({
+        performBlock(^(NSInvocation *inv) { actionWasCalled = YES; });
     });
     
     [mockArray addObject:@"Goodbye World"];
@@ -232,8 +236,8 @@
     // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
     
     __block BOOL actionWasCalled = NO;
-    whenCalling [mockArray objectAtIndex:10] thenDo performBlock(^(NSInvocation *inv) {
-        actionWasCalled = YES;
+    whenCalling ([mockArray objectAtIndex:10]) thenDo ({
+        performBlock(^(NSInvocation *inv) { actionWasCalled = YES; });
     });
     
     [mockArray objectAtIndex:10];
@@ -245,8 +249,8 @@
     // in contrast to above, if the arguments are not equal stubbing will not consider it a match
     
     __block BOOL actionWasCalled = NO;
-    whenCalling [mockArray objectAtIndex:10] thenDo performBlock(^(NSInvocation *inv) {
-        actionWasCalled = YES;
+    whenCalling ([mockArray objectAtIndex:10]) thenDo ({
+        performBlock(^(NSInvocation *inv) { actionWasCalled = YES; });
     });
     
     [mockArray objectAtIndex:1];
@@ -258,8 +262,8 @@
     // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
     
     __block BOOL actionWasCalled = NO;
-    whenCalling [mockArray subarrayWithRange:NSMakeRange(10, 20)] thenDo performBlock(^(NSInvocation *inv) {
-        actionWasCalled = YES;
+    whenCalling ([mockArray subarrayWithRange:NSMakeRange(10, 20)]) thenDo ({
+        performBlock(^(NSInvocation *inv) { actionWasCalled = YES; });
     });
     
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
@@ -271,8 +275,8 @@
     // in contrast to above, if the arguments are not equal stubbing will not consider it a match
     
     __block BOOL actionWasCalled = NO;
-    whenCalling [mockArray subarrayWithRange:NSMakeRange(10, 20)] thenDo performBlock(^(NSInvocation *inv) {
-        actionWasCalled = YES;
+    whenCalling ([mockArray subarrayWithRange:NSMakeRange(10, 20)]) thenDo ({
+        performBlock(^(NSInvocation *inv) { actionWasCalled = YES; });
     });
     
     [mockArray subarrayWithRange:NSMakeRange(10, 0)];
@@ -286,20 +290,20 @@
 - (void)testStubbingDoesNotQualifyForVerify {
     // when you stub a method this method is not called, so it's not considered for verify
     
-    whenCalling [mockArray objectAtIndex:0] thenDo returnValue(10);
+    whenCalling ([mockArray objectAtIndex:0]) thenDo (returnValue(10));
     
     ThisWillFail({
-        verify [mockArray objectAtIndex:0];
+        verify ([mockArray objectAtIndex:0]);
     });
 }
 
 - (void)testStubbingIsNotCalledOnVerify {
     // when you verify a stubbed method, the stub action must not be performed
-    whenCalling [mockArray objectAtIndex:0] thenDo performBlock(^(NSInvocation *inv) {
-        XCTFail(@"Should not be invoked");
+    whenCalling ([mockArray objectAtIndex:0]) thenDo ({
+        performBlock(^(NSInvocation *inv) { XCTFail(@"Should not be invoked"); });
     });
     
-    verify never [mockArray objectAtIndex:0];
+    verify ({ never [mockArray objectAtIndex:0]; });
 }
 
 @end
