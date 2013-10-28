@@ -7,8 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <Mocka/Mocka.h>
 
+#import "Mocka.h"
 #import "MCKMockingContext.h"
 #import "MCKArgumentMatcherRecorder.h"
 
