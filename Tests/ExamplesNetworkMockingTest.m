@@ -20,9 +20,9 @@
 - (void)testYouCanStubNetworkCalls {
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
-    whenCalling (Network.GET(@"http://www.google.ch")) thenDo ({
+    whenCalling Network.GET(@"http://www.google.ch") thenDo {
         returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
-    });
+    };
     
     // if you now make a call to the specified URL you'll receive the stubbed return value
     // if you use returnValue(...) then the status code 200 is implied
@@ -41,11 +41,11 @@
     [self GET:@"http://www.google.ch" error:NULL];
     
     // then you can verify it
-    verify (Network.GET(@"http://www.google.ch"));
+    verify Network.GET(@"http://www.google.ch");
     
     // uncalled URLs fail the verification
     ThisWillFail({
-        verify (Network.GET(@"http://you.did-not-call.me"));
+        verify Network.GET(@"http://you.did-not-call.me");
     });
 }
 
@@ -82,16 +82,16 @@
     [Network disable];
     
     // set up a stub
-    whenCalling (Network.GET(@"http://www.google.ch")) thenDo ({
+    whenCalling Network.GET(@"http://www.google.ch") thenDo {
         returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
-    });
+    };
     
     // if you now make a call to the specified URL you'll receive the stubbed return value
     // if you use returnValue(...) then the status code 200 is implied
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
     XCTAssertEqualObjects(received, [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding], @"Wrong data was returned");
     
-    verify (Network.GET(@"http://www.google.ch"));
+    verify Network.GET(@"http://www.google.ch");
 }
 
 
