@@ -289,7 +289,7 @@
     whenCalling [mockArray objectAtIndex:0] thenDo returnValue(10);
     
     ThisWillFail({
-        verify [mockArray objectAtIndex:0];
+        verifyCall [mockArray objectAtIndex:0];
     });
 }
 
@@ -299,7 +299,7 @@
         XCTFail(@"Should not be invoked");
     });
     
-    verify never [mockArray objectAtIndex:0];
+    verifyCall never [mockArray objectAtIndex:0];
 }
 
 @end

@@ -39,7 +39,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -49,7 +49,7 @@
 - (void)testThatVerifyFailsForMissingMethodCall {
     // then
     AssertFails({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 0);
@@ -62,10 +62,10 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 2);
@@ -79,10 +79,10 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     AssertFails({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -98,7 +98,7 @@
     
     // then
     AssertFails({
-        verify never [object voidMethodCallWithoutParameters];
+        verifyCall never [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -107,7 +107,7 @@
 
 - (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
     AssertDoesNotFail({
-        verify never [object voidMethodCallWithoutParameters];
+        verifyCall never [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 0);
@@ -119,7 +119,7 @@
     
     // then
     AssertDoesNotFail({
-        verify exactly(1) [object voidMethodCallWithoutParameters];
+        verifyCall exactly(1) [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -128,7 +128,7 @@
 
 - (void)testThatExactlyOneFailsWhenNoCallWasMade {
     AssertFails({
-        verify exactly(1) [object voidMethodCallWithoutParameters];
+        verifyCall exactly(1) [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 0);
@@ -141,7 +141,7 @@
     
     // then
     AssertFails({
-        verify exactly(1) [object voidMethodCallWithoutParameters];
+        verifyCall exactly(1) [object voidMethodCallWithoutParameters];
     });
     
     AssertNumberOfInvocations(object, 2);
@@ -158,7 +158,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+        verifyCall [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -171,7 +171,7 @@
     
     // then
     AssertFails({
-        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+        verifyCall [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -184,7 +184,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithIntParam1:2 intParam2:45];
+        verifyCall [object voidMethodCallWithIntParam1:2 intParam2:45];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -197,7 +197,7 @@
     
     // then
     AssertFails({
-        verify [object voidMethodCallWithIntParam1:0 intParam2:45];
+        verifyCall [object voidMethodCallWithIntParam1:0 intParam2:45];
     });
     
     AssertNumberOfInvocations(object, 1);
@@ -213,7 +213,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
     });
 }
 
@@ -224,8 +224,8 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
-        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
     });
 }
 
@@ -406,7 +406,7 @@
     
     [spy categoryMethodInMockedClass];
     
-    verify [spy categoryMethodInMockedClass];
+    verifyCall [spy categoryMethodInMockedClass];
     XCTAssertTrue(called, @"Should have been called");
 }
 
@@ -421,7 +421,7 @@
     
     [spy categoryMethodInMockedClassSuperclass];
     
-    verify [spy categoryMethodInMockedClassSuperclass];
+    verifyCall [spy categoryMethodInMockedClassSuperclass];
     XCTAssertTrue(called, @"Should have been called");
 }
 

@@ -34,7 +34,7 @@
     // noMoreInteractions() leaves context in verification state
     
     // when
-    verify noMoreInteractionsOn(mockArray);
+    verifyNoMoreInteractionsOn(mockArray);
     
     // then
     AssertDoesNotFail({
@@ -52,7 +52,7 @@
     
     // then
     AssertDoesNotFail({
-        verify inOrder {
+        verifyCall inOrder {
             never [mockArray objectAtIndex:anyInt()];
             [mockArray removeAllObjects];
             [mockArray addObject:@"Foo"];
