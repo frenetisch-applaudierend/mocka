@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "mocka"
-  s.version      = "0.4"
+  s.version      = "0.5"
   s.summary      = "Mocka is an Objective-C mocking library designed after mockito."
   s.description  = <<-DESC
                    Mocka is an Objective-C mocking library designed after mockito.
