@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "MCKFailureHandler.h"
 
-@class SenTestCase;
-
 
 @interface MCKSenTestFailureHandler : MCKFailureHandler
 
-- (id)initWithTestCase:(SenTestCase *)testCase;
+- (id)initWithTestCase:(id)testCase;
 
 @end
