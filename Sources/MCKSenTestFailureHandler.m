@@ -8,8 +8,13 @@
 
 #import "MCKSenTestFailureHandler.h"
 
-#import <SenTestingKit/NSException_SenTestFailure.h>
-#import <SenTestingKit/SenTestCase.h>
+
+@interface NSException (SenTestSupport)
+
++ (id)failureInFile:(NSString *)file atLine:(int)line withDescription:(NSString *)desc, ...;
+- (void)failWithException:(NSException *)ex; // actually it's on SenTestCase, but all we need is a declaration
+
+@end
 
 
 @implementation MCKSenTestFailureHandler {
@@ -18,7 +23,7 @@
 
 #pragma mark - Initialization
 
-- (id)initWithTestCase:(SenTestCase *)testCase {
+- (id)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
     }
@@ -29,7 +34,9 @@
 #pragma mark - Handling Failures
 
 - (void)handleFailureWithReason:(NSString *)reason {
-    NSException *ex = [NSException failureInFile:self.fileName atLine:(int)self.lineNumber withDescription:(reason != nil ? @"%@" : nil), reason];
+    NSException *ex = [NSException failureInFile:self.fileName
+                                          atLine:(int)self.lineNumber
+                                 withDescription:(reason != nil ? @"%@" : nil), reason];
     [_testCase failWithException:ex];
 }
 
