@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "mocka"
+  s.name         = "Mocka"
   s.version      = "0.5.1"
   s.summary      = "Mocka is an Objective-C mocking library designed after mockito."
   s.description  = <<-DESC
