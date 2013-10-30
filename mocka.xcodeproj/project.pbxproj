@@ -22,6 +22,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		228728C531444C16B27D447F /* libPods-mocka-tests-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6EB1E3243E041259CBA0125 /* libPods-mocka-tests-ios.a */; };
+		5C01773350CB4927A3C4C5A3 /* libPods-mocka-tests-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE62513AD0574B919C936D5E /* libPods-mocka-tests-osx.a */; };
 		631E233817FF5F3C00BC2D06 /* MCKInOrderCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085F117FA2097006A0714 /* MCKInOrderCollector.m */; };
 		631E233917FF5F3C00BC2D06 /* MCKSenTestFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475BB17F5944B001F5C88 /* MCKSenTestFailureHandler.m */; };
 		631E233A17FF5F3C00BC2D06 /* MCKInvocationStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475AC17F5944B001F5C88 /* MCKInvocationStubber.m */; };
@@ -276,8 +278,6 @@
 		6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
 		63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
 		63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
-		63B8A4A9181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */; };
-		63B8A4AA181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +298,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		106FF82AE82F4D13B3B20338 /* Pods-mocka-tests-osx.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mocka-tests-osx.xcconfig"; path = "Pods/Pods-mocka-tests-osx.xcconfig"; sourceTree = "<group>"; };
 		631E238417FF5F3C00BC2D06 /* libmocka-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6334758B17F59221001F5C88 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		6334758F17F5944B001F5C88 /* MCKAnyArgumentMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKAnyArgumentMatcher.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -443,11 +444,14 @@
 		63BDE2F917F5A04700584A08 /* TestExceptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestExceptionUtils.h; sourceTree = "<group>"; };
 		63BDE2FA17F5A04700584A08 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestObject.h; sourceTree = "<group>"; };
 		63BDE2FB17F5A04700584A08 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestObject.m; sourceTree = "<group>"; };
-		63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesArgumentMatchers.m; sourceTree = "<group>"; };
+		63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ExamplesArgumentMatchers.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		63BDE30217F5A18400584A08 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		63BDE30417F5A18400584A08 /* ExamplesStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesStub.m; sourceTree = "<group>"; };
 		63BDE30517F5A18400584A08 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
+		C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mocka-tests-ios.xcconfig"; path = "Pods/Pods-mocka-tests-ios.xcconfig"; sourceTree = "<group>"; };
+		C6EB1E3243E041259CBA0125 /* libPods-mocka-tests-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mocka-tests-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE62513AD0574B919C936D5E /* libPods-mocka-tests-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mocka-tests-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,9 +469,9 @@
 			files = (
 				6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */,
 				6376F85817FF604500F4752D /* XCTest.framework in Frameworks */,
-				63B8A4AA181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */,
 				6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */,
 				6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */,
+				5C01773350CB4927A3C4C5A3 /* libPods-mocka-tests-osx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,9 +489,9 @@
 			files = (
 				6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */,
 				6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */,
-				63B8A4A9181B96E400764AB9 /* OHHTTPStubs.framework in Frameworks */,
 				6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */,
 				638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */,
+				228728C531444C16B27D447F /* libPods-mocka-tests-ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,6 +506,8 @@
 				638BA46617F6F73C0086226D /* Documentation */,
 				6334758217F59221001F5C88 /* Frameworks */,
 				6334758117F59221001F5C88 /* Products */,
+				C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */,
+				106FF82AE82F4D13B3B20338 /* Pods-mocka-tests-osx.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -524,6 +530,8 @@
 				6397EFF817F81B8B00F5902F /* SenTestingKit.framework */,
 				6397EFF517F6FAFB00F5902F /* XCTest.framework */,
 				63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */,
+				C6EB1E3243E041259CBA0125 /* libPods-mocka-tests-ios.a */,
+				DE62513AD0574B919C936D5E /* libPods-mocka-tests-osx.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1049,9 +1057,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6376F86417FF604500F4752D /* Build configuration list for PBXNativeTarget "mocka-tests-osx" */;
 			buildPhases = (
+				188B60B224CD4D39921D6510 /* Check Pods Manifest.lock */,
 				6376F85317FF604500F4752D /* Sources */,
 				6376F85417FF604500F4752D /* Frameworks */,
 				6376F85517FF604500F4752D /* Resources */,
+				0C2D60F9BD5F4259B197B7AA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1084,9 +1094,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 638BA48C17F6F7A30086226D /* Build configuration list for PBXNativeTarget "mocka-tests-ios" */;
 			buildPhases = (
+				D7321A88826244699399366E /* Check Pods Manifest.lock */,
 				638BA47617F6F7A30086226D /* Sources */,
 				638BA47717F6F7A30086226D /* Frameworks */,
 				638BA47817F6F7A30086226D /* Resources */,
+				056A8675D73C444798D8DF35 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1152,6 +1164,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		056A8675D73C444798D8DF35 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-mocka-tests-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0C2D60F9BD5F4259B197B7AA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-mocka-tests-osx-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		188B60B224CD4D39921D6510 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		6376F89717FF658200F4752D /* Create Universal Library */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1181,6 +1238,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\n${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n    --library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n    --headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n    --replace \\\n    Distribution/Mocka.framework\n\npushd Distribution\nzip -ry \"Mocka-${CURRENT_PROJECT_VERSION}.zip\" \"Mocka.framework\"\npopd";
+			showEnvVarsInLog = 0;
+		};
+		D7321A88826244699399366E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1481,11 +1553,8 @@
 		6334757617F591FA001F5C88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Libraries",
-				);
+				CURRENT_PROJECT_VERSION = 0.5;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 			};
@@ -1494,11 +1563,8 @@
 		6334757717F591FA001F5C88 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Libraries",
-				);
+				CURRENT_PROJECT_VERSION = 0.5;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 			};
@@ -1506,6 +1572,7 @@
 		};
 		6376F86517FF604500F4752D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 106FF82AE82F4D13B3B20338 /* Pods-mocka-tests-osx.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1558,6 +1625,7 @@
 		};
 		6376F86617FF604500F4752D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 106FF82AE82F4D13B3B20338 /* Pods-mocka-tests-osx.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1708,6 +1776,7 @@
 		};
 		638BA48D17F6F7A30086226D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1767,6 +1836,7 @@
 		};
 		638BA48E17F6F7A30086226D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

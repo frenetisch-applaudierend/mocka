@@ -36,7 +36,7 @@ This is an example of a simple test using Mocka.
 		[guardian errorConditionDetected];
 		
 		// then
-		verify [callCenter callOperator];
+		verifyCall [callCenter callOperator];
 	}
 
 ## Creating mock objects
@@ -82,7 +82,7 @@ To verify that a certain call was made use the `verify` keyword.
 	DoSomethingWith(arrayMock);
 	
 	// then
-	verify [arrayMock objectAtIndex:0];
+	verifyCall [arrayMock objectAtIndex:0];
 
 If `DoSomethingWith(...)` didn’t call `[arrayMock objectAtIndex:0] the `verify` line will generate a test failure.
 
