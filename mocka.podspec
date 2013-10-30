@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "mocka"
-  s.version      = "0.5"
+  s.version      = "0.5.1"
   s.summary      = "Mocka is an Objective-C mocking library designed after mockito."
   s.description  = <<-DESC
                    Mocka is an Objective-C mocking library designed after mockito.
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '5.0'
   s.osx.deployment_target = '10.7'
 
-  s.source       = { :git => "https://bitbucket.org/foensi/mocka.git", :tag => "0.5" }
+  s.source       = { :git => "https://bitbucket.org/foensi/mocka.git", :tag => "0.5.1" }
   s.source_files = 'Sources'
   s.frameworks = 'Foundation'
   s.requires_arc = true
