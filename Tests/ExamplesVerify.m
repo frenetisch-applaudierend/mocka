@@ -33,14 +33,14 @@
     
     [mockArray removeAllObjects];
     
-    verify [mockArray removeAllObjects];
+    verifyCall [mockArray removeAllObjects];
 }
 
 - (void)testVerifyWillFailIfMethodWasNeverCalled {
     // if you verify a method that has never been called it will fail
     
     ThisWillFail({
-        verify [mockArray removeAllObjects];
+        verifyCall [mockArray removeAllObjects];
     });
 }
 
@@ -51,7 +51,7 @@
     [mockArray removeAllObjects];
     [mockArray removeAllObjects];
     
-    verify [mockArray removeAllObjects]; // too many invocations are ok
+    verifyCall [mockArray removeAllObjects]; // too many invocations are ok
 }
 
 - (void)testYouCanUseMultipleVerifyTestsToRequireMultipleCalls {
@@ -61,8 +61,8 @@
     [mockArray removeAllObjects];
     [mockArray removeAllObjects];
     
-    verify [mockArray removeAllObjects];
-    verify [mockArray removeAllObjects]; // verify that the method was called at least 2 times
+    verifyCall [mockArray removeAllObjects];
+    verifyCall [mockArray removeAllObjects]; // verifyCall that the method was called at least 2 times
 }
 
 - (void)testVerifyingSomethingMultpleTimesThatWasCalledOnceWillFail {
@@ -71,10 +71,10 @@
     
     [mockArray removeAllObjects];
     
-    verify [mockArray removeAllObjects];
+    verifyCall [mockArray removeAllObjects];
     
     ThisWillFail({
-        verify [mockArray removeAllObjects]; // multiple verify calls will also expect multiple invocations
+        verifyCall [mockArray removeAllObjects]; // multiple verifyCall calls will also expect multiple invocations
     });
 }
 
@@ -86,7 +86,7 @@
     
     [mockArray addObject:@"Hello World"];
     
-    verify [mockArray addObject:@"Hello World"];
+    verifyCall [mockArray addObject:@"Hello World"];
 }
 
 - (void)testVerifyWillFailForUnequalObjectArguments {
@@ -95,7 +95,7 @@
     [mockArray addObject:@"Hello World"];
     
     ThisWillFail({
-        verify [mockArray addObject:@"Goodbye"];
+        verifyCall [mockArray addObject:@"Goodbye"];
     });
 }
 
@@ -104,7 +104,7 @@
     
     [mockArray objectAtIndex:10];
     
-    verify [mockArray objectAtIndex:10];
+    verifyCall [mockArray objectAtIndex:10];
 }
 
 - (void)testVerifyWillFailForUnequalPrimitiveArguments {
@@ -113,7 +113,7 @@
     [mockArray objectAtIndex:10];
     
     ThisWillFail({
-        verify [mockArray objectAtIndex:0];
+        verifyCall [mockArray objectAtIndex:0];
     });
 }
 
@@ -122,7 +122,7 @@
     
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     
-    verify [mockArray subarrayWithRange:NSMakeRange(10, 20)];
+    verifyCall [mockArray subarrayWithRange:NSMakeRange(10, 20)];
 }
 
 - (void)testVerifyWillFailForUnequalStructArguments {
@@ -131,7 +131,7 @@
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     
     ThisWillFail({
-        verify [mockArray subarrayWithRange:NSMakeRange(10, 10)];
+        verifyCall [mockArray subarrayWithRange:NSMakeRange(10, 10)];
     });
 }
 
@@ -147,9 +147,9 @@
     [mockArray objectAtIndex:0];
     [mockArray objectAtIndex:1];
     
-    verify once [mockArray count];
+    verifyCall once [mockArray count];
     ThisWillFail({
-        verify once [mockArray objectAtIndex:anyInt()];
+        verifyCall once [mockArray objectAtIndex:anyInt()];
     });
 }
 
@@ -160,9 +160,9 @@
     [mockArray objectAtIndex:1];
     [mockArray count];
     
-    verify exactly(2) [mockArray objectAtIndex:anyInt()];
+    verifyCall exactly(2) [mockArray objectAtIndex:anyInt()];
     ThisWillFail({
-        verify exactly(2) [mockArray count];
+        verifyCall exactly(2) [mockArray count];
     });
 }
 
@@ -172,9 +172,9 @@
     
     [mockArray objectAtIndex:0];
     
-    verify never [mockArray count];
+    verifyCall never [mockArray count];
     ThisWillFail({
-        verify never [mockArray objectAtIndex:anyInt()];
+        verifyCall never [mockArray objectAtIndex:anyInt()];
     });
 }
 
@@ -182,14 +182,14 @@
 #pragma mark - Verify That No Actions Were Executed
 
 - (void)testVerifyingNoInteractionsFailsIfAnyUnverifiedCallsWereMade {
-    // using verify noInteractionsOn() or verify noMoreInteractionsOn() you can
+    // using verify noInteractionsOn() or verifyCall noMoreInteractionsOn() you can
     // check if no unverified invocations were done on the specified mock
     
-    verify noInteractionsOn(mockArray); // no interactions made, all is fine
+    verifyNoInteractionsOn(mockArray); // no interactions made, all is fine
     
     [mockArray count];
     ThisWillFail({
-        verify noInteractionsOn(mockArray); // [mockArray count] is an unverified interaction
+        verifyNoInteractionsOn(mockArray); // [mockArray count] is an unverified interaction
     });
 }
 
@@ -200,8 +200,8 @@
     
     [mockArray count];
     
-    verify [mockArray count];
-    verify noMoreInteractionsOn(mockArray); // [mockArray count] was verified
+    verifyCall [mockArray count];
+    verifyNoMoreInteractionsOn(mockArray); // [mockArray count] was verified
 }
 
 
@@ -215,7 +215,7 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        verify inOrder {
+        verifyCall inOrder {
             [mockArray addObject:@"One"];
             [mockArray addObject:@"Three"];
             [mockArray addObject:@"Two"];   // <-- EVIL, out of order!
@@ -232,7 +232,7 @@
     [mockArray addObject:@"Also unverified"]; // also this
     [mockArray addObject:@"Three"];
     
-    verify inOrder {
+    verifyCall inOrder {
         [mockArray addObject:@"One"];
         [mockArray addObject:@"Two"];
         [mockArray addObject:@"Three"];
@@ -247,7 +247,7 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    verify inOrder {
+    verifyCall inOrder {
         exactly(3) [mockArray addObject:anyObject()];
         [mockArray removeAllObjects];
     };
@@ -262,7 +262,7 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    verify inOrder {
+    verifyCall inOrder {
         exactly(3) [mockArray addObject:anyObject()];
         [mockArray removeAllObjects];
     };
@@ -276,7 +276,7 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verify inOrder {
+    verifyCall inOrder {
         exactly(3) [mockArray addObject:anyObject()];
     };
 }
@@ -289,7 +289,7 @@
     [mockArray removeAllObjects];
     
     ThisWillFail({
-        verify inOrder {
+        verifyCall inOrder {
             exactly(3) [mockArray addObject:anyObject()];
             [mockArray removeAllObjects];
         };
@@ -305,7 +305,7 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        verify inOrder {
+        verifyCall inOrder {
             exactly(3) [mockArray addObject:anyObject()];
             [mockArray removeAllObjects];
         };
@@ -320,10 +320,10 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verify inOrder {
+    verifyCall inOrder {
         exactly(3) [mockArray addObject:anyObject()];
     };
-    verify [mockArray removeAllObjects];
+    verifyCall [mockArray removeAllObjects];
 }
 
 - (void)testSkippedCallsCanLaterStillBeVerifiedOrdered {
@@ -335,11 +335,11 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verify inOrder {
+    verifyCall inOrder {
         exactly(3) [mockArray addObject:anyObject()];
     };
     
-    verify inOrder {
+    verifyCall inOrder {
         [mockArray count];
         [mockArray removeAllObjects];
     };
@@ -354,12 +354,12 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verify inOrder {
+    verifyCall inOrder {
         exactly(3) [mockArray addObject:anyObject()];
     };
     
     ThisWillFail({
-        verify inOrder {
+        verifyCall inOrder {
             [mockArray removeAllObjects];
             [mockArray count];
         };
@@ -377,7 +377,7 @@
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    verifyWithTimeout(0.1) [mockArray removeAllObjects];
+    verifyCallWithTimeout(0.1) [mockArray removeAllObjects];
 }
 
 - (void)testVerifyFailsAfterTheTimeoutExpires {
@@ -388,7 +388,7 @@
     
     // the timeout will expire before the async taks is executed, so this fails
     ThisWillFail({
-        verifyWithTimeout(0.05) [mockArray removeAllObjects];
+        verifyCallWithTimeout(0.05) [mockArray removeAllObjects];
     });
 }
 
@@ -400,7 +400,7 @@
     }];
     
     // you can also combine the timeout with verification modes like exactly(...)
-    verifyWithTimeout(0.2) exactly(2) [mockArray removeAllObjects];
+    verifyCallWithTimeout(0.2) exactly(2) [mockArray removeAllObjects];
 }
 
 - (void)testTimeoutWorksDifferentWithNever {
@@ -409,12 +409,12 @@
         [mockArray removeAllObjects];
     }];
     
-    verify never [mockArray removeAllObjects]; // this does not fail, because the call is delayed
+    verifyCall never [mockArray removeAllObjects]; // this does not fail, because the call is delayed
     
     // when using withTimeout(...) together with verify never then the semantics change a bit
     // in this case the call will wait the whole timeout before checking that no call was made
     ThisWillFail({ // because the call is made after 0.2s and we check after 0.5s
-        verifyWithTimeout(0.5) never [mockArray removeAllObjects];
+        verifyCallWithTimeout(0.5) never [mockArray removeAllObjects];
     });
 }
 
@@ -430,7 +430,7 @@
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    verifyWithTimeout(1.0) inOrder {
+    verifyCallWithTimeout(1.0) inOrder {
         [mockArray addObject:@1];
         [mockArray addObject:@2];
         [mockArray removeAllObjects];

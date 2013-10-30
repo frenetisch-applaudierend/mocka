@@ -41,14 +41,14 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
 }
 
 - (void)testThatVerifyFailsForMissingMethodCall {
     // then
     AssertFails({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
 }
 
@@ -59,10 +59,10 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
 }
 
@@ -72,10 +72,10 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
     AssertFails({
-        verify [object voidMethodCallWithoutParameters];
+        verifyCall [object voidMethodCallWithoutParameters];
     });
 }
 
@@ -88,13 +88,13 @@
     
     // then
     AssertFails({
-        verify never [object voidMethodCallWithoutParameters];
+        verifyCall never [object voidMethodCallWithoutParameters];
     });
 }
 
 - (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
     AssertDoesNotFail({
-        verify never [object voidMethodCallWithoutParameters];
+        verifyCall never [object voidMethodCallWithoutParameters];
     });
 }
 
@@ -104,13 +104,13 @@
     
     // then
     AssertDoesNotFail({
-        verify exactly(1) [object voidMethodCallWithoutParameters];
+        verifyCall exactly(1) [object voidMethodCallWithoutParameters];
     });
 }
 
 - (void)testThatExactlyOneFailsWhenNoCallWasMade {
     AssertFails({
-        verify exactly(1) [object voidMethodCallWithoutParameters];
+        verifyCall exactly(1) [object voidMethodCallWithoutParameters];
     });
 }
 
@@ -121,14 +121,14 @@
     
     // then
     AssertFails({
-        verify exactly(1) [object voidMethodCallWithoutParameters];
+        verifyCall exactly(1) [object voidMethodCallWithoutParameters];
     });
 }
 
 - (void)testThatAfterVerifyContextSwitchesToRecordingMode {
     // given
     [object voidMethodCallWithoutParameters];
-    verify [object voidMethodCallWithoutParameters];
+    verifyCall [object voidMethodCallWithoutParameters];
     
     // then
     AssertDoesNotFail({
@@ -145,7 +145,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+        verifyCall [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     });
 }
 
@@ -155,7 +155,7 @@
     
     // then
     AssertFails({
-        verify [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+        verifyCall [object voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     });
 }
 
@@ -165,7 +165,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithIntParam1:2 intParam2:45];
+        verifyCall [object voidMethodCallWithIntParam1:2 intParam2:45];
     });
 }
 
@@ -175,7 +175,7 @@
     
     // then
     AssertFails({
-        verify [object voidMethodCallWithIntParam1:0 intParam2:45];
+        verifyCall [object voidMethodCallWithIntParam1:0 intParam2:45];
     });
 }
 
@@ -188,7 +188,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
     });
 }
 
@@ -199,8 +199,8 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
-        verify [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
     });
 }
 
@@ -210,7 +210,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+        verifyCall [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
     });
 }
 
@@ -220,7 +220,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+        verifyCall [object voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
     });
 }
 
@@ -230,7 +230,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"];
+        verifyCall [object voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"];
     });
 }
 
@@ -240,7 +240,7 @@
     
     // then
     AssertDoesNotFail({
-        verify [object voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()];
+        verifyCall [object voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()];
     });
 }
 
@@ -268,11 +268,12 @@
 - (void)testMultipleStubActions {
     // given
     __block NSString *marker = nil;
-    whenCalling [object objectMethodCallWithoutParameters];
-    thenDo performBlock(^(NSInvocation *inv) {
-        marker = @"called";
-    });
-    andDo returnValue(@20);
+    whenCalling [object objectMethodCallWithoutParameters] thenDo {
+        performBlock(^(NSInvocation *inv) {
+            marker = @"called";
+        });
+        returnValue(@20);
+    };
     
     // then
     XCTAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
@@ -313,11 +314,12 @@
 - (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
     // given
     __block NSString *marker = nil;
-    whenCalling [object objectMethodCallWithoutParameters];
-    thenDo performBlock(^(NSInvocation *inv) {
-        marker = @"called";
-    });
-    andDo returnValue(@20);
+    whenCalling [object objectMethodCallWithoutParameters] thenDo {
+        performBlock(^(NSInvocation *inv) {
+            marker = @"called";
+        });
+        returnValue(@20);
+    }
     
     // when
     whenCalling [object objectMethodCallWithoutParameters]; thenDo returnValue(@30);
@@ -348,9 +350,10 @@
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
-    whenCalling [array count];
-    thenDo performBlock(^(NSInvocation *inv) { [self description]; });
-    andDo returnValue(10);
+    whenCalling [array count] thenDo {
+        performBlock(^(NSInvocation *inv) { [self description]; });
+        returnValue(10);
+    }
     
     // then
     XCTAssertEqual((int)[array count], (int)10, @"[array count] stub does not work");
@@ -406,7 +409,7 @@
     
     [mock categoryMethodInMockedClass];
     
-    verify [mock categoryMethodInMockedClass];
+    verifyCall [mock categoryMethodInMockedClass];
     XCTAssertTrue(called, @"Should have been called");
 }
 
@@ -421,7 +424,7 @@
     
     [mock categoryMethodInMockedClassSuperclass];
     
-    verify [mock categoryMethodInMockedClassSuperclass];
+    verifyCall [mock categoryMethodInMockedClassSuperclass];
     XCTAssertTrue(called, @"Should have been called");
 }
 

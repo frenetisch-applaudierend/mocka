@@ -31,16 +31,14 @@
 #pragma mark - Verification
 
 // safe syntax
-#define mck_verify               mck_verifyWithTimeout(0.0)
-#define mck_verifyWithTimeout(T) _mck_beginVerifyWithTimeout(self, __FILE__, __LINE__, (T));
+#define mck_verifyCall               mck_verifyCallWithTimeout(0.0)
+#define mck_verifyCallWithTimeout(T) _mck_beginVerifyWithTimeout(self, __FILE__, __LINE__, (T));
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
-    #undef verify // under Mac OS X this macro defined already (in /usr/include/AssertMacros.h)
-
-    #define verify               mck_verify
-    #define verifyWithTimeout(T) mck_verifyWithTimeout(T)
+    #define verifyCall               mck_verifyCall
+    #define verifyCallWithTimeout(T) mck_verifyCallWithTimeout(T)
 
 #endif
 
@@ -49,21 +47,13 @@
 
 // safe syntax
 #define mck_whenCalling _mck_beginStub(self, __FILE__, __LINE__);
-#define mck_orCalling   ; mck_whenCalling
-#define mck_givenCallTo mck_whenCalling
-#define mck_orCallTo    mck_orCalling
 #define mck_thenDo      ;
-#define mck_andDo       mck_thenDo
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
     #define whenCalling mck_whenCalling
-    #define orCalling   mck_orCalling
-    #define givenCallTo mck_givenCallTo
-    #define orCallTo    mck_orCallTo
     #define thenDo      mck_thenDo
-    #define andDo       mck_andDo
 
 #endif
 
