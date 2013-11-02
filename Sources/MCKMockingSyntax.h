@@ -51,7 +51,8 @@
 #define mck_whenCalling _mck_beginStub(self, __FILE__, __LINE__);
 #define mck_thenDo      ;
 
-#define mck_stubCall(CALL) _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^typeof(CALL)
+#define mck_stubCall(CALL)  _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^typeof(CALL)
+#define mck_stubCalls(CALL) _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^
 #define mck_with
 
 
@@ -61,8 +62,9 @@
     #define whenCalling mck_whenCalling
     #define thenDo      mck_thenDo
 
-    #define stubCall(CALL) mck_stubCall(CALL)
-    #define with           mck_with
+    #define stubCall(CALL)  mck_stubCall(CALL)
+    #define stubCalls(CALL) mck_stubCalls(CALL)
+    #define with            mck_with
 
 #endif
 
