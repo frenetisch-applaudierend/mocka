@@ -19,6 +19,7 @@
 #import "MCKExactlyVerificationHandler.h"
 #import "MCKVerifyNoInteractions.h"
 
+#import "MCKStub.h"
 #import "MCKStubAction.h"
 #import "MCKReturnStubAction.h"
 #import "MCKPerformBlockStubAction.h"

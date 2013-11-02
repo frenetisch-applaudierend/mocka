@@ -19,6 +19,7 @@
 
 @property (nonatomic, readonly, copy) NSArray *invocationPrototypes;
 @property (nonatomic, readonly, copy) NSArray *actions;
+@property (nonatomic, copy) id stubBlock;
 
 - (void)addInvocationPrototype:(MCKInvocationPrototype *)prototype;
 - (void)addAction:(id<MCKStubAction>)action;

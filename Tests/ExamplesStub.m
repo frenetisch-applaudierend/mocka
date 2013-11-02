@@ -35,13 +35,16 @@
     
     XCTAssertTrue([mockArray objectAtIndex:0] == nil, @"Default value for object returns should be nil");
     XCTAssertTrue([mockArray count] == 0, @"Default value for primitive number returns should be 0");
-    XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0)), @"Default value for struct returns should be a zero-struct");
+    XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0)),
+                  @"Default value for struct returns should be a zero-struct");
 }
 
 - (void)testSettingCustomObjectReturnValue {
     // you can set a custom return value for objects
     
-    whenCalling [mockArray objectAtIndex:0] thenDo returnValue(@"Hello World");
+    stubCall ([mockArray objectAtIndex:0]) with {
+        return @"Hello World";
+    };
     
     XCTAssertEqualObjects([mockArray objectAtIndex:0], @"Hello World", @"Wrong return value");
 }

@@ -37,6 +37,16 @@ void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber) {
     [context beginStubbing];
 }
 
+MCKStub* _mck_stubCalls(id testCase, const char *fileName, NSUInteger lineNumber, void(^calls)(void)) {
+    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
+    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    [context beginStubbing];
+    
+    calls();
+    
+    return nil;
+}
+
 void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber) {
     [[MCKMockingContext currentContext] updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
 }
