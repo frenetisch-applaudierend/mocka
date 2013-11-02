@@ -18,8 +18,6 @@
 
 @interface MCKInvocationVerifier : NSObject
 
-- (instancetype)initWithTimeout:(NSTimeInterval)timeout;
-
 @property (nonatomic, assign) NSTimeInterval timeout;
 @property (nonatomic, weak) id<MCKVerificationSessionDelegate> delegate;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;

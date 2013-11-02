@@ -26,16 +26,11 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithTimeout:(NSTimeInterval)timeout {
+- (instancetype)init {
     if ((self = [super init])) {
-        _timeout = timeout;
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
     }
     return self;
-}
-
-- (instancetype)init {
-    return [self initWithTimeout:0.0];
 }
 
 
