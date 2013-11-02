@@ -41,13 +41,13 @@
     // instead of specifiying an exact value in whenCalling you can also use argument matchers
     
     __block id addedObject = nil;
-    whenCalling [mockArray addObject:anyObject()] thenDo performBlock(^(NSInvocation *inv) {
-        addedObject = [inv objectParameterAtIndex:0];
-    });
+    stubCall ([mockArray addObject:anyObject()]) with (id object) {
+        addedObject = object;
+    };
     
     [mockArray addObject:@"Hello World"];
     
-    XCTAssertEqualObjects(addedObject, @"Hello World", @"Wrong object added");
+    expect(addedObject).to.equal(@"Hello World");
 }
 
 - (void)testYouCanMixArgumentsAndMatchersForObjects {
@@ -70,12 +70,11 @@
 - (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsWhenStubbing {
     // matchers are also available for primitive arguments
     
-    whenCalling [mockArray objectAtIndex:anyInt()] thenDo performBlock(^(NSInvocation *inv) {
-        NSUInteger index = [inv unsignedIntegerParameterAtIndex:0];
-        [inv setObjectReturnValue:@(index)];
-    });
+    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+        return @(index);
+    };
     
-    XCTAssertEqualObjects([mockArray objectAtIndex:10], @10, @"Wrong return value");
+    expect([mockArray objectAtIndex:10]).to.equal(@10);
 }
 
 - (void)testYouCanNotMixArgumentsAndMatchersForPrimitives {
@@ -105,12 +104,11 @@
 - (void)testYouCanUseArgumentMatchersForStructArgumentsWhenStubbing {
     // matchers are also available for struct arguments
     
-    whenCalling [mockArray subarrayWithRange:anyStruct(NSRange)] thenDo performBlock(^(NSInvocation *inv) {
-        NSRange range = structParameter(inv, 0, NSRange);
-        [inv setObjectReturnValue:@[ @(range.location), @(range.length) ]];
-    });
+    stubCall ([mockArray subarrayWithRange:anyStruct(NSRange)]) with (NSRange range) {
+        return @[ @(range.location), @(range.length) ];
+    };
     
-    XCTAssertEqualObjects([mockArray subarrayWithRange:NSMakeRange(0, 10)], (@[ @0, @10 ]), @"Wrong return value");
+    expect([mockArray subarrayWithRange:NSMakeRange(0, 10)]).to.equal(@[ @0, @10 ]);
 }
 
 
