@@ -24,6 +24,7 @@
 @interface TestObject (MCKSpyTest)
 - (int)spySpecialMethod;
 @end
+
 @implementation TestObject (MCKSpyTest)
 - (int)spySpecialMethod { return 666; }
 @end
@@ -182,6 +183,7 @@
     // then
     XCTAssertEqual(returnValue, [refObject intMethodCallWithoutParameters], @"Return value was incorrect");
 }
+
 
 #pragma mark - Test Spying in Special Cases
 

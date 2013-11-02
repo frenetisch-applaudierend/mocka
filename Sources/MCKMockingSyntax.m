@@ -43,8 +43,9 @@ MCKStub* _mck_stubCalls(id testCase, const char *fileName, NSUInteger lineNumber
     [context beginStubbing];
     
     calls();
+    [context addStubAction:nil]; // notify end of stubbing
     
-    return nil;
+    return context.activeStub;
 }
 
 void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber) {

@@ -36,12 +36,13 @@
 }
 
 - (void)addActionToLastStub:(id<MCKStubAction>)action {
-    NSParameterAssert(action != nil);
-    
     if ([self isRecordingInvocationGroup]) {
         [self endRecordingInvocationGroup];
     }
-    [[self activeStub] addAction:action];
+    
+    if (action != nil) {
+        [[self activeStub] addAction:action];
+    }
 }
 
 

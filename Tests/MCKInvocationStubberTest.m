@@ -95,6 +95,16 @@
     XCTAssertEqual([stubber.recordedStubs count], (NSUInteger)2, @"Two stub should have been created");
 }
 
+- (void)testThatAfterAddingNilActionNewInvocationGroupStarts {
+    // when
+    [stubber recordStubPrototype:prototypes[0]];
+    [stubber addActionToLastStub:nil];
+    [stubber recordStubPrototype:prototypes[1]];
+    
+    // then
+    XCTAssertEqual([stubber.recordedStubs count], (NSUInteger)2, @"Two stub should have been created");
+}
+
 
 #pragma mark - Test Querying for Stubs
 
@@ -158,6 +168,18 @@
     NSArray *actions = [[stubber.recordedStubs lastObject] actions];
     XCTAssertEqual([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
     XCTAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
+}
+
+- (void)testThatAddingActionToStubDoesNotAddActionForNilParameter {
+    // given
+    [stubber recordStubPrototype:prototypes[0]];
+    
+    // when
+    [stubber addActionToLastStub:nil];
+    
+    // then
+    NSArray *actions = [[stubber.recordedStubs lastObject] actions];
+    XCTAssertEqual([actions count], (NSUInteger)0, @"Wrong number of actions recorded");
 }
 
 - (void)testThatApplyingStubsToInvocationAppliesStubActionToAllMatchingInvocationsInOrder {

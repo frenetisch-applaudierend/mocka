@@ -9,6 +9,7 @@
 #import "MCKStub.h"
 #import "MCKStubAction.h"
 #import "MCKInvocationPrototype.h"
+#import "MCKBlockWrapper.h"
 
 
 @implementation MCKStub {
@@ -59,8 +60,27 @@
 }
 
 - (void)applyToInvocation:(NSInvocation *)invocation {
+    if (self.stubBlock != nil) {
+        [self applyStubBlockToInvocation:invocation];
+    }
+    
     for (id<MCKStubAction> action in _actions) {
         [action performWithInvocation:invocation];
+    }
+}
+
+- (void)applyStubBlockToInvocation:(NSInvocation *)invocation {
+    MCKBlockWrapper *block = [MCKBlockWrapper wrapperForBlock:self.stubBlock];
+    [block invoke];
+    
+    NSAssert(invocation.methodSignature.methodReturnLength == block.blockSignature.methodReturnLength,
+             @"Method return lengths don't match");
+    
+    if (invocation.methodSignature.methodReturnLength > 0) {
+        void *returnValueHolder = malloc(invocation.methodSignature.methodReturnLength);
+        [block getReturnValue:returnValueHolder];
+        [invocation setReturnValue:returnValueHolder];
+        free(returnValueHolder);
     }
 }
 

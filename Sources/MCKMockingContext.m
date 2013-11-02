@@ -151,6 +151,10 @@ static __weak id _CurrentContext = nil;
     [self updateContextMode:MCKContextModeStubbing];
 }
 
+- (void)endStubbing {
+    [self updateContextMode:MCKContextModeRecording];
+}
+
 - (void)stubInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
@@ -164,6 +168,10 @@ static __weak id _CurrentContext = nil;
 - (void)addStubAction:(id<MCKStubAction>)action {
     [self.invocationStubber addActionToLastStub:action];
     [self updateContextMode:MCKContextModeRecording];
+}
+
+- (MCKStub *)activeStub {
+    return [[self.invocationStubber recordedStubs] lastObject];
 }
 
 

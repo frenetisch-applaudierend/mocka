@@ -6,9 +6,13 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
+
 #import "MCKMockingContext.h"
 #import "MCKMockingSyntax.h"
+#import "MCKStub.h"
 
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKReturnStubAction.h"
@@ -169,6 +173,17 @@
     
     // then
     XCTAssertEqual(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
+}
+
+- (void)testThatGettingActiveStubReturnsStubForStubbingInProgress {
+    // given
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    [context beginStubbing];
+    [context handleInvocation:invocation];
+    
+    // then
+    expect(context.activeStub).notTo.beNil();
+    expect([context.activeStub.invocationPrototypes valueForKey:@"invocation"]).to.equal(@[ invocation ]);
 }
 
 
