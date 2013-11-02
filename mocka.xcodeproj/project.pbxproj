@@ -284,6 +284,8 @@
 		63B598151824FBFA00E4D26A /* MCKStubTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B598131824FBFA00E4D26A /* MCKStubTest.m */; };
 		63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
 		63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
+		63D1CABD1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */; };
+		63D1CABE1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -458,6 +460,8 @@
 		63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		63BDE30417F5A18400584A08 /* ExamplesStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesStub.m; sourceTree = "<group>"; };
 		63BDE30517F5A18400584A08 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
+		63D1CABB1825840D009FE9EC /* MCKIntegrationTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKIntegrationTestBase.h; sourceTree = "<group>"; };
+		63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKIntegrationTestBase.m; sourceTree = "<group>"; };
 		C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mocka-tests-ios.xcconfig"; path = "Pods/Pods-mocka-tests-ios.xcconfig"; sourceTree = "<group>"; };
 		C6EB1E3243E041259CBA0125 /* libPods-mocka-tests-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mocka-tests-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE62513AD0574B919C936D5E /* libPods-mocka-tests-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mocka-tests-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -767,9 +771,11 @@
 		638BA45717F5DE420086226D /* Integration Tests */ = {
 			isa = PBXGroup;
 			children = (
-				63732BC717F5A8060041C869 /* MCKRegressionTests.m */,
+				63D1CABB1825840D009FE9EC /* MCKIntegrationTestBase.h */,
+				63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */,
 				63732BC217F5A8060041C869 /* MCKMockObjectIntegrationTest.m */,
 				63732BCB17F5A8060041C869 /* MCKSpyIntegrationTest.m */,
+				63732BC717F5A8060041C869 /* MCKRegressionTests.m */,
 			);
 			name = "Integration Tests";
 			sourceTree = "<group>";
@@ -1385,6 +1391,7 @@
 				6376F87217FF619E00F4752D /* MCKMockingContextTest.m in Sources */,
 				6376F88917FF61C100F4752D /* AsyncService.m in Sources */,
 				6376F86C17FF618E00F4752D /* ExamplesVerify.m in Sources */,
+				63D1CABE1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */,
 				6376F89117FF61D000F4752D /* FakeVerificationResultCollector.m in Sources */,
 				6376F88E17FF61D000F4752D /* FakeMockingContext.m in Sources */,
 				63B598151824FBFA00E4D26A /* MCKStubTest.m in Sources */,
@@ -1481,6 +1488,7 @@
 				6397EFF417F6FAEE00F5902F /* NSInvocation+TestSupport.m in Sources */,
 				6397EFE717F6FACD00F5902F /* MCKSenTestFailureHandlerTest.m in Sources */,
 				6397EFD917F6FABA00F5902F /* MCKNeverVerificationHandlerTest.m in Sources */,
+				63D1CABD1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */,
 				6397EFDF17F6FAC100F5902F /* MCKThrowExceptionStubActionTest.m in Sources */,
 				6397EFED17F6FADF00F5902F /* HCBlockMatcher.m in Sources */,
 				63B598141824FBFA00E4D26A /* MCKStubTest.m in Sources */,

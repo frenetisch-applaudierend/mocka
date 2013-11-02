@@ -9,7 +9,7 @@
 #import "CategoriesTestClasses.h"
 
 
-#pragma mark - Needed Classes
+#pragma mark - Classes
 
 @implementation CategoriesTestSuperclass
 @end

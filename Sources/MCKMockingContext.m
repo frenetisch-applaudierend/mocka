@@ -52,7 +52,7 @@ static __weak id _CurrentContext = nil;
 + (instancetype)currentContext {
     if (_CurrentContext == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"This method cannot be used before a context was created using +contextForTestCase:fileName:lineNumber:"
+                                       reason:@"Cannot use this method before a context was created using +contextForTestCase:"
                                      userInfo:nil];
     }
     return _CurrentContext;
