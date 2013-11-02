@@ -171,7 +171,7 @@
 }
 
 - (void)testStubbingWillMatchStructArguments {
-    // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
+    // matching struct arguments is supported too
     
     stubCall ([mockArray subarrayWithRange:NSMakeRange(10, 20)]) with {
         return @[ @"Matches" ];
