@@ -13,6 +13,11 @@
 #import "MCKBlockWrapper.h"
 
 
+struct TestStruct {
+    char foo[512];
+    int flag;
+};
+
 @interface MCKBlockWrapperTest : XCTestCase @end
 @implementation MCKBlockWrapperTest
 
@@ -110,6 +115,21 @@
     
     // then
     expect(returnValue).to.equal(@"Hello World");
+}
+
+- (void)testCanGetStructReturnValueFromBlockInvocation {
+    // given
+    id block = ^struct TestStruct(void) { return (struct TestStruct){ .flag = 42 }; };
+    MCKBlockWrapper *wrapper = [MCKBlockWrapper wrapperForBlock:block];
+    
+    // when
+    [wrapper invoke];
+    
+    struct TestStruct returnValue;
+    [wrapper getReturnValue:&returnValue];
+    
+    // then
+    expect(returnValue.flag).to.equal(42);
 }
 
 @end
