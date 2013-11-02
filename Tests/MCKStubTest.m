@@ -11,6 +11,9 @@
 #import <Expecta/Expecta.h>
 
 #import "MCKStub.h"
+#import "MCKInvocationPrototype.h"
+#import "MCKMockingContext.h"
+#import "MCKExceptionFailureHandler.h"
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
 
@@ -26,6 +29,70 @@
 - (void)setUp {
     stub = [[MCKStub alloc] init];
     testObject = [[TestObject alloc] init];
+    
+    MCKMockingContext *context = [MCKMockingContext contextForTestCase:self];
+    context.failureHandler = [[MCKExceptionFailureHandler alloc] init];
+}
+
+
+#pragma mark - Test Setting Stubs
+
+- (void)testThatSettingStubBlockSucceedsForVoidBlockAndVariousInvocations {
+    // given
+    NSArray *invocations = @[
+        [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 0],
+        [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(voidMethodCallWithoutParameters)],
+    ];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocations[0]]];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocations[1]]];
+    
+    // then
+    expect(^{ stub.stubBlock = ^{ }; }).notTo.raiseAny();
+}
+
+- (void)testThatSettingStubBlockSucceedsForMatchingBlock {
+    // given
+    NSInvocation *inv = [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(boolMethodCallWithError:)];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
+    
+    // then
+    expect(^{ stub.stubBlock = ^BOOL (NSError **error) { return NO; }; }).notTo.raiseAny();
+}
+
+- (void)testThatSettingStubBlockSucceedsForMatchingBlockIncludingSelfAndCmd {
+    // given
+    NSInvocation *inv = [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(boolMethodCallWithError:)];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
+    
+    // then
+    expect(^{ stub.stubBlock = ^BOOL (id self, SEL _cmd, NSError **error) { return NO; }; }).notTo.raiseAny();
+}
+
+- (void)testThatSettingStubBlockSucceedsForMatchingVoidBlock {
+    // given
+    NSInvocation *inv = [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(boolMethodCallWithError:)];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
+    
+    // then
+    expect(^{ stub.stubBlock = ^(NSError **error) { }; }).notTo.raiseAny();
+}
+
+- (void)testThatSettingStubBlockFailsForNonMatchingBlockArguments {
+    // given
+    NSInvocation *inv = [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(boolMethodCallWithError:)];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
+    
+    // then
+    expect(^{ stub.stubBlock = ^BOOL(NSError **error, int notMatching) { return NO; }; }).to.raiseAny();
+}
+
+- (void)testThatSettingStubBlockFailsForNonMatchingBlockReturnType {
+    // given
+    NSInvocation *inv = [NSInvocation invocationForTarget:testObject selectorAndArguments:@selector(boolMethodCallWithError:)];
+    [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
+    
+    // then
+    expect(^{ stub.stubBlock = ^id(NSError **error) { return nil; }; }).to.raiseAny();
 }
 
 

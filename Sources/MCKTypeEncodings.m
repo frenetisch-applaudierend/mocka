@@ -39,7 +39,11 @@
 + (BOOL)isType:(const char *)type equalToType:(const char *)other {
     type = [self typeBySkippingTypeModifiers:type];
     other = [self typeBySkippingTypeModifiers:other];
-    return (strcmp(type, other) == 0);
+    if ([self isObjectType:type]) {
+        return type[0] == other[0];
+    } else {
+        return (strcmp(type, other) == 0);
+    }
 }
 
 

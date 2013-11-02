@@ -22,6 +22,9 @@
 @property (nonatomic, readonly) id block;
 @property (nonatomic, readonly) NSMethodSignature *blockSignature;
 
+// accounts for the implicit param, otherwise exactly as the NSMethodSignature version
+- (const char *)getParameterTypeAtIndex:(NSUInteger)index;
+
 
 #pragma mark - Invoking the Block
 

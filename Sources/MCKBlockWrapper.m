@@ -97,6 +97,10 @@ static const char *BlockSig(id blockObj) {
     return self.blockInvocation.methodSignature;
 }
 
+- (const char *)getParameterTypeAtIndex:(NSUInteger)index {
+    return [self.blockSignature getArgumentTypeAtIndex:(index + 1)];
+}
+
 
 #pragma mark - Invoking the Block
 
