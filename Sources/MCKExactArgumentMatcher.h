@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "MCKArgumentMatcher.h"
-#import "MCKTypes.h"
 
 
 @interface MCKExactArgumentMatcher : NSObject <MCKArgumentMatcher>
@@ -32,7 +31,7 @@ extern BOOL mck_boolArg(BOOL arg);
 extern char* mck_cStringArg(const char *arg);
 extern SEL mck_selectorArg(SEL arg);
 extern void* mck_pointerArg(void *arg);
-extern mck_objptr mck_objectPointerArg(id *arg);
+#define mck_objectPointerArg(TYPE, ARG) ((id TYPE *)mck_pointerArg(ARG))
 #define mck_structArg(arg) mck_registerStructMatcher(\
     [MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithBytes:(typeof(arg)[]){ (arg) }\
                                                   objCType:@encode(typeof(arg))]], typeof(arg))
@@ -46,7 +45,7 @@ extern mck_objptr mck_objectPointerArg(id *arg);
     static inline char* cStringArg(const char *arg) { return mck_cStringArg(arg); }
     static inline SEL selectorArg(SEL arg) { return mck_selectorArg(arg); }
     static inline void* pointerArg(void *arg) { return mck_pointerArg(arg); }
-    static inline mck_objptr objectPointerArg(id *arg) { return mck_objectPointerArg(arg); }
+    #define objectPointerArg(TYPE, ARG) mck_objectPointerArg(TYPE, ARG)
     #define structArg(arg) mck_structArg(arg)
 
 #endif

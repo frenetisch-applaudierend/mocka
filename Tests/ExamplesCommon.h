@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#define EXP_SHORTHAND
+#import <Expecta/Expecta.h>
+
 #import "Mocka.h"
 
 #import "TestExceptionUtils.h"

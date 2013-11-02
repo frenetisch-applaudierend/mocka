@@ -19,11 +19,7 @@
 #import "MCKExactlyVerificationHandler.h"
 #import "MCKVerifyNoInteractions.h"
 
-#import "MCKStubAction.h"
-#import "MCKReturnStubAction.h"
-#import "MCKPerformBlockStubAction.h"
-#import "MCKThrowExceptionStubAction.h"
-#import "MCKSetOutParameterStubAction.h"
+#import "MCKStub.h"
 
 #import "MCKArgumentMatcher.h"
 #import "MCKAnyArgumentMatcher.h"
@@ -34,6 +30,5 @@
 #import "MCKNetworkMock.h"
 #import "MCKNetworkRequestMatcher.h"
 
-#import "MCKTypes.h"
 #import "MCKTypeEncodings.h"
 #import "NSInvocation+MCKArgumentHandling.h"

@@ -52,7 +52,7 @@ static __weak id _CurrentContext = nil;
 + (instancetype)currentContext {
     if (_CurrentContext == nil) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"This method cannot be used before a context was created using +contextForTestCase:fileName:lineNumber:"
+                                       reason:@"Cannot use this method before a context was created using +contextForTestCase:"
                                      userInfo:nil];
     }
     return _CurrentContext;
@@ -151,6 +151,11 @@ static __weak id _CurrentContext = nil;
     [self updateContextMode:MCKContextModeStubbing];
 }
 
+- (void)endStubbing {
+    [self.invocationStubber finishRecordingStubGroup];
+    [self updateContextMode:MCKContextModeRecording];
+}
+
 - (void)stubInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
@@ -161,9 +166,8 @@ static __weak id _CurrentContext = nil;
     return [self.invocationStubber hasStubsRecordedForInvocation:invocation];
 }
 
-- (void)addStubAction:(id<MCKStubAction>)action {
-    [self.invocationStubber addActionToLastStub:action];
-    [self updateContextMode:MCKContextModeRecording];
+- (MCKStub *)activeStub {
+    return [[self.invocationStubber recordedStubs] lastObject];
 }
 
 

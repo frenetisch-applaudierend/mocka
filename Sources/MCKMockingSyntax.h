@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MCKStub;
+
 
 #pragma mark - Creating Mocks and Spies
 
@@ -46,14 +48,17 @@
 #pragma mark - Stubbing
 
 // safe syntax
-#define mck_whenCalling _mck_beginStub(self, __FILE__, __LINE__);
-#define mck_thenDo      ;
+#define mck_stubCall(CALL)  _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^typeof(CALL)
+#define mck_stubCalls(CALL) _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^
+#define mck_with
+
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
-    #define whenCalling mck_whenCalling
-    #define thenDo      mck_thenDo
+    #define stubCall(CALL)  mck_stubCall(CALL)
+    #define stubCalls(CALL) mck_stubCalls(CALL)
+    #define with            mck_with
 
 #endif
 
@@ -63,5 +68,5 @@
 extern id _mck_createMock(id testCase, const char *fileName, NSUInteger lineNumber, NSArray *classAndProtocols);
 extern id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumber, id object);
 extern void _mck_beginVerifyWithTimeout(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout);
-extern void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber);
+extern MCKStub* _mck_stubCalls(id testCase, const char *fileName, NSUInteger lineNumber, void(^calls)(void));
 extern void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber);

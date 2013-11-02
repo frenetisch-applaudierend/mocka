@@ -88,7 +88,3 @@ SEL mck_selectorArg(SEL arg) {
 void* mck_pointerArg(void *arg) {
     return mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }
-
-mck_objptr mck_objectPointerArg(id *arg) {
-    return (mck_objptr)mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
-}

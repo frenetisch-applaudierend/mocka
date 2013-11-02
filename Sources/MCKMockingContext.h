@@ -61,10 +61,12 @@ typedef enum {
 #pragma mark - Stubbing
 
 @property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
+@property (nonatomic, readonly) MCKStub *activeStub;
 
 - (void)beginStubbing;
+- (void)endStubbing;
+
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-- (void)addStubAction:(id<MCKStubAction>)action;
 
 
 #pragma mark - Verifying

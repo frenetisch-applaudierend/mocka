@@ -42,7 +42,7 @@ typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 @end
 
 
-#define MCKNetwork _mck_getNetworkMock(self, __FILE__, __LINE__)
+#define MCKNetwork (id)_mck_getNetworkMock(self, __FILE__, __LINE__)
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define Network MCKNetwork
 #endif
