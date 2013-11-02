@@ -1,12 +1,12 @@
 //
-//  MCKVerificationSession.m
+//  MCKInvocationVerifier.m
 //  mocka
 //
 //  Created by Markus Gasser on 30.9.2013.
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
-#import "MCKVerificationSession.h"
+#import "MCKInvocationVerifier.h"
 
 #import "MCKMockingContext.h"
 #import "MCKVerificationHandler.h"
@@ -14,7 +14,7 @@
 #import "MCKVerificationResultCollector.h"
 
 
-@interface MCKVerificationSession ()
+@interface MCKInvocationVerifier ()
 
 @property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
 @property (nonatomic, strong) NSMutableArray *invocations;
@@ -22,7 +22,7 @@
 @end
 
 
-@implementation MCKVerificationSession
+@implementation MCKInvocationVerifier
 
 #pragma mark - Initialization
 

@@ -7,7 +7,7 @@
 //
 
 #import "MCKMockingContext.h"
-#import "MCKVerificationSession.h"
+#import "MCKInvocationVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKInvocationStubber.h"
@@ -19,7 +19,6 @@
 
 @interface MCKMockingContext () <MCKVerificationSessionDelegate>
 
-@property (nonatomic, readwrite, strong) MCKVerificationSession *verificationSession;
 @property (nonatomic, readonly) NSMutableArray *mutableRecordedInvocations;
 
 @end
@@ -82,6 +81,8 @@ static __weak id _CurrentContext = nil;
     if ((self = [super init])) {
         _mutableRecordedInvocations = [NSMutableArray array];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
+        _invocationVerifier = [[MCKInvocationVerifier alloc] init];
+        _invocationVerifier.delegate = self;
         _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
         _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
         
@@ -174,13 +175,11 @@ static __weak id _CurrentContext = nil;
 #pragma mark - Verification
 
 - (void)beginVerificationWithTimeout:(NSTimeInterval)timeout {
-    self.verificationSession = [[MCKVerificationSession alloc] initWithTimeout:timeout];
-    self.verificationSession.delegate = self;
+    self.invocationVerifier.timeout = timeout;
     [self updateContextMode:MCKContextModeVerifying];
 }
 
 - (void)endVerification {
-    self.verificationSession = nil;
     [self updateContextMode:MCKContextModeRecording];
 }
 
@@ -193,33 +192,33 @@ static __weak id _CurrentContext = nil;
 }
 
 - (id<MCKVerificationHandler>)verificationHandler {
-    return self.verificationSession.verificationHandler;
+    return self.invocationVerifier.verificationHandler;
 }
 
 - (void)setVerificationHandler:(id<MCKVerificationHandler>)verificationHandler {
-    NSAssert(self.verificationSession != nil, @"Cannot set a verification handler outside a verification session");
-    self.verificationSession.verificationHandler = verificationHandler;
+    NSAssert((self.mode == MCKContextModeVerifying), @"Cannot set a verification handler outside verification mode");
+    self.invocationVerifier.verificationHandler = verificationHandler;
 }
 
 - (void)verifyInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    [self.verificationSession verifyInvocations:self.mutableRecordedInvocations forPrototype:prototype];
+    [self.invocationVerifier verifyInvocations:self.mutableRecordedInvocations forPrototype:prototype];
 }
 
-- (void)verificationSession:(MCKVerificationSession *)session didFailWithReason:(NSString *)reason {
+- (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason {
     [self.failureHandler handleFailureWithReason:reason];
 }
 
-- (void)verificationSessionDidEnd:(MCKVerificationSession *)session {
+- (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session {
     [self endVerification];
 }
 
-- (void)verificationSessionWillProcessTimeout:(MCKVerificationSession *)session {
+- (void)verificationSessionWillProcessTimeout:(MCKInvocationVerifier *)session {
     [self suspendVerification];
 }
 
-- (void)verificationSessionDidProcessTimeout:(MCKVerificationSession *)session {
+- (void)verificationSessionDidProcessTimeout:(MCKInvocationVerifier *)session {
     [self resumeVerification];
 }
 

@@ -9,14 +9,14 @@
 #import "MCKVerificationResultCollector.h"
 
 #import "MCKMockingContext.h"
-#import "MCKVerificationSession.h"
+#import "MCKInvocationVerifier.h"
 
 #import <objc/runtime.h>
 
 
 void _mck_setVerifyGroupCollector(id<MCKVerificationResultCollector> collector) {
     MCKMockingContext *context = [MCKMockingContext currentContext];
-    [context.verificationSession beginGroupRecordingWithCollector:collector];
+    [context.invocationVerifier beginGroupRecordingWithCollector:collector];
 }
 
 BOOL _mck_executeGroupCalls(id testCase) {
@@ -28,7 +28,7 @@ BOOL _mck_executeGroupCalls(id testCase) {
         return YES;
     } else {
         MCKMockingContext *context = [MCKMockingContext currentContext];
-        [context.verificationSession finishGroupRecording];
+        [context.invocationVerifier finishGroupRecording];
         objc_setAssociatedObject(testCase, &ExecutingKey, nil, OBJC_ASSOCIATION_COPY);
         return NO;
     }

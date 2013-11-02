@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "MCKVerificationSession.h"
+#import "MCKInvocationVerifier.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 
@@ -32,7 +32,7 @@
 
 @interface MCKVerificationSessionTest : XCTestCase @end
 @implementation MCKVerificationSessionTest {
-    MCKVerificationSession *session;
+    MCKInvocationVerifier *session;
     VerificationSessionDelegate *sessionDelegate;
     NSMutableArray *invocations;
     NSArray *results;
@@ -42,7 +42,7 @@
 
 - (void)setUp {
     sessionDelegate = [[VerificationSessionDelegate alloc] init];
-    session = [[MCKVerificationSession alloc] init];
+    session = [[MCKInvocationVerifier alloc] init];
     session.delegate = sessionDelegate;
     
     invocations = [NSMutableArray arrayWithObjects:
@@ -419,25 +419,25 @@
 
 @implementation VerificationSessionDelegate
 
-- (void)verificationSession:(MCKVerificationSession *)session didFailWithReason:(NSString *)reason {
+- (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason {
     if (self.onFailure != nil) {
         self.onFailure(reason);
     }
 }
 
-- (void)verificationSessionDidEnd:(MCKVerificationSession *)session {
+- (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session {
     if (self.onFinish != nil) {
         self.onFinish();
     }
 }
 
-- (void)verificationSessionWillProcessTimeout:(MCKVerificationSession *)session {
+- (void)verificationSessionWillProcessTimeout:(MCKInvocationVerifier *)session {
     if (self.onWillProcessTimeout != nil) {
         self.onWillProcessTimeout();
     }
 }
 
-- (void)verificationSessionDidProcessTimeout:(MCKVerificationSession *)session {
+- (void)verificationSessionDidProcessTimeout:(MCKInvocationVerifier *)session {
     if (self.onDidProcessTimeout != nil) {
         self.onDidProcessTimeout();
     }

@@ -1,5 +1,5 @@
 //
-//  MCKVerificationSession.h
+//  MCKInvocationVerifier.h
 //  mocka
 //
 //  Created by Markus Gasser on 30.9.2013.
@@ -16,7 +16,7 @@
 @class MCKMockingContext;
 
 
-@interface MCKVerificationSession : NSObject
+@interface MCKInvocationVerifier : NSObject
 
 - (instancetype)initWithTimeout:(NSTimeInterval)timeout;
 
@@ -34,10 +34,10 @@
 
 @protocol MCKVerificationSessionDelegate <NSObject>
 
-- (void)verificationSession:(MCKVerificationSession *)session didFailWithReason:(NSString *)reason;
-- (void)verificationSessionDidEnd:(MCKVerificationSession *)session;
+- (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason;
+- (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session;
 
-- (void)verificationSessionWillProcessTimeout:(MCKVerificationSession *)session;
-- (void)verificationSessionDidProcessTimeout:(MCKVerificationSession *)session;
+- (void)verificationSessionWillProcessTimeout:(MCKInvocationVerifier *)session;
+- (void)verificationSessionDidProcessTimeout:(MCKInvocationVerifier *)session;
 
 @end

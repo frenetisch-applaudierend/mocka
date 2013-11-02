@@ -225,20 +225,6 @@
     XCTAssertEqual(context.mode, MCKContextModeVerifying, @"Resuming did not switch to verification mode");
 }
 
-- (void)testSuspendingAndResumingVerificationPreservesVerificationSession {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    
-    id session = context.verificationSession;
-    
-    // when
-    [context suspendVerification];
-    [context resumeVerification];
-    
-    // then
-    XCTAssertTrue(context.verificationSession == session, @"Session was not preserved");
-}
-
 
 #pragma mark - Test Supporting Matchers
 

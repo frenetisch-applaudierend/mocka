@@ -16,7 +16,7 @@
 @class MCKInvocationStubber;
 @class MCKStub;
 @class MCKArgumentMatcherRecorder;
-@class MCKVerificationSession;
+@class MCKInvocationVerifier;
 @class MCKFailureHandler;
 
 
@@ -41,6 +41,14 @@ typedef enum {
 - (instancetype)initWithTestCase:(id)testCase;
 
 
+#pragma mark - Core Objects
+
+@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
+@property (nonatomic, readonly) MCKInvocationVerifier *invocationVerifier;
+@property (nonatomic, readonly) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
+@property (nonatomic, strong) MCKFailureHandler *failureHandler;
+
+
 #pragma mark - Update Location Data
 
 - (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
@@ -60,7 +68,7 @@ typedef enum {
 
 #pragma mark - Stubbing
 
-@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
+
 @property (nonatomic, readonly) MCKStub *activeStub;
 
 - (void)beginStubbing;
@@ -71,7 +79,6 @@ typedef enum {
 
 #pragma mark - Verifying
 
-@property (nonatomic, readonly, strong) MCKVerificationSession *verificationSession;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 
 - (void)beginVerificationWithTimeout:(NSTimeInterval)timeout;
@@ -83,15 +90,11 @@ typedef enum {
 
 #pragma mark - Argument Matchers
 
-@property (nonatomic, readonly) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
-
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 - (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 
 
 #pragma mark - Handling Failures
-
-@property (nonatomic, strong) MCKFailureHandler *failureHandler;
 
 - (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);
 
