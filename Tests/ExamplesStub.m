@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "ExamplesCommon.h"
 
 
@@ -33,10 +34,9 @@
     // when you have an unstubbed method it will return the "default" value
     // for objects nil, for numbers 0 and for structs a struct with all fields 0
     
-    XCTAssertTrue([mockArray objectAtIndex:0] == nil, @"Default value for object returns should be nil");
-    XCTAssertTrue([mockArray count] == 0, @"Default value for primitive number returns should be 0");
-    XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0)),
-                  @"Default value for struct returns should be a zero-struct");
+    expect([mockArray objectAtIndex:0]).to.equal(nil);
+    expect([mockArray count]).to.equal(0);
+    expect(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0))).to.beTruthy();
 }
 
 - (void)testSettingCustomObjectReturnValue {
@@ -46,23 +46,42 @@
         return @"Hello World";
     };
     
-    XCTAssertEqualObjects([mockArray objectAtIndex:0], @"Hello World", @"Wrong return value");
+    expect([mockArray objectAtIndex:0]).to.equal(@"Hello World");
 }
 
 - (void)testSettingCustomPrimitiveNumberReturnValue {
     // you can set a custom return value for primitive numbers
     
-    whenCalling [mockArray count] thenDo returnValue(10);
+    stubCall ([mockArray count]) with {
+        return 10;
+    };
 
-    XCTAssertEqual([mockArray count], (NSUInteger)10, @"Wrong return value");
+    expect([mockArray count]).to.equal(10);
 }
 
 - (void)testSettingCustomStructReturnValue {
     // you can also set a custom return value for structs
     
-    whenCalling [mockString rangeOfString:@"Foo"] thenDo returnStruct(NSMakeRange(10, 20));
+    stubCall ([mockString rangeOfString:@"Foo"]) with {
+        return NSMakeRange(10, 20);
+    };
     
-    XCTAssertTrue(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20)), @"Wrong return value");
+    expect(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20))).to.beTruthy();
+}
+
+
+#pragma mark - Accessing Method Arguments from Stubs
+
+- (void)testMethodArgumentsArePassedToBlockIfRequested {
+    // if the stub block takes parameters they are taken from the stubbed invocation
+    
+    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+        return @(index);
+    };
+    
+    expect([mockArray objectAtIndex:0]).to.equal(@0);
+    expect([mockArray objectAtIndex:1]).to.equal(@1);
+    expect([mockArray objectAtIndex:99]).to.equal(@99);
 }
 
 
