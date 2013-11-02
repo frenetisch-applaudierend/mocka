@@ -20,11 +20,6 @@
 #import "MCKVerifyNoInteractions.h"
 
 #import "MCKStub.h"
-#import "MCKStubAction.h"
-#import "MCKReturnStubAction.h"
-#import "MCKPerformBlockStubAction.h"
-#import "MCKThrowExceptionStubAction.h"
-#import "MCKSetOutParameterStubAction.h"
 
 #import "MCKArgumentMatcher.h"
 #import "MCKAnyArgumentMatcher.h"

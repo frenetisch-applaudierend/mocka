@@ -15,7 +15,6 @@
 #import "MCKStub.h"
 
 #import "MCKDefaultVerificationHandler.h"
-#import "MCKReturnStubAction.h"
 #import "MCKArgumentMatcherRecorder.h"
 
 #import "TestExceptionUtils.h"

@@ -11,7 +11,6 @@
 #import "MCKInvocationStubber.h"
 #import "MCKStub.h"
 
-#import "MCKPerformBlockStubAction.h"
 #import "MCKBlockArgumentMatcher.h"
 
 #import "NSInvocation+TestSupport.h"
