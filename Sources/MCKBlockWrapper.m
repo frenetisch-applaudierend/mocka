@@ -86,6 +86,7 @@ static const char *BlockSig(id blockObj) {
         NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:BlockSig(block)];
         _blockInvocation = [NSInvocation invocationWithMethodSignature:signature];
         [_blockInvocation setArgument:&block atIndex:0]; // the block is the implicit first argument
+        [_blockInvocation retainArguments];
     }
     return self;
 }
