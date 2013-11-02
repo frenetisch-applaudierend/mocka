@@ -71,6 +71,7 @@
 
 - (void)applyStubBlockToInvocation:(NSInvocation *)invocation {
     MCKBlockWrapper *block = [MCKBlockWrapper wrapperForBlock:self.stubBlock];
+    [self copyArgumentsFromInvocation:invocation toBlock:block];
     [block invoke];
     
     NSAssert(invocation.methodSignature.methodReturnLength == block.blockSignature.methodReturnLength,
@@ -81,6 +82,24 @@
         [block getReturnValue:returnValueHolder];
         [invocation setReturnValue:returnValueHolder];
         free(returnValueHolder);
+    }
+}
+
+- (void)copyArgumentsFromInvocation:(NSInvocation *)invocation toBlock:(MCKBlockWrapper *)block {
+    if (block.blockSignature.numberOfArguments == 1) {
+        return; // block has no arguments
+    }
+    
+    if (invocation.methodSignature.numberOfArguments == (block.blockSignature.numberOfArguments + 1)) {
+        // block has the same argument count as the methods arguments, does not include self and _cmd
+        void *argValueHolder = malloc(invocation.methodSignature.frameLength); // max length for any argument
+        for (NSUInteger arg = 2; arg < invocation.methodSignature.numberOfArguments; arg++) {
+            [invocation getArgument:argValueHolder atIndex:arg];
+            [block setParameter:argValueHolder atIndex:(arg - 2)];
+        }
+        free(argValueHolder);
+    } else {
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Wrong block type" userInfo:nil];
     }
 }
 
