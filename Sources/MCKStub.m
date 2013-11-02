@@ -7,7 +7,6 @@
 //
 
 #import "MCKStub.h"
-#import "MCKStubAction.h"
 #import "MCKInvocationPrototype.h"
 #import "MCKBlockWrapper.h"
 #import "MCKMockingContext.h"
@@ -17,7 +16,6 @@
 @interface MCKStub ()
 
 @property (nonatomic, readonly) NSMutableArray *recordedPrototypes;
-@property (nonatomic, readonly) NSMutableArray *recordedActions;
 @property (nonatomic, strong) MCKBlockWrapper *stubBlockWrapper;
 
 @end
@@ -30,7 +28,6 @@
 - (instancetype)init {
     if ((self = [super init])) {
         _recordedPrototypes = [NSMutableArray array];
-        _recordedActions = [NSMutableArray array];
     }
     return self;
 }
@@ -40,10 +37,6 @@
 
 - (NSArray *)invocationPrototypes {
     return [self.recordedPrototypes copy];
-}
-
-- (NSArray *)actions {
-    return [self.recordedActions copy];
 }
 
 - (void)setStubBlock:(id)stubBlock {
@@ -66,10 +59,6 @@
     [self.recordedPrototypes addObject:prototype];
 }
 
-- (void)addAction:(id<MCKStubAction>)action {
-    [self.recordedActions addObject:action];
-}
-
 
 #pragma mark - Matching and Applying Stub
 
@@ -83,16 +72,8 @@
 }
 
 - (void)applyToInvocation:(NSInvocation *)invocation {
-    if (self.stubBlockWrapper != nil) {
-        [self applyStubBlockToInvocation:invocation];
-    }
+    NSAssert(self.stubBlockWrapper != nil, @"Should have a stub block by now");
     
-    for (id<MCKStubAction> action in self.recordedActions) {
-        [action performWithInvocation:invocation];
-    }
-}
-
-- (void)applyStubBlockToInvocation:(NSInvocation *)invocation {
     [self copyArgumentsFromInvocation:invocation toBlock:self.stubBlockWrapper];
     [self.stubBlockWrapper invoke];
     [self copyReturnValueFromBlock:self.stubBlockWrapper toInvocation:invocation];

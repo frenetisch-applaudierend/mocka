@@ -152,6 +152,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)endStubbing {
+    [self.invocationStubber finishRecordingStubGroup];
     [self updateContextMode:MCKContextModeRecording];
 }
 
@@ -163,11 +164,6 @@ static __weak id _CurrentContext = nil;
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
     return [self.invocationStubber hasStubsRecordedForInvocation:invocation];
-}
-
-- (void)addStubAction:(id<MCKStubAction>)action {
-    [self.invocationStubber addActionToLastStub:action];
-    [self updateContextMode:MCKContextModeRecording];
 }
 
 - (MCKStub *)activeStub {

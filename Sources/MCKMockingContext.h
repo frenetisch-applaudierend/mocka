@@ -64,9 +64,9 @@ typedef enum {
 @property (nonatomic, readonly) MCKStub *activeStub;
 
 - (void)beginStubbing;
+- (void)endStubbing;
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-- (void)addStubAction:(id<MCKStubAction>)action;
 
 
 #pragma mark - Verifying

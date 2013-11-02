@@ -18,7 +18,7 @@
 #pragma mark - Creating and Updating Stubs
 
 - (void)recordStubPrototype:(MCKInvocationPrototype *)prototype;
-- (void)addActionToLastStub:(id<MCKStubAction>)action;
+- (void)finishRecordingStubGroup;
 
 
 #pragma mark - Applying Stub Actions

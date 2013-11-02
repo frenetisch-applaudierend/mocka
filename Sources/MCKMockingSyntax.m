@@ -35,9 +35,8 @@ MCKStub* _mck_stubCalls(id testCase, const char *fileName, NSUInteger lineNumber
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
     [context beginStubbing];
-    
     calls();
-    [context addStubAction:nil]; // notify end of stubbing
+    [context endStubbing];
     
     return context.activeStub;
 }

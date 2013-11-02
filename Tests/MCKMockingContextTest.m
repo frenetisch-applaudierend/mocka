@@ -163,13 +163,13 @@
     XCTAssertEqual(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
 }
 
-- (void)testThatAddingStubActionSwitchesToRecordingMode {
+- (void)testThatEndStubbingSwitchesToRecordingMode {
     // given
     [context beginStubbing];
     [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
     
     // when
-    [context addStubAction:[[MCKReturnStubAction alloc] init]];
+    [context endStubbing];
     
     // then
     XCTAssertEqual(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");

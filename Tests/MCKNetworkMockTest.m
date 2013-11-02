@@ -11,7 +11,7 @@
 #import "MCKNetworkMock_Private.h"
 #import "MCKNetworkRequestMatcher.h"
 #import "MCKAnyArgumentMatcher.h"
-#import "MCKReturnStubAction.h"
+#import "MCKStub.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 
 #import "FakeMockingContext.h"
@@ -115,7 +115,11 @@
     // add a stubbing that matches always
     [mockingContext beginStubbing];
     [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
-    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:response]];
+    [mockingContext endStubbing];
+    
+    mockingContext.activeStub.stubBlock = ^{
+        return response;
+    };
     
     // then
     XCTAssertEqualObjects([networkMock responseForRequest:request], response, @"Wrong response returned");
@@ -129,7 +133,11 @@
     // add a stubbing that matches always
     [mockingContext beginStubbing];
     [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
-    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:dataReturn]];
+    [mockingContext endStubbing];
+    
+    mockingContext.activeStub.stubBlock = ^{
+        return dataReturn;
+    };
     
     // then
     OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
@@ -145,7 +153,11 @@
     // add a stubbing that matches always
     [mockingContext beginStubbing];
     [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
-    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:stringReturn]];
+    [mockingContext endStubbing];
+    
+    mockingContext.activeStub.stubBlock = ^{
+        return stringReturn;
+    };
     
     // then
     OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
@@ -162,7 +174,11 @@
     // add a stubbing that matches always
     [mockingContext beginStubbing];
     [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
-    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:dictionaryReturn]];
+    [mockingContext endStubbing];
+    
+    mockingContext.activeStub.stubBlock = ^{
+        return dictionaryReturn;
+    };
     
     // then
     OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
@@ -180,7 +196,11 @@
     // add a stubbing that matches always
     [mockingContext beginStubbing];
     [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
-    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:arrayReturn]];
+    [mockingContext endStubbing];
+    
+    mockingContext.activeStub.stubBlock = ^{
+        return arrayReturn;
+    };
     
     // then
     OHHTTPStubsResponse *response = [networkMock responseForRequest:request];
@@ -198,7 +218,11 @@
     // add a stubbing that matches always
     [mockingContext beginStubbing];
     [mockingContext handleInvocation:[networkMock handlerInvocationForRequest:[[MCKAnyArgumentMatcher alloc] init]]];
-    [mockingContext addStubAction:[[MCKReturnStubAction alloc] initWithValue:errorReturn]];
+    [mockingContext endStubbing];
+    
+    mockingContext.activeStub.stubBlock = ^{
+        return errorReturn;
+    };
     
     // then
     OHHTTPStubsResponse *response = [networkMock responseForRequest:request];

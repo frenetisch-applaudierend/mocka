@@ -12,5 +12,4 @@
 
 
 void _mck_addStubAction(id<MCKStubAction> action) {
-    [[MCKMockingContext currentContext] addStubAction:action];
 }
