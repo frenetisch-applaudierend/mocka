@@ -6,7 +6,10 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
+
 #import "Mocka.h"
 
 #import "TestExceptionUtils.h"
@@ -248,15 +251,17 @@
 #pragma mark - Test Stubbing
 
 - (void)testThatUnstubbedMethodsReturnDefaultValues {
-    XCTAssertNil([object objectMethodCallWithoutParameters], @"Should return nil for unstubbed object return");
-    XCTAssertEqual([object intMethodCallWithoutParameters], (int)0, @"Should return 0 for unstubbed int return");
-    XCTAssertEqual([object intPointerMethodCallWithoutParameters], (int*)NULL, @"Should return NULL for unstubbed pointer return");
-    XCTAssertTrue(NSEqualRanges(NSMakeRange(0, 0), [object rangeMethodCallWithoutParameters]), @"Should return uninitialized value for unstubbed range");
+    expect([object objectMethodCallWithoutParameters]).to.equal(nil);
+    expect([object intMethodCallWithoutParameters]).to.equal(0);
+    expect([object intPointerMethodCallWithoutParameters]).to.equal(NULL);
+    expect(NSEqualRanges(NSMakeRange(0, 0), [object rangeMethodCallWithoutParameters])).to.beTruthy();
 }
 
 - (void)testThatStubbedReturnValueIsReturned {
     // given
-    whenCalling [object objectMethodCallWithoutParameters]; thenDo returnValue(@"Hello World");
+    stubCall ([object objectMethodCallWithoutParameters]) with {
+        return @"Hello World";
+    };
     
     // when
     id result = [object objectMethodCallWithoutParameters];
@@ -267,17 +272,18 @@
 
 - (void)testMultipleStubActions {
     // given
-    __block NSString *marker = nil;
-    whenCalling [object objectMethodCallWithoutParameters] thenDo {
-        performBlock(^(NSInvocation *inv) {
-            marker = @"called";
-        });
-        returnValue(@20);
+    __block BOOL called = YES;
+    stubCall ([object objectMethodCallWithoutParameters]) with {
+        called = YES;
+        return @20;
     };
     
+    // when
+    id returnValue = [object objectMethodCallWithoutParameters];
+    
     // then
-    XCTAssertEqualObjects([object objectMethodCallWithoutParameters], @20, @"Wrong return value");
-    XCTAssertEqualObjects(marker, @"called", @"Marker was not set or wrongly set");
+    expect(called).to.beTruthy();
+    expect(returnValue).to.equal(@20);
 }
 
 - (void)testThatSubsequentStubbingsDontInterfere {
@@ -289,14 +295,14 @@
     __block NSString *marker = nil;
     
     // when
-    whenCalling [object1 objectMethodCallWithoutParameters]; thenDo returnValue(@"First Object");
-    whenCalling [object2 objectMethodCallWithoutParameters]; thenDo returnValue(@"Second Object");
-    whenCalling [object3 objectMethodCallWithoutParameters]; thenDo performBlock(^(NSInvocation *inv) {
+    stubCall ([object1 objectMethodCallWithoutParameters]) with { return @"First Object"; };
+    stubCall ([object2 objectMethodCallWithoutParameters]) with { return @"Second Object"; };
+    stubCall ([object3 objectMethodCallWithoutParameters]) with {
         marker = @"Third Object";
-    });
+        return nil;
+    };
     
     [object4 objectMethodCallWithoutParameters];
-    
     
     // then
     XCTAssertEqualObjects([object1 objectMethodCallWithoutParameters], @"First Object", @"Wrong return value for object");
@@ -313,20 +319,25 @@
 
 - (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
     // given
-    __block NSString *marker = nil;
-    whenCalling [object objectMethodCallWithoutParameters] thenDo {
-        performBlock(^(NSInvocation *inv) {
-            marker = @"called";
-        });
-        returnValue(@20);
-    }
+    __block BOOL firstWasCalled = NO;
+    stubCall ([object objectMethodCallWithoutParameters]) with {
+        firstWasCalled = YES;
+        return @"First";
+    };
+    
+    __block BOOL secondWasCalled = NO;
+    stubCall ([object objectMethodCallWithoutParameters]) with {
+        secondWasCalled = YES;
+        return @"Second";
+    };
     
     // when
-    whenCalling [object objectMethodCallWithoutParameters]; thenDo returnValue(@30);
+    id returnValue = [object objectMethodCallWithoutParameters];
     
     // then
-    XCTAssertEqualObjects([object objectMethodCallWithoutParameters], @30, @"Wrong return value for object");
-    XCTAssertEqualObjects(marker, @"called", @"Marker was not set");
+    expect(firstWasCalled).to.beTruthy();
+    expect(secondWasCalled).to.beTruthy();
+    expect(returnValue).to.equal(@"Second");
 }
 
 - (void)testThatMultipleStubbingsCanBeCombined {
@@ -335,64 +346,71 @@
     TestObject *object2 = mock([TestObject class]);
     
     // when
-    whenCalling {
+    stubCalls ({
         [object1 objectMethodCallWithoutParameters];
         [object2 objectMethodCallWithoutParameters];
+    }) with {
+        return @10;
     };
-    thenDo returnValue(@10);
     
     // then
-    XCTAssertEqualObjects([object1 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
-    XCTAssertEqualObjects([object2 objectMethodCallWithoutParameters], @10, @"Wrong return value for object");
+    expect([object1 objectMethodCallWithoutParameters]).to.equal(@10);
+    expect([object2 objectMethodCallWithoutParameters]).to.equal(@10);
 }
 
-- (void)testStubbingArray {
+- (void)testStubbingWithSelfAndCmd {
     // given
     NSMutableArray *array = mock([NSMutableArray class]);
     
-    whenCalling [array count] thenDo {
-        performBlock(^(NSInvocation *inv) { [self description]; });
-        returnValue(10);
-    }
+    stubCall ([array count]) with (NSArray *self, SEL _cmd) {
+        [self description];
+        return 10;
+    };
     
     // then
-    XCTAssertEqual((int)[array count], (int)10, @"[array count] stub does not work");
+    expect([array count]).to.equal(10);
 }
 
 
 #pragma mark - Test Stubbing with Argument Matchers
 
 - (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher {
-    // when
+    // given
     __block BOOL methodMatched = NO;
-    whenCalling [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; thenDo performBlock(^(NSInvocation *inv) {
+    stubCall ([object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
         methodMatched = YES;
-    });
+    };
+    
+    // when
+    [object voidMethodCallWithIntParam1:10 intParam2:20];
     
     // then
-    [object voidMethodCallWithIntParam1:10 intParam2:20];
-    XCTAssertTrue(methodMatched, @"Method was not matched");
+    expect(methodMatched).to.beTruthy();
 }
 
 - (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
-    // when
+    // given
     __block int invocationCount = 0;
-    whenCalling [object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]; thenDo performBlock(^(NSInvocation *inv) {
+    stubCall ([object voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
         invocationCount++;
-    });
+    };
     
-    // then
+    // when
     [object voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
     [object voidMethodCallWithIntParam1:NSIntegerMax intParam2:NSIntegerMin];
-    XCTAssertEqual(invocationCount, 2, @"Not all egde cases match");
+    
+    // then
+    expect(invocationCount).to.equal(2);
 }
 
 - (void)testThatCallingStubbedOutParameterCallWithNullWorks {
     // given
-    whenCalling [object boolMethodCallWithError:anyObjectPointer(__autoreleasing)] thenDo returnValue(NO);
+    stubCall ([object boolMethodCallWithError:anyObjectPointer(__autoreleasing)]) with {
+        return NO;
+    };
     
     // if it crashes hard here then the test has failed (a EXC_BAD_ACCESS is more likely than an exception)
-    XCTAssertNoThrow([object boolMethodCallWithError:NULL], @"Should not crash");
+    expect(^{ [object boolMethodCallWithError:NULL]; }).notTo.raiseAny();
 }
 
 
@@ -403,14 +421,16 @@
     CategoriesTestMockedClass *mock = mockForClass(CategoriesTestMockedClass);
     
     __block BOOL called = NO;
-    whenCalling [mock categoryMethodInMockedClass] thenDo performBlock(^(NSInvocation *inv) {
+    stubCall ([mock categoryMethodInMockedClass]) with {
         called = YES;
-    });
+    };
     
+    // when
     [mock categoryMethodInMockedClass];
     
+    // then
+    expect(called).to.beTruthy();
     verifyCall [mock categoryMethodInMockedClass];
-    XCTAssertTrue(called, @"Should have been called");
 }
 
 - (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
@@ -418,14 +438,16 @@
     CategoriesTestMockedClass *mock = mockForClass(CategoriesTestMockedClass);
     
     __block BOOL called = NO;
-    whenCalling [mock categoryMethodInMockedClassSuperclass] thenDo performBlock(^(NSInvocation *inv) {
+    stubCall ([mock categoryMethodInMockedClassSuperclass]) with {
         called = YES;
-    });
+    };
     
+    // when
     [mock categoryMethodInMockedClassSuperclass];
     
+    // then
+    expect(called).to.beTruthy();
     verifyCall [mock categoryMethodInMockedClassSuperclass];
-    XCTAssertTrue(called, @"Should have been called");
 }
 
 @end
