@@ -133,9 +133,9 @@
 
 - (void)testThatStubAppliesBlockWithParamsToInvocationWithSameParams {
     // given
-    __block int passedArg1 = 0;
-    __block int passedArg2 = 0;
-    stub.stubBlock = ^(int arg1, int arg2) {
+    __block NSInteger passedArg1 = 0;
+    __block NSInteger passedArg2 = 0;
+    stub.stubBlock = ^(NSInteger arg1, NSInteger arg2) {
         passedArg1 = arg1;
         passedArg2 = arg2;
     };
@@ -155,9 +155,9 @@
     // given
     __block id passedSelf = nil;
     __block SEL passedCmd = NULL;
-    __block int passedArg1 = 0;
-    __block int passedArg2 = 0;
-    stub.stubBlock = ^(TestObject *self, SEL _cmd, int arg1, int arg2) {
+    __block NSInteger passedArg1 = 0;
+    __block NSInteger passedArg2 = 0;
+    stub.stubBlock = ^(TestObject *self, SEL _cmd, NSInteger arg1, NSInteger arg2) {
         passedSelf = self;
         passedCmd = _cmd;
         passedArg1 = arg1;
