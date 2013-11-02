@@ -47,7 +47,3 @@ SEL mck_anySelector(void) {
 void* mck_anyPointer(void) {
     return mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]);
 }
-
-mck_objptr mck_anyObjectPointer(void) {
-    return (mck_objptr)mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]);
-}

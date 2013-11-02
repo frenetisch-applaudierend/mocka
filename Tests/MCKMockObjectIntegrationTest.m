@@ -389,7 +389,7 @@
 
 - (void)testThatCallingStubbedOutParameterCallWithNullWorks {
     // given
-    whenCalling [object boolMethodCallWithError:anyObjectPointer()] thenDo returnValue(NO);
+    whenCalling [object boolMethodCallWithError:anyObjectPointer(__autoreleasing)] thenDo returnValue(NO);
     
     // if it crashes hard here then the test has failed (a EXC_BAD_ACCESS is more likely than an exception)
     XCTAssertNoThrow([object boolMethodCallWithError:NULL], @"Should not crash");

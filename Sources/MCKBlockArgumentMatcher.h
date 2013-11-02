@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "MCKArgumentMatcher.h"
-#import "MCKTypes.h"
 
 
 @interface MCKBlockArgumentMatcher : NSObject <MCKArgumentMatcher>
@@ -33,7 +32,7 @@ extern BOOL mck_boolMatching(BOOL(^block)(BOOL candidate));
 extern const char* mck_cStringMatching(BOOL(^block)(const char *candidate));
 extern SEL mck_selectorMatching(BOOL(^block)(SEL candidate));
 extern void* mck_pointerMatching(BOOL(^block)(void *candidate));
-extern mck_objptr mck_objectPointerMatching(BOOL(^block)(mck_objptr candidate));
+#define mck_objectPointerMatching(TYPE, CND) ((id TYPE *)mck_pointerMatching((void *)CND))
 #define mck_structMatching(STRT_TYPE, BLOCK) mck_registerStructMatcher(\
     [MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {\
         STRT_TYPE val; [candidate getValue:&val]; BOOL(^block)(STRT_TYPE) = BLOCK;\
@@ -53,7 +52,7 @@ extern mck_objptr mck_objectPointerMatching(BOOL(^block)(mck_objptr candidate));
     static inline char* cStringMatching(BOOL(^block)(const char *candidate)) { return cStringMatching(block); }
     static inline SEL selectorMatching(BOOL(^block)(SEL candidate)) { return selectorMatching(block); }
     static inline void* pointerMatching(BOOL(^block)(void *candidate)) { return pointerMatching(block); }
-    static inline mck_objptr objectPointerMatching(BOOL(^block)(mck_objptr candidate)) { return objectPointerMatching(block); }
+    #define objectPointerMatching(TYPE, CND) mck_objectPointerMatching(TYPE, CND)
     #define structMatching(STRT_TYPE, BLOCK) mck_structMatching(STRT_TYPE, BLOCK)
 
 #endif

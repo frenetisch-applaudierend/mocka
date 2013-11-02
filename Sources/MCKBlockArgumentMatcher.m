@@ -78,9 +78,3 @@ SEL mck_selectorMatching(BOOL(^block)(SEL candidate)) {
 void* mck_pointerMatching(BOOL(^block)(void *candidate)) {
     return mck_registerPointerMatcher(CREATE_MATCHER(block, mck_decodePointerArgument));
 }
-
-mck_objptr mck_objectPointerMatching(BOOL(^block)(mck_objptr candidate)) {
-    return (mck_objptr)mck_registerPointerMatcher([MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {
-        return (block != nil ? block((mck_objptr)mck_decodePointerArgument(candidate)) : YES);
-    }]);
-}

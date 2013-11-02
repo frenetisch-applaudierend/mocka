@@ -95,42 +95,33 @@
 }
 
 
-#pragma mark - Stubbing Exceptions
+#pragma mark - Executing Arbitrary Code
 
-- (void)testThrowingPreconfiguredExceptionFromMockedMethod {
-    // you can throw a preconfigured exception in a stubbed method
+- (void)testThrowingCreatedExceptionFromStubbedMethod {
+    // you can throw an exception in a stubbed method
     
-    NSException *stubException = [NSException exceptionWithName:NSRangeException reason:@"Index 1 out of bounds" userInfo:nil];
-    whenCalling [mockArray objectAtIndex:1] thenDo throwException(stubException);
+    stubCall ([mockArray objectAtIndex:1]) with {
+        @throw [NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil];
+    };
     
-    @try {
-        [mockArray objectAtIndex:1];
-        XCTFail(@"Should have thrown");
-    } @catch (id exception) {
-        XCTAssertEqualObjects(exception, stubException, @"Wrong exception was thrown");
-    }
+    expect(^{ [mockArray objectAtIndex:1]; }).to.raise(NSRangeException);
 }
 
-- (void)testThrowingCreatedExceptionFromMockedMethod {
-    // you can throw also a new exception in a stubbed method
+- (void)testSettingOutParametersFromStubbedMethod {
+    // you can set out parameters passed by reference
     
-    whenCalling [mockArray objectAtIndex:1] thenDo throwNewException(NSRangeException, @"Index 1 out of bounds", nil);
+    stubCall ([mockArray getObjects:anyObjectPointer(__unsafe_unretained) range:anyStruct(NSRange)])
+    with (id __unsafe_unretained objects[], NSRange range) {
+        objects[0] = @"Hello";
+        objects[1] = @"World";
+    };
     
-    XCTAssertThrowsSpecificNamed([mockArray objectAtIndex:1], NSException, NSRangeException, @"No or wrong exception thrown");
-}
-
-
-#pragma mark - Calling Arbitrary Code From Stubs
-
-- (void)testCallingBlockFromStubbedMethod {
-    // you can provide a block which gets the NSInvocation passed which you can manipulate at will
+    id __unsafe_unretained objects[2];
+    [mockArray getObjects:objects range:NSMakeRange(0, 2)];
     
-    whenCalling [mockArray objectAtIndex:11] thenDo performBlock(^(NSInvocation *inv) {
-        NSNumber *returnValue = @([inv unsignedIntegerParameterAtIndex:0] + 1);
-        [inv setReturnValue:&returnValue];
-    });
-    
-    XCTAssertEqualObjects([mockArray objectAtIndex:11], @12, @"Wrong return value generated");
+    id object0 = objects[0]; id object1 = objects[1];
+    expect(object0).to.equal(@"Hello");
+    expect(object1).to.equal(@"World");
 }
 
 
@@ -208,7 +199,8 @@
     // you can set out-parameters using setOutParameterAtIndex(idx, value);
     
     NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
-    whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
+    whenCalling [mockString writeToFile:anyObject() atomically:anyBool()
+                               encoding:anyInt() error:anyObjectPointer(__autoreleasing)] thenDo {
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
     };
@@ -222,7 +214,8 @@
     // passing NULL as the out parameter will not cause any trouble
     
     NSError *testError = [NSError errorWithDomain:@"TestDomain" code:1 userInfo:nil];
-    whenCalling [mockString writeToFile:anyObject() atomically:anyBool() encoding:anyInt() error:anyObjectPointer()] thenDo {
+    whenCalling [mockString writeToFile:anyObject() atomically:anyBool()
+                               encoding:anyInt() error:anyObjectPointer(__autoreleasing)] thenDo {
         setOutParameterAtIndex(3, testError);
         returnValue(NO);
     };

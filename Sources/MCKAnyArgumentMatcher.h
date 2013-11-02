@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "MCKArgumentMatcher.h"
-#import "MCKTypes.h"
 
 
 @interface MCKAnyArgumentMatcher : NSObject <MCKArgumentMatcher>
@@ -25,8 +24,9 @@ extern BOOL mck_anyBool(void);
 extern char* mck_anyCString(void);
 extern SEL mck_anySelector(void);
 extern void* mck_anyPointer(void);
-extern mck_objptr mck_anyObjectPointer(void);
-#define mck_anyStruct(STRT_TYPE) mck_registerStructMatcher([[MCKAnyArgumentMatcher alloc] init], STRT_TYPE)
+
+#define mck_anyObjectPointer(TYPE) ((id TYPE *)mck_anyPointer())
+#define mck_anyStruct(STRT_TYPE)   mck_registerStructMatcher([[MCKAnyArgumentMatcher alloc] init], STRT_TYPE)
 
 
 #ifndef MCK_DISABLE_NICE_SYNTAX
@@ -38,7 +38,8 @@ extern mck_objptr mck_anyObjectPointer(void);
     static inline char* anyCString(void) { return mck_anyCString(); }
     static inline SEL anySelector(void) { return mck_anySelector(); }
     static inline void* anyPointer(void) { return mck_anyPointer(); }
-    static inline mck_objptr anyObjectPointer(void) { return mck_anyObjectPointer(); }
-    #define anyStruct(structType) mck_anyStruct(structType)
+
+    #define anyObjectPointer(TYPE) mck_anyObjectPointer(TYPE)
+    #define anyStruct(structType)  mck_anyStruct(structType)
 
 #endif
