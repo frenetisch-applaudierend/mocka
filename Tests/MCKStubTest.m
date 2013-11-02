@@ -84,6 +84,32 @@
     expect(passedArg2).to.equal(20);
 }
 
+- (void)testThatStubAppliesBlockWithParamsToInvocationWithSameParamsForIncludedSelfAndCmd {
+    // given
+    __block id passedSelf = nil;
+    __block SEL passedCmd = NULL;
+    __block int passedArg1 = 0;
+    __block int passedArg2 = 0;
+    stub.stubBlock = ^(TestObject *self, SEL _cmd, int arg1, int arg2) {
+        passedSelf = self;
+        passedCmd = _cmd;
+        passedArg1 = arg1;
+        passedArg2 = arg2;
+    };
+    
+    SEL selector = @selector(voidMethodCallWithIntParam1:intParam2:);
+    NSInvocation *invocation = [NSInvocation invocationForTarget:testObject selectorAndArguments:selector, 10, 20];
+    
+    // when
+    [stub applyToInvocation:invocation];
+    
+    // then
+    expect(passedSelf).to.equal(testObject);
+    expect(passedCmd).to.equal(selector);
+    expect(passedArg1).to.equal(10);
+    expect(passedArg2).to.equal(20);
+}
+
 
 #pragma mark - Test Getting Return Values
 

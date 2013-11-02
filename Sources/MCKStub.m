@@ -98,8 +98,16 @@
             [block setParameter:argValueHolder atIndex:(arg - 2)];
         }
         free(argValueHolder);
+    } else if (invocation.methodSignature.numberOfArguments == (block.blockSignature.numberOfArguments - 1)) {
+        // block has the same argument count as the methods arguments, includes self and _cmd
+        void *argValueHolder = malloc(invocation.methodSignature.frameLength); // max length for any argument
+        for (NSUInteger arg = 0; arg < invocation.methodSignature.numberOfArguments; arg++) {
+            [invocation getArgument:argValueHolder atIndex:arg];
+            [block setParameter:argValueHolder atIndex:arg];
+        }
+        free(argValueHolder);
     } else {
-        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Wrong block type" userInfo:nil];
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Incompatible block type" userInfo:nil];
     }
 }
 

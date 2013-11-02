@@ -84,6 +84,16 @@
     expect([mockArray objectAtIndex:99]).to.equal(@99);
 }
 
+- (void)testMethodArgumentsArePassedToBlockIfRequestedIncludingSelfAndCmd {
+    // if you also include self and _cmd, those parameters are passed as well to the block
+    // NOTE: Either both self and _cmd must be there or none. You cannot choose to only have self or _cmd passed.
+    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSArray *self, SEL _cmd, NSUInteger index) {
+        return self;
+    };
+    
+    expect([mockArray objectAtIndex:0]).to.equal(mockArray);
+}
+
 
 #pragma mark - Stubbing Exceptions
 
