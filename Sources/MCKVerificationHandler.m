@@ -8,7 +8,7 @@
 
 #import "MCKVerificationHandler.h"
 
-#import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKVerification.h"
 
 
 id<MCKVerificationHandler> _mck_getVerificationHandler(void) {

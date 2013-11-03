@@ -20,7 +20,7 @@
 #import "NSInvocation+TestSupport.h"
 
 
-@interface VerificationSessionDelegate : NSObject <MCKVerificationSessionDelegate>
+@interface VerificationSessionDelegate : NSObject <MCKInvocationVerifierDelegate>
 
 @property (nonatomic, copy) void(^onFailure)(NSString *reason);
 @property (nonatomic, copy) void(^onFinish)(void);
@@ -419,25 +419,25 @@
 
 @implementation VerificationSessionDelegate
 
-- (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason {
+- (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason {
     if (self.onFailure != nil) {
         self.onFailure(reason);
     }
 }
 
-- (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session {
+- (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer {
     if (self.onFinish != nil) {
         self.onFinish();
     }
 }
 
-- (void)verificationSessionWillProcessTimeout:(MCKInvocationVerifier *)session {
+- (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer {
     if (self.onWillProcessTimeout != nil) {
         self.onWillProcessTimeout();
     }
 }
 
-- (void)verificationSessionDidProcessTimeout:(MCKInvocationVerifier *)session {
+- (void)invocationVerifierDidProcessTimeout:(MCKInvocationVerifier *)verififer {
     if (self.onDidProcessTimeout != nil) {
         self.onDidProcessTimeout();
     }

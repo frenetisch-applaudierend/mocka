@@ -9,17 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol MCKVerificationSessionDelegate;
+@protocol MCKInvocationVerifierDelegate;
 @protocol MCKVerificationHandler;
 @protocol MCKVerificationResultCollector;
 @class MCKInvocationPrototype;
-@class MCKMockingContext;
 
 
 @interface MCKInvocationVerifier : NSObject
 
 @property (nonatomic, assign) NSTimeInterval timeout;
-@property (nonatomic, weak) id<MCKVerificationSessionDelegate> delegate;
+@property (nonatomic, weak) id<MCKInvocationVerifierDelegate> delegate;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 
 - (void)verifyInvocations:(NSMutableArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype;
@@ -30,12 +29,12 @@
 @end
 
 
-@protocol MCKVerificationSessionDelegate <NSObject>
+@protocol MCKInvocationVerifierDelegate <NSObject>
 
-- (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason;
-- (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session;
+- (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason;
+- (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer;
 
-- (void)verificationSessionWillProcessTimeout:(MCKInvocationVerifier *)session;
-- (void)verificationSessionDidProcessTimeout:(MCKInvocationVerifier *)session;
+- (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer;
+- (void)invocationVerifierDidProcessTimeout:(MCKInvocationVerifier *)verififer;
 
 @end

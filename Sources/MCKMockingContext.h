@@ -45,6 +45,7 @@ typedef enum {
 
 #pragma mark - Core Objects
 
+@property (nonatomic, strong) NSMutableArray *mutableRecordedInvocations;
 @property (nonatomic, strong) MCKInvocationStubber *invocationStubber;
 @property (nonatomic, strong) MCKInvocationVerifier *invocationVerifier;
 @property (nonatomic, strong) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
@@ -81,16 +82,5 @@ typedef enum {
 - (void)endStubbing;
 
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-
-
-#pragma mark - Verifying
-
-@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
-
-- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout;
-- (void)endVerification;
-
-- (void)suspendVerification;
-- (void)resumeVerification;
 
 @end

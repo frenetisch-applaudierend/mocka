@@ -70,9 +70,9 @@
     
     NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
     while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
-        [self.delegate verificationSessionWillProcessTimeout:self];
+        [self.delegate invocationVerifierWillProcessTimeout:self];
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
-        [self.delegate verificationSessionDidProcessTimeout:self];
+        [self.delegate invocationVerifierDidProcessTimeout:self];
         result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
     }
     return result;
@@ -113,11 +113,11 @@
 
 - (void)notifyFailureWithResult:(MCKVerificationResult *)result {
     NSString *reason = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
-    [self.delegate verificationSession:self didFailWithReason:reason];
+    [self.delegate invocationVerifier:self didFailWithReason:reason];
 }
 
 - (void)notifyFinish {
-    [self.delegate verificationSessionDidEnd:self];
+    [self.delegate invocationVerifierDidEnd:self];
 }
 
 @end

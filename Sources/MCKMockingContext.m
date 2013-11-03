@@ -17,13 +17,7 @@
 #import <objc/runtime.h>
 
 #import "MCKMockingContext+MCKFailureHandling.h"
-
-
-@interface MCKMockingContext () <MCKVerificationSessionDelegate>
-
-@property (nonatomic, readonly) NSMutableArray *mutableRecordedInvocations;
-
-@end
+#import "MCKMockingContext+MCKVerification.h"
 
 
 @implementation MCKMockingContext
@@ -164,57 +158,6 @@ static __weak id _CurrentContext = nil;
 
 - (MCKStub *)activeStub {
     return [[self.invocationStubber recordedStubs] lastObject];
-}
-
-
-#pragma mark - Verification
-
-- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout {
-    self.invocationVerifier.timeout = timeout;
-    [self updateContextMode:MCKContextModeVerifying];
-}
-
-- (void)endVerification {
-    [self updateContextMode:MCKContextModeRecording];
-}
-
-- (void)suspendVerification {
-    [self updateContextMode:MCKContextModeRecording];
-}
-
-- (void)resumeVerification {
-    [self updateContextMode:MCKContextModeVerifying];
-}
-
-- (id<MCKVerificationHandler>)verificationHandler {
-    return self.invocationVerifier.verificationHandler;
-}
-
-- (void)setVerificationHandler:(id<MCKVerificationHandler>)verificationHandler {
-    NSAssert((self.mode == MCKContextModeVerifying), @"Cannot set a verification handler outside verification mode");
-    self.invocationVerifier.verificationHandler = verificationHandler;
-}
-
-- (void)verifyInvocation:(NSInvocation *)invocation {
-    NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
-    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    [self.invocationVerifier verifyInvocations:self.mutableRecordedInvocations forPrototype:prototype];
-}
-
-- (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason {
-    [self.failureHandler handleFailureAtLocation:self.currentLocation withReason:reason];
-}
-
-- (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session {
-    [self endVerification];
-}
-
-- (void)verificationSessionWillProcessTimeout:(MCKInvocationVerifier *)session {
-    [self suspendVerification];
-}
-
-- (void)verificationSessionDidProcessTimeout:(MCKInvocationVerifier *)session {
-    [self resumeVerification];
 }
 
 @end

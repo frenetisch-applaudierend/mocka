@@ -7,6 +7,7 @@
 //
 
 #import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKVerification.h"
 
 
 @interface FakeMockingContext : MCKMockingContext
