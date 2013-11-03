@@ -282,8 +282,8 @@
 		63D1CAE118266713009FE9EC /* MCKMockingContext+MCKRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CADE18266713009FE9EC /* MCKMockingContext+MCKRecording.h */; };
 		63D1CAE218266713009FE9EC /* MCKMockingContext+MCKRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CADF18266713009FE9EC /* MCKMockingContext+MCKRecording.m */; };
 		63D1CAE318266713009FE9EC /* MCKMockingContext+MCKRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CADF18266713009FE9EC /* MCKMockingContext+MCKRecording.m */; };
-		63D1CAE618266B34009FE9EC /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */; };
-		63D1CAE718266B34009FE9EC /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */; };
+		63D1CAE618266B34009FE9EC /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63D1CAE718266B34009FE9EC /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63D1CAE818266B34009FE9EC /* MCKInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAE518266B34009FE9EC /* MCKInvocationRecorder.m */; };
 		63D1CAE918266B34009FE9EC /* MCKInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAE518266B34009FE9EC /* MCKInvocationRecorder.m */; };
 		63D1CAF018266D58009FE9EC /* BlockInvocationVerifierDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAEF18266D58009FE9EC /* BlockInvocationVerifierDelegate.m */; };

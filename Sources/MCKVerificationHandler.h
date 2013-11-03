@@ -22,5 +22,4 @@
 @end
 
 
-extern id<MCKVerificationHandler> _mck_getVerificationHandler(void);
 extern void _mck_setVerificationHandler(id<MCKVerificationHandler> handler);

@@ -39,12 +39,15 @@
 
 #pragma mark - Collector Methods
 
-- (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
+- (void)beginCollectingResultsWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder {
+}
+
+- (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result {
     [self.mutableCollectedResults addObject:result];
     return result;
 }
 
-- (MCKVerificationResult *)processCollectedResultsWithInvocations:(NSMutableArray *)invocations {
+- (MCKVerificationResult *)finishCollectingResults {
     return self.mergedResult;
 }
 

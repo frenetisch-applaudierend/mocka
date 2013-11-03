@@ -10,21 +10,34 @@
 
 
 @protocol MCKInvocationVerifierDelegate;
-@protocol MCKVerificationHandler;
 @protocol MCKVerificationResultCollector;
+@protocol MCKVerificationHandler;
+
+@class MCKInvocationRecorder;
 @class MCKInvocationPrototype;
 
 
 @interface MCKInvocationVerifier : NSObject
 
-@property (nonatomic, assign) NSTimeInterval timeout;
+#pragma mark - Configuration
+
 @property (nonatomic, weak) id<MCKInvocationVerifierDelegate> delegate;
-@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
+@property (nonatomic, assign) NSTimeInterval timeout;
+@property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
 
-- (void)verifyInvocations:(NSMutableArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype;
 
-- (void)beginGroupRecordingWithCollector:(id<MCKVerificationResultCollector>)collector;
-- (void)finishGroupRecording;
+#pragma mark - Verification
+
+- (void)beginVerificationWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder;
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)verificationHandler;
+- (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype;
+
+
+#pragma mark - Group Verification
+
+- (void)startGroupVerificationWithCollector:(id<MCKVerificationResultCollector>)collector;
+- (void)finishGroupVerification;
+- (BOOL)isInGroupVerification;
 
 @end
 

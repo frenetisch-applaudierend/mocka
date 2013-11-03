@@ -12,8 +12,6 @@
 
 @interface MCKMockingContext (MCKVerification) <MCKInvocationVerifierDelegate>
 
-@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
-
 - (void)verifyInvocation:(NSInvocation *)invocation;
 
 - (void)beginVerificationWithTimeout:(NSTimeInterval)timeout;
@@ -21,5 +19,7 @@
 
 - (void)suspendVerification;
 - (void)resumeVerification;
+
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
 
 @end

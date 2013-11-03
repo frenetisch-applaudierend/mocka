@@ -16,7 +16,7 @@
 
 void _mck_setVerifyGroupCollector(id<MCKVerificationResultCollector> collector) {
     MCKMockingContext *context = [MCKMockingContext currentContext];
-    [context.invocationVerifier beginGroupRecordingWithCollector:collector];
+    [context.invocationVerifier startGroupVerificationWithCollector:collector];
 }
 
 BOOL _mck_executeGroupCalls(id testCase) {
@@ -28,7 +28,7 @@ BOOL _mck_executeGroupCalls(id testCase) {
         return YES;
     } else {
         MCKMockingContext *context = [MCKMockingContext currentContext];
-        [context.invocationVerifier finishGroupRecording];
+        [context.invocationVerifier finishGroupVerification];
         objc_setAssociatedObject(testCase, &ExecutingKey, nil, OBJC_ASSOCIATION_COPY);
         return NO;
     }

@@ -17,7 +17,7 @@
 }
 
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [self.invocationRecorder recordInvocation:invocation];
+    [self.invocationRecorder appendInvocation:invocation];
 }
 
 - (void)invocationRecorder:(MCKInvocationRecorder *)recorded didRecordInvocation:(NSInvocation *)invocation {

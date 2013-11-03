@@ -10,6 +10,10 @@
 
 #import "MCKMockingSyntax.h"
 
+#import "MCKInvocationRecorder.h"
+
+#import "MCKStub.h"
+
 #import "MCKVerificationResult.h"
 #import "MCKVerificationResultCollector.h"
 #import "MCKInOrderCollector.h"
@@ -18,8 +22,6 @@
 #import "MCKNeverVerificationHandler.h"
 #import "MCKExactlyVerificationHandler.h"
 #import "MCKVerifyNoInteractions.h"
-
-#import "MCKStub.h"
 
 #import "MCKArgumentMatcher.h"
 #import "MCKAnyArgumentMatcher.h"

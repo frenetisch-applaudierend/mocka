@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
 
 #import "MCKInOrderCollector.h"
 #import "NSInvocation+TestSupport.h"
@@ -15,17 +17,17 @@
 @interface MCKInOrderCollectorTest : XCTestCase @end
 @implementation MCKInOrderCollectorTest {
     MCKInOrderCollector *collector;
-    NSMutableArray *invocations;
+    MCKInvocationRecorder *invocationRecorder;
 }
 
 #pragma mark - Setup
 
 - (void)setUp {
     collector = [[MCKInOrderCollector alloc] init];
-    invocations = [NSMutableArray arrayWithObjects:
-                   [NSInvocation voidMethodInvocationForTarget:nil],
-                   [NSInvocation voidMethodInvocationForTarget:nil],
-                   [NSInvocation voidMethodInvocationForTarget:nil], nil];
+    invocationRecorder = [[MCKInvocationRecorder alloc] init];
+    [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
 }
 
 
@@ -34,60 +36,65 @@
 - (void)testThatCollectingResultReturnsCollectedResult {
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:nil];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
     
     // when
-    MCKVerificationResult *collectedResult = [collector collectVerificationResult:result forInvocations:invocations];
+    MCKVerificationResult *collectedResult = [collector collectVerificationResult:result];
     
     // then
-    XCTAssertEqualObjects(collectedResult, result, @"Wrong result returned");
+    expect(collectedResult).to.equal(result);
 }
 
-- (void)testThatCollectingResultRemovesNoInvocationsWhenNoMatchesForSuccessfulResult {
+- (void)testThatCollectingResultDoesNotRemoveAnyInvocationsWhenNoMatchesForSuccessfulResult {
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
-    NSArray *expectedRemainingInvocations = [invocations copy];
+    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
     
     // when
-    [collector collectVerificationResult:result forInvocations:invocations];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result];
     
     // then
-    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatCollectingResultRemovesAllInvocationsUpToLastMatchForSuccessfulResult {
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:1]];
-    NSArray *expectedRemainingInvocations = @[ invocations[2] ];
+    NSArray *expectedRemainingInvocations = @[ [invocationRecorder invocationAtIndex:2] ];
     
     // when
-    [collector collectVerificationResult:result forInvocations:invocations];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result];
     
     // then
-    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
-- (void)testThatCollectingResultRemovesNoInvocationsWhenNoMatchesForFailureResult {
+- (void)testThatCollectingResultDoesNotRemoveAnyInvocationsWhenNoMatchesForFailureResult {
     // given
     MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSet]];
-    NSArray *expectedRemainingInvocations = [invocations copy];
+    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
     
     // when
-    [collector collectVerificationResult:result forInvocations:invocations];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result];
     
     // then
-    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatCollectingResultRemovesAllInvocationsUpToLastMatchForFailureResult {
     // given
     MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSetWithIndex:1]];
-    NSArray *expectedRemainingInvocations = @[ invocations[2] ];
+    NSArray *expectedRemainingInvocations = @[ [invocationRecorder invocationAtIndex:2] ];
     
     // when
-    [collector collectVerificationResult:result forInvocations:invocations];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result];
     
     // then
-    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatCollectingResultRemovesAllInvocationsForAllMatches {
@@ -97,10 +104,11 @@
     NSArray *expectedRemainingInvocations = @[];
     
     // when
-    [collector collectVerificationResult:result forInvocations:invocations];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result];
     
     // then
-    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Wrong invocations removed");
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 
@@ -109,27 +117,31 @@
 - (void)testThatProcessResultReturnsNil {
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:nil];
-    [collector collectVerificationResult:result forInvocations:invocations];
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result];
     
     // when
-    MCKVerificationResult *collectedResult = [collector processCollectedResultsWithInvocations:invocations];
+    MCKVerificationResult *collectedResult = [collector finishCollectingResults];
     
     // then
-    XCTAssertNil(collectedResult, @"Should not have returned a result");
+    expect(collectedResult).to.beNil();
 }
 
 - (void)testThatProcessAddsSkippedVerifications {
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:1]];
-    NSArray *expectedRemainingInvocations = @[ invocations[0], invocations[2] ];
+    NSArray *expectedRemainingInvocations = @[
+        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
+    ];
     
-    [collector collectVerificationResult:result forInvocations:invocations]; // removes invocation 0 and 1, 0 was not matched
+    [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
+    [collector collectVerificationResult:result]; // removes invocation 0 and 1, 0 was not matched
     
     // when
-    [collector processCollectedResultsWithInvocations:invocations]; // umatched but removed invocations (skipped) must be added
+    [collector finishCollectingResults]; // umatched but removed invocations (skipped) must be added
     
     // then
-    XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Skipped invocations not added");
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 @end

@@ -21,10 +21,15 @@
 
 #pragma mark - Managing Invocations
 
-@property (nonatomic, readonly) NSMutableArray *mutableInvocations;
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
-- (void)recordInvocation:(NSInvocation *)invocation;
+- (NSInvocation *)invocationAtIndex:(NSUInteger)index;
+
+- (void)appendInvocation:(NSInvocation *)invocation;
+- (void)insertInvocations:(NSArray *)invocations atIndex:(NSUInteger)index;
+
+- (void)removeInvocationsAtIndexes:(NSIndexSet *)indexes;
+- (void)removeInvocationsInRange:(NSRange)range;
 
 @end
 

@@ -9,6 +9,7 @@
 #import "MCKInvocationVerifier.h"
 
 #import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKVerificationResultCollector.h"
@@ -16,8 +17,9 @@
 
 @interface MCKInvocationVerifier ()
 
+@property (nonatomic, strong) MCKInvocationRecorder *invocationRecorder;
+@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
-@property (nonatomic, strong) NSMutableArray *invocations;
 
 @end
 
@@ -28,42 +30,69 @@
 
 - (instancetype)init {
     if ((self = [super init])) {
-        _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+        [self reset];
     }
     return self;
 }
 
-
-#pragma mark - Verifying
-
-- (void)verifyInvocations:(NSMutableArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
-    MCKVerificationResult *result = [self resultForInvocations:invocations prototype:prototype];
-    
-    if (self.collector != nil) {
-        [self collectResult:result forInvocations:invocations];
-    } else {
-        [self processResult:result forInvocations:invocations];
-    }
+- (void)reset {
+    self.invocationRecorder = nil;
+    self.collector = nil;
     self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
 }
 
-- (void)collectResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
-    MCKVerificationResult *collectedResult = [self.collector collectVerificationResult:result forInvocations:invocations];
-    self.invocations = invocations;
+
+#pragma mark - Verification
+
+- (void)beginVerificationWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder {
+    self.invocationRecorder = invocationRecorder;
+}
+
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)verificationHandler {
+    NSParameterAssert(verificationHandler != nil);
+    self.verificationHandler = verificationHandler;
+}
+
+- (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype {
+    MCKVerificationResult *result = [self resultForInvocations:self.invocationRecorder.recordedInvocations prototype:prototype];
+    
+    if ([self isInGroupVerification]) {
+        [self collectResult:result];
+    } else {
+        [self processResult:result];
+    }
+    
+    self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+}
+
+
+#pragma mark - Group Verification
+
+- (void)startGroupVerificationWithCollector:(id<MCKVerificationResultCollector>)collector {
+    self.collector = collector;
+    [collector beginCollectingResultsWithInvocationRecorder:self.invocationRecorder];
+}
+
+- (void)finishGroupVerification {
+    NSAssert([self isInGroupVerification], @"Called while not in group verification");
+    
+    MCKVerificationResult *collectedResult = [self.collector finishCollectingResults];
+    [self processResult:collectedResult];
+}
+        
+- (BOOL)isInGroupVerification {
+    return (self.collector != nil);
+}
+
+- (void)collectResult:(MCKVerificationResult *)result {
+    MCKVerificationResult *collectedResult = [self.collector collectVerificationResult:result];
     if (![collectedResult isSuccess]) {
         [self notifyFailureWithResult:collectedResult];
     }
 }
 
-- (void)processResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
-    if (result != nil) {
-        [invocations removeObjectsAtIndexes:result.matchingIndexes];
-        if (![result isSuccess]) {
-            [self notifyFailureWithResult:result];
-        }
-    }
-    [self notifyFinish];
-}
+
+#pragma mark - Verification Primitives
 
 - (MCKVerificationResult *)resultForInvocations:(NSArray *)invocations prototype:(MCKInvocationPrototype *)prototype {
     MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
@@ -81,31 +110,24 @@
 - (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result {
     if (self.timeout <= 0.0) { return NO; }
     
-    if ([result isSuccess]) {
-        return [self.verificationHandler mustAwaitTimeoutForFailure];
-    } else {
-        return ![self.verificationHandler failsFastDuringTimeout];
-    }
+    return ([result isSuccess]
+            ? [self.verificationHandler mustAwaitTimeoutForFailure]
+            : ![self.verificationHandler failsFastDuringTimeout]);
 }
 
 - (BOOL)didNotYetReachDate:(NSDate *)lastDate {
     return ([lastDate laterDate:[NSDate date]] == lastDate);
 }
 
-
-#pragma mark - Group Recording
-
-- (void)beginGroupRecordingWithCollector:(id<MCKVerificationResultCollector>)collector {
-    self.collector = collector;
-}
-
-- (void)finishGroupRecording {
-    NSAssert(self.collector != nil, @"Finish called without collector");
-    
-    MCKVerificationResult *collectedResult = [self.collector processCollectedResultsWithInvocations:self.invocations];
-    [self processResult:collectedResult forInvocations:nil];
-    self.invocations = nil;
-    self.collector = nil;
+- (void)processResult:(MCKVerificationResult *)result {
+    if (result != nil) {
+        [self.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+        if (![result isSuccess]) {
+            [self notifyFailureWithResult:result];
+        }
+    }
+    [self notifyFinish];
+    [self reset];
 }
 
 

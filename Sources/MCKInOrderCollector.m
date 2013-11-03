@@ -11,40 +11,42 @@
 
 @interface MCKInOrderCollector ()
 
-@property (nonatomic, readonly) NSMutableArray *skippedInvocations;
+@property (nonatomic, strong) MCKInvocationRecorder *invocationRecorder;
+@property (nonatomic, strong) NSMutableArray *skippedInvocations;
 
 @end
 
 
 @implementation MCKInOrderCollector
 
-#pragma mark - Initialization
-
-- (instancetype)init {
-    if ((self = [super init])) {
-        _skippedInvocations = [NSMutableArray array];
-    }
-    return self;
-}
-
-
 #pragma mark - Collecting and Processing Results
 
-- (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations {
-    // remove invocations and record skipped invocations
-    __block NSUInteger maxIndex = 0;
-    [result.matchingIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        NSIndexSet *skippedInvocations = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, (idx - maxIndex))];
-        [self.skippedInvocations addObjectsFromArray:[invocations objectsAtIndexes:skippedInvocations]];
-        [invocations removeObjectsInRange:NSMakeRange(0, (idx - maxIndex + 1))];
-        maxIndex = (idx + 1);
-    }];
+- (void)beginCollectingResultsWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder {
+    self.invocationRecorder = invocationRecorder;
+    self.skippedInvocations = [NSMutableArray array];
+}
+
+- (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result {
+    NSRange totalRange = NSMakeRange(0, ([result.matchingIndexes lastIndex] + 1));
+    
+    // record skipped invocations so we can add them later
+    for (NSUInteger index = 0; index < totalRange.length; index++) {
+        if (![result.matchingIndexes containsIndex:index]) {
+            [self.skippedInvocations addObject:[self.invocationRecorder invocationAtIndex:index]];
+        }
+    }
+    
+    // remove all invocations up to the last matched, so the next call must
+    // start verification *after* the last match (thus ensuring the order)
+    [self.invocationRecorder removeInvocationsInRange:totalRange];
+    
     return result;
 }
 
-- (MCKVerificationResult *)processCollectedResultsWithInvocations:(NSMutableArray *)invocations {
-    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self.skippedInvocations count])];
-    [invocations insertObjects:self.skippedInvocations atIndexes:indexes];
+- (MCKVerificationResult *)finishCollectingResults {
+    [self.invocationRecorder insertInvocations:self.skippedInvocations atIndex:0];
+    self.invocationRecorder = nil;
+    self.skippedInvocations = nil;
     return nil;
 }
 

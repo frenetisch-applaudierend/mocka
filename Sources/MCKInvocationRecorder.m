@@ -11,7 +11,7 @@
 
 @interface MCKInvocationRecorder ()
 
-//@property (nonatomic, readonly) NSMutableArray *mutableInvocations;
+@property (nonatomic, readonly) NSMutableArray *mutableInvocations;
 
 @end
 
@@ -33,11 +33,28 @@
     return [self.mutableInvocations copy];
 }
 
-- (void)recordInvocation:(NSInvocation *)invocation {
+- (NSInvocation *)invocationAtIndex:(NSUInteger)index {
+    return [self.mutableInvocations objectAtIndex:index];
+}
+
+- (void)appendInvocation:(NSInvocation *)invocation {
     NSParameterAssert(invocation != nil);
     
     [self.mutableInvocations addObject:invocation];
     [self.delegate invocationRecorder:self didRecordInvocation:invocation];
+}
+
+- (void)insertInvocations:(NSArray *)invocations atIndex:(NSUInteger)index {
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, [invocations count])];
+    [self.mutableInvocations insertObjects:invocations atIndexes:indexes];
+}
+
+- (void)removeInvocationsAtIndexes:(NSIndexSet *)indexes {
+    [self.mutableInvocations removeObjectsAtIndexes:indexes];
+}
+
+- (void)removeInvocationsInRange:(NSRange)range {
+    [self.mutableInvocations removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:range]];
 }
 
 @end
