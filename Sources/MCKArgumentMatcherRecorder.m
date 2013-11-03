@@ -8,7 +8,7 @@
 
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKTypeEncodings.h"
-#import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKFailureHandling.h"
 
 
 @interface MCKArgumentMatcherRecorder ()

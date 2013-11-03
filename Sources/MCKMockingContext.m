@@ -16,6 +16,8 @@
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
+#import "MCKMockingContext+MCKFailureHandling.h"
+
 
 @interface MCKMockingContext () <MCKVerificationSessionDelegate>
 
@@ -239,17 +241,6 @@ static __weak id _CurrentContext = nil;
     } else {
         return YES;
     }
-}
-
-
-#pragma mark - Handling Failures
-
-- (void)failWithReason:(NSString *)reason, ... {
-    va_list ap;
-    va_start(ap, reason);
-    NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
-    [self.failureHandler handleFailureAtLocation:self.currentLocation withReason:formattedReason];
-    va_end(ap);
 }
 
 @end

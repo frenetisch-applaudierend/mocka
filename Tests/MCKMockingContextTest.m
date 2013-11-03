@@ -11,6 +11,8 @@
 #import <Expecta/Expecta.h>
 
 #import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKFailureHandling.h"
+
 #import "MCKMockingSyntax.h"
 #import "MCKStub.h"
 

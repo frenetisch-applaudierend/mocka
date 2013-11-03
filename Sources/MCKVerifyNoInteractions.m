@@ -7,7 +7,7 @@
 //
 
 #import "MCKVerifyNoInteractions.h"
-#import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKFailureHandling.h"
 
 
 void mck_checkNoInteractions(id testCase, id mockObject) {

@@ -11,6 +11,7 @@
 #import "MCKMockObject.h"
 #import "MCKNetworkRequestMatcher.h"
 #import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKFailureHandling.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 
 #import "OHHTTPStubsResponse+JSON.h"
