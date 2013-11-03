@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 #import <Expecta/Expecta.h>
 
-#import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKArgumentRecording.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
 
 #import "MCKMockingSyntax.h"
