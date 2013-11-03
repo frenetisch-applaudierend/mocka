@@ -8,7 +8,7 @@
 
 #import "MCKExceptionFailureHandler.h"
 
-
+NSString * const MCKTestFailureException = @"MCKTestFailureException";
 NSString * const MCKFileNameKey = @"fileName";
 NSString * const MCKLineNumberKey = @"lineNumber";
 
@@ -17,11 +17,11 @@ NSString * const MCKLineNumberKey = @"lineNumber";
 
 #pragma mark - Handling Failures
 
-- (void)handleFailureWithReason:(NSString *)reason {
+- (void)handleFailureAtLocation:(MCKLocation *)location withReason:(NSString *)reason {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    [userInfo setValue:self.fileName forKey:MCKFileNameKey];
-    [userInfo setValue:@(self.lineNumber) forKey:MCKLineNumberKey];
-    @throw [NSException exceptionWithName:@"TestFailureException" reason:reason userInfo:userInfo];
+    [userInfo setValue:location.fileName forKey:MCKFileNameKey];
+    [userInfo setValue:@(location.lineNumber) forKey:MCKLineNumberKey];
+    @throw [NSException exceptionWithName:MCKTestFailureException reason:reason userInfo:userInfo];
 }
 
 @end

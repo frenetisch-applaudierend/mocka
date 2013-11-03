@@ -186,8 +186,8 @@ static inline Class StubsResponseClass() {
 
 #pragma mark - Getting the Network Mock
 
-MCKNetworkMock* _mck_getNetworkMock(id testCase, const char *fileName, NSUInteger lineNumber) {
+MCKNetworkMock* _mck_getNetworkMock(id testCase, MCKLocation *location) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     return [MCKNetworkMock mockForContext:context];
 }

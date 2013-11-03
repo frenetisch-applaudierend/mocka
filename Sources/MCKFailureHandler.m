@@ -16,7 +16,7 @@
 
 #pragma mark - Getting a Failure Handler
 
-+ (instancetype)failureHandlerForTestCase:(id)testCase {
++ (id<MCKFailureHandler>)failureHandlerForTestCase:(id)testCase {
     if ([testCase isKindOfClass:NSClassFromString(@"SenTestCase")]) {
         return [[MCKSenTestFailureHandler alloc] initWithTestCase:testCase];
     } else if ([testCase isKindOfClass:NSClassFromString(@"XCTestCase")]) {
@@ -27,17 +27,9 @@
 }
 
 
-#pragma mark - Updating Location Information
-
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
-    _fileName = [fileName copy];
-    _lineNumber = lineNumber;
-}
-
-
 #pragma mark - Handling Failures
 
-- (void)handleFailureWithReason:(NSString *)reason {
+- (void)handleFailureAtLocation:(MCKLocation *)location withReason:(NSString *)reason {
 }
 
 @end

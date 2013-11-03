@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKFailureHandler.h"
 
 
-@interface FakeFailureHandler : MCKFailureHandler
+@interface FakeFailureHandler : NSObject <MCKFailureHandler>
 
 @property (nonatomic, readonly) NSArray *capturedFailures;
 
@@ -19,10 +20,9 @@
 
 @interface CapturedFailure : NSObject
 
-@property (nonatomic, readonly) NSString *fileName;
-@property (nonatomic, readonly) NSUInteger lineNumber;
-@property (nonatomic, readonly) NSString *reason;
++ (instancetype)failureWithLocation:(MCKLocation *)location reason:(NSString *)reason;
 
-+ (id)failureWithFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber reason:(NSString *)reason;
+@property (nonatomic, readonly) MCKLocation *location;
+@property (nonatomic, readonly) NSString *reason;
 
 @end

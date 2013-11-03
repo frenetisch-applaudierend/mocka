@@ -43,33 +43,22 @@
 - (void)testThatGettingTheContextTwiceReturnsSameContext {
     id ctx1 = [MCKMockingContext contextForTestCase:self];
     id ctx2 = [MCKMockingContext contextForTestCase:self];
-    XCTAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
-}
-
-- (void)testThatUpdatingLocationOnContextUpdatesFileLocationInformationOnErrorHandler {
-    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
     
-    [ctx updateFileName:@"Foo" lineNumber:10];
-    XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
-    XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
-    
-    [ctx updateFileName:@"Bar" lineNumber:20];
-    XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
-    XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
+    expect(ctx1).to.beIdenticalTo(ctx2);
 }
 
 - (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
     // given
     MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
-    [ctx updateFileName:@"Foo" lineNumber:10];
+    MCKLocation *location = [MCKLocation locationWithFileName:@"File.m" lineNumber:10];
+    ctx.currentLocation = location;
     
     // when
     MCKMockingContext *existingContext = [MCKMockingContext currentContext];
     
     // then
-    XCTAssertEqual(ctx, existingContext, @"Not the same context returned");
-    XCTAssertEqual(existingContext.failureHandler.fileName, @"Foo", @"Filename was changed");
-    XCTAssertEqual(existingContext.failureHandler.lineNumber, (NSUInteger)10, @"Linenumber was changed");
+    expect(existingContext).to.beIdenticalTo(ctx);
+    expect(existingContext.currentLocation).to.equal(location);
 }
 
 - (void)testThatGettingExistingContextAlwaysGetsLatestContext {

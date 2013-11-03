@@ -8,16 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCKLocation.h"
+
 @class MCKStub;
 
 
 #pragma mark - Creating Mocks and Spies
 
 // safe syntax
-#define mck_mock(CLS, ...)        _mck_createMock(self, __FILE__, __LINE__, @[ CLS, __VA_ARGS__ ])
+#define mck_mock(CLS, ...)        _mck_createMock(self, _MCKCurrentLocation(), @[ (CLS), ## __VA_ARGS__ ])
 #define mck_mockForClass(CLS)     (CLS *)mck_mock([CLS class])
 #define mck_mockForProtocol(PROT) (id<PROT>)mck_mock(@protocol(PROT))
-#define mck_spy(OBJ)              (typeof(OBJ))_mck_createSpy(self, __FILE__, __LINE__, OBJ)
+#define mck_spy(OBJ)              (typeof(OBJ))_mck_createSpy(self, _MCKCurrentLocation(), (OBJ))
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
@@ -34,7 +36,7 @@
 
 // safe syntax
 #define mck_verifyCall               mck_verifyCallWithTimeout(0.0)
-#define mck_verifyCallWithTimeout(T) _mck_beginVerifyWithTimeout(self, __FILE__, __LINE__, (T));
+#define mck_verifyCallWithTimeout(T) _mck_beginVerifyWithTimeout(self, _MCKCurrentLocation(), (T));
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
@@ -48,8 +50,8 @@
 #pragma mark - Stubbing
 
 // safe syntax
-#define mck_stubCall(CALL)  _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^typeof(CALL)
-#define mck_stubCalls(CALL) _mck_stubCalls(self, __FILE__, __LINE__, ^{ (CALL); }).stubBlock = ^
+#define mck_stubCall(CALL)  _mck_stubCalls(self, _MCKCurrentLocation(), ^{ (CALL); }).stubBlock = ^typeof(CALL)
+#define mck_stubCalls(CALL) _mck_stubCalls(self, _MCKCurrentLocation(), ^{ (CALL); }).stubBlock = ^
 #define mck_with
 
 
@@ -65,8 +67,8 @@
 
 #pragma mark - Internal Bridging
 
-extern id _mck_createMock(id testCase, const char *fileName, NSUInteger lineNumber, NSArray *classAndProtocols);
-extern id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumber, id object);
-extern void _mck_beginVerifyWithTimeout(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout);
-extern MCKStub* _mck_stubCalls(id testCase, const char *fileName, NSUInteger lineNumber, void(^calls)(void));
-extern void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber);
+extern id _mck_createMock(id testCase, MCKLocation *location, NSArray *classAndProtocols);
+extern id _mck_createSpy(id testCase, MCKLocation *location, id object);
+extern void _mck_beginVerifyWithTimeout(id testCase, MCKLocation *location, NSTimeInterval timeout);
+extern MCKStub* _mck_stubCalls(id testCase, MCKLocation *location, void(^calls)(void));
+extern void _mck_updateLocationInfo(MCKLocation *location);

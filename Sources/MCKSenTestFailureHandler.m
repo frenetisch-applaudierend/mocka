@@ -17,13 +17,11 @@
 @end
 
 
-@implementation MCKSenTestFailureHandler {
-    id _testCase;
-}
+@implementation MCKSenTestFailureHandler
 
 #pragma mark - Initialization
 
-- (id)initWithTestCase:(id)testCase {
+- (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
     }
@@ -33,11 +31,12 @@
 
 #pragma mark - Handling Failures
 
-- (void)handleFailureWithReason:(NSString *)reason {
-    NSException *ex = [NSException failureInFile:self.fileName
-                                          atLine:(int)self.lineNumber
-                                 withDescription:(reason != nil ? @"%@" : nil), reason];
-    [_testCase failWithException:ex];
+- (void)handleFailureAtLocation:(MCKLocation *)location withReason:(NSString *)reason {
+    [self.testCase failWithException:[self exceptionForFile:location.fileName line:location.lineNumber reason:reason]];
+}
+
+- (NSException *)exceptionForFile:(NSString *)file line:(NSUInteger)line reason:(NSString *)reason {
+    return [NSException failureInFile:file atLine:(int)line withDescription:(reason != nil ? @"%@" : nil), reason];
 }
 
 @end

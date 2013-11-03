@@ -9,15 +9,17 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol MCKVerificationHandler;
-@protocol MCKStubAction;
-@protocol MCKArgumentMatcher;
-
 @class MCKInvocationStubber;
-@class MCKStub;
-@class MCKArgumentMatcherRecorder;
 @class MCKInvocationVerifier;
-@class MCKFailureHandler;
+@class MCKArgumentMatcherRecorder;
+@protocol MCKFailureHandler;
+
+@class MCKLocation;
+
+
+@protocol MCKVerificationHandler;
+@protocol MCKArgumentMatcher;
+@class MCKStub;
 
 
 typedef enum {
@@ -43,22 +45,26 @@ typedef enum {
 
 #pragma mark - Core Objects
 
-@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
-@property (nonatomic, readonly) MCKInvocationVerifier *invocationVerifier;
-@property (nonatomic, readonly) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
-@property (nonatomic, strong) MCKFailureHandler *failureHandler;
+@property (nonatomic, strong) MCKInvocationStubber *invocationStubber;
+@property (nonatomic, strong) MCKInvocationVerifier *invocationVerifier;
+@property (nonatomic, strong) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
+@property (nonatomic, strong) id<MCKFailureHandler> failureHandler;
 
 
-#pragma mark - Update Location Data
+#pragma mark - File Location Data
 
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
+@property (nonatomic, copy) MCKLocation *currentLocation;
 
 
 #pragma mark - Handling Invocations
 
 @property (nonatomic, readonly) MCKContextMode mode;
 
+- (void)updateContextMode:(MCKContextMode)newMode;
+
 - (void)handleInvocation:(NSInvocation *)invocation;
+
+
 
 
 #pragma mark - Recording

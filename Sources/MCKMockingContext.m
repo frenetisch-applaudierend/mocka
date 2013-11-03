@@ -100,13 +100,6 @@ static __weak id _CurrentContext = nil;
 }
 
 
-#pragma mark - Context Data
-
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
-    [self.failureHandler updateFileName:fileName lineNumber:lineNumber];
-}
-
-
 #pragma mark - Handling Invocations
 
 - (void)updateContextMode:(MCKContextMode)newMode {
@@ -207,7 +200,7 @@ static __weak id _CurrentContext = nil;
 }
 
 - (void)verificationSession:(MCKInvocationVerifier *)session didFailWithReason:(NSString *)reason {
-    [self.failureHandler handleFailureWithReason:reason];
+    [self.failureHandler handleFailureAtLocation:self.currentLocation withReason:reason];
 }
 
 - (void)verificationSessionDidEnd:(MCKInvocationVerifier *)session {
@@ -254,9 +247,9 @@ static __weak id _CurrentContext = nil;
 - (void)failWithReason:(NSString *)reason, ... {
     va_list ap;
     va_start(ap, reason);
-    [self.failureHandler handleFailureWithReason:[[NSString alloc] initWithFormat:reason arguments:ap]];
+    NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
+    [self.failureHandler handleFailureAtLocation:self.currentLocation withReason:formattedReason];
     va_end(ap);
 }
-
 
 @end
