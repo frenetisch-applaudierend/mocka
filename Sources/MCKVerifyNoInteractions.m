@@ -8,6 +8,7 @@
 
 #import "MCKVerifyNoInteractions.h"
 
+#import "MCKMockingContext+MCKRecording.h"
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
 

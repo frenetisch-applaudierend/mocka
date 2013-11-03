@@ -16,6 +16,7 @@
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
+#import "MCKMockingContext+MCKRecording.h"
 #import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
@@ -121,18 +122,6 @@ static __weak id _CurrentContext = nil;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }
-}
-
-
-#pragma mark - Recording
-
-- (NSArray *)recordedInvocations {
-    return [self.mutableRecordedInvocations copy];
-}
-
-- (void)recordInvocation:(NSInvocation *)invocation {
-    [self.mutableRecordedInvocations addObject:invocation];
-    [self.invocationStubber applyStubsForInvocation:invocation];
 }
 
 @end

@@ -65,11 +65,4 @@ typedef enum {
 
 - (void)handleInvocation:(NSInvocation *)invocation;
 
-
-
-
-#pragma mark - Recording
-
-@property (nonatomic, readonly) NSArray *recordedInvocations;
-
 @end
