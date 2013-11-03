@@ -1,5 +1,5 @@
 //
-//  MCKVerificationSessionTest.m
+//  MCKInvocationVerifierTest.m
 //  mocka
 //
 //  Created by Markus Gasser on 30.9.2013.
@@ -12,6 +12,7 @@
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 
+#import "BlockInvocationVerifierDelegate.h"
 #import "FakeInvocationPrototype.h"
 #import "FakeVerificationHandler.h"
 #import "FakeVerificationResultCollector.h"
@@ -20,20 +21,10 @@
 #import "NSInvocation+TestSupport.h"
 
 
-@interface VerificationSessionDelegate : NSObject <MCKInvocationVerifierDelegate>
-
-@property (nonatomic, copy) void(^onFailure)(NSString *reason);
-@property (nonatomic, copy) void(^onFinish)(void);
-@property (nonatomic, copy) void(^onWillProcessTimeout)(void);
-@property (nonatomic, copy) void(^onDidProcessTimeout)(void);
-
-@end
-
-
-@interface MCKVerificationSessionTest : XCTestCase @end
-@implementation MCKVerificationSessionTest {
-    MCKInvocationVerifier *session;
-    VerificationSessionDelegate *sessionDelegate;
+@interface MCKInvocationVerifierTest : XCTestCase @end
+@implementation MCKInvocationVerifierTest {
+    MCKInvocationVerifier *verifier;
+    BlockInvocationVerifierDelegate *verifierDelegate;
     NSMutableArray *invocations;
     NSArray *results;
 }
@@ -41,9 +32,9 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    sessionDelegate = [[VerificationSessionDelegate alloc] init];
-    session = [[MCKInvocationVerifier alloc] init];
-    session.delegate = sessionDelegate;
+    verifierDelegate = [[BlockInvocationVerifierDelegate alloc] init];
+    verifier = [[MCKInvocationVerifier alloc] init];
+    verifier.delegate = verifierDelegate;
     
     invocations = [NSMutableArray arrayWithObjects:
                    [NSInvocation voidMethodInvocationForTarget:nil],
@@ -61,7 +52,7 @@
 #pragma mark - Test Initialization
 
 - (void)testThatDefaultHandlerIsSet {
-    XCTAssertTrue([session.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
+    XCTAssertTrue([verifier.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
 }
 
 
@@ -70,11 +61,11 @@
 - (void)testThatVerifyPassesArgumentsToVerificationHandlerInSingleMode {
     // given
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
-    session.verificationHandler = handler;
+    verifier.verificationHandler = handler;
     
     // when
     MCKInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
-    [session verifyInvocations:invocations forPrototype:prototype];
+    [verifier verifyInvocations:invocations forPrototype:prototype];
     
     // then
     XCTAssertEqualObjects([[handler.calls lastObject] prototype], prototype, @"Wrong prototype passed");
@@ -83,12 +74,12 @@
 
 - (void)testThatVerifyNotifiesOnlyFinishAfterSuccessInSingleMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
-    __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
+    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
+    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertTrue(onFinishCalled, @"On finish was not called");
@@ -97,14 +88,14 @@
 
 - (void)testThatVerifyNotifiesFirstFailureThenFinishAfterFailureInSingleMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     
     NSMutableArray *calls = [NSMutableArray array];
-    sessionDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
-    sessionDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
+    verifierDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
+    verifierDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertEqualObjects(calls, (@[ @"onFailure", @"onFinish" ]), @"Notifications not in correct order");
@@ -112,11 +103,11 @@
 
 - (void)testThatVerifyRemovesMatchingInvocationsAfterSuccessInSingleMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:[NSIndexSet indexSetWithIndex:1]];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:[NSIndexSet indexSetWithIndex:1]];
     NSArray *expectedRemainingInvocations = @[ invocations[0], invocations[2] ];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were not removed");
@@ -124,12 +115,12 @@
 
 - (void)testThatVerifyRemovesMatchingInvocationsAfterFailureInSingleMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMatches:[NSIndexSet indexSetWithIndex:1]
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMatches:[NSIndexSet indexSetWithIndex:1]
                                                                                  reason:nil];
     NSArray *expectedRemainingInvocations = @[ invocations[0], invocations[2] ];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were not removed");
@@ -137,24 +128,24 @@
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterSuccessInSingleMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    XCTAssertTrue([session.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
+    XCTAssertTrue([verifier.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
 }
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterFailureInSingleMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    XCTAssertTrue([session.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
+    XCTAssertTrue([verifier.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
 }
 
 
@@ -163,13 +154,13 @@
 - (void)testThatVerifyPassesArgumentsToVerificationHandlerInGroupMode {
     // given
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
-    session.verificationHandler = handler;
+    verifier.verificationHandler = handler;
     
-    [session beginGroupRecordingWithCollector:nil];
+    [verifier beginGroupRecordingWithCollector:nil];
     
     // when
     MCKInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
-    [session verifyInvocations:invocations forPrototype:prototype];
+    [verifier verifyInvocations:invocations forPrototype:prototype];
     
     // then
     XCTAssertEqualObjects([[handler.calls lastObject] prototype], prototype, @"Wrong prototype passed");
@@ -178,14 +169,14 @@
 
 - (void)testThatVerifyDoesNotNotifyFinishOrFailureAfterSuccessInGroupMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
-    __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
+    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
+    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
     
-    [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
+    [verifier beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertFalse(onFinishCalled, @"On finish was called");
@@ -194,14 +185,14 @@
 
 - (void)testThatVerifyNotifiesOnlyFailureAfterFailureInGroupMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
-    __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
+    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
     
-    [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
+    [verifier beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertFalse(onFinishCalled, @"On finish was called");
@@ -210,13 +201,13 @@
 
 - (void)testThatVerifyDoesNotRemoveMatchingInvocationsAfterSuccessInGroupMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:[NSIndexSet indexSetWithIndex:1]];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:[NSIndexSet indexSetWithIndex:1]];
     NSArray *expectedRemainingInvocations = [invocations copy];
     
-    [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
+    [verifier beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were removed");
@@ -224,14 +215,14 @@
 
 - (void)testThatVerifyDoesNotRemoveMatchingInvocationsAfterFailureInGroupMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMatches:[NSIndexSet indexSetWithIndex:1]
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithMatches:[NSIndexSet indexSetWithIndex:1]
                                                                                  reason:nil];
     NSArray *expectedRemainingInvocations = [invocations copy];
     
-    [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
+    [verifier beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were removed");
@@ -239,26 +230,26 @@
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterSuccessInGroupMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
-    [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichSucceeds];
+    [verifier beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    XCTAssertTrue([session.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
+    XCTAssertTrue([verifier.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
 }
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterFailureInGroupMode {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
-    [session beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    [verifier beginGroupRecordingWithCollector:[FakeVerificationResultCollector collector]];
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    XCTAssertTrue([session.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
+    XCTAssertTrue([verifier.verificationHandler isKindOfClass:[MCKDefaultVerificationHandler class]], @"Wrong default handler");
 }
 
 
@@ -268,15 +259,15 @@
     // given
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collector];
     
-    // begin the session and make a few calls
-    [session beginGroupRecordingWithCollector:collector];
+    // begin the verification and make a few calls
+    [verifier beginGroupRecordingWithCollector:collector];
     for (MCKVerificationResult *result in results) {
-        session.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
-        [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+        verifier.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
+        [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     }
     
     // when
-    [session finishGroupRecording];
+    [verifier finishGroupRecording];
     
     // then
     XCTAssertEqualObjects(collector.collectedResults, results, @"Wrong results passed");
@@ -286,18 +277,18 @@
     // given
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collector];
     
-    __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
+    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
     
-    // begin the session and make a few calls
-    [session beginGroupRecordingWithCollector:collector];
+    // begin the verification and make a few calls
+    [verifier beginGroupRecordingWithCollector:collector];
     for (MCKVerificationResult *result in results) {
-        session.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
-        [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+        verifier.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
+        [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     }
     
     // when
-    [session finishGroupRecording];
+    [verifier finishGroupRecording];
     
     // then
     XCTAssertTrue(onFinishCalled, @"On finish was not called");
@@ -310,18 +301,18 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
     
     NSMutableArray *calls = [NSMutableArray array];
-    sessionDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
-    sessionDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
+    verifierDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
+    verifierDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
     
-    // begin the session and make a few calls
-    [session beginGroupRecordingWithCollector:collector];
+    // begin the verification and make a few calls
+    [verifier beginGroupRecordingWithCollector:collector];
     for (MCKVerificationResult *result in results) {
-        session.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
-        [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+        verifier.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
+        [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     }
     
     // when
-    [session finishGroupRecording];
+    [verifier finishGroupRecording];
     
     // then
     XCTAssertEqualObjects(calls, (@[ @"onFailure", @"onFinish" ]), @"Notifications not in correct order");
@@ -333,15 +324,15 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
     NSArray *expectedRemainingInvocations = [invocations copy];
     
-    // begin the session and make a few calls
-    [session beginGroupRecordingWithCollector:collector];
+    // begin the verification and make a few calls
+    [verifier beginGroupRecordingWithCollector:collector];
     for (MCKVerificationResult *result in results) {
-        session.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
-        [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+        verifier.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
+        [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     }
     
     // when
-    [session finishGroupRecording];
+    [verifier finishGroupRecording];
     
     // then
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were not removed");
@@ -353,15 +344,15 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
     NSArray *expectedRemainingInvocations = [invocations copy];
     
-    // begin the session and make a few calls
-    [session beginGroupRecordingWithCollector:collector];
+    // begin the verification and make a few calls
+    [verifier beginGroupRecordingWithCollector:collector];
     for (MCKVerificationResult *result in results) {
-        session.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
-        [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+        verifier.verificationHandler = [FakeVerificationHandler handlerWithResult:result];
+        [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     }
     
     // when
-    [session finishGroupRecording];
+    [verifier finishGroupRecording];
     
     // then
     XCTAssertEqualObjects(invocations, expectedRemainingInvocations, @"Invocations were not removed");
@@ -372,14 +363,14 @@
 
 - (void)testThatVerifyCallsDelegateWhenProcessingTimeout {
     // given
-    session.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
-    session.timeout = 0.1;
+    verifier.verificationHandler = [FakeVerificationHandler handlerWhichFailsWithReason:nil];
+    verifier.timeout = 0.1;
     
-    __block BOOL willProcessCalled = NO; sessionDelegate.onWillProcessTimeout = ^{ willProcessCalled = YES; };
-    __block BOOL didProcessCalled = NO; sessionDelegate.onDidProcessTimeout = ^{ didProcessCalled = YES; };
+    __block BOOL willProcessCalled = NO; verifierDelegate.onWillProcessTimeout = ^{ willProcessCalled = YES; };
+    __block BOOL didProcessCalled = NO; verifierDelegate.onDidProcessTimeout = ^{ didProcessCalled = YES; };
     
     // when
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertTrue(willProcessCalled, @"Was not suspended");
@@ -392,14 +383,14 @@
     MCKVerificationResult *successResult = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
     MCKVerificationResult *failureResult = [MCKVerificationResult failureWithReason:@"" matchingIndexes:[NSIndexSet indexSet]];
     
-    session.timeout = 1.0;
-    session.verificationHandler = [FakeVerificationHandler handlerWithImplementation:
+    verifier.timeout = 1.0;
+    verifier.verificationHandler = [FakeVerificationHandler handlerWithImplementation:
                                    ^MCKVerificationResult *(MCKInvocationPrototype *p, NSArray *a) {
                                        return (shouldSucceed ? successResult : failureResult);
                                    }];
     
-    __block BOOL onFinishCalled = NO; sessionDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; sessionDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
+    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
     
     
     // when
@@ -407,40 +398,11 @@
         shouldSucceed = YES;
     }];
     
-    [session verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
+    [verifier verifyInvocations:invocations forPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     XCTAssertTrue(onFinishCalled, @"On finish was not called");
     XCTAssertFalse(onFailureCalled, @"On failure was called");
-}
-
-@end
-
-
-@implementation VerificationSessionDelegate
-
-- (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason {
-    if (self.onFailure != nil) {
-        self.onFailure(reason);
-    }
-}
-
-- (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer {
-    if (self.onFinish != nil) {
-        self.onFinish();
-    }
-}
-
-- (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer {
-    if (self.onWillProcessTimeout != nil) {
-        self.onWillProcessTimeout();
-    }
-}
-
-- (void)invocationVerifierDidProcessTimeout:(MCKInvocationVerifier *)verififer {
-    if (self.onDidProcessTimeout != nil) {
-        self.onDidProcessTimeout();
-    }
 }
 
 @end

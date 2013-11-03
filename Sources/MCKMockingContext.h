@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
+@class MCKInvocationRecorder;
 @class MCKInvocationStubber;
 @class MCKInvocationVerifier;
 @class MCKArgumentMatcherRecorder;
@@ -45,7 +46,7 @@ typedef enum {
 
 #pragma mark - Core Objects
 
-@property (nonatomic, strong) NSMutableArray *mutableRecordedInvocations;
+@property (nonatomic, strong) MCKInvocationRecorder *invocationRecorder;
 @property (nonatomic, strong) MCKInvocationStubber *invocationStubber;
 @property (nonatomic, strong) MCKInvocationVerifier *invocationVerifier;
 @property (nonatomic, strong) MCKArgumentMatcherRecorder *argumentMatcherRecorder;

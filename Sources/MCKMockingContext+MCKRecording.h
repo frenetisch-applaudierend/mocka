@@ -7,9 +7,10 @@
 //
 
 #import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
 
 
-@interface MCKMockingContext (MCKRecording)
+@interface MCKMockingContext (MCKRecording) <MCKInvocationRecorderDelegate>
 
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 

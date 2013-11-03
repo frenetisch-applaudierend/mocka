@@ -77,7 +77,8 @@ static __weak id _CurrentContext = nil;
 
 - (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
-        _mutableRecordedInvocations = [NSMutableArray array];
+        _invocationRecorder = [[MCKInvocationRecorder alloc] init];
+        _invocationRecorder.delegate = self;
         _invocationStubber = [[MCKInvocationStubber alloc] init];
         _invocationVerifier = [[MCKInvocationVerifier alloc] init];
         _invocationVerifier.delegate = self;

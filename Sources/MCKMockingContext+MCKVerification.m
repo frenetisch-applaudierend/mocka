@@ -9,6 +9,7 @@
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
 
+#import "MCKInvocationRecorder.h"
 #import "MCKInvocationVerifier.h"
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKInvocationPrototype.h"
@@ -45,7 +46,7 @@
 - (void)verifyInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    [self.invocationVerifier verifyInvocations:self.mutableRecordedInvocations forPrototype:prototype];
+    [self.invocationVerifier verifyInvocations:self.invocationRecorder.mutableInvocations forPrototype:prototype];
 }
 
 - (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason {

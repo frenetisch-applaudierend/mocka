@@ -7,18 +7,20 @@
 //
 
 #import "MCKMockingContext+MCKRecording.h"
-
 #import "MCKInvocationStubber.h"
 
 
 @implementation MCKMockingContext (MCKRecording)
 
 - (NSArray *)recordedInvocations {
-    return [self.mutableRecordedInvocations copy];
+    return self.invocationRecorder.recordedInvocations;
 }
 
 - (void)recordInvocation:(NSInvocation *)invocation {
-    [self.mutableRecordedInvocations addObject:invocation];
+    [self.invocationRecorder recordInvocation:invocation];
+}
+
+- (void)invocationRecorder:(MCKInvocationRecorder *)recorded didRecordInvocation:(NSInvocation *)invocation {
     [self.invocationStubber applyStubsForInvocation:invocation];
 }
 
