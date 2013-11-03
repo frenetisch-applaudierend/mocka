@@ -8,6 +8,7 @@
 
 #import "MCKMockingSyntax.h"
 
+#import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKVerification.h"
 
 #import "MCKMockObject.h"

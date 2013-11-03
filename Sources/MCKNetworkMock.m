@@ -10,10 +10,11 @@
 #import "MCKNetworkMock_Private.h"
 #import "MCKMockObject.h"
 #import "MCKNetworkRequestMatcher.h"
-#import "MCKMockingContext.h"
-#import "MCKMockingContext+MCKFailureHandling.h"
-#import "NSInvocation+MCKArgumentHandling.h"
 
+#import "MCKMockingContext+MCKStubbing.h"
+#import "MCKMockingContext+MCKFailureHandling.h"
+
+#import "NSInvocation+MCKArgumentHandling.h"
 #import "OHHTTPStubsResponse+JSON.h"
 
 #import <objc/runtime.h>

@@ -14,8 +14,6 @@
 
 @implementation MCKMockingContext (MCKArgumentRecording)
 
-#pragma mark - Argument Matching
-
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
     if (![self checkCanPushArgumentMatcher]) {
         return 0;

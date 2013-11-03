@@ -12,8 +12,6 @@
 
 @interface MCKMockingContext (MCKVerification) <MCKInvocationVerifierDelegate>
 
-#pragma mark - Verifying
-
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 
 - (void)verifyInvocation:(NSInvocation *)invocation;

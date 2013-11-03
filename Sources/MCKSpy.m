@@ -8,6 +8,7 @@
 
 #import "MCKSpy.h"
 #import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
 
 #import <objc/runtime.h>

@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "Mocka.h"
-#import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKStubbing.h"
 #import "MCKArgumentMatcherRecorder.h"
 
 

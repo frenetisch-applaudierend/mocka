@@ -16,8 +16,6 @@
 
 @implementation MCKMockingContext (MCKVerification)
 
-#pragma mark - Verification
-
 - (void)beginVerificationWithTimeout:(NSTimeInterval)timeout {
     self.invocationVerifier.timeout = timeout;
     [self updateContextMode:MCKContextModeVerifying];

@@ -72,15 +72,4 @@ typedef enum {
 
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
-
-#pragma mark - Stubbing
-
-
-@property (nonatomic, readonly) MCKStub *activeStub;
-
-- (void)beginStubbing;
-- (void)endStubbing;
-
-- (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-
 @end

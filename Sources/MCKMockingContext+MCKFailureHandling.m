@@ -13,8 +13,6 @@
 
 @implementation MCKMockingContext (MCKFailureHandling)
 
-#pragma mark - Handling Failures
-
 - (void)failWithReason:(NSString *)reason, ... {
     va_list ap;
     va_start(ap, reason);

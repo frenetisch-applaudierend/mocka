@@ -11,8 +11,6 @@
 
 @interface MCKMockingContext (MCKFailureHandling)
 
-#pragma mark - Handling Failures
-
 - (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);
 
 @end
