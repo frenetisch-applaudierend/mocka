@@ -6,64 +6,124 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
+#import "TestingSupport.h"
 
 #import "MCKInvocationVerifier.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 
-#import "BlockInvocationVerifierDelegate.h"
-#import "FakeInvocationPrototype.h"
-#import "FakeVerificationHandler.h"
-#import "FakeVerificationResultCollector.h"
-#import "FakeMockingContext.h"
-#import "AsyncService.h"
-#import "NSInvocation+TestSupport.h"
-
 
 @interface MCKInvocationVerifierTest : XCTestCase @end
 @implementation MCKInvocationVerifierTest {
     MCKInvocationVerifier *verifier;
-    BlockInvocationVerifierDelegate *verifierDelegate;
     MCKInvocationRecorder *invocationRecorder;
-    NSArray *results;
+    BlockInvocationVerifierDelegate *verifierDelegate;
+    NSMutableArray *delegateCallSequence;
 }
 
-#pragma mark - Setup
-
 - (void)setUp {
+    __weak typeof(self) weakSelf = self;
+    
+    delegateCallSequence = [NSMutableArray array];
+    
     verifierDelegate = [[BlockInvocationVerifierDelegate alloc] init];
-    verifier = [[MCKInvocationVerifier alloc] init];
-    verifier.delegate = verifierDelegate;
+    verifierDelegate.onFinish = ^{
+        __strong typeof (weakSelf) self = weakSelf;
+        [self->delegateCallSequence addObject:@"onFinish"];
+    };
+    verifierDelegate.onFailure = ^ (NSString *_) {
+        __strong typeof (weakSelf) self = weakSelf;
+        [self->delegateCallSequence addObject:@"onFailure"];
+    };
+    verifierDelegate.onWillProcessTimeout = ^{
+        __strong typeof (weakSelf) self = weakSelf;
+        [self->delegateCallSequence addObject:@"onWillProcessTimeout"];
+    };
+    verifierDelegate.onDidProcessTimeout = ^{
+        __strong typeof (weakSelf) self = weakSelf;
+        [self->delegateCallSequence addObject:@"onDidProcessTimeout"];
+    };
     
     invocationRecorder = [[MCKInvocationRecorder alloc] init];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     
-    results = @[
-        [MCKVerificationResult successWithMatchingIndexes:nil],
-        [MCKVerificationResult successWithMatchingIndexes:nil],
-        [MCKVerificationResult successWithMatchingIndexes:nil]
-    ];
+    verifier = [[MCKInvocationVerifier alloc] init];
+    verifier.delegate = verifierDelegate;
+}
+
+- (FakeVerificationHandler *)verificationHandlerWhichFailsUnless:(BOOL(^)(void))condition {
+    return [FakeVerificationHandler handlerWithImplementation:^MCKVerificationResult*(MCKInvocationPrototype *p, NSArray *a) {
+        return (condition()
+                ? [MCKVerificationResult successWithMatchingIndexes:nil]
+                : [MCKVerificationResult failureWithReason:nil matchingIndexes:nil]);
+    }];
 }
 
 
-#pragma mark - Test Initialization
+@end
 
-- (void)testThatDefaultHandlerIsSet {
+
+#pragma mark - Test General Usage
+@implementation MCKInvocationVerifierTest (GeneralSetup)
+
+- (void)testThatIfNoHandlerIsSetTheDefaultHandlerIsUsed {
+    // given
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    
+    // then
     expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
 }
 
+- (void)testThatUsingAnotherHandlerWillSetThisHandler {
+    // given
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    
+    // when
+    FakeVerificationHandler *handler = [FakeVerificationHandler dummy];
+    [verifier useVerificationHandler:handler];
+    
+    // then
+    expect(verifier.verificationHandler).to.equal(handler);
+}
 
-#pragma mark - Test Verify in Single Call Mode
+- (void)testThatUsingMultipleHandlersWillSetLastHandler {
+    // given
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    
+    // when
+    [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
+    [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
+    
+    FakeVerificationHandler *usedHandler = [FakeVerificationHandler dummy];
+    [verifier useVerificationHandler:usedHandler];
+    
+    // then
+    expect(verifier.verificationHandler).to.equal(usedHandler);
+}
 
-- (void)testThatVerifyPassesArgumentsToVerificationHandlerInSingleMode {
+@end
+
+
+#pragma mark - Test Verification in Single Call Mode
+@implementation MCKInvocationVerifierTest (SingleCallMode)
+
+// Single call mode flow:
+//
+// 1 call to  -[MCKInvocationVerifier beginVerificationWithInvocationRecorder:]
+// N calls to -[MCKInvocationVerifier useVerificationHandler:]
+// 1 call to  -[MCKInvocationVerifier verifyInvocationsForPrototype:]
+//
+
+
+#pragma mark - Calling and Verifying
+
+- (void)testThatVerifyInvocationsVerifiesUsingPassedHandlerInSingleCallMode {
     // given
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
-    MCKInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];
     
     // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
@@ -72,201 +132,67 @@
     
     // then
     expect([[handler.calls lastObject] prototype]).to.equal(prototype);
-    expect([[handler.calls lastObject] invocations]).to.equal(invocationRecorder.recordedInvocations);
 }
 
-- (void)testThatVerifyNotifiesOnlyFinishAfterSuccessInSingleMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(onFailureCalled).to.beTruthy();
-    expect(onFailureCalled).to.beFalsy();
-}
-
-- (void)testThatVerifyNotifiesFirstFailureThenFinishAfterFailureInSingleMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    
-    NSMutableArray *calls = [NSMutableArray array];
-    verifierDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
-    verifierDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(calls).to.equal(@[ @"onFailure", @"onFinish" ]); // must be in correct order
-}
-
-- (void)testThatVerifyRemovesMatchingInvocationsAfterSuccessInSingleMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceedsWithMatches:[NSIndexSet indexSetWithIndex:1]]];
-    NSArray *expectedRemainingInvocations = @[
-        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
-    ];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
-}
-
-- (void)testThatVerifyRemovesMatchingInvocationsAfterFailureInSingleMode {
-    // given
-    NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithMatches:matches reason:nil]];
-    NSArray *expectedRemainingInvocations = @[
-        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
-    ];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
-}
-
-- (void)testThatVerifyResetsHandlerToDefaultAfterSuccessInSingleMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-}
-
-- (void)testThatVerifyResetsHandlerToDefaultAfterFailureInSingleMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-}
-
-
-#pragma mark - Test Verify in Group Call Mode
-
-- (void)testThatVerifyPassesArgumentsToVerificationHandlerInGroupMode {
+- (void)testThatVerifyInvocationsVerifiesRecorderInvocationsInSingleCallMode {
     // given
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
     
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
     // when
-    MCKInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
-    [verifier verifyInvocationsForPrototype:prototype];
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier useVerificationHandler:handler];
+    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    expect([[handler.calls lastObject] prototype]).to.equal(prototype);
     expect([[handler.calls lastObject] invocations]).to.equal(invocationRecorder.recordedInvocations);
 }
 
-- (void)testThatVerifyDoesNotNotifyFinishOrFailureAfterSuccessInGroupMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
-    
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(onFinishCalled).to.beFalsy();
-    expect(onFailureCalled).to.beFalsy();
-}
-
-- (void)testThatVerifyNotifiesOnlyFailureAfterFailureInGroupMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
-    
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(onFinishCalled).to.beFalsy();
-    expect(onFailureCalled).to.beTruthy();
-}
-
-- (void)testThatVerifyDoesNotRemoveMatchingInvocationsAfterSuccessInGroupMode {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceedsWithMatches:[NSIndexSet indexSetWithIndex:1]]];
-    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
-    
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
-}
-
-- (void)testThatVerifyDoesNotRemoveMatchingInvocationsAfterFailureInGroupMode {
+- (void)testThatVerifyRemovesMatchingInvocationsAfterSuccessInSingleCallMode {
     // given
     NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
+    NSArray *expectedRemainingInvocations = @[
+        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
+    ];
+    
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceedsWithMatches:matches]];
+    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    
+    // then
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+}
+
+- (void)testThatVerifyRemovesMatchingInvocationsAfterFailureInSingleCallMode {
+    // given
+    NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
+    NSArray *expectedRemainingInvocations = @[
+        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
+    ];
+    
+    // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithMatches:matches reason:nil]];
-    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
-    
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
-    // when
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
-- (void)testThatVerifyResetsHandlerToDefaultAfterSuccessInGroupMode {
-    // given
+- (void)testThatVerifyResetsHandlerToDefaultAfterSuccessInSingleCallMode {
+    // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
-    // when
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
     expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
 }
 
-- (void)testThatVerifyResetsHandlerToDefaultAfterFailureInGroupMode {
-    // given
+- (void)testThatVerifyResetsHandlerToDefaultAfterFailureInSingleCallMode {
+    // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector collector]];
-    
-    // when
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
@@ -274,118 +200,273 @@
 }
 
 
-#pragma mark - Test Finishing Group Mode
+#pragma mark - Notifications
 
-- (void)testThatFinishGroupPassesResultsToCollector {
-    // given
-    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collector];
-    
-    // begin the verification and make a few calls
+- (void)testThatVerifyNotifiesOnlyFinishAfterSuccessInSingleCallMode {
+    // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier startGroupVerificationWithCollector:collector];
-    for (MCKVerificationResult *result in results) {
+    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    
+    // then
+    expect(delegateCallSequence).to.equal(@[ @"onFinish" ]);
+}
+
+- (void)testThatVerifyNotifiesFirstFailureThenFinishAfterFailureInSingleCallMode {
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
+    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    
+    // then
+    expect(delegateCallSequence).to.equal(@[ @"onFailure", @"onFinish" ]);
+}
+
+@end
+
+
+#pragma mark - Test Verification in Group Call Mode
+@implementation MCKInvocationVerifierTest (GroupCallMode)
+
+// Group call mode flow:
+//
+// 1 call to  -[MCKInvocationVerifier beginVerificationWithInvocationRecorder:]
+// 1 call to  -[MCKInvocationVerifier startGroupVerificationWithCollector:]
+// N sequences of
+//     N calls to -[MCKInvocationVerifier useVerificationHandler:]
+//     1 call to -[MCKInvocationVerifier verifyInvocationsForPrototype:]
+// 1 call to  -[MCKInvocationVerifier finishGroupVerification]
+//
+
+
+#pragma mark - Calling and Verifying
+
+- (void)testThatVerifyInvocationsVerifiesUsingPassedHandlerInGroupCallMode {
+    // given
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
+    FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];
+    
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:handler];
+        [verifier verifyInvocationsForPrototype:prototype];
+    };
+    [verifier finishGroupVerification];
+    
+    // then
+    expect([[handler.calls lastObject] prototype]).to.equal(prototype);
+}
+
+- (void)testThatVerifyInvocationsVerifiesRecorderInvocationsInGroupCallMode {
+    // given
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
+    
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:handler];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        [verifier useVerificationHandler:handler];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
+    [verifier finishGroupVerification];
+    
+    // then
+    expect([[handler.calls lastObject] invocations]).to.equal(invocationRecorder.recordedInvocations);
+}
+
+- (void)testThatVerifyDoesNotRemovesAnyInvocationsAfterSuccessInGroupCallMode {
+    // given
+    NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matches];
+    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
+    
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:handler];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
+    [verifier finishGroupVerification];
+    
+    // then
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+}
+
+- (void)testThatVerifyDoesNotRemoveAnyInvocationsAfterFailureInGroupCallMode {
+    // given
+    NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
+    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichFailsWithMatches:matches reason:nil];
+    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
+    
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:handler];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
+    [verifier finishGroupVerification];
+    
+    // then
+    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+}
+
+- (void)testThatVerifyResetsHandlerToDefaultAfterEachSuccessfulVerifyInGroupCallMode {
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+        
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+    };
+    [verifier finishGroupVerification];
+    
+    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+}
+
+- (void)testThatVerifyResetsHandlerToDefaultAfterFailureInGroupCallMode {
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    }
+        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+        
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+    };
+    [verifier finishGroupVerification];
     
+    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+}
+
+
+#pragma mark - Notifications
+
+- (void)testThatVerifyNotifiesOnlyFinishAfterSuccessInGroupCallMode {
     // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
     [verifier finishGroupVerification];
     
     // then
-    expect(collector.collectedResults).to.equal(results);
+    expect(delegateCallSequence).to.equal(@[ @"onFinish" ]);
 }
 
-- (void)testThatFinishGroupNotifiesOnlyFinishAfterSuccess {
+- (void)testThatVerifyNotifiesFailuresForFailingVerificationsThenFinishAfterVerificationFailureInGroupCallMode {
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
+    [verifier finishGroupVerification];
+    
+    // then
+    expect(delegateCallSequence).to.equal(@[ @"onFailure", @"onFailure", @"onFinish" ]);
+}
+
+- (void)testThatVerifyNotifiesFirstFailureThenFinishAfterSuccessAndFailureInGroupCallMode {
+    // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
+        // first call succeeds
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+        
+        // second call fails
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
+    [verifier finishGroupVerification];
+    
+    // then
+    expect(delegateCallSequence).to.equal(@[ @"onFailure", @"onFinish" ]);
+}
+
+
+
+#pragma mark - Collector Interaction
+
+- (void)testThatStartGroupVerificationCallsBeginCollectingOnCollector {
     // given
-    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collector];
+    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector dummy];
     
-    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
-    
-    // begin the verification and make a few calls
+    // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
     [verifier startGroupVerificationWithCollector:collector];
-    for (MCKVerificationResult *result in results) {
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWithResult:result]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    }
-    
-    // when
-    [verifier finishGroupVerification];
     
     // then
-    expect(onFinishCalled).to.beFalsy();
-    expect(onFailureCalled).to.beTruthy();
+    expect(collector.invocationRecorder).to.equal(invocationRecorder);
 }
 
-- (void)testThatFinishGroupNotifiesFirstFailureThenFinishAfterFailure {
+- (void)testThatVerifyPassesResultToCollector {
     // given
-    MCKVerificationResult *failure = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSet]];
-    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:failure];
+    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector dummy];
     
-    NSMutableArray *calls = [NSMutableArray array];
-    verifierDelegate.onFinish = ^{ [calls addObject:@"onFinish"]; };
-    verifierDelegate.onFailure = ^(NSString *_){ [calls addObject:@"onFailure"]; };
-    
-    // begin the verification and make a few calls
+    // when
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier startGroupVerificationWithCollector:collector];
-    for (MCKVerificationResult *result in results) {
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWithResult:result]];
+    [verifier startGroupVerificationWithCollector:collector]; {
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    }
-    
-    // when
+        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
+        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    };
     [verifier finishGroupVerification];
     
     // then
-    expect(calls).to.equal(@[ @"onFailure", @"onFinish" ]);
+    expect(collector.collectedResults).to.equal(@[
+        [MCKVerificationResult successWithMatchingIndexes:nil],
+        [MCKVerificationResult failureWithReason:nil matchingIndexes:nil],
+    ]);
 }
 
-- (void)testThatFinishGroupDoesNotRemoveMatchingInvocationsAfterSuccess {
+- (void)testThatFinishGroupNotifiesFinishForSuccessfulCollectorResultInGroupCallMode {
     // given
-    MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:1]];
+    MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:nil];
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
-    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
-    
-    // begin the verification and make a few calls
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier startGroupVerificationWithCollector:collector];
-    for (MCKVerificationResult *result in results) {
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWithResult:result]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    }
     
     // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:collector];
     [verifier finishGroupVerification];
     
     // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+    expect(delegateCallSequence).to.equal(@[ @"onFinish" ]);
 }
 
-- (void)testThatFinishGroupDoesNotRemoveMatchingInvocationsAfterFailure {
+- (void)testThatFinishGroupNotifiesFailureForFailingCollectorResultInGroupCallMode {
     // given
-    MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSetWithIndex:1]];
+    MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:nil];
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
-    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
-    
-    // begin the verification and make a few calls
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
-    [verifier startGroupVerificationWithCollector:collector];
-    for (MCKVerificationResult *result in results) {
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWithResult:result]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    }
     
     // when
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier startGroupVerificationWithCollector:collector];
     [verifier finishGroupVerification];
     
     // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+    expect(delegateCallSequence).to.equal(@[ @"onFailure", @"onFinish" ]);
 }
+
+@end
 
 
 #pragma mark - Test Verification with Timeout
+@implementation MCKInvocationVerifierTest (Timeout)
 
 - (void)testThatVerifyCallsDelegateWhenProcessingTimeout {
     // given
@@ -393,33 +474,23 @@
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
     verifier.timeout = 0.1;
     
-    __block BOOL willProcessCalled = NO; verifierDelegate.onWillProcessTimeout = ^{ willProcessCalled = YES; };
-    __block BOOL didProcessCalled = NO; verifierDelegate.onDidProcessTimeout = ^{ didProcessCalled = YES; };
-    
     // when
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    expect(willProcessCalled).to.beTruthy();
-    expect(didProcessCalled).to.beTruthy();
+    NSIndexSet *firstTwo = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)];
+    expect([delegateCallSequence objectsAtIndexes:firstTwo]).to.equal(@[ @"onWillProcessTimeout", @"onDidProcessTimeout" ]);
 }
 
 - (void)testThatVerifyNotifiesOnlyFinishAfterSuccessWithTimeout {
     // given
     __block BOOL shouldSucceed = NO;
-    MCKVerificationResult *successResult = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
-    MCKVerificationResult *failureResult = [MCKVerificationResult failureWithReason:@"" matchingIndexes:[NSIndexSet indexSet]];
     
     [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
     verifier.timeout = 1.0;
-    
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWithImplementation:
-                                      ^MCKVerificationResult *(MCKInvocationPrototype *p, NSArray *a) {
-                                          return (shouldSucceed ? successResult : failureResult);
-                                      }]];
-    
-    __block BOOL onFinishCalled = NO; verifierDelegate.onFinish = ^{ onFinishCalled = YES; };
-    __block BOOL onFailureCalled = NO; verifierDelegate.onFailure = ^(NSString *_){ onFailureCalled = YES; };
+    [verifier useVerificationHandler:[self verificationHandlerWhichFailsUnless:^BOOL{
+        return shouldSucceed;
+    }]];
     
     
     // when
@@ -430,8 +501,7 @@
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    expect(onFinishCalled).to.beTruthy();
-    expect(onFailureCalled).to.beFalsy();
+    expect(delegateCallSequence).to.equal(@[ @"onWillProcessTimeout", @"onDidProcessTimeout", @"onFinish" ]);
 }
 
 @end

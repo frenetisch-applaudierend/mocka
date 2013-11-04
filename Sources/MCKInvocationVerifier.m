@@ -54,7 +54,7 @@
 }
 
 - (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype {
-    MCKVerificationResult *result = [self resultForInvocations:self.invocationRecorder.recordedInvocations prototype:prototype];
+    MCKVerificationResult *result = [self resultForInvocationPrototype:prototype];
     
     if ([self isInGroupVerification]) {
         [self collectResult:result];
@@ -94,17 +94,21 @@
 
 #pragma mark - Verification Primitives
 
-- (MCKVerificationResult *)resultForInvocations:(NSArray *)invocations prototype:(MCKInvocationPrototype *)prototype {
-    MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+- (MCKVerificationResult *)resultForInvocationPrototype:(MCKInvocationPrototype *)prototype {
+    MCKVerificationResult *result = [self currentResultForPrototype:prototype];
     
     NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
     while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
         [self.delegate invocationVerifierWillProcessTimeout:self];
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
         [self.delegate invocationVerifierDidProcessTimeout:self];
-        result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+        result = [self currentResultForPrototype:prototype];
     }
     return result;
+}
+
+- (MCKVerificationResult *)currentResultForPrototype:(MCKInvocationPrototype *)prototype {
+    return [self.verificationHandler verifyInvocations:self.invocationRecorder.recordedInvocations forPrototype:prototype];
 }
 
 - (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result {

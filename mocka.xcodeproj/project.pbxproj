@@ -423,6 +423,7 @@
 		639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationResultCollector.m; sourceTree = "<group>"; };
 		639085F017FA2097006A0714 /* MCKInOrderCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKInOrderCollector.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		639085F117FA2097006A0714 /* MCKInOrderCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollector.m; sourceTree = "<group>"; };
+		6394CE4D1828110B00D80E48 /* TestingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestingSupport.h; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -909,8 +910,9 @@
 		63BDE2D817F59E9F00584A08 /* Utilities and Test Objects */ = {
 			isa = PBXGroup;
 			children = (
+				6394CE4D1828110B00D80E48 /* TestingSupport.h */,
 				63BDE2F617F5A01100584A08 /* Test Objects */,
-				63BDE2FE17F5A05E00584A08 /* Matchers */,
+				63BDE2FE17F5A05E00584A08 /* Test Matchers */,
 				63BDE2F517F5A00B00584A08 /* Fakes */,
 				63BDE2FF17F5A06E00584A08 /* Utilities */,
 			);
@@ -951,14 +953,14 @@
 			name = "Test Objects";
 			sourceTree = "<group>";
 		};
-		63BDE2FE17F5A05E00584A08 /* Matchers */ = {
+		63BDE2FE17F5A05E00584A08 /* Test Matchers */ = {
 			isa = PBXGroup;
 			children = (
 				63BDE2DE17F59FEF00584A08 /* HCMatcher.h */,
 				63BDE2DC17F59FEF00584A08 /* HCBlockMatcher.h */,
 				63BDE2DD17F59FEF00584A08 /* HCBlockMatcher.m */,
 			);
-			name = Matchers;
+			name = "Test Matchers";
 			sourceTree = "<group>";
 		};
 		63BDE2FF17F5A06E00584A08 /* Utilities */ = {

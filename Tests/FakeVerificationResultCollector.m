@@ -20,7 +20,11 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)collector {
++ (instancetype)dummy {
+    return [self collectorWithSuccessfulResult];
+}
+
++ (instancetype)collectorWithSuccessfulResult {
     return [[self alloc] initWithMergedResult:[MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]]];
 }
 
@@ -40,6 +44,7 @@
 #pragma mark - Collector Methods
 
 - (void)beginCollectingResultsWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder {
+    _invocationRecorder = invocationRecorder;
 }
 
 - (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result {

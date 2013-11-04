@@ -31,6 +31,23 @@
 }
 
 
+#pragma mark - Equality Testing
+
+- (NSUInteger)hash {
+    return (self.success | ([self.failureReason hash] ^ [self.matchingIndexes hash]));
+}
+
+- (BOOL)isEqual:(id)object {
+    if (object == self) { return YES; }
+    else if (object == nil || [object class] != [self class]) { return NO; }
+    typeof(self) other = object;
+    
+    return (self.success == other.success
+            && (self.failureReason == other.failureReason || [self.failureReason isEqualToString:other.failureReason])
+            && (self.matchingIndexes == other.matchingIndexes || [self.matchingIndexes isEqualToIndexSet:other.matchingIndexes]));
+}
+
+
 #pragma mark - Debugging
 
 - (NSString *)description {
