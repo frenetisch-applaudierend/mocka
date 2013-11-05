@@ -37,11 +37,13 @@
     return [self.mutableInvocations objectAtIndex:index];
 }
 
-- (void)appendInvocation:(NSInvocation *)invocation {
-    NSParameterAssert(invocation != nil);
-    
-    [self.mutableInvocations addObject:invocation];
+- (void)recordInvocation:(NSInvocation *)invocation {
+    [self appendInvocation:invocation];
     [self.delegate invocationRecorder:self didRecordInvocation:invocation];
+}
+
+- (void)appendInvocation:(NSInvocation *)invocation {
+    [self.mutableInvocations addObject:invocation];
 }
 
 - (void)insertInvocations:(NSArray *)invocations atIndex:(NSUInteger)index {

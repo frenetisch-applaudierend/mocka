@@ -14,6 +14,4 @@
 
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
-- (void)recordInvocation:(NSInvocation *)invocation;
-
 @end

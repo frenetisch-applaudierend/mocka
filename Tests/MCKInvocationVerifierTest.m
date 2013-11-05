@@ -492,7 +492,6 @@
         return shouldSucceed;
     }]];
     
-    
     // when
     [[AsyncService sharedService] callBlockDelayed:^{
         shouldSucceed = YES;

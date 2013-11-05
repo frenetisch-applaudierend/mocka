@@ -116,7 +116,7 @@ static __weak id _CurrentContext = nil;
     }
     
     switch (self.mode) {
-        case MCKContextModeRecording: [self recordInvocation:invocation]; break;
+        case MCKContextModeRecording: [self.invocationRecorder recordInvocation:invocation]; break;
         case MCKContextModeStubbing:  [self stubInvocation:invocation]; break;
         case MCKContextModeVerifying: [self verifyInvocation:invocation]; break;
             

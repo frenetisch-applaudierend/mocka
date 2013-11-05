@@ -25,6 +25,8 @@
 
 - (NSInvocation *)invocationAtIndex:(NSUInteger)index;
 
+- (void)recordInvocation:(NSInvocation *)invocation;
+
 - (void)appendInvocation:(NSInvocation *)invocation;
 - (void)insertInvocations:(NSArray *)invocations atIndex:(NSUInteger)index;
 
