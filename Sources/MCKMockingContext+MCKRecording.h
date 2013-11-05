@@ -12,6 +12,4 @@
 
 @interface MCKMockingContext (MCKRecording) <MCKInvocationRecorderDelegate>
 
-@property (nonatomic, readonly) NSArray *recordedInvocations;
-
 @end

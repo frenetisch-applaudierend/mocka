@@ -12,10 +12,6 @@
 
 @implementation MCKMockingContext (MCKRecording)
 
-- (NSArray *)recordedInvocations {
-    return self.invocationRecorder.recordedInvocations;
-}
-
 - (void)invocationRecorder:(MCKInvocationRecorder *)recorded didRecordInvocation:(NSInvocation *)invocation {
     [self.invocationStubber applyStubsForInvocation:invocation];
 }

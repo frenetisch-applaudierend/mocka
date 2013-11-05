@@ -101,7 +101,7 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertTrue([context.recordedInvocations containsObject:invocation], @"Invocation was not recorded");
+    XCTAssertTrue([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was not recorded");
 }
 
 
@@ -116,7 +116,7 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
@@ -193,7 +193,7 @@
     });
     
     // then
-    XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testSuspendingVerificationSetsRecordingMode {
