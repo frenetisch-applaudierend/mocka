@@ -21,10 +21,10 @@
 #import "HCBlockMatcher.h"
 
 // Fakes
-#import "BlockInvocationRecorderDelegate.h"
 #import "BlockInvocationVerifierDelegate.h"
-#import "FakeFailureHandler.h"
 #import "FakeMockingContext.h"
+#import "FakeInvocationStubber.h"
+#import "FakeFailureHandler.h"
 #import "FakeVerificationHandler.h"
 #import "FakeInvocationPrototype.h"
 #import "FakeVerificationResultCollector.h"

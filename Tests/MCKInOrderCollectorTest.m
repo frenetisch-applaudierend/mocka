@@ -24,7 +24,7 @@
 
 - (void)setUp {
     collector = [[MCKInOrderCollector alloc] init];
-    invocationRecorder = [[MCKInvocationRecorder alloc] init];
+    invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:nil];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];

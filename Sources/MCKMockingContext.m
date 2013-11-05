@@ -7,16 +7,17 @@
 //
 
 #import "MCKMockingContext.h"
-#import "MCKInvocationVerifier.h"
-#import "MCKDefaultVerificationHandler.h"
-#import "MCKArgumentMatcherRecorder.h"
+
+#import "MCKInvocationRecorder.h"
 #import "MCKInvocationStubber.h"
+#import "MCKInvocationVerifier.h"
+#import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
 
+//#import "MCKDefaultVerificationHandler.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
-#import "MCKMockingContext+MCKRecording.h"
 #import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
@@ -77,8 +78,7 @@ static __weak id _CurrentContext = nil;
 
 - (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
-        _invocationRecorder = [[MCKInvocationRecorder alloc] init];
-        _invocationRecorder.delegate = self;
+        _invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:self];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
         _invocationVerifier = [[MCKInvocationVerifier alloc] init];
         _invocationVerifier.delegate = self;

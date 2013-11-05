@@ -7,6 +7,8 @@
 //
 
 #import "MCKInvocationRecorder.h"
+#import "MCKMockingContext.h"
+#import "MCKInvocationStubber.h"
 
 
 @interface MCKInvocationRecorder ()
@@ -19,8 +21,9 @@
 
 #pragma mark - Initialization
 
-- (instancetype)init {
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context {
     if ((self = [super init])) {
+        _mockingContext = context;
         _mutableInvocations = [NSMutableArray array];
     }
     return self;
@@ -39,7 +42,7 @@
 
 - (void)recordInvocation:(NSInvocation *)invocation {
     [self appendInvocation:invocation];
-    [self.delegate invocationRecorder:self didRecordInvocation:invocation];
+    [self.mockingContext.invocationStubber applyStubsForInvocation:invocation];
 }
 
 - (void)appendInvocation:(NSInvocation *)invocation {

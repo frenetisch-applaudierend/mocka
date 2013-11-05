@@ -9,14 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol MCKInvocationRecorderDelegate;
+@class MCKMockingContext;
 
 
 @interface MCKInvocationRecorder : NSObject
 
-#pragma mark - Configuration
+#pragma mark - Initialization
 
-@property (nonatomic, weak) id<MCKInvocationRecorderDelegate> delegate;
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
+
+@property (nonatomic, readonly, weak) MCKMockingContext *mockingContext;
 
 
 #pragma mark - Managing Invocations
@@ -32,12 +34,5 @@
 
 - (void)removeInvocationsAtIndexes:(NSIndexSet *)indexes;
 - (void)removeInvocationsInRange:(NSRange)range;
-
-@end
-
-
-@protocol MCKInvocationRecorderDelegate <NSObject>
-
-- (void)invocationRecorder:(MCKInvocationRecorder *)recorded didRecordInvocation:(NSInvocation *)invocation;
 
 @end

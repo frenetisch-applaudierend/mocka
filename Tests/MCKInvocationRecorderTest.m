@@ -6,27 +6,27 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
-#define EXP_SHORTHAND
-#import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
-
+#import "TestingSupport.h"
 #import "MCKInvocationRecorder.h"
-#import "BlockInvocationRecorderDelegate.h"
-#import "NSInvocation+TestSupport.h"
 
 
 @interface MCKInvocationRecorderTest : XCTestCase @end
 @implementation MCKInvocationRecorderTest {
-    MCKInvocationRecorder *recorder;
-    BlockInvocationRecorderDelegate *recorderDelegate;
+    MCKInvocationRecorder *invocationRecorder;
+    FakeInvocationStubber *invocationStubber;
+    FakeMockingContext *mockingContext;
 }
 
 #pragma mark - Setup
 
 - (void)setUp {
-    recorderDelegate = [[BlockInvocationRecorderDelegate alloc] init];
-    recorder = [[MCKInvocationRecorder alloc] init];
-    recorder.delegate = recorderDelegate;
+    mockingContext = [FakeMockingContext fakeContext];
+    
+    invocationStubber = [FakeInvocationStubber fakeStubber];
+    invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:mockingContext];
+    
+    mockingContext.invocationRecorder = invocationRecorder;
+    mockingContext.invocationStubber = invocationStubber;
 }
 
 
@@ -37,12 +37,12 @@
     NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil];
     NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil];
     
-    [recorder appendInvocation:invocation1];
-    [recorder appendInvocation:invocation2];
+    [invocationRecorder appendInvocation:invocation1];
+    [invocationRecorder appendInvocation:invocation2];
     
     // then
-    expect([recorder invocationAtIndex:0]).to.equal(invocation1);
-    expect([recorder invocationAtIndex:1]).to.equal(invocation2);
+    expect([invocationRecorder invocationAtIndex:0]).to.equal(invocation1);
+    expect([invocationRecorder invocationAtIndex:1]).to.equal(invocation2);
 }
 
 #pragma mark - Test Recording Invocations
@@ -53,29 +53,30 @@
     NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    [recorder recordInvocation:invocation1];
-    [recorder recordInvocation:invocation2];
+    [invocationRecorder recordInvocation:invocation1];
+    [invocationRecorder recordInvocation:invocation2];
     
     // then
-    expect(recorder.recordedInvocations).to.equal(@[ invocation1, invocation2 ]);
+    expect(invocationRecorder.recordedInvocations).to.equal(@[ invocation1, invocation2 ]);
 }
 
-- (void)testRecordingInvocationNotifiesDelegate {
+- (void)testRecordingInvocationAppliesStubs {
     // given
     NSInvocation *invocation1 = [NSInvocation voidMethodInvocationForTarget:nil];
     NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil];
     
-    NSMutableArray *recordedInvocations = [NSMutableArray array];
-    recorderDelegate.onRecordInvocation = ^(NSInvocation *invocation) {
-        [recordedInvocations addObject:invocation];
-    };
+    NSMutableArray *appliedInvocations = [NSMutableArray array];
+    [invocationStubber onApplyStubsForInvocation:^BOOL(NSInvocation *invocation) {
+        [appliedInvocations addObject:invocation];
+        return NO;
+    }];
     
     // when
-    [recorder recordInvocation:invocation1];
-    [recorder recordInvocation:invocation2];
+    [invocationRecorder recordInvocation:invocation1];
+    [invocationRecorder recordInvocation:invocation2];
     
     // then
-    expect(recordedInvocations).to.equal(@[ invocation1, invocation2 ]);
+    expect(appliedInvocations).to.equal(@[ invocation1, invocation2 ]);
 }
 
 
@@ -87,11 +88,11 @@
     NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    [recorder appendInvocation:invocation1];
-    [recorder appendInvocation:invocation2];
+    [invocationRecorder appendInvocation:invocation1];
+    [invocationRecorder appendInvocation:invocation2];
     
     // then
-    expect(recorder.recordedInvocations).to.equal(@[ invocation1, invocation2 ]);
+    expect(invocationRecorder.recordedInvocations).to.equal(@[ invocation1, invocation2 ]);
 }
 
 - (void)testInsertingInvocationAddsToRecordedInvocations {
@@ -103,12 +104,12 @@
     NSArray *inserted = @[ invocation3, invocation4 ];
     
     // when
-    [recorder appendInvocation:invocation1];
-    [recorder appendInvocation:invocation2];
-    [recorder insertInvocations:inserted atIndex:0];
+    [invocationRecorder appendInvocation:invocation1];
+    [invocationRecorder appendInvocation:invocation2];
+    [invocationRecorder insertInvocations:inserted atIndex:0];
     
     // then
-    expect(recorder.recordedInvocations).to.equal(@[ invocation3, invocation4, invocation1, invocation2 ]);
+    expect(invocationRecorder.recordedInvocations).to.equal(@[ invocation3, invocation4, invocation1, invocation2 ]);
 }
 
 
@@ -121,16 +122,16 @@
     NSInvocation *invocation3 = [NSInvocation voidMethodInvocationForTarget:nil];
     NSInvocation *invocation4 = [NSInvocation voidMethodInvocationForTarget:nil];
     
-    [recorder appendInvocation:invocation1];
-    [recorder appendInvocation:invocation2];
-    [recorder appendInvocation:invocation3];
-    [recorder appendInvocation:invocation4];
+    [invocationRecorder appendInvocation:invocation1];
+    [invocationRecorder appendInvocation:invocation2];
+    [invocationRecorder appendInvocation:invocation3];
+    [invocationRecorder appendInvocation:invocation4];
     
     // when
-    [recorder removeInvocationsAtIndexes:[NSIndexSet indexSetWithIndex:1]];
+    [invocationRecorder removeInvocationsAtIndexes:[NSIndexSet indexSetWithIndex:1]];
     
     // then
-    expect(recorder.recordedInvocations).to.equal(@[ invocation1, invocation3, invocation4 ]);
+    expect(invocationRecorder.recordedInvocations).to.equal(@[ invocation1, invocation3, invocation4 ]);
 }
 
 - (void)testThatRemoveInvocationInRangeRemovesInvocations {
@@ -140,16 +141,16 @@
     NSInvocation *invocation3 = [NSInvocation voidMethodInvocationForTarget:nil];
     NSInvocation *invocation4 = [NSInvocation voidMethodInvocationForTarget:nil];
     
-    [recorder appendInvocation:invocation1];
-    [recorder appendInvocation:invocation2];
-    [recorder appendInvocation:invocation3];
-    [recorder appendInvocation:invocation4];
+    [invocationRecorder appendInvocation:invocation1];
+    [invocationRecorder appendInvocation:invocation2];
+    [invocationRecorder appendInvocation:invocation3];
+    [invocationRecorder appendInvocation:invocation4];
     
     // when
-    [recorder removeInvocationsInRange:NSMakeRange(1, 2)];
+    [invocationRecorder removeInvocationsInRange:NSMakeRange(1, 2)];
     
     // then
-    expect(recorder.recordedInvocations).to.equal(@[ invocation1, invocation4 ]);
+    expect(invocationRecorder.recordedInvocations).to.equal(@[ invocation1, invocation4 ]);
 }
 
 @end
