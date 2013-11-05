@@ -6,28 +6,23 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#define EXP_SHORTHAND
-#import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
+#import "TestingSupport.h"
+
+#import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
+#import "MCKInvocationStubber.h"
 
 #import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKArgumentRecording.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
 
-#import "MCKInvocationRecorder.h"
-
 #import "MCKMockingSyntax.h"
 #import "MCKStub.h"
+#import "MCKBlockArgumentMatcher.h"
 
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKArgumentMatcherRecorder.h"
-
-#import "TestExceptionUtils.h"
-#import "NSInvocation+TestSupport.h"
-#import "MCKBlockArgumentMatcher.h"
-#import "TestObject.h"
-#import "FakeFailureHandler.h"
 
 
 @interface MCKMockingContextTest : XCTestCase @end
@@ -129,7 +124,7 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertTrue([context isInvocationStubbed:invocation], @"Invocation was not stubbed");
+    XCTAssertTrue([context.invocationStubber hasStubsRecordedForInvocation:invocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatUnhandledMethodIsNotStubbed {
@@ -142,7 +137,7 @@
     [context handleInvocation:stubbedInvocation];
     
     // then
-    XCTAssertFalse([context isInvocationStubbed:unstubbedInvocation], @"Invocation was not stubbed");
+    XCTAssertFalse([context.invocationStubber hasStubsRecordedForInvocation:unstubbedInvocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatModeIsNotSwitchedAfterHandlingInvocation {

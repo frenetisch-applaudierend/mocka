@@ -24,12 +24,6 @@
     [self updateContextMode:MCKContextModeRecording];
 }
 
-- (void)stubInvocation:(NSInvocation *)invocation {
-    NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
-    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    [self.invocationStubber recordStubPrototype:prototype];
-}
-
 - (BOOL)isInvocationStubbed:(NSInvocation *)invocation {
     return [self.invocationStubber hasStubsRecordedForInvocation:invocation];
 }

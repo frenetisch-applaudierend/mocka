@@ -11,7 +11,9 @@
 #import "MCKMockObject.h"
 #import "MCKNetworkRequestMatcher.h"
 
-#import "MCKMockingContext+MCKStubbing.h"
+#import "MCKMockingContext.h"
+#import "MCKInvocationStubber.h"
+
 #import "MCKMockingContext+MCKFailureHandling.h"
 
 #import "NSInvocation+MCKArgumentHandling.h"
@@ -147,7 +149,8 @@ static inline Class StubsResponseClass() {
 
 - (BOOL)hasResponseForRequest:(NSURLRequest *)request {
     // if the network is disabled, we will return an error response
-    return (![self isEnabled] || [self.mockingContext isInvocationStubbed:[self handlerInvocationForRequest:request]]);
+    return (![self isEnabled]
+            || [self.mockingContext.invocationStubber hasStubsRecordedForInvocation:[self handlerInvocationForRequest:request]]);
 }
 
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request {

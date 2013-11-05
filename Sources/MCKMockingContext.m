@@ -14,7 +14,8 @@
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
 
-//#import "MCKDefaultVerificationHandler.h"
+#import "MCKInvocationPrototype.h"
+
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
@@ -99,7 +100,7 @@ static __weak id _CurrentContext = nil;
 }
 
 
-#pragma mark - Handling Invocations
+#pragma mark - Dispatching Invocations
 
 - (void)updateContextMode:(MCKContextMode)newMode {
     NSAssert([self.argumentMatcherRecorder.argumentMatchers count] == 0, @"Should not contain any matchers at this point");
@@ -116,13 +117,26 @@ static __weak id _CurrentContext = nil;
     }
     
     switch (self.mode) {
-        case MCKContextModeRecording: [self.invocationRecorder recordInvocation:invocation]; break;
-        case MCKContextModeStubbing:  [self stubInvocation:invocation]; break;
-        case MCKContextModeVerifying: [self verifyInvocation:invocation]; break;
+        case MCKContextModeRecording:
+            [self.invocationRecorder recordInvocation:invocation];
+            break;
+        
+        case MCKContextModeStubbing:
+            [self.invocationStubber recordStubPrototype:[self prototypeForInvocation:invocation]];
+            break;
+        
+        case MCKContextModeVerifying:
+            [self verifyInvocation:invocation];
+            break;
             
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }
+}
+
+- (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation {
+    NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
+    return [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
 }
 
 @end

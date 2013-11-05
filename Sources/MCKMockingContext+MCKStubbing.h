@@ -16,7 +16,4 @@
 - (void)beginStubbing;
 - (void)endStubbing;
 
-- (void)stubInvocation:(NSInvocation *)invocation;
-- (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-
 @end
