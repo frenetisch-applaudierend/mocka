@@ -58,12 +58,16 @@ typedef enum {
 @property (nonatomic, copy) MCKLocation *currentLocation;
 
 
-#pragma mark - Handling Invocations
+#pragma mark - Dispatching Invocations
 
 @property (nonatomic, readonly) MCKContextMode mode;
 
 - (void)updateContextMode:(MCKContextMode)newMode;
-
 - (void)handleInvocation:(NSInvocation *)invocation;
+
+
+#pragma mark - Stubbing Support
+
+- (MCKStub *)stubCalls:(void(^)(void))callBlock;
 
 @end

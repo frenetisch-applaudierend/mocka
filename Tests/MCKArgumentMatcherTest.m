@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "Mocka.h"
-#import "MCKMockingContext+MCKStubbing.h"
+#import "MCKMockingContext.h"
 #import "MCKArgumentMatcherRecorder.h"
 
 
@@ -33,7 +33,7 @@
 
 - (void)testThatObjectArgumentMatcherIsPassedDirectly {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     
     // when
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
@@ -45,7 +45,7 @@
 
 - (void)testThatPrimitiveNumberMatcherIndexCanBeRetrievedAgain {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -61,7 +61,7 @@
 
 - (void)testThatCStringMatcherIndexCanBeRetrievedAgain {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -77,7 +77,7 @@
 
 - (void)testThatSelectorMatcherIndexCanBeRetrievedAgain {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -93,7 +93,7 @@
 
 - (void)testThatPointerMatcherIndexCanBeRetrievedAgain {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
@@ -109,7 +109,7 @@
 
 - (void)testThatStructMatcherIndexCanBeRetrievedAgain {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];

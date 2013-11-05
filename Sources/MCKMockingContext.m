@@ -19,7 +19,6 @@
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
 
-#import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
 
@@ -137,6 +136,22 @@ static __weak id _CurrentContext = nil;
 - (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation {
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     return [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
+}
+
+
+#pragma mark - Stubbing Support
+
+- (MCKStub *)stubCalls:(void(^)(void))callBlock {
+    NSParameterAssert(callBlock != nil);
+    
+    [self updateContextMode:MCKContextModeStubbing];
+    
+    callBlock();
+    
+    [self.invocationStubber finishRecordingStubGroup];
+    [self updateContextMode:MCKContextModeRecording];
+    
+    return [[self.invocationStubber recordedStubs] lastObject];
 }
 
 @end

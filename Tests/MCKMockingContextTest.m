@@ -12,7 +12,6 @@
 #import "MCKInvocationRecorder.h"
 #import "MCKInvocationStubber.h"
 
-#import "MCKMockingContext+MCKStubbing.h"
 #import "MCKMockingContext+MCKVerification.h"
 #import "MCKMockingContext+MCKArgumentRecording.h"
 #import "MCKMockingContext+MCKFailureHandling.h"
@@ -105,7 +104,7 @@
 
 - (void)testThatHandlingInvocationInStubbingModeDoesNotAddToRecordedInvocations {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -117,7 +116,7 @@
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -129,7 +128,7 @@
 
 - (void)testThatUnhandledMethodIsNotStubbed {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *stubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     NSInvocation *unstubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)];
     
@@ -142,7 +141,7 @@
 
 - (void)testThatModeIsNotSwitchedAfterHandlingInvocation {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -152,27 +151,14 @@
     XCTAssertEqual(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
 }
 
-- (void)testThatEndStubbingSwitchesToRecordingMode {
-    // given
-    [context beginStubbing];
-    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    
+- (void)testThatContextIsInRecordingModeAfterStubbing {
     // when
-    [context endStubbing];
+    [context stubCalls:^{
+        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    }];
     
     // then
     XCTAssertEqual(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
-}
-
-- (void)testThatGettingActiveStubReturnsStubForStubbingInProgress {
-    // given
-    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-    [context beginStubbing];
-    [context handleInvocation:invocation];
-    
-    // then
-    expect(context.activeStub).notTo.beNil();
-    expect([context.activeStub.invocationPrototypes valueForKey:@"invocation"]).to.equal(@[ invocation ]);
 }
 
 
@@ -231,7 +217,7 @@
 
 - (void)testThatMatcherCanBeAddedToContextInStubbingMode {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
     
     // when
@@ -255,7 +241,7 @@
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     id matcher0 = [[MCKBlockArgumentMatcher alloc] init];
     id matcher1 = [[MCKBlockArgumentMatcher alloc] init];
     id matcher2 = [[MCKBlockArgumentMatcher alloc] init];
@@ -269,7 +255,7 @@
 - (void)testThatHandlingInvocationClearsPushedMatchers {
     // given
     TestObject *object = [[TestObject alloc] init];
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     

@@ -8,7 +8,7 @@
 
 #import "MCKMockingSyntax.h"
 
-#import "MCKMockingContext+MCKStubbing.h"
+#import "MCKMockingContext.h"
 #import "MCKMockingContext+MCKVerification.h"
 
 #import "MCKMockObject.h"
@@ -36,11 +36,7 @@ void _mck_beginVerifyWithTimeout(id testCase, MCKLocation *location, NSTimeInter
 MCKStub* _mck_stubCalls(id testCase, MCKLocation *location, void(^calls)(void)) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.currentLocation = location;
-    [context beginStubbing];
-    calls();
-    [context endStubbing];
-    
-    return context.activeStub;
+    return [context stubCalls:calls];
 }
 
 void _mck_updateLocationInfo(MCKLocation *location) {
