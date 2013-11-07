@@ -10,6 +10,7 @@
 #import "MCKInvocationPrototype.h"
 #import "MCKBlockWrapper.h"
 #import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKFailureHandling.h"
 #import "MCKTypeEncodings.h"
 
 

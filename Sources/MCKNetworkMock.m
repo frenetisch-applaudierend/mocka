@@ -10,9 +10,13 @@
 #import "MCKNetworkMock_Private.h"
 #import "MCKMockObject.h"
 #import "MCKNetworkRequestMatcher.h"
-#import "MCKMockingContext.h"
-#import "NSInvocation+MCKArgumentHandling.h"
 
+#import "MCKMockingContext.h"
+#import "MCKInvocationStubber.h"
+
+#import "MCKMockingContext+MCKFailureHandling.h"
+
+#import "NSInvocation+MCKArgumentHandling.h"
 #import "OHHTTPStubsResponse+JSON.h"
 
 #import <objc/runtime.h>
@@ -145,7 +149,8 @@ static inline Class StubsResponseClass() {
 
 - (BOOL)hasResponseForRequest:(NSURLRequest *)request {
     // if the network is disabled, we will return an error response
-    return (![self isEnabled] || [self.mockingContext isInvocationStubbed:[self handlerInvocationForRequest:request]]);
+    return (![self isEnabled]
+            || [self.mockingContext.invocationStubber hasStubsRecordedForInvocation:[self handlerInvocationForRequest:request]]);
 }
 
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request {
@@ -186,8 +191,8 @@ static inline Class StubsResponseClass() {
 
 #pragma mark - Getting the Network Mock
 
-MCKNetworkMock* _mck_getNetworkMock(id testCase, const char *fileName, NSUInteger lineNumber) {
+MCKNetworkMock* _mck_getNetworkMock(id testCase, MCKLocation *location) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     return [MCKNetworkMock mockForContext:context];
 }

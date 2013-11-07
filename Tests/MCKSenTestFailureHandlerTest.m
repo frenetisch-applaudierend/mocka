@@ -6,7 +6,9 @@
 //  Copyright 2012 coresystems ag. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
 
 #import "MCKSenTestFailureHandler.h"
 #import <SenTestingKit/SenTestingKit.h>
@@ -45,50 +47,40 @@
 
 #pragma mark - Test Cases
 
-- (void)testThatFailureHandlerReportsToTestCase {
-    // when
-    [failureHandler handleFailureWithReason:nil];
-    
-    // then
-    XCTAssertNotNil(testCase.lastReportedFailure, @"Failure handler did not report failure");
-}
-
 - (void)testThatFailureHandlerCreatesCorrectException {
     // when
-    [failureHandler handleFailureWithReason:nil];
+    [failureHandler handleFailureAtLocation:nil withReason:nil];
     
     // then
-    XCTAssertEqualObjects(testCase.lastReportedFailure.name, SenTestFailureException, @"Incorrect exception name");
+    expect(testCase.lastReportedFailure.name).to.equal(SenTestFailureException);
 }
 
 - (void)testThatFailureHandlerSetsReason {
     // when
-    [failureHandler handleFailureWithReason:@"This is my reason"];
+    [failureHandler handleFailureAtLocation:nil withReason:@"Error reason"];
     
     // then
-    XCTAssertEqualObjects(testCase.lastReportedFailure.reason, @"This is my reason", @"Incorrect exception reason");
+    expect(testCase.lastReportedFailure.reason).to.equal(@"Error reason");
 }
 
 - (void)testThatFailureHandlerSetsNilReason {
     // when
-    [failureHandler handleFailureWithReason:nil];
+    [failureHandler handleFailureAtLocation:nil withReason:nil];
     
     // then
-    XCTAssertTrue(testCase.lastReportedFailure.reason.length == 0, @"Incorrect exception reason when passing nil");
+    expect(testCase.lastReportedFailure.reason.length).to.equal(0);
 }
 
 - (void)testThatFailureHandlerSetsFilenameAndLineNumber {
     // given
-    [failureHandler updateFileName:@"Foofile.m" lineNumber:10];
+    MCKLocation *location = [MCKLocation locationWithFileName:@"File.m" lineNumber:10];
     
     // when
-    [failureHandler handleFailureWithReason:nil];
+    [failureHandler handleFailureAtLocation:location withReason:nil];
     
     // then
-    XCTAssertEqualObjects(testCase.lastReportedFailure.userInfo[SenTestFilenameKey], @"Foofile.m",
-                          @"Incorrect file name reported");
-    XCTAssertEqualObjects(testCase.lastReportedFailure.userInfo[SenTestLineNumberKey], @10,
-                          @"Incorrect line number reported");
+    expect(testCase.lastReportedFailure.userInfo[SenTestFilenameKey]).to.equal(@"File.m");
+    expect(testCase.lastReportedFailure.userInfo[SenTestLineNumberKey]).to.equal(@10);
 }
 
 @end

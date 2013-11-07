@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 #import "MCKVerificationResult.h"
-#import "MCKInvocationPrototype.h"
-#import "MCKVerificationHandler.h"
+#import "MCKInvocationRecorder.h"
 
 
 @protocol MCKVerificationResultCollector <NSObject>
 
-- (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result forInvocations:(NSMutableArray *)invocations;
-- (MCKVerificationResult *)processCollectedResultsWithInvocations:(NSMutableArray *)invocations;
+- (void)beginCollectingResultsWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder;
+- (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result;
+- (MCKVerificationResult *)finishCollectingResults;
 
 @end
 

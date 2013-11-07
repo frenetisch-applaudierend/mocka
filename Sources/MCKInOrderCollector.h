@@ -17,11 +17,16 @@
 
 
 // safe syntax
+#define mck_verifyCallsInOrder \
+   _mck_beginVerifyWithTimeout(self, _MCKCurrentLocation(), 0.0);\
+    mck_beginVerifyGroupCallsUsingCollector([[MCKInOrderCollector alloc] init])
+
 #define mck_inOrder mck_beginVerifyGroupCallsUsingCollector([[MCKInOrderCollector alloc] init])
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
+    #define verifyCallsInOrder  mck_verifyCallsInOrder
     #define inOrder mck_inOrder
 
 #endif

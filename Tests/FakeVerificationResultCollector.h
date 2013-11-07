@@ -13,9 +13,11 @@
 
 @interface FakeVerificationResultCollector : NSObject <MCKVerificationResultCollector>
 
-+ (instancetype)collector;
++ (instancetype)dummy;
++ (instancetype)collectorWithSuccessfulResult;
 + (instancetype)collectorWithMergedResult:(MCKVerificationResult *)result;
 
+@property (nonatomic, readonly) MCKInvocationRecorder *invocationRecorder;
 @property (nonatomic, readonly) NSArray *collectedResults;
 @property (nonatomic, readonly) MCKVerificationResult *mergedResult;
 

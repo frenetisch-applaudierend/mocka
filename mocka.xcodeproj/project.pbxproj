@@ -44,7 +44,7 @@
 		631E234517FF5F3C00BC2D06 /* MCKMockingContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475AE17F5944B001F5C88 /* MCKMockingContext.m */; };
 		631E234617FF5F3C00BC2D06 /* MCKExactArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334759E17F5944B001F5C88 /* MCKExactArgumentMatcher.m */; };
 		631E234717FF5F3C00BC2D06 /* MCKSpy.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475BF17F5944B001F5C88 /* MCKSpy.m */; };
-		631E234817FF5F3C00BC2D06 /* MCKVerificationSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D717F9AD85006A0714 /* MCKVerificationSession.m */; };
+		631E234817FF5F3C00BC2D06 /* MCKInvocationVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D717F9AD85006A0714 /* MCKInvocationVerifier.m */; };
 		631E234A17FF5F3C00BC2D06 /* MCKTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */; };
 		631E234B17FF5F3C00BC2D06 /* MCKMockingSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA43F17F5C6740086226D /* MCKMockingSyntax.m */; };
 		631E234C17FF5F3C00BC2D06 /* MCKVerificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA44417F5C9870086226D /* MCKVerificationHandler.m */; };
@@ -63,7 +63,7 @@
 		631E235D17FF5F3C00BC2D06 /* MCKInOrderCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085F017FA2097006A0714 /* MCKInOrderCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		631E235E17FF5F3C00BC2D06 /* MCKStub.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C017F5944B001F5C88 /* MCKStub.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		631E235F17FF5F3C00BC2D06 /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D317F5944B001F5C88 /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		631E236017FF5F3C00BC2D06 /* MCKVerificationSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085D617F9AD85006A0714 /* MCKVerificationSession.h */; };
+		631E236017FF5F3C00BC2D06 /* MCKInvocationVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085D617F9AD85006A0714 /* MCKInvocationVerifier.h */; };
 		631E236117FF5F3C00BC2D06 /* MCKExceptionFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475A117F5944B001F5C88 /* MCKExceptionFailureHandler.h */; };
 		631E236317FF5F3C00BC2D06 /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C917F5944B001F5C88 /* MCKTypeEncodings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		631E236417FF5F3C00BC2D06 /* MCKVerificationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -107,7 +107,7 @@
 		6376F87417FF619E00F4752D /* MCKSpyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BCC17F5A8060041C869 /* MCKSpyTest.m */; };
 		6376F87517FF619E00F4752D /* MCKInvocationPrototypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA45D17F5DF3F0086226D /* MCKInvocationPrototypeTest.m */; };
 		6376F87617FF619E00F4752D /* MCKArgumentMatcherRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */; };
-		6376F87717FF619E00F4752D /* MCKVerificationSessionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */; };
+		6376F87717FF619E00F4752D /* MCKInvocationVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E017F9C269006A0714 /* MCKInvocationVerifierTest.m */; };
 		6376F87817FF619E00F4752D /* MCKInvocationStubberTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC017F5A8060041C869 /* MCKInvocationStubberTest.m */; };
 		6376F87917FF619E00F4752D /* MCKSenTestFailureHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC917F5A8060041C869 /* MCKSenTestFailureHandlerTest.m */; };
 		6376F87A17FF619E00F4752D /* MCKXCTestFailureHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA43517F5B66E0086226D /* MCKXCTestFailureHandlerTest.m */; };
@@ -131,6 +131,8 @@
 		6376F89017FF61D000F4752D /* FakeInvocationPrototype.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA46317F5F8250086226D /* FakeInvocationPrototype.m */; };
 		6376F89117FF61D000F4752D /* FakeVerificationResultCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */; };
 		6376F89217FF61D700F4752D /* NSInvocation+TestSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE2F817F5A04700584A08 /* NSInvocation+TestSupport.m */; };
+		63821F3718294B72008082B5 /* FakeInvocationStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 63821F3618294B72008082B5 /* FakeInvocationStubber.m */; };
+		63821F3818294B72008082B5 /* FakeInvocationStubber.m in Sources */ = {isa = PBXBuildFile; fileRef = 63821F3618294B72008082B5 /* FakeInvocationStubber.m */; };
 		63857DF0181BA59200F63BBB /* MCKNetworkMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857DEE181BA59200F63BBB /* MCKNetworkMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63857DF1181BA59200F63BBB /* MCKNetworkMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 63857DEE181BA59200F63BBB /* MCKNetworkMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63857DF2181BA59200F63BBB /* MCKNetworkMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 63857DEF181BA59200F63BBB /* MCKNetworkMock.m */; };
@@ -205,12 +207,12 @@
 		638BA4D717F6F87C0086226D /* MCKTypeEncodings.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475C917F5944B001F5C88 /* MCKTypeEncodings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		638BA4D817F6F87C0086226D /* MCKTypeEncodings.m in Sources */ = {isa = PBXBuildFile; fileRef = 633475CA17F5944B001F5C88 /* MCKTypeEncodings.m */; };
 		639085D417F99917006A0714 /* MCKArgumentMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D317F99917006A0714 /* MCKArgumentMatcher.m */; };
-		639085D817F9AD85006A0714 /* MCKVerificationSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085D617F9AD85006A0714 /* MCKVerificationSession.h */; };
-		639085D917F9AD85006A0714 /* MCKVerificationSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D717F9AD85006A0714 /* MCKVerificationSession.m */; };
+		639085D817F9AD85006A0714 /* MCKInvocationVerifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085D617F9AD85006A0714 /* MCKInvocationVerifier.h */; };
+		639085D917F9AD85006A0714 /* MCKInvocationVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085D717F9AD85006A0714 /* MCKInvocationVerifier.m */; };
 		639085DB17F9C0D5006A0714 /* MCKVerificationResultCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085DA17F9C0D5006A0714 /* MCKVerificationResultCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		639085DE17F9C0F1006A0714 /* MCKVerificationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		639085DF17F9C0F1006A0714 /* MCKVerificationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */; };
-		639085E217F9C341006A0714 /* MCKVerificationSessionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */; };
+		639085E217F9C341006A0714 /* MCKInvocationVerifierTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E017F9C269006A0714 /* MCKInvocationVerifierTest.m */; };
 		639085E917F9E782006A0714 /* FakeVerificationResultCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */; };
 		639085EF17FA1D3F006A0714 /* MCKVerificationResultCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */; };
 		639085F217FA2097006A0714 /* MCKInOrderCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 639085F017FA2097006A0714 /* MCKInOrderCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -258,6 +260,30 @@
 		63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
 		63D1CABD1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */; };
 		63D1CABE1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */; };
+		63D1CAC11825C2CC009FE9EC /* MCKLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CABF1825C2CC009FE9EC /* MCKLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63D1CAC21825C2CC009FE9EC /* MCKLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CABF1825C2CC009FE9EC /* MCKLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63D1CAC31825C2CC009FE9EC /* MCKLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAC01825C2CC009FE9EC /* MCKLocation.m */; };
+		63D1CAC41825C2CC009FE9EC /* MCKLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAC01825C2CC009FE9EC /* MCKLocation.m */; };
+		63D1CAC71825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAC51825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h */; };
+		63D1CAC81825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAC51825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h */; };
+		63D1CAC91825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAC61825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m */; };
+		63D1CACA1825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAC61825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m */; };
+		63D1CACD18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CACB18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h */; };
+		63D1CACE18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CACB18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h */; };
+		63D1CACF18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CACC18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m */; };
+		63D1CAD018265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CACC18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m */; };
+		63D1CAD318266091009FE9EC /* MCKMockingContext+MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAD118266091009FE9EC /* MCKMockingContext+MCKVerification.h */; };
+		63D1CAD418266091009FE9EC /* MCKMockingContext+MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAD118266091009FE9EC /* MCKMockingContext+MCKVerification.h */; };
+		63D1CAD518266091009FE9EC /* MCKMockingContext+MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAD218266091009FE9EC /* MCKMockingContext+MCKVerification.m */; };
+		63D1CAD618266091009FE9EC /* MCKMockingContext+MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAD218266091009FE9EC /* MCKMockingContext+MCKVerification.m */; };
+		63D1CAE618266B34009FE9EC /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63D1CAE718266B34009FE9EC /* MCKInvocationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63D1CAE818266B34009FE9EC /* MCKInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAE518266B34009FE9EC /* MCKInvocationRecorder.m */; };
+		63D1CAE918266B34009FE9EC /* MCKInvocationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAE518266B34009FE9EC /* MCKInvocationRecorder.m */; };
+		63D1CAF018266D58009FE9EC /* BlockInvocationVerifierDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAEF18266D58009FE9EC /* BlockInvocationVerifierDelegate.m */; };
+		63D1CAF118266D58009FE9EC /* BlockInvocationVerifierDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAEF18266D58009FE9EC /* BlockInvocationVerifierDelegate.m */; };
+		63D1CAF618267019009FE9EC /* MCKInvocationRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAEB18266BEA009FE9EC /* MCKInvocationRecorderTest.m */; };
+		63D1CAF71826701A009FE9EC /* MCKInvocationRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CAEB18266BEA009FE9EC /* MCKInvocationRecorderTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +376,8 @@
 		63732BCC17F5A8060041C869 /* MCKSpyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKSpyTest.m; sourceTree = "<group>"; };
 		6376F85717FF604500F4752D /* mocka-tests-osx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-tests-osx.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6376F86817FF60E100F4752D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		63821F3518294B72008082B5 /* FakeInvocationStubber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeInvocationStubber.h; sourceTree = "<group>"; };
+		63821F3618294B72008082B5 /* FakeInvocationStubber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeInvocationStubber.m; sourceTree = "<group>"; };
 		63857DEC181B9DD600F63BBB /* TestTimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTimingUtils.h; sourceTree = "<group>"; };
 		63857DEE181BA59200F63BBB /* MCKNetworkMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKNetworkMock.h; sourceTree = "<group>"; };
 		63857DEF181BA59200F63BBB /* MCKNetworkMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKNetworkMock.m; sourceTree = "<group>"; };
@@ -378,17 +406,18 @@
 		638BA46D17F6F7A30086226D /* libmocka-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmocka-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		638BA47A17F6F7A30086226D /* mocka-tests-ios.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mocka-tests-ios.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		639085D317F99917006A0714 /* MCKArgumentMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKArgumentMatcher.m; sourceTree = "<group>"; };
-		639085D617F9AD85006A0714 /* MCKVerificationSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationSession.h; sourceTree = "<group>"; };
-		639085D717F9AD85006A0714 /* MCKVerificationSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationSession.m; sourceTree = "<group>"; };
+		639085D617F9AD85006A0714 /* MCKInvocationVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationVerifier.h; sourceTree = "<group>"; };
+		639085D717F9AD85006A0714 /* MCKInvocationVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationVerifier.m; sourceTree = "<group>"; };
 		639085DA17F9C0D5006A0714 /* MCKVerificationResultCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationResultCollector.h; sourceTree = "<group>"; };
 		639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationResult.h; sourceTree = "<group>"; };
 		639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationResult.m; sourceTree = "<group>"; };
-		639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationSessionTest.m; sourceTree = "<group>"; };
+		639085E017F9C269006A0714 /* MCKInvocationVerifierTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationVerifierTest.m; sourceTree = "<group>"; };
 		639085E717F9E782006A0714 /* FakeVerificationResultCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeVerificationResultCollector.h; sourceTree = "<group>"; };
 		639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeVerificationResultCollector.m; sourceTree = "<group>"; };
 		639085EE17FA1D3F006A0714 /* MCKVerificationResultCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationResultCollector.m; sourceTree = "<group>"; };
 		639085F017FA2097006A0714 /* MCKInOrderCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCKInOrderCollector.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		639085F117FA2097006A0714 /* MCKInOrderCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollector.m; sourceTree = "<group>"; };
+		6394CE4D1828110B00D80E48 /* TestingSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestingSupport.h; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -420,6 +449,19 @@
 		63BDE30517F5A18400584A08 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
 		63D1CABB1825840D009FE9EC /* MCKIntegrationTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKIntegrationTestBase.h; sourceTree = "<group>"; };
 		63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKIntegrationTestBase.m; sourceTree = "<group>"; };
+		63D1CABF1825C2CC009FE9EC /* MCKLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKLocation.h; sourceTree = "<group>"; };
+		63D1CAC01825C2CC009FE9EC /* MCKLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKLocation.m; sourceTree = "<group>"; };
+		63D1CAC51825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCKMockingContext+MCKFailureHandling.h"; sourceTree = "<group>"; };
+		63D1CAC61825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCKMockingContext+MCKFailureHandling.m"; sourceTree = "<group>"; };
+		63D1CACB18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCKMockingContext+MCKArgumentRecording.h"; sourceTree = "<group>"; };
+		63D1CACC18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCKMockingContext+MCKArgumentRecording.m"; sourceTree = "<group>"; };
+		63D1CAD118266091009FE9EC /* MCKMockingContext+MCKVerification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MCKMockingContext+MCKVerification.h"; sourceTree = "<group>"; };
+		63D1CAD218266091009FE9EC /* MCKMockingContext+MCKVerification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MCKMockingContext+MCKVerification.m"; sourceTree = "<group>"; };
+		63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKInvocationRecorder.h; sourceTree = "<group>"; };
+		63D1CAE518266B34009FE9EC /* MCKInvocationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationRecorder.m; sourceTree = "<group>"; };
+		63D1CAEB18266BEA009FE9EC /* MCKInvocationRecorderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInvocationRecorderTest.m; sourceTree = "<group>"; };
+		63D1CAEE18266D58009FE9EC /* BlockInvocationVerifierDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockInvocationVerifierDelegate.h; sourceTree = "<group>"; };
+		63D1CAEF18266D58009FE9EC /* BlockInvocationVerifierDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockInvocationVerifierDelegate.m; sourceTree = "<group>"; };
 		C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mocka-tests-ios.xcconfig"; path = "Pods/Pods-mocka-tests-ios.xcconfig"; sourceTree = "<group>"; };
 		C6EB1E3243E041259CBA0125 /* libPods-mocka-tests-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mocka-tests-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE62513AD0574B919C936D5E /* libPods-mocka-tests-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mocka-tests-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -547,10 +589,13 @@
 				633475AE17F5944B001F5C88 /* MCKMockingContext.m */,
 				638BA45017F5DCBC0086226D /* MCKInvocationPrototype.h */,
 				638BA45117F5DCBC0086226D /* MCKInvocationPrototype.m */,
+				63D1CABF1825C2CC009FE9EC /* MCKLocation.h */,
+				63D1CAC01825C2CC009FE9EC /* MCKLocation.m */,
 				639085E417F9C529006A0714 /* Mock Objects */,
-				639085E317F9C517006A0714 /* Verification Core */,
-				639085E517F9C569006A0714 /* Stubbing Core */,
-				639085E617F9C5D7006A0714 /* Argument Matching Core */,
+				63D1CADD182666A2009FE9EC /* Invocation Recording */,
+				639085E517F9C569006A0714 /* Invocation Stubbing */,
+				639085E317F9C517006A0714 /* Invocation Verification */,
+				639085E617F9C5D7006A0714 /* Argument Matching */,
 				6334762417F599B1001F5C88 /* Failure Handling */,
 			);
 			name = "Mocking Core";
@@ -593,6 +638,8 @@
 		6334762417F599B1001F5C88 /* Failure Handling */ = {
 			isa = PBXGroup;
 			children = (
+				63D1CAC51825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h */,
+				63D1CAC61825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m */,
 				633475A317F5944B001F5C88 /* MCKFailureHandler.h */,
 				633475A417F5944B001F5C88 /* MCKFailureHandler.m */,
 				633475BA17F5944B001F5C88 /* MCKSenTestFailureHandler.h */,
@@ -700,8 +747,9 @@
 				638BA45D17F5DF3F0086226D /* MCKInvocationPrototypeTest.m */,
 				63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */,
 				63B598121824FBDC00E4D26A /* Mock Objects */,
-				63B5980F1824FB9900E4D26A /* Stubbing Core */,
-				63B598101824FBAC00E4D26A /* Verification Core */,
+				63D1CAEA18266BBF009FE9EC /* Invocation Recording */,
+				63B5980F1824FB9900E4D26A /* Invocation Stubbing */,
+				63B598101824FBAC00E4D26A /* Invocation Verification */,
 				63B598111824FBC500E4D26A /* Failure Handling */,
 			);
 			name = "Mocking Core";
@@ -761,15 +809,17 @@
 			name = "Verification Result Collectors";
 			sourceTree = "<group>";
 		};
-		639085E317F9C517006A0714 /* Verification Core */ = {
+		639085E317F9C517006A0714 /* Invocation Verification */ = {
 			isa = PBXGroup;
 			children = (
-				639085D617F9AD85006A0714 /* MCKVerificationSession.h */,
-				639085D717F9AD85006A0714 /* MCKVerificationSession.m */,
+				63D1CAD118266091009FE9EC /* MCKMockingContext+MCKVerification.h */,
+				63D1CAD218266091009FE9EC /* MCKMockingContext+MCKVerification.m */,
+				639085D617F9AD85006A0714 /* MCKInvocationVerifier.h */,
+				639085D717F9AD85006A0714 /* MCKInvocationVerifier.m */,
 				639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */,
 				639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */,
 			);
-			name = "Verification Core";
+			name = "Invocation Verification";
 			sourceTree = "<group>";
 		};
 		639085E417F9C529006A0714 /* Mock Objects */ = {
@@ -783,7 +833,7 @@
 			name = "Mock Objects";
 			sourceTree = "<group>";
 		};
-		639085E517F9C569006A0714 /* Stubbing Core */ = {
+		639085E517F9C569006A0714 /* Invocation Stubbing */ = {
 			isa = PBXGroup;
 			children = (
 				633475AB17F5944B001F5C88 /* MCKInvocationStubber.h */,
@@ -791,35 +841,37 @@
 				633475C017F5944B001F5C88 /* MCKStub.h */,
 				633475C117F5944B001F5C88 /* MCKStub.m */,
 			);
-			name = "Stubbing Core";
+			name = "Invocation Stubbing";
 			sourceTree = "<group>";
 		};
-		639085E617F9C5D7006A0714 /* Argument Matching Core */ = {
+		639085E617F9C5D7006A0714 /* Argument Matching */ = {
 			isa = PBXGroup;
 			children = (
+				63D1CACB18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h */,
+				63D1CACC18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m */,
 				6334759217F5944B001F5C88 /* MCKArgumentMatcherRecorder.h */,
 				6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */,
 				6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */,
 				6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */,
 			);
-			name = "Argument Matching Core";
+			name = "Argument Matching";
 			sourceTree = "<group>";
 		};
-		63B5980F1824FB9900E4D26A /* Stubbing Core */ = {
+		63B5980F1824FB9900E4D26A /* Invocation Stubbing */ = {
 			isa = PBXGroup;
 			children = (
 				63732BC017F5A8060041C869 /* MCKInvocationStubberTest.m */,
 				63B598131824FBFA00E4D26A /* MCKStubTest.m */,
 			);
-			name = "Stubbing Core";
+			name = "Invocation Stubbing";
 			sourceTree = "<group>";
 		};
-		63B598101824FBAC00E4D26A /* Verification Core */ = {
+		63B598101824FBAC00E4D26A /* Invocation Verification */ = {
 			isa = PBXGroup;
 			children = (
-				639085E017F9C269006A0714 /* MCKVerificationSessionTest.m */,
+				639085E017F9C269006A0714 /* MCKInvocationVerifierTest.m */,
 			);
-			name = "Verification Core";
+			name = "Invocation Verification";
 			sourceTree = "<group>";
 		};
 		63B598111824FBC500E4D26A /* Failure Handling */ = {
@@ -844,8 +896,9 @@
 		63BDE2D817F59E9F00584A08 /* Utilities and Test Objects */ = {
 			isa = PBXGroup;
 			children = (
+				6394CE4D1828110B00D80E48 /* TestingSupport.h */,
 				63BDE2F617F5A01100584A08 /* Test Objects */,
-				63BDE2FE17F5A05E00584A08 /* Matchers */,
+				63BDE2FE17F5A05E00584A08 /* Test Matchers */,
 				63BDE2F517F5A00B00584A08 /* Fakes */,
 				63BDE2FF17F5A06E00584A08 /* Utilities */,
 			);
@@ -855,14 +908,18 @@
 		63BDE2F517F5A00B00584A08 /* Fakes */ = {
 			isa = PBXGroup;
 			children = (
-				63BDE2E617F5A00700584A08 /* FakeFailureHandler.h */,
-				63BDE2E717F5A00700584A08 /* FakeFailureHandler.m */,
 				63BDE2E817F5A00700584A08 /* FakeMockingContext.h */,
 				63BDE2E917F5A00700584A08 /* FakeMockingContext.m */,
-				63BDE2EA17F5A00700584A08 /* FakeVerificationHandler.h */,
-				63BDE2EB17F5A00700584A08 /* FakeVerificationHandler.m */,
 				638BA46217F5F8250086226D /* FakeInvocationPrototype.h */,
 				638BA46317F5F8250086226D /* FakeInvocationPrototype.m */,
+				63821F3518294B72008082B5 /* FakeInvocationStubber.h */,
+				63821F3618294B72008082B5 /* FakeInvocationStubber.m */,
+				63BDE2E617F5A00700584A08 /* FakeFailureHandler.h */,
+				63BDE2E717F5A00700584A08 /* FakeFailureHandler.m */,
+				63D1CAEE18266D58009FE9EC /* BlockInvocationVerifierDelegate.h */,
+				63D1CAEF18266D58009FE9EC /* BlockInvocationVerifierDelegate.m */,
+				63BDE2EA17F5A00700584A08 /* FakeVerificationHandler.h */,
+				63BDE2EB17F5A00700584A08 /* FakeVerificationHandler.m */,
 				639085E717F9E782006A0714 /* FakeVerificationResultCollector.h */,
 				639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */,
 			);
@@ -882,14 +939,14 @@
 			name = "Test Objects";
 			sourceTree = "<group>";
 		};
-		63BDE2FE17F5A05E00584A08 /* Matchers */ = {
+		63BDE2FE17F5A05E00584A08 /* Test Matchers */ = {
 			isa = PBXGroup;
 			children = (
 				63BDE2DE17F59FEF00584A08 /* HCMatcher.h */,
 				63BDE2DC17F59FEF00584A08 /* HCBlockMatcher.h */,
 				63BDE2DD17F59FEF00584A08 /* HCBlockMatcher.m */,
 			);
-			name = Matchers;
+			name = "Test Matchers";
 			sourceTree = "<group>";
 		};
 		63BDE2FF17F5A06E00584A08 /* Utilities */ = {
@@ -916,6 +973,23 @@
 			name = Examples;
 			sourceTree = "<group>";
 		};
+		63D1CADD182666A2009FE9EC /* Invocation Recording */ = {
+			isa = PBXGroup;
+			children = (
+				63D1CAE418266B34009FE9EC /* MCKInvocationRecorder.h */,
+				63D1CAE518266B34009FE9EC /* MCKInvocationRecorder.m */,
+			);
+			name = "Invocation Recording";
+			sourceTree = "<group>";
+		};
+		63D1CAEA18266BBF009FE9EC /* Invocation Recording */ = {
+			isa = PBXGroup;
+			children = (
+				63D1CAEB18266BEA009FE9EC /* MCKInvocationRecorderTest.m */,
+			);
+			name = "Invocation Recording";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -928,11 +1002,12 @@
 				631E235E17FF5F3C00BC2D06 /* MCKStub.h in Headers */,
 				631E235F17FF5F3C00BC2D06 /* Mocka.h in Headers */,
 				63857E06181C30C400F63BBB /* OHHTTPStubs.h in Headers */,
-				631E236017FF5F3C00BC2D06 /* MCKVerificationSession.h in Headers */,
+				631E236017FF5F3C00BC2D06 /* MCKInvocationVerifier.h in Headers */,
 				631E236117FF5F3C00BC2D06 /* MCKExceptionFailureHandler.h in Headers */,
 				631E236317FF5F3C00BC2D06 /* MCKTypeEncodings.h in Headers */,
 				631E236417FF5F3C00BC2D06 /* MCKVerificationResult.h in Headers */,
 				63169CD11824E64A00A894C5 /* MCKBlockWrapper.h in Headers */,
+				63D1CAE718266B34009FE9EC /* MCKInvocationRecorder.h in Headers */,
 				631E236517FF5F3C00BC2D06 /* MCKVerificationHandler.h in Headers */,
 				631E236617FF5F3C00BC2D06 /* MCKXCTestFailureHandler.h in Headers */,
 				63857E00181C2AC000F63BBB /* MCKNetworkMock_Private.h in Headers */,
@@ -941,6 +1016,7 @@
 				631E236917FF5F3C00BC2D06 /* MCKExactlyVerificationHandler.h in Headers */,
 				631E236A17FF5F3C00BC2D06 /* MCKVerifyNoInteractions.h in Headers */,
 				631E236C17FF5F3C00BC2D06 /* MCKArgumentMatcherRecorder.h in Headers */,
+				63D1CAD418266091009FE9EC /* MCKMockingContext+MCKVerification.h in Headers */,
 				631E236D17FF5F3C00BC2D06 /* MCKVerificationResultCollector.h in Headers */,
 				631E236E17FF5F3C00BC2D06 /* MCKMockingContext.h in Headers */,
 				63857DF1181BA59200F63BBB /* MCKNetworkMock.h in Headers */,
@@ -948,6 +1024,7 @@
 				631E236F17FF5F3C00BC2D06 /* MCKArgumentSerialization.h in Headers */,
 				631E237017FF5F3C00BC2D06 /* MCKAnyArgumentMatcher.h in Headers */,
 				631E237117FF5F3C00BC2D06 /* MCKArgumentMatcher.h in Headers */,
+				63D1CACE18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h in Headers */,
 				63857DF7181BB09000F63BBB /* MCKNetworkRequestMatcher.h in Headers */,
 				631E237217FF5F3C00BC2D06 /* MCKInvocationPrototype.h in Headers */,
 				631E237317FF5F3C00BC2D06 /* MCKNeverVerificationHandler.h in Headers */,
@@ -957,10 +1034,12 @@
 				631E237917FF5F3C00BC2D06 /* MCKDefaultVerificationHandler.h in Headers */,
 				631E237A17FF5F3C00BC2D06 /* MCKFailureHandler.h in Headers */,
 				631E237B17FF5F3C00BC2D06 /* MCKHamcrestArgumentMatcher.h in Headers */,
+				63D1CAC21825C2CC009FE9EC /* MCKLocation.h in Headers */,
 				631E237D17FF5F3C00BC2D06 /* MCKBlockArgumentMatcher.h in Headers */,
 				631E237E17FF5F3C00BC2D06 /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				631E237F17FF5F3C00BC2D06 /* MCKMockingSyntax.h in Headers */,
 				63857E08181C30C400F63BBB /* OHHTTPStubsResponse.h in Headers */,
+				63D1CAC81825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,11 +1052,12 @@
 				638BA4B217F6F8690086226D /* MCKStub.h in Headers */,
 				638BA49017F6F7D70086226D /* Mocka.h in Headers */,
 				63857E05181C30C400F63BBB /* OHHTTPStubs.h in Headers */,
-				639085D817F9AD85006A0714 /* MCKVerificationSession.h in Headers */,
+				639085D817F9AD85006A0714 /* MCKInvocationVerifier.h in Headers */,
 				638BA4D217F6F8760086226D /* MCKExceptionFailureHandler.h in Headers */,
 				638BA4D717F6F87C0086226D /* MCKTypeEncodings.h in Headers */,
 				639085DE17F9C0F1006A0714 /* MCKVerificationResult.h in Headers */,
 				63169CD01824E64A00A894C5 /* MCKBlockWrapper.h in Headers */,
+				63D1CAE618266B34009FE9EC /* MCKInvocationRecorder.h in Headers */,
 				638BA4A317F6F8580086226D /* MCKVerificationHandler.h in Headers */,
 				638BA4D017F6F8760086226D /* MCKXCTestFailureHandler.h in Headers */,
 				63857DFF181C2AC000F63BBB /* MCKNetworkMock_Private.h in Headers */,
@@ -986,6 +1066,7 @@
 				638BA4A917F6F8580086226D /* MCKExactlyVerificationHandler.h in Headers */,
 				638BA4AD17F6F8580086226D /* MCKVerifyNoInteractions.h in Headers */,
 				638BA4BF17F6F8710086226D /* MCKArgumentMatcherRecorder.h in Headers */,
+				63D1CAD318266091009FE9EC /* MCKMockingContext+MCKVerification.h in Headers */,
 				639085DB17F9C0D5006A0714 /* MCKVerificationResultCollector.h in Headers */,
 				638BA49817F6F8430086226D /* MCKMockingContext.h in Headers */,
 				63857DF0181BA59200F63BBB /* MCKNetworkMock.h in Headers */,
@@ -993,6 +1074,7 @@
 				638BA4C217F6F8710086226D /* MCKArgumentSerialization.h in Headers */,
 				638BA4C417F6F8710086226D /* MCKAnyArgumentMatcher.h in Headers */,
 				638BA4C117F6F8710086226D /* MCKArgumentMatcher.h in Headers */,
+				63D1CACD18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.h in Headers */,
 				63857DF6181BB09000F63BBB /* MCKNetworkRequestMatcher.h in Headers */,
 				638BA49C17F6F8430086226D /* MCKInvocationPrototype.h in Headers */,
 				638BA4A717F6F8580086226D /* MCKNeverVerificationHandler.h in Headers */,
@@ -1002,10 +1084,12 @@
 				638BA4A517F6F8580086226D /* MCKDefaultVerificationHandler.h in Headers */,
 				638BA4CC17F6F8760086226D /* MCKFailureHandler.h in Headers */,
 				638BA4CA17F6F8710086226D /* MCKHamcrestArgumentMatcher.h in Headers */,
+				63D1CAC11825C2CC009FE9EC /* MCKLocation.h in Headers */,
 				638BA4C817F6F8710086226D /* MCKBlockArgumentMatcher.h in Headers */,
 				638BA4D517F6F87C0086226D /* NSInvocation+MCKArgumentHandling.h in Headers */,
 				638BA49117F6F7DC0086226D /* MCKMockingSyntax.h in Headers */,
 				63857E07181C30C400F63BBB /* OHHTTPStubsResponse.h in Headers */,
+				63D1CAC71825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1241,6 +1325,7 @@
 				631E233817FF5F3C00BC2D06 /* MCKInOrderCollector.m in Sources */,
 				631E233917FF5F3C00BC2D06 /* MCKSenTestFailureHandler.m in Sources */,
 				631E233A17FF5F3C00BC2D06 /* MCKInvocationStubber.m in Sources */,
+				63D1CAD618266091009FE9EC /* MCKMockingContext+MCKVerification.m in Sources */,
 				63857DF9181BB09000F63BBB /* MCKNetworkRequestMatcher.m in Sources */,
 				631E233B17FF5F3C00BC2D06 /* MCKVerificationResultCollector.m in Sources */,
 				631E233D17FF5F3C00BC2D06 /* MCKExactlyVerificationHandler.m in Sources */,
@@ -1251,12 +1336,16 @@
 				631E234217FF5F3C00BC2D06 /* MCKVerifyNoInteractions.m in Sources */,
 				631E234317FF5F3C00BC2D06 /* MCKMockObject.m in Sources */,
 				631E234417FF5F3C00BC2D06 /* MCKXCTestFailureHandler.m in Sources */,
+				63D1CAD018265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m in Sources */,
 				631E234517FF5F3C00BC2D06 /* MCKMockingContext.m in Sources */,
 				631E234617FF5F3C00BC2D06 /* MCKExactArgumentMatcher.m in Sources */,
 				631E234717FF5F3C00BC2D06 /* MCKSpy.m in Sources */,
-				631E234817FF5F3C00BC2D06 /* MCKVerificationSession.m in Sources */,
+				63D1CAE918266B34009FE9EC /* MCKInvocationRecorder.m in Sources */,
+				631E234817FF5F3C00BC2D06 /* MCKInvocationVerifier.m in Sources */,
 				631E234A17FF5F3C00BC2D06 /* MCKTypeEncodings.m in Sources */,
 				631E234B17FF5F3C00BC2D06 /* MCKMockingSyntax.m in Sources */,
+				63D1CAC41825C2CC009FE9EC /* MCKLocation.m in Sources */,
+				63D1CACA1825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m in Sources */,
 				631E234C17FF5F3C00BC2D06 /* MCKVerificationHandler.m in Sources */,
 				631E234D17FF5F3C00BC2D06 /* MCKVerificationResult.m in Sources */,
 				631E234E17FF5F3C00BC2D06 /* MCKDefaultVerificationHandler.m in Sources */,
@@ -1284,6 +1373,7 @@
 				6376F88B17FF61C100F4752D /* TestObject.m in Sources */,
 				6376F87517FF619E00F4752D /* MCKInvocationPrototypeTest.m in Sources */,
 				6376F88A17FF61C100F4752D /* CategoriesTestClasses.m in Sources */,
+				63D1CAF71826701A009FE9EC /* MCKInvocationRecorderTest.m in Sources */,
 				6376F87B17FF619E00F4752D /* MCKExceptionFailureHandlerTest.m in Sources */,
 				6376F88717FF61B500F4752D /* MCKExactArgumentMatcherTest.m in Sources */,
 				6376F87917FF619E00F4752D /* MCKSenTestFailureHandlerTest.m in Sources */,
@@ -1297,11 +1387,12 @@
 				6376F88817FF61B500F4752D /* MCKHamcrestArgumentMatcherTest.m in Sources */,
 				6376F87A17FF619E00F4752D /* MCKXCTestFailureHandlerTest.m in Sources */,
 				6376F87117FF619700F4752D /* MCKSpyIntegrationTest.m in Sources */,
-				6376F87717FF619E00F4752D /* MCKVerificationSessionTest.m in Sources */,
+				6376F87717FF619E00F4752D /* MCKInvocationVerifierTest.m in Sources */,
 				63169CD81824E95300A894C5 /* MCKBlockWrapperTest.m in Sources */,
 				6376F87217FF619E00F4752D /* MCKMockingContextTest.m in Sources */,
 				6376F88917FF61C100F4752D /* AsyncService.m in Sources */,
 				6376F86C17FF618E00F4752D /* ExamplesVerify.m in Sources */,
+				63821F3818294B72008082B5 /* FakeInvocationStubber.m in Sources */,
 				63D1CABE1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */,
 				6376F89117FF61D000F4752D /* FakeVerificationResultCollector.m in Sources */,
 				6376F88E17FF61D000F4752D /* FakeMockingContext.m in Sources */,
@@ -1311,6 +1402,7 @@
 				6376F87417FF619E00F4752D /* MCKSpyTest.m in Sources */,
 				6376F87617FF619E00F4752D /* MCKArgumentMatcherRecorderTest.m in Sources */,
 				63857E10181C482100F63BBB /* MCKNetworkRequestMatcherTest.m in Sources */,
+				63D1CAF118266D58009FE9EC /* BlockInvocationVerifierDelegate.m in Sources */,
 				6376F86F17FF619700F4752D /* MCKRegressionTests.m in Sources */,
 				6376F88517FF61B500F4752D /* MCKAnyArgumentMatcherTest.m in Sources */,
 				6376F89217FF61D700F4752D /* NSInvocation+TestSupport.m in Sources */,
@@ -1329,6 +1421,7 @@
 				639085F317FA2097006A0714 /* MCKInOrderCollector.m in Sources */,
 				638BA4CF17F6F8760086226D /* MCKSenTestFailureHandler.m in Sources */,
 				638BA4B117F6F8690086226D /* MCKInvocationStubber.m in Sources */,
+				63D1CAD518266091009FE9EC /* MCKMockingContext+MCKVerification.m in Sources */,
 				63857DF8181BB09000F63BBB /* MCKNetworkRequestMatcher.m in Sources */,
 				639085EF17FA1D3F006A0714 /* MCKVerificationResultCollector.m in Sources */,
 				638BA4AA17F6F8580086226D /* MCKExactlyVerificationHandler.m in Sources */,
@@ -1339,12 +1432,16 @@
 				638BA4AE17F6F8580086226D /* MCKVerifyNoInteractions.m in Sources */,
 				638BA49417F6F8370086226D /* MCKMockObject.m in Sources */,
 				638BA4D117F6F8760086226D /* MCKXCTestFailureHandler.m in Sources */,
+				63D1CACF18265F28009FE9EC /* MCKMockingContext+MCKArgumentRecording.m in Sources */,
 				638BA49317F6F8370086226D /* MCKMockingContext.m in Sources */,
 				638BA4C717F6F8710086226D /* MCKExactArgumentMatcher.m in Sources */,
 				638BA49517F6F8370086226D /* MCKSpy.m in Sources */,
-				639085D917F9AD85006A0714 /* MCKVerificationSession.m in Sources */,
+				63D1CAE818266B34009FE9EC /* MCKInvocationRecorder.m in Sources */,
+				639085D917F9AD85006A0714 /* MCKInvocationVerifier.m in Sources */,
 				638BA4D817F6F87C0086226D /* MCKTypeEncodings.m in Sources */,
 				638BA49217F6F8370086226D /* MCKMockingSyntax.m in Sources */,
+				63D1CAC31825C2CC009FE9EC /* MCKLocation.m in Sources */,
+				63D1CAC91825D0AC009FE9EC /* MCKMockingContext+MCKFailureHandling.m in Sources */,
 				638BA4A417F6F8580086226D /* MCKVerificationHandler.m in Sources */,
 				639085DF17F9C0F1006A0714 /* MCKVerificationResult.m in Sources */,
 				638BA4A617F6F8580086226D /* MCKDefaultVerificationHandler.m in Sources */,
@@ -1372,12 +1469,13 @@
 				6397EFEB17F6FAD800F5902F /* CategoriesTestClasses.m in Sources */,
 				6397EFD117F6FAB500F5902F /* MCKMockingContextTest.m in Sources */,
 				6397EFE617F6FAC700F5902F /* MCKHamcrestArgumentMatcherTest.m in Sources */,
+				63D1CAF618267019009FE9EC /* MCKInvocationRecorderTest.m in Sources */,
 				6397EFCB17F6FAA700F5902F /* ExamplesVerify.m in Sources */,
 				6397EFE317F6FAC700F5902F /* MCKAnyArgumentMatcherTest.m in Sources */,
 				6397EFE517F6FAC700F5902F /* MCKExactArgumentMatcherTest.m in Sources */,
 				639085E917F9E782006A0714 /* FakeVerificationResultCollector.m in Sources */,
 				6397EFE117F6FAC700F5902F /* MCKArgumentMatcherRecorderTest.m in Sources */,
-				639085E217F9C341006A0714 /* MCKVerificationSessionTest.m in Sources */,
+				639085E217F9C341006A0714 /* MCKInvocationVerifierTest.m in Sources */,
 				6397EFD817F6FABA00F5902F /* MCKDefaultVerificationHandlerTest.m in Sources */,
 				6397EFE217F6FAC700F5902F /* MCKArgumentMatcherTest.m in Sources */,
 				6397EFD317F6FAB500F5902F /* MCKSpyTest.m in Sources */,
@@ -1390,6 +1488,7 @@
 				6397EFF417F6FAEE00F5902F /* NSInvocation+TestSupport.m in Sources */,
 				6397EFE717F6FACD00F5902F /* MCKSenTestFailureHandlerTest.m in Sources */,
 				6397EFD917F6FABA00F5902F /* MCKNeverVerificationHandlerTest.m in Sources */,
+				63821F3718294B72008082B5 /* FakeInvocationStubber.m in Sources */,
 				63D1CABD1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */,
 				6397EFED17F6FADF00F5902F /* HCBlockMatcher.m in Sources */,
 				63B598141824FBFA00E4D26A /* MCKStubTest.m in Sources */,
@@ -1399,6 +1498,7 @@
 				6397EFCF17F6FAAD00F5902F /* MCKMockObjectIntegrationTest.m in Sources */,
 				63857E0F181C482100F63BBB /* MCKNetworkRequestMatcherTest.m in Sources */,
 				6397EFE917F6FACD00F5902F /* MCKExceptionFailureHandlerTest.m in Sources */,
+				63D1CAF018266D58009FE9EC /* BlockInvocationVerifierDelegate.m in Sources */,
 				6397EFD217F6FAB500F5902F /* MCKMockObjectTest.m in Sources */,
 				6397EFCD17F6FAA700F5902F /* ExamplesArgumentMatchers.m in Sources */,
 				6397EFDC17F6FAC100F5902F /* MCKInvocationStubberTest.m in Sources */,

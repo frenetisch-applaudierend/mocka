@@ -9,38 +9,36 @@
 #import "MCKMockingSyntax.h"
 
 #import "MCKMockingContext.h"
+#import "MCKMockingContext+MCKVerification.h"
+
 #import "MCKMockObject.h"
 #import "MCKSpy.h"
 
 
-id _mck_createMock(id testCase, const char *fileName, NSUInteger lineNumber, NSArray *classAndProtocols) {
+id _mck_createMock(id testCase, MCKLocation *location, NSArray *classAndProtocols) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     return [MCKMockObject mockWithContext:context classAndProtocols:classAndProtocols];
 }
 
-id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumber, id object) {
+id _mck_createSpy(id testCase, MCKLocation *location, id object) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     return mck_createSpyForObject(object, context);
 }
 
-void _mck_beginVerifyWithTimeout(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout) {
+void _mck_beginVerifyWithTimeout(id testCase, MCKLocation *location, NSTimeInterval timeout) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     [context beginVerificationWithTimeout:timeout];
 }
 
-MCKStub* _mck_stubCalls(id testCase, const char *fileName, NSUInteger lineNumber, void(^calls)(void)) {
+MCKStub* _mck_stubCalls(id testCase, MCKLocation *location, void(^calls)(void)) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
-    [context beginStubbing];
-    calls();
-    [context endStubbing];
-    
-    return context.activeStub;
+    context.currentLocation = location;
+    return [context stubCalls:calls];
 }
 
-void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber) {
-    [[MCKMockingContext currentContext] updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+void _mck_updateLocationInfo(MCKLocation *location) {
+    [[MCKMockingContext currentContext] setCurrentLocation:location];
 }
