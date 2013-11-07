@@ -10,6 +10,7 @@
 
 #import "MCKVerificationResult.h"
 #import "MCKInvocationRecorder.h"
+#import "MCKVerificationSyntax.h"
 
 
 @protocol MCKVerificationResultCollector <NSObject>
@@ -19,12 +20,3 @@
 - (MCKVerificationResult *)finishCollectingResults;
 
 @end
-
-
-#define mck_beginVerifyGroupCallsUsingCollector(COL) _mck_setVerifyGroupCollector(COL); while (_mck_executeGroupCalls(self))
-
-
-#pragma mark - Internal Bridging Calls
-
-extern void _mck_setVerifyGroupCollector(id<MCKVerificationResultCollector> collector);
-extern BOOL _mck_executeGroupCalls(id testCase);

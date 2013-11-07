@@ -503,4 +503,17 @@
     expect(delegateCallSequence).to.equal(@[ @"onWillProcessTimeout", @"onDidProcessTimeout", @"onFinish" ]);
 }
 
+- (void)testThatTimeoutIsResetAfterProcessingOneCall {
+    // given
+    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
+    verifier.timeout = 1.0;
+    
+    // when
+    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
+    
+    // then
+    expect(verifier.timeout).to.equal(0.0);
+}
+
 @end

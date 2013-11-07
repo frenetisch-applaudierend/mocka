@@ -22,7 +22,7 @@
 #pragma mark - Configuration
 
 @property (nonatomic, weak) id<MCKInvocationVerifierDelegate> delegate;
-@property (nonatomic, assign) NSTimeInterval timeout;
+@property (nonatomic, assign) NSTimeInterval timeout; // reset to 0.0 after each verified call
 @property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
 
 
