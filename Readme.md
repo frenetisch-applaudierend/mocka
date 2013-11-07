@@ -60,7 +60,7 @@ This is an example of a simple test using Mocka.
 		[guardian errorConditionDetected];
 		
 		// then
-		verifyCall [callCenter callOperator];
+		verifyCall ([callCenter callOperator]);
 	}
 
 ## Creating mock objects
@@ -111,14 +111,14 @@ To verify that a certain call was made use the `verifyCall` keyword.
 	DoSomethingWith(arrayMock);
 	
 	// then
-	verifyCall [arrayMock objectAtIndex:0];
+	verifyCall ([arrayMock objectAtIndex:0]);
 
 If `DoSomethingWith(...)` didn’t call `[arrayMock objectAtIndex:0]` then `verifyCall` will generate a test failure.
 
-By default `verifyCall` will succeed if at least one matching call was made, but you can change this behavior. For example to verify an exact number of calls use `verify exactly(N)` (where `N` is the number of invocations).
+By default `verifyCall` will succeed if at least one matching call was made, but you can change this behavior. For example to verify an exact number of calls use `verifyCall (exactly(N) <#CALL#>)` (where `N` is the number of invocations).
 
 	// only succeed if there were exactly 3 calls to -addObject:
-	verify exactly(3) [arrayMock addObject:@"Foo"]
+	verifyCall (exactly(3) [arrayMock addObject:@"Foo"])
 
 Note that matching calls are not evaluated again. Consider the following example:
 
@@ -127,11 +127,11 @@ Note that matching calls are not evaluated again. Consider the following example
 	
 	[arrayMock objectAtIndex:0];
 	
-	verifyCall [arrayMock objectAtIndex:0]; // this succeeds, since the call was made
-	verifyCall [arrayMock objectAtIndex:0]; // this fails, because the previous verification
-	                                        // removes the call
+	verifyCall ([arrayMock objectAtIndex:0]); // this succeeds, since the call was made
+	verifyCall ([arrayMock objectAtIndex:0]); // this fails, because the previous verification
+	                                          // removes the call
 
-If there were two calls to `[arrayMock objectAtIndex:0]` the second verification would succeed now, because `verifyCall` only removes the first matching invocation.
+If there were two calls to `[arrayMock objectAtIndex:0]` the second verification would succeed now, because `verifyCall (...)` only removes the first matching invocation.
 
 More examples can be found in `Examples/ExamplesVerify.m`.
 
@@ -209,7 +209,7 @@ You can also monitor and verify network calls.
     
     [controller reloadSomeData];
     
-    verifyCall Network.GET(@"http://my-service.com/some/resource");
+    verifyCall (Network.GET(@"http://my-service.com/some/resource"));
 
 
 ## Prefixed Syntax
