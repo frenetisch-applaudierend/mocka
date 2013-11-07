@@ -63,6 +63,7 @@
     }
     
     self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+    self.timeout = 0.0;
 }
 
 
