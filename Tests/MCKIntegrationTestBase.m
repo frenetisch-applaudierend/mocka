@@ -52,14 +52,14 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithoutParameters];
+        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatVerifyFailsForMissingMethodCall {
     // then
     AssertFails({
-        verifyCall [self.testObject voidMethodCallWithoutParameters];
+        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -70,10 +70,10 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithoutParameters];
+        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     });
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithoutParameters];
+        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -83,10 +83,10 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithoutParameters];
+        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     });
     AssertFails({
-        verifyCall [self.testObject voidMethodCallWithoutParameters];
+        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -99,13 +99,13 @@
     
     // then
     AssertFails({
-        verifyCall never [self.testObject voidMethodCallWithoutParameters];
+        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
     AssertDoesNotFail({
-        verifyCall never [self.testObject voidMethodCallWithoutParameters];
+        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -115,13 +115,13 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall exactly(1) [self.testObject voidMethodCallWithoutParameters];
+        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatExactlyOneFailsWhenNoCallWasMade {
     AssertFails({
-        verifyCall exactly(1) [self.testObject voidMethodCallWithoutParameters];
+        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -132,14 +132,14 @@
     
     // then
     AssertFails({
-        verifyCall exactly(1) [self.testObject voidMethodCallWithoutParameters];
+        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatAfterVerifyContextSwitchesToRecordingMode {
     // given
     [self.testObject voidMethodCallWithoutParameters];
-    verifyCall [self.testObject voidMethodCallWithoutParameters];
+    verifyCall ([self.testObject voidMethodCallWithoutParameters]);
     
     // then
     AssertDoesNotFail({
@@ -156,7 +156,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
     });
 }
 
@@ -166,7 +166,7 @@
     
     // then
     AssertFails({
-        verifyCall [self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
+        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
     });
 }
 
@@ -176,7 +176,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithIntParam1:2 intParam2:45];
+        verifyCall ([self.testObject voidMethodCallWithIntParam1:2 intParam2:45]);
     });
 }
 
@@ -186,7 +186,7 @@
     
     // then
     AssertFails({
-        verifyCall [self.testObject voidMethodCallWithIntParam1:0 intParam2:45];
+        verifyCall ([self.testObject voidMethodCallWithIntParam1:0 intParam2:45]);
     });
 }
 
@@ -199,7 +199,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
     });
 }
 
@@ -210,8 +210,8 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
-        verifyCall [self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()];
+        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
     });
 }
 
@@ -221,7 +221,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
     });
 }
 
@@ -231,7 +231,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()];
+        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
     });
 }
 
@@ -241,7 +241,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"];
+        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
     });
 }
 
@@ -251,7 +251,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall [self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()];
+        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
     });
 }
 
@@ -274,7 +274,7 @@
     id result = [self.testObject objectMethodCallWithoutParameters];
     
     // then
-    XCTAssertEqualObjects(result, @"Hello World", @"Wrong object value returned");
+    expect(result).to.equal(@"Hello World");
 }
 
 - (void)testMultipleStubActions {
@@ -437,7 +437,7 @@
     
     // then
     expect(called).to.beTruthy();
-    verifyCall [mock categoryMethodInMockedClass];
+    verifyCall ([mock categoryMethodInMockedClass]);
 }
 
 - (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
@@ -454,7 +454,7 @@
     
     // then
     expect(called).to.beTruthy();
-    verifyCall [mock categoryMethodInMockedClassSuperclass];
+    verifyCall ([mock categoryMethodInMockedClassSuperclass]);
 }
 
 @end

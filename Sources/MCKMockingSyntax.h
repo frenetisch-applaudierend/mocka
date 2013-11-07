@@ -35,14 +35,14 @@
 #pragma mark - Verification
 
 // safe syntax
-#define mck_verifyCall               mck_verifyCallWithTimeout(0.0)
-#define mck_verifyCallWithTimeout(T) _mck_beginVerifyWithTimeout(self, _MCKCurrentLocation(), (T));
+#define mck_verifyCall(...)               mck_verifyCallWithTimeout(0.0, __VA_ARGS__)
+#define mck_verifyCallWithTimeout(T, ...) _mck_beginVerifyWithTimeout(self, _MCKCurrentLocation(), (T)); (void)(__VA_ARGS__)
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
-    #define verifyCall               mck_verifyCall
-    #define verifyCallWithTimeout(T) mck_verifyCallWithTimeout(T)
+    #define verifyCall(...)               mck_verifyCall(__VA_ARGS__)
+    #define verifyCallWithTimeout(T, ...) mck_verifyCallWithTimeout(T, __VA_ARGS__)
 
 #endif
 

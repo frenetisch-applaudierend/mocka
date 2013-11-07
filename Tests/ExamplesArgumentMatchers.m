@@ -34,7 +34,7 @@
     // instead of specifiying an exact value in verify you can also use argument matchers
     
     [mockArray addObject:@"Hello World"];
-    verifyCall [mockArray addObject:anyObject()];
+    verifyCall ([mockArray addObject:anyObject()]);
 }
 
 - (void)testYouCanUseArgumentMatchersWhenStubbing {
@@ -54,7 +54,7 @@
     // for object arguments you can just mix normal arguments and matchers
     
     [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
-    verifyCall [mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()];
+    verifyCall ([mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()]);
 }
 
 
@@ -64,7 +64,7 @@
     // matchers are also available for primitive arguments
     
     [mockArray objectAtIndex:10];
-    verifyCall [mockArray objectAtIndex:anyInt()];
+    verifyCall ([mockArray objectAtIndex:anyInt()]);
 }
 
 - (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsWhenStubbing {
@@ -84,10 +84,10 @@
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    verifyCall [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];             // ok
-    verifyCall [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]; // ok
+    verifyCall ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);             // ok
+    verifyCall ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]); // ok
     ThisWillFail({
-        verifyCall [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()];   // not ok
+        verifyCall ([mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()]);   // not ok
     });
 }
 
@@ -98,7 +98,7 @@
     // matchers are also available for struct arguments
     
     [mockArray subarrayWithRange:NSMakeRange(0, 10)];
-    verifyCall [mockArray subarrayWithRange:anyStruct(NSRange)];
+    verifyCall ([mockArray subarrayWithRange:anyStruct(NSRange)]);
 }
 
 - (void)testYouCanUseArgumentMatchersForStructArgumentsWhenStubbing {
@@ -122,17 +122,17 @@
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    verifyCall [mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20];               // ok
-    verifyCall [mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()];   // ok
-    verifyCall [mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:anyInt()]; // also ok
+    verifyCall ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);               // ok
+    verifyCall ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]);   // ok
+    verifyCall ([mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:anyInt()]); // also ok
 }
 
 - (void)testExactStructArgumentMatcherSyntax {
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     [mockArray subarrayWithRange:NSMakeRange(30, 40)];
-    verifyCall [mockArray subarrayWithRange:structArg(NSMakeRange(10, 20))];
+    verifyCall ([mockArray subarrayWithRange:structArg(NSMakeRange(10, 20))]);
     ThisWillFail({
-        verifyCall [mockArray subarrayWithRange:structArg(NSMakeRange(40, 50))];
+        verifyCall ([mockArray subarrayWithRange:structArg(NSMakeRange(40, 50))]);
     });
 }
 
@@ -144,9 +144,9 @@
     
     [mockArray addObject:@"Hello World"];
     
-    verifyCall [mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    verifyCall ([mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate hasPrefix:@"Hello"];
-    }]];
+    }]]);
 }
 
 - (void)testYouCanUseHamcrestMatchersForPrimitivesInVerify {
@@ -154,9 +154,9 @@
     
     [mockArray objectAtIndex:10];
     
-    verifyCall [mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    verifyCall ([mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate isEqual:@10];
-    }])];
+    }])]);
 }
 
 @end
