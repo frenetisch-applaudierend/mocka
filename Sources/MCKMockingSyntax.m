@@ -27,12 +27,6 @@ id _mck_createSpy(id testCase, MCKLocation *location, id object) {
     return mck_createSpyForObject(object, context);
 }
 
-void _mck_beginVerifyWithTimeout(id testCase, MCKLocation *location, NSTimeInterval timeout) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    context.currentLocation = location;
-    [context beginVerificationWithTimeout:timeout];
-}
-
 MCKStub* _mck_stubCalls(id testCase, MCKLocation *location, void(^calls)(void)) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.currentLocation = location;

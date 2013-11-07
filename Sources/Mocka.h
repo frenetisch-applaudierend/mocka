@@ -14,6 +14,7 @@
 
 #import "MCKStub.h"
 
+#import "MCKVerificationSyntax.h"
 #import "MCKVerificationResult.h"
 #import "MCKVerificationResultCollector.h"
 #import "MCKInOrderCollector.h"
