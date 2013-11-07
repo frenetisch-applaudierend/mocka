@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKFailureHandler.h"
 
 
-@interface MCKSenTestFailureHandler : MCKFailureHandler
+@interface MCKSenTestFailureHandler : NSObject <MCKFailureHandler>
 
-- (id)initWithTestCase:(id)testCase;
+- (instancetype)initWithTestCase:(id)testCase;
+
+@property (nonatomic, readonly) id testCase;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import "MCKVerificationResultCollector.h"
 
 
@@ -16,12 +15,10 @@
 @end
 
 
-// safe syntax
-#define mck_inOrder mck_beginVerifyGroupCallsUsingCollector([[MCKInOrderCollector alloc] init])
-
-// nice syntax
+/**
+ * Verify a group of calls in order.
+ */
+#define mck_verifyCallsInOrder(...) mck_verifyCallGroup([[MCKInOrderCollector alloc] init], __VA_ARGS__)
 #ifndef MCK_DISABLE_NICE_SYNTAX
-
-    #define inOrder mck_inOrder
-
+    #define verifyCallsInOrder(...) mck_verifyCallsInOrder(__VA_ARGS__)
 #endif

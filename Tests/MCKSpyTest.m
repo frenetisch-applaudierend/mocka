@@ -154,7 +154,7 @@
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInStubbingMode {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     
     // when
     [spy voidMethodCallWithoutParameters];
@@ -166,11 +166,9 @@
 - (void)testThatSpyDoesNotExecuteExistingMethodInRecordingModeIfStubExists {
     // given
     SEL selector = @selector(voidMethodCallWithoutParameters);
-    [context beginStubbing];
-    [context handleInvocation:[NSInvocation invocationForTarget:spy selectorAndArguments:selector]];
-    [context endStubbing];
-    
-    context.activeStub.stubBlock = ^{
+    [context stubCalls:^{
+        [context handleInvocation:[NSInvocation invocationForTarget:spy selectorAndArguments:selector]];
+    }].stubBlock = ^{
         // just having a block is enough
     };
     

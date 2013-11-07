@@ -13,7 +13,7 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithTestCase:(XCTestCase *)testCase {
+- (instancetype)initWithTestCase:(id)testCase {
     if ((self = [super init])) {
         _testCase = testCase;
     }
@@ -23,11 +23,12 @@
 
 #pragma mark - Handling Failures
 
-- (void)handleFailureWithReason:(NSString *)reason {
-    [(id)self.testCase recordFailureWithDescription:reason inFile:self.fileName atLine:self.lineNumber expected:NO];
+- (void)handleFailureAtLocation:(MCKLocation *)location withReason:(NSString *)reason {
+    [self.testCase recordFailureWithDescription:reason inFile:location.fileName atLine:location.lineNumber expected:NO];
 }
 
 - (void)recordFailureWithDescription:(NSString *)d inFile:(NSString *)f atLine:(NSUInteger)l expected:(BOOL)e {
+    // only needed to provide selector for test failure method
 }
 
 @end

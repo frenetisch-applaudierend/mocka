@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+
 @class MCKMockingContext;
 
 
-id mck_createSpyForObject(id object, MCKMockingContext *context);
-BOOL mck_objectIsSpy(id object);
+extern id mck_createSpyForObject(id object, MCKMockingContext *context);
+extern BOOL mck_objectIsSpy(id object);

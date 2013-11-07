@@ -6,7 +6,10 @@
 //  Copyright 2012 coresystems ag. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
+
 #import "MCKExceptionFailureHandler.h"
 
 
@@ -25,30 +28,25 @@
 #pragma mark - Test Cases
 
 - (void)testThatHandleFailureThrowsException {
-    XCTAssertThrows([failureHandler handleFailureWithReason:nil], @"This should have thrown");
+    expect(^{ [failureHandler handleFailureAtLocation:nil withReason:nil]; }).to.raise(MCKTestFailureException);
 }
 
 - (void)testThatHandleFailureSetsReasonOnException {
-    @try {
-        [failureHandler handleFailureWithReason:@"My passed reason"];
-        XCTFail(@"Should have thrown");
-    } @catch (NSException *exception) {
-        XCTAssertEqualObjects(exception.reason, @"My passed reason", @"Reason was not passed");
-    }
+    expect(^{
+        [failureHandler handleFailureAtLocation:nil withReason:@"Error reason"];
+    }).to.raiseWithReason(MCKTestFailureException, @"Error reason");
 }
 
 - (void)testThatHandleFailureSetsFileAndLineOnException {
     // given
-    [failureHandler updateFileName:@"Foobar.m" lineNumber:10];
+    MCKLocation *location = [MCKLocation locationWithFileName:@"File.m" lineNumber:10];
     
-    // then
-    @try {
-        [failureHandler handleFailureWithReason:nil];
-        XCTFail(@"Should have thrown");
-    } @catch (NSException *exception) {
-        XCTAssertEqualObjects(exception.userInfo[MCKFileNameKey], @"Foobar.m", @"File was not passed");
-        XCTAssertEqualObjects(exception.userInfo[MCKLineNumberKey], @10, @"Line was not passed");
-    }
+    NSException *exception = nil;
+    @try { [failureHandler handleFailureAtLocation:location withReason:nil]; }
+    @catch (id ex) { exception = ex; }
+    
+    expect(exception.userInfo[MCKFileNameKey]).to.equal(@"File.m");
+    expect(exception.userInfo[MCKLineNumberKey]).to.equal(@10);
 }
 
 @end
