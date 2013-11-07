@@ -25,5 +25,4 @@ void mck_checkNoInteractions(id testCase, id mockObject) {
             break;
         }
     }
-    [context endVerification];
 }

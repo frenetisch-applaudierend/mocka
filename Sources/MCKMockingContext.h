@@ -17,10 +17,10 @@
 
 @class MCKLocation;
 
-
 @protocol MCKVerificationHandler;
 @protocol MCKArgumentMatcher;
 @class MCKStub;
+@protocol MCKVerificationResultCollector;
 
 
 typedef enum {
@@ -69,5 +69,10 @@ typedef enum {
 #pragma mark - Stubbing Support
 
 - (MCKStub *)stubCalls:(void(^)(void))callBlock;
+
+
+#pragma mark - Verification Support
+
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector;
 
 @end

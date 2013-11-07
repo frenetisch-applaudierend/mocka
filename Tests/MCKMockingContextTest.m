@@ -166,12 +166,13 @@
 
 - (void)testThatHandlingInvocationInVerificationModeDoesNotAddToRecordedInvocations {
     // given
-    [context beginVerificationWithTimeout:0.0];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
     IgnoreFailures({
-        [context handleInvocation:invocation];
+        [context verifyCalls:^{
+            [context handleInvocation:invocation];
+        } usingCollector:nil];
     });
     
     // then
@@ -179,26 +180,18 @@
 }
 
 - (void)testSuspendingVerificationSetsRecordingMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    
-    // when
-    [context suspendVerification];
-    
-    // then
-    XCTAssertEqual(context.mode, MCKContextModeRecording, @"Suspending did not switch to recording mode");
+    [context verifyCalls:^{
+        [context suspendVerification];
+        expect(context.mode).to.equal(MCKContextModeRecording);
+    } usingCollector:nil];
 }
 
 - (void)testResumingVerificationSetsVerificationMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    [context suspendVerification];
-    
-    // when
-    [context resumeVerification];
-    
-    // then
-    XCTAssertEqual(context.mode, MCKContextModeVerifying, @"Resuming did not switch to verification mode");
+    [context verifyCalls:^{
+        [context suspendVerification];
+        [context resumeVerification];
+        expect(context.mode).to.equal(MCKContextModeVerifying);
+    } usingCollector:nil];
 }
 
 
@@ -228,15 +221,12 @@
 }
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
-    
-    // when
-    [context pushPrimitiveArgumentMatcher:matcher];
-    
-    // then
-    XCTAssertEqualObjects(context.argumentMatcherRecorder.argumentMatchers, @[ matcher ], @"Argument matcher was not recorded");
+    [context verifyCalls:^{
+        [context pushPrimitiveArgumentMatcher:matcher];
+        expect(context.argumentMatcherRecorder.argumentMatchers).to.equal(@[ matcher ]);
+        [context clearArgumentMatchers];
+    } usingCollector:nil];
 }
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
@@ -269,17 +259,18 @@
 }
 
 - (void)testThatVerificationInvocationFailsForUnequalNumberOfPrimitiveMatchers {
-    // given
     TestObject *object = mock([TestObject class]);
-    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
+    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
+                               @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
-    [context beginVerificationWithTimeout:0.0];
-    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
-    
-    // when
-    AssertFails({
-        [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
-    });
+    [context verifyCalls:^{
+        [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
+        
+        AssertFails({
+            [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
+                                       @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
+        });
+    } usingCollector:nil];
 }
 
 

@@ -16,16 +16,7 @@ void _mck_beginVerification(id testCase, MCKLocation *loc, id<MCKVerificationRes
     
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.currentLocation = loc;
-    
-    [context beginVerificationWithTimeout:0.0];
-    
-    if (coll != nil) {
-        [context.invocationVerifier startGroupVerificationWithCollector:coll];
-        calls();
-        [context.invocationVerifier finishGroupVerification];
-    } else {
-        calls();
-    }
+    [context verifyCalls:calls usingCollector:coll];
 }
 
 void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout) {

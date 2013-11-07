@@ -12,11 +12,6 @@
 
 @interface MCKMockingContext (MCKVerification) <MCKInvocationVerifierDelegate>
 
-- (void)verifyInvocation:(NSInvocation *)invocation;
-
-- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout;
-- (void)endVerification;
-
 - (void)suspendVerification;
 - (void)resumeVerification;
 

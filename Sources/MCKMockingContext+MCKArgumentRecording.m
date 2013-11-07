@@ -28,6 +28,10 @@
     return [self.argumentMatcherRecorder addObjectArgumentMatcher:matcher];
 }
 
+- (void)clearArgumentMatchers {
+    [self.argumentMatcherRecorder collectAndReset];
+}
+
 - (BOOL)checkCanPushArgumentMatcher {
     if (self.mode == MCKContextModeRecording) {
         [self failWithReason:@"Argument matchers can only be used with stubbing or verification"];

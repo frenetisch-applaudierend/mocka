@@ -17,16 +17,6 @@
 
 @implementation MCKMockingContext (MCKVerification)
 
-- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout {
-    [self.invocationVerifier beginVerificationWithInvocationRecorder:self.invocationRecorder];
-    self.invocationVerifier.timeout = timeout;
-    [self updateContextMode:MCKContextModeVerifying];
-}
-
-- (void)endVerification {
-    [self updateContextMode:MCKContextModeRecording];
-}
-
 - (void)suspendVerification {
     [self updateContextMode:MCKContextModeRecording];
 }
@@ -40,18 +30,11 @@
     [self.invocationVerifier useVerificationHandler:handler];
 }
 
-- (void)verifyInvocation:(NSInvocation *)invocation {
-    NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
-    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
-    [self.invocationVerifier verifyInvocationsForPrototype:prototype];
-}
-
 - (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason {
     [self failWithReason:@"%@", (reason ?: @"")];
 }
 
 - (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer {
-    [self endVerification];
 }
 
 - (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer {

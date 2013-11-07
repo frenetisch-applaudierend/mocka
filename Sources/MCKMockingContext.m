@@ -111,6 +111,7 @@ static __weak id _CurrentContext = nil;
     
     NSString *reason = nil;
     if (![self.argumentMatcherRecorder isValidForMethodSignature:invocation.methodSignature reason:&reason]) {
+        [self.argumentMatcherRecorder collectAndReset];
         [self failWithReason:@"%@", reason];
         return;
     }
@@ -125,7 +126,7 @@ static __weak id _CurrentContext = nil;
             break;
         
         case MCKContextModeVerifying:
-            [self verifyInvocation:invocation];
+            [self.invocationVerifier verifyInvocationsForPrototype:[self prototypeForInvocation:invocation]];
             break;
             
         default:
@@ -152,6 +153,26 @@ static __weak id _CurrentContext = nil;
     [self updateContextMode:MCKContextModeRecording];
     
     return [[self.invocationStubber recordedStubs] lastObject];
+}
+
+
+#pragma mark - Verification Support
+
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector {
+    NSParameterAssert(callBlock != nil);
+    
+    [self.invocationVerifier beginVerificationWithInvocationRecorder:self.invocationRecorder];
+    [self updateContextMode:MCKContextModeVerifying];
+    
+    if (collector != nil) {
+        [self.invocationVerifier startGroupVerificationWithCollector:collector];
+        callBlock();
+        [self.invocationVerifier finishGroupVerification];
+    } else {
+        callBlock();
+    }
+    
+    [self updateContextMode:MCKContextModeRecording];
 }
 
 @end
