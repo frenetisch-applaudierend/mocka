@@ -17,7 +17,7 @@
 @interface MCKInvocationVerifierTest : XCTestCase @end
 @implementation MCKInvocationVerifierTest {
     MCKInvocationVerifier *verifier;
-    MCKInvocationRecorder *invocationRecorder;
+    FakeMockingContext *mockingContext;
     BlockInvocationVerifierDelegate *verifierDelegate;
     NSMutableArray *delegateCallSequence;
 }
@@ -45,13 +45,17 @@
         [self->delegateCallSequence addObject:@"onDidProcessTimeout"];
     };
     
-    invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:nil];
-    [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    mockingContext = [FakeMockingContext fakeContext];
     
-    verifier = [[MCKInvocationVerifier alloc] init];
+    mockingContext.invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:mockingContext];
+    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    
+    verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:mockingContext];
     verifier.delegate = verifierDelegate;
+    
+    mockingContext.invocationVerifier = verifier;
 }
 
 - (FakeVerificationHandler *)verificationHandlerWhichFailsUnless:(BOOL(^)(void))condition {
@@ -71,7 +75,7 @@
 
 - (void)testThatIfNoHandlerIsSetTheDefaultHandlerIsUsed {
     // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     
     // then
     expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
@@ -79,7 +83,7 @@
 
 - (void)testThatUsingAnotherHandlerWillSetThisHandler {
     // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     
     // when
     FakeVerificationHandler *handler = [FakeVerificationHandler dummy];
@@ -91,7 +95,7 @@
 
 - (void)testThatUsingMultipleHandlersWillSetLastHandler {
     // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     
     // when
     [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
@@ -126,7 +130,7 @@
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:handler];
     [verifier verifyInvocationsForPrototype:prototype];
     
@@ -139,49 +143,51 @@
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:handler];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    expect([[handler.calls lastObject] invocations]).to.equal(invocationRecorder.recordedInvocations);
+    expect([[handler.calls lastObject] invocations]).to.equal(mockingContext.invocationRecorder.recordedInvocations);
 }
 
 - (void)testThatVerifyRemovesMatchingInvocationsAfterSuccessInSingleCallMode {
     // given
     NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
     NSArray *expectedRemainingInvocations = @[
-        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
+        [mockingContext.invocationRecorder invocationAtIndex:0],
+        [mockingContext.invocationRecorder invocationAtIndex:2]
     ];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceedsWithMatches:matches]];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+    expect(mockingContext.invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatVerifyRemovesMatchingInvocationsAfterFailureInSingleCallMode {
     // given
     NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
     NSArray *expectedRemainingInvocations = @[
-        [invocationRecorder invocationAtIndex:0], [invocationRecorder invocationAtIndex:2]
+        [mockingContext.invocationRecorder invocationAtIndex:0],
+        [mockingContext.invocationRecorder invocationAtIndex:2]
     ];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithMatches:matches reason:nil]];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
     // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+    expect(mockingContext.invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterSuccessInSingleCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
@@ -191,7 +197,7 @@
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterFailureInSingleCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
@@ -204,7 +210,7 @@
 
 - (void)testThatVerifyNotifiesOnlyFinishAfterSuccessInSingleCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
@@ -214,7 +220,7 @@
 
 - (void)testThatVerifyNotifiesFirstFailureThenFinishAfterFailureInSingleCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
     [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
     
@@ -247,7 +253,7 @@
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:handler];
         [verifier verifyInvocationsForPrototype:prototype];
@@ -263,7 +269,7 @@
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:handler];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -273,17 +279,17 @@
     [verifier finishGroupVerification];
     
     // then
-    expect([[handler.calls lastObject] invocations]).to.equal(invocationRecorder.recordedInvocations);
+    expect([[handler.calls lastObject] invocations]).to.equal(mockingContext.invocationRecorder.recordedInvocations);
 }
 
 - (void)testThatVerifyDoesNotRemovesAnyInvocationsAfterSuccessInGroupCallMode {
     // given
     NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matches];
-    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
+    NSArray *expectedRemainingInvocations = mockingContext.invocationRecorder.recordedInvocations;
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:handler];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -291,17 +297,17 @@
     [verifier finishGroupVerification];
     
     // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+    expect(mockingContext.invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatVerifyDoesNotRemoveAnyInvocationsAfterFailureInGroupCallMode {
     // given
     NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichFailsWithMatches:matches reason:nil];
-    NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
+    NSArray *expectedRemainingInvocations = mockingContext.invocationRecorder.recordedInvocations;
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:handler];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -309,12 +315,12 @@
     [verifier finishGroupVerification];
     
     // then
-    expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
+    expect(mockingContext.invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterEachSuccessfulVerifyInGroupCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -331,7 +337,7 @@
 
 - (void)testThatVerifyResetsHandlerToDefaultAfterFailureInGroupCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -351,7 +357,7 @@
 
 - (void)testThatVerifyNotifiesOnlyFinishAfterSuccessInGroupCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -366,7 +372,7 @@
 
 - (void)testThatVerifyNotifiesFailuresForFailingVerificationsThenFinishAfterVerificationFailureInGroupCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -381,7 +387,7 @@
 
 - (void)testThatVerifyNotifiesFirstFailureThenFinishAfterSuccessAndFailureInGroupCallMode {
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
         // first call succeeds
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
@@ -406,11 +412,11 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector dummy];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:collector];
     
     // then
-    expect(collector.invocationRecorder).to.equal(invocationRecorder);
+    expect(collector.invocationRecorder).to.equal(mockingContext.invocationRecorder);
 }
 
 - (void)testThatVerifyPassesResultToCollector {
@@ -418,7 +424,7 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector dummy];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:collector]; {
         [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
         [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
@@ -440,7 +446,7 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:collector];
     [verifier finishGroupVerification];
     
@@ -454,7 +460,7 @@
     FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
     
     // when
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier startGroupVerificationWithCollector:collector];
     [verifier finishGroupVerification];
     
@@ -470,7 +476,7 @@
 
 - (void)testThatVerifyCallsDelegateWhenProcessingTimeout {
     // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
     verifier.timeout = 0.1;
     
@@ -486,7 +492,7 @@
     // given
     __block BOOL shouldSucceed = NO;
     
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     verifier.timeout = 1.0;
     [verifier useVerificationHandler:[self verificationHandlerWhichFailsUnless:^BOOL{
         return shouldSucceed;
@@ -505,7 +511,7 @@
 
 - (void)testThatTimeoutIsResetAfterProcessingOneCall {
     // given
-    [verifier beginVerificationWithInvocationRecorder:invocationRecorder];
+    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
     [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
     verifier.timeout = 1.0;
     

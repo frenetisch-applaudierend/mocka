@@ -13,11 +13,19 @@
 @protocol MCKVerificationResultCollector;
 @protocol MCKVerificationHandler;
 
+@class MCKMockingContext;
 @class MCKInvocationRecorder;
 @class MCKInvocationPrototype;
 
 
 @interface MCKInvocationVerifier : NSObject
+
+#pragma mark - Initialization
+
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
+
+@property (nonatomic, readonly, weak) MCKMockingContext *mockingContext;
+
 
 #pragma mark - Configuration
 

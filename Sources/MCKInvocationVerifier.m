@@ -28,8 +28,9 @@
 
 #pragma mark - Initialization
 
-- (instancetype)init {
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context {
     if ((self = [super init])) {
+        _mockingContext = context;
         [self reset];
     }
     return self;
