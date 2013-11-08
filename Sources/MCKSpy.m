@@ -10,8 +10,6 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
 
-#import "MCKMockingContext+MCKFailureHandling.h"
-
 #import <objc/runtime.h>
 
 

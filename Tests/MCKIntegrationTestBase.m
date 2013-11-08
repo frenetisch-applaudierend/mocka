@@ -52,14 +52,14 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        verify ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatVerifyFailsForMissingMethodCall {
     // then
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        verify ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -70,10 +70,10 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        verify ([self.testObject voidMethodCallWithoutParameters]);
     });
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        verify ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -83,10 +83,10 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        verify ([self.testObject voidMethodCallWithoutParameters]);
     });
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        verify ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -99,13 +99,13 @@
     
     // then
     AssertFails({
-        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
+        verify (never [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
     AssertDoesNotFail({
-        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
+        verify (never [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -115,13 +115,13 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        verify (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatExactlyOneFailsWhenNoCallWasMade {
     AssertFails({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        verify (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
@@ -132,14 +132,14 @@
     
     // then
     AssertFails({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        verify (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 - (void)testThatAfterVerifyContextSwitchesToRecordingMode {
     // given
     [self.testObject voidMethodCallWithoutParameters];
-    verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+    verify ([self.testObject voidMethodCallWithoutParameters]);
     
     // then
     AssertDoesNotFail({
@@ -156,7 +156,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
+        verify ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
     });
 }
 
@@ -166,7 +166,7 @@
     
     // then
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
+        verify ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
     });
 }
 
@@ -176,7 +176,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:2 intParam2:45]);
+        verify ([self.testObject voidMethodCallWithIntParam1:2 intParam2:45]);
     });
 }
 
@@ -186,7 +186,7 @@
     
     // then
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:0 intParam2:45]);
+        verify ([self.testObject voidMethodCallWithIntParam1:0 intParam2:45]);
     });
 }
 
@@ -199,7 +199,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        verify ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
     });
 }
 
@@ -210,8 +210,8 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        verify ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        verify ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
     });
 }
 
@@ -221,7 +221,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        verify ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
     });
 }
 
@@ -231,7 +231,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        verify ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
     });
 }
 
@@ -241,7 +241,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
+        verify ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
     });
 }
 
@@ -251,7 +251,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
+        verify ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
     });
 }
 
@@ -266,7 +266,7 @@
 
 - (void)testThatStubbedReturnValueIsReturned {
     // given
-    stubCall ([self.testObject objectMethodCallWithoutParameters]) with {
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
         return @"Hello World";
     };
     
@@ -280,7 +280,7 @@
 - (void)testMultipleStubActions {
     // given
     __block BOOL called = YES;
-    stubCall ([self.testObject objectMethodCallWithoutParameters]) with {
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
         called = YES;
         return @20;
     };
@@ -302,9 +302,9 @@
     __block NSString *marker = nil;
     
     // when
-    stubCall ([object1 objectMethodCallWithoutParameters]) with { return @"First Object"; };
-    stubCall ([object2 objectMethodCallWithoutParameters]) with { return @"Second Object"; };
-    stubCall ([object3 objectMethodCallWithoutParameters]) with {
+    stub ([object1 objectMethodCallWithoutParameters]) with { return @"First Object"; };
+    stub ([object2 objectMethodCallWithoutParameters]) with { return @"Second Object"; };
+    stub ([object3 objectMethodCallWithoutParameters]) with {
         marker = @"Third Object";
         return nil;
     };
@@ -329,13 +329,13 @@
 - (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
     // given
     __block BOOL firstWasCalled = NO;
-    stubCall ([self.testObject objectMethodCallWithoutParameters]) with {
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
         firstWasCalled = YES;
         return @"First";
     };
     
     __block BOOL secondWasCalled = NO;
-    stubCall ([self.testObject objectMethodCallWithoutParameters]) with {
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
         secondWasCalled = YES;
         return @"Second";
     };
@@ -355,7 +355,7 @@
     TestObject *object2 = [self createTestObject];
     
     // when
-    stubCalls ({
+    stubAll ({
         [object1 objectMethodCallWithoutParameters];
         [object2 objectMethodCallWithoutParameters];
     }) with {
@@ -369,7 +369,7 @@
 
 - (void)testStubbingWithSelfAndCmd {
     // given
-    stubCall ([self.testObject objectMethodCallWithoutParameters]) with (TestObject *self, SEL _cmd) {
+    stub ([self.testObject objectMethodCallWithoutParameters]) with (TestObject *self, SEL _cmd) {
         [self description];
         return @10;
     };
@@ -384,7 +384,7 @@
 - (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher {
     // given
     __block BOOL methodMatched = NO;
-    stubCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
+    stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
         methodMatched = YES;
     };
     
@@ -398,7 +398,7 @@
 - (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
     // given
     __block int invocationCount = 0;
-    stubCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
+    stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
         invocationCount++;
     };
     
@@ -412,7 +412,7 @@
 
 - (void)testThatCallingStubbedOutParameterCallWithNullWorks {
     // given
-    stubCall ([self.testObject boolMethodCallWithError:anyObjectPointer(__autoreleasing)]) with {
+    stub ([self.testObject boolMethodCallWithError:anyObjectPointer(__autoreleasing)]) with {
         return NO;
     };
     
@@ -428,7 +428,7 @@
     CategoriesTestMockedClass *mock = [self createCategoriesTestObject];
     
     __block BOOL called = NO;
-    stubCall ([mock categoryMethodInMockedClass]) with {
+    stub ([mock categoryMethodInMockedClass]) with {
         called = YES;
     };
     
@@ -437,7 +437,7 @@
     
     // then
     expect(called).to.beTruthy();
-    verifyCall ([mock categoryMethodInMockedClass]);
+    verify ([mock categoryMethodInMockedClass]);
 }
 
 - (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
@@ -445,7 +445,7 @@
     CategoriesTestMockedClass *mock = [self createCategoriesTestObject];
     
     __block BOOL called = NO;
-    stubCall ([mock categoryMethodInMockedClassSuperclass]) with {
+    stub ([mock categoryMethodInMockedClassSuperclass]) with {
         called = YES;
     };
     
@@ -454,7 +454,7 @@
     
     // then
     expect(called).to.beTruthy();
-    verifyCall ([mock categoryMethodInMockedClassSuperclass]);
+    verify ([mock categoryMethodInMockedClassSuperclass]);
 }
 
 @end

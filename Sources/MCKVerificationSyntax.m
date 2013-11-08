@@ -8,24 +8,16 @@
 
 #import "MCKVerificationSyntax.h"
 #import "MCKMockingContext.h"
-#import "MCKMockingContext+MCKVerification.h"
+#import "MCKInvocationVerifier.h"
+#import "MCKAllCollector.h"
 
 
-void _mck_beginVerification(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {
+void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {
     NSCParameterAssert(calls != nil);
     
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.currentLocation = loc;
-    
-    [context beginVerificationWithTimeout:0.0];
-    
-    if (coll != nil) {
-        [context.invocationVerifier startGroupVerificationWithCollector:coll];
-        calls();
-        [context.invocationVerifier finishGroupVerification];
-    } else {
-        calls();
-    }
+    [context verifyCalls:calls usingCollector:(coll ?: [[MCKAllCollector alloc] init])];
 }
 
 void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout) {

@@ -18,7 +18,7 @@
 /**
  * Verify a group of calls in order.
  */
-#define mck_verifyCallsInOrder(...) mck_verifyCallGroup([[MCKInOrderCollector alloc] init], __VA_ARGS__)
+#define mck_verifyInOrder(...) mck_verifyUsingCollector([[MCKInOrderCollector alloc] init], __VA_ARGS__)
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define verifyCallsInOrder(...) mck_verifyCallsInOrder(__VA_ARGS__)
+    #define verifyInOrder(...) mck_verifyInOrder(__VA_ARGS__)
 #endif

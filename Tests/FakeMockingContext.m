@@ -34,6 +34,10 @@
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason, ... {
+    if (self.shouldIgnoreFailures) {
+        return;
+    }
+    
     va_list ap;
     va_start(ap, reason);
     NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
@@ -53,19 +57,6 @@
     [_handledInvocations addObject:invocation];
     
     [super handleInvocation:invocation];
-}
-
-
-#pragma mark - Verification Helpers
-
-- (void)suspendVerification {
-    [super suspendVerification];
-    _verificationSuspendCount++;
-}
-
-- (void)resumeVerification {
-    [super resumeVerification];
-    _verificationResumeCount++;
 }
 
 @end
