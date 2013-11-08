@@ -9,6 +9,7 @@
 #import "MCKVerificationSyntax.h"
 #import "MCKMockingContext.h"
 #import "MCKInvocationVerifier.h"
+#import "MCKAllCollector.h"
 
 
 void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {
@@ -16,7 +17,7 @@ void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollecto
     
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.currentLocation = loc;
-    [context verifyCalls:calls usingCollector:coll];
+    [context verifyCalls:calls usingCollector:(coll ?: [[MCKAllCollector alloc] init])];
 }
 
 void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout) {

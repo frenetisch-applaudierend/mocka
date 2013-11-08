@@ -89,8 +89,8 @@
 		631E237D17FF5F3C00BC2D06 /* MCKBlockArgumentMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334759717F5944B001F5C88 /* MCKBlockArgumentMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		631E237E17FF5F3C00BC2D06 /* NSInvocation+MCKArgumentHandling.h in Headers */ = {isa = PBXBuildFile; fileRef = 633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		631E237F17FF5F3C00BC2D06 /* MCKMockingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 638BA43E17F5C6740086226D /* MCKMockingSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6324F48B182D960E00BBB351 /* MCKAllCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6324F489182D960E00BBB351 /* MCKAllCollector.h */; };
-		6324F48C182D960E00BBB351 /* MCKAllCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6324F489182D960E00BBB351 /* MCKAllCollector.h */; };
+		6324F48B182D960E00BBB351 /* MCKAllCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6324F489182D960E00BBB351 /* MCKAllCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6324F48C182D960E00BBB351 /* MCKAllCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 6324F489182D960E00BBB351 /* MCKAllCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6324F48D182D960E00BBB351 /* MCKAllCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F48A182D960E00BBB351 /* MCKAllCollector.m */; };
 		6324F48E182D960E00BBB351 /* MCKAllCollector.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F48A182D960E00BBB351 /* MCKAllCollector.m */; };
 		6324F490182D969700BBB351 /* MCKAllCollectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F48F182D969700BBB351 /* MCKAllCollectorTest.m */; };
