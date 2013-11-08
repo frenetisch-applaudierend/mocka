@@ -18,6 +18,7 @@
 #import "MCKVerificationResult.h"
 #import "MCKVerificationResultCollector.h"
 #import "MCKInOrderCollector.h"
+#import "MCKAllCollector.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKNeverVerificationHandler.h"
