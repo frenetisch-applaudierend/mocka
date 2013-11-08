@@ -118,7 +118,7 @@ If `DoSomethingWith(...)` didn’t call `[arrayMock objectAtIndex:0]` then `veri
 By default `verifyCall` will succeed if at least one matching call was made, but you can change this behavior. For example to verify an exact number of calls use `verifyCall (exactly(N) <#CALL#>)` (where `N` is the number of invocations).
 
 	// only succeed if there were exactly 3 calls to -addObject:
-	verifyCall (exactly(3) [arrayMock addObject:@"Foo"])
+	verify (exactly(3) [arrayMock addObject:@"Foo"])
 
 Note that matching calls are not evaluated again. Consider the following example:
 
@@ -127,25 +127,57 @@ Note that matching calls are not evaluated again. Consider the following example
 	
 	[arrayMock objectAtIndex:0];
 	
-	verifyCall ([arrayMock objectAtIndex:0]); // this succeeds, since the call was made
-	verifyCall ([arrayMock objectAtIndex:0]); // this fails, because the previous verification
-	                                          // removes the call
+	verify ([arrayMock objectAtIndex:0]); // this succeeds, since the call was made
+	verify ([arrayMock objectAtIndex:0]); // this fails, because the previous verification
+	                                      // removes the call
 
 If there were two calls to `[arrayMock objectAtIndex:0]` the second verification would succeed now, because `verifyCall (...)` only removes the first matching invocation.
 
 More examples can be found in `Examples/ExamplesVerify.m`.
 
+### Ordered Verification
+
+You can verify that a group of calls was made in a given order. This is especially useful when testing interaction with a delegate or data source.
+
+    // given
+    NSArray *arrayMock = mockForClass(NSArray);
+    
+    [self doSomethingWith:arrayMock];
+    
+    // check if the following calls were made in order
+    verifyInOrder ({
+        [arrayMock count];
+        [arrayMock objectAtIndex:0];
+        [arrayMock objectAtIndex:1];
+    });
+
+Note that when checking calls in order, interleaving calls do not cause a failure. E.g. the following verification will succeed, because the tested calls were all made and in order.
+
+    // given
+    NSArray *arrayMock = mockForClass(NSArray);
+    
+    [arrayMock count];
+    [arrayMock objectAtIndex:0];
+    [arrayMock objectAtIndex:1];
+    [arrayMock removeAllObjects];
+    
+    // check if the following calls were made in order
+    verifyInOrder ({
+        [arrayMock count];
+        [arrayMock removeAllObjects];
+    });
+
 ## Stubbing
 
-By default when a method is called on a mock it will do nothing and simply return the default value (`nil` for objects, `0` for integers, an empty struct, etc). Stubbing allows you to specify actions that should be executed when a certain method on a mock is called. To stub a method use the `stubCall (...) with { ... };` construct.
+By default when a method is called on a mock it will do nothing and simply return the default value (`nil` for objects, `0` for integers, an empty struct, etc). Stubbing allows you to specify actions that should be executed when a certain method on a mock is called. To stub a method use the `stub (...) with { ... };` construct.
 
 	NSArray *arrayMock = mockForClass(NSArray);
 	
-	stubCall ([arrayMock count]) with {
+	stub ([arrayMock count]) with {
 	    return 1;
 	};
 	
-	stubCall ([arrayMock objectAtIndex:0]) with {
+	stub ([arrayMock objectAtIndex:0]) with {
 	    return @"Foo";
 	};
 	
@@ -156,9 +188,9 @@ By default when a method is called on a mock it will do nothing and simply retur
 	}
 	// Prints: "Object in array: Foo"
 
-You can group multiple calls to have the same actions:
+You can group multiple calls to have the same actions by using `stubAll` instead of `stub`:
 
-	stubCalls ({
+	stubAll ({
 	    [mock doSomething];
 	    [mock doSomethingElse];
 	}) with {
@@ -169,11 +201,11 @@ You can group multiple calls to have the same actions:
 
 You can use the arguments passed to the stubbed call:
 
-	stubCall ([mock increase:anyInt()]) with (NSUInteger i) {
+	stub ([mock increase:anyInt()]) with (NSUInteger i) {
 	    return (i + 1);
 	};
 
-*Tip*: Add a snippet to the Xcode snippet library for `stubCall (...) with { ... };`
+*Tip*: Add a snippet to the Xcode snippet library for `stub (...) with { ... };`
 
 Examples about stubbing are in `Examples/ExamplesStub.m`.
 
@@ -187,7 +219,7 @@ If you have it installed you can disable access to the real network using `[Netw
 
 Regardless wether the real network is enabled or not, you can define stubbed responses for specific network calls.
 
-    stubCall (Network.GET(@"http://www.google.ch")) with {
+    stub (Network.GET(@"http://www.google.ch")) with {
         return @"Hello World";
     };
 
