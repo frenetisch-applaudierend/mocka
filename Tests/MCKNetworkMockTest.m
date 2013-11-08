@@ -79,7 +79,7 @@
     NSInvocation *invocation = mockingContext.handledInvocations[0];
     XCTAssertEqualObjects(invocation.target, networkMock, @"Wrong invocation target");
     XCTAssertEqual(invocation.selector, @selector(handleNetworkRequest:), @"Wrong invocation selector");
-    XCTAssertEqualObjects([invocation objectParameterAtIndex:0], matcher, @"Wrong invocation argument");
+    XCTAssertEqualObjects([invocation mck_objectParameterAtIndex:0], matcher, @"Wrong invocation argument");
 }
 
 

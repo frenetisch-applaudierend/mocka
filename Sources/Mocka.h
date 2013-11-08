@@ -32,6 +32,3 @@
 
 #import "MCKNetworkMock.h"
 #import "MCKNetworkRequestMatcher.h"
-
-#import "MCKTypeEncodings.h"
-#import "NSInvocation+MCKArgumentHandling.h"

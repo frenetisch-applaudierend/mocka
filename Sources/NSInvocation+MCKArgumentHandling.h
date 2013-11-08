@@ -35,24 +35,3 @@
 @end
 
 #define mck_structParameter(inv, idx, structType) (*((structType *)([(inv) mck_structParameter:&(structType){} atIndex:(idx)])))
-
-
-#ifndef MCK_DISABLE_NICE_SYNTAX
-@interface NSInvocation (MCKArgumentHandling_NiceSyntax)
-
-- (__autoreleasing id)objectParameterAtIndex:(NSUInteger)index;
-- (NSInteger)integerParameterAtIndex:(NSUInteger)index;
-- (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index;
-- (void *)structParameter:(out void *)parameter atIndex:(NSUInteger)index;
-- (id)serializedParameterAtIndex:(NSUInteger)index;
-
-- (NSUInteger)sizeofParameterAtIndex:(NSUInteger)index;
-
-- (id)objectReturnValue;
-- (void)setObjectReturnValue:(id)value;
-
-@end
-
-#define structParameter(inv, idx, structType) mck_structParameter(inv, idx, structType)
-
-#endif
