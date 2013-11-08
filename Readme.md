@@ -145,11 +145,11 @@ You can verify that a group of calls was made in a given order. This is especial
     [self doSomethingWith:arrayMock];
     
     // check if the following calls were made in order
-    verifyInOrder ({
+    verifyInOrder {
         [arrayMock count];
         [arrayMock objectAtIndex:0];
         [arrayMock objectAtIndex:1];
-    });
+    };
 
 Note that when checking calls in order, interleaving calls do not cause a failure. E.g. the following verification will succeed, because the tested calls were all made and in order.
 
@@ -162,10 +162,10 @@ Note that when checking calls in order, interleaving calls do not cause a failur
     [arrayMock removeAllObjects];
     
     // check if the following calls were made in order
-    verifyInOrder ({
+    verifyInOrder {
         [arrayMock count];
         [arrayMock removeAllObjects];
-    });
+    };
 
 ## Stubbing
 

@@ -18,7 +18,7 @@
 /**
  * Verify that all calls of a group are made in any order.
  */
-#define mck_verifyAll(...) mck_verifyUsingCollector([[MCKAllCollector alloc] init], __VA_ARGS__)
+#define mck_verifyAll mck_verifyUsingCollector([[MCKAllCollector alloc] init])
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define verifyAll(...) mck_verifyAll(__VA_ARGS__)
+    #define verifyAll mck_verifyAll
 #endif

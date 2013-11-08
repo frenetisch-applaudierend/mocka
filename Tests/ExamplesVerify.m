@@ -215,11 +215,11 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        verifyInOrder ({
+        verifyInOrder {
             [mockArray addObject:@"One"];
             [mockArray addObject:@"Three"];
             [mockArray addObject:@"Two"];   // <-- EVIL, out of order!
-        });
+        };
     });
 }
 
@@ -232,11 +232,11 @@
     [mockArray addObject:@"Also unverified"]; // also this
     [mockArray addObject:@"Three"];
     
-    verifyInOrder ({
+    verifyInOrder {
         [mockArray addObject:@"One"];
         [mockArray addObject:@"Two"];
         [mockArray addObject:@"Three"];
-    });
+    };
 }
 
 - (void)testCanUseExactlyInOrderedVerify {
@@ -247,10 +247,10 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    verifyInOrder ({
+    verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
         [mockArray removeAllObjects];
-    });
+    };
 }
 
 - (void)testLeadingUnverifiedMethodCallsAreIgnoredWithExactly {
@@ -262,10 +262,10 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    verifyInOrder ({
+    verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
         [mockArray removeAllObjects];
-    });
+    };
 }
 
 - (void)testInterleavedUnverifiedMethodCallsAreIgnoredWithExactly {
@@ -276,9 +276,9 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder ({
+    verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
-    });
+    };
 }
 
 - (void)testOrderedVerifyFailsIfExactlyFails {
@@ -289,10 +289,10 @@
     [mockArray removeAllObjects];
     
     ThisWillFail({
-        verifyInOrder ({
+        verifyInOrder {
             exactly(3) [mockArray addObject:anyObject()];
             [mockArray removeAllObjects];
-        });
+        };
     });
 }
 
@@ -305,10 +305,10 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        verifyInOrder ({
+        verifyInOrder {
             exactly(3) [mockArray addObject:anyObject()];
             [mockArray removeAllObjects];
-        });
+        };
     });
 }
 
@@ -320,9 +320,9 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder ({
+    verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
-    });
+    };
     verify ([mockArray removeAllObjects]);
 }
 
@@ -335,14 +335,14 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder ({
+    verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
-    });
+    };
     
-    verifyInOrder ({
+    verifyInOrder {
         [mockArray count];
         [mockArray removeAllObjects];
-    });
+    };
 }
 
 - (void)testOrderingIsAlsoEnforcedWhenTestingSkippedCalls {
@@ -354,15 +354,15 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder ({
+    verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
-    });
+    };
     
     ThisWillFail({
-        verifyInOrder ({
+        verifyInOrder {
             [mockArray removeAllObjects];
             [mockArray count];
-        });
+        };
     });
 }
 
@@ -430,11 +430,11 @@
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    verifyInOrder ({
+    verifyInOrder {
         [mockArray addObject:@1];
         [mockArray addObject:@2];
         withTimeout(0.5) [mockArray removeAllObjects];
-    });
+    };
 }
 
 @end

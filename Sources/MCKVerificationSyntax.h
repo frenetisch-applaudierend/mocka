@@ -20,7 +20,7 @@
  *
  * Usage: `verify ([mockObject someMethod]);`.
  */
-#define mck_verify(...) _mck_verify(self, _MCKCurrentLocation(), nil, ^{ (void)(__VA_ARGS__); })
+#define mck_verify(...) _mck_verify(self, _MCKCurrentLocation(), nil).verifyCallBlock = ^{ (void)(__VA_ARGS__); }
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #undef verify
     #define verify(...) mck_verify(__VA_ARGS__)
@@ -32,7 +32,7 @@
  *
  * Intended to be wrapped in your own macro, so there is no nice syntax option.
  */
-#define mck_verifyUsingCollector(COLL, ...) _mck_verify(self, _MCKCurrentLocation(), (COLL), ^{ (void)(__VA_ARGS__); })
+#define mck_verifyUsingCollector(COLL) _mck_verify(self, _MCKCurrentLocation(), (COLL)).verifyCallBlock = ^
 
 
 /**
@@ -48,5 +48,11 @@
 
 #pragma mark - Internal
 
-extern void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void));
+@interface MCKVerifyBlockRecorder : NSObject
+
+@property (nonatomic, copy) void(^verifyCallBlock)(void);
+
+@end
+
+extern MCKVerifyBlockRecorder* _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll);
 extern void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout);

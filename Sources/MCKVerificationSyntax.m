@@ -12,15 +12,44 @@
 #import "MCKAllCollector.h"
 
 
-void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {
-    NSCParameterAssert(calls != nil);
-    
+@interface MCKVerifyBlockRecorder ()
+
++ (instancetype)recorderWithContext:(MCKMockingContext *)context collector:(id<MCKVerificationResultCollector>)collector;
+
+@property (nonatomic, readonly) MCKMockingContext *mockingContext;
+@property (nonatomic, readonly) id<MCKVerificationResultCollector> collector;
+
+@end
+
+
+extern MCKVerifyBlockRecorder* _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.currentLocation = loc;
-    [context verifyCalls:calls usingCollector:(coll ?: [[MCKAllCollector alloc] init])];
+    return [MCKVerifyBlockRecorder recorderWithContext:context collector:(coll ?: [[MCKAllCollector alloc] init])];
 }
 
 void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
     context.invocationVerifier.timeout = timeout;
 }
+
+
+@implementation MCKVerifyBlockRecorder
+
++ (instancetype)recorderWithContext:(MCKMockingContext *)context collector:(id<MCKVerificationResultCollector>)collector {
+    return [[self alloc] initWithContext:context collector:collector];
+}
+
+- (instancetype)initWithContext:(MCKMockingContext *)context collector:(id<MCKVerificationResultCollector>)collector {
+    if ((self = [super init])) {
+        _mockingContext = context;
+        _collector = collector;
+    }
+    return self;
+}
+
+- (void)setVerifyCallBlock:(void (^)(void))calls {
+    [self.mockingContext verifyCalls:calls usingCollector:self.collector];
+}
+
+@end
