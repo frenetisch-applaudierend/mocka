@@ -35,15 +35,9 @@
 
 #pragma mark - Verification
 
-- (void)beginVerificationWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder;
+- (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector;
 - (void)useVerificationHandler:(id<MCKVerificationHandler>)verificationHandler;
 - (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype;
-
-
-#pragma mark - Group Verification
-
-- (void)startGroupVerificationWithCollector:(id<MCKVerificationResultCollector>)collector;
-- (void)finishGroupVerification;
-- (BOOL)isInGroupVerification;
+- (void)finishVerification;
 
 @end

@@ -155,18 +155,12 @@ static __weak id _CurrentContext = nil;
 
 - (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector {
     NSParameterAssert(callBlock != nil);
+    NSParameterAssert(collector != nil);
     
-    [self.invocationVerifier beginVerificationWithInvocationRecorder:self.invocationRecorder];
     [self updateContextMode:MCKContextModeVerifying];
-    
-    if (collector != nil) {
-        [self.invocationVerifier startGroupVerificationWithCollector:collector];
-        callBlock();
-        [self.invocationVerifier finishGroupVerification];
-    } else {
-        callBlock();
-    }
-    
+    [self.invocationVerifier beginVerificationWithCollector:collector];
+    callBlock();
+    [self.invocationVerifier finishVerification];
     [self updateContextMode:MCKContextModeRecording];
 }
 

@@ -168,7 +168,7 @@
     IgnoreFailures({
         [context verifyCalls:^{
             [context handleInvocation:invocation];
-        } usingCollector:nil];
+        } usingCollector:[FakeVerificationResultCollector dummy]];
     });
     
     // then
@@ -207,7 +207,7 @@
         [context pushPrimitiveArgumentMatcher:matcher];
         expect(context.argumentMatcherRecorder.argumentMatchers).to.equal(@[ matcher ]);
         [context clearArgumentMatchers];
-    } usingCollector:nil];
+    } usingCollector:[FakeVerificationResultCollector dummy]];
 }
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
@@ -251,7 +251,7 @@
             [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
                                        @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
         });
-    } usingCollector:nil];
+    } usingCollector:[FakeVerificationResultCollector dummy]];
 }
 
 
