@@ -8,7 +8,7 @@
 
 #import "MCKVerificationSyntax.h"
 #import "MCKMockingContext.h"
-#import "MCKMockingContext+MCKVerification.h"
+#import "MCKInvocationVerifier.h"
 
 
 void _mck_beginVerification(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {

@@ -7,10 +7,9 @@
 //
 
 #import "MCKVerificationHandler.h"
+#import "MCKMockingContext.h"
 
-#import "MCKMockingContext+MCKVerification.h"
 
-
-void _mck_setVerificationHandlerImpl(id<MCKVerificationHandler> handler) {
+void _mck_useVerificationHandlerImpl(id<MCKVerificationHandler> handler) {
     [[MCKMockingContext currentContext] useVerificationHandler:handler];
 }

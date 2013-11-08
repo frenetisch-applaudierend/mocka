@@ -29,7 +29,6 @@
 
 #pragma mark - Configuration
 
-@property (nonatomic, weak) id<MCKInvocationVerifierDelegate> delegate;
 @property (nonatomic, assign) NSTimeInterval timeout; // reset to 0.0 after each verified call
 @property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
 
@@ -46,12 +45,5 @@
 - (void)startGroupVerificationWithCollector:(id<MCKVerificationResultCollector>)collector;
 - (void)finishGroupVerification;
 - (BOOL)isInGroupVerification;
-
-@end
-
-
-@protocol MCKInvocationVerifierDelegate <NSObject>
-
-- (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason;
 
 @end

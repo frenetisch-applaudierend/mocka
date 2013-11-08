@@ -18,30 +18,12 @@
 @implementation MCKInvocationVerifierTest {
     MCKInvocationVerifier *verifier;
     FakeMockingContext *mockingContext;
-    BlockInvocationVerifierDelegate *verifierDelegate;
-    NSMutableArray *delegateCallSequence;
 }
 
 - (void)setUp {
-    __weak typeof(self) weakSelf = self;
-    
-    delegateCallSequence = [NSMutableArray array];
-    
-    verifierDelegate = [[BlockInvocationVerifierDelegate alloc] init];
-    verifierDelegate.onFailure = ^ (NSString *_) {
-        __strong typeof (weakSelf) self = weakSelf;
-        [self->delegateCallSequence addObject:@"onFailure"];
-    };
-    verifierDelegate.onWillProcessTimeout = ^{
-        __strong typeof (weakSelf) self = weakSelf;
-        [self->delegateCallSequence addObject:@"onWillProcessTimeout"];
-    };
-    verifierDelegate.onDidProcessTimeout = ^{
-        __strong typeof (weakSelf) self = weakSelf;
-        [self->delegateCallSequence addObject:@"onDidProcessTimeout"];
-    };
-    
     mockingContext = [FakeMockingContext fakeContext];
+    
+    mockingContext.shouldIgnoreFailures = YES;
     
     mockingContext.invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:mockingContext];
     [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
@@ -49,7 +31,6 @@
     [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     
     verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:mockingContext];
-    verifier.delegate = verifierDelegate;
     
     mockingContext.invocationVerifier = verifier;
 }
@@ -201,19 +182,6 @@
     expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
 }
 
-
-#pragma mark - Notifications
-
-- (void)testThatVerifyNotifiesFailureInSingleCallMode {
-    // when
-    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    expect(delegateCallSequence).to.equal(@[ @"onFailure" ]);
-}
-
 @end
 
 
@@ -339,43 +307,6 @@
 }
 
 
-#pragma mark - Notifications
-
-- (void)testThatVerifyNotifiesFailuresForFailingVerificationsInGroupCallMode {
-    // when
-    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    };
-    [verifier finishGroupVerification];
-    
-    // then
-    expect(delegateCallSequence).to.equal(@[ @"onFailure", @"onFailure" ]);
-}
-
-- (void)testThatVerifyNotifiesFailureAfterSuccessAndFailureInGroupCallMode {
-    // when
-    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-        // first call succeeds
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-        
-        // second call fails
-        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    };
-    [verifier finishGroupVerification];
-    
-    // then
-    expect(delegateCallSequence).to.equal(@[ @"onFailure" ]);
-}
-
-
-
 #pragma mark - Collector Interaction
 
 - (void)testThatStartGroupVerificationCallsBeginCollectingOnCollector {
@@ -409,20 +340,6 @@
         [MCKVerificationResult successWithMatchingIndexes:nil],
         [MCKVerificationResult failureWithReason:nil matchingIndexes:nil],
     ]);
-}
-
-- (void)testThatFinishGroupNotifiesFailureForFailingCollectorResultInGroupCallMode {
-    // given
-    MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:nil];
-    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector collectorWithMergedResult:result];
-    
-    // when
-    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-    [verifier startGroupVerificationWithCollector:collector];
-    [verifier finishGroupVerification];
-    
-    // then
-    expect(delegateCallSequence).to.equal(@[ @"onFailure" ]);
 }
 
 @end

@@ -14,8 +14,6 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
 
-#import "MCKMockingContext+MCKFailureHandling.h"
-
 #import "NSInvocation+MCKArgumentHandling.h"
 #import "OHHTTPStubsResponse+JSON.h"
 

@@ -12,10 +12,6 @@
 #import "MCKInvocationRecorder.h"
 #import "MCKInvocationStubber.h"
 
-#import "MCKMockingContext+MCKVerification.h"
-#import "MCKMockingContext+MCKArgumentRecording.h"
-#import "MCKMockingContext+MCKFailureHandling.h"
-
 #import "MCKMockingSyntax.h"
 #import "MCKStub.h"
 #import "MCKBlockArgumentMatcher.h"

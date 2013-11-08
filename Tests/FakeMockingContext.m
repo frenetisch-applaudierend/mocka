@@ -34,6 +34,10 @@
 #pragma mark - Handling Failures
 
 - (void)failWithReason:(NSString *)reason, ... {
+    if (self.shouldIgnoreFailures) {
+        return;
+    }
+    
     va_list ap;
     va_start(ap, reason);
     NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];

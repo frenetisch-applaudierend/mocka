@@ -140,7 +140,7 @@
 
 - (void)notifyFailureWithResult:(MCKVerificationResult *)result {
     NSString *reason = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
-    [self.delegate invocationVerifier:self didFailWithReason:reason];
+    [self.mockingContext failWithReason:@"%@", reason];
 }
 
 @end

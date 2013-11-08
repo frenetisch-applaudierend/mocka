@@ -24,8 +24,8 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    [MCKMockingContext contextForTestCase:self]; // make sure a context exists
-    recorder = [[MCKArgumentMatcherRecorder alloc] init];
+    MCKMockingContext *context = [MCKMockingContext contextForTestCase:self]; // make sure a context exists
+    recorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:context];
     sampleMatcher = [[MCKAnyArgumentMatcher alloc] init];
 }
 

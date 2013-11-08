@@ -11,9 +11,4 @@
 
 @interface MCKMockingContext (MCKArgumentRecording)
 
-- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
-- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
-
-- (void)clearArgumentMatchers;
-
 @end

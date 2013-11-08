@@ -11,9 +11,6 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationRecorder.h"
 
-#import "MCKMockingContext+MCKVerification.h"
-#import "MCKMockingContext+MCKFailureHandling.h"
-
 
 void mck_checkNoInteractions(id testCase, id mockObject) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
