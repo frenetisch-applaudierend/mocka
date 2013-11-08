@@ -192,7 +192,7 @@
     };
     
     ThisWillFail({
-        verifyCall ([mockArray objectAtIndex:0]);
+        verify ([mockArray objectAtIndex:0]);
     });
 }
 
@@ -203,7 +203,7 @@
         return nil;
     };
     
-    verifyCall (never [mockArray objectAtIndex:0]);
+    verify (never [mockArray objectAtIndex:0]);
 }
 
 @end

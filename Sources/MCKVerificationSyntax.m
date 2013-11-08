@@ -11,7 +11,7 @@
 #import "MCKInvocationVerifier.h"
 
 
-void _mck_beginVerification(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {
+void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void)) {
     NSCParameterAssert(calls != nil);
     
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
