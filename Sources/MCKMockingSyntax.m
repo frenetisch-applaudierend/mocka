@@ -24,13 +24,3 @@ id _mck_createSpy(id testCase, MCKLocation *location, id object) {
     context.currentLocation = location;
     return mck_createSpyForObject(object, context);
 }
-
-MCKStub* _mck_stubCalls(id testCase, MCKLocation *location, void(^calls)(void)) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    context.currentLocation = location;
-    return [context stubCalls:calls];
-}
-
-void _mck_updateLocationInfo(MCKLocation *location) {
-    [[MCKMockingContext currentContext] setCurrentLocation:location];
-}

@@ -20,7 +20,7 @@
 - (void)testYouCanStubNetworkCalls {
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
-    stubCall (Network.GET(@"http://www.google.ch")) with {
+    stub (Network.GET(@"http://www.google.ch")) with {
         return [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
     };
     
@@ -83,7 +83,7 @@
     [Network disable];
     
     // set up a stub
-    stubCall (Network.GET(@"http://www.google.ch")) with {
+    stub (Network.GET(@"http://www.google.ch")) with {
         return [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
     };
     

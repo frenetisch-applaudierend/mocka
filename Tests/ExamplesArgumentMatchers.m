@@ -41,7 +41,7 @@
     // instead of specifiying an exact value in whenCalling you can also use argument matchers
     
     __block id addedObject = nil;
-    stubCall ([mockArray addObject:anyObject()]) with (id object) {
+    stub ([mockArray addObject:anyObject()]) with (id object) {
         addedObject = object;
     };
     
@@ -70,7 +70,7 @@
 - (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsWhenStubbing {
     // matchers are also available for primitive arguments
     
-    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+    stub ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
         return @(index);
     };
     
@@ -104,7 +104,7 @@
 - (void)testYouCanUseArgumentMatchersForStructArgumentsWhenStubbing {
     // matchers are also available for struct arguments
     
-    stubCall ([mockArray subarrayWithRange:anyStruct(NSRange)]) with (NSRange range) {
+    stub ([mockArray subarrayWithRange:anyStruct(NSRange)]) with (NSRange range) {
         return @[ @(range.location), @(range.length) ];
     };
     

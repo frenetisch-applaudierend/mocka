@@ -46,7 +46,7 @@
 #endif
 
 
-#pragma mark - Starting Verification
+#pragma mark - Internal
 
 extern void _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll, void(^calls)(void));
 extern void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout);

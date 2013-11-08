@@ -42,7 +42,7 @@
 - (void)testSettingCustomObjectReturnValue {
     // you can set a custom return value for objects
     
-    stubCall ([mockArray objectAtIndex:0]) with {
+    stub ([mockArray objectAtIndex:0]) with {
         return @"Hello World";
     };
     
@@ -52,7 +52,7 @@
 - (void)testSettingCustomPrimitiveNumberReturnValue {
     // you can set a custom return value for primitive numbers
     
-    stubCall ([mockArray count]) with {
+    stub ([mockArray count]) with {
         return 10;
     };
 
@@ -62,7 +62,7 @@
 - (void)testSettingCustomStructReturnValue {
     // you can also set a custom return value for structs
     
-    stubCall ([mockString rangeOfString:@"Foo"]) with {
+    stub ([mockString rangeOfString:@"Foo"]) with {
         return NSMakeRange(10, 20);
     };
     
@@ -75,7 +75,7 @@
 - (void)testMethodArgumentsArePassedToBlockIfRequested {
     // if the stub block takes parameters they are taken from the stubbed invocation
     
-    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+    stub ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
         return @(index);
     };
     
@@ -87,7 +87,7 @@
 - (void)testMethodArgumentsArePassedToBlockIfRequestedIncludingSelfAndCmd {
     // if you also include self and _cmd, those parameters are passed as well to the block
     // NOTE: Either both self and _cmd must be there or none. You cannot choose to only have self or _cmd passed.
-    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSArray *self, SEL _cmd, NSUInteger index) {
+    stub ([mockArray objectAtIndex:anyInt()]) with (NSArray *self, SEL _cmd, NSUInteger index) {
         return self;
     };
     
@@ -100,7 +100,7 @@
 - (void)testThrowingCreatedExceptionFromStubbedMethod {
     // you can throw an exception in a stubbed method
     
-    stubCall ([mockArray objectAtIndex:1]) with {
+    stub ([mockArray objectAtIndex:1]) with {
         @throw [NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil];
     };
     
@@ -110,7 +110,7 @@
 - (void)testSettingOutParametersFromStubbedMethod {
     // you can set out parameters passed by reference
     
-    stubCall ([mockArray getObjects:anyObjectPointer(__unsafe_unretained) range:anyStruct(NSRange)])
+    stub ([mockArray getObjects:anyObjectPointer(__unsafe_unretained) range:anyStruct(NSRange)])
     with (id __unsafe_unretained objects[], NSRange range) {
         objects[0] = @"Hello";
         objects[1] = @"World";
@@ -130,7 +130,7 @@
 - (void)testStubbingMultipleCallsWithTheSameActionsBracketVariant {
     // you can have multiple calls stub the same action by putting them in brackets after when calling
     
-    stubCalls ({
+    stubAll ({
         [mockArray objectAtIndex:1];
         [mockArray removeObjectAtIndex:1];
     }) with {
@@ -148,7 +148,7 @@
     // when you stub a method that has arguments it will match equal arguments (isEqual: is used to compare)
     
     __block BOOL actionWasCalled = NO;
-    stubCall ([mockArray addObject:@"Hello World"]) with {
+    stub ([mockArray addObject:@"Hello World"]) with {
         actionWasCalled = YES;
     };
     
@@ -161,7 +161,7 @@
     // in contrast to above, if the arguments are not equal stubbing will not consider it a match
     
     __block BOOL actionWasCalled = NO;
-    stubCall ([mockArray addObject:@"Hello World"]) with {
+    stub ([mockArray addObject:@"Hello World"]) with {
         actionWasCalled = YES;
     };
     
@@ -173,7 +173,7 @@
 - (void)testStubbingWillMatchStructArguments {
     // matching struct arguments is supported too
     
-    stubCall ([mockArray subarrayWithRange:NSMakeRange(10, 20)]) with {
+    stub ([mockArray subarrayWithRange:NSMakeRange(10, 20)]) with {
         return @[ @"Matches" ];
     };
     
@@ -187,7 +187,7 @@
 - (void)testStubbingDoesNotQualifyForVerify {
     // when you stub a method this method is not called, so it's not considered for verify
     
-    stubCall ([mockArray objectAtIndex:0]) with {
+    stub ([mockArray objectAtIndex:0]) with {
         return nil;
     };
     
@@ -198,7 +198,7 @@
 
 - (void)testStubbingIsNotCalledOnVerify {
     // when you verify a stubbed method, the stub action must not be performed
-    stubCall ([mockArray objectAtIndex:0]) with {
+    stub ([mockArray objectAtIndex:0]) with {
         XCTFail(@"Should not be invoked");
         return nil;
     };
