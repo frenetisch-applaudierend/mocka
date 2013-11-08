@@ -132,7 +132,6 @@
             [self notifyFailureWithResult:result];
         }
     }
-    [self notifyFinish];
     [self reset];
 }
 
@@ -142,10 +141,6 @@
 - (void)notifyFailureWithResult:(MCKVerificationResult *)result {
     NSString *reason = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
     [self.delegate invocationVerifier:self didFailWithReason:reason];
-}
-
-- (void)notifyFinish {
-    [self.delegate invocationVerifierDidEnd:self];
 }
 
 @end

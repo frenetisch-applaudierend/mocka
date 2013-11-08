@@ -34,9 +34,6 @@
     [self failWithReason:@"%@", (reason ?: @"")];
 }
 
-- (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer {
-}
-
 - (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer {
     [self suspendVerification];
 }

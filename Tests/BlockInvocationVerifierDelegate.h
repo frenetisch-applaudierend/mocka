@@ -14,7 +14,6 @@
 @interface BlockInvocationVerifierDelegate : NSObject <MCKInvocationVerifierDelegate>
 
 @property (nonatomic, copy) void(^onFailure)(NSString *reason);
-@property (nonatomic, copy) void(^onFinish)(void);
 @property (nonatomic, copy) void(^onWillProcessTimeout)(void);
 @property (nonatomic, copy) void(^onDidProcessTimeout)(void);
 

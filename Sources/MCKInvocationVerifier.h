@@ -53,7 +53,6 @@
 @protocol MCKInvocationVerifierDelegate <NSObject>
 
 - (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason;
-- (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer;
 
 - (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer;
 - (void)invocationVerifierDidProcessTimeout:(MCKInvocationVerifier *)verififer;

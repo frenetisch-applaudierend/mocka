@@ -17,12 +17,6 @@
     }
 }
 
-- (void)invocationVerifierDidEnd:(MCKInvocationVerifier *)verififer {
-    if (self.onFinish != nil) {
-        self.onFinish();
-    }
-}
-
 - (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer {
     if (self.onWillProcessTimeout != nil) {
         self.onWillProcessTimeout();
