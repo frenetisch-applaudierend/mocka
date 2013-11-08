@@ -7,7 +7,7 @@
 //
 
 #import "MCKArgumentMatcher.h"
-#import "MCKMockingContext+MCKArgumentRecording.h"
+#import "MCKMockingContext.h"
 
 
 id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher) {
