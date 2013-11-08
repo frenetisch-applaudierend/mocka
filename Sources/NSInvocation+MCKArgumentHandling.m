@@ -65,43 +65,4 @@
     [self setReturnValue:&value];
 }
 
-
-#pragma mark - Nice Syntax
-
-#ifndef MCK_DISABLE_NICE_SYNTAX
-
-- (id)objectParameterAtIndex:(NSUInteger)index {
-    return [self mck_objectParameterAtIndex:index];
-}
-
-- (NSInteger)integerParameterAtIndex:(NSUInteger)index {
-    return [self mck_integerParameterAtIndex:index];
-}
-
-- (NSUInteger)unsignedIntegerParameterAtIndex:(NSUInteger)index {
-    return [self mck_unsignedIntegerParameterAtIndex:index];
-}
-
-- (void *)structParameter:(out void *)parameter atIndex:(NSUInteger)index {
-    return [self mck_structParameter:parameter atIndex:index];
-}
-
-- (id)serializedParameterAtIndex:(NSUInteger)index {
-    return [self mck_serializedParameterAtIndex:index];
-}
-
-- (NSUInteger)sizeofParameterAtIndex:(NSUInteger)index {
-    return [self mck_sizeofParameterAtIndex:index];
-}
-
-- (id)objectReturnValue {
-    return [self mck_objectReturnValue];
-}
-
-- (void)setObjectReturnValue:(id)value {
-    [self mck_setObjectReturnValue:value];
-}
-
-#endif
-
 @end

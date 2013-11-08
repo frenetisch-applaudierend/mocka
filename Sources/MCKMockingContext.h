@@ -17,10 +17,10 @@
 
 @class MCKLocation;
 
-
 @protocol MCKVerificationHandler;
 @protocol MCKArgumentMatcher;
 @class MCKStub;
+@protocol MCKVerificationResultCollector;
 
 
 typedef enum {
@@ -66,8 +66,27 @@ typedef enum {
 - (void)handleInvocation:(NSInvocation *)invocation;
 
 
-#pragma mark - Stubbing Support
+#pragma mark - Stubbing
 
 - (MCKStub *)stubCalls:(void(^)(void))callBlock;
+
+
+#pragma mark - Verification
+
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector;
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
+
+
+#pragma mark - Argument Recording
+
+- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
+- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
+
+- (void)clearArgumentMatchers;
+
+
+#pragma mark - Failure Handling
+
+- (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);
 
 @end

@@ -13,14 +13,10 @@
 #import "MCKInvocationVerifier.h"
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
-
 #import "MCKInvocationPrototype.h"
 
 #import "NSInvocation+MCKArgumentHandling.h"
 #import <objc/runtime.h>
-
-#import "MCKMockingContext+MCKVerification.h"
-#import "MCKMockingContext+MCKFailureHandling.h"
 
 
 @implementation MCKMockingContext
@@ -80,9 +76,8 @@ static __weak id _CurrentContext = nil;
     if ((self = [super init])) {
         _invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:self];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
-        _invocationVerifier = [[MCKInvocationVerifier alloc] init];
-        _invocationVerifier.delegate = self;
-        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
+        _invocationVerifier = [[MCKInvocationVerifier alloc] initWithMockingContext:self];
+        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:self];
         _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
         
         [[self class] setCurrentContext:self];
@@ -111,6 +106,7 @@ static __weak id _CurrentContext = nil;
     
     NSString *reason = nil;
     if (![self.argumentMatcherRecorder isValidForMethodSignature:invocation.methodSignature reason:&reason]) {
+        [self.argumentMatcherRecorder collectAndReset];
         [self failWithReason:@"%@", reason];
         return;
     }
@@ -125,7 +121,7 @@ static __weak id _CurrentContext = nil;
             break;
         
         case MCKContextModeVerifying:
-            [self verifyInvocation:invocation];
+            [self.invocationVerifier verifyInvocationsForPrototype:[self prototypeForInvocation:invocation]];
             break;
             
         default:
@@ -139,7 +135,7 @@ static __weak id _CurrentContext = nil;
 }
 
 
-#pragma mark - Stubbing Support
+#pragma mark - Stubbing
 
 - (MCKStub *)stubCalls:(void(^)(void))callBlock {
     NSParameterAssert(callBlock != nil);
@@ -152,6 +148,66 @@ static __weak id _CurrentContext = nil;
     [self updateContextMode:MCKContextModeRecording];
     
     return [[self.invocationStubber recordedStubs] lastObject];
+}
+
+
+#pragma mark - Verification
+
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector {
+    NSParameterAssert(callBlock != nil);
+    NSParameterAssert(collector != nil);
+    
+    [self updateContextMode:MCKContextModeVerifying];
+    [self.invocationVerifier beginVerificationWithCollector:collector];
+    callBlock();
+    [self.invocationVerifier finishVerification];
+    [self updateContextMode:MCKContextModeRecording];
+}
+
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler {
+    NSAssert((self.mode == MCKContextModeVerifying), @"Cannot set a verification handler outside verification mode");
+    [self.invocationVerifier useVerificationHandler:handler];
+}
+
+
+#pragma mark - Argument Recording
+
+- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+    if (![self checkCanPushArgumentMatcher]) {
+        return 0;
+    }
+    return [self.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
+}
+
+- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+    if (![self checkCanPushArgumentMatcher]) {
+        return 0;
+    }
+    return [self.argumentMatcherRecorder addObjectArgumentMatcher:matcher];
+}
+
+- (void)clearArgumentMatchers {
+    [self.argumentMatcherRecorder collectAndReset];
+}
+
+- (BOOL)checkCanPushArgumentMatcher {
+    if (self.mode == MCKContextModeRecording) {
+        [self failWithReason:@"Argument matchers can only be used with stubbing or verification"];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+
+#pragma mark - Failure Handling
+
+- (void)failWithReason:(NSString *)reason, ... {
+    va_list ap;
+    va_start(ap, reason);
+    NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
+    [self.failureHandler handleFailureAtLocation:self.currentLocation withReason:formattedReason];
+    va_end(ap);
 }
 
 @end

@@ -138,12 +138,9 @@
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInVerificationMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    
     // when
     @try {
-        [spy voidMethodCallWithoutParameters];
+        [context verifyCalls:^{ [spy voidMethodCallWithoutParameters]; } usingCollector:nil];
     } @catch (NSException *exception) {
         // ignore, it's because verification fails
     }

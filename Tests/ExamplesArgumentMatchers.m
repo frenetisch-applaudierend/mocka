@@ -34,14 +34,14 @@
     // instead of specifiying an exact value in verify you can also use argument matchers
     
     [mockArray addObject:@"Hello World"];
-    verifyCall ([mockArray addObject:anyObject()]);
+    verify ([mockArray addObject:anyObject()]);
 }
 
 - (void)testYouCanUseArgumentMatchersWhenStubbing {
     // instead of specifiying an exact value in whenCalling you can also use argument matchers
     
     __block id addedObject = nil;
-    stubCall ([mockArray addObject:anyObject()]) with (id object) {
+    stub ([mockArray addObject:anyObject()]) with (id object) {
         addedObject = object;
     };
     
@@ -54,7 +54,7 @@
     // for object arguments you can just mix normal arguments and matchers
     
     [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
-    verifyCall ([mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()]);
+    verify ([mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()]);
 }
 
 
@@ -64,13 +64,13 @@
     // matchers are also available for primitive arguments
     
     [mockArray objectAtIndex:10];
-    verifyCall ([mockArray objectAtIndex:anyInt()]);
+    verify ([mockArray objectAtIndex:anyInt()]);
 }
 
 - (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsWhenStubbing {
     // matchers are also available for primitive arguments
     
-    stubCall ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+    stub ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
         return @(index);
     };
     
@@ -84,10 +84,10 @@
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    verifyCall ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);             // ok
-    verifyCall ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]); // ok
+    verify ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);             // ok
+    verify ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]); // ok
     ThisWillFail({
-        verifyCall ([mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()]);   // not ok
+        verify ([mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()]);   // not ok
     });
 }
 
@@ -98,13 +98,13 @@
     // matchers are also available for struct arguments
     
     [mockArray subarrayWithRange:NSMakeRange(0, 10)];
-    verifyCall ([mockArray subarrayWithRange:anyStruct(NSRange)]);
+    verify ([mockArray subarrayWithRange:anyStruct(NSRange)]);
 }
 
 - (void)testYouCanUseArgumentMatchersForStructArgumentsWhenStubbing {
     // matchers are also available for struct arguments
     
-    stubCall ([mockArray subarrayWithRange:anyStruct(NSRange)]) with (NSRange range) {
+    stub ([mockArray subarrayWithRange:anyStruct(NSRange)]) with (NSRange range) {
         return @[ @(range.location), @(range.length) ];
     };
     
@@ -122,17 +122,17 @@
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    verifyCall ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);               // ok
-    verifyCall ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]);   // ok
-    verifyCall ([mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:anyInt()]); // also ok
+    verify ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);               // ok
+    verify ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]);   // ok
+    verify ([mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:anyInt()]); // also ok
 }
 
 - (void)testExactStructArgumentMatcherSyntax {
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     [mockArray subarrayWithRange:NSMakeRange(30, 40)];
-    verifyCall ([mockArray subarrayWithRange:structArg(NSMakeRange(10, 20))]);
+    verify ([mockArray subarrayWithRange:structArg(NSMakeRange(10, 20))]);
     ThisWillFail({
-        verifyCall ([mockArray subarrayWithRange:structArg(NSMakeRange(40, 50))]);
+        verify ([mockArray subarrayWithRange:structArg(NSMakeRange(40, 50))]);
     });
 }
 
@@ -144,7 +144,7 @@
     
     [mockArray addObject:@"Hello World"];
     
-    verifyCall ([mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    verify ([mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate hasPrefix:@"Hello"];
     }]]);
 }
@@ -154,7 +154,7 @@
     
     [mockArray objectAtIndex:10];
     
-    verifyCall ([mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    verify ([mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate isEqual:@10];
     }])]);
 }

@@ -53,9 +53,9 @@
     __block NSString *marker = nil;
     
     // when
-    stubCall ([object1 objectMethodCallWithoutParameters]) with { return @"First Object"; };
-    stubCall ([object2 objectMethodCallWithoutParameters]) with { return @"Second Object"; };
-    stubCall ([object3 objectMethodCallWithoutParameters]) with {
+    stub ([object1 objectMethodCallWithoutParameters]) with { return @"First Object"; };
+    stub ([object2 objectMethodCallWithoutParameters]) with { return @"Second Object"; };
+    stub ([object3 objectMethodCallWithoutParameters]) with {
         marker = @"Third Object";
         return nil;
     };

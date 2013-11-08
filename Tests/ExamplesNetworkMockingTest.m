@@ -20,7 +20,7 @@
 - (void)testYouCanStubNetworkCalls {
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
-    stubCall (Network.GET(@"http://www.google.ch")) with {
+    stub (Network.GET(@"http://www.google.ch")) with {
         return [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
     };
     
@@ -42,11 +42,11 @@
     [self GET:@"http://www.google.ch" error:NULL];
     
     // then you can verify it
-    verifyCall (Network.GET(@"http://www.google.ch"));
+    verify (Network.GET(@"http://www.google.ch"));
     
     // uncalled URLs fail the verification
     ThisWillFail({
-        verifyCall (Network.GET(@"http://you.did-not-call.me"));
+        verify (Network.GET(@"http://you.did-not-call.me"));
     });
 }
 
@@ -83,7 +83,7 @@
     [Network disable];
     
     // set up a stub
-    stubCall (Network.GET(@"http://www.google.ch")) with {
+    stub (Network.GET(@"http://www.google.ch")) with {
         return [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
     };
     
@@ -92,7 +92,7 @@
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
     expect(received).to.equal([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
     
-    verifyCall (Network.GET(@"http://www.google.ch"));
+    verify (Network.GET(@"http://www.google.ch"));
 }
 
 
