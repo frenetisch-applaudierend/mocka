@@ -54,7 +54,4 @@
 
 - (void)invocationVerifier:(MCKInvocationVerifier *)verififer didFailWithReason:(NSString *)reason;
 
-- (void)invocationVerifierWillProcessTimeout:(MCKInvocationVerifier *)verififer;
-- (void)invocationVerifierDidProcessTimeout:(MCKInvocationVerifier *)verififer;
-
 @end

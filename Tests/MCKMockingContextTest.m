@@ -179,21 +179,6 @@
     XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
-- (void)testSuspendingVerificationSetsRecordingMode {
-    [context verifyCalls:^{
-        [context suspendVerification];
-        expect(context.mode).to.equal(MCKContextModeRecording);
-    } usingCollector:nil];
-}
-
-- (void)testResumingVerificationSetsVerificationMode {
-    [context verifyCalls:^{
-        [context suspendVerification];
-        [context resumeVerification];
-        expect(context.mode).to.equal(MCKContextModeVerifying);
-    } usingCollector:nil];
-}
-
 
 #pragma mark - Test Supporting Matchers
 

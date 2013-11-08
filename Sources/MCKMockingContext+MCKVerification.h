@@ -12,9 +12,6 @@
 
 @interface MCKMockingContext (MCKVerification) <MCKInvocationVerifierDelegate>
 
-- (void)suspendVerification;
-- (void)resumeVerification;
-
 - (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
 
 @end

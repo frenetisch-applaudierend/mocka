@@ -55,17 +55,4 @@
     [super handleInvocation:invocation];
 }
 
-
-#pragma mark - Verification Helpers
-
-- (void)suspendVerification {
-    [super suspendVerification];
-    _verificationSuspendCount++;
-}
-
-- (void)resumeVerification {
-    [super resumeVerification];
-    _verificationResumeCount++;
-}
-
 @end

@@ -101,9 +101,9 @@
     
     NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
     while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
-        [self.delegate invocationVerifierWillProcessTimeout:self];
+        [self.mockingContext updateContextMode:MCKContextModeRecording];
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
-        [self.delegate invocationVerifierDidProcessTimeout:self];
+        [self.mockingContext updateContextMode:MCKContextModeVerifying];
         result = [self currentResultForPrototype:prototype];
     }
     return result;

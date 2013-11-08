@@ -431,20 +431,6 @@
 #pragma mark - Test Verification with Timeout
 @implementation MCKInvocationVerifierTest (Timeout)
 
-- (void)testThatVerifyCallsDelegateWhenProcessingTimeout {
-    // given
-    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-    verifier.timeout = 0.1;
-    
-    // when
-    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-    
-    // then
-    NSIndexSet *firstTwo = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)];
-    expect([delegateCallSequence objectsAtIndexes:firstTwo]).to.equal(@[ @"onWillProcessTimeout", @"onDidProcessTimeout" ]);
-}
-
 - (void)testThatTimeoutIsResetAfterProcessingOneCall {
     // given
     [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
