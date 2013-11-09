@@ -13,30 +13,14 @@
 #import "MCKSpy.h"
 
 
-id _mck_createMock(id testCase, const char *fileName, NSUInteger lineNumber, NSArray *classAndProtocols) {
+id _mck_createMock(id testCase, MCKLocation *location, NSArray *classAndProtocols) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     return [MCKMockObject mockWithContext:context classAndProtocols:classAndProtocols];
 }
 
-id _mck_createSpy(id testCase, const char *fileName, NSUInteger lineNumber, id object) {
+id _mck_createSpy(id testCase, MCKLocation *location, id object) {
     MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
+    context.currentLocation = location;
     return mck_createSpyForObject(object, context);
-}
-
-void _mck_beginVerifyWithTimeout(id testCase, const char *fileName, NSUInteger lineNumber, NSTimeInterval timeout) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
-    [context beginVerificationWithTimeout:timeout];
-}
-
-void _mck_beginStub(id testCase, const char *fileName, NSUInteger lineNumber) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    [context updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
-    [context beginStubbing];
-}
-
-void _mck_updateLocationInfo(const char *fileName, NSUInteger lineNumber) {
-    [[MCKMockingContext currentContext] updateFileName:[NSString stringWithUTF8String:fileName] lineNumber:lineNumber];
 }

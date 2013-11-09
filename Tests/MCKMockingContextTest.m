@@ -6,19 +6,18 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+#import "TestingSupport.h"
+
 #import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
+#import "MCKInvocationStubber.h"
+
 #import "MCKMockingSyntax.h"
+#import "MCKStub.h"
+#import "MCKBlockArgumentMatcher.h"
 
 #import "MCKDefaultVerificationHandler.h"
-#import "MCKReturnStubAction.h"
 #import "MCKArgumentMatcherRecorder.h"
-
-#import "TestExceptionUtils.h"
-#import "NSInvocation+TestSupport.h"
-#import "MCKBlockArgumentMatcher.h"
-#import "TestObject.h"
-#import "FakeFailureHandler.h"
 
 
 @interface MCKMockingContextTest : XCTestCase @end
@@ -40,33 +39,22 @@
 - (void)testThatGettingTheContextTwiceReturnsSameContext {
     id ctx1 = [MCKMockingContext contextForTestCase:self];
     id ctx2 = [MCKMockingContext contextForTestCase:self];
-    XCTAssertEqualObjects(ctx1, ctx2, @"Not the same context returned");
-}
-
-- (void)testThatUpdatingLocationOnContextUpdatesFileLocationInformationOnErrorHandler {
-    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
     
-    [ctx updateFileName:@"Foo" lineNumber:10];
-    XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Foo", @"File name not updated");
-    XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)10, @"Line number not updated");
-    
-    [ctx updateFileName:@"Bar" lineNumber:20];
-    XCTAssertEqualObjects(ctx.failureHandler.fileName, @"Bar", @"File name not updated");
-    XCTAssertEqual(ctx.failureHandler.lineNumber, (NSUInteger)20, @"Line number not updated");
+    expect(ctx1).to.beIdenticalTo(ctx2);
 }
 
 - (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
     // given
     MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
-    [ctx updateFileName:@"Foo" lineNumber:10];
+    MCKLocation *location = [MCKLocation locationWithFileName:@"File.m" lineNumber:10];
+    ctx.currentLocation = location;
     
     // when
     MCKMockingContext *existingContext = [MCKMockingContext currentContext];
     
     // then
-    XCTAssertEqual(ctx, existingContext, @"Not the same context returned");
-    XCTAssertEqual(existingContext.failureHandler.fileName, @"Foo", @"Filename was changed");
-    XCTAssertEqual(existingContext.failureHandler.lineNumber, (NSUInteger)10, @"Linenumber was changed");
+    expect(existingContext).to.beIdenticalTo(ctx);
+    expect(existingContext.currentLocation).to.equal(location);
 }
 
 - (void)testThatGettingExistingContextAlwaysGetsLatestContext {
@@ -104,7 +92,7 @@
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertTrue([context.recordedInvocations containsObject:invocation], @"Invocation was not recorded");
+    XCTAssertTrue([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was not recorded");
 }
 
 
@@ -112,31 +100,31 @@
 
 - (void)testThatHandlingInvocationInStubbingModeDoesNotAddToRecordedInvocations {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
+    XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 - (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
     [context handleInvocation:invocation];
     
     // then
-    XCTAssertTrue([context isInvocationStubbed:invocation], @"Invocation was not stubbed");
+    XCTAssertTrue([context.invocationStubber hasStubsRecordedForInvocation:invocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatUnhandledMethodIsNotStubbed {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *stubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     NSInvocation *unstubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)];
     
@@ -144,12 +132,12 @@
     [context handleInvocation:stubbedInvocation];
     
     // then
-    XCTAssertFalse([context isInvocationStubbed:unstubbedInvocation], @"Invocation was not stubbed");
+    XCTAssertFalse([context.invocationStubber hasStubsRecordedForInvocation:unstubbedInvocation], @"Invocation was not stubbed");
 }
 
 - (void)testThatModeIsNotSwitchedAfterHandlingInvocation {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
@@ -159,13 +147,11 @@
     XCTAssertEqual(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
 }
 
-- (void)testThatAddingStubActionSwitchesToRecordingMode {
-    // given
-    [context beginStubbing];
-    [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-    
+- (void)testThatContextIsInRecordingModeAfterStubbing {
     // when
-    [context addStubAction:[[MCKReturnStubAction alloc] init]];
+    [context stubCalls:^{
+        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    }];
     
     // then
     XCTAssertEqual(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
@@ -176,53 +162,17 @@
 
 - (void)testThatHandlingInvocationInVerificationModeDoesNotAddToRecordedInvocations {
     // given
-    [context beginVerificationWithTimeout:0.0];
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
     IgnoreFailures({
-        [context handleInvocation:invocation];
+        [context verifyCalls:^{
+            [context handleInvocation:invocation];
+        } usingCollector:[FakeVerificationResultCollector dummy]];
     });
     
     // then
-    XCTAssertFalse([context.recordedInvocations containsObject:invocation], @"Invocation was recorded");
-}
-
-- (void)testSuspendingVerificationSetsRecordingMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    
-    // when
-    [context suspendVerification];
-    
-    // then
-    XCTAssertEqual(context.mode, MCKContextModeRecording, @"Suspending did not switch to recording mode");
-}
-
-- (void)testResumingVerificationSetsVerificationMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    [context suspendVerification];
-    
-    // when
-    [context resumeVerification];
-    
-    // then
-    XCTAssertEqual(context.mode, MCKContextModeVerifying, @"Resuming did not switch to verification mode");
-}
-
-- (void)testSuspendingAndResumingVerificationPreservesVerificationSession {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    
-    id session = context.verificationSession;
-    
-    // when
-    [context suspendVerification];
-    [context resumeVerification];
-    
-    // then
-    XCTAssertTrue(context.verificationSession == session, @"Session was not preserved");
+    XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
 }
 
 
@@ -241,7 +191,7 @@
 
 - (void)testThatMatcherCanBeAddedToContextInStubbingMode {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
     
     // when
@@ -252,20 +202,17 @@
 }
 
 - (void)testThatMatcherCanBeAddedToContextInVerificationMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
-    
-    // when
-    [context pushPrimitiveArgumentMatcher:matcher];
-    
-    // then
-    XCTAssertEqualObjects(context.argumentMatcherRecorder.argumentMatchers, @[ matcher ], @"Argument matcher was not recorded");
+    [context verifyCalls:^{
+        [context pushPrimitiveArgumentMatcher:matcher];
+        expect(context.argumentMatcherRecorder.argumentMatchers).to.equal(@[ matcher ]);
+        [context clearArgumentMatchers];
+    } usingCollector:[FakeVerificationResultCollector dummy]];
 }
 
 - (void)testThatAddingMatcherReturnsMatcherIndex {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     id matcher0 = [[MCKBlockArgumentMatcher alloc] init];
     id matcher1 = [[MCKBlockArgumentMatcher alloc] init];
     id matcher2 = [[MCKBlockArgumentMatcher alloc] init];
@@ -279,7 +226,7 @@
 - (void)testThatHandlingInvocationClearsPushedMatchers {
     // given
     TestObject *object = [[TestObject alloc] init];
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
@@ -293,17 +240,18 @@
 }
 
 - (void)testThatVerificationInvocationFailsForUnequalNumberOfPrimitiveMatchers {
-    // given
     TestObject *object = mock([TestObject class]);
-    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
+    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
+                               @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
     
-    [context beginVerificationWithTimeout:0.0];
-    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
-    
-    // when
-    AssertFails({
-        [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
-    });
+    [context verifyCalls:^{
+        [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
+        
+        AssertFails({
+            [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
+                                       @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
+        });
+    } usingCollector:[FakeVerificationResultCollector dummy]];
 }
 
 

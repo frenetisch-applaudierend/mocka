@@ -23,10 +23,9 @@
 - (void)handleInvocation:(NSInvocation *)invocation;
 
 
-#pragma mark - Verification Helpers
+#pragma mark - Handling Failures
 
-@property (nonatomic, readonly) NSUInteger verificationSuspendCount;
-@property (nonatomic, readonly) NSUInteger verificationResumeCount;
+@property (nonatomic, assign) BOOL shouldIgnoreFailures;
 
 @end
 

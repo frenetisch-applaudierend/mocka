@@ -9,21 +9,21 @@
 #import <Foundation/Foundation.h>
 
 #import "MCKMockingSyntax.h"
+#import "MCKStubbingSyntax.h"
+#import "MCKVerificationSyntax.h"
 
+#import "MCKInvocationRecorder.h"
 #import "MCKVerificationResult.h"
+#import "MCKStub.h"
+
 #import "MCKVerificationResultCollector.h"
 #import "MCKInOrderCollector.h"
+#import "MCKAllCollector.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKNeverVerificationHandler.h"
 #import "MCKExactlyVerificationHandler.h"
 #import "MCKVerifyNoInteractions.h"
-
-#import "MCKStubAction.h"
-#import "MCKReturnStubAction.h"
-#import "MCKPerformBlockStubAction.h"
-#import "MCKThrowExceptionStubAction.h"
-#import "MCKSetOutParameterStubAction.h"
 
 #import "MCKArgumentMatcher.h"
 #import "MCKAnyArgumentMatcher.h"
@@ -33,7 +33,3 @@
 
 #import "MCKNetworkMock.h"
 #import "MCKNetworkRequestMatcher.h"
-
-#import "MCKTypes.h"
-#import "MCKTypeEncodings.h"
-#import "NSInvocation+MCKArgumentHandling.h"

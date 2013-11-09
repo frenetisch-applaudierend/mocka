@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKFailureHandler.h"
 
 
+extern NSString * const MCKTestFailureException;
 extern NSString * const MCKFileNameKey;
 extern NSString * const MCKLineNumberKey;
 
-@interface MCKExceptionFailureHandler : MCKFailureHandler
+
+@interface MCKExceptionFailureHandler : NSObject <MCKFailureHandler>
 
 @end

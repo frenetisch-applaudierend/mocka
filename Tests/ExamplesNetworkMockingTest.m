@@ -20,14 +20,15 @@
 - (void)testYouCanStubNetworkCalls {
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
-    whenCalling Network.GET(@"http://www.google.ch") thenDo {
-        returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
+    stub (Network.GET(@"http://www.google.ch")) with {
+        return [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
     };
     
     // if you now make a call to the specified URL you'll receive the stubbed return value
     // if you use returnValue(...) then the status code 200 is implied
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
-    XCTAssertEqualObjects(received, [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding], @"Wrong data was returned");
+    
+    expect(received).to.equal([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
 }
 
 
@@ -41,11 +42,11 @@
     [self GET:@"http://www.google.ch" error:NULL];
     
     // then you can verify it
-    verifyCall Network.GET(@"http://www.google.ch");
+    verify (Network.GET(@"http://www.google.ch"));
     
     // uncalled URLs fail the verification
     ThisWillFail({
-        verifyCall Network.GET(@"http://you.did-not-call.me");
+        verify (Network.GET(@"http://you.did-not-call.me"));
     });
 }
 
@@ -61,9 +62,9 @@
     NSData *data = [self GET:@"http://www.google.ch" error:&error];
     
     // the data returned is nil and the error is set to a "no network error"
-    XCTAssertNil(data, @"Data should be nil");
-    XCTAssertEqualObjects(error.domain, NSURLErrorDomain, @"Wrong error domain");
-    XCTAssertEqual(error.code, (NSInteger)NSURLErrorNotConnectedToInternet, @"Wrong error code");
+    expect(data).to.beNil();
+    expect(error.domain).to.equal(NSURLErrorDomain);
+    expect(error.code).to.equal(NSURLErrorNotConnectedToInternet);
     
     // later you can re-enable the network
     [Network enable];
@@ -73,8 +74,8 @@
     data = [self GET:@"http://www.google.ch" error:&error];
     
     // the data returned is nil and the error is set to a "no network error"
-    XCTAssertNotNil(data, @"Data should not be nil");
-    XCTAssertNil(error, @"Error should be nil");
+    expect(data).notTo.beNil();
+    expect(error).to.beNil();
 }
 
 - (void)testStubbingAndVerificationAlsoWorkWhenAccessIsDisabled {
@@ -82,16 +83,16 @@
     [Network disable];
     
     // set up a stub
-    whenCalling Network.GET(@"http://www.google.ch") thenDo {
-        returnValue([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
+    stub (Network.GET(@"http://www.google.ch")) with {
+        return [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding];
     };
     
     // if you now make a call to the specified URL you'll receive the stubbed return value
     // if you use returnValue(...) then the status code 200 is implied
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
-    XCTAssertEqualObjects(received, [@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding], @"Wrong data was returned");
+    expect(received).to.equal([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
     
-    verifyCall Network.GET(@"http://www.google.ch");
+    verify (Network.GET(@"http://www.google.ch"));
 }
 
 

@@ -52,7 +52,7 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall inOrder {
+        verifyInOrder {
             never [mockArray objectAtIndex:anyInt()];
             [mockArray removeAllObjects];
             [mockArray addObject:@"Foo"];

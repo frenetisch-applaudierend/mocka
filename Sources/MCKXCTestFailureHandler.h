@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKFailureHandler.h"
 
 
-@class XCTestCase;
 
+@interface MCKXCTestFailureHandler : NSObject <MCKFailureHandler>
 
-@interface MCKXCTestFailureHandler : MCKFailureHandler
+- (instancetype)initWithTestCase:(id)testCase;
 
-- (instancetype)initWithTestCase:(XCTestCase *)testCase;
-
-@property (nonatomic, readonly) XCTestCase *testCase;
+@property (nonatomic, readonly) id testCase;
 
 @end

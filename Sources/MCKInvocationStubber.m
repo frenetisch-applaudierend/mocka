@@ -35,13 +35,10 @@
     [[self activeStub] addInvocationPrototype:prototype];
 }
 
-- (void)addActionToLastStub:(id<MCKStubAction>)action {
-    NSParameterAssert(action != nil);
+- (void)finishRecordingStubGroup {
+    NSAssert([self isRecordingInvocationGroup], @"Finish called while not recording");
     
-    if ([self isRecordingInvocationGroup]) {
-        [self endRecordingInvocationGroup];
-    }
-    [[self activeStub] addAction:action];
+    [self endRecordingInvocationGroup];
 }
 
 

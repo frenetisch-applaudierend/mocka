@@ -6,6 +6,12 @@
 // project.
 
 
+// Expecta
+#define COCOAPODS_POD_AVAILABLE_Expecta
+#define COCOAPODS_VERSION_MAJOR_Expecta 0
+#define COCOAPODS_VERSION_MINOR_Expecta 2
+#define COCOAPODS_VERSION_PATCH_Expecta 3
+
 // OHHTTPStubs
 #define COCOAPODS_POD_AVAILABLE_OHHTTPStubs
 #define COCOAPODS_VERSION_MAJOR_OHHTTPStubs 3

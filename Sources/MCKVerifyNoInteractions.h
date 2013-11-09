@@ -10,8 +10,8 @@
 
 
 // Mocking Syntax
-#define mck_verifyNoMoreInteractionsOn(mock) verifyCall mck_checkNoInteractions(self, (mock))
-#define mck_verifyNoInteractionsOn(mock)     verifyCall mck_checkNoInteractions(self, (mock))
+#define mck_verifyNoMoreInteractionsOn(mock) mck_verify(mck_checkNoInteractions(self, (mock)))
+#define mck_verifyNoInteractionsOn(mock)     mck_verify(mck_checkNoInteractions(self, (mock)))
 
 #ifndef MCK_DISABLE_NICE_SYNTAX
 

@@ -8,24 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCKLocation.h"
 
-@interface MCKFailureHandler : NSObject
+
+@protocol MCKFailureHandler <NSObject>
+
+- (void)handleFailureAtLocation:(MCKLocation *)location withReason:(NSString *)reason;
+
+@end
+
+
+@interface MCKFailureHandler : NSObject <MCKFailureHandler>
 
 #pragma mark - Getting a Failure Handler
 
-+ (instancetype)failureHandlerForTestCase:(id)testCase;
-
-
-#pragma mark - Getting and Updating Location Information
-
-@property (nonatomic, readonly) NSString *fileName;
-@property (nonatomic, readonly) NSUInteger lineNumber;
-
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
-
-
-#pragma mark - Handling Failures
-
-- (void)handleFailureWithReason:(NSString *)reason;
++ (id<MCKFailureHandler>)failureHandlerForTestCase:(id)testCase;
 
 @end

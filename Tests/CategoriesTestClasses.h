@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-#pragma mark - Needed Classes
+#pragma mark - Classes
 
 @interface CategoriesTestSuperclass : NSObject
 @end

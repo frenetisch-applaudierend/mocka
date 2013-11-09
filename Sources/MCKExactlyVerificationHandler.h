@@ -22,7 +22,7 @@
 
 
 // Mocking Syntax
-#define mck_exactly(COUNT) _mck_setVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:(COUNT)]);
+#define mck_exactly(COUNT) _mck_useVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:(COUNT)])
 #define mck_once           mck_exactly(1)
 
 #ifndef MCK_DISABLE_NICE_SYNTAX

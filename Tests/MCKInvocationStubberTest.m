@@ -11,7 +11,6 @@
 #import "MCKInvocationStubber.h"
 #import "MCKStub.h"
 
-#import "MCKPerformBlockStubAction.h"
 #import "MCKBlockArgumentMatcher.h"
 
 #import "NSInvocation+TestSupport.h"
@@ -85,10 +84,10 @@
     XCTAssertEqualObjects(stubbedPrototypes[1], prototypes[1], @"Prototype was not added to stub");
 }
 
-- (void)testThatAfterAddingActionNewInvocationGroupStarts {
+- (void)testThatAfterFinishingRecordingNewInvocationGroupStarts {
     // when
     [stubber recordStubPrototype:prototypes[0]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:nil]];
+    [stubber finishRecordingStubGroup];
     [stubber recordStubPrototype:prototypes[1]];
     
     // then
@@ -130,87 +129,17 @@
 - (void)testThatHasStubsReturnsYesIfManyStubsAreRecordedInManyGroupsForInvocation {
     // given
     [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:nil]];
+    [stubber finishRecordingStubGroup];
     
     [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:nil]];
+    [stubber finishRecordingStubGroup];
     
     [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:nil]];
+    [stubber finishRecordingStubGroup];
     
     // then
     NSInvocation *invocation = [NSInvocation voidMethodInvocationForTarget:nil];
     XCTAssertTrue([stubber hasStubsRecordedForInvocation:invocation], @"Should have stubs for recorded invocation");
-}
-
-
-#pragma mark - Test Adding Actions
-
-- (void)testThatAddingActionToStubAddsAction {
-    // given
-    [stubber recordStubPrototype:prototypes[0]];
-    
-    // when
-    id<MCKStubAction> action = [MCKPerformBlockStubAction performBlockActionWithBlock:nil];
-    [stubber addActionToLastStub:action];
-    
-    // then
-    NSArray *actions = [[stubber.recordedStubs lastObject] actions];
-    XCTAssertEqual([actions count], (NSUInteger)1, @"Wrong number of actions recorded");
-    XCTAssertEqualObjects([actions lastObject], action, @"Wrong action recorded");
-}
-
-- (void)testThatApplyingStubsToInvocationAppliesStubActionToAllMatchingInvocationsInOrder {
-    // given
-    NSMutableArray *performedActions = [NSMutableArray array];
-    
-    [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
-        [performedActions addObject:@"stub1"];
-    }]];
-    
-    [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
-        [performedActions addObject:@"stub2"];
-    }]];
-    
-    [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
-        [performedActions addObject:@"stub3"];
-    }]];
-    
-    // when
-    NSInvocation *invocation = [NSInvocation voidMethodInvocationForTarget:nil];
-    [stubber applyStubsForInvocation:invocation];
-    
-    // then
-    XCTAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2", @"stub3" ]), @"Performed actions are in false order");
-}
-
-- (void)testThatApplyingStubsToInvocationDoesNotApplyStubActionToNonMatchingInvocation {
-    // given
-    NSMutableArray *performedActions = [NSMutableArray array];
-    
-    [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
-        [performedActions addObject:@"stub1"];
-    }]];
-    
-    [stubber recordStubPrototype:[FakeInvocationPrototype thatAlwaysMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
-        [performedActions addObject:@"stub2"];
-    }]];
-    
-    [stubber recordStubPrototype:[FakeInvocationPrototype thatNeverMatches]];
-    [stubber addActionToLastStub:[MCKPerformBlockStubAction performBlockActionWithBlock:^(NSInvocation *inv) {
-        [performedActions addObject:@"NON MATCHING INVOCATION"];
-    }]];
-    
-    // when
-    [stubber applyStubsForInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    
-    // then
-    XCTAssertEqualObjects(performedActions, (@[ @"stub1", @"stub2" ]), @"Performed actions are in false order");
 }
 
 @end

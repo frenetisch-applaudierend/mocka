@@ -10,9 +10,17 @@
 
 
 @protocol MCKArgumentMatcher;
+@class MCKMockingContext;
 
 
 @interface MCKArgumentMatcherRecorder : NSObject
+
+#pragma mark - Initialization
+
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
+
+@property (nonatomic, readonly, weak) MCKMockingContext *mockingContext;
+
 
 #pragma mark - Adding and Reading Matchers
 

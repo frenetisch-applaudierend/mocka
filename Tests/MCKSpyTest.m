@@ -6,12 +6,16 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
+
 #import "MCKSpy.h"
+#import "MCKStub.h"
 
 #import "TestObject.h"
 #import "FakeMockingContext.h"
-
+#import "NSInvocation+TestSupport.h"
 
 
 @interface MockTestObjectSubclass : TestObject
@@ -24,6 +28,7 @@
 @interface TestObject (MCKSpyTest)
 - (int)spySpecialMethod;
 @end
+
 @implementation TestObject (MCKSpyTest)
 - (int)spySpecialMethod { return 666; }
 @end
@@ -57,7 +62,7 @@
     mck_createSpyForObject(object, nil);
     
     // then
-    XCTAssertTrue(mck_objectIsSpy(object), @"Object is not turned into spy");
+    expect(mck_objectIsSpy(object)).to.beTruthy();
 }
 
 - (void)testThatCreateSpyReturnsPassedObject {
@@ -68,7 +73,7 @@
     id objectSpy = mck_createSpyForObject(object, nil);
     
     // then
-    XCTAssertTrue(object == objectSpy, @"A different object than the passed object was returned");
+    expect(objectSpy).to.beIdenticalTo(object);
 }
 
 - (void)testThatSpyStillReportsPreviousClassIfAskedViaClassMethod {
@@ -79,7 +84,7 @@
     mck_createSpyForObject(object, nil);
     
     // then
-    XCTAssertEqualObjects([object class], [TestObject class], @"Original class was not retained");
+    expect([object class]).to.equal([TestObject class]);
 }
 
 
@@ -87,15 +92,16 @@
 
 - (void)testThatSpyForwardsInvocationToContext {
     // when
-    [spy voidMethodCallWithoutParameters];
-    [spy intMethodCallWithoutParameters]; // check two invocations because the implementation does some swizzling when calling. ensure all went ok
+    [spy voidMethodCallWithoutParameters]; // check two invocations because the implementation
+    [spy intMethodCallWithoutParameters];  // does some temporary method swizzling when calling. ensure all went ok
+    
     
     // then
-    XCTAssertEqual([context.handledInvocations count], (NSUInteger)2, @"Wrong number of handled invocations");
-    XCTAssertTrue([context.handledInvocations[0] target] == spy, @"Wrong target of handled invocation");
-    XCTAssertTrue([context.handledInvocations[0] selector] == @selector(voidMethodCallWithoutParameters), @"Wrong selector of handled invocation");
-    XCTAssertTrue([context.handledInvocations[1] target] == spy, @"Wrong target of handled invocation");
-    XCTAssertTrue([context.handledInvocations[1] selector] == @selector(intMethodCallWithoutParameters), @"Wrong selector of handled invocation");
+    expect([context.handledInvocations count]).to.equal(2);
+    expect([context.handledInvocations[0] target]).to.beIdenticalTo(spy);
+    expect([context.handledInvocations[0] selector]).to.equal(@selector(voidMethodCallWithoutParameters));
+    expect([context.handledInvocations[1] target]).to.beIdenticalTo(spy);
+    expect([context.handledInvocations[1] selector]).to.equal(@selector(intMethodCallWithoutParameters));
 }
 
 
@@ -106,13 +112,15 @@
     [context updateContextMode:MCKContextModeRecording];
     
     // when
-    [spy voidMethodCallWithoutParameters];
-    [spy intMethodCallWithoutParameters]; // check two invocations because the implementation does some swizzling when calling. ensure all went ok
+    [spy voidMethodCallWithoutParameters]; // check two invocations because the implementation
+    [spy intMethodCallWithoutParameters];  // does some temporary method swizzling when calling. ensure all went ok
+    
     
     // then
-    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)2, @"Method was not called or too many methods called");
-    XCTAssertEqualObjects(TestObjectCalledSelectors(spy)[0], NSStringFromSelector(@selector(voidMethodCallWithoutParameters)), @"Original Method was not called");
-    XCTAssertEqualObjects(TestObjectCalledSelectors(spy)[1], NSStringFromSelector(@selector(intMethodCallWithoutParameters)), @"Original Method was not called");
+    expect(TestObjectCalledSelectors(spy)).to.equal(@[
+        NSStringFromSelector(@selector(voidMethodCallWithoutParameters)),
+        NSStringFromSelector(@selector(intMethodCallWithoutParameters))
+    ]);
 }
 
 - (void)testThatSpyReturnsNormalReturnValueIfCalledInRecordingMode {
@@ -120,59 +128,57 @@
     [context updateContextMode:MCKContextModeRecording];
     
     // when
-    int returnValue1 = [spy intMethodCallWithoutParameters];
-    int returnValue2 = [spy intMethodCallWithoutParameters]; // check two invocations because the implementation does some swizzling when calling. ensure all went ok
+    int returnValue1 = [spy intMethodCallWithoutParameters]; // check two invocations because the implementation
+    int returnValue2 = [spy intMethodCallWithoutParameters]; // does some temporary method swizzling when calling.
+                                                             // ensure all went ok
     
     // then
-    XCTAssertEqual(returnValue1, 150, @"Return value was incorrect");
-    XCTAssertEqual(returnValue2, 150, @"Return value was incorrect");
+    expect(returnValue1).to.equal(150);
+    expect(returnValue2).to.equal(150);
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInVerificationMode {
-    // given
-    [context beginVerificationWithTimeout:0.0];
-    
     // when
     @try {
-        [spy voidMethodCallWithoutParameters];
+        [context verifyCalls:^{ [spy voidMethodCallWithoutParameters]; } usingCollector:nil];
     } @catch (NSException *exception) {
         // ignore, it's because verification fails
     }
     
     // then
-    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
+    expect(TestObjectCalledSelectors(spy)).to.beEmpty();
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInStubbingMode {
     // given
-    [context beginStubbing];
+    [context updateContextMode:MCKContextModeStubbing];
     
     // when
     [spy voidMethodCallWithoutParameters];
     
     // then
-    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
+    expect(TestObjectCalledSelectors(spy)).to.beEmpty();
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodInRecordingModeIfStubExists {
     // given
-    [context updateContextMode:MCKContextModeRecording];
-    
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
-    invocation.selector = @selector(voidMethodCallWithoutParameters);
-    invocation.target = spy;
-    [context stubInvocation:invocation];
+    SEL selector = @selector(voidMethodCallWithoutParameters);
+    [context stubCalls:^{
+        [context handleInvocation:[NSInvocation invocationForTarget:spy selectorAndArguments:selector]];
+    }].stubBlock = ^{
+        // just having a block is enough
+    };
     
     // when
     [spy voidMethodCallWithoutParameters];
     
     // then
-    XCTAssertEqual([TestObjectCalledSelectors(spy) count], (NSUInteger)0, @"Method was called");
+    expect(TestObjectCalledSelectors(spy)).to.beEmpty();
 }
 
 - (void)testThatSpyCallsImplementationOfMostRecentOverride {
     // given
-    MockTestObjectSubclass *refObject = [[MockTestObjectSubclass alloc] init];
+    MockTestObjectSubclass *reference = [[MockTestObjectSubclass alloc] init];
     MockTestObjectSubclass *subclassSpy = mck_createSpyForObject([[MockTestObjectSubclass alloc] init], context);
     [context updateContextMode:MCKContextModeRecording];
     
@@ -180,21 +186,22 @@
     int returnValue = [subclassSpy intMethodCallWithoutParameters];
     
     // then
-    XCTAssertEqual(returnValue, [refObject intMethodCallWithoutParameters], @"Return value was incorrect");
+    expect(returnValue).to.equal([reference intMethodCallWithoutParameters]);
 }
+
 
 #pragma mark - Test Spying in Special Cases
 
 - (void)testThatSpyMocksMethodsInCategories {
     // given
-    TestObject *refObject = [[TestObject alloc] init];
+    TestObject *reference = [[TestObject alloc] init];
     [context updateContextMode:MCKContextModeRecording];
     
     // when
     int returnValue = [spy spySpecialMethod];
     
     // then
-    XCTAssertEqual(returnValue, [refObject spySpecialMethod], @"Method in category not spied");
+    expect(returnValue).to.equal([reference spySpecialMethod]);
 }
 
 @end

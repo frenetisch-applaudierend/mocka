@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol MCKVerificationHandler;
-@protocol MCKStubAction;
-@protocol MCKArgumentMatcher;
-
+@class MCKInvocationRecorder;
 @class MCKInvocationStubber;
-@class MCKStub;
+@class MCKInvocationVerifier;
 @class MCKArgumentMatcherRecorder;
-@class MCKVerificationSession;
-@class MCKFailureHandler;
+@protocol MCKFailureHandler;
+
+@class MCKLocation;
+
+@protocol MCKVerificationHandler;
+@protocol MCKArgumentMatcher;
+@class MCKStub;
+@protocol MCKVerificationResultCollector;
 
 
 typedef enum {
@@ -41,55 +44,48 @@ typedef enum {
 - (instancetype)initWithTestCase:(id)testCase;
 
 
-#pragma mark - Update Location Data
+#pragma mark - Core Objects
 
-- (void)updateFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
+@property (nonatomic, strong) MCKInvocationRecorder *invocationRecorder;
+@property (nonatomic, strong) MCKInvocationStubber *invocationStubber;
+@property (nonatomic, strong) MCKInvocationVerifier *invocationVerifier;
+@property (nonatomic, strong) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
+@property (nonatomic, strong) id<MCKFailureHandler> failureHandler;
 
 
-#pragma mark - Handling Invocations
+#pragma mark - File Location Data
+
+@property (nonatomic, copy) MCKLocation *currentLocation;
+
+
+#pragma mark - Dispatching Invocations
 
 @property (nonatomic, readonly) MCKContextMode mode;
 
+- (void)updateContextMode:(MCKContextMode)newMode;
 - (void)handleInvocation:(NSInvocation *)invocation;
-
-
-#pragma mark - Recording
-
-@property (nonatomic, readonly) NSArray *recordedInvocations;
 
 
 #pragma mark - Stubbing
 
-@property (nonatomic, readonly) MCKInvocationStubber *invocationStubber;
-
-- (void)beginStubbing;
-- (BOOL)isInvocationStubbed:(NSInvocation *)invocation;
-- (void)addStubAction:(id<MCKStubAction>)action;
+- (MCKStub *)stubCalls:(void(^)(void))callBlock;
 
 
-#pragma mark - Verifying
+#pragma mark - Verification
 
-@property (nonatomic, readonly, strong) MCKVerificationSession *verificationSession;
-@property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
-
-- (void)beginVerificationWithTimeout:(NSTimeInterval)timeout;
-- (void)endVerification;
-
-- (void)suspendVerification;
-- (void)resumeVerification;
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector;
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
 
 
-#pragma mark - Argument Matchers
-
-@property (nonatomic, readonly) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
+#pragma mark - Argument Recording
 
 - (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 - (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
 
+- (void)clearArgumentMatchers;
 
-#pragma mark - Handling Failures
 
-@property (nonatomic, strong) MCKFailureHandler *failureHandler;
+#pragma mark - Failure Handling
 
 - (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);
 

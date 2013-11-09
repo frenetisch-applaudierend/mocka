@@ -6,7 +6,10 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
+#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
+
 #import "MCKXCTestFailureHandler.h"
 
 
@@ -53,38 +56,38 @@
 
 - (void)testThatFailureHandlerReportsToTestCase {
     // when
-    [failureHandler handleFailureWithReason:nil];
+    [failureHandler handleFailureAtLocation:nil withReason:nil];
     
     // then
-    XCTAssertEqual(testCase.numberOfReports, (NSUInteger)1, @"Should have exactly one report");
+    expect(testCase.numberOfReports).to.equal(1);
 }
 
 - (void)testThatFailureHandlerSetsReason {
     // when
-    [failureHandler handleFailureWithReason:@"This is my reason"];
+    [failureHandler handleFailureAtLocation:nil withReason:@"Error reason"];
     
     // then
-    XCTAssertEqualObjects(testCase.lastReportedDescription, @"This is my reason", @"Incorrect exception reason");
+    expect(testCase.lastReportedDescription).to.equal(@"Error reason");
 }
 
 - (void)testThatFailureHandlerSetsNilReason {
     // when
-    [failureHandler handleFailureWithReason:nil];
+    [failureHandler handleFailureAtLocation:nil withReason:nil];
     
     // then
-    XCTAssertTrue(testCase.lastReportedDescription.length == 0, @"Incorrect exception reason when passing nil");
+    expect(testCase.lastReportedDescription.length).to.equal(0);
 }
 
 - (void)testThatFailureHandlerSetsFilenameAndLineNumber {
     // given
-    [failureHandler updateFileName:@"Foofile.m" lineNumber:10];
+    MCKLocation *location = [MCKLocation locationWithFileName:@"File.m" lineNumber:10];
     
     // when
-    [failureHandler handleFailureWithReason:nil];
+    [failureHandler handleFailureAtLocation:location withReason:nil];
     
     // then
-    XCTAssertEqualObjects(testCase.lastReportedFileName, @"Foofile.m", @"Incorrect file name reported");
-    XCTAssertEqual(testCase.lastReportedLineNumber, (NSUInteger)10, @"Incorrect line number reported");
+    expect(testCase.lastReportedFileName).to.equal(@"File.m");
+    expect(testCase.lastReportedLineNumber).to.equal(10);
 }
 
 @end

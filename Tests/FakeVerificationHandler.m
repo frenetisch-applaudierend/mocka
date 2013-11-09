@@ -20,6 +20,10 @@
 
 #pragma mark - Initialization
 
++ (instancetype)dummy {
+    return [self handlerWhichSucceeds];
+}
+
 + (instancetype)handlerWhichSucceeds {
     MCKVerificationResult* result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
     return [[self alloc] initWithResult:result implementation:nil];

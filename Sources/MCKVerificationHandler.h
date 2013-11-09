@@ -22,5 +22,5 @@
 @end
 
 
-extern id<MCKVerificationHandler> _mck_getVerificationHandler(void);
-extern void _mck_setVerificationHandler(id<MCKVerificationHandler> handler);
+extern void _mck_useVerificationHandlerImpl(id<MCKVerificationHandler> handler);
+#define _mck_useVerificationHandler(HANDLER) _mck_useVerificationHandlerImpl(HANDLER),

@@ -13,6 +13,8 @@
 
 @interface FakeVerificationHandler : NSObject <MCKVerificationHandler>
 
++ (instancetype)dummy;
+
 + (instancetype)handlerWhichSucceeds;
 + (instancetype)handlerWhichSucceedsWithMatches:(NSIndexSet *)matches;
 + (instancetype)handlerWhichFailsWithMatches:(NSIndexSet *)matches reason:(NSString *)reason;

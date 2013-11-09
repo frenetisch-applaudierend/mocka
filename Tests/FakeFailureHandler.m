@@ -14,7 +14,7 @@
 
 #pragma mark - Initialization
 
-- (id)init {
+- (instancetype)init {
     if ((self = [super init])) {
         _capturedFailures = [NSMutableArray array];
     }
@@ -28,8 +28,8 @@
     return [_capturedFailures copy];
 }
 
-- (void)handleFailureWithReason:(NSString *)reason {
-    [_capturedFailures addObject:[CapturedFailure failureWithFileName:self.fileName lineNumber:self.lineNumber reason:reason]];
+- (void)handleFailureAtLocation:(MCKLocation *)location withReason:(NSString *)reason {
+    [_capturedFailures addObject:[CapturedFailure failureWithLocation:location reason:reason]];
 }
 
 @end
@@ -37,14 +37,13 @@
 
 @implementation CapturedFailure
 
-+ (id)failureWithFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber reason:(NSString *)reason {
-    return [[self alloc] initWithFileName:fileName lineNumber:lineNumber reason:reason];
++ (instancetype)failureWithLocation:(MCKLocation *)location reason:(NSString *)reason {
+    return [[self alloc] initWithLocation:location reason:reason];
 }
 
-- (id)initWithFileName:(NSString *)fileName lineNumber:(NSUInteger)lineNumber reason:(NSString *)reason {
+- (instancetype)initWithLocation:(MCKLocation *)location reason:(NSString *)reason {
     if ((self = [super init])) {
-        _fileName = [fileName copy];
-        _lineNumber = lineNumber;
+        _location = [location copy];
         _reason = [reason copy];
     }
     return self;
