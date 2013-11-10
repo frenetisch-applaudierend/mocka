@@ -30,7 +30,7 @@
     stub = [[MCKStub alloc] init];
     testObject = [[TestObject alloc] init];
     
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:self];
+    MCKMockingContext *context = [MCKMockingContext currentContext];
     context.failureHandler = [[MCKExceptionFailureHandler alloc] init];
 }
 

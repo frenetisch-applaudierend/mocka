@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MCKLocation.h"
-
 @class MCKNetworkMock;
 @class MCKNetworkRequestMatcher;
 @class MCKMockingContext;
@@ -43,8 +41,8 @@ typedef MCKNetworkRequestMatcher*(^MCKNetworkActivity)(id url);
 @end
 
 
-#define MCKNetwork (id)_mck_getNetworkMock(self, _MCKCurrentLocation())
+#define MCKNetwork (id)_mck_getNetworkMock()
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define Network MCKNetwork
 #endif
-extern MCKNetworkMock* _mck_getNetworkMock(id testCase, MCKLocation *location);
+extern MCKNetworkMock* _mck_getNetworkMock(void);

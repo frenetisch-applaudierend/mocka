@@ -12,8 +12,8 @@
 #import "MCKInvocationRecorder.h"
 
 
-void mck_checkNoInteractions(id testCase, id mockObject) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
+void mck_checkNoInteractions(id mockObject) {
+    MCKMockingContext *context = [MCKMockingContext currentContext];
     MCKInvocationRecorder *invocationRecorder = context.invocationRecorder;
     
     for (NSInvocation *invocation in invocationRecorder.recordedInvocations) {

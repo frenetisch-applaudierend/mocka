@@ -24,8 +24,8 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    context = [MCKMockingContext contextForTestCase:self];
-    recorder = [[MCKMockingContext currentContext] argumentMatcherRecorder];
+    context = [MCKMockingContext currentContext];
+    recorder = [context argumentMatcherRecorder];
 }
 
 
