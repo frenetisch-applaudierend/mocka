@@ -10,8 +10,8 @@
 #import "MCKMockingContext.h"
 
 
-MCKStub* _mck_stub(id testCase, MCKLocation *location, void(^calls)(void)) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
+MCKStub* _mck_stub(MCKLocation *location, void(^calls)(void)) {
+    MCKMockingContext *context = [MCKMockingContext currentContext];
     context.currentLocation = location;
     return [context stubCalls:calls];
 }

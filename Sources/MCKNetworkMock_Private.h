@@ -12,6 +12,9 @@
 
 @interface MCKNetworkMock ()
 
++ (instancetype)mockForContext:(MCKMockingContext *)context;
+
+@property (nonatomic, readonly) id<OHHTTPStubsDescriptor> stubsDescriptor;
 @property (nonatomic, readonly, weak) MCKMockingContext *mockingContext;
 
 - (NSInvocation *)handlerInvocationForRequest:(id)request;

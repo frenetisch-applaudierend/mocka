@@ -34,9 +34,9 @@
 })
 
 #define InExceptionReporter(...) {\
-    id backup = [[MCKMockingContext contextForTestCase:self] failureHandler];\
-    [[MCKMockingContext contextForTestCase:self] setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];\
+    id backup = [[MCKMockingContext currentContext] failureHandler];\
+    [[MCKMockingContext currentContext] setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];\
     do { __VA_ARGS__; } while(0);\
-    [[MCKMockingContext contextForTestCase:self] setFailureHandler:backup];\
+    [[MCKMockingContext currentContext] setFailureHandler:backup];\
 }
 

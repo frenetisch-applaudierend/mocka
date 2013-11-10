@@ -66,7 +66,7 @@ static inline Class StubsResponseClass() {
     MCKNetworkMock *mock = objc_getAssociatedObject(context, &MockKey);
     if (mock == nil) {
         mock = [[self alloc] initWithMockingContext:context];
-        objc_setAssociatedObject(context, &MockKey, mock, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(context, &MockKey, mock, OBJC_ASSOCIATION_RETAIN);
     }
     return mock;
 }
@@ -75,31 +75,35 @@ static inline Class StubsResponseClass() {
     if ((self = [super init])) {
         _mockingContext = context;
         _enabled = YES;
-        
-        [self setupStubsDescriptor];
+        _stubsDescriptor = [self setupStubsDescriptor];
     }
     return self;
 }
 
-- (void)setupStubsDescriptor {
-    static id<OHHTTPStubsDescriptor> CurrentDescriptor = nil;
-    
-    if (CurrentDescriptor != nil) { // ensure that any old descriptor form this test case is removed
-        [StubsClass() removeStub:CurrentDescriptor];
-    }
-    
+- (id<OHHTTPStubsDescriptor>)setupStubsDescriptor {
     __weak typeof(self) weakSelf = self;
-    CurrentDescriptor = [StubsClass() stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
-        BOOL hasResponse = [weakSelf hasResponseForRequest:request];
-        if (!hasResponse) {
-            // If there is no response we need to record the call, otherwise it can't be verified later.
-            // Otherwise, if there is a stubbed response, then the recording will be done when the stubbing is applied.
-            [weakSelf responseForRequest:request]; // this will cause the invocation to be recorded
-        }
-        return hasResponse;
+    return [StubsClass() stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return [weakSelf shouldStubRequest:request];
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [weakSelf responseForRequest:request];
     }];
+}
+
+- (void)dealloc {
+    [StubsClass() removeStub:self.stubsDescriptor];
+}
+
+
+#pragma mark - Stubs Implementation
+
+- (BOOL)shouldStubRequest:(NSURLRequest *)request {
+    BOOL hasResponse = [self hasResponseForRequest:request];
+    if (!hasResponse) {
+        // If there is no response we need to record the call, otherwise it can't be verified later.
+        // Otherwise, if there is a stubbed response, then the recording will be done when the stubbing is applied.
+        [self responseForRequest:request];
+    }
+    return hasResponse;
 }
 
 
@@ -139,6 +143,7 @@ static inline Class StubsResponseClass() {
     invocation.target = self;
     invocation.selector = @selector(handleNetworkRequest:);
     [invocation setArgument:&request atIndex:2];
+    [invocation retainArguments];
     return invocation;
 }
 
@@ -189,8 +194,6 @@ static inline Class StubsResponseClass() {
 
 #pragma mark - Getting the Network Mock
 
-MCKNetworkMock* _mck_getNetworkMock(id testCase, MCKLocation *location) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    context.currentLocation = location;
-    return [MCKNetworkMock mockForContext:context];
+MCKNetworkMock* _mck_getNetworkMock(void) {
+    return [MCKNetworkMock mockForContext:[MCKMockingContext currentContext]];
 }

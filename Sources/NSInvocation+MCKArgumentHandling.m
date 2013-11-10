@@ -22,7 +22,7 @@
 #pragma mark - Retrieving Arguments
 
 - (__autoreleasing id)mck_objectParameterAtIndex:(NSUInteger)index {
-    ReturnArgumentAtEffectiveIndex(__autoreleasing id, index);
+    ReturnArgumentAtEffectiveIndex(__unsafe_unretained id, index);
 }
 
 - (NSInteger)mck_integerParameterAtIndex:(NSUInteger)index {
@@ -56,7 +56,7 @@
 #pragma mark - Getting and Setting Return Value
 
 - (id)mck_objectReturnValue {
-    id returnValue = nil;
+    __unsafe_unretained id returnValue = nil;
     [self getReturnValue:&returnValue];
     return returnValue;
 }

@@ -14,9 +14,7 @@
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
 #import "MCKInvocationPrototype.h"
-
 #import "NSInvocation+MCKArgumentHandling.h"
-#import <objc/runtime.h>
 
 
 @implementation MCKMockingContext
@@ -41,32 +39,15 @@
 
 #pragma mark - Getting a Context
 
-static __weak id _CurrentContext = nil;
-
-+ (instancetype)currentContext {
-    if (_CurrentContext == nil) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"Cannot use this method before a context was created using +contextForTestCase:"
-                                     userInfo:nil];
-    }
-    return _CurrentContext;
-}
+static id _CurrentContext = nil;
 
 + (void)setCurrentContext:(MCKMockingContext *)context {
     _CurrentContext = context;
 }
 
-+ (instancetype)contextForTestCase:(id)testCase {
-    NSParameterAssert(testCase != nil);
-    
-    // Get the context or create a new one if necessary
-    static const NSUInteger MCKMockingContextKey;
-    MCKMockingContext *context = objc_getAssociatedObject(testCase, &MCKMockingContextKey);
-    if (context == nil) {
-        context = [[MCKMockingContext alloc] initWithTestCase:testCase];
-        objc_setAssociatedObject(testCase, &MCKMockingContextKey, context, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return context;
++ (instancetype)currentContext {
+    NSAssert(_CurrentContext != nil, @"Need a context at this point");
+    return _CurrentContext;
 }
 
 
@@ -79,18 +60,12 @@ static __weak id _CurrentContext = nil;
         _invocationVerifier = [[MCKInvocationVerifier alloc] initWithMockingContext:self];
         _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:self];
         _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
-        
-        [[self class] setCurrentContext:self];
     }
     return self;
 }
 
 - (instancetype)init {
     return [self initWithTestCase:nil];
-}
-
-- (void)dealloc {
-    [[self class] setCurrentContext:nil];
 }
 
 
