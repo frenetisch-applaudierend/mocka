@@ -159,10 +159,7 @@ static inline Class StubsResponseClass() {
 - (OHHTTPStubsResponse *)responseForRequest:(NSURLRequest *)request {
     NSInvocation *invocation = [self handlerInvocationForRequest:request];
     [self.mockingContext handleInvocation:invocation]; // process the stubbings
-    
-    id returnValue;
-    [invocation getReturnValue:&returnValue];
-    return [self responseForReturnValue:returnValue];
+    return [self responseForReturnValue:[invocation mck_objectReturnValue]];
 }
 
 - (OHHTTPStubsResponse *)responseForReturnValue:(id)value {
