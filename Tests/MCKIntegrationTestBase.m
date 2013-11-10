@@ -28,7 +28,7 @@
 - (void)setUp {
     [super setUp];
     
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:self];
+    MCKMockingContext *context = [MCKMockingContext currentContext];
     [context setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];
     
     _testObject = [self createTestObject];

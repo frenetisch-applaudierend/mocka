@@ -189,8 +189,6 @@ static inline Class StubsResponseClass() {
 
 #pragma mark - Getting the Network Mock
 
-MCKNetworkMock* _mck_getNetworkMock(id testCase, MCKLocation *location) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
-    context.currentLocation = location;
-    return [MCKNetworkMock mockForContext:context];
+MCKNetworkMock* _mck_getNetworkMock(void) {
+    return [MCKNetworkMock mockForContext:[MCKMockingContext currentContext]];
 }

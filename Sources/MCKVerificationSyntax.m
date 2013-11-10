@@ -22,14 +22,14 @@
 @end
 
 
-extern MCKVerifyBlockRecorder* _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
+extern MCKVerifyBlockRecorder* _mck_verify(MCKLocation *loc, id<MCKVerificationResultCollector> coll) {
+    MCKMockingContext *context = [MCKMockingContext currentContext];
     context.currentLocation = loc;
     return [MCKVerifyBlockRecorder recorderWithContext:context collector:(coll ?: [[MCKAllCollector alloc] init])];
 }
 
-void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout) {
-    MCKMockingContext *context = [MCKMockingContext contextForTestCase:testCase];
+void _mck_setVerificationTimeout(NSTimeInterval timeout) {
+    MCKMockingContext *context = [MCKMockingContext currentContext];
     context.invocationVerifier.timeout = timeout;
 }
 

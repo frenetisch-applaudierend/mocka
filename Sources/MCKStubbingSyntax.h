@@ -16,7 +16,7 @@
 /**
  * Stub a method call.
  */
-#define mck_stub(CALL) _mck_stub(self, _MCKCurrentLocation(), ^{ (CALL); }).stubBlock = ^typeof(CALL)
+#define mck_stub(CALL) _mck_stub(_MCKCurrentLocation(), ^{ (CALL); }).stubBlock = ^typeof(CALL)
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define stub(CALL) mck_stub(CALL)
 #endif
@@ -25,7 +25,7 @@
 /**
  * Stub multiple method calls.
  */
-#define mck_stubAll(CALLS) _mck_stub(self, _MCKCurrentLocation(), ^{ CALLS; }).stubBlock = ^
+#define mck_stubAll(CALLS) _mck_stub(_MCKCurrentLocation(), ^{ CALLS; }).stubBlock = ^
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define stubAll(CALLS) mck_stubAll(CALLS)
 #endif
@@ -42,4 +42,4 @@
 
 #pragma mark - Internal
 
-extern MCKStub* _mck_stub(id testCase, MCKLocation *location, void(^calls)(void));
+extern MCKStub* _mck_stub(MCKLocation *location, void(^calls)(void));
