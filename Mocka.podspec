@@ -27,6 +27,6 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://bitbucket.org/foensi/mocka.git", :tag => "0.6" }
   s.source_files = 'Sources'
-  s.frameworks = 'Foundation'
+  s.frameworks = 'Foundation', 'XCTest'
   s.requires_arc = true
 end
