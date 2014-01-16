@@ -42,11 +42,11 @@
     [self GET:@"http://www.google.ch" error:NULL];
     
     // then you can verify it
-    verify (Network.GET(@"http://www.google.ch"));
+    verifyCall (Network.GET(@"http://www.google.ch"));
     
     // uncalled URLs fail the verification
     ThisWillFail({
-        verify (Network.GET(@"http://you.did-not-call.me"));
+        verifyCall (Network.GET(@"http://you.did-not-call.me"));
     });
 }
 
@@ -92,7 +92,7 @@
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
     expect(received).to.equal([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
     
-    verify (Network.GET(@"http://www.google.ch"));
+    verifyCall (Network.GET(@"http://www.google.ch"));
 }
 
 

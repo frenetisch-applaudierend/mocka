@@ -22,7 +22,7 @@
 @end
 
 
-extern MCKVerifyBlockRecorder* _mck_verify(MCKLocation *loc, id<MCKVerificationResultCollector> coll) {
+extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll) {
     MCKMockingContext *context = [MCKMockingContext currentContext];
     context.currentLocation = loc;
     return [MCKVerifyBlockRecorder recorderWithContext:context collector:(coll ?: [[MCKAllCollector alloc] init])];
