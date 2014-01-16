@@ -99,8 +99,8 @@
 		6324F495182D9C4C00BBB351 /* MCKStubbingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 6324F492182D9C4C00BBB351 /* MCKStubbingSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6324F496182D9C4C00BBB351 /* MCKStubbingSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F493182D9C4C00BBB351 /* MCKStubbingSyntax.m */; };
 		6324F497182D9C4C00BBB351 /* MCKStubbingSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F493182D9C4C00BBB351 /* MCKStubbingSyntax.m */; };
-		632D40D4182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; };
-		632D40D5182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; };
+		632D40D4182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		632D40D5182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		632D40D6182C104E000767C1 /* MCKVerificationSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */; };
 		632D40D7182C104E000767C1 /* MCKVerificationSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */; };
 		633F4E4A17FB1C03007D329D /* MCKInOrderCollectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */; };
