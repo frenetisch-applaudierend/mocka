@@ -18,12 +18,11 @@
 /**
  * Start verification of a single call.
  *
- * Usage: `verify ([mockObject someMethod]);`.
+ * Usage: `verifyCall ([mockObject someMethod]);`.
  */
-#define mck_verify(...) _mck_verify(self, _MCKCurrentLocation(), nil).verifyCallBlock = ^{ (void)(__VA_ARGS__); }
+#define mck_verifyCall(...) _mck_verify_call(_MCKCurrentLocation(), nil).verifyCallBlock = ^{ (void)(__VA_ARGS__); }
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #undef verify
-    #define verify(...) mck_verify(__VA_ARGS__)
+    #define verifyCall(...) mck_verifyCall(__VA_ARGS__)
 #endif
 
 
@@ -32,15 +31,15 @@
  *
  * Intended to be wrapped in your own macro, so there is no nice syntax option.
  */
-#define mck_verifyUsingCollector(COLL) _mck_verify(self, _MCKCurrentLocation(), (COLL)).verifyCallBlock = ^
+#define mck_verifyUsingCollector(COLL) _mck_verify_call(_MCKCurrentLocation(), (COLL)).verifyCallBlock = ^
 
 
 /**
  * Set a verification timeout per call
  *
- * Usage: `verify (withTimeout(0.5) [mockObject someMethod]);`.
+ * Usage: `verifyCall (withTimeout(0.5) [mockObject someMethod]);`.
  */
-#define mck_withTimeout(T) _mck_setVerificationTimeout(self, T),
+#define mck_withTimeout(T) _mck_setVerificationTimeout(T),
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define withTimeout(T) mck_withTimeout(T)
 #endif
@@ -54,5 +53,5 @@
 
 @end
 
-extern MCKVerifyBlockRecorder* _mck_verify(id testCase, MCKLocation *loc, id<MCKVerificationResultCollector> coll);
-extern void _mck_setVerificationTimeout(id testCase, NSTimeInterval timeout);
+extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll);
+extern void _mck_setVerificationTimeout(NSTimeInterval timeout);

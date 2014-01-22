@@ -16,10 +16,10 @@
 #pragma mark - Creating Mocks and Spies
 
 // safe syntax
-#define mck_mock(CLS, ...)        _mck_createMock(self, _MCKCurrentLocation(), @[ (CLS), ## __VA_ARGS__ ])
+#define mck_mock(CLS, ...)        _mck_createMock(_MCKCurrentLocation(), @[ (CLS), ## __VA_ARGS__ ])
 #define mck_mockForClass(CLS)     (CLS *)mck_mock([CLS class])
 #define mck_mockForProtocol(PROT) (id<PROT>)mck_mock(@protocol(PROT))
-#define mck_spy(OBJ)              (typeof(OBJ))_mck_createSpy(self, _MCKCurrentLocation(), (OBJ))
+#define mck_spy(OBJ)              (typeof(OBJ))_mck_createSpy(_MCKCurrentLocation(), (OBJ))
 
 // nice syntax
 #ifndef MCK_DISABLE_NICE_SYNTAX
@@ -34,5 +34,5 @@
 
 #pragma mark - Internal Bridging
 
-extern id _mck_createMock(id testCase, MCKLocation *location, NSArray *classAndProtocols);
-extern id _mck_createSpy(id testCase, MCKLocation *location, id object);
+extern id _mck_createMock(MCKLocation *location, NSArray *classAndProtocols);
+extern id _mck_createSpy(MCKLocation *location, id object);

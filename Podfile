@@ -1,5 +1,3 @@
-# Uncomment this line to define a global platform for your project
-# platform :ios, "6.0"
 
 inhibit_all_warnings!
 
@@ -20,4 +18,3 @@ target "mocka-tests-osx" do
   pod 'OHHTTPStubs', '~> 3.0.0'
   pod 'Expecta', '~> 0.2.3'
 end
-

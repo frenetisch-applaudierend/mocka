@@ -35,7 +35,7 @@ typedef enum {
 
 #pragma mark - Getting a Context
 
-+ (instancetype)contextForTestCase:(id)testCase;
++ (void)setCurrentContext:(MCKMockingContext *)context;
 + (instancetype)currentContext;
 
 

@@ -99,8 +99,8 @@
 		6324F495182D9C4C00BBB351 /* MCKStubbingSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 6324F492182D9C4C00BBB351 /* MCKStubbingSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6324F496182D9C4C00BBB351 /* MCKStubbingSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F493182D9C4C00BBB351 /* MCKStubbingSyntax.m */; };
 		6324F497182D9C4C00BBB351 /* MCKStubbingSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 6324F493182D9C4C00BBB351 /* MCKStubbingSyntax.m */; };
-		632D40D4182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; };
-		632D40D5182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; };
+		632D40D4182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		632D40D5182C104E000767C1 /* MCKVerificationSyntax.h in Headers */ = {isa = PBXBuildFile; fileRef = 632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		632D40D6182C104E000767C1 /* MCKVerificationSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */; };
 		632D40D7182C104E000767C1 /* MCKVerificationSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */; };
 		633F4E4A17FB1C03007D329D /* MCKInOrderCollectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */; };
@@ -266,6 +266,12 @@
 		6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
 		6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
+		63AF4F1818301C0B00E5E514 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
+		63AF4F1918301C0C00E5E514 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
+		63AF4F1C18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */ = {isa = PBXBuildFile; fileRef = 63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */; };
+		63AF4F1D18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */ = {isa = PBXBuildFile; fileRef = 63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */; };
+		63AF4F1E18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */; };
+		63AF4F1F18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */; };
 		63B598141824FBFA00E4D26A /* MCKStubTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B598131824FBFA00E4D26A /* MCKStubTest.m */; };
 		63B598151824FBFA00E4D26A /* MCKStubTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B598131824FBFA00E4D26A /* MCKStubTest.m */; };
 		63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */; };
@@ -426,6 +432,8 @@
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF517F6FAFB00F5902F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+MCKContextLoading.h"; sourceTree = "<group>"; };
+		63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+MCKContextLoading.m"; sourceTree = "<group>"; };
 		63B598131824FBFA00E4D26A /* MCKStubTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStubTest.m; sourceTree = "<group>"; };
 		63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMockingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesNetworkMockingTest.m; sourceTree = "<group>"; };
 		63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Libraries/OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -470,6 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				631E235B17FF5F3C00BC2D06 /* Foundation.framework in Frameworks */,
+				63AF4F1818301C0B00E5E514 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +499,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6397EFC917F6F91800F5902F /* Foundation.framework in Frameworks */,
+				63AF4F1918301C0C00E5E514 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +592,8 @@
 			children = (
 				633475AD17F5944B001F5C88 /* MCKMockingContext.h */,
 				633475AE17F5944B001F5C88 /* MCKMockingContext.m */,
+				63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */,
+				63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */,
 				638BA45017F5DCBC0086226D /* MCKInvocationPrototype.h */,
 				638BA45117F5DCBC0086226D /* MCKInvocationPrototype.m */,
 				63D1CABF1825C2CC009FE9EC /* MCKLocation.h */,
@@ -1029,6 +1041,7 @@
 				631E237717FF5F3C00BC2D06 /* MCKSenTestFailureHandler.h in Headers */,
 				631E237817FF5F3C00BC2D06 /* MCKExactArgumentMatcher.h in Headers */,
 				631E237917FF5F3C00BC2D06 /* MCKDefaultVerificationHandler.h in Headers */,
+				63AF4F1D18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */,
 				631E237A17FF5F3C00BC2D06 /* MCKFailureHandler.h in Headers */,
 				631E237B17FF5F3C00BC2D06 /* MCKHamcrestArgumentMatcher.h in Headers */,
 				63D1CAC21825C2CC009FE9EC /* MCKLocation.h in Headers */,
@@ -1079,6 +1092,7 @@
 				638BA4CE17F6F8760086226D /* MCKSenTestFailureHandler.h in Headers */,
 				638BA4C617F6F8710086226D /* MCKExactArgumentMatcher.h in Headers */,
 				638BA4A517F6F8580086226D /* MCKDefaultVerificationHandler.h in Headers */,
+				63AF4F1C18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */,
 				638BA4CC17F6F8760086226D /* MCKFailureHandler.h in Headers */,
 				638BA4CA17F6F8710086226D /* MCKHamcrestArgumentMatcher.h in Headers */,
 				63D1CAC11825C2CC009FE9EC /* MCKLocation.h in Headers */,
@@ -1326,6 +1340,7 @@
 				631E233F17FF5F3C00BC2D06 /* MCKExceptionFailureHandler.m in Sources */,
 				63169CD31824E64A00A894C5 /* MCKBlockWrapper.m in Sources */,
 				631E234017FF5F3C00BC2D06 /* MCKBlockArgumentMatcher.m in Sources */,
+				63AF4F1F18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */,
 				631E234117FF5F3C00BC2D06 /* MCKArgumentMatcherRecorder.m in Sources */,
 				631E234217FF5F3C00BC2D06 /* MCKVerifyNoInteractions.m in Sources */,
 				631E234317FF5F3C00BC2D06 /* MCKMockObject.m in Sources */,
@@ -1421,6 +1436,7 @@
 				638BA4D317F6F8760086226D /* MCKExceptionFailureHandler.m in Sources */,
 				63169CD21824E64A00A894C5 /* MCKBlockWrapper.m in Sources */,
 				638BA4C917F6F8710086226D /* MCKBlockArgumentMatcher.m in Sources */,
+				63AF4F1E18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */,
 				638BA4C017F6F8710086226D /* MCKArgumentMatcherRecorder.m in Sources */,
 				638BA4AE17F6F8580086226D /* MCKVerifyNoInteractions.m in Sources */,
 				638BA49417F6F8370086226D /* MCKMockObject.m in Sources */,
@@ -1613,7 +1629,7 @@
 		6334757617F591FA001F5C88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.6;
+				CURRENT_PROJECT_VERSION = 0.6.1;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1623,7 +1639,7 @@
 		6334757717F591FA001F5C88 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.6;
+				CURRENT_PROJECT_VERSION = 0.6.1;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1748,6 +1764,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1796,6 +1813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1839,6 +1857,7 @@
 			baseConfigurationReference = C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1899,6 +1918,7 @@
 			baseConfigurationReference = C1AD9663AAA94FAD8F6F5AD3 /* Pods-mocka-tests-ios.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

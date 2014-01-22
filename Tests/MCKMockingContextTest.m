@@ -34,53 +34,6 @@
 }
 
 
-#pragma mark - Test Getting a Context
-
-- (void)testThatGettingTheContextTwiceReturnsSameContext {
-    id ctx1 = [MCKMockingContext contextForTestCase:self];
-    id ctx2 = [MCKMockingContext contextForTestCase:self];
-    
-    expect(ctx1).to.beIdenticalTo(ctx2);
-}
-
-- (void)testThatGettingExistingContextReturnsExistingContextUnchanged {
-    // given
-    MCKMockingContext *ctx = [MCKMockingContext contextForTestCase:self];
-    MCKLocation *location = [MCKLocation locationWithFileName:@"File.m" lineNumber:10];
-    ctx.currentLocation = location;
-    
-    // when
-    MCKMockingContext *existingContext = [MCKMockingContext currentContext];
-    
-    // then
-    expect(existingContext).to.beIdenticalTo(ctx);
-    expect(existingContext.currentLocation).to.equal(location);
-}
-
-- (void)testThatGettingExistingContextAlwaysGetsLatestContext {
-    // given
-    MCKMockingContext *oldCtx = [[MCKMockingContext alloc] initWithTestCase:self];
-    MCKMockingContext *newCtx = [[MCKMockingContext alloc] initWithTestCase:self];
-    
-    // then
-    XCTAssertEqual([MCKMockingContext currentContext], newCtx, @"Context was not updated");
-    oldCtx = nil; // shut the compiler up
-}
-
-- (void)testThatGettingExistingContextFailsIfNoContextWasCreatedYet {
-    // given
-    id testCase = [[NSObject alloc] init];
-    MCKMockingContext *ctx = [[MCKMockingContext alloc] initWithTestCase:testCase];
-    
-    // when
-    ctx = nil;
-    testCase = nil; // at this point the context should be deallocated
-    
-    // then
-    XCTAssertThrows([MCKMockingContext currentContext], @"Getting a context before it's created should fail");
-}
-
-
 #pragma mark - Test Invocation Recording
 
 - (void)testThatHandlingInvocationInRecordingModeAddsToRecordedInvocations {
