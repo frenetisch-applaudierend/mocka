@@ -110,7 +110,7 @@
 - (void)testSettingOutParametersFromStubbedMethod {
     // you can set out parameters passed by reference
     
-    stub ([mockArray getObjects:anyObjectPointer(__unsafe_unretained) range:anyStruct(NSRange)])
+    stub ([mockArray getObjects:anyObjectPointerWithQualifier(__unsafe_unretained) range:anyStruct(NSRange)])
     with (id __unsafe_unretained objects[], NSRange range) {
         objects[0] = @"Hello";
         objects[1] = @"World";
