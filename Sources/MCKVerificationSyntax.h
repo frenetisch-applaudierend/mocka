@@ -20,9 +20,9 @@
  *
  * Usage: `verifyCall ([mockObject someMethod]);`.
  */
-#define mck_verifyCall(...) _mck_verify_call(_MCKCurrentLocation(), nil).verifyCallBlock = ^{ (void)(__VA_ARGS__); }
+#define mck_verifyCall(CALL, ...) _mck_verify_call(_MCKCurrentLocation(), nil).verifyCallBlock = ^{ (void)(CALL, ## __VA_ARGS__); }
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define verifyCall(...) mck_verifyCall(__VA_ARGS__)
+    #define verifyCall(CALL, ...) mck_verifyCall(CALL, ## __VA_ARGS__)
 #endif
 
 
