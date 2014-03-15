@@ -52,14 +52,11 @@ To use Mocka in your tests include it using `#import <Mocka/Mocka.h>`.
 This is an example of a simple test using Mocka.
 
 	- (void)testThatGuardianCallsOperatorOnErrorCondition {
-		// given
 		CallCenter *callCenter = mockForClass(CallCenter);
 		Guardian *guardian = [[Guardian alloc] initWithCallCenter:callCenter];
 		
-		// when
 		[guardian errorConditionDetected];
 		
-		// then
 		verifyCall ([callCenter callOperator]);
 	}
 
@@ -104,13 +101,10 @@ To see some examples for creating mocks see `Tests/ExamplesCreatingMocks.m`.
 
 To verify that a certain call was made use the `verifyCall` keyword.
 
-	// given
 	NSArray *arrayMock = mockForClass(NSArray);
 	
-	// when
 	DoSomethingWith(arrayMock);
 	
-	// then
 	verifyCall ([arrayMock objectAtIndex:0]);
 
 If `DoSomethingWith(...)` didn’t call `[arrayMock objectAtIndex:0]` then `verifyCall` will generate a test failure.
@@ -122,7 +116,6 @@ By default `verifyCall` will succeed if at least one matching call was made, but
 
 Note that matching calls are not evaluated again. Consider the following example:
 
-    // given
 	NSArray *arrayMock = mockForClass(NSArray);
 	
 	[arrayMock objectAtIndex:0];
@@ -139,7 +132,6 @@ More examples can be found in `Examples/ExamplesVerify.m`.
 
 You can verify that a group of calls was made in a given order. This is especially useful when testing interaction with a delegate or data source.
 
-    // given
     NSArray *arrayMock = mockForClass(NSArray);
     
     [self doSomethingWith:arrayMock];
@@ -153,7 +145,6 @@ You can verify that a group of calls was made in a given order. This is especial
 
 Note that when checking calls in order, interleaving calls do not cause a failure. E.g. the following verification will succeed, because the tested calls were all made and in order.
 
-    // given
     NSArray *arrayMock = mockForClass(NSArray);
     
     [arrayMock count];
