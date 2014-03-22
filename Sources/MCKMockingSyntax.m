@@ -12,15 +12,16 @@
 #import "MCKMockObject.h"
 #import "MCKSpy.h"
 
+#import "MCKTypeDetector.h"
 
-id _mck_createMock(MCKLocation *location, NSArray *classAndProtocols) {
+
+id _mck_createMock(MCKLocation *location, NSArray *items) {
     MCKMockingContext *context = [MCKMockingContext currentContext];
     context.currentLocation = location;
-    return [MCKMockObject mockWithContext:context classAndProtocols:classAndProtocols];
-}
-
-id _mck_createSpy(MCKLocation *location, id object) {
-    MCKMockingContext *context = [MCKMockingContext currentContext];
-    context.currentLocation = location;
-    return mck_createSpyForObject(object, context);
+    
+    if ([items count] == 1 && [MCKTypeDetector isObject:[items lastObject]]) {
+        return mck_createSpyForObject([items lastObject], context);
+    } else {
+        return [MCKMockObject mockWithContext:context classAndProtocols:items];
+    }
 }

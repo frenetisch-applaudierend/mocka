@@ -8,6 +8,7 @@
 
 #import "MCKMockObject.h"
 #import "MCKMockingContext.h"
+#import "MCKTypeDetector.h"
 
 #import <objc/runtime.h>
 
@@ -57,7 +58,7 @@
 + (BOOL)hasAtMostOneClassInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
     NSUInteger numClasses = 0;
     for (id object in sourceList) {
-        if ([self objectIsClass:object]) {
+        if ([MCKTypeDetector isClass:object]) {
             numClasses++;
         }
     }
@@ -73,7 +74,7 @@
 + (BOOL)mockedClassIsAbsentOrAtFirstPositionInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
     NSArray *entitiesWhichMustBeProtocols = [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)];
     for (id object in entitiesWhichMustBeProtocols) {
-        if ([self objectIsClass:object]) {
+        if ([MCKTypeDetector isClass:object]) {
             [context failWithReason:@"If you mock a class it must be at the first position"];
             return NO;
         }
@@ -84,25 +85,17 @@
 + (Class)mockedClassInSourceList:(NSArray *)sourceList {
     NSParameterAssert([sourceList count] > 0);
     
-    return ([self objectIsClass:[sourceList objectAtIndex:0]] ? [sourceList objectAtIndex:0] : nil);
+    return ([MCKTypeDetector isClass:[sourceList objectAtIndex:0]] ? [sourceList objectAtIndex:0] : nil);
 }
 
 + (NSArray *)mockedProtocolsInSourceList:(NSArray *)sourceList {
     NSParameterAssert([sourceList count] > 0);
     
-    return ([self objectIsClass:[sourceList objectAtIndex:0]] ? [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)] : sourceList);
+    return ([MCKTypeDetector isClass:[sourceList objectAtIndex:0]] ? [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)] : sourceList);
 }
 
 + (BOOL)objectIsMockableEntity:(id)object {
-    return ([self objectIsProtocol:object] || [self objectIsClass:object]);
-}
-
-+ (BOOL)objectIsProtocol:(id)object {
-    return (object_getClass(object) == object_getClass(@protocol(NSObject)));
-}
-
-+ (BOOL)objectIsClass:(id)object {
-    return class_isMetaClass(object_getClass(object));
+    return ([MCKTypeDetector isClass:object] || [MCKTypeDetector isProtocol:object]);
 }
 
 
