@@ -73,7 +73,7 @@
     error = nil;
     data = [self GET:@"http://www.google.ch" error:&error];
     
-    // the data returned is nil and the error is set to a "no network error"
+    // the data returned is now from the network
     expect(data).notTo.beNil();
     expect(error).to.beNil();
 }
