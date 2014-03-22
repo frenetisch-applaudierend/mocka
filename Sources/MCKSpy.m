@@ -47,7 +47,7 @@ id mck_createSpyForObject(id object, MCKMockingContext *context) {
     if (object == nil) {
         [context failWithReason:@"You cannot spy nil"];
         return nil;
-    } else if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NSCF"]) {
+    } else if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NS"]) {
         [context failWithReason:@"Cannot spy an instance of a Core Foundation class (%@)", object_getClass(object)];
         return nil;
     }

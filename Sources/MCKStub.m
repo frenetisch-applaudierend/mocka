@@ -72,7 +72,9 @@
 }
 
 - (void)applyToInvocation:(NSInvocation *)invocation {
-    NSAssert(self.stubBlockWrapper != nil, @"Should have a stub block by now");
+    if (self.stubBlockWrapper == nil) { // no block wrapper probably means illegal block was passed
+        return;
+    }
     
     [self copyArgumentsFromInvocation:invocation toBlock:self.stubBlockWrapper];
     [self.stubBlockWrapper invoke];

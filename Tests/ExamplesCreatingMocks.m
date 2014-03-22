@@ -131,11 +131,11 @@
     });
 }
 
-- (void)testCreatingSpyForCoreFoundationBridgedClassesIsNotPossible {
+- (void)testCreatingSpyForInternalFoundationClassesIsNotPossible {
     // you cannot spy(...) on a bridged class
     ThisWillFail({
-        NSString *string = @"Foo";
-        (void)spy(string);
+        NSArray *array = @[];
+        (void)spy(array);
     });
 }
 
