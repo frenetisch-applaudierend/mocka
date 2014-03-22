@@ -119,8 +119,7 @@
     // if you hide it in a variable it will compile, but throw an exception at runtime
     ThisWillFail({
         id nilValue = Nil;
-        id nilMock = mock([TestObject class], @protocol(NSCoding), nilValue, @protocol(NSCopying));
-        IgnoreUnused(nilMock);
+        mock([TestObject class], @protocol(NSCoding), nilValue, @protocol(NSCopying));
     });
 }
 
@@ -128,8 +127,15 @@
     // you may not pass nil as an argument to spy(...)
     ThisWillFail({
         id nilObject = nil;
-        id nilSpy = spy(nilObject);
-        IgnoreUnused(nilSpy);
+        (void)spy(nilObject);
+    });
+}
+
+- (void)testCreatingSpyForCoreFoundationBridgedClassesIsNotPossible {
+    // you cannot spy(...) on a bridged class
+    ThisWillFail({
+        NSString *string = @"Foo";
+        (void)spy(string);
     });
 }
 
