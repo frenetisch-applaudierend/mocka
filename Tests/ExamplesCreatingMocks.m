@@ -71,14 +71,6 @@
                          @"Wrong entities mocked");
 }
 
-- (void)testWhenCreatingMockForClassAndProtocolClassMustBeFirst {
-    // if you create a mix of class and protocols, the class must be first
-    ThisWillFail({
-        id mockForClassAndProtocols = mock(@protocol(NSCoding), [TestObject class], @protocol(NSCopying));
-        IgnoreUnused(mockForClassAndProtocols);
-    });
-}
-
 
 #pragma mark - Creating Spies
 

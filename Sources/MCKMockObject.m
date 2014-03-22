@@ -21,7 +21,7 @@
 
 #pragma mark - Building a Mock
 
-+ (id)mockWithContext:(MCKMockingContext *)context classAndProtocols:(NSArray *)sourceList {
++ (id)mockWithContext:(MCKMockingContext *)context entities:(NSArray *)sourceList {
     if (![self sourceListIsSane:sourceList context:context]) {
         return nil;
     }
@@ -31,10 +31,9 @@
 }
 
 + (BOOL)sourceListIsSane:(NSArray *)sourceList context:(MCKMockingContext *)context {
-    return ([self hasAtLeastOneEntityInSourceList:sourceList context:context]
+    return (   [self hasAtLeastOneEntityInSourceList:sourceList context:context]
             && [self hasOnlyMockableEntitiesInSourceList:sourceList context:context]
-            && [self hasAtMostOneClassInSourceList:sourceList context:context]
-            && [self mockedClassIsAbsentOrAtFirstPositionInSourceList:sourceList context:context]);
+            && [self hasAtMostOneClassInSourceList:sourceList context:context]);
 }
 
 + (BOOL)hasAtLeastOneEntityInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
@@ -46,8 +45,8 @@
 }
 
 + (BOOL)hasOnlyMockableEntitiesInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
-    for (id object in sourceList) {
-        if (![self objectIsMockableEntity:object]) {
+    for (id entity in sourceList) {
+        if (![self entityIsMockable:entity]) {
             [context failWithReason:@"Only Class or Protocol instances can be mocked. To mock an existing object use spy()"];
             return NO;
         }
@@ -57,8 +56,8 @@
 
 + (BOOL)hasAtMostOneClassInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
     NSUInteger numClasses = 0;
-    for (id object in sourceList) {
-        if ([MCKTypeDetector isClass:object]) {
+    for (id entity in sourceList) {
+        if ([MCKTypeDetector isClass:entity]) {
             numClasses++;
         }
     }
@@ -71,21 +70,15 @@
     return YES;
 }
 
-+ (BOOL)mockedClassIsAbsentOrAtFirstPositionInSourceList:(NSArray *)sourceList context:(MCKMockingContext *)context {
-    NSArray *entitiesWhichMustBeProtocols = [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)];
-    for (id object in entitiesWhichMustBeProtocols) {
-        if ([MCKTypeDetector isClass:object]) {
-            [context failWithReason:@"If you mock a class it must be at the first position"];
-            return NO;
-        }
-    }
-    return YES;
-}
-
 + (Class)mockedClassInSourceList:(NSArray *)sourceList {
     NSParameterAssert([sourceList count] > 0);
     
-    return ([MCKTypeDetector isClass:[sourceList objectAtIndex:0]] ? [sourceList objectAtIndex:0] : nil);
+    for (id entity in sourceList) {
+        if ([MCKTypeDetector isClass:entity]) {
+            return entity;
+        }
+    }
+    return nil;
 }
 
 + (NSArray *)mockedProtocolsInSourceList:(NSArray *)sourceList {
@@ -94,8 +87,8 @@
     return ([MCKTypeDetector isClass:[sourceList objectAtIndex:0]] ? [sourceList subarrayWithRange:NSMakeRange(1, [sourceList count] - 1)] : sourceList);
 }
 
-+ (BOOL)objectIsMockableEntity:(id)object {
-    return ([MCKTypeDetector isClass:object] || [MCKTypeDetector isProtocol:object]);
++ (BOOL)entityIsMockable:(id)entity {
+    return ([MCKTypeDetector isClass:entity] || [MCKTypeDetector isProtocol:entity]);
 }
 
 

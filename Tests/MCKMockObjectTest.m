@@ -43,19 +43,19 @@
 #pragma mark - Test Initializer
 
 - (void)testThatInitializerFailsForEmptyClassOrProtocolList {
-    XCTAssertThrows([MCKMockObject mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:@[]],
+    XCTAssertThrows([MCKMockObject mockWithContext:[FakeMockingContext fakeContext] entities:@[]],
                    @"Should fail for empty class and protocol list");
 }
 
 - (void)testThatInitializerFailsIfObjectIsPassedWhichIsNotClassOrProtocol {
     NSArray *invalidClassOrProtocolList = @[ [TestObject class], @protocol(NSCoding), @"Fail here" ];
-    XCTAssertThrows([MCKMockObject mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:invalidClassOrProtocolList],
+    XCTAssertThrows([MCKMockObject mockWithContext:[FakeMockingContext fakeContext] entities:invalidClassOrProtocolList],
                    @"Should fail for object which is not class or protocol");
 }
 
 - (void)testThatInitializerFailsIfMultipleClassesArePassed {
     NSArray *invalidClassOrProtocolList = @[ [TestObject class], [NSObject class] ];
-    XCTAssertThrows([MCKMockObject mockWithContext:[FakeMockingContext fakeContext] classAndProtocols:invalidClassOrProtocolList],
+    XCTAssertThrows([MCKMockObject mockWithContext:[FakeMockingContext fakeContext] entities:invalidClassOrProtocolList],
                    @"Should fail for multiple classes in list");
 }
 
@@ -65,7 +65,7 @@
 - (void)testThatForwardInvocationCallsMockingContextsHandleInvocation {
     // given
     FakeMockingContext *fakeContext = [FakeMockingContext fakeContext];
-    MCKMockObject *mock = [MCKMockObject mockWithContext:(id)fakeContext classAndProtocols:@[ [NSObject class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:(id)fakeContext entities:@[ [NSObject class] ]];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature signatureWithObjCTypes:"v@:"]];
     
     // when
@@ -81,7 +81,7 @@
 
 - (void)testThatRespondsToSelectorReturnsTrueForSelectorOnPassedClass {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [TestObject class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ [TestObject class] ]];
     
     // then
     XCTAssertTrue([mock respondsToSelector:@selector(voidMethodCallWithoutParameters)], @"Mock does not respond to instance method of class");
@@ -89,7 +89,7 @@
 
 - (void)testThatRespondsToSelectorReturnsTrueForSelectorOnPassedProtocol {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ @protocol(NSCoding) ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ @protocol(NSCoding) ]];
     
     // then
     XCTAssertTrue([mock respondsToSelector:@selector(encodeWithCoder:)], @"Mock does not respond to instance method of class");
@@ -98,7 +98,7 @@
 - (void)testThatRespondsToSelectorReturnsTrueForSelectorsIfBothClassAndProtocolArePassed {
     // given
     MCKMockObject *mock = [MCKMockObject mockWithContext:nil
-                                                                 classAndProtocols:@[ [TestObject class], @protocol(NSCoding) ]];
+                                                                 entities:@[ [TestObject class], @protocol(NSCoding) ]];
     
     // then
     XCTAssertTrue([mock respondsToSelector:@selector(voidMethodCallWithoutParameters)], @"Mock does not respond to instance method of class");
@@ -110,7 +110,7 @@
 
 - (void)testThatMockIsKindOfMockedClass {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [SampleClass1 class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ [SampleClass1 class] ]];
     
     // then
     XCTAssertTrue([mock isKindOfClass:[SampleClass1 class]], @"Mock is not a kind of the mocked class");
@@ -118,7 +118,7 @@
 
 - (void)testThatMockIsKindOfMockedClassSuperclass {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [SampleClass2 class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ [SampleClass2 class] ]];
     
     // then
     XCTAssertTrue([mock isKindOfClass:[SampleClass1 class]], @"Mock is not a kind of the inherited mocked class");
@@ -126,7 +126,7 @@
 
 - (void)testThatMockConformsToMockedProtocols {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ @protocol(SampleProtocol1) ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ @protocol(SampleProtocol1) ]];
     
     // then
     XCTAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol1)], @"Mock does not conform to mocked protocol");
@@ -134,7 +134,7 @@
 
 - (void)testThatMockConformsToMockedProtocolsInheritedProtocols {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ @protocol(SampleProtocol3) ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ @protocol(SampleProtocol3) ]];
     
     // then
     XCTAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
@@ -144,7 +144,7 @@
 
 - (void)testThatMockConformsToProtocolsOfMockedClass {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [SampleClass3 class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ [SampleClass3 class] ]];
     
     // then
     XCTAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
@@ -154,7 +154,7 @@
 
 - (void)testThatMockConformsToProtocolsOfMockedClassSuperclass {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [SampleClass4 class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ [SampleClass4 class] ]];
     
     // then
     XCTAssertTrue([mock conformsToProtocol:@protocol(SampleProtocol2)], @"Mock does not conform to inherited mocked protocol");
@@ -165,7 +165,7 @@
 - (void)testThatMockConformsToAllMockedProtocols {
     // given
     MCKMockObject *mock =
-    [MCKMockObject mockWithContext:nil classAndProtocols:@[ @protocol(NSObject), @protocol(NSCoding), @protocol(NSCopying) ]];
+    [MCKMockObject mockWithContext:nil entities:@[ @protocol(NSObject), @protocol(NSCoding), @protocol(NSCopying) ]];
     
     // then
     XCTAssertTrue([mock conformsToProtocol:@protocol(NSObject)],  @"Mock does not conform to all passed protocols");
@@ -181,7 +181,7 @@
     // a weak delegate for example will immediately be nil when a mock is assigned
     // even though a strong reference is still there
     
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ @protocol(NSObject) ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ @protocol(NSObject) ]];
     DelegateHolder *holder = [[DelegateHolder alloc] init];
     
     holder.delegate = mock;
@@ -195,7 +195,7 @@
 
 - (void)testThatMockRespondsToSelectorsOfCategories {
     // given
-    MCKMockObject *mock = [MCKMockObject mockWithContext:nil classAndProtocols:@[ [CategoriesTestMockedClass class] ]];
+    MCKMockObject *mock = [MCKMockObject mockWithContext:nil entities:@[ [CategoriesTestMockedClass class] ]];
     
     // then
     XCTAssertTrue([mock respondsToSelector:@selector(categoryMethodInMockedClass)], @"Mock does not respond to selector of category");
