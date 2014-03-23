@@ -2,36 +2,40 @@
 
 Mocka is an Objective-C mocking library designed similar to [mockito](http://code.google.com/p/mockito/). The goal is to provide a powerful yet simple and readable way to isolate your objects and test messages between objects in your unit tests.
 
-Mocka is distributed under the [MIT License](http://opensource.org/licenses/mit-license.php). See the LICENSE file for more details.
+Mocka is distributed under the [MIT License](http://opensource.org/licenses/mit-license.php). See the [LICENSE](LICENSE) file for details.
+
 
 ## Features
 
 These are some highlights of Mocka:
 
-* **Use first, verify later** – Some mocking frameworks force you to declare your expectations before using the mocks, cluttering the test. In Mocka you use the mock first and in the end you verify your expectations, leading to a much more natural flow.
-* **Readable syntax** – In addition to the clean use-then-verify approach, Mocka tries to make the syntax understandable, even if you never used it before.
-* **Type safe mocks** – Mock objects in Mocka are typed and all calls done on the mocks are done on typed objects. This helps with code completion as well as renaming.
-* **Type safe argument matchers** - Mocka comes with a set of argument matchers for all kinds of argument types, including structs. [OCHamcrest](https://github.com/hamcrest/OCHamcrest) matchers are supported too.
-* **Support for spies** – Spies allow you to verify methods on already existing objects (sometimes called *partial mocks*). While it’s generally not a good idea to rely too strongly on this feature, it’s nonetheless useful to have it in your mocking toolbox.
-* **Network Mocking** - If you include the [OHHTTPStubs](https://github.com/AliSoftware/OHHTTPStubs) library you can also stub and verify network calls using the same DSL.
+ * **Use first, check later** – Some mocking frameworks force you to declare your expectations before using the mocks, cluttering the test. In Mocka you use the mock first and in the end you check your expectations, leading to a much more natural flow.
+ * **Readable syntax** – Mocka tries to make the syntax understandable, even if you never used it before.
+ * **Type safe mocks** – Mock objects in Mocka are typed and all calls done on the mocks are done on typed objects. This helps the IDE with code completion and renaming.
+ * **Type safe argument matchers** - Mocka comes with a set of argument matchers for all kinds of argument types, including structs. [OCHamcrest](https://github.com/hamcrest/OCHamcrest) matchers are supported too.
+ * **Support for spies** – Spies allow you to mock specific methods on already existing objects (sometimes called *partial mocks*).
+ * **Network Mocking** - Mocka provides support for [OHHTTPStubs](https://github.com/AliSoftware/OHHTTPStubs) to stub and check network calls using the same DSL as for mocking objects.
+
 
 # Installation
 
 To use the library in your project you can either add it using [CocoaPods](http://cocoapods.org) or as a framework.
 
+
 ## CocoaPods
 
-The easiest way is using CocoaPods. To add Mocka to your testing target add
+The easiest way is using CocoaPods. To add Mocka to your testing target include the following in your `Podfile` and run `pod install`.
 
-    pod 'Mocka', '~> 0.6'
-
-to your `Podfile` and run `pod install`.
+    pod 'Mocka'
+    #pod 'OHHTTPStubs' # Uncomment to support network mocking
+    #pod 'OCHamcrest'  # Uncomment to support hamcrest matchers
 
 To use Mocka in your tests include it using `#import <Mocka/Mocka.h>`.
 
+
 ## Mocka.framework
 
-To use the framework either download it from the project page or build it from sources. The framework contains binaries for iOS (arm), iOS Simulator (i386) and OS X (x86_64).
+To use the framework either download it from the project page or build it from sources. The framework contains binaries for iOS, iOS Simulator and OS X.
 
 To build the library execute the `MakeDistribution.sh` file in the project directory:
 
@@ -47,6 +51,11 @@ After this make sure you have `-ObjC` added to your test target's `Other Linker 
 To use Mocka in your tests include it using `#import <Mocka/Mocka.h>`.
 
 
+## Prefixed Syntax
+
+Mocka does not use prefixes by default. If you experience problems because of this add `#define MCK_DISABLE_NICE_SYNTAX` before importing any Mocka header.
+
+
 # Usage
 
 This is an example of a simple test using Mocka.
@@ -60,42 +69,64 @@ This is an example of a simple test using Mocka.
 		verifyCall ([callCenter callOperator]);
 	}
 
+
 ## Creating mock objects
 
-Use `mock(...)` to create mock objects.
+> This is a summary. See [Documentation/Mocks.md](Documentation/Mocks.md) for details.
+> You can find examples of creating mocks in
+> [`Tests/ExamplesCreatingMocks.m`](Tests/ExamplesCreatingMocks.m).
 
-	// create a mock just for a class
-	NSArray *arrayMock = mock([NSArray class]);
-	
-	// create a mock for some protocols
-	id<NSCoding, NSCopying> protocolMock = mock(@protocol(NSCoding), @protocol(NSCopying));
-	
-	// create a mock for a combination of a class with some protocols
-	NSObject<NSCoding> *weirdMock = mock([NSObject class], @protocol(NSCoding));
 
-Mocks can have at most one class. If the mock should mock a class it must be the first argument passed to `mock(...)`. Apart from this rule you can create arbitrary combinations, with any number of protocols.
+### Mocking Classes or Protocols
 
-If you just want to mock a single protocol or class there is a shortcut:
+Use `mockForClass(...)` to create a mock for a class:
 
-	// create a mock for just a class
-	NSArray *arrayMock = mockForClass(NSArray);
-	
-	// create a mock for just a protocol
-	id<NSCoding> codingMock = mockForProtocol(NSCoding);
+    NSArray *arrayMock = mockForClass(NSArray);
 
-Note that you don’t need to call `[Foo class]` or `@protocol(Bar)` in this case.
+Use `mockForProtocol(...)` to create a mock for a prococol:
 
-## Spies
+    id<NSCoding> codingMock = mockForProtocol(NSCoding);
+    
+Or use `mock(...)` to create combinations thereof.
 
-To spy on an existing object you use `spy(...)`. You pass it an existing object instance which will then be turned into a mocka spy object. The returned object is the same instance as the passed one.
+    MYObject<NSCoding, NSCopying> *combinedMock = mock([MYObject class],
+                                                       @protocol(NSCoding),
+                                                       @protocol(NSCopying));    
 
-	Foo *foo = [[Foo alloc] init];
-	Foo *fooMock = spy(foo);
-	assert(foo == fooMock);
+### Mocking existing Objects
 
-Now you can use the mock (or the original object) in any way you could use any other mock, including stubbing and verifying. Note that you cannot spy on core foundation bridging classes (all classes that start with `__NSCF`).
+You can also mock existing objects (called partial mocks or spies). While it’s generally not a good idea to rely too strongly on this feature, it’s still useful to have it in your mocking toolbox.
 
-To see some examples for creating mocks see `Tests/ExamplesCreatingMocks.m`.
+You create a spy using `spy(...)`.
+
+    MyObject *objectMock = spy([[MYObject alloc] init]);
+
+***Note:** It's not possible to create spies for internal Foundation classes. This includes class clusters like `NSString` or `NSArray`.*
+
+
+## Stubbing
+
+> This is a summary. See [Documentation/Stubbing.md](Documentation/Stubbing.md) for details.
+> You can find examples of stubs in
+> [`Tests/ExamplesStub.m`](Tests/ExamplesStub.m).
+
+By default when a method is called on a mock it will do nothing and simply return the default value (`nil` for objects, `0` for integers, an empty struct, etc). Stubbing allows you to specify actions that should be executed when a given method on the mock is called.
+
+To stub a method use the `stub ... with ...` construct.
+    
+    stub ([mock methodToStub]) with {
+        NSLog(@"Stub was called");
+        return YES;
+    };
+
+It's possible to examine and use the arguments passed to the stubbed method call by adding the argument list between the `with` keyword and the action block.
+
+    stub ([mock methodWithArgument1:@"Foo" argument2:YES]) with (id arg1, BOOL arg2) {
+        NSLog(@"Stub was called with %@ and %ld", arg1, (unsigned long)arg2);
+    };
+
+***Note:** The return type of the action block is checked by the compiler, the argument types are checked at runtime.*
+
 
 ## Verifying
 
@@ -128,6 +159,7 @@ If there were two calls to `[arrayMock objectAtIndex:0]` the second verification
 
 More examples can be found in `Examples/ExamplesVerify.m`.
 
+
 ### Ordered Verification
 
 You can verify that a group of calls was made in a given order. This is especially useful when testing interaction with a delegate or data source.
@@ -158,53 +190,13 @@ Note that when checking calls in order, interleaving calls do not cause a failur
         [arrayMock removeAllObjects];
     };
 
-## Stubbing
-
-By default when a method is called on a mock it will do nothing and simply return the default value (`nil` for objects, `0` for integers, an empty struct, etc). Stubbing allows you to specify actions that should be executed when a certain method on a mock is called. To stub a method use the `stub (...) with { ... };` construct.
-
-	NSArray *arrayMock = mockForClass(NSArray);
-	
-	stub ([arrayMock count]) with {
-	    return 1;
-	};
-	
-	stub ([arrayMock objectAtIndex:0]) with {
-	    return @"Foo";
-	};
-	
-	if ([arrayMock count] > 0) {
-	    NSLog(@"Object in array: %@", [arrayMock objectAtIndex:0]);
-	} else {
-	    NSLog(@"Array is empty");
-	}
-	// Prints: "Object in array: Foo"
-
-You can group multiple calls to have the same actions by using `stubAll` instead of `stub`:
-
-	stubAll ({
-	    [mock doSomething];
-	    [mock doSomethingElse];
-	}) with {
-	    @throw [NSException exceptionWithName:@"ExceptionalException"
-	                                   reason:nil
-	                                 userInfo:nil];
-	};
-
-You can use the arguments passed to the stubbed call:
-
-	stub ([mock increase:anyInt()]) with (NSUInteger i) {
-	    return (i + 1);
-	};
-
-*Tip*: Add a snippet to the Xcode snippet library for `stub (...) with { ... };`
-
-Examples about stubbing are in `Examples/ExamplesStub.m`.
 
 ## Network Mocking
 
 You need to add the `OHHTTPStubs` library for those features to be available.
 
 If you have it installed you can disable access to the real network using `[Network disable]`. From this point on HTTP(S) calls won't hit the network and you'll get a "No internet connection" error instead. This is useful to avoid potentially slow and unreliable internet access, instead seeing an error directly if you accidentally hit the network. To reenable it later use `[Network enable]`.
+
 
 ### Network Stubbing
 
@@ -233,15 +225,3 @@ You can also monitor and verify network calls.
     [controller reloadSomeData];
     
     verifyCall (Network.GET(@"http://my-service.com/some/resource"));
-
-
-## Prefixed Syntax
-
-Mocka does not use prefixes by default. If you experience problems because of this add `#define MCK_DISABLE_NICE_SYNTAX` before including any Mocka header.
-
-# Alternatives to Mocka
-If you don’t like my implementation or you’re just looking for alternatives, here are a few other mocking libraries I’ve used before. Maybe one of those suits your needs:
-
-* [OCMock](https://github.com/erikdoe/ocmock) – As far as I know the most feature complete mocking library out there. It’s also the most mature mocking library I know of.
-* [OCMockito](https://github.com/jonreid/OCMockito/) – An Objective-C implementation of mockito. 
-* [LRMocky](https://github.com/lukeredpath/LRMocky) – An Objective-C mocking framework modeled after jMock.
