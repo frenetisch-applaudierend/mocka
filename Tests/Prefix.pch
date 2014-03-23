@@ -9,4 +9,9 @@
 
     #define EXP_SHORTHAND
     #import <Expecta/Expecta.h>
+
+    // Utilities
+    #import "TestExceptionUtils.h"
+    #import "TestTimingUtils.h"
+    #import "NSInvocation+TestSupport.h"
 #endif

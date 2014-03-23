@@ -68,6 +68,10 @@
 
 #pragma mark - Validating the Recorder
 
+- (void)validateForMethodSignature:(NSMethodSignature *)signature {
+    
+}
+
 - (BOOL)isValidForMethodSignature:(NSMethodSignature *)signature reason:(NSString **)reason {
     if (self.primitiveMatcherCount == 0) {
         return YES;

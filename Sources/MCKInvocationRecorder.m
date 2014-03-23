@@ -9,6 +9,7 @@
 #import "MCKInvocationRecorder.h"
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
+#import "MCKInvocationPrototype.h"
 
 
 @interface MCKInvocationRecorder ()
@@ -40,9 +41,9 @@
     return [self.mutableInvocations objectAtIndex:index];
 }
 
-- (void)recordInvocation:(NSInvocation *)invocation {
-    [self appendInvocation:invocation];
-    [self.mockingContext.invocationStubber applyStubsForInvocation:invocation];
+- (void)handleInvocationPrototype:(MCKInvocationPrototype *)prototype {
+    [self appendInvocation:prototype.invocation];
+    [self.mockingContext.invocationStubber applyStubsForInvocation:prototype.invocation];
 }
 
 - (void)appendInvocation:(NSInvocation *)invocation {

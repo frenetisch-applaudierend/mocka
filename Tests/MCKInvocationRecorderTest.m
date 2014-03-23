@@ -53,8 +53,8 @@
     NSInvocation *invocation2 = [NSInvocation voidMethodInvocationForTarget:nil];
     
     // when
-    [invocationRecorder recordInvocation:invocation1];
-    [invocationRecorder recordInvocation:invocation2];
+    [invocationRecorder handleInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocation1]];
+    [invocationRecorder handleInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocation2]];
     
     // then
     expect(invocationRecorder.recordedInvocations).to.equal(@[ invocation1, invocation2 ]);
@@ -72,8 +72,8 @@
     }];
     
     // when
-    [invocationRecorder recordInvocation:invocation1];
-    [invocationRecorder recordInvocation:invocation2];
+    [invocationRecorder handleInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocation1]];
+    [invocationRecorder handleInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocation2]];
     
     // then
     expect(appliedInvocations).to.equal(@[ invocation1, invocation2 ]);

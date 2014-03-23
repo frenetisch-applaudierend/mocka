@@ -21,7 +21,8 @@
 
 #pragma mark - Startup
 
-+ (void)initialize {
++ (void)initialize
+{
     if (!(self == [MCKMockingContext class])) {
         return;
     }
@@ -41,11 +42,13 @@
 
 static id _CurrentContext = nil;
 
-+ (void)setCurrentContext:(MCKMockingContext *)context {
++ (void)setCurrentContext:(MCKMockingContext *)context
+{
     _CurrentContext = context;
 }
 
-+ (instancetype)currentContext {
++ (instancetype)currentContext
+{
     NSAssert(_CurrentContext != nil, @"Need a context at this point");
     return _CurrentContext;
 }
@@ -53,7 +56,8 @@ static id _CurrentContext = nil;
 
 #pragma mark - Initialization
 
-- (instancetype)initWithTestCase:(id)testCase {
+- (instancetype)initWithTestCase:(id)testCase
+{
     if ((self = [super init])) {
         _invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:self];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
@@ -64,41 +68,30 @@ static id _CurrentContext = nil;
     return self;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithTestCase:nil];
 }
 
 
 #pragma mark - Dispatching Invocations
 
-- (void)updateContextMode:(MCKContextMode)newMode {
+- (void)updateContextMode:(MCKContextMode)newMode
+{
     NSAssert([self.argumentMatcherRecorder.argumentMatchers count] == 0, @"Should not contain any matchers at this point");
     _mode = newMode;
 }
 
-- (void)handleInvocation:(NSInvocation *)invocation {
+- (void)handleInvocation:(NSInvocation *)invocation
+{
     [invocation retainArguments];
+    [self.argumentMatcherRecorder validateForMethodSignature:invocation.methodSignature];
     
-    NSString *reason = nil;
-    if (![self.argumentMatcherRecorder isValidForMethodSignature:invocation.methodSignature reason:&reason]) {
-        [self.argumentMatcherRecorder collectAndReset];
-        [self failWithReason:@"%@", reason];
-        return;
-    }
-    
+    MCKInvocationPrototype *prototype = [self prototypeForInvocation:invocation];
     switch (self.mode) {
-        case MCKContextModeRecording:
-            [self.invocationRecorder recordInvocation:invocation];
-            break;
-        
-        case MCKContextModeStubbing:
-            [self.invocationStubber recordStubPrototype:[self prototypeForInvocation:invocation]];
-            break;
-        
-        case MCKContextModeVerifying:
-            [self.invocationVerifier verifyInvocationsForPrototype:[self prototypeForInvocation:invocation]];
-            break;
-            
+        case MCKContextModeRecording: [self.invocationRecorder handleInvocationPrototype:prototype]; break;
+        case MCKContextModeStubbing:  [self.invocationStubber recordStubPrototype:prototype]; break;
+        case MCKContextModeVerifying: [self.invocationVerifier verifyInvocationsForPrototype:prototype]; break;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }

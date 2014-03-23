@@ -10,6 +10,7 @@
 
 
 @class MCKMockingContext;
+@class MCKInvocationPrototype;
 
 
 @interface MCKInvocationRecorder : NSObject
@@ -21,13 +22,16 @@
 @property (nonatomic, readonly, weak) MCKMockingContext *mockingContext;
 
 
+#pragma mark - Handling Prototypes
+
+- (void)handleInvocationPrototype:(MCKInvocationPrototype *)prototype;
+
+
 #pragma mark - Managing Invocations
 
 @property (nonatomic, readonly) NSArray *recordedInvocations;
 
 - (NSInvocation *)invocationAtIndex:(NSUInteger)index;
-
-- (void)recordInvocation:(NSInvocation *)invocation;
 
 - (void)appendInvocation:(NSInvocation *)invocation;
 - (void)insertInvocations:(NSArray *)invocations atIndex:(NSUInteger)index;

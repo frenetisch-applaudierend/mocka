@@ -81,82 +81,82 @@
 }
 
 
-#pragma mark - Test Validation
-
-- (void)testThatCollectionIsValidIfAllPrimitiveArgumentsForSignatureHaveMatchers {
-    // given
-    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
-    
-    // when
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    
-    // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid if all primitive args have matchers");
-}
-
-- (void)testThatCollectionIsValidIfAllPrimitiveArgumentsForSignatureWithObjectArgsHaveMatchers {
-    // given
-    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:i@i@"]; // 2 primitive args, 2 object args
-    
-    // when
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    
-    // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid if all primitive args have matchers");
-}
-
-- (void)testThatCollectionIsNotValidIfNotAllPrimitiveArgumentsHaveMatchers {
-    // given
-    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
-    
-    // when
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    
-    // then
-    XCTAssertFalse([recorder isValidForMethodSignature:signature reason:NULL],
-                   @"Collection was valid for less matchers than primitive args");
-}
-
-- (void)testThatCollectionIsNotValidIfThereAreMoreMatchersThanPrimitiveArguments {
-    // given
-    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
-    
-    // when
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
-    
-    // then
-    XCTAssertFalse([recorder isValidForMethodSignature:signature reason:NULL],
-                   @"Collection was valid for more matchers than primitive args");
-}
-
-- (void)testThatCollectionIsValidIfSignatureHasNoPrimitiveArgsAndNoMatchersAreRecorded {
-    // given
-    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:"]; // no primitive args
-    
-    // when
-    // no matchers
-    
-    // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid for no matchers and no primitive args");
-}
-
-- (void)testThatCollectionIsValidIfSignatureHasPrimitiveArgsAndNoMatchersAreRecorded {
-    // given
-    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
-    
-    // when
-    // no matchers
-    
-    // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid for no matchers and no primitive args");
-}
+//#pragma mark - Test Validation
+//
+//- (void)testThatCollectionIsValidIfAllPrimitiveArgumentsForSignatureHaveMatchers {
+//    // given
+//    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
+//    
+//    // when
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    
+//    // then
+//    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
+//                  @"Collection was not valid if all primitive args have matchers");
+//}
+//
+//- (void)testThatCollectionIsValidIfAllPrimitiveArgumentsForSignatureWithObjectArgsHaveMatchers {
+//    // given
+//    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:i@i@"]; // 2 primitive args, 2 object args
+//    
+//    // when
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    
+//    // then
+//    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
+//                  @"Collection was not valid if all primitive args have matchers");
+//}
+//
+//- (void)testThatCollectionIsNotValidIfNotAllPrimitiveArgumentsHaveMatchers {
+//    // given
+//    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
+//    
+//    // when
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    
+//    // then
+//    XCTAssertFalse([recorder isValidForMethodSignature:signature reason:NULL],
+//                   @"Collection was valid for less matchers than primitive args");
+//}
+//
+//- (void)testThatCollectionIsNotValidIfThereAreMoreMatchersThanPrimitiveArguments {
+//    // given
+//    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
+//    
+//    // when
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    [recorder addPrimitiveArgumentMatcher:sampleMatcher];
+//    
+//    // then
+//    XCTAssertFalse([recorder isValidForMethodSignature:signature reason:NULL],
+//                   @"Collection was valid for more matchers than primitive args");
+//}
+//
+//- (void)testThatCollectionIsValidIfSignatureHasNoPrimitiveArgsAndNoMatchersAreRecorded {
+//    // given
+//    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:"]; // no primitive args
+//    
+//    // when
+//    // no matchers
+//    
+//    // then
+//    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
+//                  @"Collection was not valid for no matchers and no primitive args");
+//}
+//
+//- (void)testThatCollectionIsValidIfSignatureHasPrimitiveArgsAndNoMatchersAreRecorded {
+//    // given
+//    NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"v@:ii"]; // 2 primitive args
+//    
+//    // when
+//    // no matchers
+//    
+//    // then
+//    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
+//                  @"Collection was not valid for no matchers and no primitive args");
+//}
 
 @end

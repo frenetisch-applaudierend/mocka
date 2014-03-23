@@ -1,13 +1,19 @@
 PODS:
-  - Expecta (0.2.4)
-  - OHHTTPStubs (3.0.4)
+  - Expecta (0.3.0)
+  - OCHamcrest (3.0.1)
+  - OCMockito (1.1.0):
+    - OCHamcrest (~> 3.0)
+  - OHHTTPStubs (3.1.0)
 
 DEPENDENCIES:
-  - Expecta (~> 0.2.3)
-  - OHHTTPStubs (~> 3.0.0)
+  - Expecta
+  - OCMockito
+  - OHHTTPStubs
 
 SPEC CHECKSUMS:
-  Expecta: 5c147dedfea5fbcf773995f7e65020abcc936ce5
-  OHHTTPStubs: 711cd3376438340d0c2538f66d6e9c1b3e8c5b7d
+  Expecta: 322f1dc42610106a5ba9871b4924cf1635d80833
+  OCHamcrest: 782c52ae8c673e5d6060a65005cfd26d20d519ba
+  OCMockito: 317fa0cf75c9b0d73d2be335789c556537be7fd2
+  OHHTTPStubs: d67c42c0212f0883ddb8592375aa0dc00dc50a36
 
 COCOAPODS: 0.29.0

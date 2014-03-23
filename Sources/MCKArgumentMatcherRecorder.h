@@ -27,6 +27,6 @@
 
 #pragma mark - Validating the Collection
 
-- (BOOL)isValidForMethodSignature:(NSMethodSignature *)signature reason:(NSString **)reason;
+- (void)validateForMethodSignature:(NSMethodSignature *)signature;
 
 @end
