@@ -1,6 +1,6 @@
 # Introduction
 
-Mocka is an Objective-C mocking library designed similar to [mockito](http://code.google.com/p/mockito/). The goal is to provide a powerful yet simple and readable way to isolate your objects and test messages between objects in your unit tests.
+Mocka is an Objective-C mocking library inspired by [mockito](http://code.google.com/p/mockito/). The goal is to provide a powerful yet simple and readable way to isolate your objects and to test messages between objects in your unit tests.
 
 Mocka is distributed under the [MIT License](http://opensource.org/licenses/mit-license.php). See the [LICENSE](LICENSE) file for details.
 

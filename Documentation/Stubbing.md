@@ -32,7 +32,7 @@ Alternatively you can just list all the calls to stub as parameters.
 	                                 userInfo:nil];
 	};
 
-By default stubs are matched by evaluating the arguments for equality. You can use argument matchers to fine-tune this behavior.
+By default stubs are matched by evaluating the arguments for equality. You can use [argument matchers](ArgumentMatchers.md) to fine-tune this behavior.
 
     stub ([mock methodWithArgument:anyObject()]) with {
         return YES;
