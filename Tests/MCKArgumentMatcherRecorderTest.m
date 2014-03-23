@@ -7,10 +7,11 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKAnyArgumentMatcher.h"
 #import "MCKMockingContext.h"
-#import "MCKExceptionFailureHandler.h"
+#import "MCKAPIMisuse.h"
 
 
 @interface MCKArgumentMatcherRecorderTest : XCTestCase
@@ -24,8 +25,8 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    MCKMockingContext *context = [MCKMockingContext currentContext]; // make sure a context exists
-    recorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:context];
+    [MCKMockingContext currentContext]; // make sure a context exists
+    recorder = [[MCKArgumentMatcherRecorder alloc] init];
     sampleMatcher = [[MCKAnyArgumentMatcher alloc] init];
 }
 
@@ -37,18 +38,17 @@
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     
     // then
-    XCTAssertEqualObjects(recorder.argumentMatchers, (@[ sampleMatcher ]), @"Primitive matcher was not recoreded");
+    expect(recorder.argumentMatchers).to.equal(@[ sampleMatcher ]);
 }
 
 - (void)testThatAddPrimitiveMatcherThrowsIfMoreMatchersAddedThanCanBeIndexedByUInt8 {
     // given
-    [[MCKMockingContext currentContext] setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];
     for (int i = 0; i < (UINT8_MAX + 1); i++) { // UINT8_MAX + 1 => because 0 is an index as well
         [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     }
-
+    
     // then
-    XCTAssertThrows([recorder addPrimitiveArgumentMatcher:sampleMatcher], @"Should throw after %d matchers", (UINT8_MAX + 1));
+    expect(^{ [recorder addPrimitiveArgumentMatcher:sampleMatcher]; }).to.raise(MCKAPIMisuseException);
 }
 
 - (void)testThatLastPrimitiveMatcherIndexReturnsIndexForLastAddedMatcher {

@@ -58,7 +58,7 @@ static id _CurrentContext = nil;
         _invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:self];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
         _invocationVerifier = [[MCKInvocationVerifier alloc] initWithMockingContext:self];
-        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:self];
+        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
         _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
     }
     return self;

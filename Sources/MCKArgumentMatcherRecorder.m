@@ -8,7 +8,7 @@
 
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKTypeEncodings.h"
-#import "MCKMockingContext.h"
+#import "MCKAPIMisuse.h"
 
 
 @interface MCKArgumentMatcherRecorder ()
@@ -22,9 +22,8 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithMockingContext:(MCKMockingContext *)context {
+- (instancetype)init {
     if ((self = [super init])) {
-        _mockingContext = context;
         _mutableArgumentMatchers = [NSMutableArray array];
     }
     return self;
@@ -54,9 +53,9 @@
 
 - (UInt8)addArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
     if ([self.mutableArgumentMatchers count] > UINT8_MAX) {
-        [self.mockingContext failWithReason:@"Only UINT8_MAX matchers supported"];
-        return UINT8_MAX;
+        MCKAPIMisuse(@"At most %d matchers supported", UINT8_MAX);
     }
+    
     [self.mutableArgumentMatchers addObject:matcher];
     return ([self.mutableArgumentMatchers count] - 1);
 }
