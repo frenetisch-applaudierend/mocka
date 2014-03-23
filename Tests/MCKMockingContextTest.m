@@ -15,16 +15,12 @@
 #import "MCKInvocationRecorder.h"
 #import "MCKInvocationStubber.h"
 #import "MCKInvocationVerifier.h"
+#import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
 
-
-
-#import "MCKStub.h"
+#import "MCKAPIMisuse.h"
 #import "MCKBlockArgumentMatcher.h"
-
-#import "MCKDefaultVerificationHandler.h"
-#import "MCKArgumentMatcherRecorder.h"
-
+#import "MCKInvocationPrototype.h"
 
 
 @interface MCKMockingContextTest : XCTestCase @end
@@ -202,9 +198,10 @@
     [context updateContextMode:MCKContextModeRecording];
     
     // then
-    AssertFails({
+    expect(^{
         [context pushPrimitiveArgumentMatcher:matcher];
-    });
+    }).to.raise(MCKAPIMisuseException);
+    
     [MKTVerifyCount(context.argumentMatcherRecorder, MKTNever()) addPrimitiveArgumentMatcher:HC_anything()];
 }
 
@@ -214,9 +211,10 @@
     [context updateContextMode:MCKContextModeStubbing];
     
     // then
-    AssertDoesNotFail({
+    expect(^{
         [context pushPrimitiveArgumentMatcher:matcher];
-    });
+    }).toNot.raise(MCKAPIMisuseException);
+    
     [MKTVerify(context.argumentMatcherRecorder) addPrimitiveArgumentMatcher:matcher];
 }
 
@@ -226,9 +224,10 @@
     [context updateContextMode:MCKContextModeVerifying];
     
     // then
-    AssertDoesNotFail({
+    expect(^{
         [context pushPrimitiveArgumentMatcher:matcher];
-    });
+    }).toNot.raise(MCKAPIMisuseException);
+    
     [MKTVerify(context.argumentMatcherRecorder) addPrimitiveArgumentMatcher:matcher];
 }
 
