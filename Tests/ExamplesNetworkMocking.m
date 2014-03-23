@@ -12,8 +12,8 @@
 #import "MCKMockingContext.h"
 
 
-@interface ExamplesNetworkMockingTest : XCTestCase @end
-@implementation ExamplesNetworkMockingTest
+@interface ExamplesNetworkMocking : XCTestCase @end
+@implementation ExamplesNetworkMocking
 
 #pragma mark - Test Network Call Stubbing
 
