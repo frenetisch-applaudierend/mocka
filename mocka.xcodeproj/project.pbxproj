@@ -595,12 +595,10 @@
 			children = (
 				633475AD17F5944B001F5C88 /* MCKMockingContext.h */,
 				633475AE17F5944B001F5C88 /* MCKMockingContext.m */,
-				63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */,
-				63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */,
-				638BA45017F5DCBC0086226D /* MCKInvocationPrototype.h */,
-				638BA45117F5DCBC0086226D /* MCKInvocationPrototype.m */,
 				63D1CABF1825C2CC009FE9EC /* MCKLocation.h */,
 				63D1CAC01825C2CC009FE9EC /* MCKLocation.m */,
+				63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */,
+				63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */,
 				639085E417F9C529006A0714 /* Mock Objects */,
 				63D1CADD182666A2009FE9EC /* Invocation Recording */,
 				639085E517F9C569006A0714 /* Invocation Stubbing */,
@@ -755,12 +753,11 @@
 			isa = PBXGroup;
 			children = (
 				63732BC117F5A8060041C869 /* MCKMockingContextTest.m */,
-				638BA45D17F5DF3F0086226D /* MCKInvocationPrototypeTest.m */,
-				63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */,
 				63B598121824FBDC00E4D26A /* Mock Objects */,
 				63D1CAEA18266BBF009FE9EC /* Invocation Recording */,
 				63B5980F1824FB9900E4D26A /* Invocation Stubbing */,
 				63B598101824FBAC00E4D26A /* Invocation Verification */,
+				63B3B70618DF4C5B009AD4FA /* Argument Matching */,
 				63B598111824FBC500E4D26A /* Failure Handling */,
 			);
 			name = "Mocking Core";
@@ -868,6 +865,17 @@
 				6334759317F5944B001F5C88 /* MCKArgumentMatcherRecorder.m */,
 				6334759517F5944B001F5C88 /* MCKArgumentSerialization.h */,
 				6334759617F5944B001F5C88 /* MCKArgumentSerialization.m */,
+				638BA45017F5DCBC0086226D /* MCKInvocationPrototype.h */,
+				638BA45117F5DCBC0086226D /* MCKInvocationPrototype.m */,
+			);
+			name = "Argument Matching";
+			sourceTree = "<group>";
+		};
+		63B3B70618DF4C5B009AD4FA /* Argument Matching */ = {
+			isa = PBXGroup;
+			children = (
+				63732BB517F5A8060041C869 /* MCKArgumentMatcherRecorderTest.m */,
+				638BA45D17F5DF3F0086226D /* MCKInvocationPrototypeTest.m */,
 			);
 			name = "Argument Matching";
 			sourceTree = "<group>";
