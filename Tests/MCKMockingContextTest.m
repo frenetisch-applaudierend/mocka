@@ -34,7 +34,8 @@
 
 #pragma mark - Setup
 
-- (void)setUp {
+- (void)setUp
+{
     context = [[MCKMockingContext alloc] initWithTestCase:self];
     context.invocationRecorder = MKTMock([MCKInvocationRecorder class]);
     context.invocationStubber = MKTMock([MCKInvocationStubber class]);
@@ -46,7 +47,8 @@
 
 #pragma mark - Test Handling Invocations
 
-- (void)testThatHandlingInvocationRetainsInvocationArguments {
+- (void)testThatHandlingInvocationRetainsInvocationArguments
+{
     // given
     NSInvocation *invocation = MKTMock([NSInvocation class]);
     
@@ -57,7 +59,8 @@
     [MKTVerify(invocation) retainArguments];
 }
 
-- (void)testThatHandlingInvocationValidatesArgumentMatchers {
+- (void)testThatHandlingInvocationValidatesArgumentMatchers
+{
     // given
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
@@ -66,6 +69,18 @@
     
     // then
     [MKTVerify(context.argumentMatcherRecorder) validateForMethodSignature:invocation.methodSignature];
+}
+
+- (void)testThatHandlingInvocationClearsArgumentMatchers
+{
+    // given
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context handleInvocation:invocation];
+    
+    // then
+    [MKTVerify(context.argumentMatcherRecorder) collectAndReset];
 }
 
 - (void)testThatHandlingInvocationInRecordingModeDispatchesToInvocationRecorder {
@@ -84,6 +99,18 @@
     [MKTVerifyCount(context.invocationVerifier, MKTNever()) verifyInvocationsForPrototype:HC_anything()];
 }
 
+- (void)testThatHandlingInvocationInRecordingModeKeepsContextInRecordingMode {
+    // given
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context updateContextMode:MCKContextModeRecording];
+    [context handleInvocation:invocation];
+    
+    // then
+    expect(context.mode).to.equal(MCKContextModeRecording);
+}
+
 - (void)testThatHandlingInvocationInStubbingModeDispatchesToInvocationStubber {
     // given
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
@@ -98,6 +125,18 @@
     
     [MKTVerifyCount(context.invocationRecorder, MKTNever()) handleInvocationPrototype:HC_anything()];
     [MKTVerifyCount(context.invocationVerifier, MKTNever()) verifyInvocationsForPrototype:HC_anything()];
+}
+
+- (void)testThatHandlingInvocationInStubbingModeKeepsContextInStubbingMode {
+    // given
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context updateContextMode:MCKContextModeStubbing];
+    [context handleInvocation:invocation];
+    
+    // then
+    expect(context.mode).to.equal(MCKContextModeStubbing);
 }
 
 - (void)testThatHandlingInvocationInVerificationModeDispatchesToInvocationVerifier {
@@ -115,179 +154,93 @@
     [MKTVerifyCount(context.invocationStubber, MKTNever()) recordStubPrototype:HC_anything()];
 }
 
-
-//#pragma mark - Test Invocation Stubbing
-//
-//- (void)testThatHandlingInvocationInStubbingModeDoesNotAddToRecordedInvocations {
-//    // given
-//    [context updateContextMode:MCKContextModeStubbing];
-//    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-//    
-//    // when
-//    [context handleInvocation:invocation];
-//    
-//    // then
-//    XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
-//}
-//
-//- (void)testThatHandlingInvocationInStubbingModeStubsCalledMethod {
-//    // given
-//    [context updateContextMode:MCKContextModeStubbing];
-//    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-//    
-//    // when
-//    [context handleInvocation:invocation];
-//    
-//    // then
-//    XCTAssertTrue([context.invocationStubber hasStubsRecordedForInvocation:invocation], @"Invocation was not stubbed");
-//}
-//
-//- (void)testThatUnhandledMethodIsNotStubbed {
-//    // given
-//    [context updateContextMode:MCKContextModeStubbing];
-//    NSInvocation *stubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-//    NSInvocation *unstubbedInvocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(tearDown)];
-//    
-//    // when
-//    [context handleInvocation:stubbedInvocation];
-//    
-//    // then
-//    XCTAssertFalse([context.invocationStubber hasStubsRecordedForInvocation:unstubbedInvocation], @"Invocation was not stubbed");
-//}
-//
-//- (void)testThatModeIsNotSwitchedAfterHandlingInvocation {
-//    // given
-//    [context updateContextMode:MCKContextModeStubbing];
-//    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-//    
-//    // when
-//    [context handleInvocation:invocation];
-//    
-//    // then
-//    XCTAssertEqual(context.mode, MCKContextModeStubbing, @"Stubbing mode was not permanent");
-//}
-//
-//- (void)testThatContextIsInRecordingModeAfterStubbing {
-//    // when
-//    [context stubCalls:^{
-//        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
-//    }];
-//    
-//    // then
-//    XCTAssertEqual(context.mode, MCKContextModeRecording, @"Adding an action did not switch to recording mode");
-//}
-
-
-//#pragma mark - Test Invocation Verification
-//
-//- (void)testThatHandlingInvocationInVerificationModeDoesNotAddToRecordedInvocations {
-//    // given
-//    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-//    
-//    // when
-//    IgnoreFailures({
-//        [context verifyCalls:^{
-//            [context handleInvocation:invocation];
-//        } usingCollector:[FakeVerificationResultCollector dummy]];
-//    });
-//    
-//    // then
-//    XCTAssertFalse([context.invocationRecorder.recordedInvocations containsObject:invocation], @"Invocation was recorded");
-//}
-
-
-#pragma mark - Test Supporting Matchers
-
-//- (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
-//    // given
-//    XCTAssertTrue(context.mode == MCKContextModeRecording, @"Should by default be in recording mode");
-//    id matcher = [[MCKBlockArgumentMatcher alloc] init];
-//    
-//    // then
-//    AssertFails({
-//        [context pushPrimitiveArgumentMatcher:matcher];
-//    });
-//}
-
-//- (void)testThatMatcherCanBeAddedToContextInStubbingMode {
-//    // given
-//    [context updateContextMode:MCKContextModeStubbing];
-//    id matcher = [[MCKBlockArgumentMatcher alloc] init];
-//    
-//    // when
-//    [context pushPrimitiveArgumentMatcher:matcher];
-//    
-//    // then
-//    XCTAssertEqualObjects(context.argumentMatcherRecorder.argumentMatchers, @[ matcher ], @"Argument matcher was not recorded");
-//}
-
-//- (void)testThatMatcherCanBeAddedToContextInVerificationMode {
-//    id matcher = [[MCKBlockArgumentMatcher alloc] init];
-//    [context verifyCalls:^{
-//        [context pushPrimitiveArgumentMatcher:matcher];
-//        expect(context.argumentMatcherRecorder.argumentMatchers).to.equal(@[ matcher ]);
-//        [context clearArgumentMatchers];
-//    } usingCollector:[FakeVerificationResultCollector dummy]];
-//}
-
-//- (void)testThatAddingMatcherReturnsMatcherIndex {
-//    // given
-//    [context updateContextMode:MCKContextModeStubbing];
-//    id matcher0 = [[MCKBlockArgumentMatcher alloc] init];
-//    id matcher1 = [[MCKBlockArgumentMatcher alloc] init];
-//    id matcher2 = [[MCKBlockArgumentMatcher alloc] init];
-//    
-//    // then
-//    XCTAssertEqual([context pushPrimitiveArgumentMatcher:matcher0], (uint8_t)0, @"Wrong index returned for matcher");
-//    XCTAssertEqual([context pushPrimitiveArgumentMatcher:matcher1], (uint8_t)1, @"Wrong index returned for matcher");
-//    XCTAssertEqual([context pushPrimitiveArgumentMatcher:matcher2], (uint8_t)2, @"Wrong index returned for matcher");
-//}
-
-//- (void)testThatHandlingInvocationClearsPushedMatchers {
-//    // given
-//    TestObject *object = [[TestObject alloc] init];
-//    [context updateContextMode:MCKContextModeStubbing];
-//    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-//    [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
-//    
-//    // when
-//    [context handleInvocation:[NSInvocation invocationForTarget:object
-//                                           selectorAndArguments:@selector(voidMethodCallWithIntParam1:intParam2:), 0, 1]];
-//    
-//    // then
-//    XCTAssertEqual([context.argumentMatcherRecorder.argumentMatchers count], (NSUInteger)0,
-//                   @"Argument matchers were not cleared after -handleInvocation:");
-//}
-
-//- (void)testThatVerificationInvocationFailsForUnequalNumberOfPrimitiveMatchers {
-//    TestObject *object = mock([TestObject class]);
-//    [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
-//                               @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]]; // Prepare an invocation
-//    
-//    [context verifyCalls:^{
-//        [context pushPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]]; // Prepare a verify call
-//        
-//        AssertFails({
-//            [context handleInvocation:[NSInvocation invocationForTarget:object selectorAndArguments:
-//                                       @selector(voidMethodCallWithIntParam1:intParam2:), 0, 10]];
-//        });
-//    } usingCollector:[FakeVerificationResultCollector dummy]];
-//}
+- (void)testThatHandlingInvocationInVerificationModeKeepsContextInVerificationMode {
+    // given
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
+    
+    // when
+    [context updateContextMode:MCKContextModeVerifying];
+    [context handleInvocation:invocation];
+    
+    // then
+    expect(context.mode).to.equal(MCKContextModeVerifying);
+}
 
 
 #pragma mark - Test Error Messages
 
-//- (void)testThatFailWithReasonCallsFailureHandlerWithFormattedReason {
-//    // given
-//    context.failureHandler = [[FakeFailureHandler alloc] init];
-//    
-//    // when
-//    [context failWithReason:@"Hello, %@!", @"World"];
-//    
-//    // then
-//    NSArray *failures = [(FakeFailureHandler *)context.failureHandler capturedFailures];
-//    XCTAssertEqual([failures count], (NSUInteger)1, @"Should have exactly one failure");
-//    XCTAssertEqualObjects([[failures lastObject] reason], @"Hello, World!", @"Wrong reason in failure");
-//}
+- (void)testThatFailWithReasonCallsFailureHandlerWithFormattedReason {
+    // when
+    [context failWithReason:@"Hello, %@!", @"World"];
+
+    // then
+    [MKTVerify(context.failureHandler) handleFailureAtLocation:context.currentLocation withReason:@"Hello, World!"];
+}
+
+
+#pragma mark - LEGACY TESTS: TO BE MOVED
+
+
+#pragma mark - Test Invocation Stubbing
+
+- (void)testThatContextIsInRecordingModeAfterStubbing {
+    // when
+    [context stubCalls:^{
+        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    }];
+    
+    // then
+    expect(context.mode).to.equal(MCKContextModeRecording);
+}
+
+
+#pragma mark - Test Supporting Matchers
+
+- (void)testThatMatcherCannotBeAddedToContextInRecordingMode {
+    // given
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
+    [context updateContextMode:MCKContextModeRecording];
+    
+    // then
+    AssertFails({
+        [context pushPrimitiveArgumentMatcher:matcher];
+    });
+    [MKTVerifyCount(context.argumentMatcherRecorder, MKTNever()) addPrimitiveArgumentMatcher:HC_anything()];
+}
+
+- (void)testThatMatcherCanBeAddedToContextInStubbingMode {
+    // given
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
+    [context updateContextMode:MCKContextModeStubbing];
+    
+    // then
+    AssertDoesNotFail({
+        [context pushPrimitiveArgumentMatcher:matcher];
+    });
+    [MKTVerify(context.argumentMatcherRecorder) addPrimitiveArgumentMatcher:matcher];
+}
+
+- (void)testThatMatcherCanBeAddedToContextInVerificationMode {
+    // given
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
+    [context updateContextMode:MCKContextModeVerifying];
+    
+    // then
+    AssertDoesNotFail({
+        [context pushPrimitiveArgumentMatcher:matcher];
+    });
+    [MKTVerify(context.argumentMatcherRecorder) addPrimitiveArgumentMatcher:matcher];
+}
+
+- (void)testThatAddingMatcherReturnsMatcherIndex {
+    // given
+    id matcher = [[MCKBlockArgumentMatcher alloc] init];
+    [MKTGiven([context.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher]) willReturnInt:123];
+    
+    [context updateContextMode:MCKContextModeStubbing];
+    
+    // then
+    expect([context pushPrimitiveArgumentMatcher:matcher]).to.equal(123);
+}
 
 @end

@@ -14,6 +14,7 @@
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
 #import "MCKInvocationPrototype.h"
+#import "MCKAPIMisuse.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 
 
@@ -97,7 +98,8 @@ static id _CurrentContext = nil;
     }
 }
 
-- (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation {
+- (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation
+{
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     return [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
 }
@@ -105,7 +107,8 @@ static id _CurrentContext = nil;
 
 #pragma mark - Stubbing
 
-- (MCKStub *)stubCalls:(void(^)(void))callBlock {
+- (MCKStub *)stubCalls:(void(^)(void))callBlock
+{
     NSParameterAssert(callBlock != nil);
     
     [self updateContextMode:MCKContextModeStubbing];
@@ -121,7 +124,8 @@ static id _CurrentContext = nil;
 
 #pragma mark - Verification
 
-- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector {
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector
+{
     NSParameterAssert(callBlock != nil);
     NSParameterAssert(collector != nil);
     
@@ -132,7 +136,8 @@ static id _CurrentContext = nil;
     [self updateContextMode:MCKContextModeRecording];
 }
 
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler {
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler
+{
     NSAssert((self.mode == MCKContextModeVerifying), @"Cannot set a verification handler outside verification mode");
     [self.invocationVerifier useVerificationHandler:handler];
 }
@@ -140,37 +145,35 @@ static id _CurrentContext = nil;
 
 #pragma mark - Argument Recording
 
-- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (![self checkCanPushArgumentMatcher]) {
-        return 0;
-    }
+- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher
+{
+    [self checkCanPushArgumentMatcher];
     return [self.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
 }
 
-- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (![self checkCanPushArgumentMatcher]) {
-        return 0;
-    }
+- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher
+{
+    [self checkCanPushArgumentMatcher];
     return [self.argumentMatcherRecorder addObjectArgumentMatcher:matcher];
 }
 
-- (void)clearArgumentMatchers {
+- (void)clearArgumentMatchers
+{
     [self.argumentMatcherRecorder collectAndReset];
 }
 
-- (BOOL)checkCanPushArgumentMatcher {
+- (void)checkCanPushArgumentMatcher
+{
     if (self.mode == MCKContextModeRecording) {
-        [self failWithReason:@"Argument matchers can only be used with stubbing or verification"];
-        return NO;
-    } else {
-        return YES;
+        MCKAPIMisuse(@"Argument matchers can only be used with stubbing or verification");
     }
 }
 
 
 #pragma mark - Failure Handling
 
-- (void)failWithReason:(NSString *)reason, ... {
+- (void)failWithReason:(NSString *)reason, ...
+{
     va_list ap;
     va_start(ap, reason);
     NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];
