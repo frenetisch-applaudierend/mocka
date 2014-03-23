@@ -11,4 +11,4 @@
 
 extern NSString * const MCKAPIMisuseException;
 
-extern void MCKAPIMisuse(NSString *reason, ...) NS_FORMAT_FUNCTION(1,2);
+extern void MCKAPIMisuse(NSString *reason, ...) NS_FORMAT_FUNCTION(1,2) __attribute__((noreturn));

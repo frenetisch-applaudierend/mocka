@@ -14,6 +14,7 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
 
+#import "MCKAPIMisuse.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 #import "OHHTTPStubsResponse+JSON.h"
 
@@ -177,8 +178,7 @@ static inline Class StubsResponseClass() {
     } else if ([value isKindOfClass:[NSError class]]) {
         return [StubsResponseClass() responseWithError:value];
     } else {
-        [self.mockingContext failWithReason:@"Cannot convert %@ to a OHHTTPStubsResponse", [value class]];
-        return nil;
+        MCKAPIMisuse(@"Cannot convert %@ to a OHHTTPStubsResponse", [value class]);
     }
 }
 
