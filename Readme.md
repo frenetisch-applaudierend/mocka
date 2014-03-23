@@ -66,7 +66,7 @@ This is an example of a simple test using Mocka.
 		
 		[guardian errorConditionDetected];
 		
-		verifyCall ([callCenter callOperator]);
+		match ([callCenter callOperator]);
 	}
 
 
@@ -128,67 +128,38 @@ It's possible to examine and use the arguments passed to the stubbed method call
 ***Note:** The return type of the action block is checked by the compiler, the argument types are checked at runtime.*
 
 
-## Verifying
+## Matching
 
-To verify that a certain call was made use the `verifyCall` keyword.
+> This is a summary. See [Documentation/Matching.md](Documentation/Matching.md) for details.
+> You can find examples of stubs in
+> [`Tests/ExamplesMatch.m`](Tests/ExamplesMatch.m).
 
-	NSArray *arrayMock = mockForClass(NSArray);
-	
-	DoSomethingWith(arrayMock);
-	
-	verifyCall ([arrayMock objectAtIndex:0]);
+You can test wether a set of methods were called on a mock or not. To do so use the `match` keyword.
 
-If `DoSomethingWith(...)` didn’t call `[arrayMock objectAtIndex:0]` then `verifyCall` will generate a test failure.
-
-By default `verifyCall` will succeed if at least one matching call was made, but you can change this behavior. For example to verify an exact number of calls use `verifyCall (exactly(N) <#CALL#>)` (where `N` is the number of invocations).
-
-	// only succeed if there were exactly 3 calls to -addObject:
-	verifyCall (exactly(3) [arrayMock addObject:@"Foo"])
-
-Note that matching calls are not evaluated again. Consider the following example:
-
-	NSArray *arrayMock = mockForClass(NSArray);
+    NSArray *arrayMock = mockForClass(NSArray);
 	
 	[arrayMock objectAtIndex:0];
 	
-	verifyCall ([arrayMock objectAtIndex:0]); // this succeeds, since the call was made
-	verifyCall ([arrayMock objectAtIndex:0]); // this fails, because the previous verification
-	                                      // removes the call
+	match ([arrayMock objectAtIndex:0]);  // succeeds
+	match ([arrayMock objectAtIndex:10]); // fails
 
-If there were two calls to `[arrayMock objectAtIndex:0]` the second verification would succeed now, because `verifyCall (...)` only removes the first matching invocation.
+A failure to match a call results in a test case failure.
 
-More examples can be found in `Examples/ExamplesVerify.m`.
+By default `match` will succeed if at least one matching call was made. You can fine tune this behavior by adding match descriptors.
 
+    match ([mock someMethod]) exactly(2 times); // must have exactly 2 matching invocations
+    match ([mock someMethod]) never;            // must not have any invocations
 
-### Ordered Verification
+You can also test asynchronously using `withTimeout()`.
 
-You can verify that a group of calls was made in a given order. This is especially useful when testing interaction with a delegate or data source.
+    match ([mock someMethod]) withTimeout(2.0); // wait up to 2 seconds for this invocation
 
-    NSArray *arrayMock = mockForClass(NSArray);
-    
-    [self doSomethingWith:arrayMock];
-    
-    // check if the following calls were made in order
-    verifyInOrder {
-        [arrayMock count];
-        [arrayMock objectAtIndex:0];
-        [arrayMock objectAtIndex:1];
-    };
+Sometimes you need to check that a set of calls was made in a specific order (e.g. data source/delegate flows). To match in a specific order use the `inOrder` keyword.
 
-Note that when checking calls in order, interleaving calls do not cause a failure. E.g. the following verification will succeed, because the tested calls were all made and in order.
-
-    NSArray *arrayMock = mockForClass(NSArray);
-    
-    [arrayMock count];
-    [arrayMock objectAtIndex:0];
-    [arrayMock objectAtIndex:1];
-    [arrayMock removeAllObjects];
-    
-    // check if the following calls were made in order
-    verifyInOrder {
-        [arrayMock count];
-        [arrayMock removeAllObjects];
-    };
+    inOrder {
+        match ([mock someMethod]);
+        match ([mock someOtherMethod]);
+    }; // must match both calls in order
 
 
 ## Network Mocking
