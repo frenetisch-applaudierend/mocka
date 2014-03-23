@@ -355,7 +355,7 @@
     TestObject *object2 = [self createTestObject];
     
     // when
-    stubAll ({
+    stub ({
         [object1 objectMethodCallWithoutParameters];
         [object2 objectMethodCallWithoutParameters];
     }) with {

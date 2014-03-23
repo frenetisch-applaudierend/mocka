@@ -130,10 +130,7 @@
 - (void)testStubbingMultipleCallsWithTheSameActionsBracketVariant {
     // you can have multiple calls stub the same action by putting them in brackets after when calling
     
-    stubAll ({
-        [mockArray objectAtIndex:1];
-        [mockArray removeObjectAtIndex:1];
-    }) with {
+    stub ([mockArray objectAtIndex:1], [mockArray removeObjectAtIndex:1]) with {
         @throw [NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil];
     };
     
