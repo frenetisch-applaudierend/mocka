@@ -164,35 +164,26 @@ Sometimes you need to check that a set of calls was made in a specific order (e.
 
 ## Network Mocking
 
-You need to add the `OHHTTPStubs` library for those features to be available.
+> This is a summary. See [Documentation/NetworkMocking.md](Documentation/NetworkMocking.md) for details.
+> You can find examples of stubs in
+> [`Tests/ExamplesNetworkMocking.m`](Tests/ExamplesNetworkMocking.m).
 
-If you have it installed you can disable access to the real network using `[Network disable]`. From this point on HTTP(S) calls won't hit the network and you'll get a "No internet connection" error instead. This is useful to avoid potentially slow and unreliable internet access, instead seeing an error directly if you accidentally hit the network. To reenable it later use `[Network enable]`.
+***Note:** You need to link the `OHHTTPStubs` library for those features to be available.*
 
+Mocka provides a singleton object called `Network`. You can use it turn HTTP(S) network access off and on as well as stubbing and matching HTTP(S) network calls.
 
-### Network Stubbing
+To disable and enable the network simply use `[Network disable]` and `[Network enable]`. While network access is disabled, trying to make a connection will result in a "No internet connection" error.
 
-Regardless wether the real network is enabled or not, you can define stubbed responses for specific network calls.
+Regardless wether the network is enabled or not, you can define stubbed responses for specific network calls.
 
     stub (Network.GET(@"http://www.google.ch")) with {
         return @"Hello World";
     };
 
-You can return any of the following types:
+To check for network calls you must first record them explicitly. Then later you can match them just like you would match a method call.
 
-* `NSData` is returned exactly as is
-* `NSString` is interpreted as UTF-8 data
-* `NSDictionary` and `NSArray` are interpreted as JSON objects and return JSON data
-* `NSError` is interpreted as a connection error
-* `nil` is interpreted as not available (no internet connection)
-* `OHHTTPStubsResponse` to configure exactly what you want returned
-
-
-### Network Verification
-
-You can also monitor and verify network calls.
-
-    [Network startObservingNetworkCalls]; // needed to verify
+    [Network startObservingNetworkCalls]; // record network calls
     
     [controller reloadSomeData];
     
-    verifyCall (Network.GET(@"http://my-service.com/some/resource"));
+    match (Network.GET(@"http://my-service.com/some/resource"));
