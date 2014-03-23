@@ -9,6 +9,7 @@
 #import "MCKSpy.h"
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
+#import "MCKAPIMisuse.h"
 
 #import <objc/runtime.h>
 
@@ -30,14 +31,18 @@ static NSString* spy_description(id self, SEL _cmd);
 
 
 #pragma mark -
+
 @interface NSObject (MCKUnhandledMethod)
+
 - (void)mck_methodThatDoesNotExist;
+
 @end
 
 
 #pragma mark - Creating a Spy
 
-id mck_createSpyForObject(id object, MCKMockingContext *context) {
+id mck_createSpyForObject(id object, MCKMockingContext *context)
+{
     // don't spy a spy
     if (mck_objectIsSpy(object)) {
         return object;
@@ -45,11 +50,9 @@ id mck_createSpyForObject(id object, MCKMockingContext *context) {
     
     // safeguards
     if (object == nil) {
-        [context failWithReason:@"You cannot spy nil"];
-        return nil;
+        MCKAPIMisuse(@"You cannot spy nil");
     } else if ([NSStringFromClass(object_getClass(object)) hasPrefix:@"__NS"]) {
-        [context failWithReason:@"Cannot spy an instance of a Core Foundation class (%@)", object_getClass(object)];
-        return nil;
+        MCKAPIMisuse(@"Cannot spy an instance of a Core Foundation class (tried to spy %@)", object_getClass(object));
     }
     
     mck_convertObjectToSpy(object, context);
@@ -115,7 +118,8 @@ static void mck_overrideMethodsForConcreteClass(Class cls, Class spyClass, NSMut
         BOOL success = class_addMethod(spyClass, backupSelector, backup, method_getTypeEncoding(methods[i]));
         success &= class_addMethod(spyClass, method_getName(methods[i]), forwarder, method_getTypeEncoding(methods[i]));
         if (!success) {
-            [context failWithReason:@"Error overriding method %@", NSStringFromSelector(method_getName(methods[i]))];
+            NSString *reason = [NSString stringWithFormat:@"Error overriding method %@", NSStringFromSelector(method_getName(methods[i]))];
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil];
         }
         
         [overriddenMethods addObject:NSStringFromSelector(method_getName(methods[i]))];
