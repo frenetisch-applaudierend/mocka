@@ -6,9 +6,7 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
 
 #import "Mocka.h"
 

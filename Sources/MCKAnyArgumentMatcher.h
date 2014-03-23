@@ -18,53 +18,69 @@
 #pragma mark - Mocking Syntax
 
 /**
- * Matcher that matches any object.
+ * Match any object.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern id mck_anyObject(void);
 
 /**
- * Matcher that matches any integer.
+ * Match any integer.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern UInt8 mck_anyInt(void);
 
 /**
- * Matcher that matches any float or double.
+ * Match any float or double.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern float mck_anyFloat(void);
 
 /**
- * Matcher that matches any boolean.
+ * Match any boolean.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern BOOL mck_anyBool(void);
 
 /**
- * Matcher that matches any C string.
+ * Match any C string.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern char* mck_anyCString(void);
 
 /**
- * Matcher that matches any Objective-C selector.
+ * Match any Objective-C selector.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern SEL mck_anySelector(void);
 
 /**
- * Matcher that matches any generic pointer.
+ * Match any generic pointer.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 extern void* mck_anyPointer(void);
 
 /**
- * Matcher that matches any __autoreleasing object pointer.
+ * Match any __autoreleasing object pointer.
  *
  * You can use this matcher e.g. for passing error objects:
  * verifyCall ([moc save:mck_anyObjectPointer()]);
  *
  * If you need a different qualifier than __autoreleasing
- * use mck_anyObjectPointerOfType() instead.
+ * use mck_anyObjectPointerWithQualifier() instead.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 #define mck_anyObjectPointer() mck_anyObjectPointerWithQualifier(__autoreleasing)
 
 /**
- * Matcher that matches any object pointer using the given qualifier.
+ * Match any object pointer using the given qualifier.
  *
  * The qualifier is usually either __autoreleasing or __unsafe_unretained.
  *
@@ -75,17 +91,20 @@ extern void* mck_anyPointer(void);
  * instead.
  *
  * @param QUALIFIER The qualifier to use (either __autoreleasing or __unsafe_unretained)
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 #define mck_anyObjectPointerWithQualifier(QUALIFIER) ((id QUALIFIER *)mck_anyPointer())
 
 /**
- * Matcher that matches any struct of the given type.
+ * Match any struct of the given type.
  *
  * @param STRT_TYPE The name of the struct type which should be passed.
+ * @return An internal value that represents this matcher. Never use this value yourself.
  */
 #define mck_anyStruct(STRT_TYPE) mck_registerStructMatcher([[MCKAnyArgumentMatcher alloc] init], STRT_TYPE)
 
 
+#pragma mark -
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
     static inline id anyObject(void) { return mck_anyObject(); }
