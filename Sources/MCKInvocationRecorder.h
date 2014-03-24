@@ -24,7 +24,7 @@
 
 #pragma mark - Handling Prototypes
 
-- (void)handleInvocationPrototype:(MCKInvocationPrototype *)prototype;
+- (void)recordInvocationFromPrototype:(MCKInvocationPrototype *)prototype;
 
 
 #pragma mark - Managing Invocations

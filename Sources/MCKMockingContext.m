@@ -90,7 +90,7 @@ static id _CurrentContext = nil;
     
     MCKInvocationPrototype *prototype = [self prototypeForInvocation:invocation];
     switch (self.mode) {
-        case MCKContextModeRecording: [self.invocationRecorder handleInvocationPrototype:prototype]; break;
+        case MCKContextModeRecording: [self.invocationRecorder recordInvocationFromPrototype:prototype]; break;
         case MCKContextModeStubbing:  [self.invocationStubber recordStubPrototype:prototype]; break;
         case MCKContextModeVerifying: [self.invocationVerifier verifyInvocationsForPrototype:prototype]; break;
         default:

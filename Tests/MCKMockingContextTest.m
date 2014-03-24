@@ -89,7 +89,7 @@
     [context handleInvocation:invocation];
     
     // then
-    [MKTVerify(context.invocationRecorder) handleInvocationPrototype:prototype];
+    [MKTVerify(context.invocationRecorder) recordInvocationFromPrototype:prototype];
     
     [MKTVerifyCount(context.invocationStubber, MKTNever()) recordStubPrototype:HC_anything()];
     [MKTVerifyCount(context.invocationVerifier, MKTNever()) verifyInvocationsForPrototype:HC_anything()];
@@ -119,7 +119,7 @@
     // then
     [MKTVerify(context.invocationStubber) recordStubPrototype:prototype];
     
-    [MKTVerifyCount(context.invocationRecorder, MKTNever()) handleInvocationPrototype:HC_anything()];
+    [MKTVerifyCount(context.invocationRecorder, MKTNever()) recordInvocationFromPrototype:HC_anything()];
     [MKTVerifyCount(context.invocationVerifier, MKTNever()) verifyInvocationsForPrototype:HC_anything()];
 }
 
@@ -146,7 +146,7 @@
     // then
     [MKTVerify(context.invocationVerifier) verifyInvocationsForPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:invocation]];
     
-    [MKTVerifyCount(context.invocationRecorder, MKTNever()) handleInvocationPrototype:HC_anything()];
+    [MKTVerifyCount(context.invocationRecorder, MKTNever()) recordInvocationFromPrototype:HC_anything()];
     [MKTVerifyCount(context.invocationStubber, MKTNever()) recordStubPrototype:HC_anything()];
 }
 

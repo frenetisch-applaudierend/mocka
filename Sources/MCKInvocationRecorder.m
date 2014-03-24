@@ -41,7 +41,7 @@
     return [self.mutableInvocations objectAtIndex:index];
 }
 
-- (void)handleInvocationPrototype:(MCKInvocationPrototype *)prototype {
+- (void)recordInvocationFromPrototype:(MCKInvocationPrototype *)prototype {
     [self appendInvocation:prototype.invocation];
     [self.mockingContext.invocationStubber applyStubsForInvocation:prototype.invocation];
 }
