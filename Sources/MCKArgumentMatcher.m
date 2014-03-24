@@ -8,31 +8,32 @@
 
 #import "MCKArgumentMatcher.h"
 #import "MCKMockingContext.h"
+#import "MCKArgumentMatcherRecorder.h"
 
 
 id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher) {
-    [[MCKMockingContext currentContext] pushObjectArgumentMatcher:matcher];
+    [[MCKMockingContext currentContext].argumentMatcherRecorder addObjectArgumentMatcher:matcher];
     return matcher; // object matchers are passed directly as argument
 }
 
 UInt8 mck_registerPrimitiveNumberMatcher(id<MCKArgumentMatcher> matcher) {
-    return [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    return [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
 }
 
 char* mck_registerCStringMatcher(id<MCKArgumentMatcher> matcher) {
-    UInt8 index = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
     char *returnValue = NULL;
     return *((char **)memset(&returnValue, index, 1));
 }
 
 SEL mck_registerSelectorMatcher(id<MCKArgumentMatcher> matcher) {
-    UInt8 index = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
     SEL returnValue = NULL;
     return *((SEL *)memset(&returnValue, index, 1));
 }
 
 void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher) {
-    UInt8 index = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
     void *returnValue = NULL;
     return *((void **)memset(&returnValue, index, 1));
 }
@@ -41,7 +42,7 @@ const void* _mck_registerStructMatcher(id<MCKArgumentMatcher> matcher, void *inp
     NSCParameterAssert(inputStruct != NULL);
     NSCParameterAssert(structSize >= sizeof(UInt8));
     
-    UInt8 index = [[MCKMockingContext currentContext] pushPrimitiveArgumentMatcher:matcher];
+    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
     return memset(inputStruct, index, 1);
 }
 

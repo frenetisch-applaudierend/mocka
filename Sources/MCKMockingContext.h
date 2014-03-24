@@ -77,14 +77,6 @@ typedef enum {
 - (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
 
 
-#pragma mark - Argument Recording
-
-- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
-- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
-
-- (void)clearArgumentMatchers;
-
-
 #pragma mark - Failure Handling
 
 - (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);

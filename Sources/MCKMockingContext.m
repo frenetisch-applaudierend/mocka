@@ -152,33 +152,6 @@ static id _CurrentContext = nil;
 }
 
 
-#pragma mark - Argument Recording
-
-- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher
-{
-    [self checkCanPushArgumentMatcher];
-    return [self.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-}
-
-- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher
-{
-    [self checkCanPushArgumentMatcher];
-    return [self.argumentMatcherRecorder addObjectArgumentMatcher:matcher];
-}
-
-- (void)clearArgumentMatchers
-{
-    [self.argumentMatcherRecorder collectAndReset];
-}
-
-- (void)checkCanPushArgumentMatcher
-{
-    if (self.mode == MCKContextModeRecording) {
-        MCKAPIMisuse(@"Argument matchers can only be used with stubbing or verification");
-    }
-}
-
-
 #pragma mark - Failure Handling
 
 - (void)failWithReason:(NSString *)reason, ...
