@@ -1,5 +1,6 @@
 PODS:
   - Expecta (0.3.0)
+  - KNMParametrizedTests (0.1.0)
   - OCHamcrest (3.0.1)
   - OCMockito (1.1.0):
     - OCHamcrest (~> 3.0)
@@ -7,11 +8,13 @@ PODS:
 
 DEPENDENCIES:
   - Expecta
+  - KNMParametrizedTests
   - OCMockito
   - OHHTTPStubs
 
 SPEC CHECKSUMS:
   Expecta: 322f1dc42610106a5ba9871b4924cf1635d80833
+  KNMParametrizedTests: 7bf37cabce4120715b061ccdc9b6322c16e2367c
   OCHamcrest: 782c52ae8c673e5d6060a65005cfd26d20d519ba
   OCMockito: 317fa0cf75c9b0d73d2be335789c556537be7fd2
   OHHTTPStubs: d67c42c0212f0883ddb8592375aa0dc00dc50a36

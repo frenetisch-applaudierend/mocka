@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_Expecta 3
 #define COCOAPODS_VERSION_PATCH_Expecta 0
 
+// KNMParametrizedTests
+#define COCOAPODS_POD_AVAILABLE_KNMParametrizedTests
+#define COCOAPODS_VERSION_MAJOR_KNMParametrizedTests 0
+#define COCOAPODS_VERSION_MINOR_KNMParametrizedTests 1
+#define COCOAPODS_VERSION_PATCH_KNMParametrizedTests 0
+
 // OCHamcrest
 #define COCOAPODS_POD_AVAILABLE_OCHamcrest
 #define COCOAPODS_VERSION_MAJOR_OCHamcrest 3

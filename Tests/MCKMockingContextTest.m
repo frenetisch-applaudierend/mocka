@@ -41,7 +41,7 @@
 }
 
 
-#pragma mark - Test Handling Invocations
+#pragma mark - Test Handling Invocations Preparations
 
 - (void)testThatHandlingInvocationRetainsInvocationArguments
 {
@@ -78,6 +78,41 @@
     // then
     [MKTVerify(context.argumentMatcherRecorder) collectAndReset];
 }
+
+
+KNMParametersFor(testThatHandlingInvocationSucceedsIfArgumentMatchersAreGivenInMode, @[
+    @(MCKContextModeStubbing), @(MCKContextModeVerifying)
+])
+- (void)testThatHandlingInvocationSucceedsIfArgumentMatchersAreGivenInMode:(MCKContextMode)mode
+{
+    // given
+    [context updateContextMode:mode];
+    
+    NSArray *matchers = @[ [[MCKBlockArgumentMatcher alloc] init] ];
+    [MKTGiven([context.argumentMatcherRecorder argumentMatchers]) willReturn:matchers];
+    
+    // then
+    expect(^{
+        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    }).toNot.raiseAny();
+}
+
+- (void)testThatHandlingInvocationFailsIfArgumentMatchersAreGivenInRecordingMode
+{
+    // given
+    [context updateContextMode:MCKContextModeRecording];
+    
+    NSArray *matchers = @[ [[MCKBlockArgumentMatcher alloc] init] ];
+    [MKTGiven([context.argumentMatcherRecorder argumentMatchers]) willReturn:matchers];
+    
+    // then
+    expect(^{
+        [context handleInvocation:[NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)]];
+    }).to.raise(MCKAPIMisuseException);
+}
+
+
+#pragma mark - Test Handling Invocations Dispatching
 
 - (void)testThatHandlingInvocationInRecordingModeDispatchesToInvocationRecorder {
     // given

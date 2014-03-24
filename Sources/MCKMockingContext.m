@@ -86,7 +86,8 @@ static id _CurrentContext = nil;
 - (void)handleInvocation:(NSInvocation *)invocation
 {
     [invocation retainArguments];
-    [self.argumentMatcherRecorder validateForMethodSignature:invocation.methodSignature];
+    
+    [self checkArgumentMatchersForInvocation:invocation];
     
     MCKInvocationPrototype *prototype = [self prototypeForInvocation:invocation];
     switch (self.mode) {
@@ -96,6 +97,14 @@ static id _CurrentContext = nil;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }
+}
+
+- (void)checkArgumentMatchersForInvocation:(NSInvocation *)invocation
+{
+    if (self.mode == MCKContextModeRecording && [self.argumentMatcherRecorder.argumentMatchers count] > 0) {
+        MCKAPIMisuse(@"Argument matchers are only valid when stubbing or verifying");
+    }
+    [self.argumentMatcherRecorder validateForMethodSignature:invocation.methodSignature];
 }
 
 - (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation
