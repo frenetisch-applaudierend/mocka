@@ -130,18 +130,6 @@ KNMParametersFor(testThatHandlingInvocationSucceedsIfArgumentMatchersAreGivenInM
     [MKTVerifyCount(context.invocationVerifier, MKTNever()) verifyInvocationsForPrototype:HC_anything()];
 }
 
-- (void)testThatHandlingInvocationInRecordingModeKeepsContextInRecordingMode {
-    // given
-    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-    
-    // when
-    [context updateContextMode:MCKContextModeRecording];
-    [context handleInvocation:invocation];
-    
-    // then
-    expect(context.mode).to.equal(MCKContextModeRecording);
-}
-
 - (void)testThatHandlingInvocationInStubbingModeDispatchesToInvocationStubber {
     // given
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
@@ -156,18 +144,6 @@ KNMParametersFor(testThatHandlingInvocationSucceedsIfArgumentMatchersAreGivenInM
     
     [MKTVerifyCount(context.invocationRecorder, MKTNever()) recordInvocationFromPrototype:HC_anything()];
     [MKTVerifyCount(context.invocationVerifier, MKTNever()) verifyInvocationsForPrototype:HC_anything()];
-}
-
-- (void)testThatHandlingInvocationInStubbingModeKeepsContextInStubbingMode {
-    // given
-    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
-    
-    // when
-    [context updateContextMode:MCKContextModeStubbing];
-    [context handleInvocation:invocation];
-    
-    // then
-    expect(context.mode).to.equal(MCKContextModeStubbing);
 }
 
 - (void)testThatHandlingInvocationInVerificationModeDispatchesToInvocationVerifier {
@@ -185,16 +161,20 @@ KNMParametersFor(testThatHandlingInvocationSucceedsIfArgumentMatchersAreGivenInM
     [MKTVerifyCount(context.invocationStubber, MKTNever()) recordStubPrototype:HC_anything()];
 }
 
-- (void)testThatHandlingInvocationInVerificationModeKeepsContextInVerificationMode {
+KNMParametersFor(testThatHandlingInvocationDoesNotChangeContextMode, @[
+    @(MCKContextModeRecording), @(MCKContextModeStubbing), @(MCKContextModeVerifying)
+]);
+- (void)testThatHandlingInvocationDoesNotChangeContextMode:(MCKContextMode)mode
+{
     // given
     NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(setUp)];
     
     // when
-    [context updateContextMode:MCKContextModeVerifying];
+    [context updateContextMode:mode];
     [context handleInvocation:invocation];
     
     // then
-    expect(context.mode).to.equal(MCKContextModeVerifying);
+    expect(context.mode).to.equal(mode);
 }
 
 
