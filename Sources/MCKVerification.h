@@ -9,6 +9,33 @@
 #import <Foundation/Foundation.h>
 
 
+@class MCKMockingContext;
+@protocol MCKVerificationHandler;
+
+
+typedef void(^MCKVerificationBlock)(void);
+
+
 @interface MCKVerification : NSObject
+
+#pragma mark - Initialization
+
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
+
+@property (nonatomic, readonly) MCKMockingContext *mockingContext;
+
+
+#pragma mark - Properties
+
+@property (nonatomic, readonly) MCKVerificationBlock verificationBlock;
+@property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
+@property (nonatomic, readonly) NSNumber *timeout;
+
+
+#pragma mark - Property Setter Blocks
+
+@property (nonatomic, readonly) MCKVerification*(^setVerificationBlock)(MCKVerificationBlock block);
+@property (nonatomic, readonly) MCKVerification*(^setVerificationHandler)(id<MCKVerificationHandler> handler);
+@property (nonatomic, readonly) MCKVerification*(^setTimeout)(NSNumber *timeout);
 
 @end

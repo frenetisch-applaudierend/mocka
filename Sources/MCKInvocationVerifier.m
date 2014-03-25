@@ -38,6 +38,11 @@
 
 #pragma mark - Verification
 
+- (void)executeVerificationWithBlock:(void(^)(void))block handler:(id<MCKVerificationHandler>)handler timeout:(NSTimeInterval)timeout
+{
+    
+}
+
 - (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector
 {
     self.collector = collector;
@@ -57,7 +62,7 @@
     MCKVerificationResult *result = [self resultForInvocationPrototype:prototype];
     MCKVerificationResult *collectedResult = [self.collector collectVerificationResult:result];
     
-    if (![collectedResult isSuccess]) {
+    if ([collectedResult isFailure]) {
         [self notifyFailureWithResult:collectedResult];
     }
     
@@ -71,7 +76,7 @@
     
     if (collectedResult != nil) {
         [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:collectedResult.matchingIndexes];
-        if (![collectedResult isSuccess]) {
+        if ([collectedResult isFailure]) {
             [self notifyFailureWithResult:collectedResult];
         }
     }
