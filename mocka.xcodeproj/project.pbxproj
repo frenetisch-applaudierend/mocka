@@ -270,6 +270,10 @@
 		63AF4F1D18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */ = {isa = PBXBuildFile; fileRef = 63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */; };
 		63AF4F1E18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */; };
 		63AF4F1F18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */; };
+		63B097A518E1F9180046E703 /* MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B097A318E1F9180046E703 /* MCKVerification.h */; };
+		63B097A618E1F9180046E703 /* MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B097A318E1F9180046E703 /* MCKVerification.h */; };
+		63B097A718E1F9180046E703 /* MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B097A418E1F9180046E703 /* MCKVerification.m */; };
+		63B097A818E1F9180046E703 /* MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B097A418E1F9180046E703 /* MCKVerification.m */; };
 		63B3B70218DF3AA0009AD4FA /* MCKAPIMisuse.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B3B70018DF3AA0009AD4FA /* MCKAPIMisuse.h */; };
 		63B3B70318DF3AA0009AD4FA /* MCKAPIMisuse.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B3B70018DF3AA0009AD4FA /* MCKAPIMisuse.h */; };
 		63B3B70418DF3AA0009AD4FA /* MCKAPIMisuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B3B70118DF3AA0009AD4FA /* MCKAPIMisuse.m */; };
@@ -435,6 +439,8 @@
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+MCKContextLoading.h"; sourceTree = "<group>"; };
 		63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+MCKContextLoading.m"; sourceTree = "<group>"; };
+		63B097A318E1F9180046E703 /* MCKVerification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerification.h; sourceTree = "<group>"; };
+		63B097A418E1F9180046E703 /* MCKVerification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerification.m; sourceTree = "<group>"; };
 		63B3B70018DF3AA0009AD4FA /* MCKAPIMisuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAPIMisuse.h; sourceTree = "<group>"; };
 		63B3B70118DF3AA0009AD4FA /* MCKAPIMisuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAPIMisuse.m; sourceTree = "<group>"; };
 		63B598131824FBFA00E4D26A /* MCKStubTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStubTest.m; sourceTree = "<group>"; };
@@ -826,6 +832,8 @@
 				632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */,
 				639085D617F9AD85006A0714 /* MCKInvocationVerifier.h */,
 				639085D717F9AD85006A0714 /* MCKInvocationVerifier.m */,
+				63B097A318E1F9180046E703 /* MCKVerification.h */,
+				63B097A418E1F9180046E703 /* MCKVerification.m */,
 				639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */,
 				639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */,
 			);
@@ -1028,6 +1036,7 @@
 				631E236417FF5F3C00BC2D06 /* MCKVerificationResult.h in Headers */,
 				63169CD11824E64A00A894C5 /* MCKBlockWrapper.h in Headers */,
 				638CF1A018DDF0E700C667E4 /* MCKTypeDetector.h in Headers */,
+				63B097A618E1F9180046E703 /* MCKVerification.h in Headers */,
 				63D1CAE718266B34009FE9EC /* MCKInvocationRecorder.h in Headers */,
 				631E236517FF5F3C00BC2D06 /* MCKVerificationHandler.h in Headers */,
 				631E236617FF5F3C00BC2D06 /* MCKXCTestFailureHandler.h in Headers */,
@@ -1080,6 +1089,7 @@
 				639085DE17F9C0F1006A0714 /* MCKVerificationResult.h in Headers */,
 				63169CD01824E64A00A894C5 /* MCKBlockWrapper.h in Headers */,
 				638CF19F18DDF0E700C667E4 /* MCKTypeDetector.h in Headers */,
+				63B097A518E1F9180046E703 /* MCKVerification.h in Headers */,
 				63D1CAE618266B34009FE9EC /* MCKInvocationRecorder.h in Headers */,
 				638BA4A317F6F8580086226D /* MCKVerificationHandler.h in Headers */,
 				638BA4D017F6F8760086226D /* MCKXCTestFailureHandler.h in Headers */,
@@ -1372,6 +1382,7 @@
 				63D1CAC41825C2CC009FE9EC /* MCKLocation.m in Sources */,
 				631E234C17FF5F3C00BC2D06 /* MCKVerificationHandler.m in Sources */,
 				631E234D17FF5F3C00BC2D06 /* MCKVerificationResult.m in Sources */,
+				63B097A818E1F9180046E703 /* MCKVerification.m in Sources */,
 				631E234E17FF5F3C00BC2D06 /* MCKDefaultVerificationHandler.m in Sources */,
 				631E234F17FF5F3C00BC2D06 /* MCKHamcrestArgumentMatcher.m in Sources */,
 				632D40D7182C104E000767C1 /* MCKVerificationSyntax.m in Sources */,
@@ -1468,6 +1479,7 @@
 				63D1CAC31825C2CC009FE9EC /* MCKLocation.m in Sources */,
 				638BA4A417F6F8580086226D /* MCKVerificationHandler.m in Sources */,
 				639085DF17F9C0F1006A0714 /* MCKVerificationResult.m in Sources */,
+				63B097A718E1F9180046E703 /* MCKVerification.m in Sources */,
 				638BA4A617F6F8580086226D /* MCKDefaultVerificationHandler.m in Sources */,
 				638BA4CB17F6F8710086226D /* MCKHamcrestArgumentMatcher.m in Sources */,
 				632D40D6182C104E000767C1 /* MCKVerificationSyntax.m in Sources */,

@@ -13,15 +13,18 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)successWithMatchingIndexes:(NSIndexSet *)matches {
++ (instancetype)successWithMatchingIndexes:(NSIndexSet *)matches
+{
     return [[self alloc] initWithSuccess:YES failureReason:nil matchingIndexes:matches];
 }
 
-+ (instancetype)failureWithReason:(NSString *)reason matchingIndexes:(NSIndexSet *)matches {
++ (instancetype)failureWithReason:(NSString *)reason matchingIndexes:(NSIndexSet *)matches
+{
     return [[self alloc] initWithSuccess:NO failureReason:reason matchingIndexes:matches];
 }
 
-- (instancetype)initWithSuccess:(BOOL)success failureReason:(NSString *)failureReason matchingIndexes:(NSIndexSet *)matches {
+- (instancetype)initWithSuccess:(BOOL)success failureReason:(NSString *)failureReason matchingIndexes:(NSIndexSet *)matches
+{
     if ((self = [super init])) {
         _success = success;
         _failureReason = [failureReason copy];
@@ -31,13 +34,23 @@
 }
 
 
+#pragma mark - Properties
+
+- (BOOL)isFailure
+{
+    return !self.success;
+}
+
+
 #pragma mark - Equality Testing
 
-- (NSUInteger)hash {
+- (NSUInteger)hash
+{
     return (self.success | ([self.failureReason hash] ^ [self.matchingIndexes hash]));
 }
 
-- (BOOL)isEqual:(id)object {
+- (BOOL)isEqual:(id)object
+{
     if (object == self) { return YES; }
     else if (object == nil || [object class] != [self class]) { return NO; }
     typeof(self) other = object;
@@ -50,7 +63,8 @@
 
 #pragma mark - Debugging
 
-- (NSString *)description {
+- (NSString *)description
+{
     NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: %p", [self class], self];
     [description appendFormat:@" success=%@", (self.success ? @"YES" : @"NO")];
     if (!self.success) {
