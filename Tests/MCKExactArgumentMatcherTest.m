@@ -24,28 +24,19 @@
 }
 
 
-#pragma mark - Test Cases
+#pragma mark - Test General Cases
 
 - (void)testThatMatcherMatchesExactArgumentGiven {
-    // given
     matcher.expectedArgument = @2000;
     
-    // when
-    BOOL result = [matcher matchesCandidate:[NSNumber numberWithInt:2000]];
-    
-    // then
-    XCTAssertTrue(result, @"Matcher should have matched");
+    expect([matcher matchesCandidate:[NSNumber numberWithInt:2000]]).to.beTruthy();
 }
 
 - (void)testThatMatcherDoesNotMatchArgumentWhichIsNotExpected {
     // given
     matcher.expectedArgument = @2000;
     
-    // when
-    BOOL result = [matcher matchesCandidate:[NSNumber numberWithInt:1000]];
-    
-    // then
-    XCTAssertFalse(result, @"Matcher should not have matched");
+    expect([matcher matchesCandidate:[NSNumber numberWithInt:1000]]).to.beFalsy();
 }
 
 @end

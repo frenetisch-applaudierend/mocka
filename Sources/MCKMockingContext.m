@@ -14,6 +14,7 @@
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKFailureHandler.h"
 #import "MCKInvocationPrototype.h"
+#import "MCKAPIMisuse.h"
 #import "NSInvocation+MCKArgumentHandling.h"
 
 
@@ -21,7 +22,8 @@
 
 #pragma mark - Startup
 
-+ (void)initialize {
++ (void)initialize
+{
     if (!(self == [MCKMockingContext class])) {
         return;
     }
@@ -41,11 +43,13 @@
 
 static id _CurrentContext = nil;
 
-+ (void)setCurrentContext:(MCKMockingContext *)context {
++ (void)setCurrentContext:(MCKMockingContext *)context
+{
     _CurrentContext = context;
 }
 
-+ (instancetype)currentContext {
++ (instancetype)currentContext
+{
     NSAssert(_CurrentContext != nil, @"Need a context at this point");
     return _CurrentContext;
 }
@@ -53,58 +57,58 @@ static id _CurrentContext = nil;
 
 #pragma mark - Initialization
 
-- (instancetype)initWithTestCase:(id)testCase {
+- (instancetype)initWithTestCase:(id)testCase
+{
     if ((self = [super init])) {
         _invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:self];
         _invocationStubber = [[MCKInvocationStubber alloc] init];
         _invocationVerifier = [[MCKInvocationVerifier alloc] initWithMockingContext:self];
-        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:self];
+        _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
         _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
     }
     return self;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithTestCase:nil];
 }
 
 
 #pragma mark - Dispatching Invocations
 
-- (void)updateContextMode:(MCKContextMode)newMode {
+- (void)updateContextMode:(MCKContextMode)newMode
+{
     NSAssert([self.argumentMatcherRecorder.argumentMatchers count] == 0, @"Should not contain any matchers at this point");
     _mode = newMode;
 }
 
-- (void)handleInvocation:(NSInvocation *)invocation {
+- (void)handleInvocation:(NSInvocation *)invocation
+{
     [invocation retainArguments];
     
-    NSString *reason = nil;
-    if (![self.argumentMatcherRecorder isValidForMethodSignature:invocation.methodSignature reason:&reason]) {
-        [self.argumentMatcherRecorder collectAndReset];
-        [self failWithReason:@"%@", reason];
-        return;
-    }
+    [self checkArgumentMatchersForInvocation:invocation];
     
+    MCKInvocationPrototype *prototype = [self prototypeForInvocation:invocation];
     switch (self.mode) {
-        case MCKContextModeRecording:
-            [self.invocationRecorder recordInvocation:invocation];
-            break;
-        
-        case MCKContextModeStubbing:
-            [self.invocationStubber recordStubPrototype:[self prototypeForInvocation:invocation]];
-            break;
-        
-        case MCKContextModeVerifying:
-            [self.invocationVerifier verifyInvocationsForPrototype:[self prototypeForInvocation:invocation]];
-            break;
-            
+        case MCKContextModeRecording: [self.invocationRecorder recordInvocationFromPrototype:prototype]; break;
+        case MCKContextModeStubbing:  [self.invocationStubber recordStubPrototype:prototype]; break;
+        case MCKContextModeVerifying: [self.invocationVerifier verifyInvocationsForPrototype:prototype]; break;
         default:
             NSAssert(NO, @"Oops, this context mode is unknown: %d", self.mode);
     }
 }
 
-- (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation {
+- (void)checkArgumentMatchersForInvocation:(NSInvocation *)invocation
+{
+    if (self.mode == MCKContextModeRecording && [self.argumentMatcherRecorder.argumentMatchers count] > 0) {
+        MCKAPIMisuse(@"Argument matchers are only valid when stubbing or verifying");
+    }
+    [self.argumentMatcherRecorder validateForMethodSignature:invocation.methodSignature];
+}
+
+- (MCKInvocationPrototype *)prototypeForInvocation:(NSInvocation *)invocation
+{
     NSArray *matchers = [self.argumentMatcherRecorder collectAndReset];
     return [[MCKInvocationPrototype alloc] initWithInvocation:invocation argumentMatchers:matchers];
 }
@@ -112,7 +116,8 @@ static id _CurrentContext = nil;
 
 #pragma mark - Stubbing
 
-- (MCKStub *)stubCalls:(void(^)(void))callBlock {
+- (MCKStub *)stubCalls:(void(^)(void))callBlock
+{
     NSParameterAssert(callBlock != nil);
     
     [self updateContextMode:MCKContextModeStubbing];
@@ -128,7 +133,8 @@ static id _CurrentContext = nil;
 
 #pragma mark - Verification
 
-- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector {
+- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector
+{
     NSParameterAssert(callBlock != nil);
     NSParameterAssert(collector != nil);
     
@@ -139,45 +145,17 @@ static id _CurrentContext = nil;
     [self updateContextMode:MCKContextModeRecording];
 }
 
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler {
+- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler
+{
     NSAssert((self.mode == MCKContextModeVerifying), @"Cannot set a verification handler outside verification mode");
     [self.invocationVerifier useVerificationHandler:handler];
 }
 
 
-#pragma mark - Argument Recording
-
-- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (![self checkCanPushArgumentMatcher]) {
-        return 0;
-    }
-    return [self.argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-}
-
-- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
-    if (![self checkCanPushArgumentMatcher]) {
-        return 0;
-    }
-    return [self.argumentMatcherRecorder addObjectArgumentMatcher:matcher];
-}
-
-- (void)clearArgumentMatchers {
-    [self.argumentMatcherRecorder collectAndReset];
-}
-
-- (BOOL)checkCanPushArgumentMatcher {
-    if (self.mode == MCKContextModeRecording) {
-        [self failWithReason:@"Argument matchers can only be used with stubbing or verification"];
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
-
 #pragma mark - Failure Handling
 
-- (void)failWithReason:(NSString *)reason, ... {
+- (void)failWithReason:(NSString *)reason, ...
+{
     va_list ap;
     va_start(ap, reason);
     NSString *formattedReason = [[NSString alloc] initWithFormat:reason arguments:ap];

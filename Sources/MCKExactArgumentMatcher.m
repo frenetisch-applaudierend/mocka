@@ -57,11 +57,11 @@
 
 #pragma mark - Mocking Syntax
 
-char mck_intArg(int64_t arg) {
+SInt8 mck_intArg(SInt64 arg) {
     return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
 }
 
-char mck_unsignedIntArg(uint64_t arg) {
+UInt8 mck_unsignedIntArg(UInt64 arg) {
     return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
 }
 
@@ -85,6 +85,6 @@ SEL mck_selectorArg(SEL arg) {
     return mck_registerSelectorMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }
 
-void* mck_pointerArg(void *arg) {
+void* mck_pointerArg(const void *arg) {
     return mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
 }

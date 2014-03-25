@@ -8,13 +8,17 @@ target "mocka-osx" do
 end
 
 target "mocka-tests-ios" do
-  platform :ios, '5.0'
-  pod 'OHHTTPStubs', '~> 3.0.0'
-  pod 'Expecta', '~> 0.2.3'
+  platform :ios, '7.0'
+  pod 'OCMockito'
+  pod 'OHHTTPStubs'
+  pod 'Expecta'
+  pod 'KNMParametrizedTests'
 end
 
 target "mocka-tests-osx" do
-  platform :osx, '10.7'
-  pod 'OHHTTPStubs', '~> 3.0.0'
-  pod 'Expecta', '~> 0.2.3'
+  platform :osx, '10.9'
+  pod 'OCMockito'
+  pod 'OHHTTPStubs'
+  pod 'Expecta'
+  pod 'KNMParametrizedTests'
 end

@@ -8,7 +8,7 @@
 
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKTypeEncodings.h"
-#import "MCKMockingContext.h"
+#import "MCKAPIMisuse.h"
 
 
 @interface MCKArgumentMatcherRecorder ()
@@ -22,9 +22,9 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithMockingContext:(MCKMockingContext *)context {
+- (instancetype)init
+{
     if ((self = [super init])) {
-        _mockingContext = context;
         _mutableArgumentMatchers = [NSMutableArray array];
     }
     return self;
@@ -33,35 +33,41 @@
 
 #pragma mark - Adding Matchers
 
-- (NSArray *)argumentMatchers {
+- (NSArray *)argumentMatchers
+{
     return [self.mutableArgumentMatchers copy];
 }
 
-- (NSArray *)collectAndReset {
+- (NSArray *)collectAndReset
+{
     NSArray *matchers = self.argumentMatchers;
     [self reset];
     return matchers;
 }
 
-- (UInt8)addPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+- (UInt8)addPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher
+{
     self.primitiveMatcherCount++;
     return [self addArgumentMatcher:matcher];
 }
 
-- (UInt8)addObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+- (UInt8)addObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher
+{
     return [self addArgumentMatcher:matcher];
 }
 
-- (UInt8)addArgumentMatcher:(id<MCKArgumentMatcher>)matcher {
+- (UInt8)addArgumentMatcher:(id<MCKArgumentMatcher>)matcher
+{
     if ([self.mutableArgumentMatchers count] > UINT8_MAX) {
-        [self.mockingContext failWithReason:@"Only UINT8_MAX matchers supported"];
-        return UINT8_MAX;
+        MCKAPIMisuse(@"At most %d matchers supported", UINT8_MAX);
     }
+    
     [self.mutableArgumentMatchers addObject:matcher];
     return ([self.mutableArgumentMatchers count] - 1);
 }
 
-- (void)reset {
+- (void)reset
+{
     [self.mutableArgumentMatchers removeAllObjects];
     self.primitiveMatcherCount = 0;
 }
@@ -69,23 +75,23 @@
 
 #pragma mark - Validating the Recorder
 
-- (BOOL)isValidForMethodSignature:(NSMethodSignature *)signature reason:(NSString **)reason {
+- (void)validateForMethodSignature:(NSMethodSignature *)signature
+{
     if (self.primitiveMatcherCount == 0) {
-        return YES;
+        return;
     }
     
-    NSUInteger signaturePrimitiveArgs = [self countPrimitiveArgumentsOfSignature:signature];
-    if (signaturePrimitiveArgs > self.primitiveMatcherCount) {
-        if (reason != NULL) { *reason = @"When using argument matchers, all non-object arguments must be matchers"; }
-        return NO;
-    } else if (signaturePrimitiveArgs < self.primitiveMatcherCount) {
-        if (reason != NULL) { *reason = @"Too many primitive matchers for this method invocation"; }
-        return NO;
+    NSUInteger argCount = [self countPrimitiveArgumentsOfSignature:signature];
+    if (self.primitiveMatcherCount < argCount) {
+        MCKAPIMisuse(@"When using argument matchers, all non-object arguments must be matchers");
     }
-    return YES;
+    else if (self.primitiveMatcherCount > argCount) {
+        MCKAPIMisuse(@"Too many primitive matchers found (got %ld need only %ld)", (unsigned long)self.primitiveMatcherCount, (unsigned long)argCount);
+    }
 }
 
-- (NSUInteger)countPrimitiveArgumentsOfSignature:(NSMethodSignature *)signature {
+- (NSUInteger)countPrimitiveArgumentsOfSignature:(NSMethodSignature *)signature
+{
     NSUInteger primitiveArgumentCount = 0;
     for (NSUInteger argIndex = 2; argIndex < [signature numberOfArguments]; argIndex++) {
         if (![MCKTypeEncodings isObjectType:[signature getArgumentTypeAtIndex:argIndex]]) {

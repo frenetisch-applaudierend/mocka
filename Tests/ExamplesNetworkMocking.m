@@ -29,6 +29,10 @@
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
     
     expect(received).to.equal([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
+    
+    // TODO: Find out why this test randomly fails
+    //       It seems to me it fails when the suite is
+    //       executed the first time after a longer pause
 }
 
 
@@ -76,6 +80,8 @@
     // the data returned is now from the network
     expect(data).notTo.beNil();
     expect(error).to.beNil();
+    
+    // NOTE: this test may fail if you don't have internet connection
 }
 
 - (void)testStubbingAndVerificationAlsoWorkWhenAccessIsDisabled {

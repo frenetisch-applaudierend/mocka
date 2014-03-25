@@ -11,6 +11,7 @@
 #import "MCKBlockWrapper.h"
 #import "MCKMockingContext.h"
 #import "MCKTypeEncodings.h"
+#import "MCKAPIMisuse.h"
 
 
 @interface MCKStub ()
@@ -25,7 +26,8 @@
 
 #pragma mark - Initialization
 
-- (instancetype)init {
+- (instancetype)init
+{
     if ((self = [super init])) {
         _recordedPrototypes = [NSMutableArray array];
     }
@@ -35,34 +37,38 @@
 
 #pragma mark - Configuration
 
-- (NSArray *)invocationPrototypes {
+- (NSArray *)invocationPrototypes
+{
     return [self.recordedPrototypes copy];
 }
 
-- (void)setStubBlock:(id)stubBlock {
+- (void)setStubBlock:(id)stubBlock
+{
     NSParameterAssert(stubBlock != nil);
     
     MCKBlockWrapper *wrapper = [MCKBlockWrapper wrapperForBlock:stubBlock];
     if (![self blockMatchesRecordedInvocations:wrapper]) {
-        [[MCKMockingContext currentContext] failWithReason:@"Signature of stub block is incompatible with stubbed invocations"];
-        return;
+        MCKAPIMisuse(@"Signature of stub block is incompatible with stubbed invocations");
     }
     
     self.stubBlockWrapper = wrapper;
 }
 
-- (id)stubBlock {
+- (id)stubBlock
+{
     return self.stubBlockWrapper.block;
 }
 
-- (void)addInvocationPrototype:(MCKInvocationPrototype *)prototype {
+- (void)addInvocationPrototype:(MCKInvocationPrototype *)prototype
+{
     [self.recordedPrototypes addObject:prototype];
 }
 
 
 #pragma mark - Matching and Applying Stub
 
-- (BOOL)matchesForInvocation:(NSInvocation *)candidate {
+- (BOOL)matchesForInvocation:(NSInvocation *)candidate
+{
     for (MCKInvocationPrototype *prototype in self.recordedPrototypes) {
         if ([prototype matchesInvocation:candidate]) {
             return YES;
@@ -71,7 +77,8 @@
     return NO;
 }
 
-- (void)applyToInvocation:(NSInvocation *)invocation {
+- (void)applyToInvocation:(NSInvocation *)invocation
+{
     if (self.stubBlockWrapper == nil) { // no block wrapper probably means illegal block was passed
         return;
     }
@@ -84,7 +91,8 @@
 
 #pragma mark - Testing wether Block and Invocations Match
 
-- (BOOL)blockMatchesRecordedInvocations:(MCKBlockWrapper *)block {
+- (BOOL)blockMatchesRecordedInvocations:(MCKBlockWrapper *)block
+{
     for (MCKInvocationPrototype *prototype in self.recordedPrototypes) {
         if (![self block:block matchesInvocation:prototype.invocation]) {
             return NO;
@@ -93,7 +101,8 @@
     return YES;
 }
 
-- (BOOL)block:(MCKBlockWrapper *)block matchesInvocation:(NSInvocation *)invocation {
+- (BOOL)block:(MCKBlockWrapper *)block matchesInvocation:(NSInvocation *)invocation
+{
     if (![self block:block matchesReturnTypeOfInvocation:invocation]) {
         return NO;
     }
@@ -103,25 +112,30 @@
             || [self block:block matchesReducedArgumentsOfInvocation:invocation]);
 }
 
-- (BOOL)block:(MCKBlockWrapper *)block matchesReturnTypeOfInvocation:(NSInvocation *)invocation {
+- (BOOL)block:(MCKBlockWrapper *)block matchesReturnTypeOfInvocation:(NSInvocation *)invocation
+{
     const char *blockType = block.blockSignature.methodReturnType;
     return ([MCKTypeEncodings isType:blockType equalToType:@encode(void)]
             || [MCKTypeEncodings isType:blockType equalToType:invocation.methodSignature.methodReturnType]);
 }
 
-- (BOOL)blockHasEmptyArgumentList:(MCKBlockWrapper *)block {
+- (BOOL)blockHasEmptyArgumentList:(MCKBlockWrapper *)block
+{
     return (block.blockSignature.numberOfArguments <= 1);
 }
 
-- (BOOL)block:(MCKBlockWrapper *)block matchesFullArgumentsOfInvocation:(NSInvocation *)invocation {
+- (BOOL)block:(MCKBlockWrapper *)block matchesFullArgumentsOfInvocation:(NSInvocation *)invocation
+{
     return [self block:block matchesArgumentsOfInvocation:invocation fromOffset:0];
 }
 
-- (BOOL)block:(MCKBlockWrapper *)block matchesReducedArgumentsOfInvocation:(NSInvocation *)invocation {
+- (BOOL)block:(MCKBlockWrapper *)block matchesReducedArgumentsOfInvocation:(NSInvocation *)invocation
+{
     return [self block:block matchesArgumentsOfInvocation:invocation fromOffset:2];
 }
 
-- (BOOL)block:(MCKBlockWrapper *)block matchesArgumentsOfInvocation:(NSInvocation *)invocation fromOffset:(NSUInteger)offset {
+- (BOOL)block:(MCKBlockWrapper *)block matchesArgumentsOfInvocation:(NSInvocation *)invocation fromOffset:(NSUInteger)offset
+{
     if ((block.blockSignature.numberOfArguments - 1) != (invocation.methodSignature.numberOfArguments - offset)) {
         return NO; // wrong argument count, no need to actually check types
     }
@@ -138,7 +152,8 @@
 
 #pragma mark - Copying Block and Invocation Arguments
 
-- (void)copyArgumentsFromInvocation:(NSInvocation *)invocation toBlock:(MCKBlockWrapper *)block {
+- (void)copyArgumentsFromInvocation:(NSInvocation *)invocation toBlock:(MCKBlockWrapper *)block
+{
     if (block.blockSignature.numberOfArguments == 1) {
         return; // block has no arguments
     }
@@ -152,7 +167,8 @@
     }
 }
 
-- (void)copyArgumentsFromInvocation:(NSInvocation *)invocation toBlock:(MCKBlockWrapper *)block withOffset:(NSUInteger)offset {
+- (void)copyArgumentsFromInvocation:(NSInvocation *)invocation toBlock:(MCKBlockWrapper *)block withOffset:(NSUInteger)offset
+{
     void *argValueHolder = malloc(invocation.methodSignature.frameLength); // max length for any argument
     for (NSUInteger argIndex = 0; argIndex < (block.blockSignature.numberOfArguments - 1); argIndex++) {
         [invocation getArgument:argValueHolder atIndex:(argIndex + offset)];
@@ -161,7 +177,8 @@
     free(argValueHolder);
 }
 
-- (void)copyReturnValueFromBlock:(MCKBlockWrapper *)block toInvocation:(NSInvocation *)invocation {
+- (void)copyReturnValueFromBlock:(MCKBlockWrapper *)block toInvocation:(NSInvocation *)invocation
+{
     if (block.blockSignature.methodReturnLength == 0 || invocation.methodSignature.methodReturnLength == 0) {
         return;
     }

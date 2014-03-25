@@ -7,10 +7,11 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "MCKArgumentMatcherRecorder.h"
 #import "MCKAnyArgumentMatcher.h"
 #import "MCKMockingContext.h"
-#import "MCKExceptionFailureHandler.h"
+#import "MCKAPIMisuse.h"
 
 
 @interface MCKArgumentMatcherRecorderTest : XCTestCase
@@ -24,8 +25,8 @@
 #pragma mark - Setup
 
 - (void)setUp {
-    MCKMockingContext *context = [MCKMockingContext currentContext]; // make sure a context exists
-    recorder = [[MCKArgumentMatcherRecorder alloc] initWithMockingContext:context];
+    [MCKMockingContext currentContext]; // make sure a context exists
+    recorder = [[MCKArgumentMatcherRecorder alloc] init];
     sampleMatcher = [[MCKAnyArgumentMatcher alloc] init];
 }
 
@@ -37,18 +38,17 @@
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     
     // then
-    XCTAssertEqualObjects(recorder.argumentMatchers, (@[ sampleMatcher ]), @"Primitive matcher was not recoreded");
+    expect(recorder.argumentMatchers).to.equal(@[ sampleMatcher ]);
 }
 
 - (void)testThatAddPrimitiveMatcherThrowsIfMoreMatchersAddedThanCanBeIndexedByUInt8 {
     // given
-    [[MCKMockingContext currentContext] setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];
     for (int i = 0; i < (UINT8_MAX + 1); i++) { // UINT8_MAX + 1 => because 0 is an index as well
         [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     }
-
+    
     // then
-    XCTAssertThrows([recorder addPrimitiveArgumentMatcher:sampleMatcher], @"Should throw after %d matchers", (UINT8_MAX + 1));
+    expect(^{ [recorder addPrimitiveArgumentMatcher:sampleMatcher]; }).to.raise(MCKAPIMisuseException);
 }
 
 - (void)testThatLastPrimitiveMatcherIndexReturnsIndexForLastAddedMatcher {
@@ -91,9 +91,9 @@
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     
-    // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid if all primitive args have matchers");
+    AssertDoesNotFail({
+        [recorder validateForMethodSignature:signature];
+    });
 }
 
 - (void)testThatCollectionIsValidIfAllPrimitiveArgumentsForSignatureWithObjectArgsHaveMatchers {
@@ -105,8 +105,9 @@
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     
     // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid if all primitive args have matchers");
+    AssertDoesNotFail({
+        [recorder validateForMethodSignature:signature];
+    });
 }
 
 - (void)testThatCollectionIsNotValidIfNotAllPrimitiveArgumentsHaveMatchers {
@@ -117,8 +118,9 @@
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     
     // then
-    XCTAssertFalse([recorder isValidForMethodSignature:signature reason:NULL],
-                   @"Collection was valid for less matchers than primitive args");
+    AssertFails({
+        [recorder validateForMethodSignature:signature];
+    });
 }
 
 - (void)testThatCollectionIsNotValidIfThereAreMoreMatchersThanPrimitiveArguments {
@@ -131,8 +133,9 @@
     [recorder addPrimitiveArgumentMatcher:sampleMatcher];
     
     // then
-    XCTAssertFalse([recorder isValidForMethodSignature:signature reason:NULL],
-                   @"Collection was valid for more matchers than primitive args");
+    AssertFails({
+        [recorder validateForMethodSignature:signature];
+    });
 }
 
 - (void)testThatCollectionIsValidIfSignatureHasNoPrimitiveArgsAndNoMatchersAreRecorded {
@@ -143,8 +146,9 @@
     // no matchers
     
     // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid for no matchers and no primitive args");
+    AssertDoesNotFail({
+        [recorder validateForMethodSignature:signature];
+    });
 }
 
 - (void)testThatCollectionIsValidIfSignatureHasPrimitiveArgsAndNoMatchersAreRecorded {
@@ -155,8 +159,9 @@
     // no matchers
     
     // then
-    XCTAssertTrue([recorder isValidForMethodSignature:signature reason:NULL],
-                  @"Collection was not valid for no matchers and no primitive args");
+    AssertDoesNotFail({
+        [recorder validateForMethodSignature:signature];
+    });
 }
 
 @end

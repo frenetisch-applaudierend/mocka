@@ -6,9 +6,7 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
 
 #import "MCKSpy.h"
 #import "MCKStub.h"
