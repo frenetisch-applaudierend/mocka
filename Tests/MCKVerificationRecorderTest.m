@@ -9,15 +9,15 @@
 #import <XCTest/XCTest.h>
 #import <OCMockito/OCMockito.h>
 
-#import "MCKVerification.h"
+#import "MCKVerificationRecorder.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationVerifier.h"
 #import "MCKAPIMisuse.h"
 
 
-@interface MCKVerificationTest : XCTestCase @end
-@implementation MCKVerificationTest {
-    MCKVerification *verification;
+@interface MCKVerificationRecorderTest : XCTestCase @end
+@implementation MCKVerificationRecorderTest {
+    MCKVerificationRecorder *verification;
     MCKMockingContext *context;
 }
 
@@ -26,7 +26,7 @@
 - (void)setUp
 {
     context = [[MCKMockingContext alloc] initWithTestCase:self];
-    verification = [[MCKVerification alloc] initWithMockingContext:context];
+    verification = [[MCKVerificationRecorder alloc] initWithMockingContext:context];
     
     context.invocationVerifier = MKTMock([MCKInvocationVerifier class]);
 }
@@ -126,7 +126,7 @@
     MCKVerificationBlock block = ^{};
     id<MCKVerificationHandler> handler = [[MCKDefaultVerificationHandler alloc] init];
     
-    [[MCKVerification alloc] initWithMockingContext:context]
+    [[MCKVerificationRecorder alloc] initWithMockingContext:context]
     .setVerificationBlock(block)
     .setVerificationHandler(handler)
     .setTimeout(@10.0);

@@ -16,7 +16,6 @@
 @class MCKMockingContext;
 @class MCKInvocationRecorder;
 @class MCKInvocationPrototype;
-@class MCKVerification;
 
 
 @interface MCKInvocationVerifier : NSObject
