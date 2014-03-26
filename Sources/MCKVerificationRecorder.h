@@ -10,6 +10,7 @@
 
 
 @class MCKMockingContext;
+@class MCKLocation;
 @protocol MCKVerificationHandler;
 
 
@@ -20,9 +21,10 @@ typedef void(^MCKVerificationBlock)(void);
 
 #pragma mark - Initialization
 
-- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context location:(MCKLocation *)location;
 
 @property (nonatomic, readonly) MCKMockingContext *mockingContext;
+@property (nonatomic, readonly) MCKLocation *location;
 
 
 #pragma mark - Properties
@@ -30,9 +32,6 @@ typedef void(^MCKVerificationBlock)(void);
 @property (nonatomic, readonly) MCKVerificationBlock verificationBlock;
 @property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, readonly) NSNumber *timeout;
-
-
-#pragma mark - Property Setter Blocks
 
 @property (nonatomic, readonly) MCKVerificationRecorder*(^setVerificationBlock)(MCKVerificationBlock block);
 @property (nonatomic, readonly) MCKVerificationRecorder*(^setVerificationHandler)(id<MCKVerificationHandler> handler);

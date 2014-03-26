@@ -12,6 +12,8 @@
 #import "MCKVerificationRecorder.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKInvocationVerifier.h"
+#import "MCKLocation.h"
+#import "MCKVerification.h"
 #import "MCKAPIMisuse.h"
 
 
@@ -26,7 +28,7 @@
 - (void)setUp
 {
     context = [[MCKMockingContext alloc] initWithTestCase:self];
-    verification = [[MCKVerificationRecorder alloc] initWithMockingContext:context];
+    verification = [[MCKVerificationRecorder alloc] initWithMockingContext:context location:nil];
     
     context.invocationVerifier = MKTMock([MCKInvocationVerifier class]);
 }
@@ -125,13 +127,20 @@
 {
     MCKVerificationBlock block = ^{};
     id<MCKVerificationHandler> handler = [[MCKDefaultVerificationHandler alloc] init];
+    MCKLocation *location = [MCKLocation locationWithFileName:@"Foo.m" lineNumber:10];
     
-    [[MCKVerificationRecorder alloc] initWithMockingContext:context]
+    [[MCKVerificationRecorder alloc] initWithMockingContext:context location:location]
     .setVerificationBlock(block)
     .setVerificationHandler(handler)
     .setTimeout(@10.0);
     
-    [MKTVerify(context.invocationVerifier) executeVerificationWithBlock:block handler:handler timeout:10.0];
+    MKTArgumentCaptor *verificationCapturer = [[MKTArgumentCaptor alloc] init];
+    [MKTVerify(context.invocationVerifier) processVerification:[verificationCapturer capture]];
+    
+    MCKVerification *capturedVerification = [verificationCapturer value];
+    expect(capturedVerification.verificationBlock).to.equal(block);
+    expect(capturedVerification.verificationHandler).to.equal(handler);
+    expect(capturedVerification.timeout).to.equal(10.0);
 }
 
 @end

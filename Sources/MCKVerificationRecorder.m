@@ -10,6 +10,7 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
+#import "MCKVerification.h"
 #import "MCKAPIMisuse.h"
 
 
@@ -39,19 +40,22 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithMockingContext:(MCKMockingContext *)context
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context location:(MCKLocation *)location
 {
     if ((self = [super init])) {
         _mockingContext = context;
+        _location = location;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [self.mockingContext.invocationVerifier executeVerificationWithBlock:_verificationBlock
-                                                                 handler:_verificationHandler
-                                                                 timeout:[_timeout doubleValue]];
+    MCKVerification *verification = [[MCKVerification alloc] initWithVerificationBlock:_verificationBlock
+                                                                   verificationHandler:_verificationHandler
+                                                                               timeout:[_timeout doubleValue]
+                                                                              location:_location];
+    [_mockingContext.invocationVerifier processVerification:verification];
 }
 
 

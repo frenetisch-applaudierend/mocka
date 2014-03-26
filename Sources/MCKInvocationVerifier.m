@@ -38,7 +38,7 @@
 
 #pragma mark - Verification
 
-- (void)executeVerificationWithBlock:(void(^)(void))block handler:(id<MCKVerificationHandler>)handler timeout:(NSTimeInterval)timeout
+- (void)processVerification:(MCKVerification *)verification
 {
     // TBD
 }

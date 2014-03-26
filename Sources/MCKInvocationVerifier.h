@@ -14,8 +14,8 @@
 @protocol MCKVerificationHandler;
 
 @class MCKMockingContext;
-@class MCKInvocationRecorder;
 @class MCKInvocationPrototype;
+@class MCKVerification;
 
 
 @interface MCKInvocationVerifier : NSObject
@@ -35,7 +35,7 @@
 
 #pragma mark - Verification
 
-- (void)executeVerificationWithBlock:(void(^)(void))block handler:(id<MCKVerificationHandler>)handler timeout:(NSTimeInterval)timeout;
+- (void)processVerification:(MCKVerification *)verification;
 
 - (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector;
 - (void)useVerificationHandler:(id<MCKVerificationHandler>)verificationHandler;
