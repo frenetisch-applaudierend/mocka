@@ -28,25 +28,12 @@
 {
     mockingContext = [[MCKMockingContext alloc] init];
     
-    mockingContext.invocationStubber = MKTMock([MCKInvocationStubber class]);
-    mockingContext.failureHandler = MKTMockProtocol(@protocol(MCKFailureHandler));
-    
-    
     verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:mockingContext];
     mockingContext.invocationVerifier = verifier;
     
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-}
-
-- (FakeVerificationHandler *)verificationHandlerWhichFailsUnless:(BOOL(^)(void))condition
-{
-    return [FakeVerificationHandler handlerWithImplementation:^MCKVerificationResult*(MCKInvocationPrototype *p, NSArray *a) {
-        return (condition()
-                ? [MCKVerificationResult successWithMatchingIndexes:nil]
-                : [MCKVerificationResult failureWithReason:nil matchingIndexes:nil]);
-    }];
+    mockingContext.invocationRecorder = MKTMock([MCKInvocationRecorder class]);
+    mockingContext.invocationStubber = MKTMock([MCKInvocationStubber class]);
+    mockingContext.failureHandler = MKTMockProtocol(@protocol(MCKFailureHandler));
 }
 
 
@@ -78,67 +65,19 @@
     
     [verifier processVerification:verification];
     
-    [MKTVerifyCount(mockingContext.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:@"verify: foo"];
+    [MKTVerifyCount(mockingContext.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
 }
 
-
-#pragma mark - Test General Usage
-
-- (void)testThatIfNoHandlerIsSetTheDefaultHandlerIsUsed
+- (void)testThatMatchingInvocationsAreRemovedIfVerificationSucceedsForSingleVerification
 {
-    // given
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
+    MCKVerification *verification = MKTMock([MCKVerification class]);
     
-    // then
-    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-}
-
-- (void)testThatUsingAnotherHandlerWillSetThisHandler
-{
-    // given
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndex:10];
+    [MKTGiven([verification execute]) willReturn:[MCKVerificationResult successWithMatchingIndexes:indexes]];
     
-    // when
-    FakeVerificationHandler *handler = [FakeVerificationHandler dummy];
-    [verifier useVerificationHandler:handler];
+    [verifier processVerification:verification];
     
-    // then
-    expect(verifier.verificationHandler).to.equal(handler);
-}
-
-- (void)testThatUsingMultipleHandlersWillSetLastHandler
-{
-    // given
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
-    
-    // when
-    [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
-    [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
-    
-    FakeVerificationHandler *usedHandler = [FakeVerificationHandler dummy];
-    [verifier useVerificationHandler:usedHandler];
-    
-    // then
-    expect(verifier.verificationHandler).to.equal(usedHandler);
-}
-
-
-#pragma mark - Calling and Verifying
-
-- (void)testThatVerifyInvocationsVerifiesUsingPassedHandler
-{
-    // given
-    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];
-    
-    // when
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
-    [verifier useVerificationHandler:handler];
-    [verifier verifyInvocationsForPrototype:prototype];
-    [verifier finishVerification];
-    
-    // then
-    expect([[handler.calls lastObject] prototype]).to.equal(prototype);
+    [MKTVerify(mockingContext.invocationRecorder) removeInvocationsAtIndexes:indexes];
 }
 
 @end

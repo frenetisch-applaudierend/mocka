@@ -51,6 +51,8 @@
     MCKVerificationResult *result = [verification execute];
     self.currentVerification = nil;
     
+    [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+    
     if ([result isFailure]) {
         [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
     }
