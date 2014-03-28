@@ -22,4 +22,14 @@
     return (_matcherBlock != nil ? _matcherBlock(item) : YES);
 }
 
+- (BOOL)matches:(id)item describingMismatchTo:(id<HCDescription>)mismatchDescription {
+    return [self matches:item];
+}
+
+- (void)describeMismatchOf:(id)item to:(id<HCDescription>)mismatchDescription {
+}
+
+- (void)describeTo:(id<HCDescription>)description {
+}
+
 @end
