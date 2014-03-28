@@ -145,7 +145,7 @@
     
     [mockArray addObject:@"Hello World"];
     
-    verifyCall ([mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    match ([mockArray addObject:[HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate hasPrefix:@"Hello"];
     }]]);
 }
@@ -155,7 +155,7 @@
     
     [mockArray objectAtIndex:10];
     
-    verifyCall ([mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    match ([mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate isEqual:@10];
     }])]);
 }

@@ -91,7 +91,7 @@ extern void* mck_pointerArg(const void *arg);
  * Match an __autoreleasing object pointer with the given value.
  *
  * You can use this matcher e.g. for passing error objects:
- * verifyCall ([moc save:mck_objectPointerArg(&error)]);
+ * match ([moc save:mck_objectPointerArg(&error)]);
  *
  * If you need a different qualifier than __autoreleasing
  * use mck_objectPointerArgWithQualifier() instead.
@@ -107,7 +107,7 @@ extern void* mck_pointerArg(const void *arg);
  * The qualifier is usually either __autoreleasing or __unsafe_unretained.
  *
  * You can use this matcher e.g. for getting objects by reference, e.g.:
- * verifyCall ([array getObjects:mck_objectPointerArgWithQualifier(__unsafe_unretained, &objects)]);
+ * match ([array getObjects:mck_objectPointerArgWithQualifier(__unsafe_unretained, &objects)]);
  *
  * If you need __autoreleasing as a qualifier, you can also use mck_objectPointerArg()
  * instead.

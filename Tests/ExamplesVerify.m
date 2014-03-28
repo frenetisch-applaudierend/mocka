@@ -33,14 +33,14 @@
     
     [mockArray removeAllObjects];
     
-    verifyCall ([mockArray removeAllObjects]);
+    match ([mockArray removeAllObjects]);
 }
 
 - (void)testVerifyWillFailIfMethodWasNeverCalled {
     // if you verify a method that has never been called it will fail
     
     ThisWillFail({
-        verifyCall ([mockArray removeAllObjects]);
+        match ([mockArray removeAllObjects]);
     });
 }
 
@@ -51,7 +51,7 @@
     [mockArray removeAllObjects];
     [mockArray removeAllObjects];
     
-    verifyCall ([mockArray removeAllObjects]); // too many invocations are ok
+    match ([mockArray removeAllObjects]); // too many invocations are ok
 }
 
 - (void)testYouCanUseMultipleVerifyTestsToRequireMultipleCalls {
@@ -61,8 +61,8 @@
     [mockArray removeAllObjects];
     [mockArray removeAllObjects];
     
-    verifyCall ([mockArray removeAllObjects]);
-    verifyCall ([mockArray removeAllObjects]); // verify that the method was called at least 2 times
+    match ([mockArray removeAllObjects]);
+    match ([mockArray removeAllObjects]); // verify that the method was called at least 2 times
 }
 
 - (void)testVerifyingSomethingMultpleTimesThatWasCalledOnceWillFail {
@@ -71,10 +71,10 @@
     
     [mockArray removeAllObjects];
     
-    verifyCall ([mockArray removeAllObjects]);
+    match ([mockArray removeAllObjects]);
     
     ThisWillFail({
-        verifyCall ([mockArray removeAllObjects]); // multiple verify calls will also expect multiple invocations
+        match ([mockArray removeAllObjects]); // multiple verify calls will also expect multiple invocations
     });
 }
 
@@ -86,7 +86,7 @@
     
     [mockArray addObject:@"Hello World"];
     
-    verifyCall ([mockArray addObject:@"Hello World"]);
+    match ([mockArray addObject:@"Hello World"]);
 }
 
 - (void)testVerifyWillFailForUnequalObjectArguments {
@@ -95,7 +95,7 @@
     [mockArray addObject:@"Hello World"];
     
     ThisWillFail({
-        verifyCall ([mockArray addObject:@"Goodbye"]);
+        match ([mockArray addObject:@"Goodbye"]);
     });
 }
 
@@ -104,7 +104,7 @@
     
     [mockArray objectAtIndex:10];
     
-    verifyCall ([mockArray objectAtIndex:10]);
+    match ([mockArray objectAtIndex:10]);
 }
 
 - (void)testVerifyWillFailForUnequalPrimitiveArguments {
@@ -113,7 +113,7 @@
     [mockArray objectAtIndex:10];
     
     ThisWillFail({
-        verifyCall ([mockArray objectAtIndex:0]);
+        match ([mockArray objectAtIndex:0]);
     });
 }
 
@@ -122,7 +122,7 @@
     
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     
-    verifyCall ([mockArray subarrayWithRange:NSMakeRange(10, 20)]);
+    match ([mockArray subarrayWithRange:NSMakeRange(10, 20)]);
 }
 
 - (void)testVerifyWillFailForUnequalStructArguments {
@@ -131,7 +131,7 @@
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     
     ThisWillFail({
-        verifyCall ([mockArray subarrayWithRange:NSMakeRange(10, 10)]);
+        match ([mockArray subarrayWithRange:NSMakeRange(10, 10)]);
     });
 }
 
@@ -200,7 +200,7 @@
     
     [mockArray count];
     
-    verifyCall ([mockArray count]);
+    match ([mockArray count]);
     verifyNoMoreInteractionsOn(mockArray); // [mockArray count] was verified
 }
 
@@ -323,7 +323,7 @@
     verifyInOrder {
         exactly(3) [mockArray addObject:anyObject()];
     };
-    verifyCall ([mockArray removeAllObjects]);
+    match ([mockArray removeAllObjects]);
 }
 
 - (void)testSkippedCallsCanLaterStillBeVerifiedOrdered {

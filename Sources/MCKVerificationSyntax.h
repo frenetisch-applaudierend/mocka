@@ -16,12 +16,20 @@
 @protocol MCKVerificationResultCollector;
 
 
-#pragma mark - Verification Syntax
+#pragma mark - Matching Syntax
 
+/**
+ * Match a method call on a mock or spy.
+ *
+ * Usage: `match ([mockObject someMethod]);`.
+ */
 #define mck_match(CALL, ...) _MCKRecordVerification(^{ (void)(CALL, ##__VA_ARGS__); })
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define match(CALL, ...) mck_match(CALL, ##__VA_ARGS__)
 #endif
+
+
+#pragma mark - Verification Syntax
 
 /**
  * Start verification of a single call.
