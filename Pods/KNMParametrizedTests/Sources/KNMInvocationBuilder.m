@@ -36,6 +36,7 @@
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     invocation.selector = selector;
     [self setParameter:parameter forInvocation:invocation];
+    [invocation retainArguments];
     
     return invocation;
 }
