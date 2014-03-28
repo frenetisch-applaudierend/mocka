@@ -7,8 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCMockito/OCMockito.h>
-#import <OCHamcrest/OCHamcrest.h>
 
 #import "MCKInvocationVerifier.h"
 #import "MCKVerification.h"

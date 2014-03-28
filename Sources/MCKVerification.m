@@ -7,6 +7,7 @@
 //
 
 #import "MCKVerification.h"
+#import "MCKMockingContext.h"
 #import "MCKVerificationResult.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKAPIMisuse.h"
@@ -31,6 +32,7 @@
 @property (nonatomic, assign) BOOL hasVerificationHandlerSet;
 @property (nonatomic, assign) BOOL hasTimeoutSet;
 
+@property (nonatomic, strong) MCKVerificationResult *result;
 
 @end
 
@@ -38,9 +40,10 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithVerificationBlock:(MCKVerificationBlock)block location:(MCKLocation *)location
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context location:(MCKLocation *)location verificationBlock:(MCKVerificationBlock)block
 {
     if ((self = [super init])) {
+        _mockingContext = context;
         _verificationBlock = [block copy];
         _location = location;
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
@@ -79,8 +82,55 @@ CONFIG_BLOCK_IMPL(setTimeout, NSTimeInterval, timeout)
 
 #pragma mark - Execution
 
-- (MCKVerificationResult *)execute {
-    return nil;
+- (MCKVerificationResult *)execute
+{
+    // The verification calls are routed via the MCKMockingContext to the
+    // MCKInvocationVerifier. The verifier in turn passes it along
+    // to this object which then will check the result and return
+    // it from the 'result' instance variable
+    
+    [self.mockingContext updateContextMode:MCKContextModeVerifying];
+    if (self.verificationBlock != nil) {
+        self.verificationBlock();
+    }
+    
+    [self.mockingContext updateContextMode:MCKContextModeRecording];
+    return self.result;
 }
+
+//- (MCKVerificationResult *)resultForInvocationPrototype:(MCKInvocationPrototype *)prototype
+//{
+//    MCKVerificationResult *result = [self currentResultForPrototype:prototype];
+//    
+//    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
+//    while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
+//        [self.mockingContext updateContextMode:MCKContextModeRecording];
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
+//        [self.mockingContext updateContextMode:MCKContextModeVerifying];
+//        result = [self currentResultForPrototype:prototype];
+//    }
+//    return result;
+//}
+//
+//- (MCKVerificationResult *)currentResultForPrototype:(MCKInvocationPrototype *)prototype
+//{
+//    NSArray *recordedInvocations = self.mockingContext.invocationRecorder.recordedInvocations;
+//    return [self.verificationHandler verifyInvocations:recordedInvocations forPrototype:prototype];
+//}
+//
+//- (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result
+//{
+//    if (self.timeout <= 0.0) {
+//        return NO;
+//    }
+//    else {
+//        return [self.verificationHandler mustAwaitTimeoutForResult:result];
+//    }
+//}
+//
+//- (BOOL)didNotYetReachDate:(NSDate *)lastDate
+//{
+//    return ([lastDate laterDate:[NSDate date]] == lastDate);
+//}
 
 @end

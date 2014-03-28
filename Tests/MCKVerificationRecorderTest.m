@@ -7,7 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCMockito/OCMockito.h>
 
 #import "MCKVerificationRecorder.h"
 #import "MCKDefaultVerificationHandler.h"

@@ -12,6 +12,7 @@
 @protocol MCKVerificationHandler;
 @class MCKVerificationResult;
 @class MCKLocation;
+@class MCKMockingContext;
 
 
 typedef void(^MCKVerificationBlock)(void);
@@ -21,11 +22,12 @@ typedef void(^MCKVerificationBlock)(void);
 
 #pragma mark - Initialization
 
-- (instancetype)initWithVerificationBlock:(MCKVerificationBlock)block location:(MCKLocation *)location;
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context location:(MCKLocation *)location verificationBlock:(MCKVerificationBlock)block;
 
 
 #pragma mark - Properties
 
+@property (nonatomic, readonly) MCKMockingContext *mockingContext;
 @property (nonatomic, readonly) MCKLocation *location;
 @property (nonatomic, readonly) MCKVerificationBlock verificationBlock;
 @property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
@@ -42,13 +44,6 @@ typedef void(^MCKVerificationBlock)(void);
 
 /**
  * Execute the current verification.
- *
- * This will call the verification block, which makes sure
- * the verification call is made. Those verification calls
- * then are routed via the MCKMockingContext to the
- * MCKInvocationVerifier. The verifier in turn passes it along
- * to this object which then will check the result and return
- * it from this method.
  *
  * Exactly one verification method must be executed when calling
  * the verification block.

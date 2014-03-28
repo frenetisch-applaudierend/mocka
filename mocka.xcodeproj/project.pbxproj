@@ -702,22 +702,14 @@
 		636B770817F59D2C00B6A3BD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				636B770A17F59D2C00B6A3BD /* Info.plist */,
+				636B771017F59D2C00B6A3BD /* Prefix.pch */,
 				63BDE30017F5A17500584A08 /* Examples */,
 				638BA45717F5DE420086226D /* Integration Tests */,
 				63732BB317F5A7F00041C869 /* Unit Tests */,
 				63BDE2D817F59E9F00584A08 /* Utilities and Test Objects */,
-				636B770917F59D2C00B6A3BD /* Supporting Files */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		636B770917F59D2C00B6A3BD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				636B770A17F59D2C00B6A3BD /* Info.plist */,
-				636B771017F59D2C00B6A3BD /* Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		63732BB317F5A7F00041C869 /* Unit Tests */ = {

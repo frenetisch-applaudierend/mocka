@@ -18,6 +18,11 @@
 
 #pragma mark - Verification Syntax
 
+#define mck_match(CALL, ...) _MCKRecordVerification(^{ CALL, ##__VA_ARGS__ ; })
+#ifndef MCK_DISABLE_NICE_SYNTAX
+    #define match(CALL, ...) mck_match(CALL, ##__VA_ARGS__)
+#endif
+
 /**
  * Start verification of a single call.
  *
@@ -56,10 +61,12 @@
 
 @end
 
-#define _MCKRecordVerification(VERIFICATION) _MCKRecorder().recordVerification = _MCKVerification((VERIFICATION), _MCKCurrentLocation())
-
-extern MCKVerificationRecorder* _MCKRecorder(void);
-extern MCKVerification* _MCKVerification(MCKVerificationBlock block, MCKLocation *location);
-
 extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll);
 extern void _mck_setVerificationTimeout(NSTimeInterval timeout);
+
+#define _MCKRecordVerification(BLOCK)    _MCKRecorder().recordVerification = _MCKVerification((BLOCK), _MCKCurrentLocation())
+#define _MCKSetTimeout(TIMEOUT)          .setTimeout(TIMEOUT)
+#define _MCKVerificationHandler(HANDLER) .setVerificationHandler(HANDLER)
+
+extern MCKVerificationRecorder* _MCKRecorder(void);
+extern MCKVerification* _MCKVerification(MCKLocation *location, MCKVerificationBlock block);

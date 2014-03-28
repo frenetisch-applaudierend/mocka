@@ -33,14 +33,14 @@ void _mck_setVerificationTimeout(NSTimeInterval timeout) {
     context.invocationVerifier.timeout = timeout;
 }
 
-MCKVerificationRecorder* _mck_recorder(void)
+MCKVerificationRecorder* _MCKRecorder(void)
 {
     return [[MCKVerificationRecorder alloc] initWithMockingContext:[MCKMockingContext currentContext]];
 }
 
-MCKVerification* _mck_verification(MCKVerificationBlock block, MCKLocation *location)
+MCKVerification* _MCKVerification(MCKLocation *location, MCKVerificationBlock block)
 {
-    return [[MCKVerification alloc] initWithVerificationBlock:block location:location];
+    return [[MCKVerification alloc] initWithMockingContext:[MCKMockingContext currentContext] location:location verificationBlock:block];
 }
 
 

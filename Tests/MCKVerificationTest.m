@@ -9,6 +9,8 @@
 #import <XCTest/XCTest.h>
 
 #import "MCKVerification.h"
+#import "MCKMockingContext.h"
+#import "MCKInvocationVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKAPIMisuse.h"
 
@@ -16,12 +18,17 @@
 @interface MCKVerificationTest : XCTestCase @end
 @implementation MCKVerificationTest {
     MCKVerification *verification;
+    MCKMockingContext *context;
 }
 
 #pragma mark - Setup
 
-- (void)setUp {
-    verification = [[MCKVerification alloc] initWithVerificationBlock:nil location:nil];
+- (void)setUp
+{
+    context = [[MCKMockingContext alloc] init];
+    context.invocationVerifier = MKTMock([MCKInvocationVerifier class]);
+    
+    verification = [[MCKVerification alloc] initWithMockingContext:context location:nil verificationBlock:nil];
 }
 
 
@@ -79,6 +86,43 @@
     expect(^{
         verification.setTimeout(2.0);
     }).to.raise(MCKAPIMisuseException);
+}
+
+
+#pragma mark - Test Execution
+
+- (void)testThatExecuteCallsVerificationBlock
+{
+    __block BOOL wasCalled = NO;
+    MCKVerification *v = [[MCKVerification alloc] initWithMockingContext:context location:nil verificationBlock:^{
+        wasCalled = YES;
+    }];
+    
+    [v execute];
+    
+    expect(wasCalled).to.beTruthy();
+}
+
+- (void)testThatExecuteSetsContextModeToVerifiyingDuringCall
+{
+    __block MCKContextMode contextMode;
+    MCKVerification *v = [[MCKVerification alloc] initWithMockingContext:context location:nil verificationBlock:^{
+        contextMode = [context mode];
+    }];
+    [context updateContextMode:MCKContextModeRecording];
+    
+    [v execute];
+    
+    expect(contextMode).to.equal(MCKContextModeVerifying);
+}
+
+- (void)testThatExecuteSetsContextModeToRecordingAfterCall
+{
+    [context updateContextMode:MCKContextModeRecording];
+    
+    [verification execute];
+    
+    expect(context.mode).to.equal(MCKContextModeRecording);
 }
 
 @end
