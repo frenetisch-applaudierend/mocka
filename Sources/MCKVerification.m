@@ -8,6 +8,7 @@
 
 #import "MCKVerification.h"
 #import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
 #import "MCKVerificationResult.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKAPIMisuse.h"
@@ -98,16 +99,16 @@ CONFIG_BLOCK_IMPL(setTimeout, NSTimeInterval, timeout)
     return self.result;
 }
 
-- (void)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype
+- (void)verifyPrototype:(MCKInvocationPrototype *)prototype inInvocationRecorder:(MCKInvocationRecorder *)recorder
 {
-    MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+    MCKVerificationResult *result = [self.verificationHandler verifyInvocations:recorder.recordedInvocations forPrototype:prototype];
     
     NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
     while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
         [self.mockingContext updateContextMode:MCKContextModeRecording];
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
         [self.mockingContext updateContextMode:MCKContextModeVerifying];
-        result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+        result = [self.verificationHandler verifyInvocations:recorder.recordedInvocations forPrototype:prototype];
     }
     
     self.result = result;

@@ -61,8 +61,7 @@
 - (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype
 {
     if (self.currentVerification != nil) {
-        NSArray *invocations = self.mockingContext.invocationRecorder.recordedInvocations;
-        [self.currentVerification verifyInvocations:invocations forPrototype:prototype];
+        [self.currentVerification verifyPrototype:prototype inInvocationRecorder:self.mockingContext.invocationRecorder];
         return;
     }
     

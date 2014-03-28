@@ -10,6 +10,7 @@
 
 #import "MCKVerification.h"
 #import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
 #import "MCKInvocationVerifier.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKAPIMisuse.h"
@@ -118,7 +119,7 @@
 
 - (void)testThatExecuteSetsContextModeToRecordingAfterCall
 {
-    [context updateContextMode:MCKContextModeRecording];
+    [context updateContextMode:MCKContextModeVerifying];
     
     [verification execute];
     
@@ -132,11 +133,15 @@
 {
     id<MCKVerificationHandler> handler = MKTMockProtocol(@protocol(MCKVerificationHandler));
     MCKInvocationPrototype *prototype = MKTMock([MCKInvocationPrototype class]);
+    MCKInvocationRecorder *recorder = MKTMock([MCKInvocationRecorder class]);
+    
     NSArray *invocations = @[ @"dummy1", @"dummy2" ];
+    [MKTGiven([recorder recordedInvocations]) willReturn:invocations];
+    
     
     verification.setVerificationHandler(handler);
     
-    [verification verifyInvocations:invocations forPrototype:prototype];
+    [verification verifyPrototype:prototype inInvocationRecorder:recorder];
     
     [(id<MCKVerificationHandler>)MKTVerify(handler) verifyInvocations:invocations forPrototype:prototype];
 }
