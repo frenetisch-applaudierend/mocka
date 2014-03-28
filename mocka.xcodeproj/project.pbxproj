@@ -841,14 +841,14 @@
 			children = (
 				632D40D2182C104E000767C1 /* MCKVerificationSyntax.h */,
 				632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */,
-				63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */,
-				63B097A418E1F9180046E703 /* MCKVerificationRecorder.m */,
 				639085D617F9AD85006A0714 /* MCKInvocationVerifier.h */,
 				639085D717F9AD85006A0714 /* MCKInvocationVerifier.m */,
 				6397E92918E32C3800F44AEE /* MCKVerification.h */,
 				6397E92A18E32C3800F44AEE /* MCKVerification.m */,
 				639085DC17F9C0F1006A0714 /* MCKVerificationResult.h */,
 				639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */,
+				63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */,
+				63B097A418E1F9180046E703 /* MCKVerificationRecorder.m */,
 			);
 			name = "Invocation Verification";
 			sourceTree = "<group>";

@@ -23,16 +23,13 @@ extern MCKVerificationRecorder* _mck_verificationRecorder(MCKMockingContext *con
 
 #pragma mark - Initialization
 
-- (instancetype)initWithMockingContext:(MCKMockingContext *)context location:(MCKLocation *)location;
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context;
 
 @property (nonatomic, readonly) MCKMockingContext *mockingContext;
-@property (nonatomic, readonly) MCKLocation *location;
 
 
-#pragma mark - Properties
+#pragma mark - Recording Verifications
 
-@property (nonatomic, readonly) MCKVerificationBlock verificationBlock;
-@property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
-@property (nonatomic, readonly) NSNumber *timeout;
+@property (nonatomic, strong) MCKVerification *recordVerification;
 
 @end

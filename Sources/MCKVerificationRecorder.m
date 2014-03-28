@@ -9,36 +9,32 @@
 #import "MCKVerificationRecorder.h"
 #import "MCKMockingContext.h"
 #import "MCKInvocationVerifier.h"
-#import "MCKDefaultVerificationHandler.h"
 #import "MCKVerification.h"
-#import "MCKAPIMisuse.h"
 
-
-MCKVerificationRecorder* _mck_verificationRecorder(MCKMockingContext *context, MCKLocation *location)
-{
-    return [[MCKVerificationRecorder alloc] initWithMockingContext:context location:location];
-}
-
-
-@interface MCKVerificationRecorder ()
-
-@property (nonatomic, readwrite) MCKVerificationBlock verificationBlock;
-@property (nonatomic, readwrite) id<MCKVerificationHandler> verificationHandler;
-@property (nonatomic, readwrite) NSNumber *timeout;
-
-@end
 
 @implementation MCKVerificationRecorder
 
 #pragma mark - Initialization
 
-- (instancetype)initWithMockingContext:(MCKMockingContext *)context location:(MCKLocation *)location
+- (instancetype)initWithMockingContext:(MCKMockingContext *)context
 {
     if ((self = [super init])) {
         _mockingContext = context;
-        _location = location;
     }
     return self;
+}
+
+
+#pragma mark - Recording Verifications
+
+- (MCKVerification *)recordVerification
+{
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"You should not call the getter for this property" userInfo:nil];
+}
+
+- (void)setRecordVerification:(MCKVerification *)verification
+{
+    [self.mockingContext.invocationVerifier processVerification:verification];
 }
 
 @end
