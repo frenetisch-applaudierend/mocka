@@ -7,35 +7,43 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "TestingSupport.h"
+#import <OCMockito/OCMockito.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #import "MCKInvocationVerifier.h"
+#import "MCKVerification.h"
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
+
+#import "TestingSupport.h"
 
 
 @interface MCKInvocationVerifierTest : XCTestCase @end
 @implementation MCKInvocationVerifierTest {
     MCKInvocationVerifier *verifier;
-    FakeMockingContext *mockingContext;
+    MCKMockingContext *mockingContext;
 }
 
-- (void)setUp {
-    mockingContext = [FakeMockingContext fakeContext];
+#pragma mark - Setup
+
+- (void)setUp
+{
+    mockingContext = [[MCKMockingContext alloc] init];
     
-    mockingContext.shouldIgnoreFailures = YES;
+    mockingContext.invocationStubber = MKTMock([MCKInvocationStubber class]);
+    mockingContext.failureHandler = MKTMockProtocol(@protocol(MCKFailureHandler));
     
-    mockingContext.invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:mockingContext];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
     
     verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:mockingContext];
-    
     mockingContext.invocationVerifier = verifier;
+    
+    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
+    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
 }
 
-- (FakeVerificationHandler *)verificationHandlerWhichFailsUnless:(BOOL(^)(void))condition {
+- (FakeVerificationHandler *)verificationHandlerWhichFailsUnless:(BOOL(^)(void))condition
+{
     return [FakeVerificationHandler handlerWithImplementation:^MCKVerificationResult*(MCKInvocationPrototype *p, NSArray *a) {
         return (condition()
                 ? [MCKVerificationResult successWithMatchingIndexes:nil]
@@ -44,9 +52,42 @@
 }
 
 
+#pragma mark - Test Processing Single Verification
+
+- (void)testThatProcessVerificationExecutesVerificationForSingleVerification
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    
+    [verifier processVerification:verification];
+    
+    [MKTVerify(verification) execute];
+}
+
+- (void)testThatProcessVerificationFailsIfVerificationFailsForSingleVerification
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    [MKTGiven([verification execute]) willReturn:[MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil]];
+    
+    [verifier processVerification:verification];
+    
+    [MKTVerify(mockingContext.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"verify: foo"];
+}
+
+- (void)testThatProcessVerificationSucceedsIfVerificationSucceedsForSingleVerification
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    [MKTGiven([verification execute]) willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
+    
+    [verifier processVerification:verification];
+    
+    [MKTVerifyCount(mockingContext.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:@"verify: foo"];
+}
+
+
 #pragma mark - Test General Usage
 
-- (void)testThatIfNoHandlerIsSetTheDefaultHandlerIsUsed {
+- (void)testThatIfNoHandlerIsSetTheDefaultHandlerIsUsed
+{
     // given
     [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
     
@@ -54,7 +95,8 @@
     expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
 }
 
-- (void)testThatUsingAnotherHandlerWillSetThisHandler {
+- (void)testThatUsingAnotherHandlerWillSetThisHandler
+{
     // given
     [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
     
@@ -66,7 +108,8 @@
     expect(verifier.verificationHandler).to.equal(handler);
 }
 
-- (void)testThatUsingMultipleHandlersWillSetLastHandler {
+- (void)testThatUsingMultipleHandlersWillSetLastHandler
+{
     // given
     [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
     
@@ -84,7 +127,8 @@
 
 #pragma mark - Calling and Verifying
 
-- (void)testThatVerifyInvocationsVerifiesUsingPassedHandler {
+- (void)testThatVerifyInvocationsVerifiesUsingPassedHandler
+{
     // given
     FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];

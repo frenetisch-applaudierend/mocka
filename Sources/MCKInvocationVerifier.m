@@ -10,6 +10,8 @@
 
 #import "MCKMockingContext.h"
 #import "MCKInvocationRecorder.h"
+#import "MCKVerification.h"
+
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKVerificationResultCollector.h"
@@ -40,7 +42,10 @@
 
 - (void)processVerification:(MCKVerification *)verification
 {
-    // TBD
+    MCKVerificationResult *result = [verification execute];
+    if ([result isFailure]) {
+        [self notifyFailureWithResult:result];
+    }
 }
 
 - (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector

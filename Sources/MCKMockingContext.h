@@ -42,6 +42,7 @@ typedef enum {
 #pragma mark - Initialization
 
 - (instancetype)initWithTestCase:(id)testCase;
+- (instancetype)init;
 
 
 #pragma mark - Core Objects
