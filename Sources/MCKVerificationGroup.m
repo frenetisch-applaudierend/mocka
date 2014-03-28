@@ -15,11 +15,13 @@
 #pragma mark - Initialization
 
 - (instancetype)initWithMockingContext:(MCKMockingContext *)context
+                              location:(MCKLocation *)location
                              collector:(id<MCKVerificationResultCollector>)collector
                 verificationGroupBlock:(MCKVerificationGroupBlock)block
 {
     if ((self = [super init])) {
         _mockingContext = context;
+        _location = location;
         _resultCollector = collector;
         _verificationGroupBlock = [block copy];
     }
@@ -44,5 +46,9 @@
     return nil;
 }
 
+- (MCKVerificationResult *)collectResult:(MCKVerificationResult *)result
+{
+    return nil;
+}
 
 @end

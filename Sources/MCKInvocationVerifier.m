@@ -11,7 +11,9 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationRecorder.h"
 #import "MCKFailureHandler.h"
+
 #import "MCKVerification.h"
+#import "MCKVerificationGroup.h"
 
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
@@ -20,7 +22,9 @@
 
 @interface MCKInvocationVerifier ()
 
+@property (nonatomic, readonly) NSMutableArray *currentVerificationGroups;
 @property (nonatomic, strong) MCKVerification *currentVerification;
+
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
 
@@ -35,6 +39,7 @@
 {
     if ((self = [super init])) {
         _mockingContext = context;
+        _currentVerificationGroups = [NSMutableArray array];
     }
     return self;
 }
@@ -51,10 +56,28 @@
     MCKVerificationResult *result = [verification execute];
     self.currentVerification = nil;
     
-    [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+    if (self.currentVerificationGroup != nil) {
+        [self.currentVerificationGroup collectResult:result];
+    }
+    else {
+        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+        if ([result isFailure]) {
+            [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
+        }
+    }
+}
+
+- (void)processVerificationGroup:(MCKVerificationGroup *)verificationGroup
+{
+    NSParameterAssert(verificationGroup != nil);
     
+    [self pushVerificationGroup:verificationGroup];
+    MCKVerificationResult *result = [verificationGroup execute];
+    [self popVerificationGroup];
+    
+    [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
     if ([result isFailure]) {
-        [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
+        [self.mockingContext.failureHandler handleFailureAtLocation:verificationGroup.location withReason:result.failureReason];
     }
 }
 
@@ -75,6 +98,28 @@
     self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
     self.timeout = 0.0;
 }
+
+
+#pragma mark - Managing the Verification Group Stack
+
+- (MCKVerificationGroup *)currentVerificationGroup
+{
+    return [self.currentVerificationGroups lastObject];
+}
+
+- (void)pushVerificationGroup:(MCKVerificationGroup *)verificationGroup
+{
+    [self.currentVerificationGroups addObject:verificationGroup];
+}
+
+- (void)popVerificationGroup
+{
+    [self.currentVerificationGroups removeLastObject];
+}
+
+
+#pragma mark - LEGACY
+
 
 - (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector
 {

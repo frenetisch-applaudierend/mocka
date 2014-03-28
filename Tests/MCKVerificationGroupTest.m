@@ -30,7 +30,10 @@
     context.invocationVerifier = MKTMock([MCKInvocationVerifier class]);
     
     resultCollector = MKTMockProtocol(@protocol(MCKVerificationResultCollector));
-    verificationGroup = [[MCKVerificationGroup alloc] initWithMockingContext:context collector:resultCollector verificationGroupBlock:nil];
+    verificationGroup = [[MCKVerificationGroup alloc] initWithMockingContext:context
+                                                                    location:nil
+                                                                   collector:resultCollector
+                                                      verificationGroupBlock:nil];
 }
 
 
@@ -39,9 +42,12 @@
 - (void)testThatExecuteCallsVerificationBlock
 {
     __block BOOL wasCalled = NO;
-    MCKVerificationGroup *group = [[MCKVerificationGroup alloc] initWithMockingContext:context collector:resultCollector verificationGroupBlock:^{
-        wasCalled = YES;
-    }];
+    MCKVerificationGroup *group = [[MCKVerificationGroup alloc] initWithMockingContext:context
+                                                                              location:nil
+                                                                             collector:resultCollector
+                                                                verificationGroupBlock:^{
+                                                                    wasCalled = YES;
+                                                                }];
     
     [group execute];
     
@@ -51,9 +57,12 @@
 - (void)testThatExecuteSetsContextModeToVerifiyingDuringCall
 {
     __block MCKContextMode contextMode;
-    MCKVerificationGroup *group = [[MCKVerificationGroup alloc] initWithMockingContext:context collector:resultCollector verificationGroupBlock:^{
-        contextMode = [context mode];
-    }];
+    MCKVerificationGroup *group = [[MCKVerificationGroup alloc] initWithMockingContext:context
+                                                                              location:nil
+                                                                             collector:resultCollector
+                                                                verificationGroupBlock:^{
+                                                                    contextMode = [context mode];
+                                                                }];
     [context updateContextMode:MCKContextModeRecording];
     
     [group execute];
