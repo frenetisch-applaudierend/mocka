@@ -57,7 +57,10 @@
     self.currentVerification = nil;
     
     if (self.currentVerificationGroup != nil) {
-        [self.currentVerificationGroup collectResult:result];
+        result = [self.currentVerificationGroup collectResult:result];
+        if ([result isFailure]) {
+            [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
+        }
     }
     else {
         [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
@@ -72,12 +75,14 @@
     NSParameterAssert(verificationGroup != nil);
     
     [self pushVerificationGroup:verificationGroup];
-    MCKVerificationResult *result = [verificationGroup execute];
+    MCKVerificationResult *result = [verificationGroup executeWithInvocationRecorder:self.mockingContext.invocationRecorder];
     [self popVerificationGroup];
     
-    [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
-    if ([result isFailure]) {
-        [self.mockingContext.failureHandler handleFailureAtLocation:verificationGroup.location withReason:result.failureReason];
+    if (result != nil) {
+        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+        if ([result isFailure]) {
+            [self.mockingContext.failureHandler handleFailureAtLocation:verificationGroup.location withReason:result.failureReason];
+        }
     }
 }
 

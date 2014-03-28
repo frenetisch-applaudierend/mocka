@@ -17,6 +17,7 @@
 #import "MCKVerification.h"
 #import "MCKVerificationGroup.h"
 #import "MCKVerificationHandler.h"
+#import "MCKVerificationResultCollector.h"
 
 
 @interface MCKInvocationVerifier (TestSupport)
@@ -102,14 +103,14 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResu
     
     [verifier processVerificationGroup:verificationGroup];
     
-    [MKTVerify(verificationGroup) execute];
+    [MKTVerify(verificationGroup) executeWithInvocationRecorder:mockingContext.invocationRecorder];
 }
-
 
 - (void)testThatProcessVerificationGroupFailsIfVerificationGroupFailsInTopLevel
 {
     MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
-    [MKTGiven([verificationGroup execute]) willReturn:[MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil]];
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()])
+     willReturn:[MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil]];
     
     [verifier processVerificationGroup:verificationGroup];
     
@@ -119,7 +120,8 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResu
 - (void)testThatProcessVerificationGroupSucceedsIfVerificationGroupSucceedsInTopLevel
 {
     MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
-    [MKTGiven([verificationGroup execute]) willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()])
+     willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
     
     [verifier processVerificationGroup:verificationGroup];
     
@@ -133,7 +135,8 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsFo
 - (void)testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsForResult:(MCKVerificationResult *)result
 {
     MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
-    [MKTGiven([verificationGroup execute]) willReturn:result];
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()])
+     willReturn:result];
     
     [verifier processVerificationGroup:verificationGroup];
     

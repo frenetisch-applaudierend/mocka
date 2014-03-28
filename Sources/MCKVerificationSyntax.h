@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MCKVerificationRecorder.h"
 #import "MCKVerification.h"
+#import "MCKVerificationRecorder.h"
+#import "MCKVerificationGroupRecorder.h"
 
 
 @class MCKLocation;
@@ -27,6 +28,8 @@
 #ifndef MCK_DISABLE_NICE_SYNTAX
     #define match(CALL, ...) mck_match(CALL, ##__VA_ARGS__)
 #endif
+
+#define mck_matchGroup(COLLECTOR) _MCKRecordVerificationGroup(COLLECTOR)
 
 
 #pragma mark - Verification Syntax
@@ -72,9 +75,11 @@
 extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll);
 extern void _mck_setVerificationTimeout(NSTimeInterval timeout);
 
-#define _MCKRecordVerification(BLOCK)       _MCKRecorder().recordVerification = _MCKVerification(_MCKCurrentLocation(), (BLOCK))
+#define _MCKRecordVerification(BLOCK)       _MCKVerificationRecorder().recordVerification = _MCKVerification(_MCKCurrentLocation(), (BLOCK))
 #define _MCKSetTimeout(TIMEOUT)             .setTimeout(TIMEOUT)
 #define _MCKSetVerificationHandler(HANDLER) .setVerificationHandler(HANDLER)
-
-extern MCKVerificationRecorder* _MCKRecorder(void);
+extern MCKVerificationRecorder* _MCKVerificationRecorder(void);
 extern MCKVerification* _MCKVerification(MCKLocation *location, MCKVerificationBlock block);
+
+#define _MCKRecordVerificationGroup(COLLECTOR) _MCKVerificationGroupRecorder(_MCKCurrentLocation(), (COLLECTOR)).recordGroupWithBlock = ^
+extern MCKVerificationGroupRecorder* _MCKVerificationGroupRecorder(MCKLocation *location, id<MCKVerificationResultCollector> collector);

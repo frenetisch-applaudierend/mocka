@@ -215,10 +215,10 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        verifyInOrder {
-            [mockArray addObject:@"One"];
-            [mockArray addObject:@"Three"];
-            [mockArray addObject:@"Two"];   // <-- EVIL, out of order!
+        inOrder {
+            match ([mockArray addObject:@"One"]);
+            match ([mockArray addObject:@"Three"]);
+            match ([mockArray addObject:@"Two"]);   // <-- EVIL, out of order!
         };
     });
 }
@@ -232,10 +232,10 @@
     [mockArray addObject:@"Also unverified"]; // also this
     [mockArray addObject:@"Three"];
     
-    verifyInOrder {
-        [mockArray addObject:@"One"];
-        [mockArray addObject:@"Two"];
-        [mockArray addObject:@"Three"];
+    inOrder {
+        match ([mockArray addObject:@"One"]);
+        match ([mockArray addObject:@"Two"]);
+        match ([mockArray addObject:@"Three"]);
     };
 }
 
@@ -359,9 +359,9 @@
     };
     
     ThisWillFail({
-        verifyInOrder {
-            [mockArray removeAllObjects];
-            [mockArray count];
+        inOrder {
+            match ([mockArray removeAllObjects]);
+            match ([mockArray count]);
         };
     });
 }

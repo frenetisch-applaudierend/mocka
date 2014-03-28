@@ -8,6 +8,7 @@
 
 #import "MCKVerificationGroup.h"
 #import "MCKMockingContext.h"
+#import "MCKVerificationResultCollector.h"
 
 
 @implementation MCKVerificationGroup
@@ -31,11 +32,13 @@
 
 #pragma mark - Executing
 
-- (MCKVerificationResult *)execute
+- (MCKVerificationResult *)executeWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder
 {
     // The verification calls are routed via the MCKMockingContext to the
     // MCKInvocationVerifier. The verifier in turn passes it along
     // to this object which then will check the result using the collector
+    
+    [self.resultCollector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
     
     [self.mockingContext updateContextMode:MCKContextModeVerifying];
     if (self.verificationGroupBlock != nil) {
@@ -43,12 +46,12 @@
     }
     [self.mockingContext updateContextMode:MCKContextModeRecording];
     
-    return nil;
+    return [self.resultCollector finishCollectingResults];
 }
 
 - (MCKVerificationResult *)collectResult:(MCKVerificationResult *)result
 {
-    return nil;
+    return [self.resultCollector collectVerificationResult:result];
 }
 
 @end

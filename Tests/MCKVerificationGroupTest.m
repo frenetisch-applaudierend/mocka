@@ -28,6 +28,7 @@
 {
     context = [[MCKMockingContext alloc] init];
     context.invocationVerifier = MKTMock([MCKInvocationVerifier class]);
+    context.invocationRecorder = MKTMock([MCKInvocationRecorder class]);
     
     resultCollector = MKTMockProtocol(@protocol(MCKVerificationResultCollector));
     verificationGroup = [[MCKVerificationGroup alloc] initWithMockingContext:context
@@ -49,7 +50,7 @@
                                                                     wasCalled = YES;
                                                                 }];
     
-    [group execute];
+    [group executeWithInvocationRecorder:nil];
     
     expect(wasCalled).to.beTruthy();
 }
@@ -65,7 +66,7 @@
                                                                 }];
     [context updateContextMode:MCKContextModeRecording];
     
-    [group execute];
+    [group executeWithInvocationRecorder:nil];
     
     expect(contextMode).to.equal(MCKContextModeVerifying);
 }
@@ -74,9 +75,35 @@
 {
     [context updateContextMode:MCKContextModeVerifying];
     
-    [verificationGroup execute];
+    [verificationGroup executeWithInvocationRecorder:nil];
     
     expect(context.mode).to.equal(MCKContextModeRecording);
+}
+
+
+#pragma mark - Test Delegating to the Result Collector
+
+- (void)testThatExecuteWillBeginCollector
+{
+    [verificationGroup executeWithInvocationRecorder:context.invocationRecorder];
+    
+    [MKTVerify(resultCollector) beginCollectingResultsWithInvocationRecorder:context.invocationRecorder];
+}
+
+- (void)testThatCollectResultReturnsResultFromCollector
+{
+    MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:10]];
+    [MKTGiven([resultCollector collectVerificationResult:HC_anything()]) willReturn:result];
+    
+    expect([verificationGroup collectResult:[MCKVerificationResult successWithMatchingIndexes:nil]]).to.equal(result);
+}
+
+- (void)testThatExecuteReturnsResultFromCollector
+{
+    MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:10]];
+    [MKTGiven([resultCollector finishCollectingResults]) willReturn:result];
+    
+    expect([verificationGroup executeWithInvocationRecorder:nil]).to.equal(result);
 }
 
 @end

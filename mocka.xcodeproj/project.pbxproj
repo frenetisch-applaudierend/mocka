@@ -236,6 +236,12 @@
 		63956A6A18E626D200682D90 /* MCKVerificationGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6618E626D200682D90 /* MCKVerificationGroup.m */; };
 		63956A6C18E6297000682D90 /* MCKVerificationGroupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */; };
 		63956A6D18E6297000682D90 /* MCKVerificationGroupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */; };
+		63956A7018E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */; };
+		63956A7118E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */; };
+		63956A7218E63D3F00682D90 /* MCKVerificationGroupRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6F18E63D3F00682D90 /* MCKVerificationGroupRecorder.m */; };
+		63956A7318E63D3F00682D90 /* MCKVerificationGroupRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6F18E63D3F00682D90 /* MCKVerificationGroupRecorder.m */; };
+		63956A7518E63E9300682D90 /* MCKVerificationGroupRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A7418E63E9300682D90 /* MCKVerificationGroupRecorderTest.m */; };
+		63956A7618E63E9300682D90 /* MCKVerificationGroupRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A7418E63E9300682D90 /* MCKVerificationGroupRecorderTest.m */; };
 		6397E92B18E32C3800F44AEE /* MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 6397E92918E32C3800F44AEE /* MCKVerification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6397E92C18E32C3800F44AEE /* MCKVerification.h in Headers */ = {isa = PBXBuildFile; fileRef = 6397E92918E32C3800F44AEE /* MCKVerification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6397E92D18E32C3800F44AEE /* MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6397E92A18E32C3800F44AEE /* MCKVerification.m */; };
@@ -452,6 +458,9 @@
 		63956A6518E626D200682D90 /* MCKVerificationGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationGroup.h; sourceTree = "<group>"; };
 		63956A6618E626D200682D90 /* MCKVerificationGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationGroup.m; sourceTree = "<group>"; };
 		63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationGroupTest.m; sourceTree = "<group>"; };
+		63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationGroupRecorder.h; sourceTree = "<group>"; };
+		63956A6F18E63D3F00682D90 /* MCKVerificationGroupRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationGroupRecorder.m; sourceTree = "<group>"; };
+		63956A7418E63E9300682D90 /* MCKVerificationGroupRecorderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationGroupRecorderTest.m; sourceTree = "<group>"; };
 		6397E92918E32C3800F44AEE /* MCKVerification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerification.h; sourceTree = "<group>"; };
 		6397E92A18E32C3800F44AEE /* MCKVerification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerification.m; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -852,6 +861,8 @@
 				639085DD17F9C0F1006A0714 /* MCKVerificationResult.m */,
 				63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */,
 				63B097A418E1F9180046E703 /* MCKVerificationRecorder.m */,
+				63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */,
+				63956A6F18E63D3F00682D90 /* MCKVerificationGroupRecorder.m */,
 			);
 			name = "Invocation Verification";
 			sourceTree = "<group>";
@@ -920,6 +931,7 @@
 				63B097A918E212CB0046E703 /* MCKVerificationRecorderTest.m */,
 				632CF45F18E5CBC6001D6716 /* MCKVerificationTest.m */,
 				63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */,
+				63956A7418E63E9300682D90 /* MCKVerificationGroupRecorderTest.m */,
 			);
 			name = "Invocation Verification";
 			sourceTree = "<group>";
@@ -1050,6 +1062,7 @@
 				63857E06181C30C400F63BBB /* OHHTTPStubs.h in Headers */,
 				631E236017FF5F3C00BC2D06 /* MCKInvocationVerifier.h in Headers */,
 				631E236117FF5F3C00BC2D06 /* MCKExceptionFailureHandler.h in Headers */,
+				63956A7118E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */,
 				631E236317FF5F3C00BC2D06 /* MCKTypeEncodings.h in Headers */,
 				631E236417FF5F3C00BC2D06 /* MCKVerificationResult.h in Headers */,
 				63169CD11824E64A00A894C5 /* MCKBlockWrapper.h in Headers */,
@@ -1105,6 +1118,7 @@
 				63857E05181C30C400F63BBB /* OHHTTPStubs.h in Headers */,
 				639085D817F9AD85006A0714 /* MCKInvocationVerifier.h in Headers */,
 				638BA4D217F6F8760086226D /* MCKExceptionFailureHandler.h in Headers */,
+				63956A7018E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */,
 				638BA4D717F6F87C0086226D /* MCKTypeEncodings.h in Headers */,
 				639085DE17F9C0F1006A0714 /* MCKVerificationResult.h in Headers */,
 				63169CD01824E64A00A894C5 /* MCKBlockWrapper.h in Headers */,
@@ -1403,6 +1417,7 @@
 				631E234A17FF5F3C00BC2D06 /* MCKTypeEncodings.m in Sources */,
 				638CF1A218DDF0E700C667E4 /* MCKTypeDetector.m in Sources */,
 				631E234B17FF5F3C00BC2D06 /* MCKMockingSyntax.m in Sources */,
+				63956A7318E63D3F00682D90 /* MCKVerificationGroupRecorder.m in Sources */,
 				63D1CAC41825C2CC009FE9EC /* MCKLocation.m in Sources */,
 				631E234C17FF5F3C00BC2D06 /* MCKVerificationHandler.m in Sources */,
 				631E234D17FF5F3C00BC2D06 /* MCKVerificationResult.m in Sources */,
@@ -1433,6 +1448,7 @@
 				6376F87E17FF61A900F4752D /* MCKNeverVerificationHandlerTest.m in Sources */,
 				6376F88B17FF61C100F4752D /* TestObject.m in Sources */,
 				6376F87517FF619E00F4752D /* MCKInvocationPrototypeTest.m in Sources */,
+				63956A7618E63E9300682D90 /* MCKVerificationGroupRecorderTest.m in Sources */,
 				6376F88A17FF61C100F4752D /* CategoriesTestClasses.m in Sources */,
 				63D1CAF71826701A009FE9EC /* MCKInvocationRecorderTest.m in Sources */,
 				63956A6D18E6297000682D90 /* MCKVerificationGroupTest.m in Sources */,
@@ -1505,6 +1521,7 @@
 				638BA4D817F6F87C0086226D /* MCKTypeEncodings.m in Sources */,
 				638CF1A118DDF0E700C667E4 /* MCKTypeDetector.m in Sources */,
 				638BA49217F6F8370086226D /* MCKMockingSyntax.m in Sources */,
+				63956A7218E63D3F00682D90 /* MCKVerificationGroupRecorder.m in Sources */,
 				63D1CAC31825C2CC009FE9EC /* MCKLocation.m in Sources */,
 				638BA4A417F6F8580086226D /* MCKVerificationHandler.m in Sources */,
 				639085DF17F9C0F1006A0714 /* MCKVerificationResult.m in Sources */,
@@ -1535,6 +1552,7 @@
 				6397EFD017F6FAAD00F5902F /* MCKSpyIntegrationTest.m in Sources */,
 				6397EFEB17F6FAD800F5902F /* CategoriesTestClasses.m in Sources */,
 				6397EFD117F6FAB500F5902F /* MCKMockingContextTest.m in Sources */,
+				63956A7518E63E9300682D90 /* MCKVerificationGroupRecorderTest.m in Sources */,
 				6397EFE617F6FAC700F5902F /* MCKHamcrestArgumentMatcherTest.m in Sources */,
 				63D1CAF618267019009FE9EC /* MCKInvocationRecorderTest.m in Sources */,
 				63956A6C18E6297000682D90 /* MCKVerificationGroupTest.m in Sources */,

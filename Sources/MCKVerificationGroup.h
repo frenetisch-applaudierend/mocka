@@ -13,6 +13,7 @@
 @class MCKMockingContext;
 @class MCKLocation;
 @class MCKVerificationResult;
+@class MCKInvocationRecorder;
 
 
 typedef void(^MCKVerificationGroupBlock)(void);
@@ -27,10 +28,10 @@ typedef void(^MCKVerificationGroupBlock)(void);
 
 @property (nonatomic, readonly) MCKMockingContext *mockingContext;
 @property (nonatomic, readonly) MCKLocation *location;
-@property (nonatomic, readonly) MCKVerificationGroupBlock verificationGroupBlock;
 @property (nonatomic, readonly) id<MCKVerificationResultCollector> resultCollector;
+@property (nonatomic, readonly) MCKVerificationGroupBlock verificationGroupBlock;
 
-- (MCKVerificationResult *)execute;
+- (MCKVerificationResult *)executeWithInvocationRecorder:(MCKInvocationRecorder *)invocationRecorder;
 - (MCKVerificationResult *)collectResult:(MCKVerificationResult *)result;
 
 @end
