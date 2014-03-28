@@ -72,9 +72,9 @@
 extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll);
 extern void _mck_setVerificationTimeout(NSTimeInterval timeout);
 
-#define _MCKRecordVerification(BLOCK)    _MCKRecorder().recordVerification = _MCKVerification(_MCKCurrentLocation(), (BLOCK))
-#define _MCKSetTimeout(TIMEOUT)          .setTimeout(TIMEOUT)
-#define _MCKVerificationHandler(HANDLER) .setVerificationHandler(HANDLER)
+#define _MCKRecordVerification(BLOCK)       _MCKRecorder().recordVerification = _MCKVerification(_MCKCurrentLocation(), (BLOCK))
+#define _MCKSetTimeout(TIMEOUT)             .setTimeout(TIMEOUT)
+#define _MCKSetVerificationHandler(HANDLER) .setVerificationHandler(HANDLER)
 
 extern MCKVerificationRecorder* _MCKRecorder(void);
 extern MCKVerification* _MCKVerification(MCKLocation *location, MCKVerificationBlock block);

@@ -13,6 +13,8 @@
 #import "MCKVerificationSyntax.h"
 
 #import "MCKInvocationRecorder.h"
+#import "MCKVerification.h"
+#import "MCKVerificationGroup.h"
 #import "MCKVerificationResult.h"
 #import "MCKStub.h"
 
