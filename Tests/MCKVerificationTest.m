@@ -125,4 +125,20 @@
     expect(context.mode).to.equal(MCKContextModeRecording);
 }
 
+
+#pragma mark - Test Handling Invocation Prototypes
+
+- (void)testThatVerifyingPrototypeVerifiesUsingHandler
+{
+    id<MCKVerificationHandler> handler = MKTMockProtocol(@protocol(MCKVerificationHandler));
+    MCKInvocationPrototype *prototype = MKTMock([MCKInvocationPrototype class]);
+    NSArray *invocations = @[ @"dummy1", @"dummy2" ];
+    
+    verification.setVerificationHandler(handler);
+    
+    [verification verifyInvocations:invocations forPrototype:prototype];
+    
+    [(id<MCKVerificationHandler>)MKTVerify(handler) verifyInvocations:invocations forPrototype:prototype];
+}
+
 @end

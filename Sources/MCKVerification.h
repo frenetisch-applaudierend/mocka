@@ -13,6 +13,7 @@
 @class MCKVerificationResult;
 @class MCKLocation;
 @class MCKMockingContext;
+@class MCKInvocationPrototype;
 
 
 typedef void(^MCKVerificationBlock)(void);
@@ -51,5 +52,16 @@ typedef void(^MCKVerificationBlock)(void);
  * @return The result of the passed verification
  */
 - (MCKVerificationResult *)execute;
+
+/**
+ * Verify an invocation prototype within the given invocations.
+ *
+ * Behaviour is only defined while -execute is running. In this case it will
+ * collect the verification result for -execute to return it.
+ *
+ * @param invocations The invocations to search for matches in
+ * @param prototype   The prototype to match in the invocations
+ */
+- (void)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype;
 
 @end

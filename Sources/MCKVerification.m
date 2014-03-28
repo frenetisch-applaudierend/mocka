@@ -93,44 +93,39 @@ CONFIG_BLOCK_IMPL(setTimeout, NSTimeInterval, timeout)
     if (self.verificationBlock != nil) {
         self.verificationBlock();
     }
-    
     [self.mockingContext updateContextMode:MCKContextModeRecording];
+    
     return self.result;
 }
 
-//- (MCKVerificationResult *)resultForInvocationPrototype:(MCKInvocationPrototype *)prototype
-//{
-//    MCKVerificationResult *result = [self currentResultForPrototype:prototype];
-//    
-//    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
-//    while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
-//        [self.mockingContext updateContextMode:MCKContextModeRecording];
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
-//        [self.mockingContext updateContextMode:MCKContextModeVerifying];
-//        result = [self currentResultForPrototype:prototype];
-//    }
-//    return result;
-//}
-//
-//- (MCKVerificationResult *)currentResultForPrototype:(MCKInvocationPrototype *)prototype
-//{
-//    NSArray *recordedInvocations = self.mockingContext.invocationRecorder.recordedInvocations;
-//    return [self.verificationHandler verifyInvocations:recordedInvocations forPrototype:prototype];
-//}
-//
-//- (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result
-//{
-//    if (self.timeout <= 0.0) {
-//        return NO;
-//    }
-//    else {
-//        return [self.verificationHandler mustAwaitTimeoutForResult:result];
-//    }
-//}
-//
-//- (BOOL)didNotYetReachDate:(NSDate *)lastDate
-//{
-//    return ([lastDate laterDate:[NSDate date]] == lastDate);
-//}
+- (void)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype
+{
+    MCKVerificationResult *result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+    
+    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
+    while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
+        [self.mockingContext updateContextMode:MCKContextModeRecording];
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
+        [self.mockingContext updateContextMode:MCKContextModeVerifying];
+        result = [self.verificationHandler verifyInvocations:invocations forPrototype:prototype];
+    }
+    
+    self.result = result;
+}
+
+- (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result
+{
+    if (self.timeout <= 0.0) {
+        return NO;
+    }
+    else {
+        return [self.verificationHandler mustAwaitTimeoutForResult:result];
+    }
+}
+
+- (BOOL)didNotYetReachDate:(NSDate *)lastDate
+{
+    return ([lastDate laterDate:[NSDate date]] == lastDate);
+}
 
 @end

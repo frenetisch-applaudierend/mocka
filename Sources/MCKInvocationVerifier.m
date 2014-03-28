@@ -10,6 +10,7 @@
 
 #import "MCKMockingContext.h"
 #import "MCKInvocationRecorder.h"
+#import "MCKFailureHandler.h"
 #import "MCKVerification.h"
 
 #import "MCKVerificationHandler.h"
@@ -19,6 +20,7 @@
 
 @interface MCKInvocationVerifier ()
 
+@property (nonatomic, strong) MCKVerification *currentVerification;
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
 
@@ -42,10 +44,35 @@
 
 - (void)processVerification:(MCKVerification *)verification
 {
+    NSParameterAssert(verification != nil);
+    NSAssert(self.currentVerification == nil, @"Another verification is already running");
+    
+    self.currentVerification = verification;
     MCKVerificationResult *result = [verification execute];
+    self.currentVerification = nil;
+    
     if ([result isFailure]) {
-        [self notifyFailureWithResult:result];
+        [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
     }
+}
+
+- (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype
+{
+    if (self.currentVerification != nil) {
+        NSArray *invocations = self.mockingContext.invocationRecorder.recordedInvocations;
+        [self.currentVerification verifyInvocations:invocations forPrototype:prototype];
+        return;
+    }
+    
+    MCKVerificationResult *result = [self resultForInvocationPrototype:prototype];
+    MCKVerificationResult *collectedResult = [self.collector collectVerificationResult:result];
+    
+    if ([collectedResult isFailure]) {
+        [self notifyFailureWithResult:collectedResult];
+    }
+    
+    self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+    self.timeout = 0.0;
 }
 
 - (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector
@@ -60,19 +87,6 @@
 {
     NSParameterAssert(verificationHandler != nil);
     self.verificationHandler = verificationHandler;
-}
-
-- (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype
-{
-    MCKVerificationResult *result = [self resultForInvocationPrototype:prototype];
-    MCKVerificationResult *collectedResult = [self.collector collectVerificationResult:result];
-    
-    if ([collectedResult isFailure]) {
-        [self notifyFailureWithResult:collectedResult];
-    }
-    
-    self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
-    self.timeout = 0.0;
 }
 
 - (void)finishVerification

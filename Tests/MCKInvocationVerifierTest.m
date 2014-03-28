@@ -68,7 +68,7 @@
     
     [verifier processVerification:verification];
     
-    [MKTVerify(mockingContext.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"verify: foo"];
+    [MKTVerify(mockingContext.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
 }
 
 - (void)testThatProcessVerificationSucceedsIfVerificationSucceedsForSingleVerification
