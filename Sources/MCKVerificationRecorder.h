@@ -16,9 +16,6 @@
 @protocol MCKVerificationHandler;
 
 
-extern MCKVerificationRecorder* _mck_verificationRecorder(MCKMockingContext *context, MCKLocation *location) NS_RETURNS_RETAINED;
-
-
 @interface MCKVerificationRecorder : NSObject
 
 #pragma mark - Initialization

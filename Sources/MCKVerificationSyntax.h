@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCKVerificationRecorder.h"
+#import "MCKVerification.h"
+
 
 @class MCKLocation;
 @protocol MCKVerificationResultCollector;
@@ -52,6 +55,11 @@
 @property (nonatomic, copy) void(^verifyCallBlock)(void);
 
 @end
+
+#define _MCKRecordVerification(VERIFICATION) _MCKRecorder().recordVerification = _MCKVerification((VERIFICATION), _MCKCurrentLocation())
+
+extern MCKVerificationRecorder* _MCKRecorder(void);
+extern MCKVerification* _MCKVerification(MCKVerificationBlock block, MCKLocation *location);
 
 extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll);
 extern void _mck_setVerificationTimeout(NSTimeInterval timeout);
