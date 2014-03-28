@@ -14,18 +14,10 @@
 #import "MCKAPIMisuse.h"
 
 
-#define CONFIG_BLOCK_IMPL(NAME, TYPE, VAL)\
-    @synthesize NAME = _ ## NAME;\
-    - (MCKVerificationRecorder *(^)(TYPE))NAME {\
-        if (_ ## NAME == nil) {\
-            __weak typeof(self) weakSelf = self;\
-            _ ## NAME = ^(TYPE value) {\
-                return [weakSelf update_ ## NAME:value];\
-            };\
-        }\
-        return _ ## NAME;\
-    }\
-    - (instancetype)update_ ## NAME:(TYPE)VAL
+MCKVerificationRecorder* _mck_verificationRecorder(MCKMockingContext *context, MCKLocation *location)
+{
+    return [[MCKVerificationRecorder alloc] initWithMockingContext:context location:location];
+}
 
 
 @interface MCKVerificationRecorder ()
@@ -46,63 +38,6 @@
         _mockingContext = context;
         _location = location;
     }
-    return self;
-}
-
-- (void)dealloc
-{
-    MCKVerification *verification = [[MCKVerification alloc] initWithVerificationBlock:_verificationBlock
-                                                                   verificationHandler:_verificationHandler
-                                                                               timeout:[_timeout doubleValue]
-                                                                              location:_location];
-    [_mockingContext.invocationVerifier processVerification:verification];
-}
-
-
-#pragma mark - Calculated Properties
-
-- (id<MCKVerificationHandler>)verificationHandler
-{
-    return (_verificationHandler ?: [MCKDefaultVerificationHandler defaultHandler]);
-}
-
-
-#pragma mark - Configuration
-
-
-CONFIG_BLOCK_IMPL(setVerificationBlock, MCKVerificationBlock, block)
-{
-    if (_verificationBlock != nil) {
-        MCKAPIMisuse(@"Can only set one verification block per verification");
-    }
-    else if (block == nil) {
-        MCKAPIMisuse(@"You cannot set 'nil' as a verification block");
-    }
-    
-    self.verificationBlock = block;
-    return self;
-}
-
-CONFIG_BLOCK_IMPL(setVerificationHandler, id<MCKVerificationHandler>, handler)
-{
-    if (_verificationHandler != nil) {
-        MCKAPIMisuse(@"Can only set one verification type per verification");
-    }
-    else if (handler == nil) {
-        MCKAPIMisuse(@"You cannot set 'nil' as a verification type");
-    }
-    
-    self.verificationHandler = handler;
-    return self;
-}
-
-CONFIG_BLOCK_IMPL(setTimeout, NSNumber*, timeout)
-{
-    if (_timeout != nil) {
-        MCKAPIMisuse(@"Can only set one timeout per verification");
-    }
-    
-    self.timeout = timeout;
     return self;
 }
 

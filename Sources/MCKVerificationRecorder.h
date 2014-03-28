@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MCKVerification.h"
 
 
+@class MCKVerificationRecorder;
 @class MCKMockingContext;
 @class MCKLocation;
 @protocol MCKVerificationHandler;
 
 
-typedef void(^MCKVerificationBlock)(void);
+extern MCKVerificationRecorder* _mck_verificationRecorder(MCKMockingContext *context, MCKLocation *location) NS_RETURNS_RETAINED;
 
 
 @interface MCKVerificationRecorder : NSObject
@@ -32,9 +34,5 @@ typedef void(^MCKVerificationBlock)(void);
 @property (nonatomic, readonly) MCKVerificationBlock verificationBlock;
 @property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, readonly) NSNumber *timeout;
-
-@property (nonatomic, readonly) MCKVerificationRecorder*(^setVerificationBlock)(MCKVerificationBlock block);
-@property (nonatomic, readonly) MCKVerificationRecorder*(^setVerificationHandler)(id<MCKVerificationHandler> handler);
-@property (nonatomic, readonly) MCKVerificationRecorder*(^setTimeout)(NSNumber *timeout);
 
 @end

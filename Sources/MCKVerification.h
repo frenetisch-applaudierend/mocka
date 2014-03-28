@@ -10,19 +10,51 @@
 
 
 @protocol MCKVerificationHandler;
+@class MCKVerificationResult;
 @class MCKLocation;
+
+
+typedef void(^MCKVerificationBlock)(void);
 
 
 @interface MCKVerification : NSObject
 
-- (instancetype)initWithVerificationBlock:(void(^)(void))block
-                      verificationHandler:(id<MCKVerificationHandler>)handler
-                                  timeout:(NSTimeInterval)timeout
-                                 location:(MCKLocation *)location;
+#pragma mark - Initialization
 
-@property (nonatomic, readonly) void(^verificationBlock)(void);
+- (instancetype)initWithVerificationBlock:(MCKVerificationBlock)block location:(MCKLocation *)location;
+
+
+#pragma mark - Properties
+
+@property (nonatomic, readonly) MCKLocation *location;
+@property (nonatomic, readonly) MCKVerificationBlock verificationBlock;
 @property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, readonly) NSTimeInterval timeout;
-@property (nonatomic, readonly) MCKLocation *location;
+
+
+#pragma mark - Configuration
+
+@property (nonatomic, readonly) MCKVerification*(^setVerificationHandler)(id<MCKVerificationHandler> handler);
+@property (nonatomic, readonly) MCKVerification*(^setTimeout)(NSTimeInterval timeout);
+
+
+#pragma mark - Execution
+
+/**
+ * Execute the current verification.
+ *
+ * This will call the verification block, which makes sure
+ * the verification call is made. Those verification calls
+ * then are routed via the MCKMockingContext to the
+ * MCKInvocationVerifier. The verifier in turn passes it along
+ * to this object which then will check the result and return
+ * it from this method.
+ *
+ * Exactly one verification method must be executed when calling
+ * the verification block.
+ *
+ * @return The result of the passed verification
+ */
+- (MCKVerificationResult *)execute;
 
 @end
