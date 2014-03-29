@@ -31,3 +31,17 @@
 - (BOOL)mustAwaitTimeoutForResult:(MCKVerificationResult *)result;
 
 @end
+
+
+#pragma mark - Counting Helpers
+
+/**
+ * Use this macro to define parmeters taking a "count".
+ * This allows the user to write e.g. exactly(3 times)
+ */
+#define _MCKCount(COUNT) [@COUNT]
+
+#define mck_times integerValue
+#ifndef MCK_DISABLE_NICE_SYNTAX
+    #define times mck_times
+#endif

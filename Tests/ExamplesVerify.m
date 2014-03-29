@@ -141,15 +141,15 @@
 - (void)testUseOnceToSpecifyExactlyOneInvocation {
     // by default verify will succeed if one *or more* calls which match are made
     // verify once will only succeed if there was *exactly* one call whitch matches
-    // same as verify exactly(1)
+    // same as verify exactly(1 times)
     
     [mockArray count];
     [mockArray objectAtIndex:0];
     [mockArray objectAtIndex:1];
     
-    match ([mockArray count]) once;
+    match ([mockArray count]) exactly(once);
     ThisWillFail({
-        match ([mockArray objectAtIndex:anyInt()]) once;
+        match ([mockArray objectAtIndex:anyInt()]) exactly(once);
     });
 }
 
@@ -160,9 +160,9 @@
     [mockArray objectAtIndex:1];
     [mockArray count];
     
-    match ([mockArray objectAtIndex:anyInt()]) exactly(2);
+    match ([mockArray objectAtIndex:anyInt()]) exactly(2 times);
     ThisWillFail({
-        match ([mockArray count]) exactly(2);
+        match ([mockArray count]) exactly(2 times);
     });
 }
 
@@ -248,7 +248,7 @@
     [mockArray removeAllObjects];
     
     inOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray addObject:anyObject()]) exactly(3 times);
         match ([mockArray removeAllObjects]);
     };
 }
@@ -263,7 +263,7 @@
     [mockArray removeAllObjects];
     
     inOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray addObject:anyObject()]) exactly(3 times);
         match ([mockArray removeAllObjects]);
     };
 }
@@ -277,7 +277,7 @@
     [mockArray addObject:@"Three"];
     
     inOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
 }
 
@@ -290,7 +290,7 @@
     
     ThisWillFail({
         inOrder {
-            match ([mockArray addObject:anyObject()]) exactly(3);
+            match ([mockArray addObject:anyObject()]) exactly(3 times);
             match ([mockArray removeAllObjects]);
         };
     });
@@ -306,7 +306,7 @@
     
     ThisWillFail({
         inOrder {
-            match ([mockArray addObject:anyObject()]) exactly(3);
+            match ([mockArray addObject:anyObject()]) exactly(3 times);
             match ([mockArray removeAllObjects]);
         };
     });
@@ -321,7 +321,7 @@
     [mockArray addObject:@"Three"];
     
     inOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
     match ([mockArray removeAllObjects]);
 }
@@ -336,7 +336,7 @@
     [mockArray addObject:@"Three"];
     
     inOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
     
     inOrder {
@@ -355,7 +355,7 @@
     [mockArray addObject:@"Three"];
     
     inOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
     
     ThisWillFail({
@@ -400,7 +400,7 @@
     }];
     
     // you can also combine the timeout with verification modes like exactly(...)
-    match ([mockArray removeAllObjects]) exactly(2) withTimeout(0.2);
+    match ([mockArray removeAllObjects]) exactly(2 times) withTimeout(0.2);
 }
 
 - (void)testTimeoutWorksDifferentWithNever {

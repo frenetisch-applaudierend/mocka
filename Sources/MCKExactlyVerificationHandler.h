@@ -22,8 +22,8 @@
 
 
 // Mocking Syntax
-#define mck_exactly(COUNT) _MCKSetVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:(COUNT)])
-#define mck_once           mck_exactly(1)
+#define mck_exactly(COUNT) _MCKSetVerificationHandler([MCKExactlyVerificationHandler exactlyHandlerWithCount:_MCKCount(COUNT)])
+#define mck_once           1 times
 
 #ifndef MCK_DISABLE_NICE_SYNTAX
 #define exactly(COUNT) mck_exactly(COUNT)
