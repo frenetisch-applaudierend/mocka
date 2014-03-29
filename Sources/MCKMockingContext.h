@@ -72,12 +72,6 @@ typedef enum {
 - (MCKStub *)stubCalls:(void(^)(void))callBlock;
 
 
-#pragma mark - Verification
-
-- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector;
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
-
-
 #pragma mark - Failure Handling
 
 - (void)failWithReason:(NSString *)reason, ... NS_FORMAT_FUNCTION(1,2);

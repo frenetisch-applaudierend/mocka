@@ -10,6 +10,8 @@
 
 #import "MCKSpy.h"
 #import "MCKStub.h"
+#import "MCKVerification.h"
+#import "MCKInvocationVerifier.h"
 
 #import "TestObject.h"
 #import "FakeMockingContext.h"
@@ -137,14 +139,20 @@
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInVerificationMode {
     // when
+    __block BOOL called = NO;
     @try {
-        [context verifyCalls:^{ [spy voidMethodCallWithoutParameters]; } usingCollector:nil];
+        MCKVerification *verification = [[MCKVerification alloc] initWithMockingContext:context location:nil verificationBlock:^{
+            [spy voidMethodCallWithoutParameters];
+            called = YES;
+        }];
+        [context.invocationVerifier processVerification:verification];
     } @catch (NSException *exception) {
         // ignore, it's because verification fails
     }
     
     // then
     expect(TestObjectCalledSelectors(spy)).to.beEmpty();
+    expect(called).to.beTruthy();
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInStubbingMode {
