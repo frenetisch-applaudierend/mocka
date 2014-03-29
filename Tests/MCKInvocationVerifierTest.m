@@ -30,21 +30,21 @@
 @interface MCKInvocationVerifierTest : XCTestCase @end
 @implementation MCKInvocationVerifierTest {
     MCKInvocationVerifier *verifier;
-    MCKMockingContext *mockingContext;
+    MCKMockingContext *context;
 }
 
 #pragma mark - Setup
 
 - (void)setUp
 {
-    mockingContext = [[MCKMockingContext alloc] init];
+    context = [[MCKMockingContext alloc] init];
     
-    verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:mockingContext];
-    mockingContext.invocationVerifier = verifier;
+    verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:context];
+    context.invocationVerifier = verifier;
     
-    mockingContext.invocationRecorder = MKTMock([MCKInvocationRecorder class]);
-    mockingContext.invocationStubber = MKTMock([MCKInvocationStubber class]);
-    mockingContext.failureHandler = MKTMockProtocol(@protocol(MCKFailureHandler));
+    context.invocationRecorder = MKTMock([MCKInvocationRecorder class]);
+    context.invocationStubber = MKTMock([MCKInvocationStubber class]);
+    context.failureHandler = MKTMockProtocol(@protocol(MCKFailureHandler));
 }
 
 
@@ -66,7 +66,7 @@
     
     [verifier processVerification:verification];
     
-    [MKTVerify(mockingContext.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
+    [MKTVerify(context.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
 }
 
 - (void)testThatProcessVerificationSucceedsIfVerificationSucceedsInTopLevel
@@ -76,7 +76,7 @@
     
     [verifier processVerification:verification];
     
-    [MKTVerifyCount(mockingContext.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
 }
 
 KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResult, @[
@@ -91,7 +91,7 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResu
     
     [verifier processVerification:verification];
     
-    [MKTVerify(mockingContext.invocationRecorder) removeInvocationsAtIndexes:result.matchingIndexes];
+    [MKTVerify(context.invocationRecorder) removeInvocationsAtIndexes:result.matchingIndexes];
 }
 
 
@@ -103,7 +103,7 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResu
     
     [verifier processVerificationGroup:verificationGroup];
     
-    [MKTVerify(verificationGroup) executeWithInvocationRecorder:mockingContext.invocationRecorder];
+    [MKTVerify(verificationGroup) executeWithInvocationRecorder:context.invocationRecorder];
 }
 
 - (void)testThatProcessVerificationGroupFailsIfVerificationGroupFailsInTopLevel
@@ -114,7 +114,7 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResu
     
     [verifier processVerificationGroup:verificationGroup];
     
-    [MKTVerify(mockingContext.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
+    [MKTVerify(context.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
 }
 
 - (void)testThatProcessVerificationGroupSucceedsIfVerificationGroupSucceedsInTopLevel
@@ -125,7 +125,7 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResu
     
     [verifier processVerificationGroup:verificationGroup];
     
-    [MKTVerifyCount(mockingContext.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
 }
 
 KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsForResult, @[
@@ -140,7 +140,7 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsFo
     
     [verifier processVerificationGroup:verificationGroup];
     
-    [MKTVerify(mockingContext.invocationRecorder) removeInvocationsAtIndexes:result.matchingIndexes];
+    [MKTVerify(context.invocationRecorder) removeInvocationsAtIndexes:result.matchingIndexes];
 }
 
 
@@ -170,7 +170,37 @@ KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsFo
     [verifier processVerification:verification];
     
     [MKTVerify(verificationGroup) collectResult:result];
-    [MKTVerifyCount(mockingContext.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+}
+
+
+#pragma mark - Test Processing Nested Verification Group
+
+- (void)testThatProcessVerificationGroupExecutesVerificationGroupWhenNested
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    [verifier pushVerificationGroup:MKTMock([MCKVerificationGroup class])];
+    
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerify(verificationGroup) executeWithInvocationRecorder:context.invocationRecorder];
+}
+
+- (void)testThatProcessVerificationGroupPassesResultToParentGroupWhenNested
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    MCKVerificationGroup *parentGroup = MKTMock([MCKVerificationGroup class]);
+    MCKVerificationResult *result = [MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil];
+    
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()]) willReturn:result];
+    [MKTGiven([parentGroup collectResult:HC_anything()]) willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
+    
+    
+    [verifier pushVerificationGroup:parentGroup];
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerify(parentGroup) collectResult:result];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
 }
 
 @end

@@ -56,18 +56,7 @@
     MCKVerificationResult *result = [verification execute];
     self.currentVerification = nil;
     
-    if (self.currentVerificationGroup != nil) {
-        result = [self.currentVerificationGroup collectResult:result];
-        if ([result isFailure]) {
-            [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
-        }
-    }
-    else {
-        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
-        if ([result isFailure]) {
-            [self.mockingContext.failureHandler handleFailureAtLocation:verification.location withReason:result.failureReason];
-        }
-    }
+    [self handleResult:result location:verification.location];
 }
 
 - (void)processVerificationGroup:(MCKVerificationGroup *)verificationGroup
@@ -78,17 +67,30 @@
     MCKVerificationResult *result = [verificationGroup executeWithInvocationRecorder:self.mockingContext.invocationRecorder];
     [self popVerificationGroup];
     
-    if (result != nil) {
-        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
-        if ([result isFailure]) {
-            [self.mockingContext.failureHandler handleFailureAtLocation:verificationGroup.location withReason:result.failureReason];
-        }
-    }
+    [self handleResult:result location:verificationGroup.location];
 }
 
 - (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype
 {
     [self.currentVerification verifyPrototype:prototype inInvocationRecorder:self.mockingContext.invocationRecorder];
+}
+
+- (void)handleResult:(MCKVerificationResult *)result location:(MCKLocation *)location
+{
+    if (result == nil) {
+        return;
+    }
+    
+    if (self.currentVerificationGroup != nil) {
+        result = [self.currentVerificationGroup collectResult:result];
+    }
+    else {
+        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+    }
+    
+    if ([result isFailure]) {
+        [self.mockingContext.failureHandler handleFailureAtLocation:location withReason:result.failureReason];
+    }
 }
 
 

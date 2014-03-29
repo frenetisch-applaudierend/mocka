@@ -924,9 +924,9 @@
 			isa = PBXGroup;
 			children = (
 				639085E017F9C269006A0714 /* MCKInvocationVerifierTest.m */,
-				63B097A918E212CB0046E703 /* MCKVerificationRecorderTest.m */,
 				632CF45F18E5CBC6001D6716 /* MCKVerificationTest.m */,
 				63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */,
+				63B097A918E212CB0046E703 /* MCKVerificationRecorderTest.m */,
 				63956A7418E63E9300682D90 /* MCKVerificationGroupRecorderTest.m */,
 			);
 			name = "Invocation Verification";
