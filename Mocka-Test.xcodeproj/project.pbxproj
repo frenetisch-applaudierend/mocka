@@ -1262,7 +1262,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6334757517F591FA001F5C88 /* Build configuration list for PBXProject "mocka" */;
+			buildConfigurationList = 6334757517F591FA001F5C88 /* Build configuration list for PBXProject "Mocka-Test" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2062,7 +2062,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6334757517F591FA001F5C88 /* Build configuration list for PBXProject "mocka" */ = {
+		6334757517F591FA001F5C88 /* Build configuration list for PBXProject "Mocka-Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6334757617F591FA001F5C88 /* Debug */,
