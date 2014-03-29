@@ -69,6 +69,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6328EB0818E737AD002A655D /* iOS App */ = {
+			isa = PBXGroup;
+			children = (
+				63956A9718E7323700682D90 /* Info.plist */,
+				63956A9B18E7323700682D90 /* main.m */,
+				63956A9E18E7323700682D90 /* AppDelegate.h */,
+				63956A9F18E7323700682D90 /* AppDelegate.m */,
+			);
+			name = "iOS App";
+			sourceTree = "<group>";
+		};
 		63956A8318E7323700682D90 = {
 			isa = PBXGroup;
 			children = (
@@ -102,47 +113,28 @@
 		63956A9518E7323700682D90 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				63956A9E18E7323700682D90 /* AppDelegate.h */,
-				63956A9F18E7323700682D90 /* AppDelegate.m */,
-				63956A9618E7323700682D90 /* Supporting Files */,
+				63956A9D18E7323700682D90 /* Prefix.pch */,
+				6328EB0818E737AD002A655D /* iOS App */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		63956A9618E7323700682D90 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				63956A9718E7323700682D90 /* Info.plist */,
-				63956A9B18E7323700682D90 /* main.m */,
-				63956A9D18E7323700682D90 /* Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		63956AAE18E7323700682D90 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63956AB018E7323700682D90 /* Info.plist */,
 				6328EB0718E735B5002A655D /* Prefix.pch */,
 				63956AB418E7323700682D90 /* ExamplesTests.m */,
-				63956AAF18E7323700682D90 /* Supporting Files */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		63956AAF18E7323700682D90 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				63956AB018E7323700682D90 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		63956A8B18E7323700682D90 /* Examples */ = {
+		63956A8B18E7323700682D90 /* examples-ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63956AB818E7323700682D90 /* Build configuration list for PBXNativeTarget "Examples" */;
+			buildConfigurationList = 63956AB818E7323700682D90 /* Build configuration list for PBXNativeTarget "examples-ios" */;
 			buildPhases = (
 				63956A8818E7323700682D90 /* Sources */,
 				63956A8918E7323700682D90 /* Frameworks */,
@@ -152,14 +144,14 @@
 			);
 			dependencies = (
 			);
-			name = Examples;
+			name = "examples-ios";
 			productName = Examples;
 			productReference = 63956A8C18E7323700682D90 /* Examples.app */;
 			productType = "com.apple.product-type.application";
 		};
-		63956AA618E7323700682D90 /* ExamplesTests */ = {
+		63956AA618E7323700682D90 /* examples-tests-ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63956ABB18E7323700682D90 /* Build configuration list for PBXNativeTarget "ExamplesTests" */;
+			buildConfigurationList = 63956ABB18E7323700682D90 /* Build configuration list for PBXNativeTarget "examples-tests-ios" */;
 			buildPhases = (
 				63956AA318E7323700682D90 /* Sources */,
 				63956AA418E7323700682D90 /* Frameworks */,
@@ -170,7 +162,7 @@
 			dependencies = (
 				63956AAD18E7323700682D90 /* PBXTargetDependency */,
 			);
-			name = ExamplesTests;
+			name = "examples-tests-ios";
 			productName = ExamplesTests;
 			productReference = 63956AA718E7323700682D90 /* ExamplesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -201,8 +193,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				63956A8B18E7323700682D90 /* Examples */,
-				63956AA618E7323700682D90 /* ExamplesTests */,
+				63956A8B18E7323700682D90 /* examples-ios */,
+				63956AA618E7323700682D90 /* examples-tests-ios */,
 			);
 		};
 /* End PBXProject section */
@@ -247,7 +239,7 @@
 /* Begin PBXTargetDependency section */
 		63956AAD18E7323700682D90 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 63956A8B18E7323700682D90 /* Examples */;
+			target = 63956A8B18E7323700682D90 /* examples-ios */;
 			targetProxy = 63956AAC18E7323700682D90 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -359,12 +351,12 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Examples/Examples-Prefix.pch";
+				GCC_PREFIX_HEADER = Tests/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "ExamplesTests/ExamplesTests-Info.plist";
+				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -381,8 +373,8 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Examples/Examples-Prefix.pch";
-				INFOPLIST_FILE = "ExamplesTests/ExamplesTests-Info.plist";
+				GCC_PREFIX_HEADER = Tests/Prefix.pch;
+				INFOPLIST_FILE = Tests/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -401,7 +393,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		63956AB818E7323700682D90 /* Build configuration list for PBXNativeTarget "Examples" */ = {
+		63956AB818E7323700682D90 /* Build configuration list for PBXNativeTarget "examples-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				63956AB918E7323700682D90 /* Debug */,
@@ -410,7 +402,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		63956ABB18E7323700682D90 /* Build configuration list for PBXNativeTarget "ExamplesTests" */ = {
+		63956ABB18E7323700682D90 /* Build configuration list for PBXNativeTarget "examples-tests-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				63956ABC18E7323700682D90 /* Debug */,
