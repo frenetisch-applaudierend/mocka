@@ -131,27 +131,6 @@ static id _CurrentContext = nil;
 }
 
 
-#pragma mark - Verification
-
-- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector
-{
-    NSParameterAssert(callBlock != nil);
-    NSParameterAssert(collector != nil);
-    
-    [self updateContextMode:MCKContextModeVerifying];
-    [self.invocationVerifier beginVerificationWithCollector:collector];
-    callBlock();
-    [self.invocationVerifier finishVerification];
-    [self updateContextMode:MCKContextModeRecording];
-}
-
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler
-{
-    NSAssert((self.mode == MCKContextModeVerifying), @"Cannot set a verification handler outside verification mode");
-    [self.invocationVerifier useVerificationHandler:handler];
-}
-
-
 #pragma mark - Failure Handling
 
 - (void)failWithReason:(NSString *)reason, ...

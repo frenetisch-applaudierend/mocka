@@ -20,7 +20,8 @@
 
 #pragma mark - Setup
 
-- (void)setUp {
+- (void)setUp
+{
     collector = [[MCKInOrderCollector alloc] init];
     invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:nil];
     [invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
@@ -31,7 +32,8 @@
 
 #pragma mark - Test Collecting
 
-- (void)testThatCollectingResultReturnsCollectedResult {
+- (void)testThatCollectingResultReturnsCollectedResult
+{
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:nil];
     [collector beginCollectingResultsWithInvocationRecorder:invocationRecorder];
@@ -43,7 +45,8 @@
     expect(collectedResult).to.equal(result);
 }
 
-- (void)testThatCollectingResultDoesNotRemoveAnyInvocationsWhenNoMatchesForSuccessfulResult {
+- (void)testThatCollectingResultDoesNotRemoveAnyInvocationsWhenNoMatchesForSuccessfulResult
+{
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
     NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
@@ -56,7 +59,8 @@
     expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
-- (void)testThatCollectingResultRemovesAllInvocationsUpToLastMatchForSuccessfulResult {
+- (void)testThatCollectingResultRemovesAllInvocationsUpToLastMatchForSuccessfulResult
+{
     // given
     MCKVerificationResult *result = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:1]];
     NSArray *expectedRemainingInvocations = @[ [invocationRecorder invocationAtIndex:2] ];
@@ -69,7 +73,8 @@
     expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
-- (void)testThatCollectingResultDoesNotRemoveAnyInvocationsWhenNoMatchesForFailureResult {
+- (void)testThatCollectingResultDoesNotRemoveAnyInvocationsWhenNoMatchesForFailureResult
+{
     // given
     MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSet]];
     NSArray *expectedRemainingInvocations = invocationRecorder.recordedInvocations;
@@ -82,7 +87,8 @@
     expect(invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
 }
 
-- (void)testThatCollectingResultRemovesAllInvocationsUpToLastMatchForFailureResult {
+- (void)testThatCollectingResultRemovesAllInvocationsUpToLastMatchForFailureResult
+{
     // given
     MCKVerificationResult *result = [MCKVerificationResult failureWithReason:nil matchingIndexes:[NSIndexSet indexSetWithIndex:1]];
     NSArray *expectedRemainingInvocations = @[ [invocationRecorder invocationAtIndex:2] ];

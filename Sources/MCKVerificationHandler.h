@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCKVerificationSyntax.h"
 #import "MCKVerificationResult.h"
 #import "MCKInvocationPrototype.h"
 
@@ -32,5 +33,15 @@
 @end
 
 
-extern void _mck_useVerificationHandlerImpl(id<MCKVerificationHandler> handler);
-#define _mck_useVerificationHandler(HANDLER) _mck_useVerificationHandlerImpl(HANDLER),
+#pragma mark - Counting Helpers
+
+/**
+ * Use this macro to define parmeters taking a "count".
+ * This allows the user to write e.g. exactly(3 times)
+ */
+#define _MCKCount(COUNT) [@COUNT]
+
+#define mck_times integerValue
+#ifndef MCK_DISABLE_NICE_SYNTAX
+    #define times mck_times
+#endif

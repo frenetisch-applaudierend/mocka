@@ -7,236 +7,200 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "TestingSupport.h"
 
 #import "MCKInvocationVerifier.h"
+
+#import "MCKMockingContext.h"
+#import "MCKInvocationRecorder.h"
+#import "MCKInvocationStubber.h"
+
+#import "MCKVerification.h"
+#import "MCKVerificationGroup.h"
 #import "MCKVerificationHandler.h"
-#import "MCKDefaultVerificationHandler.h"
+#import "MCKVerificationResultCollector.h"
+
+
+@interface MCKInvocationVerifier (TestSupport)
+
+- (void)pushVerificationGroup:(MCKVerificationGroup *)verificationGroup;
+
+@end
 
 
 @interface MCKInvocationVerifierTest : XCTestCase @end
 @implementation MCKInvocationVerifierTest {
     MCKInvocationVerifier *verifier;
-    FakeMockingContext *mockingContext;
+    MCKMockingContext *context;
 }
 
-- (void)setUp {
-    mockingContext = [FakeMockingContext fakeContext];
-    
-    mockingContext.shouldIgnoreFailures = YES;
-    
-    mockingContext.invocationRecorder = [[MCKInvocationRecorder alloc] initWithMockingContext:mockingContext];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    [mockingContext.invocationRecorder appendInvocation:[NSInvocation voidMethodInvocationForTarget:nil]];
-    
-    verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:mockingContext];
-    
-    mockingContext.invocationVerifier = verifier;
-}
+#pragma mark - Setup
 
-- (FakeVerificationHandler *)verificationHandlerWhichFailsUnless:(BOOL(^)(void))condition {
-    return [FakeVerificationHandler handlerWithImplementation:^MCKVerificationResult*(MCKInvocationPrototype *p, NSArray *a) {
-        return (condition()
-                ? [MCKVerificationResult successWithMatchingIndexes:nil]
-                : [MCKVerificationResult failureWithReason:nil matchingIndexes:nil]);
-    }];
+- (void)setUp
+{
+    context = [[MCKMockingContext alloc] init];
+    
+    verifier = [[MCKInvocationVerifier alloc] initWithMockingContext:context];
+    context.invocationVerifier = verifier;
+    
+    context.invocationRecorder = MKTMock([MCKInvocationRecorder class]);
+    context.invocationStubber = MKTMock([MCKInvocationStubber class]);
+    context.failureHandler = MKTMockProtocol(@protocol(MCKFailureHandler));
 }
 
 
-#pragma mark - Test General Usage
+#pragma mark - Test Processing Top Level Verification
 
-- (void)testThatIfNoHandlerIsSetTheDefaultHandlerIsUsed {
-    // given
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
+- (void)testThatProcessVerificationExecutesVerificationInTopLevel
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
     
-    // then
-    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
+    [verifier processVerification:verification];
+    
+    [MKTVerify(verification) execute];
 }
 
-- (void)testThatUsingAnotherHandlerWillSetThisHandler {
-    // given
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
+- (void)testThatProcessVerificationFailsIfVerificationFailsInTopLevel
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    [MKTGiven([verification execute]) willReturn:[MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil]];
     
-    // when
-    FakeVerificationHandler *handler = [FakeVerificationHandler dummy];
-    [verifier useVerificationHandler:handler];
+    [verifier processVerification:verification];
     
-    // then
-    expect(verifier.verificationHandler).to.equal(handler);
+    [MKTVerify(context.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
 }
 
-- (void)testThatUsingMultipleHandlersWillSetLastHandler {
-    // given
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
+- (void)testThatProcessVerificationSucceedsIfVerificationSucceedsInTopLevel
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    [MKTGiven([verification execute]) willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
     
-    // when
-    [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
-    [verifier useVerificationHandler:[FakeVerificationHandler dummy]];
+    [verifier processVerification:verification];
     
-    FakeVerificationHandler *usedHandler = [FakeVerificationHandler dummy];
-    [verifier useVerificationHandler:usedHandler];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+}
+
+KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationFailsForResult, @[
+    [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:10]],
+    [MCKVerificationResult failureWithReason:@"foo" matchingIndexes:[NSIndexSet indexSetWithIndex:20]]
+])
+- (void)testThatMatchingInvocationsAreRemovedIfVerificationFailsForResult:(MCKVerificationResult *)result
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
     
-    // then
-    expect(verifier.verificationHandler).to.equal(usedHandler);
+    [MKTGiven([verification execute]) willReturn:result];
+    
+    [verifier processVerification:verification];
+    
+    [MKTVerify(context.invocationRecorder) removeInvocationsAtIndexes:result.matchingIndexes];
 }
 
 
-#pragma mark - Calling and Verifying
+#pragma mark - Test Processing Top Level Verification Group
 
-- (void)testThatVerifyInvocationsVerifiesUsingPassedHandler {
-    // given
-    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
-    FakeInvocationPrototype *prototype = [FakeInvocationPrototype dummy];
+- (void)testThatProcessVerificationGroupExecutesVerificationGroupInTopLevel
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
     
-    // when
-    [verifier beginVerificationWithCollector:[FakeVerificationResultCollector dummy]];
-    [verifier useVerificationHandler:handler];
-    [verifier verifyInvocationsForPrototype:prototype];
-    [verifier finishVerification];
+    [verifier processVerificationGroup:verificationGroup];
     
-    // then
-    expect([[handler.calls lastObject] prototype]).to.equal(prototype);
+    [MKTVerify(verificationGroup) executeWithInvocationRecorder:context.invocationRecorder];
 }
 
-//- (void)testThatVerifyInvocationsVerifiesRecorderInvocations {
-//    // given
-//    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceeds];
-//    
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-//        [verifier useVerificationHandler:handler];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//        [verifier useVerificationHandler:handler];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//    };
-//    [verifier finishGroupVerification];
-//    
-//    // then
-//    expect([[handler.calls lastObject] invocations]).to.equal(mockingContext.invocationRecorder.recordedInvocations);
-//}
+- (void)testThatProcessVerificationGroupFailsIfVerificationGroupFailsInTopLevel
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()])
+     willReturn:[MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil]];
+    
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerify(context.failureHandler) handleFailureAtLocation:HC_anything() withReason:@"foo"];
+}
 
-//- (void)testThatVerifyDoesNotRemovesAnyInvocationsAfterSuccess {
-//    // given
-//    NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
-//    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichSucceedsWithMatches:matches];
-//    NSArray *expectedRemainingInvocations = mockingContext.invocationRecorder.recordedInvocations;
-//    
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-//        [verifier useVerificationHandler:handler];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//    };
-//    [verifier finishGroupVerification];
-//    
-//    // then
-//    expect(mockingContext.invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
-//}
+- (void)testThatProcessVerificationGroupSucceedsIfVerificationGroupSucceedsInTopLevel
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()])
+     willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
+    
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+}
 
-//- (void)testThatVerifyDoesNotRemoveAnyInvocationsAfterFailure {
-//    // given
-//    NSIndexSet *matches = [NSIndexSet indexSetWithIndex:1];
-//    FakeVerificationHandler *handler = [FakeVerificationHandler handlerWhichFailsWithMatches:matches reason:nil];
-//    NSArray *expectedRemainingInvocations = mockingContext.invocationRecorder.recordedInvocations;
-//    
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-//        [verifier useVerificationHandler:handler];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//    };
-//    [verifier finishGroupVerification];
-//    
-//    // then
-//    expect(mockingContext.invocationRecorder.recordedInvocations).to.equal(expectedRemainingInvocations);
-//}
-
-//- (void)testThatVerifyResetsHandlerToDefaultAfterEachSuccessfulVerify {
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-//        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-//        
-//        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-//    };
-//    [verifier finishGroupVerification];
-//    
-//    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-//}
-
-//- (void)testThatVerifyResetsHandlerToDefaultAfterFailure {
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:[FakeVerificationResultCollector dummy]]; {
-//        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-//        
-//        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//        expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-//    };
-//    [verifier finishGroupVerification];
-//    
-//    expect(verifier.verificationHandler).to.beKindOf([MCKDefaultVerificationHandler class]);
-//}
+KNMParametersFor(testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsForResult, @[
+    [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndex:10]],
+    [MCKVerificationResult failureWithReason:@"foo" matchingIndexes:[NSIndexSet indexSetWithIndex:20]]
+])
+- (void)testThatMatchingInvocationsAreRemovedIfVerificationGroupFailsForResult:(MCKVerificationResult *)result
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()])
+     willReturn:result];
+    
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerify(context.invocationRecorder) removeInvocationsAtIndexes:result.matchingIndexes];
+}
 
 
-#pragma mark - Collector Interaction
+#pragma mark - Test Processing Nested Verification
 
-//- (void)testThatStartGroupVerificationCallsBeginCollectingOnCollector {
-//    // given
-//    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector dummy];
-//    
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:collector];
-//    
-//    // then
-//    expect(collector.invocationRecorder).to.equal(mockingContext.invocationRecorder);
-//}
+- (void)testThatProcessVerificationExecutesVerificationWhenNested
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    [verifier pushVerificationGroup:MKTMock([MCKVerificationGroup class])];
+    
+    [verifier processVerification:verification];
+    
+    [MKTVerify(verification) execute];
+}
 
-//- (void)testThatVerifyPassesResultToCollector {
-//    // given
-//    FakeVerificationResultCollector *collector = [FakeVerificationResultCollector dummy];
-//    
-//    // when
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier startGroupVerificationWithCollector:collector]; {
-//        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//        [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichFailsWithReason:nil]];
-//        [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//    };
-//    [verifier finishGroupVerification];
-//    
-//    // then
-//    expect(collector.collectedResults).to.equal(@[
-//        [MCKVerificationResult successWithMatchingIndexes:nil],
-//        [MCKVerificationResult failureWithReason:nil matchingIndexes:nil],
-//    ]);
-//}
+- (void)testThatProcessVerificationPassesResultToGroupWhenNested
+{
+    MCKVerification *verification = MKTMock([MCKVerification class]);
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    MCKVerificationResult *result = [MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil];
+    
+    [MKTGiven([verification execute]) willReturn:result];
+    [MKTGiven([verificationGroup collectResult:HC_anything()]) willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
+    
+    
+    [verifier pushVerificationGroup:verificationGroup];
+    [verifier processVerification:verification];
+    
+    [MKTVerify(verificationGroup) collectResult:result];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+}
 
 
-#pragma mark - Test Verification with Timeout
+#pragma mark - Test Processing Nested Verification Group
 
-//- (void)testThatTimeoutIsResetAfterProcessingOneCall {
-//    // given
-//    [verifier beginVerificationWithInvocationRecorder:mockingContext.invocationRecorder];
-//    [verifier useVerificationHandler:[FakeVerificationHandler handlerWhichSucceeds]];
-//    verifier.timeout = 1.0;
-//    
-//    // when
-//    [verifier verifyInvocationsForPrototype:[FakeInvocationPrototype dummy]];
-//    
-//    // then
-//    expect(verifier.timeout).to.equal(0.0);
-//}
+- (void)testThatProcessVerificationGroupExecutesVerificationGroupWhenNested
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    [verifier pushVerificationGroup:MKTMock([MCKVerificationGroup class])];
+    
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerify(verificationGroup) executeWithInvocationRecorder:context.invocationRecorder];
+}
+
+- (void)testThatProcessVerificationGroupPassesResultToParentGroupWhenNested
+{
+    MCKVerificationGroup *verificationGroup = MKTMock([MCKVerificationGroup class]);
+    MCKVerificationGroup *parentGroup = MKTMock([MCKVerificationGroup class]);
+    MCKVerificationResult *result = [MCKVerificationResult failureWithReason:@"foo" matchingIndexes:nil];
+    
+    [MKTGiven([verificationGroup executeWithInvocationRecorder:HC_anything()]) willReturn:result];
+    [MKTGiven([parentGroup collectResult:HC_anything()]) willReturn:[MCKVerificationResult successWithMatchingIndexes:nil]];
+    
+    
+    [verifier pushVerificationGroup:parentGroup];
+    [verifier processVerificationGroup:verificationGroup];
+    
+    [MKTVerify(parentGroup) collectResult:result];
+    [MKTVerifyCount(context.failureHandler, MKTNever()) handleFailureAtLocation:HC_anything() withReason:HC_anything()];
+}
 
 @end

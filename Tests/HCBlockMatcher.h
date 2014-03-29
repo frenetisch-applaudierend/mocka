@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HCMatcher.h"
+#import <OCHamcrest/HCMatcher.h>
 
 
 @interface HCBlockMatcher : NSObject <HCMatcher>

@@ -7,8 +7,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCMockito/OCMockito.h>
-#import <OCHamcrest/OCHamcrest.h>
 
 #import "MCKMockingContext.h"
 

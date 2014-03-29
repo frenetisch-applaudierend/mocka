@@ -8,48 +8,19 @@
 
 #import "MCKVerificationSyntax.h"
 #import "MCKMockingContext.h"
-#import "MCKInvocationVerifier.h"
-#import "MCKAllCollector.h"
 
 
-@interface MCKVerifyBlockRecorder ()
-
-+ (instancetype)recorderWithContext:(MCKMockingContext *)context collector:(id<MCKVerificationResultCollector>)collector;
-
-@property (nonatomic, readonly) MCKMockingContext *mockingContext;
-@property (nonatomic, readonly) id<MCKVerificationResultCollector> collector;
-
-@end
-
-
-extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll) {
-    MCKMockingContext *context = [MCKMockingContext currentContext];
-    context.currentLocation = loc;
-    return [MCKVerifyBlockRecorder recorderWithContext:context collector:(coll ?: [[MCKAllCollector alloc] init])];
+MCKVerificationRecorder* _MCKVerificationRecorder(void)
+{
+    return [[MCKVerificationRecorder alloc] initWithMockingContext:[MCKMockingContext currentContext]];
 }
 
-void _mck_setVerificationTimeout(NSTimeInterval timeout) {
-    MCKMockingContext *context = [MCKMockingContext currentContext];
-    context.invocationVerifier.timeout = timeout;
+MCKVerification* _MCKVerification(MCKLocation *location, MCKVerificationBlock block)
+{
+    return [[MCKVerification alloc] initWithMockingContext:[MCKMockingContext currentContext] location:location verificationBlock:block];
 }
 
-
-@implementation MCKVerifyBlockRecorder
-
-+ (instancetype)recorderWithContext:(MCKMockingContext *)context collector:(id<MCKVerificationResultCollector>)collector {
-    return [[self alloc] initWithContext:context collector:collector];
+MCKVerificationGroupRecorder* _MCKVerificationGroupRecorder(MCKLocation *location, id<MCKVerificationResultCollector> collector)
+{
+    return [[MCKVerificationGroupRecorder alloc] initWithMockingContext:[MCKMockingContext currentContext] location:location resultCollector:collector];
 }
-
-- (instancetype)initWithContext:(MCKMockingContext *)context collector:(id<MCKVerificationResultCollector>)collector {
-    if ((self = [super init])) {
-        _mockingContext = context;
-        _collector = collector;
-    }
-    return self;
-}
-
-- (void)setVerifyCallBlock:(void (^)(void))calls {
-    [self.mockingContext verifyCalls:calls usingCollector:self.collector];
-}
-
-@end

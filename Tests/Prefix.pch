@@ -9,7 +9,8 @@
 
     #define EXP_SHORTHAND
     #import <Expecta/Expecta.h>
-
+    #import <OCMockito/OCMockito.h>
+    #import <OCHamcrest/OCHamcrest.h>
     #import <KNMParametrizedTests/KNMParametrizedTests.h>
 
     // Utilities

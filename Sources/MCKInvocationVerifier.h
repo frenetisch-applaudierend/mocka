@@ -14,8 +14,9 @@
 @protocol MCKVerificationHandler;
 
 @class MCKMockingContext;
-@class MCKInvocationRecorder;
 @class MCKInvocationPrototype;
+@class MCKVerification;
+@class MCKVerificationGroup;
 
 
 @interface MCKInvocationVerifier : NSObject
@@ -27,17 +28,14 @@
 @property (nonatomic, readonly, weak) MCKMockingContext *mockingContext;
 
 
-#pragma mark - Configuration
-
-@property (nonatomic, assign) NSTimeInterval timeout; // reset to 0.0 after each verified call
-@property (nonatomic, readonly) id<MCKVerificationHandler> verificationHandler;
-
-
 #pragma mark - Verification
 
-- (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector;
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)verificationHandler;
+@property (nonatomic, readonly) MCKVerificationGroup *currentVerificationGroup;
+@property (nonatomic, readonly) MCKVerification *currentVerification;
+
+- (void)processVerification:(MCKVerification *)verification;
+- (void)processVerificationGroup:(MCKVerificationGroup *)verificationGroup;
+
 - (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype;
-- (void)finishVerification;
 
 @end

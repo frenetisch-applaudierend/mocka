@@ -10,12 +10,20 @@
 
 #import "MCKMockingContext.h"
 #import "MCKInvocationRecorder.h"
+#import "MCKFailureHandler.h"
+
+#import "MCKVerification.h"
+#import "MCKVerificationGroup.h"
+
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKVerificationResultCollector.h"
 
 
 @interface MCKInvocationVerifier ()
+
+@property (nonatomic, readonly) NSMutableArray *currentVerificationGroups;
+@property (nonatomic, strong) MCKVerification *currentVerification;
 
 @property (nonatomic, strong) id<MCKVerificationHandler> verificationHandler;
 @property (nonatomic, strong) id<MCKVerificationResultCollector> collector;
@@ -31,6 +39,7 @@
 {
     if ((self = [super init])) {
         _mockingContext = context;
+        _currentVerificationGroups = [NSMutableArray array];
     }
     return self;
 }
@@ -38,93 +47,68 @@
 
 #pragma mark - Verification
 
-- (void)beginVerificationWithCollector:(id<MCKVerificationResultCollector>)collector
+- (void)processVerification:(MCKVerification *)verification
 {
-    self.collector = collector;
-    self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+    NSParameterAssert(verification != nil);
+    NSAssert(self.currentVerification == nil, @"Another verification is already running");
     
-    [collector beginCollectingResultsWithInvocationRecorder:self.mockingContext.invocationRecorder];
+    self.currentVerification = verification;
+    MCKVerificationResult *result = [verification execute];
+    self.currentVerification = nil;
+    
+    [self handleResult:result location:verification.location];
 }
 
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)verificationHandler
+- (void)processVerificationGroup:(MCKVerificationGroup *)verificationGroup
 {
-    NSParameterAssert(verificationHandler != nil);
-    self.verificationHandler = verificationHandler;
+    NSParameterAssert(verificationGroup != nil);
+    
+    [self pushVerificationGroup:verificationGroup];
+    MCKVerificationResult *result = [verificationGroup executeWithInvocationRecorder:self.mockingContext.invocationRecorder];
+    [self popVerificationGroup];
+    
+    [self handleResult:result location:verificationGroup.location];
 }
 
 - (void)verifyInvocationsForPrototype:(MCKInvocationPrototype *)prototype
 {
-    MCKVerificationResult *result = [self resultForInvocationPrototype:prototype];
-    MCKVerificationResult *collectedResult = [self.collector collectVerificationResult:result];
-    
-    if (![collectedResult isSuccess]) {
-        [self notifyFailureWithResult:collectedResult];
+    [self.currentVerification verifyPrototype:prototype inInvocationRecorder:self.mockingContext.invocationRecorder];
+}
+
+- (void)handleResult:(MCKVerificationResult *)result location:(MCKLocation *)location
+{
+    if (result == nil) {
+        return;
     }
     
-    self.verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
-    self.timeout = 0.0;
-}
-
-- (void)finishVerification
-{
-    MCKVerificationResult *collectedResult = [self.collector finishCollectingResults];
-    
-    if (collectedResult != nil) {
-        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:collectedResult.matchingIndexes];
-        if (![collectedResult isSuccess]) {
-            [self notifyFailureWithResult:collectedResult];
-        }
-    }
-    
-    self.collector = nil;
-    self.verificationHandler = nil;
-}
-
-
-#pragma mark - Verification Primitives
-
-- (MCKVerificationResult *)resultForInvocationPrototype:(MCKInvocationPrototype *)prototype
-{
-    MCKVerificationResult *result = [self currentResultForPrototype:prototype];
-    
-    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
-    while ([self mustProcessTimeoutForResult:result] && [self didNotYetReachDate:lastDate]) {
-        [self.mockingContext updateContextMode:MCKContextModeRecording];
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:lastDate];
-        [self.mockingContext updateContextMode:MCKContextModeVerifying];
-        result = [self currentResultForPrototype:prototype];
-    }
-    return result;
-}
-
-- (MCKVerificationResult *)currentResultForPrototype:(MCKInvocationPrototype *)prototype
-{
-    NSArray *recordedInvocations = self.mockingContext.invocationRecorder.recordedInvocations;
-    return [self.verificationHandler verifyInvocations:recordedInvocations forPrototype:prototype];
-}
-
-- (BOOL)mustProcessTimeoutForResult:(MCKVerificationResult *)result
-{
-    if (self.timeout <= 0.0) {
-        return NO;
+    if (self.currentVerificationGroup != nil) {
+        result = [self.currentVerificationGroup collectResult:result];
     }
     else {
-        return [self.verificationHandler mustAwaitTimeoutForResult:result];
+        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+    }
+    
+    if ([result isFailure]) {
+        [self.mockingContext.failureHandler handleFailureAtLocation:location withReason:result.failureReason];
     }
 }
 
-- (BOOL)didNotYetReachDate:(NSDate *)lastDate
+
+#pragma mark - Managing the Verification Group Stack
+
+- (MCKVerificationGroup *)currentVerificationGroup
 {
-    return ([lastDate laterDate:[NSDate date]] == lastDate);
+    return [self.currentVerificationGroups lastObject];
 }
 
-
-#pragma mark - Notifications
-
-- (void)notifyFailureWithResult:(MCKVerificationResult *)result
+- (void)pushVerificationGroup:(MCKVerificationGroup *)verificationGroup
 {
-    NSString *reason = [NSString stringWithFormat:@"verify: %@", (result.failureReason ?: @"failed with an unknown reason")];
-    [self.mockingContext failWithReason:@"%@", reason];
+    [self.currentVerificationGroups addObject:verificationGroup];
+}
+
+- (void)popVerificationGroup
+{
+    [self.currentVerificationGroups removeLastObject];
 }
 
 @end
