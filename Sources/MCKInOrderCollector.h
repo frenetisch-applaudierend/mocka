@@ -15,16 +15,10 @@
 @end
 
 
-#define mck_inOrder mck_matchGroup([[MCKInOrderCollector alloc] init])
-#ifndef MCK_DISABLE_NICE_SYNTAX
-    #define inOrder mck_inOrder
-#endif
-
-
 /**
- * Verify a group of calls in order.
+ * Match a group of calls in a given order.
  */
-#define mck_verifyInOrder mck_verifyUsingCollector([[MCKInOrderCollector alloc] init])
+#define mck_matchInOrder mck_matchGroup([[MCKInOrderCollector alloc] init])
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define verifyInOrder mck_verifyInOrder
+    #define matchInOrder mck_matchInOrder
 #endif

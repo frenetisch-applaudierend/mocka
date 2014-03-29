@@ -10,13 +10,13 @@
 
 
 // Mocking Syntax
-#define mck_verifyNoMoreInteractionsOn(MOCK) _MCKCheckNoInteractions(MOCK)
-#define mck_verifyNoInteractionsOn(MOCK)     _MCKCheckNoInteractions(MOCK)
+#define mck_matchNoMoreInteractionsOn(MOCK) _MCKCheckNoInteractions(MOCK)
+#define mck_matchNoInteractionsOn(MOCK)     _MCKCheckNoInteractions(MOCK)
 
 #ifndef MCK_DISABLE_NICE_SYNTAX
 
-    #define verifyNoMoreInteractionsOn(MOCK) mck_verifyNoMoreInteractionsOn(MOCK)
-    #define verifyNoInteractionsOn(MOCK)     mck_verifyNoInteractionsOn(MOCK)
+    #define matchNoMoreInteractionsOn(MOCK) mck_matchNoMoreInteractionsOn(MOCK)
+    #define matchNoInteractionsOn(MOCK)     mck_matchNoInteractionsOn(MOCK)
 
 #endif
 

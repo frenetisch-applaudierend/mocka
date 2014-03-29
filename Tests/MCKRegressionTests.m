@@ -34,7 +34,7 @@
     // noMoreInteractions() leaves context in verification state
     
     // when
-    verifyNoMoreInteractionsOn(mockArray);
+    matchNoMoreInteractionsOn(mockArray);
     
     // then
     AssertDoesNotFail({
@@ -44,7 +44,7 @@
 
 - (void)testThatNeverDoesNotScrewUpInOrderVerification {
     // https://bitbucket.org/teamrg_gam/mocka/issue/29/
-    // When verifying inOrder a "never" verification will screw up the following verification
+    // When verifying matchInOrder a "never" verification will screw up the following verification
     
     // when
     [mockArray removeAllObjects];
@@ -52,7 +52,7 @@
     
     // then
     AssertDoesNotFail({
-        inOrder {
+        matchInOrder {
             match ([mockArray objectAtIndex:anyInt()]) never;
             match ([mockArray removeAllObjects]);
             match ([mockArray addObject:@"Foo"]);

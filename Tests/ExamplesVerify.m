@@ -20,7 +20,8 @@
 
 #pragma mark - Setup
 
-- (void)setUp {
+- (void)setUp
+{
     // we'll use this object in the examples
     mockArray = mock([NSMutableArray class]);
 }
@@ -28,7 +29,8 @@
 
 #pragma mark - Basic Verification
 
-- (void)testVerifySimpleMethodCall {
+- (void)testVerifySimpleMethodCall
+{
     // you first use the mock  then verify that the desired method was called
     
     [mockArray removeAllObjects];
@@ -36,7 +38,8 @@
     match ([mockArray removeAllObjects]);
 }
 
-- (void)testVerifyWillFailIfMethodWasNeverCalled {
+- (void)testVerifyWillFailIfMethodWasNeverCalled
+{
     // if you verify a method that has never been called it will fail
     
     ThisWillFail({
@@ -44,7 +47,8 @@
     });
 }
 
-- (void)testTooManyInvocationsAreIgnoredByVerify {
+- (void)testTooManyInvocationsAreIgnoredByVerify
+{
     // by default, verify will just check if a given method was at least called once
     // any more invocations are simply ignored
     
@@ -54,7 +58,8 @@
     match ([mockArray removeAllObjects]); // too many invocations are ok
 }
 
-- (void)testYouCanUseMultipleVerifyTestsToRequireMultipleCalls {
+- (void)testYouCanUseMultipleVerifyTestsToRequireMultipleCalls
+{
     // if you wan to test that a method was called multiple times just repeat the verify call
     // (you can also use a modifier to verify, see below)
     
@@ -65,7 +70,8 @@
     match ([mockArray removeAllObjects]); // verify that the method was called at least 2 times
 }
 
-- (void)testVerifyingSomethingMultpleTimesThatWasCalledOnceWillFail {
+- (void)testVerifyingSomethingMultpleTimesThatWasCalledOnceWillFail
+{
     // from the example above follows that if you try to verify a call that was made only once
     // multiple times, the second verify will fail
     
@@ -81,7 +87,8 @@
 
 #pragma mark - Verification With Arguments
 
-- (void)testVerifyWillMatchOnEqualObjectArguments {
+- (void)testVerifyWillMatchOnEqualObjectArguments
+{
     // when you verify a method that has arguments verify will match equal arguments (isEqual: is used to compare)
     
     [mockArray addObject:@"Hello World"];
@@ -89,7 +96,8 @@
     match ([mockArray addObject:@"Hello World"]);
 }
 
-- (void)testVerifyWillFailForUnequalObjectArguments {
+- (void)testVerifyWillFailForUnequalObjectArguments
+{
     // in contrast to above, if the arguments are not equal verify will not consider it a match
     
     [mockArray addObject:@"Hello World"];
@@ -99,7 +107,8 @@
     });
 }
 
-- (void)testVerifyWillMatchOnEqualPrimitiveArguments {
+- (void)testVerifyWillMatchOnEqualPrimitiveArguments
+{
     // when you verify a method that has arguments verify will match equal primitive arguments
     
     [mockArray objectAtIndex:10];
@@ -107,7 +116,8 @@
     match ([mockArray objectAtIndex:10]);
 }
 
-- (void)testVerifyWillFailForUnequalPrimitiveArguments {
+- (void)testVerifyWillFailForUnequalPrimitiveArguments
+{
     // in contrast to above, if the arguments are not equal verify will not consider it a match
     
     [mockArray objectAtIndex:10];
@@ -117,7 +127,8 @@
     });
 }
 
-- (void)testVerifyWillMatchOnEqualStructArguments {
+- (void)testVerifyWillMatchOnEqualStructArguments
+{
     // when you verify a method that has arguments verify will match equal struct arguments (equal as compared by memcmp)
     
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
@@ -125,7 +136,8 @@
     match ([mockArray subarrayWithRange:NSMakeRange(10, 20)]);
 }
 
-- (void)testVerifyWillFailForUnequalStructArguments {
+- (void)testVerifyWillFailForUnequalStructArguments
+{
     // in contrast to above, if the arguments are not equal verify will not consider it a match
     
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
@@ -138,7 +150,8 @@
 
 #pragma mark - Verify An Exact Number Of Invocations
 
-- (void)testUseOnceToSpecifyExactlyOneInvocation {
+- (void)testUseOnceToSpecifyExactlyOneInvocation
+{
     // by default verify will succeed if one *or more* calls which match are made
     // verify once will only succeed if there was *exactly* one call whitch matches
     // same as verify exactly(1 times)
@@ -153,7 +166,8 @@
     });
 }
 
-- (void)testUseExactlyToSpecifyAnExactNumberOfInvocations {
+- (void)testUseExactlyToSpecifyAnExactNumberOfInvocations
+{
     // using verify exactly(X) you can test that exactly X matching calls were made
     
     [mockArray objectAtIndex:0];
@@ -166,7 +180,8 @@
     });
 }
 
-- (void)testUseNeverToSpecifyNoMatchingCallsWereMade {
+- (void)testUseNeverToSpecifyNoMatchingCallsWereMade
+{
     // using verify never you can test that no matching call was made
     // same as verify exactly(0)
     
@@ -181,19 +196,21 @@
 
 #pragma mark - Verify That No Actions Were Executed
 
-- (void)testVerifyingNoInteractionsFailsIfAnyUnverifiedCallsWereMade {
-    // using verify noInteractionsOn() or verify noMoreInteractionsOn() you can
+- (void)testVerifyingNoInteractionsFailsIfAnyUnverifiedCallsWereMade
+{
+    // using matchNoInteractionsOn() or matchNoMoreInteractionsOn() you can
     // check if no unverified invocations were done on the specified mock
     
-    verifyNoInteractionsOn(mockArray); // no interactions made, all is fine
+    matchNoInteractionsOn(mockArray); // no interactions made, all is fine
     
     [mockArray count];
     ThisWillFail({
-        verifyNoInteractionsOn(mockArray); // [mockArray count] is an unverified interaction
+        matchNoInteractionsOn(mockArray); // [mockArray count] is an unverified interaction
     });
 }
 
-- (void)testVerifyingNoInteractionsDoesNotFailForVerifiedInteractions {
+- (void)testVerifyingNoInteractionsDoesNotFailForVerifiedInteractions
+{
     // verified interactions are not checked with noInteractionsOn() / noMoreInteractionsOn()
     // note: the two variants are synonyms, but noMoreInteractionsOn() reads better when
     //       previous verify calls were made
@@ -201,13 +218,14 @@
     [mockArray count];
     
     match ([mockArray count]);
-    verifyNoMoreInteractionsOn(mockArray); // [mockArray count] was verified
+    matchNoMoreInteractionsOn(mockArray); // [mockArray count] was verified
 }
 
 
 #pragma mark - Ordered Verify
 
-- (void)testThatVerifyingInOrderFailsIfCallIsMadeOutOfOrder {
+- (void)testThatVerifyingInOrderFailsIfCallIsMadeOutOfOrder
+{
     // by verifying in order you can check that a certain flow of methods is called one after another
     
     [mockArray addObject:@"One"];
@@ -215,7 +233,7 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        inOrder {
+        matchInOrder {
             match ([mockArray addObject:@"One"]);
             match ([mockArray addObject:@"Three"]);
             match ([mockArray addObject:@"Two"]);   // <-- EVIL, out of order!
@@ -223,7 +241,8 @@
     });
 }
 
-- (void)testThatVerifyingInOrderIgnoresUnverifiedCalls {
+- (void)testThatVerifyingInOrderIgnoresUnverifiedCalls
+{
     // if you simply verify in order then 
     
     [mockArray addObject:@"One"];
@@ -232,14 +251,15 @@
     [mockArray addObject:@"Also unverified"]; // also this
     [mockArray addObject:@"Three"];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:@"One"]);
         match ([mockArray addObject:@"Two"]);
         match ([mockArray addObject:@"Three"]);
     };
 }
 
-- (void)testCanUseExactlyInOrderedVerify {
+- (void)testCanUseExactlyInOrderedVerify
+{
     // you can use exactly() as usual in ordered verify
     
     [mockArray addObject:@"One"];
@@ -247,13 +267,14 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:anyObject()]) exactly(3 times);
         match ([mockArray removeAllObjects]);
     };
 }
 
-- (void)testLeadingUnverifiedMethodCallsAreIgnoredWithExactly {
+- (void)testLeadingUnverifiedMethodCallsAreIgnoredWithExactly
+{
     // also with exactly, leading method calls are just ignored
     
     [mockArray count];
@@ -262,13 +283,14 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:anyObject()]) exactly(3 times);
         match ([mockArray removeAllObjects]);
     };
 }
 
-- (void)testInterleavedUnverifiedMethodCallsAreIgnoredWithExactly {
+- (void)testInterleavedUnverifiedMethodCallsAreIgnoredWithExactly
+{
     // also with exactly, interleaving method calls are just ignored
     
     [mockArray addObject:@"One"];
@@ -276,12 +298,13 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
 }
 
-- (void)testOrderedVerifyFailsIfExactlyFails {
+- (void)testOrderedVerifyFailsIfExactlyFails
+{
     // exactly must also match exactly n objects in ordered verify
     
     [mockArray addObject:@"One"];
@@ -289,14 +312,15 @@
     [mockArray removeAllObjects];
     
     ThisWillFail({
-        inOrder {
+        matchInOrder {
             match ([mockArray addObject:anyObject()]) exactly(3 times);
             match ([mockArray removeAllObjects]);
         };
     });
 }
 
-- (void)testOrderedVerifyFailsForInterleavedCallsWhichShouldBeOrderedWithExactly {
+- (void)testOrderedVerifyFailsForInterleavedCallsWhichShouldBeOrderedWithExactly
+{
     // if exactly skips calls while verifying, the skipped calls are not evaluated further
     
     [mockArray addObject:@"One"];
@@ -305,28 +329,30 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        inOrder {
+        matchInOrder {
             match ([mockArray addObject:anyObject()]) exactly(3 times);
             match ([mockArray removeAllObjects]);
         };
     });
 }
 
-- (void)testSkippedCallsCanLaterStillBeVerified {
-    // if exactly skips calls while verifying, the skipped calls can be verified outside of the inOrder
+- (void)testSkippedCallsCanLaterStillBeVerified
+{
+    // if exactly skips calls while verifying, the skipped calls can be verified outside of the matchInOrder
     
     [mockArray addObject:@"One"];
     [mockArray addObject:@"Two"];
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
     match ([mockArray removeAllObjects]);
 }
 
-- (void)testSkippedCallsCanLaterStillBeVerifiedOrdered {
+- (void)testSkippedCallsCanLaterStillBeVerifiedOrdered
+{
     // skipped calls can even be verified ordered later
     
     [mockArray addObject:@"One"];
@@ -335,17 +361,18 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
     
-    inOrder {
+    matchInOrder {
         match ([mockArray count]);
         match ([mockArray removeAllObjects]);
     };
 }
 
-- (void)testOrderingIsAlsoEnforcedWhenTestingSkippedCalls {
+- (void)testOrderingIsAlsoEnforcedWhenTestingSkippedCalls
+{
     // skipped calls can even be verified ordered later
     
     [mockArray addObject:@"One"];
@@ -354,12 +381,12 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:anyObject()]) exactly(3 times);
     };
     
     ThisWillFail({
-        inOrder {
+        matchInOrder {
             match ([mockArray removeAllObjects]);
             match ([mockArray count]);
         };
@@ -367,9 +394,35 @@
 }
 
 
+#pragma mark - Nesting Verification Groups
+
+- (void)testVerificationGroupsCanBeNested
+{
+    // verification groups can be nested
+    
+    [mockArray addObject:@"One"];
+    [mockArray addObject:@"Two"];
+    [mockArray removeLastObject];
+    [mockArray addObject:@"Three"];
+    
+    matchInOrder {
+        match ([mockArray addObject:@"One"]);
+        match ([mockArray addObject:@"Two"]);
+        
+        matchAnyOf {
+            match ([mockArray removeObjectAtIndex:1]);
+            match ([mockArray removeLastObject]);
+        };
+        
+        match ([mockArray addObject:@"Three"]);
+    };
+}
+
+
 #pragma mark - Verify with Timeout
 
-- (void)testYouCanWaitForAsyncCalls {
+- (void)testYouCanWaitForAsyncCalls
+{
     // call some async service
     [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
@@ -380,7 +433,8 @@
     match ([mockArray removeAllObjects]) withTimeout(0.1);
 }
 
-- (void)testVerifyFailsAfterTheTimeoutExpires {
+- (void)testVerifyFailsAfterTheTimeoutExpires
+{
     // call some async service
     [[AsyncService sharedService] waitForTimeInterval:0.1 thenCallBlock:^{
         [mockArray removeAllObjects];
@@ -392,7 +446,8 @@
     });
 }
 
-- (void)testTimeoutWorksAlsoWithOtherModes {
+- (void)testTimeoutWorksAlsoWithOtherModes
+{
     // call some async service
     [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
@@ -403,7 +458,8 @@
     match ([mockArray removeAllObjects]) exactly(2 times) withTimeout(0.2);
 }
 
-- (void)testTimeoutWorksDifferentWithNever {
+- (void)testTimeoutWorksDifferentWithNever
+{
     // call some async service
     [[AsyncService sharedService] callBlockDelayed:^{
         [mockArray removeAllObjects];
@@ -418,7 +474,8 @@
     });
 }
 
-- (void)testTimeoutAlsoWorksWithInOrder {
+- (void)testTimeoutAlsoWorksWithInOrder
+{
     // do some non-async calls
     [mockArray addObject:@1];
     [mockArray addObject:@2];
@@ -430,7 +487,7 @@
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    inOrder {
+    matchInOrder {
         match ([mockArray addObject:@1]);
         match ([mockArray addObject:@2]);
         match ([mockArray removeAllObjects]) withTimeout(0.5);
