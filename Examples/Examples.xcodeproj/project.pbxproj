@@ -10,14 +10,11 @@
 		63956A9018E7323700682D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A8F18E7323700682D90 /* Foundation.framework */; };
 		63956A9218E7323700682D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9118E7323700682D90 /* CoreGraphics.framework */; };
 		63956A9418E7323700682D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9318E7323700682D90 /* UIKit.framework */; };
-		63956A9A18E7323700682D90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63956A9818E7323700682D90 /* InfoPlist.strings */; };
 		63956A9C18E7323700682D90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A9B18E7323700682D90 /* main.m */; };
 		63956AA018E7323700682D90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A9F18E7323700682D90 /* AppDelegate.m */; };
-		63956AA218E7323700682D90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63956AA118E7323700682D90 /* Images.xcassets */; };
 		63956AA918E7323700682D90 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956AA818E7323700682D90 /* XCTest.framework */; };
 		63956AAA18E7323700682D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A8F18E7323700682D90 /* Foundation.framework */; };
 		63956AAB18E7323700682D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9318E7323700682D90 /* UIKit.framework */; };
-		63956AB318E7323700682D90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63956AB118E7323700682D90 /* InfoPlist.strings */; };
 		63956AB518E7323700682D90 /* ExamplesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956AB418E7323700682D90 /* ExamplesTests.m */; };
 /* End PBXBuildFile section */
 
@@ -32,21 +29,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6328EB0718E735B5002A655D /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		63956A8C18E7323700682D90 /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63956A8F18E7323700682D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63956A9118E7323700682D90 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		63956A9318E7323700682D90 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		63956A9718E7323700682D90 /* Examples-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Examples-Info.plist"; sourceTree = "<group>"; };
-		63956A9918E7323700682D90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		63956A9718E7323700682D90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63956A9B18E7323700682D90 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		63956A9D18E7323700682D90 /* Examples-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Examples-Prefix.pch"; sourceTree = "<group>"; };
+		63956A9D18E7323700682D90 /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		63956A9E18E7323700682D90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		63956A9F18E7323700682D90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		63956AA118E7323700682D90 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63956AA718E7323700682D90 /* ExamplesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamplesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63956AA818E7323700682D90 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		63956AB018E7323700682D90 /* ExamplesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExamplesTests-Info.plist"; sourceTree = "<group>"; };
-		63956AB218E7323700682D90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		63956AB018E7323700682D90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63956AB418E7323700682D90 /* ExamplesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamplesTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,8 +72,8 @@
 		63956A8318E7323700682D90 = {
 			isa = PBXGroup;
 			children = (
-				63956A9518E7323700682D90 /* Examples */,
-				63956AAE18E7323700682D90 /* ExamplesTests */,
+				63956A9518E7323700682D90 /* Sources */,
+				63956AAE18E7323700682D90 /* Tests */,
 				63956A8E18E7323700682D90 /* Frameworks */,
 				63956A8D18E7323700682D90 /* Products */,
 			);
@@ -104,42 +99,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		63956A9518E7323700682D90 /* Examples */ = {
+		63956A9518E7323700682D90 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				63956A9E18E7323700682D90 /* AppDelegate.h */,
 				63956A9F18E7323700682D90 /* AppDelegate.m */,
-				63956AA118E7323700682D90 /* Images.xcassets */,
 				63956A9618E7323700682D90 /* Supporting Files */,
 			);
-			path = Examples;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		63956A9618E7323700682D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				63956A9718E7323700682D90 /* Examples-Info.plist */,
-				63956A9818E7323700682D90 /* InfoPlist.strings */,
+				63956A9718E7323700682D90 /* Info.plist */,
 				63956A9B18E7323700682D90 /* main.m */,
-				63956A9D18E7323700682D90 /* Examples-Prefix.pch */,
+				63956A9D18E7323700682D90 /* Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		63956AAE18E7323700682D90 /* ExamplesTests */ = {
+		63956AAE18E7323700682D90 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				6328EB0718E735B5002A655D /* Prefix.pch */,
 				63956AB418E7323700682D90 /* ExamplesTests.m */,
 				63956AAF18E7323700682D90 /* Supporting Files */,
 			);
-			path = ExamplesTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		63956AAF18E7323700682D90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				63956AB018E7323700682D90 /* ExamplesTests-Info.plist */,
-				63956AB118E7323700682D90 /* InfoPlist.strings */,
+				63956AB018E7323700682D90 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -219,8 +212,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63956A9A18E7323700682D90 /* InfoPlist.strings in Resources */,
-				63956AA218E7323700682D90 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,7 +219,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63956AB318E7323700682D90 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,25 +251,6 @@
 			targetProxy = 63956AAC18E7323700682D90 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		63956A9818E7323700682D90 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				63956A9918E7323700682D90 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		63956AB118E7323700682D90 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				63956AB218E7323700682D90 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		63956AB618E7323700682D90 /* Debug */ = {
@@ -358,8 +329,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Examples/Examples-Prefix.pch";
-				INFOPLIST_FILE = "Examples/Examples-Info.plist";
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
+				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -371,8 +342,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Examples/Examples-Prefix.pch";
-				INFOPLIST_FILE = "Examples/Examples-Info.plist";
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
+				INFOPLIST_FILE = Sources/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -437,6 +408,7 @@
 				63956ABA18E7323700682D90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		63956ABB18E7323700682D90 /* Build configuration list for PBXNativeTarget "ExamplesTests" */ = {
 			isa = XCConfigurationList;
@@ -445,6 +417,7 @@
 				63956ABD18E7323700682D90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

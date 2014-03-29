@@ -17,7 +17,7 @@
                BlueprintIdentifier = "6376F89317FF656B00F4752D"
                BuildableName = "Universal Framework"
                BlueprintName = "Universal Framework"
-               ReferencedContainer = "container:mocka.xcodeproj">
+               ReferencedContainer = "container:Mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -54,6 +54,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Mocka Framework"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
