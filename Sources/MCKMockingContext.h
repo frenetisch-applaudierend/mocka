@@ -42,6 +42,7 @@ typedef enum {
 #pragma mark - Initialization
 
 - (instancetype)initWithTestCase:(id)testCase;
+- (instancetype)init;
 
 
 #pragma mark - Core Objects
@@ -69,12 +70,6 @@ typedef enum {
 #pragma mark - Stubbing
 
 - (MCKStub *)stubCalls:(void(^)(void))callBlock;
-
-
-#pragma mark - Verification
-
-- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector;
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
 
 
 #pragma mark - Failure Handling

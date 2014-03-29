@@ -78,6 +78,11 @@
     return result;
 }
 
+- (BOOL)mustAwaitTimeoutForResult:(MCKVerificationResult *)result
+{
+    return NO;
+}
+
 @end
 
 

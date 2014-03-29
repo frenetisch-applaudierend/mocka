@@ -14,9 +14,7 @@
 #import "FakeInvocationPrototype.h"
 
 
-@interface MCKNeverVerificationHandlerTest : XCTestCase
-@end
-
+@interface MCKNeverVerificationHandlerTest : XCTestCase @end
 @implementation MCKNeverVerificationHandlerTest {
     MCKNeverVerificationHandler *handler;
     NSArray *invocations;
@@ -24,9 +22,8 @@
 
 #pragma mark - Setup
 
-- (void)setUp {
-    [super setUp];
-    
+- (void)setUp
+{
     handler = [[MCKNeverVerificationHandler alloc] init];
     invocations = @[
         [NSInvocation voidMethodInvocationForTarget:nil],
@@ -38,7 +35,8 @@
 
 #pragma mark - Test Zero Matches
 
-- (void)testThatHandlerIsSatisfiedIfNoMatchIsFound {
+- (void)testThatHandlerIsSatisfiedIfNoMatchIsFound
+{
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
@@ -49,7 +47,8 @@
     XCTAssertTrue(result.success, @"Should be satisfied");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFound {
+- (void)testThatHandlerReturnsEmptyIndexSetIfNoMatchIsFound
+{
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatNeverMatches];
     
@@ -63,7 +62,8 @@
 
 #pragma mark - Test Exactly One Match
 
-- (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFound {
+- (void)testThatHandlerIsNotSatisfiedIfOneMatchIsFound
+{
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
         return (candidate == invocations[0]);
@@ -76,7 +76,8 @@
     XCTAssertFalse(result.success, @"Should not be satisifed");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFound {
+- (void)testThatHandlerReturnsEmptyIndexSetIfOneMatchIsFound
+{
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype withImplementation:^BOOL(NSInvocation *candidate) {
         return (candidate == invocations[0]);
@@ -92,7 +93,8 @@
 
 #pragma mark - Test Multiple Matches
 
-- (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFound {
+- (void)testThatHandlerIsNotSatisfiedIfMultipleMatchesAreFound
+{
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
@@ -103,7 +105,8 @@
     XCTAssertFalse(result.success, @"Should not be satisifed");
 }
 
-- (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFound {
+- (void)testThatHandlerReturnsEmptyIndexSetIfMultipleMatchesAreFound
+{
     // given
     FakeInvocationPrototype *prototype = [FakeInvocationPrototype thatAlwaysMatches];
     
@@ -117,12 +120,18 @@
 
 #pragma mark - Test Timeout Config
 
-- (void)testThatHandlerDoesNeedToAwaitTimeout {
-    XCTAssertTrue([handler mustAwaitTimeoutForFailure], @"Should need to await timeout");
+- (void)testThatHandlerDoesNeedToAwaitTimeoutForSuccess
+{
+    MCKVerificationResult *success = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSet]];
+    
+    expect([handler mustAwaitTimeoutForResult:success]).to.beTruthy();
 }
 
-- (void)testThatHandlerDoesFailFast {
-    XCTAssertTrue([handler failsFastDuringTimeout], @"Should fail fast");
+- (void)testThatHandlerDoesNotNeedToAwaitTimeoutForFailure
+{
+    MCKVerificationResult *failure = [MCKVerificationResult failureWithReason:@"" matchingIndexes:[NSIndexSet indexSet]];
+    
+    expect([handler mustAwaitTimeoutForResult:failure]).to.beFalsy();
 }
 
 

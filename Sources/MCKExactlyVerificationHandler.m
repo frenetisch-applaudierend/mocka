@@ -51,18 +51,22 @@
 
 #pragma mark - Timeout Handling
 
-- (BOOL)mustAwaitTimeoutForFailure {
-    return YES;
-}
-
-- (BOOL)failsFastDuringTimeout {
-    // optimization: if the last result already had too many calls, then we can fail fast
-    //               this speeds things up a bit if 
-    if (self.lastFailure != nil && [self.lastFailure.matchingIndexes count] > self.count) {
+- (BOOL)mustAwaitTimeoutForResult:(MCKVerificationResult *)result
+{
+    if ([result isSuccess]) {
         return YES;
     }
-    
-    return NO; // by default we return NO
+    else {
+        // if we have already exceeded the maximum count then
+        // there is no need to wait for further matches
+        // (note: this means that in this case the reported number
+        //        of actual calls could be wrong)
+        return ([result.matchingIndexes count] < self.count);
+    }
+}
+
+- (BOOL)mustAwaitTimeoutToDetermineSuccess {
+    return YES;
 }
 
 @end

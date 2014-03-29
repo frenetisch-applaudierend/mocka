@@ -13,7 +13,8 @@
 
 #pragma mark - Abstract Test Support
 
-+ (NSArray *)testInvocations {
++ (NSArray *)testInvocations
+{
     // make sure we don't execute the test base
     if (self == [MCKIntegrationTestBase class]) {
         return @[];
@@ -25,9 +26,8 @@
 
 #pragma mark - Setup and Teardown
 
-- (void)setUp {
-    [super setUp];
-    
+- (void)setUp
+{
     MCKMockingContext *context = [MCKMockingContext currentContext];
     [context setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];
     
@@ -35,111 +35,123 @@
     XCTAssertNotNil(_testObject, @"Test object cannot be nil");
 }
 
-- (TestObject *)createTestObject {
+- (TestObject *)createTestObject
+{
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Override this method" userInfo:nil];
 }
 
-- (CategoriesTestMockedClass *)createCategoriesTestObject {
+- (CategoriesTestMockedClass *)createCategoriesTestObject
+{
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Override this method" userInfo:nil];
 }
 
 
 #pragma mark - Test Simple Verify
 
-- (void)testThatVerifySucceedsForSimpleCall {
+- (void)testThatVerifySucceedsForSimpleCall
+{
     // when
     [self.testObject voidMethodCallWithoutParameters];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
-- (void)testThatVerifyFailsForMissingMethodCall {
+- (void)testThatVerifyFailsForMissingMethodCall
+{
     // then
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
-- (void)testThatVerifySucceedsForTwoCallsAndTwoVerifies {
+- (void)testThatVerifySucceedsForTwoCallsAndTwoVerifies
+{
     // when
     [self.testObject voidMethodCallWithoutParameters];
     [self.testObject voidMethodCallWithoutParameters];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]);
     });
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
-- (void)testThatVerifyFailsIfAppliedTwiceToOneCall {
+- (void)testThatVerifyFailsIfAppliedTwiceToOneCall
+{
     // when
     [self.testObject voidMethodCallWithoutParameters];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]);
     });
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]);
     });
 }
 
 
 #pragma mark - Test Verify with Handlers
 
-- (void)testThatVerifyNeverFailsWhenCallWasMade {
+- (void)testThatVerifyNeverFailsWhenCallWasMade
+{
     // when
     [self.testObject voidMethodCallWithoutParameters];
     
     // then
     AssertFails({
-        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) never;
     });
 }
 
-- (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
+- (void)testThatVerifyNeverSucceedsWhenNoCallWasMade
+{
     AssertDoesNotFail({
-        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) never;
     });
 }
 
-- (void)testThatExactlyOneSucceedsWhenOneCallWasMade {
+- (void)testThatExactlyOnceSucceedsWhenOneCallWasMade
+{
     // when
     [self.testObject voidMethodCallWithoutParameters];
     
     // then
     AssertDoesNotFail({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) exactly(once);
     });
 }
 
-- (void)testThatExactlyOneFailsWhenNoCallWasMade {
+- (void)testThatExactlyOnceFailsWhenNoCallWasMade
+{
     AssertFails({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) exactly(once);
     });
 }
 
-- (void)testThatExactlyOneFailsWhenMultipleCallsWereMade {
+- (void)testThatExactlyOnceFailsWhenMultipleCallsWereMade
+{
     // when
     [self.testObject voidMethodCallWithoutParameters];
     [self.testObject voidMethodCallWithoutParameters];
     
     // then
     AssertFails({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) exactly(once);
     });
 }
 
-- (void)testThatAfterVerifyContextSwitchesToRecordingMode {
+- (void)testThatAfterVerifyContextSwitchesToRecordingMode
+{
     // given
     [self.testObject voidMethodCallWithoutParameters];
-    verifyCall ([self.testObject voidMethodCallWithoutParameters]);
+    match ([self.testObject voidMethodCallWithoutParameters]);
     
     // then
     AssertDoesNotFail({
@@ -150,121 +162,134 @@
 
 #pragma mark - Test Verify with Arguments
 
-- (void)testThatVerifySucceedsForMatchingObjectArguments {
+- (void)testThatVerifySucceedsForMatchingObjectArguments
+{
     // when
     [self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
+        match ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
     });
 }
 
-- (void)testThatVerifyFailsForNonMatchingObjectArguments {
+- (void)testThatVerifyFailsForNonMatchingObjectArguments
+{
     // when
     [self.testObject voidMethodCallWithObjectParam1:@"World" objectParam2:@"Hello"];
     
     // then
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
+        match ([self.testObject voidMethodCallWithObjectParam1:@"Hello" objectParam2:@"World"]);
     });
 }
 
-- (void)testThatVerifySucceedsForMatchingPrimitiveArguments {
+- (void)testThatVerifySucceedsForMatchingPrimitiveArguments
+{
     // when
     [self.testObject voidMethodCallWithIntParam1:2 intParam2:45];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:2 intParam2:45]);
+        match ([self.testObject voidMethodCallWithIntParam1:2 intParam2:45]);
     });
 }
 
-- (void)testThatVerifyFailsForNonMatchingPrimitiveArguments {
+- (void)testThatVerifyFailsForNonMatchingPrimitiveArguments
+{
     // when
     [self.testObject voidMethodCallWithIntParam1:2 intParam2:45];
     
     // then
     AssertFails({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:0 intParam2:45]);
+        match ([self.testObject voidMethodCallWithIntParam1:0 intParam2:45]);
     });
 }
 
 
 #pragma mark - Test Verify with Argument Matchers
 
-- (void)testThatVerifySucceedsForAnyIntegerWithAnyIntMatcher {
+- (void)testThatVerifySucceedsForAnyIntegerWithAnyIntMatcher
+{
     // when
     [self.testObject voidMethodCallWithIntParam1:10 intParam2:20];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
     });
 }
 
-- (void)testThatVerifySucceedsForEdgeCasesWithAnyIntMatcher {
+- (void)testThatVerifySucceedsForEdgeCasesWithAnyIntMatcher
+{
     // when
     [self.testObject voidMethodCallWithIntParam1:0 intParam2:NSNotFound];
     [self.testObject voidMethodCallWithIntParam1:NSIntegerMin intParam2:NSIntegerMax];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
-        verifyCall ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
     });
 }
 
-- (void)testThatVerifySucceedsForAnyObjectWithAnyObjMatcher {
+- (void)testThatVerifySucceedsForAnyObjectWithAnyObjMatcher
+{
     // when
     [self.testObject voidMethodCallWithObjectParam1:@"Foo" objectParam2:@42];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
     });
 }
 
-- (void)testThatVerifySucceedsForEdgeCasesWithAnyObjMatcher {
+- (void)testThatVerifySucceedsForEdgeCasesWithAnyObjMatcher
+{
     // when
     [self.testObject voidMethodCallWithObjectParam1:nil objectParam2:[NSNull null]];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
     });
 }
 
-- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectParameters {
+- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectParameters
+{
     // when
     [self.testObject voidMethodCallWithObjectParam1:@"Foo" objectParam2:@"Bar"];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
+        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
     });
 }
 
-- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectAndPrimitiveParameters {
+- (void)testCanMixMatcherAndNonMatcherArgumentsForObjectAndPrimitiveParameters
+{
     // when
     [self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:20];
     
     // then
     AssertDoesNotFail({
-        verifyCall ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
     });
 }
 
+
 #pragma mark - Test Stubbing
 
-- (void)testThatUnstubbedMethodsReturnDefaultValues {
+- (void)testThatUnstubbedMethodsReturnDefaultValues
+{
     expect([self.testObject objectMethodCallWithoutParameters]).to.equal(nil);
     expect([self.testObject intMethodCallWithoutParameters]).to.equal(0);
     expect([self.testObject intPointerMethodCallWithoutParameters]).to.equal(NULL);
     expect(NSEqualRanges(NSMakeRange(0, 0), [self.testObject rangeMethodCallWithoutParameters])).to.beTruthy();
 }
 
-- (void)testThatStubbedReturnValueIsReturned {
+- (void)testThatStubbedReturnValueIsReturned
+{
     // given
     stub ([self.testObject objectMethodCallWithoutParameters]) with {
         return @"Hello World";
@@ -277,7 +302,8 @@
     expect(result).to.equal(@"Hello World");
 }
 
-- (void)testMultipleStubActions {
+- (void)testMultipleStubActions
+{
     // given
     __block BOOL called = YES;
     stub ([self.testObject objectMethodCallWithoutParameters]) with {
@@ -293,7 +319,8 @@
     expect(returnValue).to.equal(@20);
 }
 
-- (void)testThatSubsequentStubbingsDontInterfere {
+- (void)testThatSubsequentStubbingsDontInterfere
+{
     // given
     TestObject *object1 = [self createTestObject];
     TestObject *object2 = [self createTestObject];
@@ -326,7 +353,8 @@
     // non-stubbed call was suddenly stubbed otherwise
 }
 
-- (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation {
+- (void)testThatLaterStubbingsComplementOlderStubbingsOfSameInvocation
+{
     // given
     __block BOOL firstWasCalled = NO;
     stub ([self.testObject objectMethodCallWithoutParameters]) with {
@@ -349,7 +377,8 @@
     expect(returnValue).to.equal(@"Second");
 }
 
-- (void)testThatMultipleStubbingsCanBeCombined {
+- (void)testThatMultipleStubbingsCanBeCombined
+{
     // given
     TestObject *object1 = [self createTestObject];
     TestObject *object2 = [self createTestObject];
@@ -367,7 +396,8 @@
     expect([object2 objectMethodCallWithoutParameters]).to.equal(@10);
 }
 
-- (void)testStubbingWithSelfAndCmd {
+- (void)testStubbingWithSelfAndCmd
+{
     // given
     stub ([self.testObject objectMethodCallWithoutParameters]) with (TestObject *self, SEL _cmd) {
         [self description];
@@ -381,7 +411,8 @@
 
 #pragma mark - Test Stubbing with Argument Matchers
 
-- (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher {
+- (void)testThatStubMatchesCallForSimpleIntegersWithAnyIntMatcher
+{
     // given
     __block BOOL methodMatched = NO;
     stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
@@ -395,7 +426,8 @@
     expect(methodMatched).to.beTruthy();
 }
 
-- (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher {
+- (void)testThatStubMatchesCallsForEdgeCasesWithAnyIntMatcher
+{
     // given
     __block int invocationCount = 0;
     stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
@@ -410,7 +442,8 @@
     expect(invocationCount).to.equal(2);
 }
 
-- (void)testThatCallingStubbedOutParameterCallWithNullWorks {
+- (void)testThatCallingStubbedOutParameterCallWithNullWorks
+{
     // given
     stub ([self.testObject boolMethodCallWithError:anyObjectPointer()]) with {
         return NO;
@@ -423,7 +456,8 @@
 
 #pragma mark - Test Stubbing and Verifying of Category Methods
 
-- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClass {
+- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClass
+{
     // given
     CategoriesTestMockedClass *mock = [self createCategoriesTestObject];
     
@@ -437,10 +471,11 @@
     
     // then
     expect(called).to.beTruthy();
-    verifyCall ([mock categoryMethodInMockedClass]);
+    match ([mock categoryMethodInMockedClass]);
 }
 
-- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass {
+- (void)testStubbingAndVerifyingOfCategoryMethodOnMockedClassSuperclass
+{
     // given
     CategoriesTestMockedClass *mock = [self createCategoriesTestObject];
     
@@ -454,7 +489,7 @@
     
     // then
     expect(called).to.beTruthy();
-    verifyCall ([mock categoryMethodInMockedClassSuperclass]);
+    match ([mock categoryMethodInMockedClassSuperclass]);
 }
 
 @end

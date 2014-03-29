@@ -17,7 +17,8 @@
 
 #pragma mark - Test Network Call Stubbing
 
-- (void)testYouCanStubNetworkCalls {
+- (void)testYouCanStubNetworkCalls
+{
     // you can use the mocka DSL to stub network calls using the Network "mock"
     // it uses the OHHTTTPStubs library for this
     stub (Network.GET(@"http://www.google.ch")) with {
@@ -38,7 +39,8 @@
 
 #pragma mark - Test Network Call Verification
 
-- (void)testYouCanVerifyNetworkCalls {
+- (void)testYouCanVerifyNetworkCalls
+{
     // start monitoring for network activity
     [Network startObservingNetworkCalls];
     
@@ -46,18 +48,19 @@
     [self GET:@"http://www.google.ch" error:NULL];
     
     // then you can verify it
-    verifyCall (Network.GET(@"http://www.google.ch"));
+    match (Network.GET(@"http://www.google.ch"));
     
     // uncalled URLs fail the verification
     ThisWillFail({
-        verifyCall (Network.GET(@"http://you.did-not-call.me"));
+        match (Network.GET(@"http://you.did-not-call.me"));
     });
 }
 
 
 #pragma mark - Test Disabling Network Access
 
-- (void)testYouCanDisableAndEnableNetworkAccess {
+- (void)testYouCanDisableAndEnableNetworkAccess
+{
     // disable the network
     [Network disable];
     
@@ -84,7 +87,12 @@
     // NOTE: this test may fail if you don't have internet connection
 }
 
-- (void)testStubbingAndVerificationAlsoWorkWhenAccessIsDisabled {
+- (void)testStubbingAndVerificationAlsoWorkWhenAccessIsDisabled
+{
+    // This test sometimes fails for no apparent reason.
+    // TODO: Find out when/why it fails
+    
+    
     // disable the network
     [Network disable];
     
@@ -98,13 +106,14 @@
     NSData *received = [self GET:@"http://www.google.ch" error:NULL];
     expect(received).to.equal([@"Hello, World!" dataUsingEncoding:NSUTF8StringEncoding]);
     
-    verifyCall (Network.GET(@"http://www.google.ch"));
+    match (Network.GET(@"http://www.google.ch"));
 }
 
 
 #pragma mark - Network Access
 
-- (NSData *)GET:(NSString *)urlString error:(NSError **)error {
+- (NSData *)GET:(NSString *)urlString error:(NSError **)error
+{
     NSParameterAssert(urlString != nil);
     
     __block NSData *responseData = nil;
@@ -124,7 +133,8 @@
     return responseData;
 }
 
-- (NSURLSession *)URLSession {
+- (NSURLSession *)URLSession
+{
     return [NSURLSession sharedSession];
 }
 

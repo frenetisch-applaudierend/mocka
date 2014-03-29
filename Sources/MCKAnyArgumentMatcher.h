@@ -70,7 +70,7 @@ extern void* mck_anyPointer(void);
  * Match any __autoreleasing object pointer.
  *
  * You can use this matcher e.g. for passing error objects:
- * verifyCall ([moc save:mck_anyObjectPointer()]);
+ * match ([moc save:mck_anyObjectPointer()]);
  *
  * If you need a different qualifier than __autoreleasing
  * use mck_anyObjectPointerWithQualifier() instead.
@@ -85,7 +85,7 @@ extern void* mck_anyPointer(void);
  * The qualifier is usually either __autoreleasing or __unsafe_unretained.
  *
  * You can use this matcher e.g. for getting objects by reference, e.g.:
- * verifyCall ([array getObjects:mck_anyObjectPointerWithQualifier(__unsafe_unretained)]);
+ * match ([array getObjects:mck_anyObjectPointerWithQualifier(__unsafe_unretained)]);
  *
  * If you need __autoreleasing as a qualifier, you can also use mck_anyObjectPointer()
  * instead.

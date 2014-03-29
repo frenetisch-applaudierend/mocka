@@ -41,12 +41,9 @@
 
 #pragma mark - Timeout Handling
 
-- (BOOL)mustAwaitTimeoutForFailure {
-    return NO;
-}
-
-- (BOOL)failsFastDuringTimeout {
-    return NO;
+- (BOOL)mustAwaitTimeoutForResult:(MCKVerificationResult *)result
+{
+    return [result isFailure];
 }
 
 @end

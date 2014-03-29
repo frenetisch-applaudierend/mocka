@@ -224,14 +224,28 @@
 
 #pragma mark - Test Timeout Config
 
-- (void)testThatHandlerDoesNeedToAwaitTimeout {
+- (void)testThatHandlerDoesNeedToAwaitTimeoutForSuccess
+{
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    XCTAssertTrue([handler mustAwaitTimeoutForFailure], @"Should need to await timeout");
+    MCKVerificationResult *success = [MCKVerificationResult successWithMatchingIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]];
+    
+    expect([handler mustAwaitTimeoutForResult:success]).to.beTruthy();
 }
 
-- (void)testThatHandlerDoesNotFailFast {
+- (void)testThatHandlerDoesNeedToAwaitTimeoutForFailureWithTooLittleIndices
+{
     MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
-    XCTAssertFalse([handler failsFastDuringTimeout], @"Should not fail fast");
+    MCKVerificationResult *failure = [MCKVerificationResult failureWithReason:@"" matchingIndexes:[NSIndexSet indexSet]];
+    
+    expect([handler mustAwaitTimeoutForResult:failure]).to.beTruthy();
+}
+
+- (void)testThatHandlerDoesNotNeedToAwaitTimeoutForFailureWithTooManyIndices
+{
+    MCKExactlyVerificationHandler *handler = [[MCKExactlyVerificationHandler alloc] initWithCount:2];
+    MCKVerificationResult *failure = [MCKVerificationResult failureWithReason:@"" matchingIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)]];
+    
+    expect([handler mustAwaitTimeoutForResult:failure]).to.beFalsy();
 }
 
 

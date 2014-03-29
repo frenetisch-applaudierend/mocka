@@ -12,7 +12,7 @@
 #import "MCKInvocationRecorder.h"
 
 
-void mck_checkNoInteractions(id mockObject) {
+void _MCKCheckNoInteractions(id mockObject) {
     MCKMockingContext *context = [MCKMockingContext currentContext];
     MCKInvocationRecorder *invocationRecorder = context.invocationRecorder;
     

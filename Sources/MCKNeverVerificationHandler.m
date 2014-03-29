@@ -13,14 +13,16 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)neverHandler {
++ (instancetype)neverHandler
+{
     return [[self alloc] init];
 }
 
 
 #pragma mark - Verifying Invocations
 
-- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype {
+- (MCKVerificationResult *)verifyInvocations:(NSArray *)invocations forPrototype:(MCKInvocationPrototype *)prototype
+{
     NSIndexSet *indexes = [invocations indexesOfObjectsPassingTest:^BOOL(NSInvocation *invocation, NSUInteger idx, BOOL *stop) {
         return [prototype matchesInvocation:invocation];
     }];
@@ -37,12 +39,9 @@
 
 #pragma mark - Timeout Handling
 
-- (BOOL)mustAwaitTimeoutForFailure {
-    return YES;
-}
-
-- (BOOL)failsFastDuringTimeout {
-    return YES;
+- (BOOL)mustAwaitTimeoutForResult:(MCKVerificationResult *)result
+{
+    return [result isSuccess];
 }
 
 @end

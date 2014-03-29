@@ -16,6 +16,7 @@
 - (instancetype)initWithSuccess:(BOOL)success failureReason:(NSString *)failureReason matchingIndexes:(NSIndexSet *)matches;
 
 @property (nonatomic, readonly, getter = isSuccess) BOOL success;
+@property (nonatomic, readonly, getter = isFailure) BOOL failure;
 @property (nonatomic, readonly) NSString *failureReason;
 @property (nonatomic, readonly) NSIndexSet *matchingIndexes;
 
