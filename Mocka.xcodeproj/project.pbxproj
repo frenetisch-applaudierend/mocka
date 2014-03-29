@@ -228,8 +228,8 @@
 		63956A6A18E626D200682D90 /* MCKVerificationGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6618E626D200682D90 /* MCKVerificationGroup.m */; };
 		63956A6C18E6297000682D90 /* MCKVerificationGroupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */; };
 		63956A6D18E6297000682D90 /* MCKVerificationGroupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6B18E6297000682D90 /* MCKVerificationGroupTest.m */; };
-		63956A7018E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */; };
-		63956A7118E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */; };
+		63956A7018E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63956A7118E63D3F00682D90 /* MCKVerificationGroupRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63956A6E18E63D3F00682D90 /* MCKVerificationGroupRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63956A7218E63D3F00682D90 /* MCKVerificationGroupRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6F18E63D3F00682D90 /* MCKVerificationGroupRecorder.m */; };
 		63956A7318E63D3F00682D90 /* MCKVerificationGroupRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A6F18E63D3F00682D90 /* MCKVerificationGroupRecorder.m */; };
 		63956A7518E63E9300682D90 /* MCKVerificationGroupRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A7418E63E9300682D90 /* MCKVerificationGroupRecorderTest.m */; };
@@ -286,8 +286,8 @@
 		63AF4F1D18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */ = {isa = PBXBuildFile; fileRef = 63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */; };
 		63AF4F1E18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */; };
 		63AF4F1F18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */; };
-		63B097A518E1F9180046E703 /* MCKVerificationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */; };
-		63B097A618E1F9180046E703 /* MCKVerificationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */; };
+		63B097A518E1F9180046E703 /* MCKVerificationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63B097A618E1F9180046E703 /* MCKVerificationRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63B097A718E1F9180046E703 /* MCKVerificationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B097A418E1F9180046E703 /* MCKVerificationRecorder.m */; };
 		63B097A818E1F9180046E703 /* MCKVerificationRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B097A418E1F9180046E703 /* MCKVerificationRecorder.m */; };
 		63B097AA18E212CB0046E703 /* MCKVerificationRecorderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B097A918E212CB0046E703 /* MCKVerificationRecorderTest.m */; };
@@ -1359,7 +1359,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/fatten.rb \\\n    --ios mocka-ios \\\n    --osx mocka-osx \\\n    --product-name mocka-universal";
+			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/fatten.rb \\\n    --ios mocka-ios \\\n    --osx mocka-osx \\\n    --product-name mocka-universal \\\n    --no-warn-universal";
 			showEnvVarsInLog = 0;
 		};
 		6376F89817FF672800F4752D /* Create Framework */ = {
@@ -1374,7 +1374,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\n${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n    --library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n    --headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n    --replace \\\n    Distribution/Mocka.framework\n\npushd Distribution\nzip -ry \"Mocka-${CURRENT_PROJECT_VERSION}.zip\" \"Mocka.framework\"\npopd";
+			shellScript = "set -e\n\n${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n--library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n--headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n--replace \\\nDistribution/Mocka.framework\n\npushd Distribution\nzip -ry \"Mocka-${CURRENT_PROJECT_VERSION}.zip\" \"Mocka.framework\"\npopd";
 			showEnvVarsInLog = 0;
 		};
 		D7321A88826244699399366E /* Check Pods Manifest.lock */ = {

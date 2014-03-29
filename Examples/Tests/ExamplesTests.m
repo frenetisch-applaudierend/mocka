@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <Mocka/Mocka.h>
+
 
 @interface ExamplesTests : XCTestCase
 
@@ -28,7 +30,11 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    NSArray *mockArray = mockForClass(NSArray);
+    
+    [mockArray objectAtIndex:0];
+    
+    match ([mockArray objectAtIndex:0]);
 }
 
 @end

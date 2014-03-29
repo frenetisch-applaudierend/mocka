@@ -36,6 +36,7 @@ target "examples-tests-ios" do
   
   pod 'OHHTTPStubs'
   pod 'Expecta'
+  pod 'KNMParametrizedTests'
 end
 
 # target "examples-tests-osx" do
@@ -44,4 +45,5 @@ end
 #   
 #   pod 'OHHTTPStubs'
 #   pod 'Expecta'
+#   pod 'KNMParametrizedTests'
 # end
