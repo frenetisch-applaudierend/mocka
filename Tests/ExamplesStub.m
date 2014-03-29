@@ -200,7 +200,7 @@
         return nil;
     };
     
-    verifyCall (never [mockArray objectAtIndex:0]);
+    match ([mockArray objectAtIndex:0]) never;
 }
 
 @end

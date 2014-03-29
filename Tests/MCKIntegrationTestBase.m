@@ -99,13 +99,13 @@
     
     // then
     AssertFails({
-        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) never;
     });
 }
 
 - (void)testThatVerifyNeverSucceedsWhenNoCallWasMade {
     AssertDoesNotFail({
-        verifyCall (never [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) never;
     });
 }
 
@@ -115,13 +115,13 @@
     
     // then
     AssertDoesNotFail({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) exactly(1);
     });
 }
 
 - (void)testThatExactlyOneFailsWhenNoCallWasMade {
     AssertFails({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) exactly(1);
     });
 }
 
@@ -132,7 +132,7 @@
     
     // then
     AssertFails({
-        verifyCall (exactly(1) [self.testObject voidMethodCallWithoutParameters]);
+        match ([self.testObject voidMethodCallWithoutParameters]) exactly(1);
     });
 }
 

@@ -52,10 +52,10 @@
     
     // then
     AssertDoesNotFail({
-        verifyInOrder {
-            never [mockArray objectAtIndex:anyInt()];
-            [mockArray removeAllObjects];
-            [mockArray addObject:@"Foo"];
+        inOrder {
+            match ([mockArray objectAtIndex:anyInt()]) never;
+            match ([mockArray removeAllObjects]);
+            match ([mockArray addObject:@"Foo"]);
         };
     });
 }

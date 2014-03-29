@@ -147,9 +147,9 @@
     [mockArray objectAtIndex:0];
     [mockArray objectAtIndex:1];
     
-    verifyCall (once [mockArray count]);
+    match ([mockArray count]) once;
     ThisWillFail({
-        verifyCall (once [mockArray objectAtIndex:anyInt()]);
+        match ([mockArray objectAtIndex:anyInt()]) once;
     });
 }
 
@@ -160,9 +160,9 @@
     [mockArray objectAtIndex:1];
     [mockArray count];
     
-    verifyCall (exactly(2) [mockArray objectAtIndex:anyInt()]);
+    match ([mockArray objectAtIndex:anyInt()]) exactly(2);
     ThisWillFail({
-        verifyCall (exactly(2) [mockArray count]);
+        match ([mockArray count]) exactly(2);
     });
 }
 
@@ -172,9 +172,9 @@
     
     [mockArray objectAtIndex:0];
     
-    verifyCall (never [mockArray count]);
+    match ([mockArray count]) never;
     ThisWillFail({
-        verifyCall (never [mockArray objectAtIndex:anyInt()]);
+        match ([mockArray objectAtIndex:anyInt()]) never;
     });
 }
 
@@ -247,9 +247,9 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    verifyInOrder {
-        exactly(3) [mockArray addObject:anyObject()];
-        [mockArray removeAllObjects];
+    inOrder {
+        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray removeAllObjects]);
     };
 }
 
@@ -262,9 +262,9 @@
     [mockArray addObject:@"Three"];
     [mockArray removeAllObjects];
     
-    verifyInOrder {
-        exactly(3) [mockArray addObject:anyObject()];
-        [mockArray removeAllObjects];
+    inOrder {
+        match ([mockArray addObject:anyObject()]) exactly(3);
+        match ([mockArray removeAllObjects]);
     };
 }
 
@@ -276,8 +276,8 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder {
-        exactly(3) [mockArray addObject:anyObject()];
+    inOrder {
+        match ([mockArray addObject:anyObject()]) exactly(3);
     };
 }
 
@@ -289,9 +289,9 @@
     [mockArray removeAllObjects];
     
     ThisWillFail({
-        verifyInOrder {
-            exactly(3) [mockArray addObject:anyObject()];
-            [mockArray removeAllObjects];
+        inOrder {
+            match ([mockArray addObject:anyObject()]) exactly(3);
+            match ([mockArray removeAllObjects]);
         };
     });
 }
@@ -305,9 +305,9 @@
     [mockArray addObject:@"Three"];
     
     ThisWillFail({
-        verifyInOrder {
-            exactly(3) [mockArray addObject:anyObject()];
-            [mockArray removeAllObjects];
+        inOrder {
+            match ([mockArray addObject:anyObject()]) exactly(3);
+            match ([mockArray removeAllObjects]);
         };
     });
 }
@@ -320,8 +320,8 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder {
-        exactly(3) [mockArray addObject:anyObject()];
+    inOrder {
+        match ([mockArray addObject:anyObject()]) exactly(3);
     };
     match ([mockArray removeAllObjects]);
 }
@@ -335,13 +335,13 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder {
-        exactly(3) [mockArray addObject:anyObject()];
+    inOrder {
+        match ([mockArray addObject:anyObject()]) exactly(3);
     };
     
-    verifyInOrder {
-        [mockArray count];
-        [mockArray removeAllObjects];
+    inOrder {
+        match ([mockArray count]);
+        match ([mockArray removeAllObjects]);
     };
 }
 
@@ -354,8 +354,8 @@
     [mockArray removeAllObjects];
     [mockArray addObject:@"Three"];
     
-    verifyInOrder {
-        exactly(3) [mockArray addObject:anyObject()];
+    inOrder {
+        match ([mockArray addObject:anyObject()]) exactly(3);
     };
     
     ThisWillFail({
@@ -377,7 +377,7 @@
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    verifyCall (withTimeout(0.1) [mockArray removeAllObjects]);
+    match ([mockArray removeAllObjects]) withTimeout(0.1);
 }
 
 - (void)testVerifyFailsAfterTheTimeoutExpires {
@@ -388,7 +388,7 @@
     
     // the timeout will expire before the async taks is executed, so this fails
     ThisWillFail({
-        verifyCall (withTimeout(0.05) [mockArray removeAllObjects]);
+        match ([mockArray removeAllObjects]) withTimeout(0.05);
     });
 }
 
@@ -400,7 +400,7 @@
     }];
     
     // you can also combine the timeout with verification modes like exactly(...)
-    verifyCall (withTimeout(0.2) exactly(2) [mockArray removeAllObjects]);
+    match ([mockArray removeAllObjects]) exactly(2) withTimeout(0.2);
 }
 
 - (void)testTimeoutWorksDifferentWithNever {
@@ -409,12 +409,12 @@
         [mockArray removeAllObjects];
     }];
     
-    verifyCall (never [mockArray removeAllObjects]); // this does not fail, because the call is delayed
+    match ([mockArray removeAllObjects]) never; // this does not fail, because the call is delayed
     
     // when using withTimeout(...) together with verify never then the semantics change a bit
     // in this case the call will wait the whole timeout before checking that no call was made
     ThisWillFail({ // because the call is made after 0.2s and we check after 0.5s
-        verifyCall (withTimeout(0.5) never [mockArray removeAllObjects]);
+        match ([mockArray removeAllObjects]) never withTimeout(0.5);
     });
 }
 
@@ -430,10 +430,10 @@
     
     // normal verify would fail, since the callback was not called yet at this point
     // therefore use timeout with verify
-    verifyInOrder {
-        [mockArray addObject:@1];
-        [mockArray addObject:@2];
-        withTimeout(0.5) [mockArray removeAllObjects];
+    inOrder {
+        match ([mockArray addObject:@1]);
+        match ([mockArray addObject:@2]);
+        match ([mockArray removeAllObjects]) withTimeout(0.5);
     };
 }
 

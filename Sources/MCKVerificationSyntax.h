@@ -31,49 +31,13 @@
 
 #define mck_matchGroup(COLLECTOR) _MCKRecordVerificationGroup(COLLECTOR)
 
-
-#pragma mark - Verification Syntax
-
-/**
- * Start verification of a single call.
- *
- * Usage: `verifyCall ([mockObject someMethod]);`.
- */
-#define mck_verifyCall(CALL, ...) _mck_verify_call(_MCKCurrentLocation(), nil).verifyCallBlock = ^{ (void)(CALL, ## __VA_ARGS__); }
+#define mck_withTimeout(TIMEOUT) _MCKSetTimeout(TIMEOUT)
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define verifyCall(CALL, ...) mck_verifyCall(CALL, ## __VA_ARGS__)
-#endif
-
-
-/**
- * Start group verification using a collector.
- *
- * Intended to be wrapped in your own macro, so there is no nice syntax option.
- */
-#define mck_verifyUsingCollector(COLL) _mck_verify_call(_MCKCurrentLocation(), (COLL)).verifyCallBlock = ^
-
-
-/**
- * Set a verification timeout per call
- *
- * Usage: `verifyCall (withTimeout(0.5) [mockObject someMethod]);`.
- */
-#define mck_withTimeout(T) _mck_setVerificationTimeout(T),
-#ifndef MCK_DISABLE_NICE_SYNTAX
-    #define withTimeout(T) mck_withTimeout(T)
+    #define withTimeout(TIMEOUT) mck_withTimeout(TIMEOUT)
 #endif
 
 
 #pragma mark - Internal
-
-@interface MCKVerifyBlockRecorder : NSObject
-
-@property (nonatomic, copy) void(^verifyCallBlock)(void);
-
-@end
-
-extern MCKVerifyBlockRecorder* _mck_verify_call(MCKLocation *loc, id<MCKVerificationResultCollector> coll);
-extern void _mck_setVerificationTimeout(NSTimeInterval timeout);
 
 #define _MCKRecordVerification(BLOCK)       _MCKVerificationRecorder().recordVerification = _MCKVerification(_MCKCurrentLocation(), (BLOCK))
 #define _MCKSetTimeout(TIMEOUT)             .setTimeout(TIMEOUT)

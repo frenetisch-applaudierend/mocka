@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MCKVerificationSyntax.h"
 #import "MCKVerificationResult.h"
 #import "MCKInvocationPrototype.h"
 
@@ -30,7 +31,3 @@
 - (BOOL)mustAwaitTimeoutForResult:(MCKVerificationResult *)result;
 
 @end
-
-
-extern void _mck_useVerificationHandlerImpl(id<MCKVerificationHandler> handler);
-#define _mck_useVerificationHandler(HANDLER) _mck_useVerificationHandlerImpl(HANDLER),
