@@ -101,7 +101,7 @@ You create a spy using `spy(...)`.
 
     MyObject *objectMock = spy([[MYObject alloc] init]);
 
-***Note:** It's not possible to create spies for internal Foundation classes. This includes class clusters like `NSString` or `NSArray`.*
+_**Note:** It's not possible to create spies for internal Foundation classes. This includes class clusters like `NSString` or `NSArray`._
 
 
 ## Stubbing
@@ -125,7 +125,7 @@ It's possible to examine and use the arguments passed to the stubbed method call
         NSLog(@"Stub was called with %@ and %ld", arg1, (unsigned long)arg2);
     };
 
-***Note:** The return type of the action block is checked by the compiler, the argument types are checked at runtime.*
+_**Note:** The return type of the action block is checked by the compiler, the argument types are checked at runtime._
 
 
 ## Matching
@@ -140,8 +140,8 @@ You can test wether a set of methods were called on a mock or not. To do so use 
 	
 	[arrayMock objectAtIndex:0];
 	
-	match ([arrayMock objectAtIndex:0]);  // succeeds
-	match ([arrayMock objectAtIndex:10]); // fails
+	match ([arrayMock objectAtIndex:0]); // succeeds
+	match ([arrayMock objectAtIndex:1]); // fails
 
 A failure to match a call results in a test case failure.
 
@@ -168,7 +168,7 @@ Sometimes you need to check that a set of calls was made in a specific order (e.
 > You can find examples of stubs in
 > [`Tests/ExamplesNetworkMocking.m`](Tests/ExamplesNetworkMocking.m).
 
-***Note:** You need to link the `OHHTTPStubs` library for those features to be available.*
+_**Note:** You need to link the `OHHTTPStubs` library for those features to be available._
 
 Mocka provides a singleton object called `Network`. You can use it turn HTTP(S) network access off and on as well as stubbing and matching HTTP(S) network calls.
 

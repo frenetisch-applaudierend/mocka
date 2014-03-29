@@ -459,6 +459,9 @@
 		63956A7718E6C79000682D90 /* MCKAnyOfCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAnyOfCollector.h; sourceTree = "<group>"; };
 		63956A7818E6C79000682D90 /* MCKAnyOfCollector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnyOfCollector.m; sourceTree = "<group>"; };
 		63956A7D18E6D0BB00682D90 /* MCKAnyOfCollectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnyOfCollectorTest.m; sourceTree = "<group>"; };
+		63956A8018E7191900682D90 /* Matching.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = Matching.md; path = Documentation/Matching.md; sourceTree = "<group>"; };
+		63956A8118E7192200682D90 /* ArgumentMatchers.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = ArgumentMatchers.md; path = Documentation/ArgumentMatchers.md; sourceTree = "<group>"; };
+		63956A8218E7192200682D90 /* NetworkMocking.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = NetworkMocking.md; path = Documentation/NetworkMocking.md; sourceTree = "<group>"; };
 		6397E92918E32C3800F44AEE /* MCKVerification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerification.h; sourceTree = "<group>"; };
 		6397E92A18E32C3800F44AEE /* MCKVerification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerification.m; sourceTree = "<group>"; };
 		6397EFC817F6F91800F5902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -466,10 +469,10 @@
 		6397EFF817F81B8B00F5902F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+MCKContextLoading.h"; sourceTree = "<group>"; };
 		63AF4F1B18301F3800E5E514 /* XCTestCase+MCKContextLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+MCKContextLoading.m"; sourceTree = "<group>"; };
-		63B3B6FF18DE6645009AD4FA /* Stubbing.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = Stubbing.md; path = Documentation/Stubbing.md; sourceTree = "<group>"; };
 		63B097A318E1F9180046E703 /* MCKVerificationRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKVerificationRecorder.h; sourceTree = "<group>"; };
 		63B097A418E1F9180046E703 /* MCKVerificationRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationRecorder.m; sourceTree = "<group>"; };
 		63B097A918E212CB0046E703 /* MCKVerificationRecorderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKVerificationRecorderTest.m; sourceTree = "<group>"; };
+		63B3B6FF18DE6645009AD4FA /* Stubbing.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = Stubbing.md; path = Documentation/Stubbing.md; sourceTree = "<group>"; };
 		63B3B70018DF3AA0009AD4FA /* MCKAPIMisuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAPIMisuse.h; sourceTree = "<group>"; };
 		63B3B70118DF3AA0009AD4FA /* MCKAPIMisuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAPIMisuse.m; sourceTree = "<group>"; };
 		63B598131824FBFA00E4D26A /* MCKStubTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStubTest.m; sourceTree = "<group>"; };
@@ -830,6 +833,9 @@
 				638BA46817F6F74C0086226D /* Readme.md */,
 				638CF1A318DDF36600C667E4 /* Mocks.md */,
 				63B3B6FF18DE6645009AD4FA /* Stubbing.md */,
+				63956A8018E7191900682D90 /* Matching.md */,
+				63956A8118E7192200682D90 /* ArgumentMatchers.md */,
+				63956A8218E7192200682D90 /* NetworkMocking.md */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";

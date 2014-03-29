@@ -61,4 +61,4 @@ If you need access to `self` or `_cmd` use the full argument list instead.
         }
     };
 
-***Note:** You can either use the no argument list, the reduced argument list (all arguments, but without `self` and `_cmd`) or the full one. Any other combination of arguments will result in a failure at runtime.*
+_**Note:** You can either use the no argument list, the reduced argument list (all arguments, but without `self` and `_cmd`) or the full one. Any other combination of arguments will result in a failure at runtime._
