@@ -1359,7 +1359,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/fatten.rb \\\n    --ios mocka-ios \\\n    --osx mocka-osx \\\n    --product-name mocka-universal \\\n    --no-warn-universal";
+			shellScript = "${SOURCE_ROOT}/Scripts/xcode-build-helpers/fatten.rb \\\n    --ios mocka-ios \\\n    --product-name mocka-universal";
 			showEnvVarsInLog = 0;
 		};
 		6376F89817FF672800F4752D /* Create Framework */ = {
