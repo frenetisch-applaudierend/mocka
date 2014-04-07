@@ -39,11 +39,11 @@ target "examples-tests-ios" do
   pod 'KNMParametrizedTests'
 end
 
-# target "examples-tests-osx" do
-#   xcodeproj 'Examples/Examples.xcodeproj'
-#   platform :osx, '10.9'
-#   
-#   pod 'OHHTTPStubs'
-#   pod 'Expecta'
-#   pod 'KNMParametrizedTests'
-# end
+target "examples-tests-osx" do
+  xcodeproj 'Examples/Examples.xcodeproj'
+  platform :osx, '10.9'
+  
+  pod 'OHHTTPStubs'
+  pod 'Expecta'
+  pod 'KNMParametrizedTests'
+end

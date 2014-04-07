@@ -101,7 +101,6 @@
 		6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 631E238417FF5F3C00BC2D06 /* libmocka-osx.a */; };
 		6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6376F86817FF60E100F4752D /* Foundation.framework */; };
 		6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
-		6376F86B17FF618E00F4752D /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */; };
 		6376F86C17FF618E00F4752D /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30517F5A18400584A08 /* ExamplesVerify.m */; };
 		6376F86D17FF618E00F4752D /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30417F5A18400584A08 /* ExamplesStub.m */; };
 		6376F86E17FF618E00F4752D /* ExamplesArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */; };
@@ -245,7 +244,6 @@
 		6397E92D18E32C3800F44AEE /* MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6397E92A18E32C3800F44AEE /* MCKVerification.m */; };
 		6397E92E18E32C3800F44AEE /* MCKVerification.m in Sources */ = {isa = PBXBuildFile; fileRef = 6397E92A18E32C3800F44AEE /* MCKVerification.m */; };
 		6397EFC917F6F91800F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
-		6397EFCA17F6FAA700F5902F /* ExamplesCreatingMocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */; };
 		6397EFCB17F6FAA700F5902F /* ExamplesVerify.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30517F5A18400584A08 /* ExamplesVerify.m */; };
 		6397EFCC17F6FAA700F5902F /* ExamplesStub.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30417F5A18400584A08 /* ExamplesStub.m */; };
 		6397EFCD17F6FAA700F5902F /* ExamplesArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */; };
@@ -497,7 +495,6 @@
 		63BDE2FB17F5A04700584A08 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestObject.m; sourceTree = "<group>"; };
 		63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ExamplesArgumentMatchers.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		63BDE30217F5A18400584A08 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
-		63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesCreatingMocks.m; sourceTree = "<group>"; };
 		63BDE30417F5A18400584A08 /* ExamplesStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesStub.m; sourceTree = "<group>"; };
 		63BDE30517F5A18400584A08 /* ExamplesVerify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesVerify.m; sourceTree = "<group>"; };
 		63D1CABB1825840D009FE9EC /* MCKIntegrationTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKIntegrationTestBase.h; sourceTree = "<group>"; };
@@ -1028,7 +1025,6 @@
 			isa = PBXGroup;
 			children = (
 				63BDE30217F5A18400584A08 /* ExamplesCommon.h */,
-				63BDE30317F5A18400584A08 /* ExamplesCreatingMocks.m */,
 				63BDE30517F5A18400584A08 /* ExamplesVerify.m */,
 				63BDE30417F5A18400584A08 /* ExamplesStub.m */,
 				63BDE30117F5A18400584A08 /* ExamplesArgumentMatchers.m */,
@@ -1462,7 +1458,6 @@
 				6376F88417FF61B500F4752D /* MCKArgumentMatcherTest.m in Sources */,
 				6376F87C17FF61A300F4752D /* MCKInOrderCollectorTest.m in Sources */,
 				6376F87817FF619E00F4752D /* MCKInvocationStubberTest.m in Sources */,
-				6376F86B17FF618E00F4752D /* ExamplesCreatingMocks.m in Sources */,
 				6376F89017FF61D000F4752D /* FakeInvocationPrototype.m in Sources */,
 				6376F87D17FF61A900F4752D /* MCKDefaultVerificationHandlerTest.m in Sources */,
 				6376F88F17FF61D000F4752D /* FakeVerificationHandler.m in Sources */,
@@ -1552,7 +1547,6 @@
 			files = (
 				63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMocking.m in Sources */,
 				6397EFEF17F6FAE700F5902F /* FakeFailureHandler.m in Sources */,
-				6397EFCA17F6FAA700F5902F /* ExamplesCreatingMocks.m in Sources */,
 				6397EFD017F6FAAD00F5902F /* MCKSpyIntegrationTest.m in Sources */,
 				6397EFEB17F6FAD800F5902F /* CategoriesTestClasses.m in Sources */,
 				6397EFD117F6FAB500F5902F /* MCKMockingContextTest.m in Sources */,
