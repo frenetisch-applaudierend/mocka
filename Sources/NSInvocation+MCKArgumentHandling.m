@@ -7,7 +7,8 @@
 //
 
 #import "NSInvocation+MCKArgumentHandling.h"
-#import "MCKArgumentSerialization.h"
+
+#import "MCKValueSerialization.h"
 
 
 #define ReturnArgumentAtEffectiveIndex(type, idx) {\

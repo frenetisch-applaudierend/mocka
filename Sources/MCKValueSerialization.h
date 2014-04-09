@@ -1,5 +1,5 @@
 //
-//  MCKArgumentSerialization.h
+//  MCKValueSerialization.h
 //  mocka
 //
 //  Created by Markus Gasser on 22.12.12.
@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCKTypeEncodings.h"
+
+
+#pragma mark - Value Serialization
+
+#define MCKSerializeValue(V) MCKSerializeValueFromBytesAndType(((typeof(V)[]){ (V) }), @encode(typeof(V)))
+
+extern id MCKSerializeValueFromBytesAndType(const void *bytes, const char *type);
+
+
+#pragma mark - Value Deserialization
+
+extern void MCKDeserializeValue(id serialized, void *valueRef, const char *type);
 
 
 #pragma mark - Generic Encoding

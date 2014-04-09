@@ -1,12 +1,33 @@
 //
-//  MCKArgumentSerialization.m
+//  MCKValueSerialization.m
 //  mocka
 //
 //  Created by Markus Gasser on 22.12.12.
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#import "MCKArgumentSerialization.h"
+#import "MCKValueSerialization.h"
+
+#import "MCKTypeEncodings.h"
+
+
+#pragma mark - Value Serialization
+
+id MCKEncodeValueFromBytesAndType(const void *bytes, const char *type)
+{
+    return [NSValue valueWithBytes:bytes objCType:type];
+}
+
+
+#pragma mark - Value Deserialization
+
+void MCKDeserializeValueOfType(id serialized, void *valueRef, const char *type)
+{
+    NSCParameterAssert((strcmp([(NSValue *)serialized objCType], type) == 0));
+    
+    [(NSValue *)serialized getValue:valueRef];
+}
+
 
 
 #pragma mark - Generic Encoding

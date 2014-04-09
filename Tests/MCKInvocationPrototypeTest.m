@@ -13,7 +13,7 @@
 #import "MCKBlockArgumentMatcher.h"
 #import "HCBlockMatcher.h"
 #import "NSInvocation+TestSupport.h"
-#import "MCKArgumentSerialization.h"
+#import "MCKValueSerialization.h"
 
 
 @interface MCKInvocationPrototypeTest : XCTestCase @end
