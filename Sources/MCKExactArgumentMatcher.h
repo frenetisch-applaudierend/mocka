@@ -123,7 +123,7 @@ extern void* mck_pointerArg(const void *arg);
  * @param ARG The value to match
  * @return An internal value that represents this matcher. Never use this value yourself.
  */
-#define mck_structArg(ARG) mck_registerStructMatcher(\
+#define mck_structArg(ARG) MCKRegisterMatcher(\
     [MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithBytes:(typeof(ARG)[]){ (ARG) }\
                                                   objCType:@encode(typeof(ARG))]], typeof(ARG))
 

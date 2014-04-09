@@ -216,7 +216,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:any(NSUInteger) intParam2:any(NSUInteger)]);
     });
 }
 
@@ -228,8 +228,8 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
-        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]);
+        match ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]);
     });
 }
 
@@ -240,7 +240,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:any(id) objectParam2:any(id)]);
     });
 }
 
@@ -251,7 +251,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:any(id) objectParam2:any(id)]);
     });
 }
 
@@ -262,7 +262,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
+        match ([self.testObject voidMethodCallWithObjectParam1:any(id) objectParam2:@"Bar"]);
     });
 }
 
@@ -273,7 +273,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:any(int)]);
     });
 }
 
@@ -415,7 +415,7 @@
 {
     // given
     __block BOOL methodMatched = NO;
-    stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
+    stub ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]) with {
         methodMatched = YES;
     };
     
@@ -430,7 +430,7 @@
 {
     // given
     __block int invocationCount = 0;
-    stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
+    stub ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]) with {
         invocationCount++;
     };
     

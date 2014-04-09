@@ -162,7 +162,7 @@
     
     match ([mockArray count]) exactly(once);
     ThisWillFail({
-        match ([mockArray objectAtIndex:anyInt()]) exactly(once);
+        match ([mockArray objectAtIndex:any(NSUInteger)]) exactly(once);
     });
 }
 
@@ -174,7 +174,7 @@
     [mockArray objectAtIndex:1];
     [mockArray count];
     
-    match ([mockArray objectAtIndex:anyInt()]) exactly(2 times);
+    match ([mockArray objectAtIndex:any(NSUInteger)]) exactly(2 times);
     ThisWillFail({
         match ([mockArray count]) exactly(2 times);
     });
@@ -189,7 +189,7 @@
     
     match ([mockArray count]) never;
     ThisWillFail({
-        match ([mockArray objectAtIndex:anyInt()]) never;
+        match ([mockArray objectAtIndex:any(NSUInteger)]) never;
     });
 }
 
@@ -268,7 +268,7 @@
     [mockArray removeAllObjects];
     
     matchInOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3 times);
+        match ([mockArray addObject:any(NSString*)]) exactly(3 times);
         match ([mockArray removeAllObjects]);
     };
 }
@@ -284,7 +284,7 @@
     [mockArray removeAllObjects];
     
     matchInOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3 times);
+        match ([mockArray addObject:any(id)]) exactly(3 times);
         match ([mockArray removeAllObjects]);
     };
 }
@@ -299,7 +299,7 @@
     [mockArray addObject:@"Three"];
     
     matchInOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3 times);
+        match ([mockArray addObject:any(id)]) exactly(3 times);
     };
 }
 
@@ -313,7 +313,7 @@
     
     ThisWillFail({
         matchInOrder {
-            match ([mockArray addObject:anyObject()]) exactly(3 times);
+            match ([mockArray addObject:any(id)]) exactly(3 times);
             match ([mockArray removeAllObjects]);
         };
     });
@@ -330,7 +330,7 @@
     
     ThisWillFail({
         matchInOrder {
-            match ([mockArray addObject:anyObject()]) exactly(3 times);
+            match ([mockArray addObject:any(id)]) exactly(3 times);
             match ([mockArray removeAllObjects]);
         };
     });
@@ -346,7 +346,7 @@
     [mockArray addObject:@"Three"];
     
     matchInOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3 times);
+        match ([mockArray addObject:any(id)]) exactly(3 times);
     };
     match ([mockArray removeAllObjects]);
 }
@@ -362,7 +362,7 @@
     [mockArray addObject:@"Three"];
     
     matchInOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3 times);
+        match ([mockArray addObject:any(id)]) exactly(3 times);
     };
     
     matchInOrder {
@@ -382,7 +382,7 @@
     [mockArray addObject:@"Three"];
     
     matchInOrder {
-        match ([mockArray addObject:anyObject()]) exactly(3 times);
+        match ([mockArray addObject:any(id)]) exactly(3 times);
     };
     
     ThisWillFail({

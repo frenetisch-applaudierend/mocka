@@ -34,14 +34,14 @@
     // instead of specifiying an exact value in verify you can also use argument matchers
     
     [mockArray addObject:@"Hello World"];
-    match ([mockArray addObject:anyObject()]);
+    match ([mockArray addObject:any(id)]);
 }
 
 - (void)testYouCanUseArgumentMatchersWhenStubbing {
     // instead of specifiying an exact value in whenCalling you can also use argument matchers
     
     __block id addedObject = nil;
-    stub ([mockArray addObject:anyObject()]) with (id object) {
+    stub ([mockArray addObject:any(id)]) with (id object) {
         addedObject = object;
     };
     
@@ -54,7 +54,7 @@
     // for object arguments you can just mix normal arguments and matchers
     
     [mockArray insertObjects:@[ @"foo" ] atIndexes:[NSIndexSet indexSetWithIndex:3]];
-    match ([mockArray insertObjects:@[ @"foo" ] atIndexes:anyObject()]);
+    match ([mockArray insertObjects:@[ @"foo" ] atIndexes:any(id)]);
 }
 
 
@@ -64,13 +64,13 @@
     // matchers are also available for primitive arguments
     
     [mockArray objectAtIndex:10];
-    match ([mockArray objectAtIndex:anyInt()]);
+    match ([mockArray objectAtIndex:any(NSUInteger)]);
 }
 
 - (void)testYouCanUseArgumentMatchersForPrimitiveArgumentsWhenStubbing {
     // matchers are also available for primitive arguments
     
-    stub ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+    stub ([mockArray objectAtIndex:any(NSUInteger)]) with (NSUInteger index) {
         return @(index);
     };
     
@@ -84,10 +84,10 @@
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    match ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);             // ok
-    match ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]); // ok
+    match ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);                           // ok
+    match ([mockArray exchangeObjectAtIndex:any(NSUInteger) withObjectAtIndex:any(NSUInteger)]); // ok
     ThisWillFail({
-        match ([mockArray exchangeObjectAtIndex:50 withObjectAtIndex:anyInt()]);   // not ok
+        match ([mockArray exchangeObjectAtIndex:50 withObjectAtIndex:any(NSUInteger)]);          // not ok
     });
 }
 
@@ -122,9 +122,9 @@
     [mockArray exchangeObjectAtIndex:30 withObjectAtIndex:40];
     [mockArray exchangeObjectAtIndex:50 withObjectAtIndex:60];
     
-    match ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);               // ok
-    match ([mockArray exchangeObjectAtIndex:anyInt() withObjectAtIndex:anyInt()]);   // ok
-    match ([mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:anyInt()]); // also ok
+    match ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);                           // ok
+    match ([mockArray exchangeObjectAtIndex:any(NSUInteger) withObjectAtIndex:any(NSUInteger)]); // ok
+    match ([mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:any(NSUInteger)]);      // also ok
 }
 
 - (void)testExactStructArgumentMatcherSyntax {

@@ -27,18 +27,17 @@
 
 #pragma mark - Registering Matchers
 
-#define MCKRegisterMatcher(M, T) ((T)(*((const T *)_MCKRegisterMatcherWithType((M), (T[]){0}, @encode(T)))))
+#define MCKRegisterMatcher(M, T) ((T)(*((T const *)_MCKRegisterMatcherWithType((M), (void *)(const T[]){0}, @encode(T)))))
+
+
+#pragma mark - Find Registered Matchers
+
+extern UInt8 MCKMatcherIndexForPrimitiveArgument(const void *bytes);
 
 
 #pragma mark - Internal
 
 extern void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type);
 
-#define mck_registerStructMatcher(MATCHER, STRT_TYPE)\
-    (*((STRT_TYPE *)_mck_registerStructMatcher((MATCHER), &(STRT_TYPE){}, sizeof(STRT_TYPE))))
-extern const void* _mck_registerStructMatcher(id<MCKArgumentMatcher> matcher, void *inputStruct, size_t structSize);
 
 
-#pragma mark - Find Registered Matchers
-
-extern UInt8 MCKMatcherIndexForPrimitiveArgument(const void *bytes);
