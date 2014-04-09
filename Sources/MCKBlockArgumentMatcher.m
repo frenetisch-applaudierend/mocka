@@ -40,41 +40,41 @@
 
 #define CREATE_MATCHER(BLOCK, DECODER) \
     [MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {\
-        return ((BLOCK) != nil ? (BLOCK)(DECODER(candidate)) : YES);\
+        return ((BLOCK) != nil ? (BLOCK)([candidate DECODER]) : YES);\
     }]
 
 id mck_objectMatching(BOOL(^block)(id candidate)) {
-    return mck_registerObjectMatcher(CREATE_MATCHER(block, mck_decodeObjectArgument));
+    return mck_registerObjectMatcher(CREATE_MATCHER(block, nonretainedObjectValue));
 }
 
 char mck_integerMatching(BOOL(^block)(SInt64 candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeSignedIntegerArgument));
+    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, longLongValue));
 }
 
 char mck_unsignedIntegerMatching(BOOL(^block)(UInt64 candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeUnsignedIntegerArgument));
+    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, unsignedLongLongValue));
 }
 
 float mck_floatMatching(BOOL(^block)(float candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeFloatingPointArgument));
+    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, floatValue));
 }
 
 double mck_doubleMatching(BOOL(^block)(double candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeFloatingPointArgument));
+    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, doubleValue));
 }
 
 BOOL mck_boolMatching(BOOL(^block)(BOOL candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeFloatingPointArgument));
+    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, boolValue));
 }
 
 const char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {
-    return mck_registerCStringMatcher(CREATE_MATCHER(block, mck_decodeCStringArgument));
+    return mck_registerCStringMatcher(CREATE_MATCHER(block, pointerValue));
 }
 
 SEL mck_selectorMatching(BOOL(^block)(SEL candidate)) {
-    return mck_registerSelectorMatcher(CREATE_MATCHER(block, mck_decodeSelectorArgument));
+    return mck_registerSelectorMatcher(CREATE_MATCHER(block, mck_selectorValue));
 }
 
 void* mck_pointerMatching(BOOL(^block)(void *candidate)) {
-    return mck_registerPointerMatcher(CREATE_MATCHER(block, mck_decodePointerArgument));
+    return mck_registerPointerMatcher(CREATE_MATCHER(block, pointerValue));
 }

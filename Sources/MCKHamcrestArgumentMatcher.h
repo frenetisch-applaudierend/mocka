@@ -10,7 +10,7 @@
 #import "MCKArgumentMatcher.h"
 
 
-@interface MCKHamcrestArgumentMatcher : NSObject <MCKArgumentMatcher>
+@interface MCKHamcrestArgumentMatcher : MCKArgumentMatcher
 
 @property (nonatomic, strong) id hamcrestMatcher;
 

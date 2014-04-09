@@ -13,36 +13,45 @@
 
 #pragma mark - Initialization
 
-+ (instancetype)matcherWithArgument:(id)expected {
++ (instancetype)matcherWithArgument:(id)expected
+{
     return [[self alloc] initWithArgument:expected];
 }
 
-- (instancetype)initWithArgument:(id)expected {
+- (instancetype)initWithArgument:(id)expected
+{
     if ((self = [super init])) {
         [self setExpectedArgument:expected];
     }
     return self;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithArgument:nil];
 }
 
 
 #pragma mark - Configuration
 
-- (void)setExpectedArgument:(id)expectedArgument {
-    _expectedArgument = ([expectedArgument conformsToProtocol:@protocol(NSCopying)] ? [expectedArgument copy] : expectedArgument);
+- (void)setExpectedArgument:(id)expectedArgument
+{
+    _expectedArgument = ([expectedArgument conformsToProtocol:@protocol(NSCopying)]
+                         ? [expectedArgument copy]
+                         : expectedArgument);
 }
 
 
 #pragma mark - Argument Matching
 
-- (BOOL)matchesCandidate:(id)candidate {
-    return (candidate == self.expectedArgument
-            || (candidate != nil
-                && self.expectedArgument != nil
-                && [candidate isEqual:self.expectedArgument]));
+- (BOOL)matchesObjectCandidate:(id)candidate
+{
+    return (candidate == self.expectedArgument || (candidate != nil && [candidate isEqual:self.expectedArgument]));
+}
+
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate
+{
+    return (candidate == self.expectedArgument || (candidate != nil && [candidate isEqual:self.expectedArgument]));
 }
 
 

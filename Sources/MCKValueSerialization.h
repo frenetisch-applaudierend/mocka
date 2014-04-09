@@ -11,55 +11,44 @@
 
 #pragma mark - Value Serialization
 
+/**
+ * Uses MCKSerializeValueFromBytesAndType() to serialize the passed value.
+ */
 #define MCKSerializeValue(V) MCKSerializeValueFromBytesAndType(((typeof(V)[]){ (V) }), @encode(typeof(V)))
 
-extern id MCKSerializeValueFromBytesAndType(const void *bytes, const char *type);
+/**
+ * Serialize a given value to a NSValue or a subclass thereof.
+ *
+ * Scalars (int, etc) are serialized into NSNumber instances, all other values
+ * are converted to NSValue instances, including objects.
+ *
+ * This means to compare objects you need to unpack the value first. Scalars can be
+ * compared using -isEqual: and -compare:.
+ */
+extern NSValue* MCKSerializeValueFromBytesAndType(const void *bytes, const char *type);
 
 
 #pragma mark - Value Deserialization
 
-extern void MCKDeserializeValue(id serialized, void *valueRef, const char *type);
+/**
+ * Uses MCKDeserializeValueOfType() to deserialize the given NSValue then casts to the desired type.
+ */
+#define MCKDeserializeValue(S, T) (T)(*(const T *)MCKDeserializeValueOfType((S), &(T){ 0 }))
+
+/**
+ * Deserialize a NSValue instance.
+ */
+extern void* MCKDeserializeValueOfType(NSValue *serialized, void *valueRef);
 
 
-#pragma mark - Generic Encoding
+@interface NSValue (MCKValueSerialization)
 
-id mck_encodeValueFromBytesAndType(const void *bytes, size_t size, const char *type);
+/**
+ * Returns the receiver's value as a selector.
+ *
+ * @return The receiver's value as a selector. If the receiver was not created to hold a selector data item,
+ *         the result is undefined.
+ */
+- (SEL)mck_selectorValue;
 
-
-#pragma mark - Object Arguments
-
-id mck_encodeObjectArgument(id arg);
-id mck_decodeObjectArgument(id serialized);
-
-
-#pragma mark - Primitive Arguments
-
-id mck_encodeSignedIntegerArgument(SInt64 arg);
-SInt64 mck_decodeSignedIntegerArgument(id serialized);
-
-id mck_encodeUnsignedIntegerArgument(UInt64 arg);
-SInt64 mck_decodeUnsignedIntegerArgument(id serialized);
-
-id mck_encodeFloatingPointArgument(double arg);
-double mck_decodeFloatingPointArgument(id serialized);
-
-id mck_encodeBooleanArgument(BOOL arg);
-BOOL mck_decodeBooleanArgument(id serialized);
-
-
-#pragma mark - Non-Object Pointer Types
-
-id mck_encodePointerArgument(const void *arg);
-void* mck_decodePointerArgument(id serialized);
-
-id mck_encodeCStringArgument(const char *arg);
-const char* mck_decodeCStringArgument(id serialized);
-
-id mck_encodeSelectorArgument(SEL arg);
-SEL mck_decodeSelectorArgument(id serialized);
-
-id mck_encodeStructBytes(const void *arg, const char *type);
-void* mck_decodeStructBytes(id serialized, void *arg);
-
-#define mck_encodeStructArgument(arg) mck_encodeStructBytes((typeof(arg)[]){ (arg) }, @encode(typeof(arg)))
-#define mck_decodeStructArgument(serialized, structType) *((structType *)mck_decodeStructBytes(serialized, &(structType){}))
+@end

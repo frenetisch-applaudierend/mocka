@@ -7,9 +7,35 @@
 //
 
 #import "MCKArgumentMatcher.h"
+#import "MCKArgumentMatcher+Subclasses.h"
+
 #import "MCKMockingContext.h"
 #import "MCKArgumentMatcherRecorder.h"
 
+
+@implementation MCKArgumentMatcher
+
+- (BOOL)matchesCandidate:(NSValue *)serializedCandidate
+{
+    if ([MCKTypeEncodings isObjectType:[serializedCandidate objCType]]) {
+        return [self matchesObjectCandidate:[serializedCandidate nonretainedObjectValue]];
+    }
+    else {
+        return [self matchesNonObjectCandidate:serializedCandidate];
+    }
+}
+
+- (BOOL)matchesObjectCandidate:(id)candidate
+{
+    return NO;
+}
+
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate
+{
+    return NO;
+}
+
+@end
 
 id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher) {
     [[MCKMockingContext currentContext].argumentMatcherRecorder addObjectArgumentMatcher:matcher];

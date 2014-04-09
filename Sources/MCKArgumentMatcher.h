@@ -11,7 +11,16 @@
 
 @protocol MCKArgumentMatcher <NSObject>
 
-- (BOOL)matchesCandidate:(id)candidate;
+- (BOOL)matchesCandidate:(NSValue *)serializedCandidate;
+
+@end
+
+
+@interface MCKArgumentMatcher : NSObject <MCKArgumentMatcher>
+
+- (BOOL)matchesCandidate:(NSValue *)serializedCandidate;
+- (BOOL)matchesObjectCandidate:(id)candidate;
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate;
 
 @end
 

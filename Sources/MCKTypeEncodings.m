@@ -9,28 +9,40 @@
 #import "MCKTypeEncodings.h"
 
 
+#define MCKEqualTypes(T1, T2) (strcmp(T1, T2) == 0)
+
 @implementation MCKTypeEncodings
 
 #pragma mark - Get Information about @encode() types
 
 + (BOOL)isObjectType:(const char *)type {
     type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == '@' || type[0] == '#');
+    return ((type[0] == @encode(id)[0]) || (type[0] == @encode(Class)[0]));
 }
 
 + (BOOL)isSelectorType:(const char *)type {
     type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == ':');
+    return MCKEqualTypes(type, @encode(SEL));
 }
 
 + (BOOL)isCStringType:(const char *)type {
     type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == '*');
+    return MCKEqualTypes(type, @encode(const char*));
 }
 
 + (BOOL)isPointerType:(const char *)type {
     type = [self typeBySkippingTypeModifiers:type];
-    return (type[0] == '^');
+    return (type[0] == @encode(void*)[0]);
+}
+
++ (BOOL)isScalarType:(const char *)type {
+    type = [self typeBySkippingTypeModifiers:type];
+    
+    return (   MCKEqualTypes(type, @encode(int8_t))  || MCKEqualTypes(type, @encode(uint8_t))
+            || MCKEqualTypes(type, @encode(int16_t)) || MCKEqualTypes(type, @encode(uint16_t))
+            || MCKEqualTypes(type, @encode(int32_t)) || MCKEqualTypes(type, @encode(uint32_t))
+            || MCKEqualTypes(type, @encode(int64_t)) || MCKEqualTypes(type, @encode(uint64_t))
+            || MCKEqualTypes(type, @encode(float))   || MCKEqualTypes(type, @encode(double)));
 }
 
 

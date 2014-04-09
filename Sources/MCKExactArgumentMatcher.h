@@ -11,7 +11,7 @@
 #import "MCKArgumentMatcher.h"
 
 
-@interface MCKExactArgumentMatcher : NSObject <MCKArgumentMatcher>
+@interface MCKExactArgumentMatcher : MCKArgumentMatcher
 
 + (instancetype)matcherWithArgument:(id)expected;
 - (instancetype)initWithArgument:(id)expected;

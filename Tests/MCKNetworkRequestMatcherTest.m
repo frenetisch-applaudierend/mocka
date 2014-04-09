@@ -7,7 +7,10 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "MCKNetworkRequestMatcher.h"
+#import "MCKValueSerialization.h"
+
 
 #define URL(url) [NSURL URLWithString:(url)]
 
@@ -24,7 +27,7 @@
     request.HTTPMethod = @"PUT";
     
     // then
-    XCTAssertTrue([matcher matchesCandidate:request], @"Should match candidate");
+    XCTAssertTrue([matcher matchesCandidate:MCKSerializeValue(request)], @"Should match candidate");
 }
 
 - (void)testThatMatcherFailsForDifferentURL {
@@ -34,7 +37,7 @@
     request.HTTPMethod = @"GET";
     
     // then
-    XCTAssertFalse([matcher matchesCandidate:request], @"Should not match candidate");
+    XCTAssertFalse([matcher matchesCandidate:MCKSerializeValue(request)], @"Should not match candidate");
 }
 
 - (void)testThatMatcherFailsForDifferentMethod {
@@ -44,7 +47,7 @@
     request.HTTPMethod = @"PUT";
     
     // then
-    XCTAssertFalse([matcher matchesCandidate:request], @"Should not match candidate");
+    XCTAssertFalse([matcher matchesCandidate:MCKSerializeValue(request)], @"Should not match candidate");
 }
 
 @end
