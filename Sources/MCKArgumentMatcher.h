@@ -27,16 +27,12 @@
 
 #pragma mark - Registering Matchers
 
-#define MCKRegisterMatcher(M, T) (*((const T *)_MCKRegisterMatcherWithType((M), (T[]){0}, @encode(T))))
+#define MCKRegisterMatcher(M, T) ((T)(*((const T *)_MCKRegisterMatcherWithType((M), (T[]){0}, @encode(T)))))
 
 
 #pragma mark - Internal
 
 extern void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type);
-
-extern char* mck_registerCStringMatcher(id<MCKArgumentMatcher> matcher);
-extern SEL mck_registerSelectorMatcher(id<MCKArgumentMatcher> matcher);
-extern void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher);
 
 #define mck_registerStructMatcher(MATCHER, STRT_TYPE)\
     (*((STRT_TYPE *)_mck_registerStructMatcher((MATCHER), &(STRT_TYPE){}, sizeof(STRT_TYPE))))

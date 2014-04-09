@@ -67,14 +67,14 @@ BOOL mck_boolMatching(BOOL(^block)(BOOL candidate)) {
     return MCKRegisterMatcher(CREATE_MATCHER(block, boolValue), BOOL);
 }
 
-const char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {
-    return mck_registerCStringMatcher(CREATE_MATCHER(block, pointerValue));
+char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {
+    return MCKRegisterMatcher(CREATE_MATCHER(block, pointerValue), char*);
 }
 
 SEL mck_selectorMatching(BOOL(^block)(SEL candidate)) {
-    return mck_registerSelectorMatcher(CREATE_MATCHER(block, mck_selectorValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, mck_selectorValue), SEL);
 }
 
 void* mck_pointerMatching(BOOL(^block)(void *candidate)) {
-    return mck_registerPointerMatcher(CREATE_MATCHER(block, pointerValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, pointerValue), void*);
 }

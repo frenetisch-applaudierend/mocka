@@ -87,13 +87,13 @@ BOOL mck_boolArg(BOOL arg) {
 }
 
 char* mck_cStringArg(const char *arg) {
-    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], char*);
 }
 
 SEL mck_selectorArg(SEL arg) {
-    return mck_registerSelectorMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], SEL);
 }
 
 void* mck_pointerArg(const void *arg) {
-    return mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], void*);
 }

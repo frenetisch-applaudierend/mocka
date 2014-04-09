@@ -29,7 +29,7 @@ extern char mck_unsignedIntegerMatching(BOOL(^block)(UInt64 candidate));
 extern float mck_floatMatching(BOOL(^block)(float candidate));
 extern double mck_doubleMatching(BOOL(^block)(double candidate));
 extern BOOL mck_boolMatching(BOOL(^block)(BOOL candidate));
-extern const char* mck_cStringMatching(BOOL(^block)(const char *candidate));
+extern char* mck_cStringMatching(BOOL(^block)(const char *candidate));
 extern SEL mck_selectorMatching(BOOL(^block)(SEL candidate));
 extern void* mck_pointerMatching(BOOL(^block)(void *candidate));
 #define mck_objectPointerMatching(TYPE, CND) ((id TYPE *)mck_pointerMatching((void *)CND))

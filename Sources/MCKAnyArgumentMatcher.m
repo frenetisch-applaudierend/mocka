@@ -37,13 +37,13 @@ BOOL mck_anyBool(void) {
 }
 
 char* mck_anyCString(void) {
-    return mck_registerCStringMatcher([[MCKAnyArgumentMatcher alloc] init]);
+    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], char*);
 }
 
 SEL mck_anySelector(void) {
-    return mck_registerSelectorMatcher([[MCKAnyArgumentMatcher alloc] init]);
+    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], SEL);
 }
 
 void* mck_anyPointer(void) {
-    return mck_registerPointerMatcher([[MCKAnyArgumentMatcher alloc] init]);
+    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], void*);
 }

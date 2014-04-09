@@ -65,7 +65,7 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    char *value = mck_registerCStringMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    const char *value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], char*);
     
     // then
     expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
@@ -79,7 +79,7 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    SEL value = mck_registerSelectorMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    SEL value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], SEL);
     
     // then
     expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
@@ -93,7 +93,7 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    void *value = mck_registerPointerMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    void *value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], void*);
     
     // then
     expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
