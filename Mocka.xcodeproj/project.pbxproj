@@ -1370,7 +1370,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\n${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n--library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n--headers \"${BUILD_ROOT}/${CONFIGURATION}/include/Mocka\" \\\n--replace \\\nDistribution/Mocka.framework\n\npushd Distribution\nzip -ry \"Mocka-${CURRENT_PROJECT_VERSION}.zip\" \"Mocka.framework\"\npopd";
+			shellScript = "set -e\n\n${SOURCE_ROOT}/Scripts/xcode-build-helpers/frameworkify.rb \\\n--library \"${BUILD_ROOT}/${CONFIGURATION}/libmocka-universal.a\" \\\n--headers \"${BUILD_ROOT}/${CONFIGURATION}-iphoneos/include/Mocka\" \\\n--replace \\\nDistribution/Mocka.framework\n\npushd Distribution\nzip -ry \"Mocka-${CURRENT_PROJECT_VERSION}.zip\" \"Mocka.framework\"\npopd";
 			showEnvVarsInLog = 0;
 		};
 		D7321A88826244699399366E /* Check Pods Manifest.lock */ = {

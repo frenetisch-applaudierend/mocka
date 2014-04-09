@@ -28,48 +28,6 @@
 }
 
 
-#pragma mark - Stubbing Return Values
-
-- (void)testByDefaultMocksWillReturnNilOrZero {
-    // when you have an unstubbed method it will return the "default" value
-    // for objects nil, for numbers 0 and for structs a struct with all fields 0
-    
-    expect([mockArray objectAtIndex:0]).to.equal(nil);
-    expect([mockArray count]).to.equal(0);
-    expect(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(0, 0))).to.beTruthy();
-}
-
-- (void)testSettingCustomObjectReturnValue {
-    // you can set a custom return value for objects
-    
-    stub ([mockArray objectAtIndex:0]) with {
-        return @"Hello World";
-    };
-    
-    expect([mockArray objectAtIndex:0]).to.equal(@"Hello World");
-}
-
-- (void)testSettingCustomPrimitiveNumberReturnValue {
-    // you can set a custom return value for primitive numbers
-    
-    stub ([mockArray count]) with {
-        return 10;
-    };
-
-    expect([mockArray count]).to.equal(10);
-}
-
-- (void)testSettingCustomStructReturnValue {
-    // you can also set a custom return value for structs
-    
-    stub ([mockString rangeOfString:@"Foo"]) with {
-        return NSMakeRange(10, 20);
-    };
-    
-    expect(NSEqualRanges([mockString rangeOfString:@"Foo"], NSMakeRange(10, 20))).to.beTruthy();
-}
-
-
 #pragma mark - Accessing Method Arguments from Stubs
 
 - (void)testMethodArgumentsArePassedToBlockIfRequested {
