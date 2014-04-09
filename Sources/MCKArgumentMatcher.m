@@ -37,6 +37,23 @@
 
 @end
 
+
+#pragma mark - Registering Matchers
+
+void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type)
+{
+    if ([MCKTypeEncodings isObjectType:type]) {
+        [[MCKMockingContext currentContext].argumentMatcherRecorder addObjectArgumentMatcher:matcher];
+        *(__unsafe_unretained id *)holder = matcher;
+    }
+    else {
+        UInt8 idx = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
+        ((UInt8 *)holder)[0] = idx;
+    }
+    return holder;
+}
+
+
 id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher) {
     [[MCKMockingContext currentContext].argumentMatcherRecorder addObjectArgumentMatcher:matcher];
     return matcher; // object matchers are passed directly as argument
@@ -75,6 +92,6 @@ const void* _mck_registerStructMatcher(id<MCKArgumentMatcher> matcher, void *inp
 
 #pragma mark - Find Registered Matchers
 
-UInt8 mck_matcherIndexForArgumentBytes(const void *bytes) {
-    return ((UInt8 *)bytes)[0];
+UInt8 MCKMatcherIndexForPrimitiveArgument(const void *bytes) {
+    return ((const UInt8 *)bytes)[0];
 }

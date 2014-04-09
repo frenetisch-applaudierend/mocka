@@ -44,7 +44,7 @@
     }]
 
 id mck_objectMatching(BOOL(^block)(id candidate)) {
-    return mck_registerObjectMatcher(CREATE_MATCHER(block, nonretainedObjectValue));
+    return MCKRegisterMatcher((CREATE_MATCHER(block, nonretainedObjectValue)), id);
 }
 
 char mck_integerMatching(BOOL(^block)(SInt64 candidate)) {

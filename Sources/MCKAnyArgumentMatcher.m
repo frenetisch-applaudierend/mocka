@@ -21,7 +21,7 @@
 #pragma mark - Mocking Syntax
 
 id mck_anyObject(void) {
-    return mck_registerObjectMatcher([[MCKAnyArgumentMatcher alloc] init]);
+    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], id);
 }
 
 UInt8 mck_anyInt(void) {
