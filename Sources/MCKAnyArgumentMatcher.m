@@ -25,11 +25,11 @@ id mck_anyObject(void) {
 }
 
 UInt8 mck_anyInt(void) {
-    return mck_registerPrimitiveNumberMatcher([[MCKAnyArgumentMatcher alloc] init]);
+    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], UInt8);
 }
 
 float mck_anyFloat(void) {
-    return mck_registerPrimitiveNumberMatcher([[MCKAnyArgumentMatcher alloc] init]);
+    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], float);
 }
 
 BOOL mck_anyBool(void) {

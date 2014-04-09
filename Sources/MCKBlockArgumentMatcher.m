@@ -48,23 +48,23 @@ id mck_objectMatching(BOOL(^block)(id candidate)) {
 }
 
 char mck_integerMatching(BOOL(^block)(SInt64 candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, longLongValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, longLongValue), char);
 }
 
 char mck_unsignedIntegerMatching(BOOL(^block)(UInt64 candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, unsignedLongLongValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, unsignedLongLongValue), char);
 }
 
 float mck_floatMatching(BOOL(^block)(float candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, floatValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, floatValue), float);
 }
 
 double mck_doubleMatching(BOOL(^block)(double candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, doubleValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, doubleValue), double);
 }
 
 BOOL mck_boolMatching(BOOL(^block)(BOOL candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, boolValue));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, boolValue), BOOL);
 }
 
 const char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {

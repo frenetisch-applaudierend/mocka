@@ -67,23 +67,23 @@
 #pragma mark - Mocking Syntax
 
 SInt8 mck_intArg(SInt64 arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], SInt8);
 }
 
 UInt8 mck_unsignedIntArg(UInt64 arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], UInt8);
 }
 
 float mck_floatArg(float arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], float);
 }
 
 double mck_doubleArg(double arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], double);
 }
 
 BOOL mck_boolArg(BOOL arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], BOOL);
 }
 
 char* mck_cStringArg(const char *arg) {

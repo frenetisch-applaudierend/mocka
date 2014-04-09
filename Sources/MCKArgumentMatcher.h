@@ -29,10 +29,11 @@
 
 #define MCKRegisterMatcher(M, T) (*((const T *)_MCKRegisterMatcherWithType((M), (T[]){0}, @encode(T))))
 
+
+#pragma mark - Internal
+
 extern void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type);
 
-//extern id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher);
-extern UInt8 mck_registerPrimitiveNumberMatcher(id<MCKArgumentMatcher> matcher);
 extern char* mck_registerCStringMatcher(id<MCKArgumentMatcher> matcher);
 extern SEL mck_registerSelectorMatcher(id<MCKArgumentMatcher> matcher);
 extern void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher);

@@ -51,7 +51,7 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    int value = mck_registerPrimitiveNumberMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    int value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], int);
     
     // then
     expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));

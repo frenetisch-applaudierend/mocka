@@ -19,10 +19,10 @@
 @end
 
 // Mocking Syntax
-static inline char mck_intArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
-static inline float mck_floatArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
-static inline double mck_doubleArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
-static inline float mck_boolArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
+static inline char mck_intArgThat(id matcher) { return MCKRegisterMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher], char); }
+static inline float mck_floatArgThat(id matcher) { return MCKRegisterMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher], float); }
+static inline double mck_doubleArgThat(id matcher) { return MCKRegisterMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher], double); }
+static inline BOOL mck_boolArgThat(id matcher) { return MCKRegisterMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher], BOOL); }
 
 
 #ifndef MCK_DISABLE_NICE_SYNTAX
