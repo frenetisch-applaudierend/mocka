@@ -72,7 +72,7 @@
     NSAssert(paramSize >= 1, @"Minimum byte size not given");
     UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
     [invocation getArgument:buffer atIndex:index];
-    return MCKMatcherIndexForPrimitiveArgument(buffer);
+    return _MCKMatcherIndexForPrimitiveArgument(buffer);
 }
 
 - (Protocol *)hamcrestMatcherProtocol {

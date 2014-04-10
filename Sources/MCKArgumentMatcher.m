@@ -38,7 +38,7 @@
 @end
 
 
-#pragma mark - Registering Matchers
+#pragma mark - Registering and Finding Matchers
 
 void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type)
 {
@@ -53,17 +53,6 @@ void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, 
     return holder;
 }
 
-const void* _mck_registerStructMatcher(id<MCKArgumentMatcher> matcher, void *inputStruct, size_t structSize) {
-    NSCParameterAssert(inputStruct != NULL);
-    NSCParameterAssert(structSize >= sizeof(UInt8));
-    
-    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-    return memset(inputStruct, index, 1);
-}
-
-
-#pragma mark - Find Registered Matchers
-
-UInt8 MCKMatcherIndexForPrimitiveArgument(const void *bytes) {
+UInt8 _MCKMatcherIndexForPrimitiveArgument(const void *bytes) {
     return ((const UInt8 *)bytes)[0];
 }

@@ -32,9 +32,9 @@
  * @param ARG The value to match
  * @return An internal value that represents this matcher. Never use this value yourself.
  */
-#define mck_arg(ARG) MCKRegisterMatcher(_MCKCreateExactMatcher(ARG), typeof(ARG))
+#define mck_exactArg(ARG) MCKRegisterMatcher(_MCKCreateExactMatcher(ARG), typeof(ARG))
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define arg(ARG) mck_arg(ARG)
+    #define exactArg(ARG) mck_exactArg(ARG)
 #endif
 
 

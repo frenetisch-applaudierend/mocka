@@ -54,7 +54,7 @@
     int value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], int);
     
     // then
-    expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatCStringMatcherIndexCanBeRetrievedAgain {
@@ -68,7 +68,7 @@
     const char *value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], char*);
     
     // then
-    expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatSelectorMatcherIndexCanBeRetrievedAgain {
@@ -82,7 +82,7 @@
     SEL value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], SEL);
     
     // then
-    expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatPointerMatcherIndexCanBeRetrievedAgain {
@@ -96,7 +96,7 @@
     void *value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], void*);
     
     // then
-    expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatStructMatcherIndexCanBeRetrievedAgain {
@@ -110,7 +110,7 @@
     NSRange value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], NSRange);
     
     // then
-    expect(MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 

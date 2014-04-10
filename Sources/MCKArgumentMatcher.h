@@ -32,12 +32,10 @@
 
 #pragma mark - Find Registered Matchers
 
-extern UInt8 MCKMatcherIndexForPrimitiveArgument(const void *bytes);
+
 
 
 #pragma mark - Internal
 
 extern void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type);
-
-
-
+extern UInt8 _MCKMatcherIndexForPrimitiveArgument(const void *bytes);

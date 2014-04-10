@@ -124,16 +124,16 @@
     
     match ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);                           // ok
     match ([mockArray exchangeObjectAtIndex:any(NSUInteger) withObjectAtIndex:any(NSUInteger)]); // ok
-    match ([mockArray exchangeObjectAtIndex:arg(50) withObjectAtIndex:any(NSUInteger)]);      // also ok
+    match ([mockArray exchangeObjectAtIndex:exactArg(50) withObjectAtIndex:any(NSUInteger)]);      // also ok
 }
 
 - (void)testExactStructArgumentMatcherSyntax {
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     [mockArray subarrayWithRange:NSMakeRange(30, 40)];
     
-    match ([mockArray subarrayWithRange:arg(NSMakeRange(10, 20))]);
+    match ([mockArray subarrayWithRange:exactArg(NSMakeRange(10, 20))]);
     ThisWillFail({
-        match ([mockArray subarrayWithRange:arg(NSMakeRange(40, 50))]);
+        match ([mockArray subarrayWithRange:exactArg(NSMakeRange(40, 50))]);
     });
 }
 
@@ -151,12 +151,22 @@
 }
 
 - (void)testYouCanUseHamcrestMatchersForPrimitivesInVerify {
-    // for primitive args you can use hamcrest matchers by wrapping them in an appropriate <type>ArgThat()
+    // for primitive args you can use hamcrest matchers by wrapping them in the mck_hamcrestArg() macro
     
     [mockArray objectAtIndex:10];
     
-    match ([mockArray objectAtIndex:intArgThat([HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+    match ([mockArray objectAtIndex:hamcrestArg(NSInteger, [HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
         return [candidate isEqual:@10];
+    }])]);
+}
+
+- (void)testYouCanUseHamcrestMatchersForObjectsInVerifyWrappedInMacro {
+    // you can also wrap objects in the macro, it's just not necessary
+    
+    [mockArray addObject:@"Hello World"];
+    
+    match ([mockArray addObject:hamcrestArg(id, [HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
+        return [candidate hasPrefix:@"Hello"];
     }])]);
 }
 
