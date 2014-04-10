@@ -71,7 +71,7 @@
     }).to.raise(MCKAPIMisuseException);
 }
 
-- (void)testThatInitializerRegistersItselfOnTheMockingContext
+- (void)testThatInitializerRegistersItselfWithTheMockingContext
 {
     MCKMockingContext *context = MKTMock([MCKMockingContext class]);
     
@@ -82,13 +82,15 @@
 
 - (void)testThatMockObjectDoesNotHaveStrongReferenceToContext
 {
+    // given
     __strong MCKMockingContext *strongContext = [[MCKMockingContext alloc] init];
-    __weak MCKMockingContext *weakContext = strongContext;
+    __weak   MCKMockingContext *weakContext = strongContext;
+    __strong id mockObject = [MCKMockObject mockWithContext:strongContext entities:@[ [TestObject class] ]];
     
-    id mockObject = [MCKMockObject mockWithContext:strongContext entities:@[ [TestObject class] ]];
-    
+    // when
     strongContext = nil; // this should be the last strong reference
     
+    // then
     expect(weakContext).to.beNil(); // otherwise there must be another strong reference
     mockObject = nil;
 }
