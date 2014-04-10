@@ -5,16 +5,16 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>950B35CD-341A-4420-AF7A-ABC7019FC9B1</string>
+	<string>E0A4F77C-2730-4429-AB9C-2F9C578CF7B9</string>
 	<key>IDESourceControlProjectName</key>
-	<string>mocka</string>
+	<string>Mocka</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>1A49F35C-DBA1-413E-9CFC-6145AC23CE87</key>
 		<string>ssh://bitbucket.org/foensi/mocka.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>mocka.xcworkspace</string>
+	<string>Mocka.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1A49F35C-DBA1-413E-9CFC-6145AC23CE87</key>
