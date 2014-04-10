@@ -30,6 +30,8 @@
 		638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */; };
 		638C4F4C18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */; };
 		638C4F4D18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */; };
+		638C4F5018F7471F003760CF /* ExampesMatch+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */; };
+		638C4F5118F7471F003760CF /* ExampesMatch+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */; };
 		63956A9018E7323700682D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A8F18E7323700682D90 /* Foundation.framework */; };
 		63956A9218E7323700682D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9118E7323700682D90 /* CoreGraphics.framework */; };
 		63956A9418E7323700682D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9318E7323700682D90 /* UIKit.framework */; };
@@ -77,6 +79,7 @@
 		634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+Basic.m"; sourceTree = "<group>"; };
 		638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+EvaluateArguments.m"; sourceTree = "<group>"; };
 		638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+ArgumentMatchers.m"; sourceTree = "<group>"; };
+		638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExampesMatch+Basic.m"; sourceTree = "<group>"; };
 		63956A8C18E7323700682D90 /* examples-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "examples-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63956A8F18E7323700682D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63956A9118E7323700682D90 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -181,6 +184,14 @@
 			name = "Stubbing Examples";
 			sourceTree = "<group>";
 		};
+		638C4F4E18F746B6003760CF /* Matching Examples */ = {
+			isa = PBXGroup;
+			children = (
+				638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */,
+			);
+			name = "Matching Examples";
+			sourceTree = "<group>";
+		};
 		63956A8318E7323700682D90 = {
 			isa = PBXGroup;
 			children = (
@@ -237,6 +248,7 @@
 				6328EB0718E735B5002A655D /* Prefix.pch */,
 				63C0A6F618F341A200AFB48B /* Creating Mocks Examples */,
 				634A0C4D18F5A4FB0091C965 /* Stubbing Examples */,
+				638C4F4E18F746B6003760CF /* Matching Examples */,
 				634A0C4C18F5A4DF0091C965 /* Utils */,
 			);
 			path = Tests;
@@ -506,6 +518,7 @@
 				638C4F4C18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */,
 				63C0A70018F350FB00AFB48B /* ExampleTestCase.m in Sources */,
 				638C4F4918F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
+				638C4F5018F7471F003760CF /* ExampesMatch+Basic.m in Sources */,
 				634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70318F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
 				63C0A6F418F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
@@ -537,6 +550,7 @@
 				638C4F4D18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */,
 				63C0A70118F350FB00AFB48B /* ExampleTestCase.m in Sources */,
 				638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
+				638C4F5118F7471F003760CF /* ExampesMatch+Basic.m in Sources */,
 				634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70418F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
 				63C0A6F518F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
