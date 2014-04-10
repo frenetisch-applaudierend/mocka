@@ -8,6 +8,8 @@
 
 #import "ExampleTestCase.h"
 
+#import <Mocka/Mocka.h>
+
 
 @interface ExamplesStubBasic : ExampleTestCase @end
 @implementation ExamplesStubBasic {
