@@ -16,34 +16,3 @@
 }
 
 @end
-
-
-#pragma mark - Mocking Syntax
-
-id mck_anyObject(void) {
-    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], id);
-}
-
-UInt8 mck_anyInt(void) {
-    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], UInt8);
-}
-
-float mck_anyFloat(void) {
-    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], float);
-}
-
-BOOL mck_anyBool(void) {
-    return mck_anyInt();
-}
-
-char* mck_anyCString(void) {
-    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], char*);
-}
-
-SEL mck_anySelector(void) {
-    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], SEL);
-}
-
-void* mck_anyPointer(void) {
-    return MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], void*);
-}

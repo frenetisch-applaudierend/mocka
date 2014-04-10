@@ -98,13 +98,13 @@
     // matchers are also available for struct arguments
     
     [mockArray subarrayWithRange:NSMakeRange(0, 10)];
-    match ([mockArray subarrayWithRange:anyStruct(NSRange)]);
+    match ([mockArray subarrayWithRange:any(NSRange)]);
 }
 
 - (void)testYouCanUseArgumentMatchersForStructArgumentsWhenStubbing {
     // matchers are also available for struct arguments
     
-    stub ([mockArray subarrayWithRange:anyStruct(NSRange)]) with (NSRange range) {
+    stub ([mockArray subarrayWithRange:any(NSRange)]) with (NSRange range) {
         return @[ @(range.location), @(range.length) ];
     };
     

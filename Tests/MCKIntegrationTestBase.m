@@ -445,7 +445,7 @@
 - (void)testThatCallingStubbedOutParameterCallWithNullWorks
 {
     // given
-    stub ([self.testObject boolMethodCallWithError:anyObjectPointer()]) with {
+    stub ([self.testObject boolMethodCallWithError:any(NSError* __autoreleasing *)]) with {
         return NO;
     };
     
