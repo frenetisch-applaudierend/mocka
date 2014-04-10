@@ -18,6 +18,12 @@
 #import "NSInvocation+MCKArgumentHandling.h"
 
 
+@interface MCKMockingContext ()
+
+@property (nonatomic, readonly) NSMutableSet *registeredMocks;
+
+@end
+
 @implementation MCKMockingContext
 
 #pragma mark - Startup
@@ -65,6 +71,8 @@ static id _CurrentContext = nil;
         _invocationVerifier = [[MCKInvocationVerifier alloc] initWithMockingContext:self];
         _argumentMatcherRecorder = [[MCKArgumentMatcherRecorder alloc] init];
         _failureHandler = [MCKFailureHandler failureHandlerForTestCase:testCase];
+        
+        _registeredMocks = [NSMutableSet set];
     }
     return self;
 }
@@ -72,6 +80,16 @@ static id _CurrentContext = nil;
 - (instancetype)init
 {
     return [self initWithTestCase:nil];
+}
+
+
+#pragma mark - Registering Mocks
+
+- (void)registerMockObject:(id)mockObject
+{
+    NSParameterAssert(mockObject != nil);
+    
+    [self.registeredMocks addObject:mockObject];
 }
 
 

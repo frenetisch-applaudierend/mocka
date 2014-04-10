@@ -29,7 +29,7 @@
 
 #pragma mark - Managing Invocations
 
-@property (nonatomic, readonly) NSArray *recordedInvocations;
+@property (atomic, readonly) NSArray *recordedInvocations;
 
 - (NSInvocation *)invocationAtIndex:(NSUInteger)index;
 

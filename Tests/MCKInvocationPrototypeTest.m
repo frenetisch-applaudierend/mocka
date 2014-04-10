@@ -13,7 +13,7 @@
 #import "MCKBlockArgumentMatcher.h"
 #import "HCBlockMatcher.h"
 #import "NSInvocation+TestSupport.h"
-#import "MCKArgumentSerialization.h"
+#import "MCKValueSerialization.h"
 
 
 @interface MCKInvocationPrototypeTest : XCTestCase @end
@@ -170,8 +170,9 @@
     
     __block BOOL called = NO;
     [argumentMatchers[0] setMatcherBlock:^BOOL(id value) {
-        XCTAssertEqual(mck_decodeSignedIntegerArgument(value), (SInt64)20, @"Wrong argument value passed");
+        expect(value).to.equal(@20);
         called = YES;
+        return YES;
     }];
     
     // when

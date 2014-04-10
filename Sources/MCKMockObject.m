@@ -15,7 +15,7 @@
 
 
 @implementation MCKMockObject {
-    MCKMockingContext *_mockingContext;
+    __weak MCKMockingContext *_mockingContext;
     Class _mockedClass;
     NSArray *_mockedProtocols;
 }
@@ -26,9 +26,13 @@
 {
     [self checkSourceListIsSane:sourceList];
     
-    return [[self alloc] initWithContext:context
-                             mockedClass:[self mockedClassInSourceList:sourceList]
-                         mockedProtocols:[self mockedProtocolsInSourceList:sourceList]];
+    id mock = [[self alloc] initWithContext:context
+                                mockedClass:[self mockedClassInEntities:sourceList]
+                            mockedProtocols:[self mockedProtocolsInEntities:sourceList]];
+    
+    [context registerMockObject:mock];
+    
+    return mock;
 }
 
 + (void)checkSourceListIsSane:(NSArray *)sourceList
@@ -67,7 +71,7 @@
     }
 }
 
-+ (Class)mockedClassInSourceList:(NSArray *)sourceList
++ (Class)mockedClassInEntities:(NSArray *)sourceList
 {
     NSParameterAssert([sourceList count] > 0);
     
@@ -79,7 +83,7 @@
     return nil;
 }
 
-+ (NSArray *)mockedProtocolsInSourceList:(NSArray *)sourceList
++ (NSArray *)mockedProtocolsInEntities:(NSArray *)sourceList
 {
     NSParameterAssert([sourceList count] > 0);
     

@@ -7,48 +7,52 @@
 //
 
 #import "MCKArgumentMatcher.h"
+#import "MCKArgumentMatcher+Subclasses.h"
+
 #import "MCKMockingContext.h"
 #import "MCKArgumentMatcherRecorder.h"
 
 
-id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher) {
-    [[MCKMockingContext currentContext].argumentMatcherRecorder addObjectArgumentMatcher:matcher];
-    return matcher; // object matchers are passed directly as argument
+@implementation MCKArgumentMatcher
+
+- (BOOL)matchesCandidate:(NSValue *)serializedCandidate
+{
+    if ([MCKTypeEncodings isObjectType:[serializedCandidate objCType]]) {
+        return [self matchesObjectCandidate:[serializedCandidate nonretainedObjectValue]];
+    }
+    else {
+        return [self matchesNonObjectCandidate:serializedCandidate];
+    }
 }
 
-UInt8 mck_registerPrimitiveNumberMatcher(id<MCKArgumentMatcher> matcher) {
-    return [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
+- (BOOL)matchesObjectCandidate:(id)candidate
+{
+    return NO;
 }
 
-char* mck_registerCStringMatcher(id<MCKArgumentMatcher> matcher) {
-    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-    char *returnValue = NULL;
-    return *((char **)memset(&returnValue, index, 1));
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate
+{
+    return NO;
 }
 
-SEL mck_registerSelectorMatcher(id<MCKArgumentMatcher> matcher) {
-    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-    SEL returnValue = NULL;
-    return *((SEL *)memset(&returnValue, index, 1));
+@end
+
+
+#pragma mark - Registering and Finding Matchers
+
+void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type)
+{
+    if ([MCKTypeEncodings isObjectType:type]) {
+        [[MCKMockingContext currentContext].argumentMatcherRecorder addObjectArgumentMatcher:matcher];
+        *(__unsafe_unretained id *)holder = matcher;
+    }
+    else {
+        UInt8 idx = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
+        ((UInt8 *)holder)[0] = idx;
+    }
+    return holder;
 }
 
-void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher) {
-    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-    void *returnValue = NULL;
-    return *((void **)memset(&returnValue, index, 1));
-}
-
-const void* _mck_registerStructMatcher(id<MCKArgumentMatcher> matcher, void *inputStruct, size_t structSize) {
-    NSCParameterAssert(inputStruct != NULL);
-    NSCParameterAssert(structSize >= sizeof(UInt8));
-    
-    UInt8 index = [[MCKMockingContext currentContext].argumentMatcherRecorder addPrimitiveArgumentMatcher:matcher];
-    return memset(inputStruct, index, 1);
-}
-
-
-#pragma mark - Find Registered Matchers
-
-UInt8 mck_matcherIndexForArgumentBytes(const void *bytes) {
-    return ((UInt8 *)bytes)[0];
+UInt8 _MCKMatcherIndexForPrimitiveArgument(const void *bytes) {
+    return ((const UInt8 *)bytes)[0];
 }

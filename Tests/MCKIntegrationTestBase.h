@@ -19,7 +19,7 @@
 
 @property (nonatomic, readonly) TestObject *testObject;
 
-- (TestObject *)createTestObject;
+- (TestObject *)createTestObjectMock;
 - (CategoriesTestMockedClass *)createCategoriesTestObject;
 
 @end

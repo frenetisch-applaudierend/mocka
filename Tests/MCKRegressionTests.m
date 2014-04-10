@@ -53,7 +53,7 @@
     // then
     AssertDoesNotFail({
         matchInOrder {
-            match ([mockArray objectAtIndex:anyInt()]) never;
+            match ([mockArray objectAtIndex:any(NSUInteger)]) never;
             match ([mockArray removeAllObjects]);
             match ([mockArray addObject:@"Foo"]);
         };
