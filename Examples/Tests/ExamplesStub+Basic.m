@@ -1,5 +1,5 @@
 //
-//  ExamplesStubBasic.m
+//  ExamplesStub+Basic.m
 //  Examples
 //
 //  Created by Markus Gasser on 09.04.14.
@@ -11,8 +11,8 @@
 #import <Mocka/Mocka.h>
 
 
-@interface ExamplesStubBasic : ExampleTestCase @end
-@implementation ExamplesStubBasic {
+@interface ExamplesStub_Basic : ExampleTestCase @end
+@implementation ExamplesStub_Basic {
     NSMutableArray *mockArray;
     NSMutableString *mockString;
 }
@@ -43,7 +43,7 @@
 }
 
 
-#pragma mark - Basic Stubbing
+#pragma mark - Stub Action Examples
 
 - (void)testYouCanStubReturnValues
 {
@@ -77,11 +77,33 @@
 
 - (void)testYouCanThrowExceptions
 {
+    // use @throw to throw an exception
     stub ([mockArray objectAtIndex:1]) with {
         @throw [NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil];
     };
     
-    expect(^{ [mockArray objectAtIndex:1]; }).to.raiseWithReason(NSRangeException, @"Index out of bounds");
+    expect(^{
+        [mockArray objectAtIndex:1];
+    }).to.raiseWithReason(NSRangeException, @"Index out of bounds");
+}
+
+
+#pragma mark - Stubbing Multiple Methods
+
+- (void)testYouCanStubMultipleMethodsAtOnce
+{
+    // pass all calls as arguments to stub(...)
+    stub ([mockArray objectAtIndex:1], [mockArray removeObjectAtIndex:1]) with {
+        @throw [NSException exceptionWithName:NSRangeException reason:@"Index out of bounds" userInfo:nil];
+    };
+    
+    expect(^{
+        [mockArray objectAtIndex:1];
+    }).to.raiseWithReason(NSRangeException, @"Index out of bounds");
+    
+    expect(^{
+        [mockArray removeObjectAtIndex:1];
+    }).to.raiseWithReason(NSRangeException, @"Index out of bounds");
 }
 
 @end

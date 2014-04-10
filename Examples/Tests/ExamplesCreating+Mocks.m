@@ -1,5 +1,5 @@
 //
-//  ExamplesCreatingMocks.m
+//  ExamplesCreating+Mocks.m
 //  Examples
 //
 //  Created by Markus Gasser on 07.04.14.
@@ -10,8 +10,8 @@
 #import "TestObject.h"
 
 
-@interface ExamplesCreatingMocks : ExampleTestCase @end
-@implementation ExamplesCreatingMocks
+@interface ExamplesCreating_Mocks : ExampleTestCase @end
+@implementation ExamplesCreating_Mocks
 
 #pragma mark - Creating Mocks For Classes
 

@@ -1,5 +1,5 @@
 //
-//  ExamplesCreatingSpies.m
+//  ExamplesCreating+Spies.m
 //  Examples
 //
 //  Created by Markus Gasser on 07.04.14.
@@ -10,8 +10,8 @@
 #import "TestObject.h"
 
 
-@interface ExamplesCreatingSpies : ExampleTestCase @end
-@implementation ExamplesCreatingSpies
+@interface ExamplesCreating_Spies : ExampleTestCase @end
+@implementation ExamplesCreating_Spies
 
 #pragma mark - Creating Spies
 
