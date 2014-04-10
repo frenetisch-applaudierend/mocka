@@ -54,6 +54,11 @@ typedef enum {
 @property (nonatomic, strong) id<MCKFailureHandler> failureHandler;
 
 
+#pragma mark - Registering Mocks
+
+- (void)registerMockObject:(id)mockObject;
+
+
 #pragma mark - File Location Data
 
 @property (nonatomic, copy) MCKLocation *currentLocation;

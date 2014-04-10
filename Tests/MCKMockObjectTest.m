@@ -71,6 +71,28 @@
     }).to.raise(MCKAPIMisuseException);
 }
 
+- (void)testThatInitializerRegistersItselfOnTheMockingContext
+{
+    MCKMockingContext *context = MKTMock([MCKMockingContext class]);
+    
+    id mockObject = [MCKMockObject mockWithContext:context entities:@[ [TestObject class] ]];
+    
+    [MKTVerify(context) registerMockObject:mockObject];
+}
+
+- (void)testThatMockObjectDoesNotHaveStrongReferenceToContext
+{
+    __strong MCKMockingContext *strongContext = [[MCKMockingContext alloc] init];
+    __weak MCKMockingContext *weakContext = strongContext;
+    
+    id mockObject = [MCKMockObject mockWithContext:strongContext entities:@[ [TestObject class] ]];
+    
+    strongContext = nil; // this should be the last strong reference
+    
+    expect(weakContext).to.beNil(); // otherwise there must be another strong reference
+    mockObject = nil;
+}
+
 
 #pragma mark - Test Forwarding Invocations
 

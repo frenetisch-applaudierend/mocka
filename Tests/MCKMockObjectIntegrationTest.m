@@ -18,12 +18,22 @@
 
 #pragma mark - Setup
 
-- (TestObject *)createTestObject {
+- (TestObject *)createTestObjectMock {
     return mockForClass(TestObject);
 }
 
 - (CategoriesTestMockedClass *)createCategoriesTestObject {
     return mockForClass(CategoriesTestMockedClass);
+}
+
+
+#pragma mark - Test Other Properties
+
+- (void)testMocksArePersistent
+{
+    __weak TestObject *weakMock = mockForClass(TestObject);
+    
+    expect(weakMock).notTo.beNil();
 }
 
 @end
