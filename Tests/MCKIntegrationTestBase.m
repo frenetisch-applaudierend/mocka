@@ -277,6 +277,21 @@
     });
 }
 
+- (void)testCanUseBlockArgumentMatcher
+{
+    // when
+    [self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:20];
+    
+    // then
+    AssertDoesNotFail({
+        match ([self.testObject voidMethodCallWithObjectParam1:argMatching(id, ^BOOL(id candidate) {
+            return [candidate isEqualToString:@"Foo"];
+        }) intParam2:argMatching(int, ^BOOL(int candidate) {
+            return candidate == 20;
+        })]);
+    });
+}
+
 
 #pragma mark - Test Stubbing
 

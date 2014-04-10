@@ -7,19 +7,19 @@
 //
 
 #import "MCKBlockArgumentMatcher.h"
-
-#import "MCKValueSerialization.h"
+#import "MCKArgumentMatcher+Subclasses.h"
 
 
 @implementation MCKBlockArgumentMatcher
 
 #pragma mark - Initialization
 
-+ (instancetype)matcherWithBlock:(BOOL(^)(id candidate))block {
++ (instancetype)matcherWithBlock:(BOOL(^)(NSValue *serialized))block
+{
     return [[self alloc] initWithBlock:block];
 }
 
-- (instancetype)initWithBlock:(BOOL(^)(id candidate))block {
+- (instancetype)initWithBlock:(BOOL(^)(NSValue *serialized))block {
     if ((self = [super init])) {
         _matcherBlock = [block copy];
     }
