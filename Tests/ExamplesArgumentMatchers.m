@@ -124,16 +124,16 @@
     
     match ([mockArray exchangeObjectAtIndex:10 withObjectAtIndex:20]);                           // ok
     match ([mockArray exchangeObjectAtIndex:any(NSUInteger) withObjectAtIndex:any(NSUInteger)]); // ok
-    match ([mockArray exchangeObjectAtIndex:intArg(50) withObjectAtIndex:any(NSUInteger)]);      // also ok
+    match ([mockArray exchangeObjectAtIndex:arg(50) withObjectAtIndex:any(NSUInteger)]);      // also ok
 }
 
 - (void)testExactStructArgumentMatcherSyntax {
     [mockArray subarrayWithRange:NSMakeRange(10, 20)];
     [mockArray subarrayWithRange:NSMakeRange(30, 40)];
     
-    match ([mockArray subarrayWithRange:structArg(NSMakeRange(10, 20))]);
+    match ([mockArray subarrayWithRange:arg(NSMakeRange(10, 20))]);
     ThisWillFail({
-        match ([mockArray subarrayWithRange:structArg(NSMakeRange(40, 50))]);
+        match ([mockArray subarrayWithRange:arg(NSMakeRange(40, 50))]);
     });
 }
 

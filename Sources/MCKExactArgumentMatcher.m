@@ -7,6 +7,7 @@
 //
 
 #import "MCKExactArgumentMatcher.h"
+#import "MCKArgumentMatcher+Subclasses.h"
 
 
 @implementation MCKExactArgumentMatcher
@@ -64,7 +65,13 @@
 @end
 
 
+
 #pragma mark - Mocking Syntax
+
+MCKExactArgumentMatcher* _MCKCreateExactMatcherFromBytesAndType(const void *bytes, const char *type)
+{
+    return [[MCKExactArgumentMatcher alloc] initWithArgument:MCKSerializeValueFromBytesAndType(bytes, type)];
+}
 
 SInt8 mck_intArg(SInt64 arg) {
     return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], SInt8);
