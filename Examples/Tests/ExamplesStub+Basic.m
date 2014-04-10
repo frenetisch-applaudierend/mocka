@@ -48,13 +48,19 @@
 - (void)testYouCanStubReturnValues
 {
     // return an object
-    stub ([mockArray objectAtIndex:0]) with { return @"Hello"; };
+    stub ([mockArray objectAtIndex:0]) with {
+        return @"Hello";
+    };
     
     // ...or a scalar
-    stub ([mockArray count]) with { return 1; };
+    stub ([mockArray count]) with {
+        return 1;
+    };
     
     // ...or even a struct
-    stub ([mockString rangeOfString:@"Foo"]) with { return NSMakeRange(0, 3); };
+    stub ([mockString rangeOfString:@"Foo"]) with {
+        return NSMakeRange(0, 3);
+    };
     
     
     expect([mockArray count]).to.equal(1);
