@@ -31,11 +31,11 @@
     MCKMockingContext *context = [MCKMockingContext currentContext];
     [context setFailureHandler:[[MCKExceptionFailureHandler alloc] init]];
     
-    _testObject = [self createTestObject];
+    _testObject = [self createTestObjectMock];
     XCTAssertNotNil(_testObject, @"Test object cannot be nil");
 }
 
-- (TestObject *)createTestObject
+- (TestObject *)createTestObjectMock
 {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Override this method" userInfo:nil];
 }
@@ -322,10 +322,10 @@
 - (void)testThatSubsequentStubbingsDontInterfere
 {
     // given
-    TestObject *object1 = [self createTestObject];
-    TestObject *object2 = [self createTestObject];
-    TestObject *object3 = [self createTestObject];
-    TestObject *object4 = [self createTestObject];
+    TestObject *object1 = [self createTestObjectMock];
+    TestObject *object2 = [self createTestObjectMock];
+    TestObject *object3 = [self createTestObjectMock];
+    TestObject *object4 = [self createTestObjectMock];
     __block NSString *marker = nil;
     
     // when
@@ -380,8 +380,8 @@
 - (void)testThatMultipleStubbingsCanBeCombined
 {
     // given
-    TestObject *object1 = [self createTestObject];
-    TestObject *object2 = [self createTestObject];
+    TestObject *object1 = [self createTestObjectMock];
+    TestObject *object2 = [self createTestObjectMock];
     
     // when
     stub ({

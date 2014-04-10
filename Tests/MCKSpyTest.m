@@ -87,6 +87,33 @@
     expect([object class]).to.equal([TestObject class]);
 }
 
+- (void)testThatCreateSpyRegistersSpyWithTheMockingContext
+{
+    // given
+    MCKMockingContext *mockingContext = MKTMock([MCKMockingContext class]);
+    
+    // when
+    id spiedObject = mck_createSpyForObject([[TestObject alloc] init], mockingContext);
+    
+    // then
+    [MKTVerify(mockingContext) registerMockObject:spiedObject];
+}
+
+- (void)testThatTheSpyDoesNotHaveStrongReferenceToMockingContext
+{
+    // given
+    __strong MCKMockingContext *strongContext = [[MCKMockingContext alloc] init];
+    __weak   MCKMockingContext *weakContext = strongContext;
+    __strong id spiedObject = mck_createSpyForObject([[TestObject alloc] init], strongContext);
+    
+    // when
+    strongContext = nil; // this should be the last strong reference
+    
+    // then
+    expect(weakContext).to.beNil(); // otherwise there must be another strong reference
+    spiedObject = nil;
+}
+
 
 #pragma mark - Test Forwarding Invocations to the Context
 

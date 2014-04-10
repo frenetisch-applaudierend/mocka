@@ -57,6 +57,9 @@ id mck_createSpyForObject(id object, MCKMockingContext *context)
     
     mck_convertObjectToSpy(object, context);
     objc_setAssociatedObject(object, &MCKContextKey, context, OBJC_ASSOCIATION_ASSIGN); // weak
+    
+    [context registerMockObject:object];
+    
     return object;
 }
 
