@@ -7,42 +7,52 @@
 //
 
 #import "MCKExactArgumentMatcher.h"
+#import "MCKArgumentMatcher+Subclasses.h"
 
 
 @implementation MCKExactArgumentMatcher
 
 #pragma mark - Initialization
 
-+ (instancetype)matcherWithArgument:(id)expected {
++ (instancetype)matcherWithArgument:(id)expected
+{
     return [[self alloc] initWithArgument:expected];
 }
 
-- (instancetype)initWithArgument:(id)expected {
+- (instancetype)initWithArgument:(id)expected
+{
     if ((self = [super init])) {
         [self setExpectedArgument:expected];
     }
     return self;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithArgument:nil];
 }
 
 
 #pragma mark - Configuration
 
-- (void)setExpectedArgument:(id)expectedArgument {
-    _expectedArgument = ([expectedArgument conformsToProtocol:@protocol(NSCopying)] ? [expectedArgument copy] : expectedArgument);
+- (void)setExpectedArgument:(id)expectedArgument
+{
+    _expectedArgument = ([expectedArgument conformsToProtocol:@protocol(NSCopying)]
+                         ? [expectedArgument copy]
+                         : expectedArgument);
 }
 
 
 #pragma mark - Argument Matching
 
-- (BOOL)matchesCandidate:(id)candidate {
-    return (candidate == self.expectedArgument
-            || (candidate != nil
-                && self.expectedArgument != nil
-                && [candidate isEqual:self.expectedArgument]));
+- (BOOL)matchesObjectCandidate:(id)candidate
+{
+    return (candidate == self.expectedArgument || (candidate != nil && [candidate isEqual:self.expectedArgument]));
+}
+
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate
+{
+    return (candidate == self.expectedArgument || (candidate != nil && [candidate isEqual:self.expectedArgument]));
 }
 
 
@@ -55,36 +65,42 @@
 @end
 
 
+
 #pragma mark - Mocking Syntax
 
+MCKExactArgumentMatcher* _MCKCreateExactMatcherFromBytesAndType(const void *bytes, const char *type)
+{
+    return [[MCKExactArgumentMatcher alloc] initWithArgument:MCKSerializeValueFromBytesAndType(bytes, type)];
+}
+
 SInt8 mck_intArg(SInt64 arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], SInt8);
 }
 
 UInt8 mck_unsignedIntArg(UInt64 arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], UInt8);
 }
 
 float mck_floatArg(float arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], float);
 }
 
 double mck_doubleArg(double arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], double);
 }
 
 BOOL mck_boolArg(BOOL arg) {
-    return mck_registerPrimitiveNumberMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], BOOL);
 }
 
 char* mck_cStringArg(const char *arg) {
-    return mck_registerCStringMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], char*);
 }
 
 SEL mck_selectorArg(SEL arg) {
-    return mck_registerSelectorMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], SEL);
 }
 
 void* mck_pointerArg(const void *arg) {
-    return mck_registerPointerMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]]);
+    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], void*);
 }

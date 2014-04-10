@@ -216,7 +216,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:any(NSUInteger) intParam2:any(NSUInteger)]);
     });
 }
 
@@ -228,8 +228,8 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
-        match ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]);
+        match ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]);
     });
 }
 
@@ -240,7 +240,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:any(id) objectParam2:any(id)]);
     });
 }
 
@@ -251,7 +251,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:anyObject()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:any(id) objectParam2:any(id)]);
     });
 }
 
@@ -262,7 +262,7 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:anyObject() objectParam2:@"Bar"]);
+        match ([self.testObject voidMethodCallWithObjectParam1:any(id) objectParam2:@"Bar"]);
     });
 }
 
@@ -273,7 +273,22 @@
     
     // then
     AssertDoesNotFail({
-        match ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:anyInt()]);
+        match ([self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:any(int)]);
+    });
+}
+
+- (void)testCanUseBlockArgumentMatcher
+{
+    // when
+    [self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:20];
+    
+    // then
+    AssertDoesNotFail({
+        match ([self.testObject voidMethodCallWithObjectParam1:argMatching(id, ^BOOL(id candidate) {
+            return [candidate isEqualToString:@"Foo"];
+        }) intParam2:argMatching(int, ^BOOL(int candidate) {
+            return candidate == 20;
+        })]);
     });
 }
 
@@ -415,7 +430,7 @@
 {
     // given
     __block BOOL methodMatched = NO;
-    stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
+    stub ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]) with {
         methodMatched = YES;
     };
     
@@ -430,7 +445,7 @@
 {
     // given
     __block int invocationCount = 0;
-    stub ([self.testObject voidMethodCallWithIntParam1:anyInt() intParam2:anyInt()]) with {
+    stub ([self.testObject voidMethodCallWithIntParam1:any(NSInteger) intParam2:any(NSInteger)]) with {
         invocationCount++;
     };
     
@@ -445,7 +460,7 @@
 - (void)testThatCallingStubbedOutParameterCallWithNullWorks
 {
     // given
-    stub ([self.testObject boolMethodCallWithError:anyObjectPointer()]) with {
+    stub ([self.testObject boolMethodCallWithError:any(NSError* __autoreleasing *)]) with {
         return NO;
     };
     

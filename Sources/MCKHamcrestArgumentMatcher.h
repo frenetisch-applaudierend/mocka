@@ -7,27 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "MCKArgumentMatcher.h"
 
 
-@interface MCKHamcrestArgumentMatcher : NSObject <MCKArgumentMatcher>
-
-@property (nonatomic, strong) id hamcrestMatcher;
+@interface MCKHamcrestArgumentMatcher : MCKArgumentMatcher
 
 + (id)matcherWithHamcrestMatcher:(id)hamcrestMatcher;
 
+@property (nonatomic, strong) id hamcrestMatcher;
+
 @end
 
-// Mocking Syntax
-static inline char mck_intArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
-static inline float mck_floatArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
-static inline double mck_doubleArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
-static inline float mck_boolArgThat(id matcher) { return mck_registerPrimitiveNumberMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:matcher]); }
 
-
+/**
+ * A matcher that matchers using the given hamcrest matcher.
+ *
+ * @param TYPE    The argument type
+ * @param MATCHER The hamcrest matcher to use
+ * @return An internal value that represents this matcher. Never use this value yourself.
+ */
+#define mck_hamcrestArg(TYPE, MATCHER) MCKRegisterMatcher([MCKHamcrestArgumentMatcher matcherWithHamcrestMatcher:(MATCHER)], TYPE)
 #ifndef MCK_DISABLE_NICE_SYNTAX
-static inline char intArgThat(id matcher) { return mck_intArgThat(matcher); }
-static inline float floatArgThat(id matcher) { return mck_floatArgThat(matcher); }
-static inline double doubleArgThat(id matcher) { return mck_doubleArgThat(matcher); }
-static inline BOOL boolArgThat(id matcher) { return mck_boolArgThat(matcher); }
+    #define hamcrestArg(TYPE, MATCHER) mck_hamcrestArg(TYPE, MATCHER)
 #endif

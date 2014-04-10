@@ -75,7 +75,7 @@
 - (void)testMethodArgumentsArePassedToBlockIfRequested {
     // if the stub block takes parameters they are taken from the stubbed invocation
     
-    stub ([mockArray objectAtIndex:anyInt()]) with (NSUInteger index) {
+    stub ([mockArray objectAtIndex:any(NSUInteger)]) with (NSUInteger index) {
         return @(index);
     };
     
@@ -87,7 +87,7 @@
 - (void)testMethodArgumentsArePassedToBlockIfRequestedIncludingSelfAndCmd {
     // if you also include self and _cmd, those parameters are passed as well to the block
     // NOTE: Either both self and _cmd must be there or none. You cannot choose to only have self or _cmd passed.
-    stub ([mockArray objectAtIndex:anyInt()]) with (NSArray *self, SEL _cmd, NSUInteger index) {
+    stub ([mockArray objectAtIndex:any(NSUInteger)]) with (NSArray *self, SEL _cmd, NSUInteger index) {
         return self;
     };
     
@@ -110,8 +110,7 @@
 - (void)testSettingOutParametersFromStubbedMethod {
     // you can set out parameters passed by reference
     
-    stub ([mockArray getObjects:anyObjectPointerWithQualifier(__unsafe_unretained) range:anyStruct(NSRange)])
-    with (id __unsafe_unretained objects[], NSRange range) {
+    stub ([mockArray getObjects:any(id __unsafe_unretained *) range:any(NSRange)]) with (id __unsafe_unretained objects[], NSRange range) {
         objects[0] = @"Hello";
         objects[1] = @"World";
     };

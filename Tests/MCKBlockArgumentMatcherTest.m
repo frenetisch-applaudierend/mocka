@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKBlockArgumentMatcher.h"
-#import "MCKArgumentSerialization.h"
+#import "MCKValueSerialization.h"
 
 
 @interface MCKBlockArgumentMatcherTest : XCTestCase
@@ -29,17 +29,18 @@
 
 - (void)testThatCandidateIsPassedToMatcherBlock {
     // given
-    __block id passedCandiate = nil;
-    matcher.matcherBlock = ^BOOL(id candidate) {
+    __block NSValue *passedCandiate = nil;
+    matcher.matcherBlock = ^BOOL(NSValue *candidate) {
         passedCandiate = candidate;
         return YES;
     };
     
     // when
-    [matcher matchesCandidate:@"Hello World"];
+    NSValue *candidate = MCKSerializeValue(@"Hello World");
+    [matcher matchesCandidate:candidate];
     
     // then
-    XCTAssertEqualObjects(passedCandiate, @"Hello World", @"Wrong candidate passed");
+    expect(passedCandiate).to.equal(candidate);
 }
 
 - (void)testThatMatcherReturnsTrueIfNoMatcherBlockIsSet {
@@ -47,7 +48,7 @@
     matcher.matcherBlock = nil;
     
     // then
-    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:MCKSerializeValue(@"Foo")], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsTrueIfMatcherBlockReturnsTrue {
@@ -55,7 +56,7 @@
     matcher.matcherBlock = ^(id _) { return YES; };
     
     // then
-    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:MCKSerializeValue(@"Foo")], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsFalseIfMatcherBlockReturnsFalse {
@@ -63,7 +64,7 @@
     matcher.matcherBlock = ^(id _) { return NO; };
     
     // then
-    XCTAssertFalse([matcher matchesCandidate:@"Foo"], @"Matcher should not have matched");
+    XCTAssertFalse([matcher matchesCandidate:MCKSerializeValue(@"Foo")], @"Matcher should not have matched");
 }
 
 @end

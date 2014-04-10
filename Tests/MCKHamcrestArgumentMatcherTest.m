@@ -7,27 +7,29 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "MCKHamcrestArgumentMatcher.h"
+#import "MCKValueSerialization.h"
 #import "HCBlockMatcher.h"
 
 
-@interface MCKHamcrestArgumentMatcherTest : XCTestCase
-@end
-
+@interface MCKHamcrestArgumentMatcherTest : XCTestCase @end
 @implementation MCKHamcrestArgumentMatcherTest {
     MCKHamcrestArgumentMatcher *matcher;
 }
 
 #pragma mark - Setup
 
-- (void)setUp {
+- (void)setUp
+{
     matcher = [[MCKHamcrestArgumentMatcher alloc] init];
 }
 
 
 #pragma mark - Test Cases
 
-- (void)testThatMatcherCallsHamcrestMatcherWithPassedCandidate {
+- (void)testThatMatcherCallsHamcrestMatcherWithPassedCandidate
+{
     // given
     __block id passedCandidate = nil;
     matcher.hamcrestMatcher = [HCBlockMatcher matcherWithBlock:^BOOL(id candidate) {
@@ -36,26 +38,28 @@
     }];
     
     // when
-    [matcher matchesCandidate:@"Hello World"];
+    [matcher matchesCandidate:MCKSerializeValue(@"Hello World")];
     
     // then
-    XCTAssertEqualObjects(passedCandidate, @"Hello World", @"Wrong candidate matched");
+    expect(passedCandidate).to.equal(@"Hello World");
 }
 
-- (void)testThatMatcherReturnsTrueIfNoHamcrestMatcherIsSet {
+- (void)testThatMatcherReturnsTrueIfNoHamcrestMatcherIsSet
+{
     // given
     matcher.hamcrestMatcher = nil;
     
     // then
-    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:MCKSerializeValue(@"Foo")], @"Matcher should have matched");
 }
 
-- (void)testThatMatcherReturnsTrueIfHamcrestMatcherReturnsTrue {
+- (void)testThatMatcherReturnsTrueIfHamcrestMatcherReturnsTrue
+{
     // given
     matcher.hamcrestMatcher = [HCBlockMatcher matcherWithBlock:^(id _) { return YES; }];
     
     // then
-    XCTAssertTrue([matcher matchesCandidate:@"Foo"], @"Matcher should have matched");
+    XCTAssertTrue([matcher matchesCandidate:MCKSerializeValue(@"Foo")], @"Matcher should have matched");
 }
 
 - (void)testThatMatcherReturnsFalseIfHamcrestMatcherReturnsFalse {
@@ -63,7 +67,7 @@
     matcher.hamcrestMatcher = [HCBlockMatcher matcherWithBlock:^(id _) { return NO; }];
     
     // then
-    XCTAssertFalse([matcher matchesCandidate:@"Foo"], @"Matcher should not have matched");
+    XCTAssertFalse([matcher matchesCandidate:MCKSerializeValue(@"Foo")], @"Matcher should not have matched");
 }
 
 @end

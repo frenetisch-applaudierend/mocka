@@ -7,7 +7,8 @@
 //
 
 #import "NSInvocation+MCKArgumentHandling.h"
-#import "MCKArgumentSerialization.h"
+
+#import "MCKValueSerialization.h"
 
 
 #define ReturnArgumentAtEffectiveIndex(type, idx) {\
@@ -38,12 +39,15 @@
     return parameter;
 }
 
-- (id)mck_serializedParameterAtIndex:(NSUInteger)index {
+- (id)mck_serializedParameterAtIndex:(NSUInteger)index
+{
     NSUInteger paramSize = [self mck_sizeofParameterAtIndex:index];
     const char *argType = [self.methodSignature getArgumentTypeAtIndex:(index + 2)];
-    UInt8 buffer[paramSize]; memset(buffer, 0, paramSize);
-    [self getArgument:buffer atIndex:(index + 2)];
-    return mck_encodeValueFromBytesAndType(buffer, paramSize, argType);
+    
+    UInt8 buffer[paramSize];
+    [self getArgument:memset(buffer, 0, paramSize) atIndex:(index + 2)];
+    
+    return MCKSerializeValueFromBytesAndType(buffer, argType);
 }
 
 - (NSUInteger)mck_sizeofParameterAtIndex:(NSUInteger)index {
