@@ -36,4 +36,15 @@
     expect(weakMock).notTo.beNil();
 }
 
+- (void)testSpiesCanSafelyBeCalledAfterContextIsGone
+{
+    TestObject *testMock = mockForClass(TestObject);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [testMock voidMethodCallWithoutParameters];
+    });
+    
+    // if this crashes then we can't safely call the spy
+}
+
 @end

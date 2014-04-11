@@ -80,11 +80,22 @@
 
 #pragma mark - Test Other Properties
 
-- (void)testMocksArePersistent
+- (void)testSpiesArePersistent
 {
     __weak TestObject *weakSpy = spy([[TestObject alloc] init]);
     
     expect(weakSpy).notTo.beNil();
+}
+
+- (void)testSpiesCanSafelyBeCalledAfterContextIsGone
+{
+    TestObject *testSpy = spy([[TestObject alloc] init]);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [testSpy voidMethodCallWithoutParameters];
+    });
+    
+    // if this crashes then we cannot safely call the spy
 }
 
 @end

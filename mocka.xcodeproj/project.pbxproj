@@ -97,6 +97,10 @@
 		632D40D6182C104E000767C1 /* MCKVerificationSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */; };
 		632D40D7182C104E000767C1 /* MCKVerificationSyntax.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D40D3182C104E000767C1 /* MCKVerificationSyntax.m */; };
 		633F4E4A17FB1C03007D329D /* MCKInOrderCollectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */; };
+		634E22C318F802BB00E8C29F /* MCKWeakRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 634E22C118F802BB00E8C29F /* MCKWeakRef.h */; };
+		634E22C418F802BB00E8C29F /* MCKWeakRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 634E22C118F802BB00E8C29F /* MCKWeakRef.h */; };
+		634E22C518F802BB00E8C29F /* MCKWeakRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 634E22C218F802BB00E8C29F /* MCKWeakRef.m */; };
+		634E22C618F802BB00E8C29F /* MCKWeakRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 634E22C218F802BB00E8C29F /* MCKWeakRef.m */; };
 		6376F85817FF604500F4752D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 631E238417FF5F3C00BC2D06 /* libmocka-osx.a */; };
 		6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6376F86817FF60E100F4752D /* Foundation.framework */; };
@@ -389,6 +393,8 @@
 		633475D417F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSInvocation+MCKArgumentHandling.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSInvocation+MCKArgumentHandling.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		633F4E4917FB1C03007D329D /* MCKInOrderCollectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKInOrderCollectorTest.m; sourceTree = "<group>"; };
+		634E22C118F802BB00E8C29F /* MCKWeakRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKWeakRef.h; sourceTree = "<group>"; };
+		634E22C218F802BB00E8C29F /* MCKWeakRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKWeakRef.m; sourceTree = "<group>"; };
 		636B770A17F59D2C00B6A3BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		636B771017F59D2C00B6A3BD /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		63732BB417F5A8060041C869 /* MCKAnyArgumentMatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAnyArgumentMatcherTest.m; sourceTree = "<group>"; };
@@ -710,6 +716,8 @@
 				633475D517F5944B001F5C88 /* NSInvocation+MCKArgumentHandling.m */,
 				63169CCE1824E64A00A894C5 /* MCKBlockWrapper.h */,
 				63169CCF1824E64A00A894C5 /* MCKBlockWrapper.m */,
+				634E22C118F802BB00E8C29F /* MCKWeakRef.h */,
+				634E22C218F802BB00E8C29F /* MCKWeakRef.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1102,6 +1110,7 @@
 				63FABDAD18F5DF0F0040B2F1 /* MCKArgumentMatcher+Subclasses.h in Headers */,
 				631E237A17FF5F3C00BC2D06 /* MCKFailureHandler.h in Headers */,
 				631E237B17FF5F3C00BC2D06 /* MCKHamcrestArgumentMatcher.h in Headers */,
+				634E22C418F802BB00E8C29F /* MCKWeakRef.h in Headers */,
 				63956A7A18E6C79000682D90 /* MCKAnyOfCollector.h in Headers */,
 				63D1CAC21825C2CC009FE9EC /* MCKLocation.h in Headers */,
 				631E237D17FF5F3C00BC2D06 /* MCKBlockArgumentMatcher.h in Headers */,
@@ -1159,6 +1168,7 @@
 				63FABDAC18F5DF0F0040B2F1 /* MCKArgumentMatcher+Subclasses.h in Headers */,
 				638BA4CC17F6F8760086226D /* MCKFailureHandler.h in Headers */,
 				638BA4CA17F6F8710086226D /* MCKHamcrestArgumentMatcher.h in Headers */,
+				634E22C318F802BB00E8C29F /* MCKWeakRef.h in Headers */,
 				63956A7918E6C79000682D90 /* MCKAnyOfCollector.h in Headers */,
 				63D1CAC11825C2CC009FE9EC /* MCKLocation.h in Headers */,
 				638BA4C817F6F8710086226D /* MCKBlockArgumentMatcher.h in Headers */,
@@ -1410,6 +1420,7 @@
 				631E234017FF5F3C00BC2D06 /* MCKBlockArgumentMatcher.m in Sources */,
 				63AF4F1F18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */,
 				631E234117FF5F3C00BC2D06 /* MCKArgumentMatcherRecorder.m in Sources */,
+				634E22C618F802BB00E8C29F /* MCKWeakRef.m in Sources */,
 				631E234217FF5F3C00BC2D06 /* MCKVerifyNoInteractions.m in Sources */,
 				631E234317FF5F3C00BC2D06 /* MCKMockObject.m in Sources */,
 				631E234417FF5F3C00BC2D06 /* MCKXCTestFailureHandler.m in Sources */,
@@ -1514,6 +1525,7 @@
 				638BA4C917F6F8710086226D /* MCKBlockArgumentMatcher.m in Sources */,
 				63AF4F1E18301F3800E5E514 /* XCTestCase+MCKContextLoading.m in Sources */,
 				638BA4C017F6F8710086226D /* MCKArgumentMatcherRecorder.m in Sources */,
+				634E22C518F802BB00E8C29F /* MCKWeakRef.m in Sources */,
 				638BA4AE17F6F8580086226D /* MCKVerifyNoInteractions.m in Sources */,
 				638BA49417F6F8370086226D /* MCKMockObject.m in Sources */,
 				638BA4D117F6F8760086226D /* MCKXCTestFailureHandler.m in Sources */,

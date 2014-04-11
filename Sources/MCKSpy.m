@@ -10,6 +10,7 @@
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
 #import "MCKAPIMisuse.h"
+#import "MCKWeakRef.h"
 
 #import <objc/runtime.h>
 
@@ -56,7 +57,7 @@ id mck_createSpyForObject(id object, MCKMockingContext *context)
     }
     
     mck_convertObjectToSpy(object, context);
-    objc_setAssociatedObject(object, &MCKContextKey, context, OBJC_ASSOCIATION_ASSIGN); // weak
+    objc_setAssociatedObject(object, &MCKContextKey, [MCKWeakRef weakRefForObject:context], OBJC_ASSOCIATION_RETAIN);
     
     [context registerMockObject:object];
     
@@ -150,7 +151,10 @@ static Class spy_class(id self, SEL _cmd) {
 }
 
 static void spy_forwardInvocation(id self, SEL _cmd, NSInvocation *invocation) {
-    MCKMockingContext *context = objc_getAssociatedObject(self, &MCKContextKey);
+    MCKMockingContext *context = [(MCKWeakRef *)objc_getAssociatedObject(self, &MCKContextKey) object];
+    if (context == nil) {
+        return;
+    }
     
     // In recording mode we want the original method to be called; unless it's stubbed in which case the stub takes over
     if (context.mode == MCKContextModeRecording && ![context.invocationStubber hasStubsRecordedForInvocation:invocation]) {
