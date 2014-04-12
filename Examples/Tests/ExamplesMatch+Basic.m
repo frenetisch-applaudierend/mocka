@@ -1,5 +1,5 @@
 //
-//  ExampesMatch+Basic.m
+//  ExamplesMatch+Basic.m
 //  Examples
 //
 //  Created by Markus Gasser on 10.04.14.
@@ -11,8 +11,8 @@
 #import <Mocka/Mocka.h>
 
 
-@interface ExampesMatch_Basic : ExampleTestCase @end
-@implementation ExampesMatch_Basic {
+@interface ExamplesMatch_Basic : ExampleTestCase @end
+@implementation ExamplesMatch_Basic {
     NSMutableArray *mockArray;
     NSMutableString *mockString;
 }

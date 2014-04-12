@@ -31,10 +31,8 @@
 
 - (void)testByDefaultArgumentsAreMatchedByEquality
 {
-    // when you stub a method that has arguments it will match equal arguments
+    // when you stub a method that has object arguments it will match equal arguments
     //  * isEqual: is used to compare for objects
-    //  * -[NSNumber isEqual:] for scalars
-    //  * -[NSValue isEqual:] for other primitive types
     
     stub ([mockArray addObject:@"Hello World"]) with {
         actionWasCalled = YES;
@@ -56,10 +54,9 @@
 
 - (void)testDefaultMatchingWorksTheSameForPrimitivesLikeStructs
 {
-    // when you stub a method that has arguments it will match equal arguments
-    //  * isEqual: is used to compare for objects
-    //  * -[NSNumber isEqual:] for scalars
-    //  * -[NSValue isEqual:] for other primitive types
+    // when you stub a method that has primitive arguments it will match same arguments
+    //  * -[NSNumber isEqual:] is used for scalars
+    //  * -[NSValue isEqual:] is used for other primitive types
     
     stub ([mockArray subarrayWithRange:NSMakeRange(0, 10)]) with {
         actionWasCalled = YES;
@@ -119,7 +116,6 @@
     
     expect(actionWasCalled).to.beTruthy();
     
-    // also nil matches
     actionWasCalled = NO;
     [mockArray removeObjectAtIndex:NSUIntegerMax];
     
@@ -141,7 +137,6 @@
     
     expect(actionWasCalled).to.beTruthy();
     
-    // also nil matches
     actionWasCalled = NO;
     [mockArray subarrayWithRange:NSMakeRange(0, 0)];
     

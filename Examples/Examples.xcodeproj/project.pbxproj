@@ -26,12 +26,14 @@
 		6328EB3118E74AFC002A655D /* Mocka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6328EB3018E74AFC002A655D /* Mocka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */; };
 		634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */; };
+		63806FD118F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */; };
+		63806FD218F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */; };
 		638C4F4918F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */; };
 		638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */; };
 		638C4F4C18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */; };
 		638C4F4D18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */; };
-		638C4F5018F7471F003760CF /* ExampesMatch+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */; };
-		638C4F5118F7471F003760CF /* ExampesMatch+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */; };
+		638C4F5018F7471F003760CF /* ExamplesMatch+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */; };
+		638C4F5118F7471F003760CF /* ExamplesMatch+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */; };
 		63956A9018E7323700682D90 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A8F18E7323700682D90 /* Foundation.framework */; };
 		63956A9218E7323700682D90 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9118E7323700682D90 /* CoreGraphics.framework */; };
 		63956A9418E7323700682D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9318E7323700682D90 /* UIKit.framework */; };
@@ -77,9 +79,10 @@
 		6328EB1C18E7485F002A655D /* examples-tests-ios.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "examples-tests-ios.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6328EB3018E74AFC002A655D /* Mocka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mocka.framework; path = Generated/Mocka.framework; sourceTree = "<group>"; };
 		634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+Basic.m"; sourceTree = "<group>"; };
+		63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+ArgumentMatchers.m"; sourceTree = "<group>"; };
 		638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+EvaluateArguments.m"; sourceTree = "<group>"; };
 		638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+ArgumentMatchers.m"; sourceTree = "<group>"; };
-		638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExampesMatch+Basic.m"; sourceTree = "<group>"; };
+		638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+Basic.m"; sourceTree = "<group>"; };
 		63956A8C18E7323700682D90 /* examples-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "examples-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63956A8F18E7323700682D90 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63956A9118E7323700682D90 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -187,7 +190,8 @@
 		638C4F4E18F746B6003760CF /* Matching Examples */ = {
 			isa = PBXGroup;
 			children = (
-				638C4F4F18F7471F003760CF /* ExampesMatch+Basic.m */,
+				638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */,
+				63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */,
 			);
 			name = "Matching Examples";
 			sourceTree = "<group>";
@@ -515,10 +519,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63806FD118F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */,
 				638C4F4C18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */,
 				63C0A70018F350FB00AFB48B /* ExampleTestCase.m in Sources */,
 				638C4F4918F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
-				638C4F5018F7471F003760CF /* ExampesMatch+Basic.m in Sources */,
+				638C4F5018F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70318F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
 				63C0A6F418F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
@@ -547,10 +552,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63806FD218F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */,
 				638C4F4D18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */,
 				63C0A70118F350FB00AFB48B /* ExampleTestCase.m in Sources */,
 				638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
-				638C4F5118F7471F003760CF /* ExampesMatch+Basic.m in Sources */,
+				638C4F5118F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70418F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
 				63C0A6F518F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
