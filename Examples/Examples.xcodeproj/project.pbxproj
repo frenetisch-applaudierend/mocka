@@ -28,6 +28,8 @@
 		634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */; };
 		63806FD118F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */; };
 		63806FD218F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */; };
+		63806FD418F98E2400D1D44F /* ExamplesMatch+Modifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */; };
+		63806FD518F98E2400D1D44F /* ExamplesMatch+Modifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */; };
 		638C4F4918F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */; };
 		638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */; };
 		638C4F4C18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */; };
@@ -80,6 +82,7 @@
 		6328EB3018E74AFC002A655D /* Mocka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mocka.framework; path = Generated/Mocka.framework; sourceTree = "<group>"; };
 		634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+Basic.m"; sourceTree = "<group>"; };
 		63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+ArgumentMatchers.m"; sourceTree = "<group>"; };
+		63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+Modifiers.m"; sourceTree = "<group>"; };
 		638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+EvaluateArguments.m"; sourceTree = "<group>"; };
 		638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+ArgumentMatchers.m"; sourceTree = "<group>"; };
 		638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+Basic.m"; sourceTree = "<group>"; };
@@ -181,8 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */,
-				638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */,
 				638C4F4B18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m */,
+				638C4F4818F73B35003760CF /* ExamplesStub+EvaluateArguments.m */,
 			);
 			name = "Stubbing Examples";
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			children = (
 				638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */,
 				63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */,
+				63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */,
 			);
 			name = "Matching Examples";
 			sourceTree = "<group>";
@@ -526,6 +530,7 @@
 				638C4F5018F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70318F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
+				63806FD418F98E2400D1D44F /* ExamplesMatch+Modifiers.m in Sources */,
 				63C0A6F418F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,6 +564,7 @@
 				638C4F5118F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70418F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
+				63806FD518F98E2400D1D44F /* ExamplesMatch+Modifiers.m in Sources */,
 				63C0A6F518F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
