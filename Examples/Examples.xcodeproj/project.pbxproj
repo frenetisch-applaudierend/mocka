@@ -24,6 +24,8 @@
 		6328EB1D18E7485F002A655D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956AA818E7323700682D90 /* XCTest.framework */; };
 		6328EB1E18E7485F002A655D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A8F18E7323700682D90 /* Foundation.framework */; };
 		6328EB3118E74AFC002A655D /* Mocka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6328EB3018E74AFC002A655D /* Mocka.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		633A643E18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = 633A643D18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m */; };
+		633A643F18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m in Sources */ = {isa = PBXBuildFile; fileRef = 633A643D18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m */; };
 		634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */; };
 		634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */ = {isa = PBXBuildFile; fileRef = 634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */; };
 		63806FD118F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */; };
@@ -80,6 +82,7 @@
 		6328EB0718E735B5002A655D /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		6328EB1C18E7485F002A655D /* examples-tests-ios.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "examples-tests-ios.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6328EB3018E74AFC002A655D /* Mocka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mocka.framework; path = Generated/Mocka.framework; sourceTree = "<group>"; };
+		633A643D18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+GroupMatching.m"; sourceTree = "<group>"; };
 		634A0C4E18F5A53D0091C965 /* ExamplesStub+Basic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesStub+Basic.m"; sourceTree = "<group>"; };
 		63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+ArgumentMatchers.m"; sourceTree = "<group>"; };
 		63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+Modifiers.m"; sourceTree = "<group>"; };
@@ -196,6 +199,7 @@
 				638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */,
 				63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */,
 				63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */,
+				633A643D18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m */,
 			);
 			name = "Matching Examples";
 			sourceTree = "<group>";
@@ -530,6 +534,7 @@
 				638C4F5018F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70318F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
+				633A643E18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m in Sources */,
 				63806FD418F98E2400D1D44F /* ExamplesMatch+Modifiers.m in Sources */,
 				63C0A6F418F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
 			);
@@ -564,6 +569,7 @@
 				638C4F5118F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70418F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
+				633A643F18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m in Sources */,
 				63806FD518F98E2400D1D44F /* ExamplesMatch+Modifiers.m in Sources */,
 				63C0A6F518F33E1200AFB48B /* ExamplesCreating+Mocks.m in Sources */,
 			);
