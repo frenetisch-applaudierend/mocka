@@ -9,7 +9,9 @@
 #import "IntegrationTests.h"
 
 
-@implementation IntegrationTests_Common
+@implementation IntegrationTests_Common {
+    TestObject *_testObject;
+}
 
 #pragma mark - Abstract Test Support
 
@@ -20,6 +22,16 @@
         return @[];
     } else {
         return [super testInvocations];
+    }
+}
+
+- (TestObject *)testObject
+{
+    @synchronized (self) {
+        if (_testObject == nil) {
+            _testObject = [self newTestObjectForClass:[TestObject class]];
+        }
+        return _testObject;
     }
 }
 

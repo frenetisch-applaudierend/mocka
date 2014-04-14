@@ -14,10 +14,15 @@
 #import <KNMParametrizedTests/KNMParametrizedTests.h>
 #import <Mocka/Mocka.h>
 
+#import "TestObject.h"
+
+
 #define CreateTestObject(CLS) ((CLS *)[self newTestObjectForClass:[CLS class]])
 
 
 @interface IntegrationTests_Common : XCTestCase
+
+@property (nonatomic, readonly) TestObject *testObject;
 
 - (id)newTestObjectForClass:(Class)cls;
 

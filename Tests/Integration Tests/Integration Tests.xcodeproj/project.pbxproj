@@ -13,6 +13,7 @@
 		636C6E0818FC5A1700520755 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6DDE18FC572C00520755 /* Foundation.framework */; };
 		636C6E1118FC5D9B00520755 /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E1018FC5D9B00520755 /* IntegrationTests.m */; };
 		636C6E1518FC5FF800520755 /* IntegrationTests+StubbingBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E1418FC5FF800520755 /* IntegrationTests+StubbingBase.m */; };
+		636C6E1F18FC695800520755 /* TestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E1E18FC695800520755 /* TestObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		636C6E0F18FC5D9B00520755 /* IntegrationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationTests.h; sourceTree = "<group>"; };
 		636C6E1018FC5D9B00520755 /* IntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
 		636C6E1418FC5FF800520755 /* IntegrationTests+StubbingBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IntegrationTests+StubbingBase.m"; sourceTree = "<group>"; };
+		636C6E1D18FC695800520755 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestObject.h; path = ../Common/TestObject.h; sourceTree = "<group>"; };
+		636C6E1E18FC695800520755 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestObject.m; path = ../Common/TestObject.m; sourceTree = "<group>"; };
 		A4E0680FDF2E4B0EBC93ABCC /* libPods-integration-tests-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-integration-tests-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -51,6 +54,8 @@
 			isa = PBXGroup;
 			children = (
 				636C6E0918FC5B5E00520755 /* Integration Tests */,
+				636C6E1C18FC694A00520755 /* Common */,
+				636C6E1318FC5FB800520755 /* Supporting Files */,
 				636C6DDA18FC572C00520755 /* Frameworks */,
 				636C6DD918FC572C00520755 /* Products */,
 				498BA9F1B5BF4FAF979FB2AE /* Pods-integration-tests-osx.xcconfig */,
@@ -91,7 +96,6 @@
 			isa = PBXGroup;
 			children = (
 				636C6E1218FC5F8900520755 /* Stubbing */,
-				636C6E1318FC5FB800520755 /* Supporting Files */,
 			);
 			name = "Integration Tests";
 			sourceTree = "<group>";
@@ -115,6 +119,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		636C6E1C18FC694A00520755 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				636C6E1D18FC695800520755 /* TestObject.h */,
+				636C6E1E18FC695800520755 /* TestObject.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -122,11 +135,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 636C6DFF18FC572C00520755 /* Build configuration list for PBXNativeTarget "integration-tests-osx" */;
 			buildPhases = (
-				9B09495B130A488091867827 /* Check Pods Manifest.lock */,
 				636C6DE718FC572C00520755 /* Sources */,
 				636C6DE818FC572C00520755 /* Frameworks */,
 				636C6DE918FC572C00520755 /* Resources */,
-				B8EA6D7A6FDC4CACB92F1E21 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -173,45 +184,13 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		9B09495B130A488091867827 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		B8EA6D7A6FDC4CACB92F1E21 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Pods-integration-tests-osx-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		636C6DE718FC572C00520755 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				636C6E1118FC5D9B00520755 /* IntegrationTests.m in Sources */,
+				636C6E1F18FC695800520755 /* TestObject.m in Sources */,
 				636C6E1518FC5FF800520755 /* IntegrationTests+StubbingBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
