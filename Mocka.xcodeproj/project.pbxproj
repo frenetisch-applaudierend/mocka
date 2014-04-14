@@ -290,8 +290,6 @@
 		63B3B70518DF3AA0009AD4FA /* MCKAPIMisuse.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B3B70118DF3AA0009AD4FA /* MCKAPIMisuse.m */; };
 		63B598141824FBFA00E4D26A /* MCKStubTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B598131824FBFA00E4D26A /* MCKStubTest.m */; };
 		63B598151824FBFA00E4D26A /* MCKStubTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B598131824FBFA00E4D26A /* MCKStubTest.m */; };
-		63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMocking.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMocking.m */; };
-		63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMocking.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMocking.m */; };
 		63D1CABD1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */; };
 		63D1CABE1825840D009FE9EC /* MCKIntegrationTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */; };
 		63D1CAC11825C2CC009FE9EC /* MCKLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 63D1CABF1825C2CC009FE9EC /* MCKLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -472,7 +470,6 @@
 		63B3B70018DF3AA0009AD4FA /* MCKAPIMisuse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKAPIMisuse.h; sourceTree = "<group>"; };
 		63B3B70118DF3AA0009AD4FA /* MCKAPIMisuse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKAPIMisuse.m; sourceTree = "<group>"; };
 		63B598131824FBFA00E4D26A /* MCKStubTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKStubTest.m; sourceTree = "<group>"; };
-		63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMocking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesNetworkMocking.m; sourceTree = "<group>"; };
 		63B8A4A8181B96E400764AB9 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = Libraries/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		63BDE2D917F59EBE00584A08 /* AsyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncService.h; sourceTree = "<group>"; };
 		63BDE2DA17F59EBE00584A08 /* AsyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncService.m; sourceTree = "<group>"; };
@@ -491,7 +488,6 @@
 		63BDE2F917F5A04700584A08 /* TestExceptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestExceptionUtils.h; sourceTree = "<group>"; };
 		63BDE2FA17F5A04700584A08 /* TestObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestObject.h; sourceTree = "<group>"; };
 		63BDE2FB17F5A04700584A08 /* TestObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestObject.m; sourceTree = "<group>"; };
-		63BDE30217F5A18400584A08 /* ExamplesCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamplesCommon.h; sourceTree = "<group>"; };
 		63D1CABB1825840D009FE9EC /* MCKIntegrationTestBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKIntegrationTestBase.h; sourceTree = "<group>"; };
 		63D1CABC1825840D009FE9EC /* MCKIntegrationTestBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCKIntegrationTestBase.m; sourceTree = "<group>"; };
 		63D1CABF1825C2CC009FE9EC /* MCKLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCKLocation.h; sourceTree = "<group>"; };
@@ -721,7 +717,6 @@
 			children = (
 				636B770A17F59D2C00B6A3BD /* Info.plist */,
 				636B771017F59D2C00B6A3BD /* Prefix.pch */,
-				63BDE30017F5A17500584A08 /* Examples */,
 				638BA45717F5DE420086226D /* Integration Tests */,
 				63732BB317F5A7F00041C869 /* Unit Tests */,
 				63BDE2D817F59E9F00584A08 /* Utilities and Test Objects */,
@@ -1018,15 +1013,6 @@
 				63BDE2F817F5A04700584A08 /* NSInvocation+TestSupport.m */,
 			);
 			name = Utilities;
-			sourceTree = "<group>";
-		};
-		63BDE30017F5A17500584A08 /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-				63BDE30217F5A18400584A08 /* ExamplesCommon.h */,
-				63B8A4A5181ACBAE00764AB9 /* ExamplesNetworkMocking.m */,
-			);
-			name = Examples;
 			sourceTree = "<group>";
 		};
 		63D1CADD182666A2009FE9EC /* Invocation Recording */ = {
@@ -1441,7 +1427,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63B8A4A7181ACBAE00764AB9 /* ExamplesNetworkMocking.m in Sources */,
 				6376F87F17FF61A900F4752D /* MCKExactlyVerificationHandlerTest.m in Sources */,
 				6376F88617FF61B500F4752D /* MCKBlockArgumentMatcherTest.m in Sources */,
 				63FABDCA18F5EC670040B2F1 /* MCKValueSerializationTest.m in Sources */,
@@ -1541,7 +1526,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63B8A4A6181ACBAE00764AB9 /* ExamplesNetworkMocking.m in Sources */,
 				6397EFEF17F6FAE700F5902F /* FakeFailureHandler.m in Sources */,
 				6397EFD017F6FAAD00F5902F /* MCKSpyIntegrationTest.m in Sources */,
 				6397EFEB17F6FAD800F5902F /* CategoriesTestClasses.m in Sources */,

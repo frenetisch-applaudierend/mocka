@@ -36,3 +36,17 @@
 }
 
 @end
+
+
+BOOL WaitForCondition(NSTimeInterval timeout, BOOL(^condition)(void)) {
+    NSCParameterAssert(condition != nil);
+    
+    NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    do {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+        if (condition()) {
+            return YES;
+        }
+    } while ([lastDate laterDate:[NSDate date]] == lastDate);
+    return NO;
+}

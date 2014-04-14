@@ -1,18 +1,17 @@
 //
-//  ExamplesNetworkMockingTest.m
-//  mocka
+//  ExamplesNetworkMocking.m
+//  Examples
 //
-//  Created by Markus Gasser on 25.10.2013.
-//  Copyright (c) 2013 konoma GmbH. All rights reserved.
+//  Created by Markus Gasser on 14.04.14.
+//  Copyright (c) 2014 konoma GmbH. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-#import "ExamplesCommon.h"
+#import "ExampleTestCase.h"
 
-#import "MCKMockingContext.h"
+#import <Mocka/Mocka.h>
 
 
-@interface ExamplesNetworkMocking : XCTestCase @end
+@interface ExamplesNetworkMocking : ExampleTestCase @end
 @implementation ExamplesNetworkMocking
 
 #pragma mark - Test Network Call Stubbing
@@ -39,7 +38,7 @@
 
 #pragma mark - Test Network Call Verification
 
-- (void)testYouCanVerifyNetworkCalls
+- (void)testYouCanMatchNetworkCalls
 {
     // start monitoring for network activity
     [Network startObservingNetworkCalls];

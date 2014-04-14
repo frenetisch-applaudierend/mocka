@@ -47,6 +47,8 @@
 		639BAA4818FC320C009E3295 /* ExamplesHamcrest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */; };
 		639BAA4A18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */; };
 		639BAA4B18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */; };
+		639BAA4E18FC4123009E3295 /* ExamplesNetworkMocking.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4D18FC4123009E3295 /* ExamplesNetworkMocking.m */; };
+		639BAA4F18FC4123009E3295 /* ExamplesNetworkMocking.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4D18FC4123009E3295 /* ExamplesNetworkMocking.m */; };
 		63C0A6CD18F3276000AFB48B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C0A6CC18F3276000AFB48B /* Cocoa.framework */; };
 		63C0A6DD18F3276100AFB48B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956AA818E7323700682D90 /* XCTest.framework */; };
 		63C0A6DE18F3276100AFB48B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C0A6CC18F3276000AFB48B /* Cocoa.framework */; };
@@ -106,6 +108,7 @@
 		63956AB018E7323700682D90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesHamcrest.m; sourceTree = "<group>"; };
 		639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+Async.m"; sourceTree = "<group>"; };
+		639BAA4D18FC4123009E3295 /* ExamplesNetworkMocking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesNetworkMocking.m; sourceTree = "<group>"; };
 		63C0A6CB18F3276000AFB48B /* libexamples-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libexamples-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C0A6CC18F3276000AFB48B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		63C0A6CF18F3276000AFB48B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -268,6 +271,7 @@
 				63C0A6F618F341A200AFB48B /* Creating Mocks Examples */,
 				634A0C4D18F5A4FB0091C965 /* Stubbing Examples */,
 				638C4F4E18F746B6003760CF /* Matching Examples */,
+				639BAA4C18FC40FC009E3295 /* Network Mocking Examples */,
 				639BAA4518FC31F1009E3295 /* Hamcrest Examples */,
 				634A0C4C18F5A4DF0091C965 /* Utils */,
 			);
@@ -280,6 +284,14 @@
 				639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */,
 			);
 			name = "Hamcrest Examples";
+			sourceTree = "<group>";
+		};
+		639BAA4C18FC40FC009E3295 /* Network Mocking Examples */ = {
+			isa = PBXGroup;
+			children = (
+				639BAA4D18FC4123009E3295 /* ExamplesNetworkMocking.m */,
+			);
+			name = "Network Mocking Examples";
 			sourceTree = "<group>";
 		};
 		63C0A6CE18F3276000AFB48B /* Other Frameworks */ = {
@@ -546,6 +558,7 @@
 				63806FD118F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */,
 				638C4F4C18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */,
 				63C0A70018F350FB00AFB48B /* ExampleTestCase.m in Sources */,
+				639BAA4E18FC4123009E3295 /* ExamplesNetworkMocking.m in Sources */,
 				638C4F4918F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
 				638C4F5018F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				639BAA4A18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */,
@@ -583,6 +596,7 @@
 				63806FD218F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m in Sources */,
 				638C4F4D18F73CFD003760CF /* ExamplesStub+ArgumentMatchers.m in Sources */,
 				63C0A70118F350FB00AFB48B /* ExampleTestCase.m in Sources */,
+				639BAA4F18FC4123009E3295 /* ExamplesNetworkMocking.m in Sources */,
 				638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
 				638C4F5118F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
 				639BAA4B18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */,

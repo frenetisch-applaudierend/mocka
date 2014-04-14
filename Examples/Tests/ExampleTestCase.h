@@ -24,3 +24,6 @@
         XCTFail(@"This should have failed"); \
     } @catch (id ex) {}\
 }
+
+
+extern BOOL WaitForCondition(NSTimeInterval timeout, BOOL(^condition)(void));
