@@ -60,20 +60,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6376F85617FF604500F4752D"
-               BuildableName = "mocka-tests-osx.xctest"
-               BlueprintName = "mocka-tests-osx"
-               ReferencedContainer = "container:Mocka.xcodeproj">
+               BlueprintIdentifier = "636C6DEA18FC572C00520755"
+               BuildableName = "integration-tests-osx.xctest"
+               BlueprintName = "integration-tests-osx"
+               ReferencedContainer = "container:Integration Tests/Integration Tests.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "636C6DEA18FC572C00520755"
-               BuildableName = "integration-tests-osx.xctest"
-               BlueprintName = "integration-tests-osx"
-               ReferencedContainer = "container:Integration Tests/Integration Tests.xcodeproj">
+               BlueprintIdentifier = "6376F85617FF604500F4752D"
+               BuildableName = "mocka-tests-osx.xctest"
+               BlueprintName = "mocka-tests-osx"
+               ReferencedContainer = "container:Mocka.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
