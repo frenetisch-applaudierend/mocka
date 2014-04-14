@@ -6,10 +6,12 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+    #import <XCTest/XCTest.h>
 
     #define EXP_SHORTHAND
     #import <Expecta/Expecta.h>
     #import <OCHamcrest/OCHamcrest.h>
     #import <KNMParametrizedTests/KNMParametrizedTests.h>
+    #import <Mocka/Mocka.h>
 
 #endif

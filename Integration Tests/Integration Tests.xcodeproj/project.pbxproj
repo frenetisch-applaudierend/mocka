@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0650CBE90060492187B03C21 /* libPods-integration-tests-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4E0680FDF2E4B0EBC93ABCC /* libPods-integration-tests-osx.a */; };
 		636C6DED18FC572C00520755 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6DEC18FC572C00520755 /* XCTest.framework */; };
 		636C6E0718FC59F000520755 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6E0618FC59F000520755 /* libmocka-osx.a */; };
 		636C6E0818FC5A1700520755 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6DDE18FC572C00520755 /* Foundation.framework */; };
-		636C6E0D18FC5B7D00520755 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 636C6E0A18FC5B7D00520755 /* Info.plist */; };
-		636C6E0E18FC5B7D00520755 /* Integration_TestsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E0B18FC5B7D00520755 /* Integration_TestsTests.m */; };
+		636C6E1118FC5D9B00520755 /* IntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E1018FC5D9B00520755 /* IntegrationTests.m */; };
+		636C6E1518FC5FF800520755 /* IntegrationTests+StubbingBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E1418FC5FF800520755 /* IntegrationTests+StubbingBase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		498BA9F1B5BF4FAF979FB2AE /* Pods-integration-tests-osx.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-integration-tests-osx.xcconfig"; path = "../Pods/Pods-integration-tests-osx.xcconfig"; sourceTree = "<group>"; };
 		636C6DDB18FC572C00520755 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		636C6DDE18FC572C00520755 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		636C6DDF18FC572C00520755 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -23,8 +25,11 @@
 		636C6DEC18FC572C00520755 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		636C6E0618FC59F000520755 /* libmocka-osx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmocka-osx.a"; path = "../../../Library/Developer/Xcode/DerivedData/Mocka-fkpswlibxhvkzuekwzcywqcnwagp/Build/Products/Debug/libmocka-osx.a"; sourceTree = "<group>"; };
 		636C6E0A18FC5B7D00520755 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		636C6E0B18FC5B7D00520755 /* Integration_TestsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Integration_TestsTests.m; sourceTree = "<group>"; };
 		636C6E0C18FC5B7D00520755 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		636C6E0F18FC5D9B00520755 /* IntegrationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntegrationTests.h; sourceTree = "<group>"; };
+		636C6E1018FC5D9B00520755 /* IntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTests.m; sourceTree = "<group>"; };
+		636C6E1418FC5FF800520755 /* IntegrationTests+StubbingBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IntegrationTests+StubbingBase.m"; sourceTree = "<group>"; };
+		A4E0680FDF2E4B0EBC93ABCC /* libPods-integration-tests-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-integration-tests-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +40,7 @@
 				636C6E0818FC5A1700520755 /* Foundation.framework in Frameworks */,
 				636C6DED18FC572C00520755 /* XCTest.framework in Frameworks */,
 				636C6E0718FC59F000520755 /* libmocka-osx.a in Frameworks */,
+				0650CBE90060492187B03C21 /* libPods-integration-tests-osx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +53,7 @@
 				636C6E0918FC5B5E00520755 /* Integration Tests */,
 				636C6DDA18FC572C00520755 /* Frameworks */,
 				636C6DD918FC572C00520755 /* Products */,
+				498BA9F1B5BF4FAF979FB2AE /* Pods-integration-tests-osx.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +72,7 @@
 				636C6DDB18FC572C00520755 /* Cocoa.framework */,
 				636C6DEC18FC572C00520755 /* XCTest.framework */,
 				636C6DDD18FC572C00520755 /* Other Frameworks */,
+				A4E0680FDF2E4B0EBC93ABCC /* libPods-integration-tests-osx.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -82,11 +90,29 @@
 		636C6E0918FC5B5E00520755 /* Integration Tests */ = {
 			isa = PBXGroup;
 			children = (
-				636C6E0A18FC5B7D00520755 /* Info.plist */,
-				636C6E0C18FC5B7D00520755 /* Prefix.pch */,
-				636C6E0B18FC5B7D00520755 /* Integration_TestsTests.m */,
+				636C6E1218FC5F8900520755 /* Stubbing */,
+				636C6E1318FC5FB800520755 /* Supporting Files */,
 			);
 			name = "Integration Tests";
+			sourceTree = "<group>";
+		};
+		636C6E1218FC5F8900520755 /* Stubbing */ = {
+			isa = PBXGroup;
+			children = (
+				636C6E1418FC5FF800520755 /* IntegrationTests+StubbingBase.m */,
+			);
+			name = Stubbing;
+			sourceTree = "<group>";
+		};
+		636C6E1318FC5FB800520755 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				636C6E0A18FC5B7D00520755 /* Info.plist */,
+				636C6E0C18FC5B7D00520755 /* Prefix.pch */,
+				636C6E0F18FC5D9B00520755 /* IntegrationTests.h */,
+				636C6E1018FC5D9B00520755 /* IntegrationTests.m */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,9 +122,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 636C6DFF18FC572C00520755 /* Build configuration list for PBXNativeTarget "integration-tests-osx" */;
 			buildPhases = (
+				9B09495B130A488091867827 /* Check Pods Manifest.lock */,
 				636C6DE718FC572C00520755 /* Sources */,
 				636C6DE818FC572C00520755 /* Frameworks */,
 				636C6DE918FC572C00520755 /* Resources */,
+				B8EA6D7A6FDC4CACB92F1E21 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -140,18 +168,51 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				636C6E0D18FC5B7D00520755 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9B09495B130A488091867827 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B8EA6D7A6FDC4CACB92F1E21 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Pods-integration-tests-osx-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		636C6DE718FC572C00520755 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				636C6E0E18FC5B7D00520755 /* Integration_TestsTests.m in Sources */,
+				636C6E1118FC5D9B00520755 /* IntegrationTests.m in Sources */,
+				636C6E1518FC5FF800520755 /* IntegrationTests+StubbingBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,7 +245,9 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -223,7 +286,9 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
@@ -242,6 +307,7 @@
 		};
 		636C6E0018FC572C00520755 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 498BA9F1B5BF4FAF979FB2AE /* Pods-integration-tests-osx.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -266,6 +332,7 @@
 		};
 		636C6E0118FC572C00520755 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 498BA9F1B5BF4FAF979FB2AE /* Pods-integration-tests-osx.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
