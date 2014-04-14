@@ -5,6 +5,9 @@
       location = "group:Mocka.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Integration Tests/Integration Tests.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Examples/Examples.xcodeproj">
    </FileRef>
    <FileRef

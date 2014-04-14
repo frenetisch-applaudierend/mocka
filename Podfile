@@ -1,6 +1,7 @@
 workspace 'Mocka'
 xcodeproj 'Mocka.xcodeproj'
 xcodeproj 'Examples/Examples.xcodeproj'
+xcodeproj 'Integration Tests/Integration Tests.xcodeproj'
 
 inhibit_all_warnings!
 
@@ -48,4 +49,27 @@ target "examples-tests-osx" do
   pod 'OCHamcrest'
   pod 'Expecta'
   pod 'KNMParametrizedTests'
+end
+
+
+# Integration Tests.xcodeproj
+
+target "integration-tests-ios" do
+    xcodeproj 'Integration Tests/Integration Tests.xcodeproj'
+    platform :ios, '7.0'
+    
+    pod 'OHHTTPStubs'
+    pod 'OCHamcrest'
+    pod 'Expecta'
+    pod 'KNMParametrizedTests'
+end
+
+target "integration-tests-osx" do
+    xcodeproj 'Integration Tests/Integration Tests.xcodeproj'
+    platform :osx, '10.9'
+    
+    pod 'OHHTTPStubs'
+    pod 'OCHamcrest'
+    pod 'Expecta'
+    pod 'KNMParametrizedTests'
 end

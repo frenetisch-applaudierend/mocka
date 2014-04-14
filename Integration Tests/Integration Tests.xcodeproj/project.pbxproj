@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		636C6DED18FC572C00520755 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6DEC18FC572C00520755 /* XCTest.framework */; };
+		636C6E0718FC59F000520755 /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6E0618FC59F000520755 /* libmocka-osx.a */; };
+		636C6E0818FC5A1700520755 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6DDE18FC572C00520755 /* Foundation.framework */; };
+		636C6E0D18FC5B7D00520755 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 636C6E0A18FC5B7D00520755 /* Info.plist */; };
+		636C6E0E18FC5B7D00520755 /* Integration_TestsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 636C6E0B18FC5B7D00520755 /* Integration_TestsTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		636C6DDB18FC572C00520755 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		636C6DDE18FC572C00520755 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		636C6DDF18FC572C00520755 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		636C6DE018FC572C00520755 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		636C6DEB18FC572C00520755 /* integration-tests-osx.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "integration-tests-osx.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		636C6DEC18FC572C00520755 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		636C6E0618FC59F000520755 /* libmocka-osx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libmocka-osx.a"; path = "../../../Library/Developer/Xcode/DerivedData/Mocka-fkpswlibxhvkzuekwzcywqcnwagp/Build/Products/Debug/libmocka-osx.a"; sourceTree = "<group>"; };
+		636C6E0A18FC5B7D00520755 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		636C6E0B18FC5B7D00520755 /* Integration_TestsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Integration_TestsTests.m; sourceTree = "<group>"; };
+		636C6E0C18FC5B7D00520755 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		636C6DE818FC572C00520755 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				636C6E0818FC5A1700520755 /* Foundation.framework in Frameworks */,
+				636C6DED18FC572C00520755 /* XCTest.framework in Frameworks */,
+				636C6E0718FC59F000520755 /* libmocka-osx.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		636C6DCF18FC572C00520755 = {
+			isa = PBXGroup;
+			children = (
+				636C6E0918FC5B5E00520755 /* Integration Tests */,
+				636C6DDA18FC572C00520755 /* Frameworks */,
+				636C6DD918FC572C00520755 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		636C6DD918FC572C00520755 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				636C6DEB18FC572C00520755 /* integration-tests-osx.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		636C6DDA18FC572C00520755 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				636C6E0618FC59F000520755 /* libmocka-osx.a */,
+				636C6DDB18FC572C00520755 /* Cocoa.framework */,
+				636C6DEC18FC572C00520755 /* XCTest.framework */,
+				636C6DDD18FC572C00520755 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		636C6DDD18FC572C00520755 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				636C6DDE18FC572C00520755 /* Foundation.framework */,
+				636C6DDF18FC572C00520755 /* CoreData.framework */,
+				636C6DE018FC572C00520755 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		636C6E0918FC5B5E00520755 /* Integration Tests */ = {
+			isa = PBXGroup;
+			children = (
+				636C6E0A18FC5B7D00520755 /* Info.plist */,
+				636C6E0C18FC5B7D00520755 /* Prefix.pch */,
+				636C6E0B18FC5B7D00520755 /* Integration_TestsTests.m */,
+			);
+			name = "Integration Tests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		636C6DEA18FC572C00520755 /* integration-tests-osx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 636C6DFF18FC572C00520755 /* Build configuration list for PBXNativeTarget "integration-tests-osx" */;
+			buildPhases = (
+				636C6DE718FC572C00520755 /* Sources */,
+				636C6DE818FC572C00520755 /* Frameworks */,
+				636C6DE918FC572C00520755 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "integration-tests-osx";
+			productName = "Integration TestsTests";
+			productReference = 636C6DEB18FC572C00520755 /* integration-tests-osx.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		636C6DD018FC572C00520755 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "konoma GmbH";
+			};
+			buildConfigurationList = 636C6DD318FC572C00520755 /* Build configuration list for PBXProject "Integration Tests" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 636C6DCF18FC572C00520755;
+			productRefGroup = 636C6DD918FC572C00520755 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				636C6DEA18FC572C00520755 /* integration-tests-osx */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		636C6DE918FC572C00520755 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				636C6E0D18FC5B7D00520755 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		636C6DE718FC572C00520755 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				636C6E0E18FC5B7D00520755 /* Integration_TestsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		636C6DFA18FC572C00520755 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		636C6DFB18FC572C00520755 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(TARGET_BUILD_DIR)/usr/local/lib/include\"",
+					"\"$(OBJROOT)/UninstalledProducts/include\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		636C6E0018FC572C00520755 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Mocka-fkpswlibxhvkzuekwzcywqcnwagp/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		636C6E0118FC572C00520755 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Mocka-fkpswlibxhvkzuekwzcywqcnwagp/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		636C6DD318FC572C00520755 /* Build configuration list for PBXProject "Integration Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				636C6DFA18FC572C00520755 /* Debug */,
+				636C6DFB18FC572C00520755 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		636C6DFF18FC572C00520755 /* Build configuration list for PBXNativeTarget "integration-tests-osx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				636C6E0018FC572C00520755 /* Debug */,
+				636C6E0118FC572C00520755 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 636C6DD018FC572C00520755 /* Project object */;
+}
