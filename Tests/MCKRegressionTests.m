@@ -9,7 +9,6 @@
 #import <XCTest/XCTest.h>
 
 #import "Mocka.h"
-#import "ExamplesCommon.h"
 
 
 @interface MCKRegressionTest : XCTestCase
