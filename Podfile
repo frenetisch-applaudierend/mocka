@@ -35,6 +35,7 @@ target "examples-tests-ios" do
   platform :ios, '7.0'
   
   pod 'OHHTTPStubs'
+  pod 'OCHamcrest'
   pod 'Expecta'
   pod 'KNMParametrizedTests'
 end
@@ -44,6 +45,7 @@ target "examples-tests-osx" do
   platform :osx, '10.9'
   
   pod 'OHHTTPStubs'
+  pod 'OCHamcrest'
   pod 'Expecta'
   pod 'KNMParametrizedTests'
 end

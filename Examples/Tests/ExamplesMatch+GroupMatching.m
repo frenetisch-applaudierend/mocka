@@ -8,6 +8,8 @@
 
 #import "ExampleTestCase.h"
 
+#import <Mocka/Mocka.h>
+
 
 @interface ExamplesMatch_GroupMatching : ExampleTestCase @end
 @implementation ExamplesMatch_GroupMatching {
@@ -86,6 +88,49 @@
             match ([mockArray removeAllObjects]);
         };
     });
+}
+
+
+#pragma mark - Matching Either Call of a Group
+
+- (void)testYouCanMatchOneCallFromGroup
+{
+    [mockArray objectAtIndex:0]; // could also use [mockArray firstObject] or mockArray[0] here and it would still succeed
+    
+    // succeeds when any of the following calls matches
+    matchAnyOf {
+        match (mockArray[0]);
+        match ([mockArray objectAtIndex:0]);
+        match ([mockArray firstObject]);
+    };
+}
+
+
+#pragma mark - Nesting Groups
+
+- (void)testYouCanAlsoNestGroups
+{
+    // if need be you can also nest matcher groups
+    // just don't overdo it...
+    
+    
+    [mockArray addObject:@10];
+    [mockArray addObject:@20];
+    
+    // would also have worked:
+    //  [mockArray addObject:@"Foo"];
+    //  [mockArray addObject:@"Bar"];
+    
+    matchAnyOf {
+        matchInOrder {
+            match ([mockArray addObject:@10]);
+            match ([mockArray addObject:@20]);
+        };
+        matchInOrder {
+            match ([mockArray addObject:@"Foo"]);
+            match ([mockArray addObject:@"Bar"]);
+        };
+    };
 }
 
 @end

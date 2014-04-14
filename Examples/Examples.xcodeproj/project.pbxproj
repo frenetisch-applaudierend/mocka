@@ -43,6 +43,10 @@
 		63956A9418E7323700682D90 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956A9318E7323700682D90 /* UIKit.framework */; };
 		63956A9C18E7323700682D90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A9B18E7323700682D90 /* main.m */; };
 		63956AA018E7323700682D90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63956A9F18E7323700682D90 /* AppDelegate.m */; };
+		639BAA4718FC320C009E3295 /* ExamplesHamcrest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */; };
+		639BAA4818FC320C009E3295 /* ExamplesHamcrest.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */; };
+		639BAA4A18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */; };
+		639BAA4B18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */ = {isa = PBXBuildFile; fileRef = 639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */; };
 		63C0A6CD18F3276000AFB48B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C0A6CC18F3276000AFB48B /* Cocoa.framework */; };
 		63C0A6DD18F3276100AFB48B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63956AA818E7323700682D90 /* XCTest.framework */; };
 		63C0A6DE18F3276100AFB48B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C0A6CC18F3276000AFB48B /* Cocoa.framework */; };
@@ -100,6 +104,8 @@
 		63956A9F18E7323700682D90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		63956AA818E7323700682D90 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		63956AB018E7323700682D90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamplesHamcrest.m; sourceTree = "<group>"; };
+		639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ExamplesMatch+Async.m"; sourceTree = "<group>"; };
 		63C0A6CB18F3276000AFB48B /* libexamples-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libexamples-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C0A6CC18F3276000AFB48B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		63C0A6CF18F3276000AFB48B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -199,6 +205,7 @@
 				638C4F4F18F7471F003760CF /* ExamplesMatch+Basic.m */,
 				63806FD018F9806600D1D44F /* ExamplesMatch+ArgumentMatchers.m */,
 				63806FD318F98E2400D1D44F /* ExamplesMatch+Modifiers.m */,
+				639BAA4918FC3760009E3295 /* ExamplesMatch+Async.m */,
 				633A643D18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m */,
 			);
 			name = "Matching Examples";
@@ -261,9 +268,18 @@
 				63C0A6F618F341A200AFB48B /* Creating Mocks Examples */,
 				634A0C4D18F5A4FB0091C965 /* Stubbing Examples */,
 				638C4F4E18F746B6003760CF /* Matching Examples */,
+				639BAA4518FC31F1009E3295 /* Hamcrest Examples */,
 				634A0C4C18F5A4DF0091C965 /* Utils */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		639BAA4518FC31F1009E3295 /* Hamcrest Examples */ = {
+			isa = PBXGroup;
+			children = (
+				639BAA4618FC320C009E3295 /* ExamplesHamcrest.m */,
+			);
+			name = "Hamcrest Examples";
 			sourceTree = "<group>";
 		};
 		63C0A6CE18F3276000AFB48B /* Other Frameworks */ = {
@@ -532,6 +548,8 @@
 				63C0A70018F350FB00AFB48B /* ExampleTestCase.m in Sources */,
 				638C4F4918F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
 				638C4F5018F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
+				639BAA4A18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */,
+				639BAA4718FC320C009E3295 /* ExamplesHamcrest.m in Sources */,
 				634A0C4F18F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70318F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
 				633A643E18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m in Sources */,
@@ -567,6 +585,8 @@
 				63C0A70118F350FB00AFB48B /* ExampleTestCase.m in Sources */,
 				638C4F4A18F73B35003760CF /* ExamplesStub+EvaluateArguments.m in Sources */,
 				638C4F5118F7471F003760CF /* ExamplesMatch+Basic.m in Sources */,
+				639BAA4B18FC3760009E3295 /* ExamplesMatch+Async.m in Sources */,
+				639BAA4818FC320C009E3295 /* ExamplesHamcrest.m in Sources */,
 				634A0C5018F5A53D0091C965 /* ExamplesStub+Basic.m in Sources */,
 				63C0A70418F353BD00AFB48B /* ExamplesCreating+Spies.m in Sources */,
 				633A643F18FA72BE00E36C0F /* ExamplesMatch+GroupMatching.m in Sources */,

@@ -8,6 +8,8 @@
 
 #import "ExampleTestCase.h"
 
+#import <Mocka/Mocka.h>
+
 
 @interface ExamplesMatch_Modifiers : ExampleTestCase @end
 @implementation ExamplesMatch_Modifiers {

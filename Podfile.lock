@@ -9,6 +9,7 @@ PODS:
 DEPENDENCIES:
   - Expecta
   - KNMParametrizedTests
+  - OCHamcrest
   - OCMockito
   - OHHTTPStubs
 

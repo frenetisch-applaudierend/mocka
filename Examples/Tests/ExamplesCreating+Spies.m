@@ -9,6 +9,8 @@
 #import "ExampleTestCase.h"
 #import "TestObject.h"
 
+#import <Mocka/Mocka.h>
+
 
 @interface ExamplesCreating_Spies : ExampleTestCase @end
 @implementation ExamplesCreating_Spies
