@@ -16,7 +16,7 @@
 #define COCOAPODS_POD_AVAILABLE_KNMParametrizedTests
 #define COCOAPODS_VERSION_MAJOR_KNMParametrizedTests 0
 #define COCOAPODS_VERSION_MINOR_KNMParametrizedTests 1
-#define COCOAPODS_VERSION_PATCH_KNMParametrizedTests 0
+#define COCOAPODS_VERSION_PATCH_KNMParametrizedTests 1
 
 // OCHamcrest
 #define COCOAPODS_POD_AVAILABLE_OCHamcrest
@@ -27,7 +27,7 @@
 // OCMockito
 #define COCOAPODS_POD_AVAILABLE_OCMockito
 #define COCOAPODS_VERSION_MAJOR_OCMockito 1
-#define COCOAPODS_VERSION_MINOR_OCMockito 1
+#define COCOAPODS_VERSION_MINOR_OCMockito 2
 #define COCOAPODS_VERSION_PATCH_OCMockito 0
 
 // OHHTTPStubs

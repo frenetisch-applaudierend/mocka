@@ -77,18 +77,14 @@
 
 - (void)handleResult:(MCKVerificationResult *)result location:(MCKLocation *)location
 {
-    if (result == nil) {
-        return;
-    }
-    
     if (self.currentVerificationGroup != nil) {
         result = [self.currentVerificationGroup collectResult:result];
     }
     else {
-        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+        [self.mockingContext.invocationRecorder removeInvocationsAtIndexes:(result.matchingIndexes ?: [NSIndexSet indexSet])];
     }
     
-    if ([result isFailure]) {
+    if ([result isFailure] && (self.currentVerificationGroup == nil || self.currentVerificationGroups.count == 1)) {
         [self.mockingContext.failureHandler handleFailureAtLocation:location withReason:result.failureReason];
     }
 }

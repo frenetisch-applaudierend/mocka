@@ -45,7 +45,7 @@ The default implementation will try to find a class method matching the pattern
  
 The second alternative is primarily intended for use in macros, as it's easier to construct.
 
-***Note:** parameter methods are class methods, not instance methods.*
+_**Note:** parameter methods are class methods, not instance methods._
 
 So for a test case named `- (void)testExample:(NSString *)param` either of the following methods could provide the parameters.
 
@@ -77,7 +77,7 @@ If you want to provide `nil` as a parameter use the `NIL` macro.
         return @[ @"", NIL ];
     }
 
-***Note:** If you return `[NSNull null]` as a parameter it will be passed as is and not converted to `nil`.*
+_**Note:** If you return `[NSNull null]` as a parameter it will be passed as is and not converted to `nil`._
 
 
 ### Scalar and Struct Parameters

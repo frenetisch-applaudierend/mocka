@@ -25,8 +25,8 @@
 
 - (MCKVerificationResult *)collectVerificationResult:(MCKVerificationResult *)result
 {
-    if ([result isSuccess]) {
-        [self.invocationRecorder removeInvocationsAtIndexes:result.matchingIndexes];
+    if (![result isFailure]) {
+        [self.invocationRecorder removeInvocationsAtIndexes:(result.matchingIndexes ?: [NSIndexSet indexSet])];
         self.succesful = YES;
         return result;
     }

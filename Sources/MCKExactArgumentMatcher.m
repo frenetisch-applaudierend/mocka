@@ -72,35 +72,3 @@ MCKExactArgumentMatcher* _MCKCreateExactMatcherFromBytesAndType(const void *byte
 {
     return [[MCKExactArgumentMatcher alloc] initWithArgument:MCKSerializeValueFromBytesAndType(bytes, type)];
 }
-
-SInt8 mck_intArg(SInt64 arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], SInt8);
-}
-
-UInt8 mck_unsignedIntArg(UInt64 arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], UInt8);
-}
-
-float mck_floatArg(float arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], float);
-}
-
-double mck_doubleArg(double arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], double);
-}
-
-BOOL mck_boolArg(BOOL arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:@(arg)], BOOL);
-}
-
-char* mck_cStringArg(const char *arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], char*);
-}
-
-SEL mck_selectorArg(SEL arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], SEL);
-}
-
-void* mck_pointerArg(const void *arg) {
-    return MCKRegisterMatcher([MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithPointer:arg]], void*);
-}
