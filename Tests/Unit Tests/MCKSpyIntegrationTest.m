@@ -28,18 +28,6 @@
 
 #pragma mark - Overridden Test Cases
 
-- (void)testThatUnstubbedMethodsReturnDefaultValues {
-    // default for spies is the original value
-    
-    TestObject *reference = [[TestObject alloc] init];
-    
-    expect([self.testObject objectMethodCallWithoutParameters]).to.equal([reference objectMethodCallWithoutParameters]);
-    expect([self.testObject intMethodCallWithoutParameters]).to.equal([reference intMethodCallWithoutParameters]);
-    expect([self.testObject intPointerMethodCallWithoutParameters]).to.equal([reference intPointerMethodCallWithoutParameters]);
-    expect(NSEqualRanges([self.testObject rangeMethodCallWithoutParameters],
-                         [reference rangeMethodCallWithoutParameters])).to.beTruthy();
-}
-
 - (void)testThatSubsequentStubbingsDontInterfere {
     // overridden because the default value for an unstubbed method is not nil
     

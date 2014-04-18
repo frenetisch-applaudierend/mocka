@@ -54,15 +54,15 @@ end
 
 # Integration Tests.xcodeproj
 
-#target "integration-tests-ios" do
-#    xcodeproj 'Tests/Integration Tests/Integration Tests.xcodeproj'
-#    platform :ios, '7.0'
-#
-#    pod 'OHHTTPStubs'
-#    pod 'OCHamcrest'
-#    pod 'Expecta'
-#    pod 'KNMParametrizedTests'
-#end
+target "integration-tests-ios" do
+    xcodeproj 'Tests/Integration Tests/Integration Tests.xcodeproj'
+    platform :ios, '7.0'
+
+    pod 'OHHTTPStubs'
+    pod 'OCHamcrest'
+    pod 'Expecta'
+    pod 'KNMParametrizedTests'
+end
 
 target "integration-tests-osx" do
     xcodeproj 'Tests/Integration Tests/Integration Tests.xcodeproj'

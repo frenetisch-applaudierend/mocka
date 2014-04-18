@@ -12,6 +12,22 @@
 @interface IntegrationTests_Common (StubbingBase) @end
 @implementation IntegrationTests_Common (StubbingBase)
 
+#pragma mark - Simple Stubbing
+
+- (void)testThatStubbedMethodsReturnSpecifiedValue
+{
+    // given
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
+        return @"Hello World";
+    };
+    
+    // when
+    id result = [self.testObject objectMethodCallWithoutParameters];
+    
+    // then
+    expect(result).to.equal(@"Hello World");
+}
+
 @end
 
 

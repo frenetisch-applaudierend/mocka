@@ -34,6 +34,20 @@
                ReferencedContainer = "container:Mocka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "63D58E3719013976003E98BA"
+               BuildableName = "integration-tests-ios.xctest"
+               BlueprintName = "integration-tests-ios"
+               ReferencedContainer = "container:Tests/Integration Tests/Integration Tests.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,6 +56,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "63D58E3719013976003E98BA"
+               BuildableName = "integration-tests-ios.xctest"
+               BlueprintName = "integration-tests-ios"
+               ReferencedContainer = "container:Tests/Integration Tests/Integration Tests.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference

@@ -295,28 +295,6 @@
 
 #pragma mark - Test Stubbing
 
-- (void)testThatUnstubbedMethodsReturnDefaultValues
-{
-    expect([self.testObject objectMethodCallWithoutParameters]).to.equal(nil);
-    expect([self.testObject intMethodCallWithoutParameters]).to.equal(0);
-    expect([self.testObject intPointerMethodCallWithoutParameters]).to.equal(NULL);
-    expect(NSEqualRanges(NSMakeRange(0, 0), [self.testObject rangeMethodCallWithoutParameters])).to.beTruthy();
-}
-
-- (void)testThatStubbedReturnValueIsReturned
-{
-    // given
-    stub ([self.testObject objectMethodCallWithoutParameters]) with {
-        return @"Hello World";
-    };
-    
-    // when
-    id result = [self.testObject objectMethodCallWithoutParameters];
-    
-    // then
-    expect(result).to.equal(@"Hello World");
-}
-
 - (void)testMultipleStubActions
 {
     // given
