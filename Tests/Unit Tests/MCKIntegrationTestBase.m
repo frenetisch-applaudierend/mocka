@@ -370,25 +370,6 @@
     expect(returnValue).to.equal(@"Second");
 }
 
-- (void)testThatMultipleStubbingsCanBeCombined
-{
-    // given
-    TestObject *object1 = [self createTestObjectMock];
-    TestObject *object2 = [self createTestObjectMock];
-    
-    // when
-    stub ({
-        [object1 objectMethodCallWithoutParameters];
-        [object2 objectMethodCallWithoutParameters];
-    }) with {
-        return @10;
-    };
-    
-    // then
-    expect([object1 objectMethodCallWithoutParameters]).to.equal(@10);
-    expect([object2 objectMethodCallWithoutParameters]).to.equal(@10);
-}
-
 - (void)testStubbingWithSelfAndCmd
 {
     // given

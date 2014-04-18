@@ -12,8 +12,8 @@
 #import <Expecta/Expecta.h>
 #import <OCHamcrest/OCHamcrest.h>
 #import <KNMParametrizedTests/KNMParametrizedTests.h>
-#import <Mocka/Mocka.h>
 
+#import "Mocka.h"
 #import "TestObject.h"
 
 

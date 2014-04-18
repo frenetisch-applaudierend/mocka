@@ -28,6 +28,25 @@
     expect(result).to.equal(@"Hello World");
 }
 
+- (void)testThatMultipleMethodsCanBeStubbedAtOnce
+{
+    // given
+    TestObject *object1 = [self newTestObjectForClass:[TestObject class]];
+    TestObject *object2 = [self newTestObjectForClass:[TestObject class]];
+    
+    // when
+    stub ({
+        [object1 objectMethodCallWithoutParameters];
+        [object2 objectMethodCallWithoutParameters];
+    }) with {
+        return @10;
+    };
+    
+    // then
+    expect([object1 objectMethodCallWithoutParameters]).to.equal(@10);
+    expect([object2 objectMethodCallWithoutParameters]).to.equal(@10);
+}
+
 @end
 
 
