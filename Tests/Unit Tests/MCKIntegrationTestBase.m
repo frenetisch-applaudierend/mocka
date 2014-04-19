@@ -295,22 +295,7 @@
 
 #pragma mark - Test Stubbing
 
-- (void)testMultipleStubActions
-{
-    // given
-    __block BOOL called = YES;
-    stub ([self.testObject objectMethodCallWithoutParameters]) with {
-        called = YES;
-        return @20;
-    };
-    
-    // when
-    id returnValue = [self.testObject objectMethodCallWithoutParameters];
-    
-    // then
-    expect(called).to.beTruthy();
-    expect(returnValue).to.equal(@20);
-}
+
 
 - (void)testThatSubsequentStubbingsDontInterfere
 {

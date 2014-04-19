@@ -9,6 +9,8 @@
 #import "IntegrationTests.h"
 
 
+#pragma mark - Common
+
 @interface IntegrationTests_Common (StubbingBase) @end
 @implementation IntegrationTests_Common (StubbingBase)
 
@@ -16,25 +18,20 @@
 
 - (void)testThatStubbedMethodsReturnSpecifiedValue
 {
-    // given
     stub ([self.testObject objectMethodCallWithoutParameters]) with {
         return @"Hello World";
     };
     
-    // when
     id result = [self.testObject objectMethodCallWithoutParameters];
     
-    // then
     expect(result).to.equal(@"Hello World");
 }
 
 - (void)testThatMultipleMethodsCanBeStubbedAtOnce
 {
-    // given
     TestObject *object1 = [self newTestObjectForClass:[TestObject class]];
     TestObject *object2 = [self newTestObjectForClass:[TestObject class]];
     
-    // when
     stub ({
         [object1 objectMethodCallWithoutParameters];
         [object2 objectMethodCallWithoutParameters];
@@ -42,13 +39,34 @@
         return @10;
     };
     
-    // then
     expect([object1 objectMethodCallWithoutParameters]).to.equal(@10);
     expect([object2 objectMethodCallWithoutParameters]).to.equal(@10);
 }
 
+- (void)testThatOneMethodCanBeStubbedMultipleTimesAndAllStubsAreExecutedInOrder
+{
+    NSMutableArray *calls = [NSMutableArray array];
+    
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
+        [calls addObject:@"First Call"];
+        return @"First Result";
+    };
+    
+    stub ([self.testObject objectMethodCallWithoutParameters]) with {
+        [calls addObject:@"Second Call"];
+        return @"Second Result";
+    };
+    
+    id returnValue = [self.testObject objectMethodCallWithoutParameters];
+    
+    expect(calls).to.equal((@[ @"First Call", @"Second Call"]));
+    expect(returnValue).to.equal(@"Second Result");
+}
+
 @end
 
+
+#pragma mark - Mock Objects Only
 
 @interface IntegrationTests_MockObjects (StubbingBase) @end
 @implementation IntegrationTests_MockObjects (StubbingBase)
@@ -63,6 +81,8 @@
 
 @end
 
+
+#pragma mark - Spies Only
 
 @interface IntegrationTests_Spies (StubbingBase) @end
 @implementation IntegrationTests_Spies (StubbingBase)
