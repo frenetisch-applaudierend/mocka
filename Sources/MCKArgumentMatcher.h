@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol MCKArgumentMatcher <NSObject>
+@protocol MCKArgumentMatcher <NSObject, NSCopying>
 
 - (BOOL)matchesCandidate:(NSValue *)serializedCandidate;
 

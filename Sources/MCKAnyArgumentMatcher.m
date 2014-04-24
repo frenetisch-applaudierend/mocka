@@ -11,8 +11,18 @@
 
 @implementation MCKAnyArgumentMatcher
 
+#pragma mark - Argument Matching
+
 - (BOOL)matchesCandidate:(id)candidate {
     return YES;
+}
+
+
+#pragma mark - NSCopying Support
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
 }
 
 @end
