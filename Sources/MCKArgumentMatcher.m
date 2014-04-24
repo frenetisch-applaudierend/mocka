@@ -15,6 +15,8 @@
 
 @implementation MCKArgumentMatcher
 
+#pragma mark - Matching
+
 - (BOOL)matchesCandidate:(NSValue *)serializedCandidate
 {
     if ([MCKTypeEncodings isObjectType:[serializedCandidate objCType]]) {
@@ -33,6 +35,14 @@
 - (BOOL)matchesNonObjectCandidate:(NSValue *)candidate
 {
     return NO;
+}
+
+
+#pragma mark - NSCopying Support
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
 }
 
 @end

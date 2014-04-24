@@ -40,4 +40,12 @@
     return (Equal(self.URL, candidate.URL) && Equal(self.HTTPMethod, candidate.HTTPMethod));
 }
 
+
+#pragma mark - NSCopying Support
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
 @end

@@ -33,6 +33,14 @@
     return (self.matcherBlock != nil ? self.matcherBlock(candidate) : YES);
 }
 
+
+#pragma mark - NSCopying Support
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
 @end
 
 
