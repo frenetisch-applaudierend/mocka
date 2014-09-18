@@ -23,10 +23,7 @@
 // Fakes
 #import "FakeMockingContext.h"
 #import "FakeInvocationStubber.h"
-#import "FakeFailureHandler.h"
-#import "FakeVerificationHandler.h"
 #import "FakeInvocationPrototype.h"
-#import "FakeVerificationResultCollector.h"
 
 // Utilities
 #import "TestExceptionUtils.h"
