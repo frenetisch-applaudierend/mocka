@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Mocka"
-  s.version      = "0.6.1"
+  s.version      = "0.7.0"
   s.summary      = "Mocka is an Objective-C mocking library designed after mockito."
   s.description  = <<-DESC
                    Mocka is an Objective-C mocking library designed after mockito.
@@ -18,15 +18,16 @@ Pod::Spec.new do |s|
                    * Mock network calls - If you have the OHHTTPStubs library
                      available you can use mocka syntax to verify network calls
                    DESC
-  s.homepage     = "https://bitbucket.org/foensi/mocka"
+  s.homepage     = "https://github.com/frenetisch-applaudierend/mocka"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Markus Gasser" => "markus.gasser@konoma.ch" }
 
   s.ios.deployment_target = '5.0'
   s.osx.deployment_target = '10.7'
 
-  s.source       = { :git => "git@bitbucket.org:foensi/mocka.git", :tag => "0.6.1" }
+  s.source       = { :git => "https://github.com/frenetisch-applaudierend/mocka.git", :tag => "0.7.0" }
   s.source_files = 'Sources'
+  s.xcconfig = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
   s.frameworks = 'Foundation', 'XCTest'
   s.requires_arc = true
 end
