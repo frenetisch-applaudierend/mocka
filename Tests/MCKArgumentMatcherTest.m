@@ -37,7 +37,7 @@
     
     // when
     id matcher = [[MCKBlockArgumentMatcher alloc] init];
-    id value = mck_registerObjectMatcher(matcher);
+    id value = MCKRegisterMatcher(matcher, id);
     
     // then
     XCTAssertTrue(matcher == value, @"Wrong object is returned");
@@ -51,12 +51,10 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    UInt8 value = mck_registerPrimitiveNumberMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    int value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], int);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
-                   (int)([recorder.argumentMatchers count] - 1),
-                   @"Wrong index returned");
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatCStringMatcherIndexCanBeRetrievedAgain {
@@ -67,12 +65,10 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    char *value = mck_registerCStringMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    const char *value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], char*);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
-                   (int)([recorder.argumentMatchers count] - 1),
-                   @"Wrong index returned");
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatSelectorMatcherIndexCanBeRetrievedAgain {
@@ -83,12 +79,10 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    SEL value = mck_registerSelectorMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    SEL value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], SEL);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
-                   (int)([recorder.argumentMatchers count] - 1),
-                   @"Wrong index returned");
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatPointerMatcherIndexCanBeRetrievedAgain {
@@ -99,12 +93,10 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    void *value = mck_registerPointerMatcher([[MCKBlockArgumentMatcher alloc] init]);
+    void *value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], void*);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
-                   (int)([recorder.argumentMatchers count] - 1),
-                   @"Wrong index returned");
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 - (void)testThatStructMatcherIndexCanBeRetrievedAgain {
@@ -115,12 +107,10 @@
     [recorder addPrimitiveArgumentMatcher:[[MCKBlockArgumentMatcher alloc] init]];
     
     // when
-    NSRange value = mck_registerStructMatcher([[MCKBlockArgumentMatcher alloc] init], NSRange);
+    NSRange value = MCKRegisterMatcher([[MCKBlockArgumentMatcher alloc] init], NSRange);
     
     // then
-    XCTAssertEqual((int)mck_matcherIndexForArgumentBytes(&value),
-                   (int)([recorder.argumentMatchers count] - 1),
-                   @"Wrong index returned");
+    expect(_MCKMatcherIndexForPrimitiveArgument(&value)).to.equal(([recorder.argumentMatchers count] - 1));
 }
 
 

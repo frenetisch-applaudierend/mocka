@@ -13,12 +13,15 @@
 #import "MCKVerificationSyntax.h"
 
 #import "MCKInvocationRecorder.h"
+#import "MCKVerification.h"
+#import "MCKVerificationGroup.h"
 #import "MCKVerificationResult.h"
 #import "MCKStub.h"
 
 #import "MCKVerificationResultCollector.h"
+#import "MCKAnyOfCollector.h"
 #import "MCKInOrderCollector.h"
-#import "MCKAllCollector.h"
+
 #import "MCKVerificationHandler.h"
 #import "MCKDefaultVerificationHandler.h"
 #import "MCKNeverVerificationHandler.h"

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MCKAnyArgumentMatcher.h"
+#import "MCKValueSerialization.h"
 
 
 @interface MCKAnyArgumentMatcherTest : XCTestCase
@@ -27,11 +28,12 @@
 #pragma mark - Test Object Matching
 
 - (void)testThatNilCandidateMatches {
-    XCTAssertTrue([matcher matchesCandidate:nil], @"Nil was not matched");
+    expect([matcher matchesCandidate:MCKSerializeValue(nil)]).to.beTruthy();
+    expect([matcher matchesCandidate:nil]).to.beTruthy();
 }
 
 - (void)testThatNonNilCandidateMatches {
-    XCTAssertTrue([matcher matchesCandidate:@"Foobar"], @"Non-nil candidate was not matched");
+    expect([matcher matchesCandidate:MCKSerializeValue(@"Foobar")]).to.beTruthy();
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "MCKNetworkRequestMatcher.h"
+#import "MCKArgumentMatcher+Subclasses.h"
 
 
 #define Equal(a, b) ((a) == (b) || [(a) isEqual:(b)])
@@ -30,8 +31,21 @@
 
 #pragma mark - Argument Matching
 
-- (BOOL)matchesCandidate:(NSURLRequest *)candidate {
+- (BOOL)matchesCandidate:(NSValue *)serialized {
+    if (![MCKTypeEncodings isObjectType:[serialized objCType]]) {
+        return NO;
+    }
+    
+    NSURLRequest *candidate = [serialized nonretainedObjectValue];
     return (Equal(self.URL, candidate.URL) && Equal(self.HTTPMethod, candidate.HTTPMethod));
+}
+
+
+#pragma mark - NSCopying Support
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
 }
 
 @end

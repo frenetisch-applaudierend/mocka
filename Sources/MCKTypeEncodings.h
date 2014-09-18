@@ -18,7 +18,7 @@
 + (BOOL)isSelectorType:(const char *)type;
 + (BOOL)isCStringType:(const char *)type;
 + (BOOL)isPointerType:(const char *)type;
-
++ (BOOL)isScalarType:(const char *)type;
 
 #pragma mark - Testing for Equality
 

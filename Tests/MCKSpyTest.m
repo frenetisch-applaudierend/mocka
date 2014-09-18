@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Markus Gasser. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
 
 #import "MCKSpy.h"
 #import "MCKStub.h"
+#import "MCKVerification.h"
+#import "MCKInvocationVerifier.h"
 
 #import "TestObject.h"
 #import "FakeMockingContext.h"
@@ -87,6 +87,33 @@
     expect([object class]).to.equal([TestObject class]);
 }
 
+- (void)testThatCreateSpyRegistersSpyWithTheMockingContext
+{
+    // given
+    MCKMockingContext *mockingContext = MKTMock([MCKMockingContext class]);
+    
+    // when
+    id spiedObject = mck_createSpyForObject([[TestObject alloc] init], mockingContext);
+    
+    // then
+    [MKTVerify(mockingContext) registerMockObject:spiedObject];
+}
+
+- (void)testThatTheSpyDoesNotHaveStrongReferenceToMockingContext
+{
+    // given
+    __strong MCKMockingContext *strongContext = [[MCKMockingContext alloc] init];
+    __weak   MCKMockingContext *weakContext = strongContext;
+    __strong id spiedObject = mck_createSpyForObject([[TestObject alloc] init], strongContext);
+    
+    // when
+    strongContext = nil; // this should be the last strong reference
+    
+    // then
+    expect(weakContext).to.beNil(); // otherwise there must be another strong reference
+    spiedObject = nil;
+}
+
 
 #pragma mark - Test Forwarding Invocations to the Context
 
@@ -139,14 +166,20 @@
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInVerificationMode {
     // when
+    __block BOOL called = NO;
     @try {
-        [context verifyCalls:^{ [spy voidMethodCallWithoutParameters]; } usingCollector:nil];
+        MCKVerification *verification = [[MCKVerification alloc] initWithMockingContext:context location:nil verificationBlock:^{
+            [spy voidMethodCallWithoutParameters];
+            called = YES;
+        }];
+        [context.invocationVerifier processVerification:verification];
     } @catch (NSException *exception) {
         // ignore, it's because verification fails
     }
     
     // then
     expect(TestObjectCalledSelectors(spy)).to.beEmpty();
+    expect(called).to.beTruthy();
 }
 
 - (void)testThatSpyDoesNotExecuteExistingMethodIfInStubbingMode {

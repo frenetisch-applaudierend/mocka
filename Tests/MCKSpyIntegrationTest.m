@@ -17,7 +17,7 @@
 
 #pragma mark - Setup
 
-- (TestObject *)createTestObject {
+- (TestObject *)createTestObjectMock {
     return spy([[TestObject alloc] init]);
 }
 
@@ -44,10 +44,10 @@
     // overridden because the default value for an unstubbed method is not nil
     
     // given
-    TestObject *object1 = [self createTestObject];
-    TestObject *object2 = [self createTestObject];
-    TestObject *object3 = [self createTestObject];
-    TestObject *object4 = [self createTestObject];
+    TestObject *object1 = [self createTestObjectMock];
+    TestObject *object2 = [self createTestObjectMock];
+    TestObject *object3 = [self createTestObjectMock];
+    TestObject *object4 = [self createTestObjectMock];
     TestObject *reference = [[TestObject alloc] init];
     
     __block NSString *marker = nil;
@@ -75,6 +75,27 @@
     expect([object4 objectMethodCallWithoutParameters]).to.equal([reference objectMethodCallWithoutParameters]);
     expect(marker).to.equal(@"Third Object");
     // non-stubbed call was suddenly stubbed otherwise
+}
+
+
+#pragma mark - Test Other Properties
+
+- (void)testSpiesArePersistent
+{
+    __weak TestObject *weakSpy = spy([[TestObject alloc] init]);
+    
+    expect(weakSpy).notTo.beNil();
+}
+
+- (void)testSpiesCanSafelyBeCalledAfterContextIsGone
+{
+    TestObject *testSpy = spy([[TestObject alloc] init]);
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [testSpy voidMethodCallWithoutParameters];
+    });
+    
+    // if this crashes then we cannot safely call the spy
 }
 
 @end

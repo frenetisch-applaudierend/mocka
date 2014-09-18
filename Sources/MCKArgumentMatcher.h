@@ -9,26 +9,33 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol MCKArgumentMatcher <NSObject>
+@protocol MCKArgumentMatcher <NSObject, NSCopying>
 
-- (BOOL)matchesCandidate:(id)candidate;
+- (BOOL)matchesCandidate:(NSValue *)serializedCandidate;
+
+@end
+
+
+@interface MCKArgumentMatcher : NSObject <MCKArgumentMatcher>
+
+- (BOOL)matchesCandidate:(NSValue *)serializedCandidate;
+- (BOOL)matchesObjectCandidate:(id)candidate;
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate;
 
 @end
 
 
 #pragma mark - Registering Matchers
 
-extern id mck_registerObjectMatcher(id<MCKArgumentMatcher> matcher);
-extern UInt8 mck_registerPrimitiveNumberMatcher(id<MCKArgumentMatcher> matcher);
-extern char* mck_registerCStringMatcher(id<MCKArgumentMatcher> matcher);
-extern SEL mck_registerSelectorMatcher(id<MCKArgumentMatcher> matcher);
-extern void* mck_registerPointerMatcher(id<MCKArgumentMatcher> matcher);
-
-#define mck_registerStructMatcher(MATCHER, STRT_TYPE)\
-    (*((STRT_TYPE *)_mck_registerStructMatcher((MATCHER), &(STRT_TYPE){}, sizeof(STRT_TYPE))))
-extern const void* _mck_registerStructMatcher(id<MCKArgumentMatcher> matcher, void *inputStruct, size_t structSize);
+#define MCKRegisterMatcher(M, T) ((T)(*((T const *)_MCKRegisterMatcherWithType((M), (void *)(const T[]){0}, @encode(T)))))
 
 
 #pragma mark - Find Registered Matchers
 
-extern UInt8 mck_matcherIndexForArgumentBytes(const void *bytes);
+
+
+
+#pragma mark - Internal
+
+extern void* _MCKRegisterMatcherWithType(id<MCKArgumentMatcher> matcher, void *holder, const char *type);
+extern UInt8 _MCKMatcherIndexForPrimitiveArgument(const void *bytes);

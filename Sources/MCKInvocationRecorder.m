@@ -9,6 +9,7 @@
 #import "MCKInvocationRecorder.h"
 #import "MCKMockingContext.h"
 #import "MCKInvocationStubber.h"
+#import "MCKInvocationPrototype.h"
 
 
 @interface MCKInvocationRecorder ()
@@ -33,33 +34,45 @@
 #pragma mark - Managing Invocations
 
 - (NSArray *)recordedInvocations {
-    return [self.mutableInvocations copy];
+    @synchronized (self.mutableInvocations) {
+        return [self.mutableInvocations copy];
+    }
 }
 
 - (NSInvocation *)invocationAtIndex:(NSUInteger)index {
-    return [self.mutableInvocations objectAtIndex:index];
+    @synchronized (self.mutableInvocations) {
+        return [self.mutableInvocations objectAtIndex:index];
+    }
 }
 
-- (void)recordInvocation:(NSInvocation *)invocation {
-    [self appendInvocation:invocation];
-    [self.mockingContext.invocationStubber applyStubsForInvocation:invocation];
+- (void)recordInvocationFromPrototype:(MCKInvocationPrototype *)prototype {
+    [self appendInvocation:prototype.invocation];
+    [self.mockingContext.invocationStubber applyStubsForInvocation:prototype.invocation];
 }
 
 - (void)appendInvocation:(NSInvocation *)invocation {
-    [self.mutableInvocations addObject:invocation];
+    @synchronized (self.mutableInvocations) {
+        [self.mutableInvocations addObject:invocation];
+    }
 }
 
 - (void)insertInvocations:(NSArray *)invocations atIndex:(NSUInteger)index {
-    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, [invocations count])];
-    [self.mutableInvocations insertObjects:invocations atIndexes:indexes];
+    @synchronized (self.mutableInvocations) {
+        NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, [invocations count])];
+        [self.mutableInvocations insertObjects:invocations atIndexes:indexes];
+    }
 }
 
 - (void)removeInvocationsAtIndexes:(NSIndexSet *)indexes {
-    [self.mutableInvocations removeObjectsAtIndexes:indexes];
+    @synchronized (self.mutableInvocations) {
+        [self.mutableInvocations removeObjectsAtIndexes:indexes];
+    }
 }
 
 - (void)removeInvocationsInRange:(NSRange)range {
-    [self.mutableInvocations removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:range]];
+    @synchronized (self.mutableInvocations) {
+        [self.mutableInvocations removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:range]];
+    }
 }
 
 @end

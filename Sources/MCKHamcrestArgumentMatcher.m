@@ -7,17 +7,20 @@
 //
 
 #import "MCKHamcrestArgumentMatcher.h"
+#import "MCKArgumentMatcher+Subclasses.h"
 
 
 @implementation MCKHamcrestArgumentMatcher;
 
 #pragma mark - Initialization
 
-+ (id)matcherWithHamcrestMatcher:(id)hamcrestMatcher {
++ (id)matcherWithHamcrestMatcher:(id)hamcrestMatcher
+{
     return [[self alloc] initWithHamcrestMatcher:hamcrestMatcher];
 }
 
-- (id)initWithHamcrestMatcher:(id)hamcrestMatcher {
+- (id)initWithHamcrestMatcher:(id)hamcrestMatcher
+{
     if ((self = [super init])) {
         _hamcrestMatcher = hamcrestMatcher;
     }
@@ -27,8 +30,14 @@
 
 #pragma mark - Matching
 
-- (BOOL)matchesCandidate:(id)candidate {
-    return (_hamcrestMatcher != nil ? [_hamcrestMatcher matches:candidate] : YES);
+- (BOOL)matchesObjectCandidate:(id)candidate
+{
+    return (self.hamcrestMatcher != nil ? [self.hamcrestMatcher matches:candidate] : YES);
+}
+
+- (BOOL)matchesNonObjectCandidate:(NSValue *)candidate
+{
+    return (self.hamcrestMatcher != nil ? [self.hamcrestMatcher matches:candidate] : YES);
 }
 
 - (BOOL)matches:(id)item {

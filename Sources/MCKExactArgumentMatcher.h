@@ -11,7 +11,7 @@
 #import "MCKArgumentMatcher.h"
 
 
-@interface MCKExactArgumentMatcher : NSObject <MCKArgumentMatcher>
+@interface MCKExactArgumentMatcher : MCKArgumentMatcher
 
 + (instancetype)matcherWithArgument:(id)expected;
 - (instancetype)initWithArgument:(id)expected;
@@ -23,29 +23,22 @@
 
 #pragma mark - Mocking Syntax
 
-extern char mck_intArg(int64_t arg);
-extern char mck_unsignedIntArg(uint64_t arg);
-extern float mck_floatArg(float arg);
-extern double mck_doubleArg(double arg);
-extern BOOL mck_boolArg(BOOL arg);
-extern char* mck_cStringArg(const char *arg);
-extern SEL mck_selectorArg(SEL arg);
-extern void* mck_pointerArg(void *arg);
-#define mck_objectPointerArg(TYPE, ARG) ((id TYPE *)mck_pointerArg(ARG))
-#define mck_structArg(arg) mck_registerStructMatcher(\
-    [MCKExactArgumentMatcher matcherWithArgument:[NSValue valueWithBytes:(typeof(arg)[]){ (arg) }\
-                                                  objCType:@encode(typeof(arg))]], typeof(arg))
-
+/**
+ * Match the exact given value.
+ *
+ * This matcher is mainly useful to pass arguments in methods where you already used primitive
+ * matchers and therefore must pass all primitive arguments as matchers.
+ *
+ * @param ARG The value to match
+ * @return An internal value that represents this matcher. Never use this value yourself.
+ */
+#define mck_exactArg(ARG) MCKRegisterMatcher(_MCKCreateExactMatcher(ARG), typeof(ARG))
 #ifndef MCK_DISABLE_NICE_SYNTAX
-
-    static inline char intArg(int64_t arg) { return mck_intArg(arg); }
-    static inline char unsignedIntArg(uint64_t arg) { return mck_unsignedIntArg(arg); }
-    static inline float floatArg(float arg) { return mck_floatArg(arg); }
-    static inline BOOL boolArg(BOOL arg) { return mck_boolArg(arg); }
-    static inline char* cStringArg(const char *arg) { return mck_cStringArg(arg); }
-    static inline SEL selectorArg(SEL arg) { return mck_selectorArg(arg); }
-    static inline void* pointerArg(void *arg) { return mck_pointerArg(arg); }
-    #define objectPointerArg(TYPE, ARG) mck_objectPointerArg(TYPE, ARG)
-    #define structArg(arg) mck_structArg(arg)
-
+    #define exactArg(ARG) mck_exactArg(ARG)
 #endif
+
+
+#pragma mark - Internal
+
+#define _MCKCreateExactMatcher(ARG) _MCKCreateExactMatcherFromBytesAndType(((typeof(ARG)[]){ (ARG) }), @encode(typeof(ARG)))
+extern MCKExactArgumentMatcher* _MCKCreateExactMatcherFromBytesAndType(const void *bytes, const char *type);

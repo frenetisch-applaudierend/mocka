@@ -11,16 +11,22 @@
 #import "MCKInvocationPrototype.h"
 
 
-@implementation MCKInvocationStubber {
-    NSMutableArray *_recordedStubs;
-    BOOL _groupRecording;
-}
+@interface MCKInvocationStubber ()
+
+@property (nonatomic, readonly) NSMutableArray *stubs;
+@property (nonatomic, assign, getter = isRecordingInvocationGroup) BOOL recordingInvocationGroup;
+@property (nonatomic, readonly) MCKStub *activeStub;
+
+@end
+
+@implementation MCKInvocationStubber
 
 #pragma mark - Initialization
 
-- (instancetype)init {
+- (instancetype)init
+{
     if ((self = [super init])) {
-        _recordedStubs = [NSMutableArray array];
+        _stubs = [NSMutableArray array];
     }
     return self;
 }
@@ -28,14 +34,16 @@
 
 #pragma mark - Creating and Updating Stubbings
 
-- (void)recordStubPrototype:(MCKInvocationPrototype *)prototype {
+- (void)recordStubPrototype:(MCKInvocationPrototype *)prototype
+{
     if (![self isRecordingInvocationGroup]) {
         [self pushNewStubForRecordingInvocationGroup];
     }
-    [[self activeStub] addInvocationPrototype:prototype];
+    [self.activeStub addInvocationPrototype:prototype];
 }
 
-- (void)finishRecordingStubGroup {
+- (void)finishRecordingStubGroup
+{
     NSAssert([self isRecordingInvocationGroup], @"Finish called while not recording");
     
     [self endRecordingInvocationGroup];
@@ -44,23 +52,26 @@
 
 #pragma mark - Querying and Applying Stubbings
 
-- (NSArray *)recordedStubs {
-    return [_recordedStubs copy];
+- (NSArray *)recordedStubs
+{
+    return [self.stubs copy];
 }
 
-- (BOOL)hasStubsRecordedForInvocation:(NSInvocation *)invocation {
+- (BOOL)hasStubsRecordedForInvocation:(NSInvocation *)invocation
+{
     NSParameterAssert(invocation != nil);
     
-    NSUInteger index = [_recordedStubs indexOfObjectPassingTest:^BOOL(MCKStub *stub, NSUInteger idx, BOOL *stop) {
+    NSUInteger index = [self.stubs indexOfObjectPassingTest:^BOOL(MCKStub *stub, NSUInteger idx, BOOL *stop) {
         return [stub matchesForInvocation:invocation];
     }];
     return (index != NSNotFound);
 }
 
-- (void)applyStubsForInvocation:(NSInvocation *)invocation {
+- (void)applyStubsForInvocation:(NSInvocation *)invocation
+{
     NSParameterAssert(invocation != nil);
     
-    for (MCKStub *stub in _recordedStubs) {
+    for (MCKStub *stub in self.stubs) {
         if ([stub matchesForInvocation:invocation]) {
             [stub applyToInvocation:invocation];
         }
@@ -70,21 +81,20 @@
 
 #pragma mark - Managing Invocation Group Recording
 
-- (BOOL)isRecordingInvocationGroup {
-    return _groupRecording;
+- (void)pushNewStubForRecordingInvocationGroup
+{
+    self.recordingInvocationGroup = YES;
+    [self.stubs addObject:[[MCKStub alloc] init]];
 }
 
-- (void)pushNewStubForRecordingInvocationGroup {
-    _groupRecording = YES;
-    [_recordedStubs addObject:[[MCKStub alloc] init]];
+- (void)endRecordingInvocationGroup
+{
+    self.recordingInvocationGroup = NO;
 }
 
-- (void)endRecordingInvocationGroup {
-    _groupRecording = NO;
-}
-
-- (MCKStub *)activeStub {
-    return [_recordedStubs lastObject];
+- (MCKStub *)activeStub
+{
+    return [self.stubs lastObject];
 }
 
 @end

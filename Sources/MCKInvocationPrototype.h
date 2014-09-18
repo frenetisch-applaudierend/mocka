@@ -36,4 +36,14 @@
  */
 - (BOOL)matchesInvocation:(NSInvocation *)candidate;
 
+
+#pragma mark - Equality
+
+/**
+ * Checks if this prototype is equal to another prototype.
+ *
+ * Prototypes are considered equal if their invocation and argument matchers are equal.
+ */
+- (BOOL)isEqualToInvocationPrototype:(MCKInvocationPrototype *)other;
+
 @end

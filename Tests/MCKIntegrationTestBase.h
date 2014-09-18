@@ -6,9 +6,7 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
 
 #import "Mocka.h"
 
@@ -21,7 +19,7 @@
 
 @property (nonatomic, readonly) TestObject *testObject;
 
-- (TestObject *)createTestObject;
+- (TestObject *)createTestObjectMock;
 - (CategoriesTestMockedClass *)createCategoriesTestObject;
 
 @end

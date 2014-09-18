@@ -42,6 +42,7 @@ typedef enum {
 #pragma mark - Initialization
 
 - (instancetype)initWithTestCase:(id)testCase;
+- (instancetype)init;
 
 
 #pragma mark - Core Objects
@@ -51,6 +52,11 @@ typedef enum {
 @property (nonatomic, strong) MCKInvocationVerifier *invocationVerifier;
 @property (nonatomic, strong) MCKArgumentMatcherRecorder *argumentMatcherRecorder;
 @property (nonatomic, strong) id<MCKFailureHandler> failureHandler;
+
+
+#pragma mark - Registering Mocks
+
+- (void)registerMockObject:(id)mockObject;
 
 
 #pragma mark - File Location Data
@@ -69,20 +75,6 @@ typedef enum {
 #pragma mark - Stubbing
 
 - (MCKStub *)stubCalls:(void(^)(void))callBlock;
-
-
-#pragma mark - Verification
-
-- (void)verifyCalls:(void(^)(void))callBlock usingCollector:(id<MCKVerificationResultCollector>)collector;
-- (void)useVerificationHandler:(id<MCKVerificationHandler>)handler;
-
-
-#pragma mark - Argument Recording
-
-- (UInt8)pushPrimitiveArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
-- (UInt8)pushObjectArgumentMatcher:(id<MCKArgumentMatcher>)matcher;
-
-- (void)clearArgumentMatchers;
 
 
 #pragma mark - Failure Handling

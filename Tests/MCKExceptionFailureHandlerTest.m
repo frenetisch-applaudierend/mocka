@@ -6,9 +6,7 @@
 //  Copyright 2012 coresystems ag. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
 
 #import "MCKExceptionFailureHandler.h"
 

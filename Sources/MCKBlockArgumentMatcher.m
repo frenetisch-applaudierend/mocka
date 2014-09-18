@@ -7,19 +7,19 @@
 //
 
 #import "MCKBlockArgumentMatcher.h"
-
-#import "MCKArgumentSerialization.h"
+#import "MCKArgumentMatcher+Subclasses.h"
 
 
 @implementation MCKBlockArgumentMatcher
 
 #pragma mark - Initialization
 
-+ (instancetype)matcherWithBlock:(BOOL(^)(id candidate))block {
++ (instancetype)matcherWithBlock:(BOOL(^)(NSValue *serialized))block
+{
     return [[self alloc] initWithBlock:block];
 }
 
-- (instancetype)initWithBlock:(BOOL(^)(id candidate))block {
+- (instancetype)initWithBlock:(BOOL(^)(NSValue *serialized))block {
     if ((self = [super init])) {
         _matcherBlock = [block copy];
     }
@@ -33,6 +33,14 @@
     return (self.matcherBlock != nil ? self.matcherBlock(candidate) : YES);
 }
 
+
+#pragma mark - NSCopying Support
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
 @end
 
 
@@ -40,41 +48,41 @@
 
 #define CREATE_MATCHER(BLOCK, DECODER) \
     [MCKBlockArgumentMatcher matcherWithBlock:^BOOL(id candidate) {\
-        return ((BLOCK) != nil ? (BLOCK)(DECODER(candidate)) : YES);\
+        return ((BLOCK) != nil ? (BLOCK)([candidate DECODER]) : YES);\
     }]
 
 id mck_objectMatching(BOOL(^block)(id candidate)) {
-    return mck_registerObjectMatcher(CREATE_MATCHER(block, mck_decodeObjectArgument));
+    return MCKRegisterMatcher((CREATE_MATCHER(block, nonretainedObjectValue)), id);
 }
 
 char mck_integerMatching(BOOL(^block)(SInt64 candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeSignedIntegerArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, longLongValue), char);
 }
 
 char mck_unsignedIntegerMatching(BOOL(^block)(UInt64 candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeUnsignedIntegerArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, unsignedLongLongValue), char);
 }
 
 float mck_floatMatching(BOOL(^block)(float candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeFloatingPointArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, floatValue), float);
 }
 
 double mck_doubleMatching(BOOL(^block)(double candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeFloatingPointArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, doubleValue), double);
 }
 
 BOOL mck_boolMatching(BOOL(^block)(BOOL candidate)) {
-    return mck_registerPrimitiveNumberMatcher(CREATE_MATCHER(block, mck_decodeFloatingPointArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, boolValue), BOOL);
 }
 
-const char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {
-    return mck_registerCStringMatcher(CREATE_MATCHER(block, mck_decodeCStringArgument));
+char* mck_cStringMatching(BOOL(^block)(const char *candidate)) {
+    return MCKRegisterMatcher(CREATE_MATCHER(block, pointerValue), char*);
 }
 
 SEL mck_selectorMatching(BOOL(^block)(SEL candidate)) {
-    return mck_registerSelectorMatcher(CREATE_MATCHER(block, mck_decodeSelectorArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, mck_selectorValue), SEL);
 }
 
 void* mck_pointerMatching(BOOL(^block)(void *candidate)) {
-    return mck_registerPointerMatcher(CREATE_MATCHER(block, mck_decodePointerArgument));
+    return MCKRegisterMatcher(CREATE_MATCHER(block, pointerValue), void*);
 }

@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>164B9F6D-6E72-460B-BE61-5348AF9884F4</string>
+	<string>89DE7E7F-0E98-497E-AA02-62DE3B6AD48D</string>
 	<key>IDESourceControlProjectName</key>
-	<string>mocka</string>
+	<string>Mocka</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>1A49F35C-DBA1-413E-9CFC-6145AC23CE87</key>
-		<string>ssh://bitbucket.org/foensi/mocka.git</string>
+		<key>011C8C34ABBF3C21E7977D7B1427CB6EBCD4E02B</key>
+		<string>github.com:frenetisch-applaudierend/mocka.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>mocka.xcworkspace</string>
+	<string>Mocka.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>1A49F35C-DBA1-413E-9CFC-6145AC23CE87</key>
+		<key>011C8C34ABBF3C21E7977D7B1427CB6EBCD4E02B</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://bitbucket.org/foensi/mocka.git</string>
+	<string>github.com:frenetisch-applaudierend/mocka.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1A49F35C-DBA1-413E-9CFC-6145AC23CE87</string>
+	<string>011C8C34ABBF3C21E7977D7B1427CB6EBCD4E02B</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1A49F35C-DBA1-413E-9CFC-6145AC23CE87</string>
+			<string>011C8C34ABBF3C21E7977D7B1427CB6EBCD4E02B</string>
 			<key>IDESourceControlWCCName</key>
 			<string>mocka</string>
 		</dict>

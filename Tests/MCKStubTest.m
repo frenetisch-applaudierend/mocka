@@ -6,14 +6,13 @@
 //  Copyright (c) 2013 konoma GmbH. All rights reserved.
 //
 
-#define EXP_SHORTHAND
 #import <XCTest/XCTest.h>
-#import <Expecta/Expecta.h>
 
 #import "MCKStub.h"
 #import "MCKInvocationPrototype.h"
 #import "MCKMockingContext.h"
-#import "MCKExceptionFailureHandler.h"
+
+#import "MCKAPIMisuse.h"
 #import "NSInvocation+TestSupport.h"
 #import "TestObject.h"
 
@@ -29,9 +28,6 @@
 - (void)setUp {
     stub = [[MCKStub alloc] init];
     testObject = [[TestObject alloc] init];
-    
-    MCKMockingContext *context = [MCKMockingContext currentContext];
-    context.failureHandler = [[MCKExceptionFailureHandler alloc] init];
 }
 
 
@@ -83,7 +79,7 @@
     [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
     
     // then
-    expect(^{ stub.stubBlock = ^BOOL(NSError **error, int notMatching) { return NO; }; }).to.raiseAny();
+    expect(^{ stub.stubBlock = ^BOOL(NSError **error, int notMatching) { return NO; }; }).to.raise(MCKAPIMisuseException);
 }
 
 - (void)testThatSettingStubBlockFailsForNonMatchingBlockReturnType {
@@ -92,7 +88,7 @@
     [stub addInvocationPrototype:[[MCKInvocationPrototype alloc] initWithInvocation:inv]];
     
     // then
-    expect(^{ stub.stubBlock = ^id(NSError **error) { return nil; }; }).to.raiseAny();
+    expect(^{ stub.stubBlock = ^id(NSError **error) { return nil; }; }).to.raise(MCKAPIMisuseException);
 }
 
 

@@ -17,29 +17,29 @@
 
 #pragma mark - Mocking Syntax
 
-extern id mck_anyObject(void);
-extern UInt8 mck_anyInt(void);
-extern float mck_anyFloat(void);
-extern BOOL mck_anyBool(void);
-extern char* mck_anyCString(void);
-extern SEL mck_anySelector(void);
-extern void* mck_anyPointer(void);
-
-#define mck_anyObjectPointer(TYPE) ((id TYPE *)mck_anyPointer())
-#define mck_anyStruct(STRT_TYPE)   mck_registerStructMatcher([[MCKAnyArgumentMatcher alloc] init], STRT_TYPE)
-
-
+/**
+ * Match any value of the given type.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
+ */
+#define mck_any(T) MCKRegisterMatcher([[MCKAnyArgumentMatcher alloc] init], T)
 #ifndef MCK_DISABLE_NICE_SYNTAX
+    #define any(T) mck_any(T)
+#endif
 
-    static inline id anyObject(void) { return mck_anyObject(); }
-    static inline char anyInt(void) { return mck_anyInt(); }
-    static inline float anyFloat(void) { return mck_anyFloat(); }
-    static inline BOOL anyBool(void) { return mck_anyBool(); }
-    static inline char* anyCString(void) { return mck_anyCString(); }
-    static inline SEL anySelector(void) { return mck_anySelector(); }
-    static inline void* anyPointer(void) { return mck_anyPointer(); }
 
-    #define anyObjectPointer(TYPE) mck_anyObjectPointer(TYPE)
-    #define anyStruct(structType)  mck_anyStruct(structType)
-
+/**
+ * Match any __autoreleasing object pointer.
+ *
+ * You can use this matcher e.g. for passing error objects:
+ * match ([moc save:mck_anyObjectPointer()]);
+ *
+ * This is a shorthand for mck_any(id __autoreleasing *). If you need a different qualifier
+ * than __autoreleasing use mck_any(...) instead.
+ *
+ * @return An internal value that represents this matcher. Never use this value yourself.
+ */
+#define mck_anyObjectPointer() mck_any(id __autoreleasing *)
+#ifndef MCK_DISABLE_NICE_SYNTAX
+    #define anyObjectPointer() mck_anyObjectPointer()
 #endif

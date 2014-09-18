@@ -14,20 +14,11 @@
 
 
 /**
- * Stub a method call.
+ * Stub one or more method calls
  */
-#define mck_stub(CALL) _mck_stub(_MCKCurrentLocation(), ^{ (CALL); }).stubBlock = ^typeof(CALL)
+#define mck_stub(CALL, ...) _mck_stub(_MCKCurrentLocation(), ^{ (CALL, ##__VA_ARGS__); }).stubBlock = ^typeof((CALL, ##__VA_ARGS__))
 #ifndef MCK_DISABLE_NICE_SYNTAX
-    #define stub(CALL) mck_stub(CALL)
-#endif
-
-
-/**
- * Stub multiple method calls.
- */
-#define mck_stubAll(CALLS) _mck_stub(_MCKCurrentLocation(), ^{ CALLS; }).stubBlock = ^
-#ifndef MCK_DISABLE_NICE_SYNTAX
-    #define stubAll(CALLS) mck_stubAll(CALLS)
+    #define stub(CALL, ...) mck_stub(CALL, ##__VA_ARGS__)
 #endif
 
 
