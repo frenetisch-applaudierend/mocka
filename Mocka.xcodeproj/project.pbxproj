@@ -104,7 +104,6 @@
 		6376F85817FF604500F4752D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 631E238417FF5F3C00BC2D06 /* libmocka-osx.a */; };
 		6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6376F86817FF60E100F4752D /* Foundation.framework */; };
-		6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
 		6376F86F17FF619700F4752D /* MCKRegressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC717F5A8060041C869 /* MCKRegressionTests.m */; };
 		6376F87017FF619700F4752D /* MCKMockObjectIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC217F5A8060041C869 /* MCKMockObjectIntegrationTest.m */; };
 		6376F87117FF619700F4752D /* MCKSpyIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BCB17F5A8060041C869 /* MCKSpyIntegrationTest.m */; };
@@ -275,7 +274,6 @@
 		6397EFF417F6FAEE00F5902F /* NSInvocation+TestSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BDE2F817F5A04700584A08 /* NSInvocation+TestSupport.m */; };
 		6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
-		6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
 		63AF4F1818301C0B00E5E514 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		63AF4F1918301C0C00E5E514 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		63AF4F1C18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */ = {isa = PBXBuildFile; fileRef = 63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */; };
@@ -524,7 +522,6 @@
 			files = (
 				6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */,
 				6376F85817FF604500F4752D /* XCTest.framework in Frameworks */,
-				6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */,
 				6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */,
 				5C01773350CB4927A3C4C5A3 /* libPods-mocka-tests-osx.a in Frameworks */,
 			);
@@ -545,7 +542,6 @@
 			files = (
 				6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */,
 				6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */,
-				6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */,
 				638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */,
 				228728C531444C16B27D447F /* libPods-mocka-tests-ios.a in Frameworks */,
 			);
@@ -1243,14 +1239,9 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MCK;
-				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0600;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "konoma GmbH";
-				TargetAttributes = {
-					6376F85617FF604500F4752D = {
-						TestTargetID = 631E233617FF5F3C00BC2D06;
-					};
-				};
 			};
 			buildConfigurationList = 6334757517F591FA001F5C88 /* Build configuration list for PBXProject "Mocka" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1617,6 +1608,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/mocka_ios.dst;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1665,6 +1657,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/mocka_ios.dst;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1695,7 +1688,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.6.1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1707,7 +1703,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.6.1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
