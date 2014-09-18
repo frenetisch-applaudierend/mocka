@@ -106,7 +106,9 @@
 		6376F85817FF604500F4752D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 631E238417FF5F3C00BC2D06 /* libmocka-osx.a */; };
 		6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6376F86817FF60E100F4752D /* Foundation.framework */; };
-		6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
+		6376F86F17FF619700F4752D /* MCKRegressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC717F5A8060041C869 /* MCKRegressionTests.m */; };
+		6376F87017FF619700F4752D /* MCKMockObjectIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC217F5A8060041C869 /* MCKMockObjectIntegrationTest.m */; };
+		6376F87117FF619700F4752D /* MCKSpyIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BCB17F5A8060041C869 /* MCKSpyIntegrationTest.m */; };
 		6376F87217FF619E00F4752D /* MCKMockingContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC117F5A8060041C869 /* MCKMockingContextTest.m */; };
 		6376F87317FF619E00F4752D /* MCKMockObjectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BC317F5A8060041C869 /* MCKMockObjectTest.m */; };
 		6376F87417FF619E00F4752D /* MCKSpyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BCC17F5A8060041C869 /* MCKSpyTest.m */; };
@@ -281,7 +283,6 @@
 		6397EFE917F6FACD00F5902F /* MCKExceptionFailureHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63732BBC17F5A8060041C869 /* MCKExceptionFailureHandlerTest.m */; };
 		6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFC817F6F91800F5902F /* Foundation.framework */; };
-		6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF817F81B8B00F5902F /* SenTestingKit.framework */; };
 		63AF4F1818301C0B00E5E514 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		63AF4F1918301C0C00E5E514 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6397EFF517F6FAFB00F5902F /* XCTest.framework */; };
 		63AF4F1C18301F3800E5E514 /* XCTestCase+MCKContextLoading.h in Headers */ = {isa = PBXBuildFile; fileRef = 63AF4F1A18301F3800E5E514 /* XCTestCase+MCKContextLoading.h */; };
@@ -531,7 +532,6 @@
 			files = (
 				6376F86917FF60E100F4752D /* Foundation.framework in Frameworks */,
 				6376F85817FF604500F4752D /* XCTest.framework in Frameworks */,
-				6376F86A17FF60E700F4752D /* SenTestingKit.framework in Frameworks */,
 				6376F86717FF60D700F4752D /* libmocka-osx.a in Frameworks */,
 				5C01773350CB4927A3C4C5A3 /* libPods-mocka-tests-osx.a in Frameworks */,
 			);
@@ -552,7 +552,6 @@
 			files = (
 				6397EFF717F6FB0000F5902F /* Foundation.framework in Frameworks */,
 				6397EFF617F6FAFB00F5902F /* XCTest.framework in Frameworks */,
-				6397EFF917F81B8B00F5902F /* SenTestingKit.framework in Frameworks */,
 				638BA48017F6F7A30086226D /* libmocka-ios.a in Frameworks */,
 				228728C531444C16B27D447F /* libPods-mocka-tests-ios.a in Frameworks */,
 			);
@@ -833,6 +832,7 @@
 		638BA45717F5DE420086226D /* Integration Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63D1CABB1825840D009FE9EC /* MCKIntegrationTestBase.h */,
 				6391AB0A1901645C00D502AA /* Old */,
 				6391AAD919015EB200D502AA /* IntegrationTests.h */,
 				6391AADA19015EB200D502AA /* IntegrationTests.m */,
@@ -1008,9 +1008,64 @@
 			name = "Mock Objects";
 			sourceTree = "<group>";
 		};
+		63BDE2D817F59E9F00584A08 /* Utilities and Test Objects */ = {
+			isa = PBXGroup;
+			children = (
+				6394CE4D1828110B00D80E48 /* TestingSupport.h */,
+				63BDE2F617F5A01100584A08 /* Test Objects */,
+				63BDE2FE17F5A05E00584A08 /* Test Matchers */,
+				63BDE2F517F5A00B00584A08 /* Fakes */,
+				63BDE2FF17F5A06E00584A08 /* Utilities */,
+			);
+			name = "Utilities and Test Objects";
+			sourceTree = "<group>";
+		};
+		63BDE2F517F5A00B00584A08 /* Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				63BDE2E817F5A00700584A08 /* FakeMockingContext.h */,
+				63BDE2E917F5A00700584A08 /* FakeMockingContext.m */,
+				638BA46217F5F8250086226D /* FakeInvocationPrototype.h */,
+				638BA46317F5F8250086226D /* FakeInvocationPrototype.m */,
+				63821F3518294B72008082B5 /* FakeInvocationStubber.h */,
+				63821F3618294B72008082B5 /* FakeInvocationStubber.m */,
+				63BDE2E617F5A00700584A08 /* FakeFailureHandler.h */,
+				63BDE2E717F5A00700584A08 /* FakeFailureHandler.m */,
+				63BDE2EA17F5A00700584A08 /* FakeVerificationHandler.h */,
+				63BDE2EB17F5A00700584A08 /* FakeVerificationHandler.m */,
+				639085E717F9E782006A0714 /* FakeVerificationResultCollector.h */,
+				639085E817F9E782006A0714 /* FakeVerificationResultCollector.m */,
+			);
+			name = Fakes;
+			sourceTree = "<group>";
+		};
+		63BDE2F617F5A01100584A08 /* Test Objects */ = {
+			isa = PBXGroup;
+			children = (
+				63BDE2D917F59EBE00584A08 /* AsyncService.h */,
+				63BDE2DA17F59EBE00584A08 /* AsyncService.m */,
+				63BDE2E417F5A00700584A08 /* CategoriesTestClasses.h */,
+				63BDE2E517F5A00700584A08 /* CategoriesTestClasses.m */,
+				63BDE2FA17F5A04700584A08 /* TestObject.h */,
+				63BDE2FB17F5A04700584A08 /* TestObject.m */,
+			);
+			name = "Test Objects";
+			sourceTree = "<group>";
+		};
+		63BDE2FE17F5A05E00584A08 /* Test Matchers */ = {
+			isa = PBXGroup;
+			children = (
+				63BDE2DC17F59FEF00584A08 /* HCBlockMatcher.h */,
+				63BDE2DD17F59FEF00584A08 /* HCBlockMatcher.m */,
+			);
+			name = "Test Matchers";
+			sourceTree = "<group>";
+		};
 		63BDE2D817F59E9F00584A08 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				63BDE2F917F5A04700584A08 /* TestExceptionUtils.h */,
+				63857DEC181B9DD600F63BBB /* TestTimingUtils.h */,
 				636B770A17F59D2C00B6A3BD /* Info.plist */,
 				636B771017F59D2C00B6A3BD /* Prefix.pch */,
 			);
@@ -1237,14 +1292,9 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MCK;
-				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0510;
+				LastTestingUpgradeCheck = 0600;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "konoma GmbH";
-				TargetAttributes = {
-					6376F85617FF604500F4752D = {
-						TestTargetID = 631E233617FF5F3C00BC2D06;
-					};
-				};
 			};
 			buildConfigurationList = 6334757517F591FA001F5C88 /* Build configuration list for PBXProject "Mocka" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1615,6 +1665,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/mocka_ios.dst;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1663,6 +1714,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DSTROOT = /tmp/mocka_ios.dst;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1693,7 +1745,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.6.1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1705,7 +1760,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 0.6.1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
