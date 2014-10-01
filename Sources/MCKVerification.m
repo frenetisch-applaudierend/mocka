@@ -32,8 +32,8 @@
 
 @property (nonatomic, assign) BOOL hasVerificationHandlerSet;
 @property (nonatomic, assign) BOOL hasTimeoutSet;
-
 @property (nonatomic, strong) MCKVerificationResult *result;
+@property (nonatomic, readonly) NSMutableArray *verifiedPrototypes;
 
 @end
 
@@ -48,6 +48,7 @@
         _verificationBlock = [block copy];
         _location = location;
         _verificationHandler = [MCKDefaultVerificationHandler defaultHandler];
+        _verifiedPrototypes = [NSMutableArray array];
     }
     return self;
 }
@@ -91,16 +92,26 @@ CONFIG_BLOCK_IMPL(setTimeout, NSTimeInterval, timeout)
     // it from the 'result' instance variable
     
     [self.mockingContext updateContextMode:MCKContextModeVerifying];
+    [self.verifiedPrototypes removeAllObjects];
+    
     if (self.verificationBlock != nil) {
         self.verificationBlock();
     }
+    
     [self.mockingContext updateContextMode:MCKContextModeRecording];
+    
+    if (self.verifiedPrototypes.count > 1) {
+        MCKAPIMisuse(@"Cannot check more than one method in a match(...) call. Maybe you used the return of a stub as a method parameter?");
+    }
     
     return self.result;
 }
 
 - (void)verifyPrototype:(MCKInvocationPrototype *)prototype inInvocationRecorder:(MCKInvocationRecorder *)recorder
 {
+    NSParameterAssert(prototype != nil);
+    NSParameterAssert(recorder != nil);
+    
     MCKVerificationResult *result = [self.verificationHandler verifyInvocations:recorder.recordedInvocations forPrototype:prototype];
     
     NSDate *lastDate = [NSDate dateWithTimeIntervalSinceNow:self.timeout];
@@ -111,6 +122,7 @@ CONFIG_BLOCK_IMPL(setTimeout, NSTimeInterval, timeout)
         result = [self.verificationHandler verifyInvocations:recorder.recordedInvocations forPrototype:prototype];
     }
     
+    [self.verifiedPrototypes addObject:prototype];
     self.result = result;
 }
 

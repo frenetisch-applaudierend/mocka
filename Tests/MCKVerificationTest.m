@@ -119,11 +119,30 @@
 
 - (void)testThatExecuteSetsContextModeToRecordingAfterCall
 {
-    [context updateContextMode:MCKContextModeVerifying];
+    
     
     [verification execute];
     
     expect(context.mode).to.equal(MCKContextModeRecording);
+}
+
+- (void)testThatExecuteWithMultipleVerificationsThrowsAPIMisuse {
+    NSInvocation *invocation = [NSInvocation invocationForTarget:self selectorAndArguments:@selector(self)];
+    MCKInvocationPrototype *prototype = [[MCKInvocationPrototype alloc] initWithInvocation:invocation];
+    MCKInvocationRecorder *recorder = MKTMock([MCKInvocationRecorder class]);
+    
+    __block __weak MCKVerification *weakV;
+    MCKVerification *v = [[MCKVerification alloc] initWithMockingContext:context location:nil verificationBlock:^{
+        [weakV verifyPrototype:prototype inInvocationRecorder:recorder];
+        [weakV verifyPrototype:prototype inInvocationRecorder:recorder];
+    }];
+    weakV = v;
+    
+    [context updateContextMode:MCKContextModeVerifying];
+    expect(^{
+        [v execute];
+    }).to.raise(MCKAPIMisuseException);
+    
 }
 
 
