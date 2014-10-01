@@ -1,0 +1,2 @@
+PODS_MOCKA_TESTS_IOS_KNMPARAMETRIZEDTESTS_FRAMEWORK_SEARCH_PATHS = $(PLATFORM_DIR)/Developer/Library/Frameworks $(inherited) "$(SDKROOT)/Developer/Library/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+PODS_MOCKA_TESTS_IOS_KNMPARAMETRIZEDTESTS_OTHER_LDFLAGS = -framework "Foundation" -framework "XCTest"

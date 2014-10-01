@@ -1,3 +1,5 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 workspace 'Mocka'
 xcodeproj 'Mocka.xcodeproj'
 xcodeproj 'Examples/Examples.xcodeproj'

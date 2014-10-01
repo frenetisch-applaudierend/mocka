@@ -15,7 +15,7 @@ KNMParametrizedTest adds support for parametrized test cases using the XCTest fr
 
 The easiest way is using [CocoaPods](http://cocoapods.org). Just add the following to your Podfile for your testing target.
 
-    pod 'KNMParametrizedTest'
+    pod 'KNMParametrizedTests'
 
 
 ## Declaring a Parametrized Test

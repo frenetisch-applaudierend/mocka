@@ -1,0 +1,5 @@
+#include "Pods-examples-tests-osx-Expecta.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/Expecta" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Expecta" "${PODS_ROOT}/Headers/Public/KNMParametrizedTests" "${PODS_ROOT}/Headers/Public/OCHamcrest" "${PODS_ROOT}/Headers/Public/OCMockito" "${PODS_ROOT}/Headers/Public/OHHTTPStubs"
+OTHER_LDFLAGS = ${PODS_EXAMPLES_TESTS_OSX_EXPECTA_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}

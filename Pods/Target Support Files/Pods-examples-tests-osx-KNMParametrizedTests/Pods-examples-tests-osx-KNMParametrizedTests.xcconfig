@@ -1,0 +1,2 @@
+PODS_EXAMPLES_TESTS_OSX_KNMPARAMETRIZEDTESTS_FRAMEWORK_SEARCH_PATHS = $(PLATFORM_DIR)/Developer/Library/Frameworks $(inherited) "$(DEVELOPER_LIBRARY_DIR)/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+PODS_EXAMPLES_TESTS_OSX_KNMPARAMETRIZEDTESTS_OTHER_LDFLAGS = -framework "Foundation" -framework "XCTest"
