@@ -277,6 +277,17 @@
     });
 }
 
+- (void)testCanUseExactMatcherForObjectAndPrimitiveParameters
+{
+    // when
+    [self.testObject voidMethodCallWithObjectParam1:@"Foo" intParam2:20];
+    
+    // then
+    AssertDoesNotFail({
+        match ([self.testObject voidMethodCallWithObjectParam1:exactArg(@"Foo") intParam2:exactArg(20)]);
+    });
+}
+
 - (void)testCanUseBlockArgumentMatcher
 {
     // when
