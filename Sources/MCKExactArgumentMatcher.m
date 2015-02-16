@@ -65,10 +65,11 @@
 @end
 
 
-
 #pragma mark - Mocking Syntax
 
 MCKExactArgumentMatcher* _MCKCreateExactMatcherFromBytesAndType(const void *bytes, const char *type)
 {
-    return [[MCKExactArgumentMatcher alloc] initWithArgument:MCKSerializeValueFromBytesAndType(bytes, type)];
+    NSValue *value = MCKSerializeValueFromBytesAndType(bytes, type);
+    id argument = ([MCKTypeEncodings isObjectType:type] ? value.nonretainedObjectValue : value);
+    return [[MCKExactArgumentMatcher alloc] initWithArgument:argument];
 }

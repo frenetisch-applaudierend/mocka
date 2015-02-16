@@ -119,7 +119,7 @@
 
 - (void)testThatExecuteSetsContextModeToRecordingAfterCall
 {
-    
+    [context updateContextMode:MCKContextModeVerifying];
     
     [verification execute];
     
