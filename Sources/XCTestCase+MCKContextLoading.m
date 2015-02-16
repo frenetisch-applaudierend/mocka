@@ -20,7 +20,6 @@
     method_exchangeImplementations(originalMethod, swizzledMethod);
 }
 
-
 - (void)mck_loadContext_invokeTest {
     MCKMockingContext *context = [[MCKMockingContext alloc] initWithTestCase:self];
     [MCKMockingContext setCurrentContext:context];
