@@ -1,3 +1,0 @@
-[submodule "Scripts/xcode-build-helpers"]
-	path = Scripts/xcode-build-helpers
-	url = https://github.com/frenetisch-applaudierend/xcode-build-helpers.git
