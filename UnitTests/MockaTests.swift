@@ -17,10 +17,6 @@ class MockaTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        MockaConfig.failureReporter = { message, file, line in
-            XCTFail(message, file: file, line: line)
-        }
-
         self.testClass = MockTestClass()
     }
     
@@ -35,16 +31,17 @@ class MockaTests: XCTestCase {
         self.testClass.testMethod(100, name: "")
 
 
-        self.testClass.testMethodMock.verify()
+        XCTAssert(self.testClass.testMethodMock.wasCalled(atLeast: .Once))
+        XCTAssert(self.testClass.testMethodValueMock.wasCalled(exactly: 2.times))
 
-        self.testClass.testMethodValueMock.verifyLast { value in
-            XCTAssert(value > 100)
-        }
-
-        self.testClass.testMethodMultipleMock.verifyLast { value, name in
-            XCTAssert(value > 10)
-            XCTAssert(name.isEmpty)
-        }
+//        self.testClass.testMethodValueMock.verifyLast { value in
+//            XCTAssert(value > 100)
+//        }
+//
+//        self.testClass.testMethodMultipleMock.verifyLast { value, name in
+//            XCTAssert(value > 10)
+//            XCTAssert(name.isEmpty)
+//        }
     }
 }
 

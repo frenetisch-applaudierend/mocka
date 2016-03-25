@@ -41,18 +41,14 @@ public class MethodMock<Params, ReturnValue> {
     }
 
 
-    // MARK: - Verifying
+    // MARK: - Getting Information
 
-    public func verify(file file: StaticString = #file, line: UInt = #line, verifier: ([Params]) -> Void = { _ in }) {
-        guard !self.recordedInvocations.isEmpty else {
-            return MockaConfig.failureReporter(message: "No invocation found", file: file, line: line)
-        }
-
-        verifier(self.recordedInvocations)
+    public func wasCalled(atLeast count: Int = 1) -> Bool {
+        return self.recordedInvocations.count >= count
     }
 
-    public func verifyLast(file: StaticString = #file, line: UInt = #line, verifier: (Params) -> Void) {
-        self.verify(file: file, line: line, verifier: { params in verifier(params.last!) })
+    public func wasCalled(exactly count: Int) -> Bool {
+        return self.recordedInvocations.count == count
     }
 }
 
@@ -86,4 +82,12 @@ public extension MethodMock where ReturnValue: FloatLiteralConvertible {
     public convenience init() {
         self.init(returnValue: 0.0)
     }
+}
+
+
+public extension Int {
+
+    public static var Once: Int = 1
+
+    public var times: Int { return self }
 }

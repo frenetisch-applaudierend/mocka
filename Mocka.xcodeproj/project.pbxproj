@@ -11,7 +11,6 @@
 		054614381CA42A9A005C22CC /* Mocka.h in Headers */ = {isa = PBXBuildFile; fileRef = 054614371CA42A9A005C22CC /* Mocka.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0546143F1CA42A9A005C22CC /* Mocka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 054614341CA42A9A005C22CC /* Mocka.framework */; };
 		054614441CA42A9A005C22CC /* MockaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054614431CA42A9A005C22CC /* MockaTests.swift */; };
-		05D9979C1CA457490054F9E1 /* MockaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D9979B1CA457490054F9E1 /* MockaConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +31,6 @@
 		0546143E1CA42A9A005C22CC /* MockaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		054614431CA42A9A005C22CC /* MockaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockaTests.swift; sourceTree = "<group>"; };
 		054614451CA42A9A005C22CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		05D9979B1CA457490054F9E1 /* MockaConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockaConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +76,6 @@
 				054614371CA42A9A005C22CC /* Mocka.h */,
 				054614391CA42A9A005C22CC /* Info.plist */,
 				0504DE741CA453AF0061C484 /* MethodMock.swift */,
-				05D9979B1CA457490054F9E1 /* MockaConfig.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -202,7 +199,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0504DE751CA453AF0061C484 /* MethodMock.swift in Sources */,
-				05D9979C1CA457490054F9E1 /* MockaConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
