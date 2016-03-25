@@ -3,3 +3,4 @@ xcuserdata
 build/
 Carthage/Build
 *.xccheckout
+*.xcscmblueprint
