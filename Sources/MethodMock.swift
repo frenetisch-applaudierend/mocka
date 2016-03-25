@@ -88,6 +88,17 @@ public class MethodMock<Params, ReturnValue> {
 }
 
 
+public extension MethodMock where Params: Equatable {
+
+    public func wasCalled(atLeast count: Int = 1, withParameters params: Params) -> Bool {
+        return self.wasCalled(atLeast: count, atMost: nil, matcher: matching { $0 == params })
+    }
+
+    public func wasCalled(exactly count: Int, withParameters params: Params) -> Bool {
+        return self.wasCalled(atLeast: count, atMost: count, matcher: matching { $0 == params })
+    }
+}
+
 public extension MethodMock where ReturnValue: NilLiteralConvertible {
 
     public convenience init() {
