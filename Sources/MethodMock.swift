@@ -43,12 +43,47 @@ public class MethodMock<Params, ReturnValue> {
 
     // MARK: - Getting Information
 
+    public func invocationAtIndex(index: Int, handler: (Params) -> Void) {
+        if index > 0 && index < self.recordedInvocations.count {
+            handler(self.recordedInvocations[index])
+        }
+    }
+
+    public func firstInvocation(handler: (Params) -> Void) {
+        if let invocation = self.recordedInvocations.first {
+            handler(invocation)
+        }
+    }
+
+    public func lastInvocation(handler: (Params) -> Void) {
+        if let invocation = self.recordedInvocations.last {
+            handler(invocation)
+        }
+    }
+
     public func wasCalled(atLeast count: Int = 1) -> Bool {
-        return self.recordedInvocations.count >= count
+        return self.wasCalled(atLeast: count, withParameters: AnyMatcher())
+    }
+
+    public func wasCalled<M: Matcher where M.Params == Params>(atLeast count: Int = 1, withParameters matcher: M) -> Bool {
+        return self.wasCalled(atLeast: count, atMost: nil, matcher: matcher)
     }
 
     public func wasCalled(exactly count: Int) -> Bool {
-        return self.recordedInvocations.count == count
+        return self.wasCalled(exactly: count, withParameters: AnyMatcher())
+    }
+
+    public func wasCalled<M: Matcher where M.Params == Params>(exactly count: Int, withParameters matcher: M) -> Bool {
+        return self.wasCalled(atLeast: count, atMost: count, matcher: matcher)
+    }
+
+    private func wasCalled<M: Matcher where M.Params == Params>(atLeast minCount: Int?, atMost maxCount: Int?, matcher: M) -> Bool {
+        let matchingInvocations = self.recordedInvocations.filter { matcher.matches($0) }
+
+        if let minCount = minCount where minCount > matchingInvocations.count { return false }
+        if let maxCount = maxCount where maxCount < matchingInvocations.count { return false }
+
+        return true
     }
 }
 

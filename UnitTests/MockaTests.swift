@@ -28,20 +28,21 @@ class MockaTests: XCTestCase {
         XCTAssertEqual((self.testClass as TestClass).testMethod(20), 30)
         XCTAssertEqual((self.testClass as TestClass).testMethod(200), 30)
 
-        self.testClass.testMethod(100, name: "")
-
+        self.testClass.testMethod(100, name: "Hello")
 
         XCTAssert(self.testClass.testMethodMock.wasCalled(atLeast: .Once))
         XCTAssert(self.testClass.testMethodValueMock.wasCalled(exactly: 2.times))
 
-//        self.testClass.testMethodValueMock.verifyLast { value in
-//            XCTAssert(value > 100)
-//        }
-//
-//        self.testClass.testMethodMultipleMock.verifyLast { value, name in
-//            XCTAssert(value > 10)
-//            XCTAssert(name.isEmpty)
-//        }
+        XCTAssert(self.testClass.testMethodValueMock.wasCalled(exactly: .Once, withParameters: matching { $0 > 100 }))
+
+        XCTAssert(self.testClass.testMethodValueMock.wasCalled(exactly: .Once, withParameters: eq(200)))
+
+        XCTAssert(self.testClass.testMethodMultipleMock.wasCalled(withParameters: eq(100, "Hello")))
+
+        self.testClass.testMethodMultipleMock.lastInvocation { value, name in
+            XCTAssertTrue(value > 10)
+            XCTAssertFalse(name.isEmpty)
+        }
     }
 }
 
