@@ -11,7 +11,7 @@ import Foundation
 
 public class MockaConfig {
 
-    public static var failureReporter: (message: String, file: String, line: UInt) -> Void = { message, file, line in
+    public static var failureReporter: (message: String, file: StaticString, line: UInt) -> Void = { message, file, line in
         fatalError("\(file):\(line): \(message)")
     }
 }

@@ -43,7 +43,7 @@ public class MethodMock<Params, ReturnValue> {
 
     // MARK: - Verifying
 
-    public func verify(file file: String = __FILE__, line: UInt = __LINE__, verifier: ([Params]) -> Void = { _ in }) {
+    public func verify(file file: StaticString = #file, line: UInt = #line, verifier: ([Params]) -> Void = { _ in }) {
         guard !self.recordedInvocations.isEmpty else {
             return MockaConfig.failureReporter(message: "No invocation found", file: file, line: line)
         }
@@ -51,7 +51,7 @@ public class MethodMock<Params, ReturnValue> {
         verifier(self.recordedInvocations)
     }
 
-    public func verifyLast(file: String = __FILE__, line: UInt = __LINE__, verifier: (Params) -> Void) {
+    public func verifyLast(file: StaticString = #file, line: UInt = #line, verifier: (Params) -> Void) {
         self.verify(file: file, line: line, verifier: { params in verifier(params.last!) })
     }
 }
