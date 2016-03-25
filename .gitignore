@@ -1,6 +1,5 @@
 .DS_Store
 xcuserdata
 build/
-Distribution/
-Examples/Generated/
+Carthage/Build
 *.xccheckout
